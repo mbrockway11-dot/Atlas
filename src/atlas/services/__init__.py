@@ -1,0 +1,1 @@
+"""Service layer for Atlas dashboards, CLI tools, and future APIs."""

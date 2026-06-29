@@ -2,37 +2,27 @@
 
 from __future__ import annotations
 
-from pathlib import Path
 import json
 
 import streamlit as st
 
-from atlas.library.profile_library import LIBRARY_DIR, list_saved_profiles
-from atlas.intelligence.engine import (
-    IntelligenceEngineConfig,
-    build_intelligence_payload,
-)
+from atlas.intelligence.models import IntelligenceEngineConfig
+from atlas.services.intelligence_service import get_intelligence_payload
+from atlas.services.profile_service import list_profile_keys
 
 
 def render_intelligence_engine_page() -> None:
     """Render Atlas Intelligence Engine page."""
     st.header("Intelligence Engine")
-    st.caption(
-        "Unified orchestration layer for identity, research session, population position, "
-        "statistical position, topology role, evidence, and confidence."
-    )
+    st.caption("Unified service-backed orchestration layer for Atlas intelligence payloads.")
 
-    profile_keys = list_saved_profiles()
+    profile_keys = list_profile_keys()
 
     if not profile_keys:
-        st.error("No saved profiles found in the profile library.")
+        st.error("No saved profiles found.")
         return
 
-    selected_profile = st.selectbox(
-        "Profile",
-        profile_keys,
-        index=0,
-    )
+    selected_profile = st.selectbox("Profile", profile_keys)
 
     with st.sidebar.expander("Intelligence Engine Settings", expanded=False):
         transit_date = st.text_input("Transit date", value="2026-06-29")
@@ -41,11 +31,9 @@ def render_intelligence_engine_page() -> None:
         principal_components = st.slider("Principal components", 2, 5, 3)
         topology_threshold = st.slider("Topology threshold", 0.0, 1.0, 0.75, 0.01)
         topology_top_k = st.slider("Topology top-k", 0, 20, 5)
-        similarity_metric = st.radio(
-            "Similarity metric",
-            ["cosine", "euclidean"],
-            horizontal=True,
-        )
+        similarity_metric = st.radio("Similarity metric", ["cosine", "euclidean"], horizontal=True)
+        use_cache = st.checkbox("Use cache", value=True)
+        refresh = st.button("Refresh payload")
 
     config = IntelligenceEngineConfig(
         transit_date=transit_date,
@@ -57,34 +45,38 @@ def render_intelligence_engine_page() -> None:
         similarity_metric=similarity_metric,
     )
 
-    profile_dir = LIBRARY_DIR / selected_profile
-
-    if not profile_dir.exists():
-        st.error(f"Profile directory not found: {profile_dir}")
-        return
-
     try:
-        payload = build_intelligence_payload(profile_dir, config=config)
+        payload = get_intelligence_payload(
+            selected_profile,
+            config=config,
+            use_cache=use_cache,
+            refresh=refresh,
+        )
     except Exception as exc:
-        st.error("Intelligence Engine failed.")
+        st.error("Intelligence service failed.")
         st.exception(exc)
         return
 
     render_overview(payload)
 
-    tab_research, tab_population, tab_statistics, tab_topology, tab_evidence, tab_raw = st.tabs(
+    tab_summary, tab_research, tab_population, tab_statistics, tab_topology, tab_evidence, tab_provenance, tab_raw = st.tabs(
         [
+            "Summary",
             "Research Session",
             "Population",
             "Statistics",
             "Topology",
             "Evidence",
+            "Provenance",
             "Raw Payload",
         ]
     )
 
+    with tab_summary:
+        render_summary(payload)
+
     with tab_research:
-        render_research_session(payload)
+        st.json(payload.get("research_session"))
 
     with tab_population:
         render_population(payload)
@@ -98,12 +90,15 @@ def render_intelligence_engine_page() -> None:
     with tab_evidence:
         render_evidence(payload)
 
+    with tab_provenance:
+        st.dataframe(payload.get("provenance", []), use_container_width=True)
+
     with tab_raw:
         render_raw(payload)
 
 
 def render_overview(payload: dict) -> None:
-    """Render top-level intelligence summary."""
+    """Render top-level overview."""
     profile = payload.get("profile", {})
     confidence = payload.get("confidence", {})
 
@@ -114,26 +109,32 @@ def render_overview(payload: dict) -> None:
     c2.metric("Confidence score", f"{confidence.get('score', 0.0):.2f}")
     c3.metric("Evidence count", confidence.get("evidence_count", 0))
 
-    warnings = payload.get("warnings", [])
-    for warning in warnings:
-        st.warning(warning)
+    if "_cache" in payload:
+        st.caption(f"Loaded from intelligence cache: {payload['_cache'].get('profile_key')}")
 
 
-def render_research_session(payload: dict) -> None:
-    """Render research session payload."""
-    st.markdown("## Research Session")
-    session = payload.get("research_session")
+def render_summary(payload: dict) -> None:
+    """Render readable summary."""
+    summary = payload.get("summary", {})
 
-    if session is None:
-        st.info("No research session available.")
-        return
+    st.markdown("## Intelligence Summary")
+    st.info(summary.get("headline", ""))
 
-    st.json(session)
+    st.markdown("### Population")
+    st.write(summary.get("population", ""))
+
+    st.markdown("### Statistics")
+    st.write(summary.get("statistics", ""))
+
+    st.markdown("### Topology")
+    st.write(summary.get("topology", ""))
+
+    st.markdown("### Confidence")
+    st.write(summary.get("confidence", ""))
 
 
 def render_population(payload: dict) -> None:
-    """Render population position."""
-    st.markdown("## Population Position")
+    """Render population section."""
     population = payload.get("population_position")
 
     if not population:
@@ -143,22 +144,14 @@ def render_population(payload: dict) -> None:
     c1, c2 = st.columns(2)
     c1.metric("Outlier rank", population.get("outlier_rank"))
     centroid_distance = population.get("centroid_distance")
-    c2.metric(
-        "Centroid distance",
-        "n/a" if centroid_distance is None else f"{centroid_distance:.3f}",
-    )
+    c2.metric("Centroid distance", "n/a" if centroid_distance is None else f"{centroid_distance:.3f}")
 
     st.markdown("### Nearest Neighbors")
-    neighbors = population.get("nearest_neighbors", [])
-    if neighbors:
-        st.dataframe(neighbors, use_container_width=True)
-    else:
-        st.info("No nearest neighbors available.")
+    st.dataframe(population.get("nearest_neighbors", []), use_container_width=True)
 
 
 def render_statistics(payload: dict) -> None:
-    """Render statistical position."""
-    st.markdown("## Statistical Position")
+    """Render statistics section."""
     stats = payload.get("statistical_position")
 
     if not stats:
@@ -179,15 +172,14 @@ def render_statistics(payload: dict) -> None:
 
 
 def render_topology(payload: dict) -> None:
-    """Render topology position."""
-    st.markdown("## Topology Position")
+    """Render topology section."""
     topology = payload.get("topology_position")
 
     if not topology:
         st.info("No topology position available.")
         return
 
-    if not topology.get("available", False):
+    if not topology.get("available"):
         st.warning(topology.get("reason", "Topology unavailable."))
         return
 
@@ -208,22 +200,16 @@ def render_topology(payload: dict) -> None:
 
 
 def render_evidence(payload: dict) -> None:
-    """Render evidence and confidence."""
+    """Render evidence section."""
     st.markdown("## Evidence")
-    evidence = payload.get("evidence", [])
-
-    if evidence:
-        st.dataframe(evidence, use_container_width=True)
-    else:
-        st.info("No evidence records available.")
+    st.dataframe(payload.get("evidence", []), use_container_width=True)
 
     st.markdown("## Confidence")
     st.json(payload.get("confidence", {}))
 
 
 def render_raw(payload: dict) -> None:
-    """Render raw payload export."""
-    st.markdown("## Raw Intelligence Payload")
+    """Render raw payload and download."""
     st.json(payload)
 
     st.download_button(
