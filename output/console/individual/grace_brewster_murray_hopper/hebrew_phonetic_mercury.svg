@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="700" viewBox="0 0 700 700">
+<defs>
+  <filter id="soft-shadow" x="-30%" y="-30%" width="160%" height="160%">
+    <feDropShadow dx="4" dy="6" stdDeviation="4" flood-opacity="0.35"/>
+  </filter>
+  <linearGradient id="node-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="white"/>
+    <stop offset="100%" stop-color="#d9d9d9"/>
+  </linearGradient>
+</defs>
+<rect x="0" y="0" width="700" height="700" fill="white" />
+<g id="edges-3d">
+<g class="edge-3d" data-weight="1">
+  <line x1="238.29" y1="624.00" x2="84.00" y2="84.00" stroke="#999999" stroke-width="1.50" stroke-linecap="round" opacity="0.35" />
+  <line x1="234.29" y1="620.00" x2="80.00" y2="80.00" stroke="black" stroke-width="1.50" stroke-linecap="round" opacity="0.75" />
+</g>
+<g class="edge-3d" data-weight="2">
+  <line x1="88.00" y1="88.00" x2="628.00" y2="88.00" stroke="#999999" stroke-width="3.00" stroke-linecap="round" opacity="0.35" />
+  <line x1="80.00" y1="80.00" x2="620.00" y2="80.00" stroke="black" stroke-width="3.00" stroke-linecap="round" opacity="0.75" />
+</g>
+<g class="edge-3d" data-weight="1">
+  <line x1="624.00" y1="84.00" x2="315.43" y2="469.71" stroke="#999999" stroke-width="1.50" stroke-linecap="round" opacity="0.35" />
+  <line x1="620.00" y1="80.00" x2="311.43" y2="465.71" stroke="black" stroke-width="1.50" stroke-linecap="round" opacity="0.75" />
+</g>
+<g class="edge-3d" data-weight="1">
+  <line x1="315.43" y1="469.71" x2="315.43" y2="84.00" stroke="#999999" stroke-width="1.50" stroke-linecap="round" opacity="0.35" />
+  <line x1="311.43" y1="465.71" x2="311.43" y2="80.00" stroke="black" stroke-width="1.50" stroke-linecap="round" opacity="0.75" />
+</g>
+<g class="edge-3d" data-weight="1">
+  <line x1="315.43" y1="84.00" x2="161.14" y2="624.00" stroke="#999999" stroke-width="1.50" stroke-linecap="round" opacity="0.35" />
+  <line x1="311.43" y1="80.00" x2="157.14" y2="620.00" stroke="black" stroke-width="1.50" stroke-linecap="round" opacity="0.75" />
+</g>
+<g class="edge-3d" data-weight="1">
+  <line x1="161.14" y1="624.00" x2="84.00" y2="84.00" stroke="#999999" stroke-width="1.50" stroke-linecap="round" opacity="0.35" />
+  <line x1="157.14" y1="620.00" x2="80.00" y2="80.00" stroke="black" stroke-width="1.50" stroke-linecap="round" opacity="0.75" />
+</g>
+<g class="edge-3d" data-weight="1">
+  <line x1="84.00" y1="84.00" x2="315.43" y2="84.00" stroke="#999999" stroke-width="1.50" stroke-linecap="round" opacity="0.35" />
+  <line x1="80.00" y1="80.00" x2="311.43" y2="80.00" stroke="black" stroke-width="1.50" stroke-linecap="round" opacity="0.75" />
+</g>
+<g class="edge-3d" data-weight="1">
+  <line x1="315.43" y1="84.00" x2="469.71" y2="624.00" stroke="#999999" stroke-width="1.50" stroke-linecap="round" opacity="0.35" />
+  <line x1="311.43" y1="80.00" x2="465.71" y2="620.00" stroke="black" stroke-width="1.50" stroke-linecap="round" opacity="0.75" />
+</g>
+<g class="edge-3d" data-weight="1">
+  <line x1="469.71" y1="624.00" x2="392.57" y2="624.00" stroke="#999999" stroke-width="1.50" stroke-linecap="round" opacity="0.35" />
+  <line x1="465.71" y1="620.00" x2="388.57" y2="620.00" stroke="black" stroke-width="1.50" stroke-linecap="round" opacity="0.75" />
+</g>
+<g class="edge-3d" data-weight="1">
+  <line x1="392.57" y1="624.00" x2="624.00" y2="546.86" stroke="#999999" stroke-width="1.50" stroke-linecap="round" opacity="0.35" />
+  <line x1="388.57" y1="620.00" x2="620.00" y2="542.86" stroke="black" stroke-width="1.50" stroke-linecap="round" opacity="0.75" />
+</g>
+<g class="edge-3d" data-weight="2">
+  <line x1="628.00" y1="550.86" x2="319.43" y2="88.00" stroke="#999999" stroke-width="3.00" stroke-linecap="round" opacity="0.35" />
+  <line x1="620.00" y1="542.86" x2="311.43" y2="80.00" stroke="black" stroke-width="3.00" stroke-linecap="round" opacity="0.75" />
+</g>
+<g class="edge-3d" data-weight="2">
+  <line x1="319.43" y1="88.00" x2="88.00" y2="88.00" stroke="#999999" stroke-width="3.00" stroke-linecap="round" opacity="0.35" />
+  <line x1="311.43" y1="80.00" x2="80.00" y2="80.00" stroke="black" stroke-width="3.00" stroke-linecap="round" opacity="0.75" />
+</g>
+<g class="edge-3d" data-weight="1">
+  <line x1="84.00" y1="84.00" x2="84.00" y2="392.57" stroke="#999999" stroke-width="1.50" stroke-linecap="round" opacity="0.35" />
+  <line x1="80.00" y1="80.00" x2="80.00" y2="388.57" stroke="black" stroke-width="1.50" stroke-linecap="round" opacity="0.75" />
+</g>
+<g class="edge-3d" data-weight="1">
+  <line x1="84.00" y1="392.57" x2="469.71" y2="624.00" stroke="#999999" stroke-width="1.50" stroke-linecap="round" opacity="0.35" />
+  <line x1="80.00" y1="388.57" x2="465.71" y2="620.00" stroke="black" stroke-width="1.50" stroke-linecap="round" opacity="0.75" />
+</g>
+<g class="edge-3d" data-weight="1">
+  <line x1="469.71" y1="624.00" x2="84.00" y2="84.00" stroke="#999999" stroke-width="1.50" stroke-linecap="round" opacity="0.35" />
+  <line x1="465.71" y1="620.00" x2="80.00" y2="80.00" stroke="black" stroke-width="1.50" stroke-linecap="round" opacity="0.75" />
+</g>
+<g class="edge-3d" data-weight="1">
+  <line x1="84.00" y1="84.00" x2="84.00" y2="84.00" stroke="#999999" stroke-width="1.50" stroke-linecap="round" opacity="0.35" />
+  <line x1="80.00" y1="80.00" x2="80.00" y2="80.00" stroke="black" stroke-width="1.50" stroke-linecap="round" opacity="0.75" />
+</g>
+<g class="edge-3d" data-weight="1">
+  <line x1="624.00" y1="84.00" x2="546.86" y2="161.14" stroke="#999999" stroke-width="1.50" stroke-linecap="round" opacity="0.35" />
+  <line x1="620.00" y1="80.00" x2="542.86" y2="157.14" stroke="black" stroke-width="1.50" stroke-linecap="round" opacity="0.75" />
+</g>
+<g class="edge-3d" data-weight="1">
+  <line x1="546.86" y1="161.14" x2="84.00" y2="84.00" stroke="#999999" stroke-width="1.50" stroke-linecap="round" opacity="0.35" />
+  <line x1="542.86" y1="157.14" x2="80.00" y2="80.00" stroke="black" stroke-width="1.50" stroke-linecap="round" opacity="0.75" />
+</g>
+<g class="edge-3d" data-weight="1">
+  <line x1="84.00" y1="84.00" x2="469.71" y2="624.00" stroke="#999999" stroke-width="1.50" stroke-linecap="round" opacity="0.35" />
+  <line x1="80.00" y1="80.00" x2="465.71" y2="620.00" stroke="black" stroke-width="1.50" stroke-linecap="round" opacity="0.75" />
+</g>
+<g class="edge-3d" data-weight="1">
+  <line x1="469.71" y1="624.00" x2="624.00" y2="546.86" stroke="#999999" stroke-width="1.50" stroke-linecap="round" opacity="0.35" />
+  <line x1="465.71" y1="620.00" x2="620.00" y2="542.86" stroke="black" stroke-width="1.50" stroke-linecap="round" opacity="0.75" />
+</g>
+<g class="edge-3d" data-weight="1">
+  <line x1="624.00" y1="546.86" x2="624.00" y2="546.86" stroke="#999999" stroke-width="1.50" stroke-linecap="round" opacity="0.35" />
+  <line x1="620.00" y1="542.86" x2="620.00" y2="542.86" stroke="black" stroke-width="1.50" stroke-linecap="round" opacity="0.75" />
+</g>
+</g>
+<g id="nodes-3d">
+<g class="node-3d" data-weight="1" filter="url(#soft-shadow)">
+  <circle cx="238.29" cy="624.00" r="6.00" fill="#cfcfcf" stroke="#666666" stroke-width="1" opacity="0.45" />
+  <circle cx="234.29" cy="620.00" r="6.00" fill="url(#node-gradient)" stroke="black" stroke-width="2.5" />
+</g>
+<g class="node-3d" data-weight="7" filter="url(#soft-shadow)">
+  <circle cx="108.00" cy="108.00" r="24.00" fill="#cfcfcf" stroke="#666666" stroke-width="1" opacity="0.45" />
+  <circle cx="104.00" cy="104.00" r="24.00" fill="#cfcfcf" stroke="#666666" stroke-width="1" opacity="0.45" />
+  <circle cx="100.00" cy="100.00" r="24.00" fill="#cfcfcf" stroke="#666666" stroke-width="1" opacity="0.45" />
+  <circle cx="96.00" cy="96.00" r="24.00" fill="#cfcfcf" stroke="#666666" stroke-width="1" opacity="0.45" />
+  <circle cx="92.00" cy="92.00" r="24.00" fill="#cfcfcf" stroke="#666666" stroke-width="1" opacity="0.45" />
+  <circle cx="88.00" cy="88.00" r="24.00" fill="#cfcfcf" stroke="#666666" stroke-width="1" opacity="0.45" />
+  <circle cx="84.00" cy="84.00" r="24.00" fill="#cfcfcf" stroke="#666666" stroke-width="1" opacity="0.45" />
+  <circle cx="80.00" cy="80.00" r="24.00" fill="url(#node-gradient)" stroke="black" stroke-width="2.5" />
+</g>
+<g class="node-3d" data-weight="2" filter="url(#soft-shadow)">
+  <circle cx="628.00" cy="88.00" r="9.00" fill="#cfcfcf" stroke="#666666" stroke-width="1" opacity="0.45" />
+  <circle cx="624.00" cy="84.00" r="9.00" fill="#cfcfcf" stroke="#666666" stroke-width="1" opacity="0.45" />
+  <circle cx="620.00" cy="80.00" r="9.00" fill="url(#node-gradient)" stroke="black" stroke-width="2.5" />
+</g>
+<g class="node-3d" data-weight="1" filter="url(#soft-shadow)">
+  <circle cx="315.43" cy="469.71" r="6.00" fill="#cfcfcf" stroke="#666666" stroke-width="1" opacity="0.45" />
+  <circle cx="311.43" cy="465.71" r="6.00" fill="url(#node-gradient)" stroke="black" stroke-width="2.5" />
+</g>
+<g class="node-3d" data-weight="4" filter="url(#soft-shadow)">
+  <circle cx="327.43" cy="96.00" r="15.00" fill="#cfcfcf" stroke="#666666" stroke-width="1" opacity="0.45" />
+  <circle cx="323.43" cy="92.00" r="15.00" fill="#cfcfcf" stroke="#666666" stroke-width="1" opacity="0.45" />
+  <circle cx="319.43" cy="88.00" r="15.00" fill="#cfcfcf" stroke="#666666" stroke-width="1" opacity="0.45" />
+  <circle cx="315.43" cy="84.00" r="15.00" fill="#cfcfcf" stroke="#666666" stroke-width="1" opacity="0.45" />
+  <circle cx="311.43" cy="80.00" r="15.00" fill="url(#node-gradient)" stroke="black" stroke-width="2.5" />
+</g>
+<g class="node-3d" data-weight="1" filter="url(#soft-shadow)">
+  <circle cx="161.14" cy="624.00" r="6.00" fill="#cfcfcf" stroke="#666666" stroke-width="1" opacity="0.45" />
+  <circle cx="157.14" cy="620.00" r="6.00" fill="url(#node-gradient)" stroke="black" stroke-width="2.5" />
+</g>
+<g class="node-3d" data-weight="3" filter="url(#soft-shadow)">
+  <circle cx="477.71" cy="632.00" r="12.00" fill="#cfcfcf" stroke="#666666" stroke-width="1" opacity="0.45" />
+  <circle cx="473.71" cy="628.00" r="12.00" fill="#cfcfcf" stroke="#666666" stroke-width="1" opacity="0.45" />
+  <circle cx="469.71" cy="624.00" r="12.00" fill="#cfcfcf" stroke="#666666" stroke-width="1" opacity="0.45" />
+  <circle cx="465.71" cy="620.00" r="12.00" fill="url(#node-gradient)" stroke="black" stroke-width="2.5" />
+</g>
+<g class="node-3d" data-weight="1" filter="url(#soft-shadow)">
+  <circle cx="392.57" cy="624.00" r="6.00" fill="#cfcfcf" stroke="#666666" stroke-width="1" opacity="0.45" />
+  <circle cx="388.57" cy="620.00" r="6.00" fill="url(#node-gradient)" stroke="black" stroke-width="2.5" />
+</g>
+<g class="node-3d" data-weight="3" filter="url(#soft-shadow)">
+  <circle cx="632.00" cy="554.86" r="12.00" fill="#cfcfcf" stroke="#666666" stroke-width="1" opacity="0.45" />
+  <circle cx="628.00" cy="550.86" r="12.00" fill="#cfcfcf" stroke="#666666" stroke-width="1" opacity="0.45" />
+  <circle cx="624.00" cy="546.86" r="12.00" fill="#cfcfcf" stroke="#666666" stroke-width="1" opacity="0.45" />
+  <circle cx="620.00" cy="542.86" r="12.00" fill="url(#node-gradient)" stroke="black" stroke-width="2.5" />
+</g>
+<g class="node-3d" data-weight="1" filter="url(#soft-shadow)">
+  <circle cx="84.00" cy="392.57" r="6.00" fill="#cfcfcf" stroke="#666666" stroke-width="1" opacity="0.45" />
+  <circle cx="80.00" cy="388.57" r="6.00" fill="url(#node-gradient)" stroke="black" stroke-width="2.5" />
+</g>
+<g class="node-3d" data-weight="1" filter="url(#soft-shadow)">
+  <circle cx="546.86" cy="161.14" r="6.00" fill="#cfcfcf" stroke="#666666" stroke-width="1" opacity="0.45" />
+  <circle cx="542.86" cy="157.14" r="6.00" fill="url(#node-gradient)" stroke="black" stroke-width="2.5" />
+</g>
+</g>
+</svg>

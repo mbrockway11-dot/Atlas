@@ -1,0 +1,44 @@
+{
+  "analysis_count": 21,
+  "dominant_motifs": {
+    "chains": 6,
+    "reciprocal_pairs": 15
+  },
+  "dominant_patterns": {
+    "radiating": 15,
+    "reciprocal": 6
+  },
+  "name": "Srinivasa Ramanujan",
+  "strongest_amplifier": {
+    "cipher": "ordinal",
+    "dominant_motif": "reciprocal_pairs",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.5777777777777778
+  },
+  "strongest_driver": {
+    "cipher": "ordinal",
+    "dominant_motif": "reciprocal_pairs",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.47058823529411764
+  },
+  "strongest_regulator": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "reciprocal_pairs",
+    "dominant_pattern": "reciprocal",
+    "kamea": "venus",
+    "planet": "Venus",
+    "score": 0.9333333333333332
+  },
+  "summary_lines": [
+    "Profile contains 21 deterministic analyses.",
+    "Most common pattern is radiating, appearing 15 times.",
+    "Most common motif is reciprocal_pairs, appearing 15 times.",
+    "Strongest driver: Saturn / ordinal at 0.4706 (radiating / reciprocal_pairs).",
+    "Strongest amplifier: Saturn / ordinal at 0.5778 (radiating / reciprocal_pairs).",
+    "Strongest regulator: Venus / hebrew_literal at 0.9333 (reciprocal / reciprocal_pairs)."
+  ]
+}

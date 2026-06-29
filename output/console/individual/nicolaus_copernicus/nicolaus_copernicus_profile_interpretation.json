@@ -1,0 +1,45 @@
+{
+  "analysis_count": 21,
+  "dominant_motifs": {
+    "chains": 18,
+    "loops": 2,
+    "reciprocal_pairs": 1
+  },
+  "dominant_patterns": {
+    "looping": 9,
+    "radiating": 12
+  },
+  "name": "Nicolaus Copernicus",
+  "strongest_amplifier": {
+    "cipher": "ordinal",
+    "dominant_motif": "reciprocal_pairs",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.5555555555555556
+  },
+  "strongest_driver": {
+    "cipher": "ordinal",
+    "dominant_motif": "reciprocal_pairs",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.35294117647058826
+  },
+  "strongest_regulator": {
+    "cipher": "ordinal",
+    "dominant_motif": "reciprocal_pairs",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.8777777777777778
+  },
+  "summary_lines": [
+    "Profile contains 21 deterministic analyses.",
+    "Most common pattern is radiating, appearing 12 times.",
+    "Most common motif is chains, appearing 18 times.",
+    "Strongest driver: Saturn / ordinal at 0.3529 (radiating / reciprocal_pairs).",
+    "Strongest amplifier: Saturn / ordinal at 0.5556 (radiating / reciprocal_pairs).",
+    "Strongest regulator: Saturn / ordinal at 0.8778 (radiating / reciprocal_pairs)."
+  ]
+}

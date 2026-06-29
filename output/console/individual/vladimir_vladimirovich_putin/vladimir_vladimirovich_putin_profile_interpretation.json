@@ -1,0 +1,43 @@
+{
+  "analysis_count": 21,
+  "dominant_motifs": {
+    "chains": 17,
+    "hubs": 4
+  },
+  "dominant_patterns": {
+    "radiating": 21
+  },
+  "name": "Vladimir Vladimirovich Putin",
+  "strongest_amplifier": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "hubs",
+    "dominant_pattern": "radiating",
+    "kamea": "jupiter",
+    "planet": "Jupiter",
+    "score": 0.5327380952380952
+  },
+  "strongest_driver": {
+    "cipher": "ordinal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.32
+  },
+  "strongest_regulator": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "radiating",
+    "kamea": "mars",
+    "planet": "Mars",
+    "score": 0.8129474011826954
+  },
+  "summary_lines": [
+    "Profile contains 21 deterministic analyses.",
+    "Most common pattern is radiating, appearing 21 times.",
+    "Most common motif is chains, appearing 17 times.",
+    "Strongest driver: Saturn / ordinal at 0.3200 (radiating / chains).",
+    "Strongest amplifier: Jupiter / hebrew_literal at 0.5327 (radiating / hubs).",
+    "Strongest regulator: Mars / hebrew_literal at 0.8129 (radiating / chains)."
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "analysis_count": 21,
+  "dominant_motifs": {
+    "chains": 18,
+    "reciprocal_pairs": 3
+  },
+  "dominant_patterns": {
+    "looping": 10,
+    "radiating": 11
+  },
+  "name": "Napoleon Bonaparte",
+  "strongest_amplifier": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "reciprocal_pairs",
+    "dominant_pattern": "radiating",
+    "kamea": "mars",
+    "planet": "Mars",
+    "score": 0.5777777777777778
+  },
+  "strongest_driver": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "radiating",
+    "kamea": "venus",
+    "planet": "Venus",
+    "score": 0.375
+  },
+  "strongest_regulator": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "reciprocal_pairs",
+    "dominant_pattern": "radiating",
+    "kamea": "mars",
+    "planet": "Mars",
+    "score": 0.8740740740740741
+  },
+  "summary_lines": [
+    "Profile contains 21 deterministic analyses.",
+    "Most common pattern is radiating, appearing 11 times.",
+    "Most common motif is chains, appearing 18 times.",
+    "Strongest driver: Venus / hebrew_literal at 0.3750 (radiating / chains).",
+    "Strongest amplifier: Mars / hebrew_literal at 0.5778 (radiating / reciprocal_pairs).",
+    "Strongest regulator: Mars / hebrew_literal at 0.8741 (radiating / reciprocal_pairs)."
+  ]
+}

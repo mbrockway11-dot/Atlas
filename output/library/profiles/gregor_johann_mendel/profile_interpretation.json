@@ -1,0 +1,42 @@
+{
+  "analysis_count": 21,
+  "dominant_motifs": {
+    "chains": 21
+  },
+  "dominant_patterns": {
+    "radiating": 21
+  },
+  "name": "Gregor Johann Mendel",
+  "strongest_amplifier": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.49145299145299143
+  },
+  "strongest_driver": {
+    "cipher": "ordinal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.35294117647058826
+  },
+  "strongest_regulator": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.7435897435897436
+  },
+  "summary_lines": [
+    "Profile contains 21 deterministic analyses.",
+    "Most common pattern is radiating, appearing 21 times.",
+    "Most common motif is chains, appearing 21 times.",
+    "Strongest driver: Saturn / ordinal at 0.3529 (radiating / chains).",
+    "Strongest amplifier: Saturn / hebrew_literal at 0.4915 (radiating / chains).",
+    "Strongest regulator: Saturn / hebrew_literal at 0.7436 (radiating / chains)."
+  ]
+}

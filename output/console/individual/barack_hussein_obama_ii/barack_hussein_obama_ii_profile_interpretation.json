@@ -1,0 +1,44 @@
+{
+  "analysis_count": 21,
+  "dominant_motifs": {
+    "chains": 18,
+    "loops": 2,
+    "reciprocal_pairs": 1
+  },
+  "dominant_patterns": {
+    "radiating": 21
+  },
+  "name": "Barack Hussein Obama II",
+  "strongest_amplifier": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "loops",
+    "dominant_pattern": "radiating",
+    "kamea": "jupiter",
+    "planet": "Jupiter",
+    "score": 0.44940476190476186
+  },
+  "strongest_driver": {
+    "cipher": "ordinal",
+    "dominant_motif": "reciprocal_pairs",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.3157894736842105
+  },
+  "strongest_regulator": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.871998371998372
+  },
+  "summary_lines": [
+    "Profile contains 21 deterministic analyses.",
+    "Most common pattern is radiating, appearing 21 times.",
+    "Most common motif is chains, appearing 18 times.",
+    "Strongest driver: Saturn / ordinal at 0.3158 (radiating / reciprocal_pairs).",
+    "Strongest amplifier: Jupiter / hebrew_literal at 0.4494 (radiating / loops).",
+    "Strongest regulator: Saturn / hebrew_literal at 0.8720 (radiating / chains)."
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "analysis_count": 21,
+  "dominant_motifs": {
+    "chains": 20,
+    "hubs": 1
+  },
+  "dominant_patterns": {
+    "radiating": 21
+  },
+  "name": "River Christian Tremblay",
+  "strongest_amplifier": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.4692460317460318
+  },
+  "strongest_driver": {
+    "cipher": "ordinal",
+    "dominant_motif": "hubs",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.3333333333333333
+  },
+  "strongest_regulator": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "radiating",
+    "kamea": "mars",
+    "planet": "Mars",
+    "score": 0.8078505856283634
+  },
+  "summary_lines": [
+    "Profile contains 21 deterministic analyses.",
+    "Most common pattern is radiating, appearing 21 times.",
+    "Most common motif is chains, appearing 20 times.",
+    "Strongest driver: Saturn / ordinal at 0.3333 (radiating / hubs).",
+    "Strongest amplifier: Saturn / hebrew_literal at 0.4692 (radiating / chains).",
+    "Strongest regulator: Mars / hebrew_literal at 0.8079 (radiating / chains)."
+  ]
+}

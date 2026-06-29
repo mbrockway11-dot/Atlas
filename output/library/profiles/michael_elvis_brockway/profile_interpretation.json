@@ -1,0 +1,47 @@
+{
+  "analysis_count": 21,
+  "dominant_motifs": {
+    "chains": 17,
+    "hubs": 1,
+    "loops": 1,
+    "reciprocal_pairs": 2
+  },
+  "dominant_patterns": {
+    "looping": 7,
+    "radiating": 13,
+    "reciprocal": 1
+  },
+  "name": "Michael Elvis Brockway",
+  "strongest_amplifier": {
+    "cipher": "hebrew_phonetic",
+    "dominant_motif": "reciprocal_pairs",
+    "dominant_pattern": "reciprocal",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.40158730158730155
+  },
+  "strongest_driver": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "reciprocal_pairs",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.2631578947368421
+  },
+  "strongest_regulator": {
+    "cipher": "hebrew_phonetic",
+    "dominant_motif": "reciprocal_pairs",
+    "dominant_pattern": "reciprocal",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.8804232804232804
+  },
+  "summary_lines": [
+    "Profile contains 21 deterministic analyses.",
+    "Most common pattern is radiating, appearing 13 times.",
+    "Most common motif is chains, appearing 17 times.",
+    "Strongest driver: Saturn / hebrew_literal at 0.2632 (radiating / reciprocal_pairs).",
+    "Strongest amplifier: Saturn / hebrew_phonetic at 0.4016 (reciprocal / reciprocal_pairs).",
+    "Strongest regulator: Saturn / hebrew_phonetic at 0.8804 (reciprocal / reciprocal_pairs)."
+  ]
+}

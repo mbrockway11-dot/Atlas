@@ -1,0 +1,44 @@
+{
+  "analysis_count": 21,
+  "dominant_motifs": {
+    "chains": 19,
+    "reciprocal_pairs": 2
+  },
+  "dominant_patterns": {
+    "looping": 8,
+    "radiating": 13
+  },
+  "name": "Richard Feynman",
+  "strongest_amplifier": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "reciprocal_pairs",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.5772727272727273
+  },
+  "strongest_driver": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "reciprocal_pairs",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.3076923076923077
+  },
+  "strongest_regulator": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "reciprocal_pairs",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.7612121212121212
+  },
+  "summary_lines": [
+    "Profile contains 21 deterministic analyses.",
+    "Most common pattern is radiating, appearing 13 times.",
+    "Most common motif is chains, appearing 19 times.",
+    "Strongest driver: Saturn / hebrew_literal at 0.3077 (radiating / reciprocal_pairs).",
+    "Strongest amplifier: Saturn / hebrew_literal at 0.5773 (radiating / reciprocal_pairs).",
+    "Strongest regulator: Saturn / hebrew_literal at 0.7612 (radiating / reciprocal_pairs)."
+  ]
+}

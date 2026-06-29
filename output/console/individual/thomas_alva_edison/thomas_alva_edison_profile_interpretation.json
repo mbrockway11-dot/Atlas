@@ -1,0 +1,42 @@
+{
+  "analysis_count": 21,
+  "dominant_motifs": {
+    "chains": 21
+  },
+  "dominant_patterns": {
+    "radiating": 21
+  },
+  "name": "Thomas Alva Edison",
+  "strongest_amplifier": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.4166666666666667
+  },
+  "strongest_driver": {
+    "cipher": "ordinal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.3333333333333333
+  },
+  "strongest_regulator": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "radiating",
+    "kamea": "mars",
+    "planet": "Mars",
+    "score": 0.7380952380952381
+  },
+  "summary_lines": [
+    "Profile contains 21 deterministic analyses.",
+    "Most common pattern is radiating, appearing 21 times.",
+    "Most common motif is chains, appearing 21 times.",
+    "Strongest driver: Saturn / ordinal at 0.3333 (radiating / chains).",
+    "Strongest amplifier: Saturn / hebrew_literal at 0.4167 (radiating / chains).",
+    "Strongest regulator: Mars / hebrew_literal at 0.7381 (radiating / chains)."
+  ]
+}

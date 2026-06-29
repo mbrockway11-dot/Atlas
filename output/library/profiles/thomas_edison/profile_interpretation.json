@@ -1,0 +1,43 @@
+{
+  "analysis_count": 21,
+  "dominant_motifs": {
+    "chains": 21
+  },
+  "dominant_patterns": {
+    "looping": 16,
+    "radiating": 5
+  },
+  "name": "Thomas Edison",
+  "strongest_amplifier": {
+    "cipher": "hebrew_phonetic",
+    "dominant_motif": "chains",
+    "dominant_pattern": "looping",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.5499999999999999
+  },
+  "strongest_driver": {
+    "cipher": "hebrew_phonetic",
+    "dominant_motif": "chains",
+    "dominant_pattern": "looping",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.3
+  },
+  "strongest_regulator": {
+    "cipher": "hebrew_phonetic",
+    "dominant_motif": "chains",
+    "dominant_pattern": "radiating",
+    "kamea": "mars",
+    "planet": "Mars",
+    "score": 0.7666666666666666
+  },
+  "summary_lines": [
+    "Profile contains 21 deterministic analyses.",
+    "Most common pattern is looping, appearing 16 times.",
+    "Most common motif is chains, appearing 21 times.",
+    "Strongest driver: Saturn / hebrew_phonetic at 0.3000 (looping / chains).",
+    "Strongest amplifier: Saturn / hebrew_phonetic at 0.5500 (looping / chains).",
+    "Strongest regulator: Mars / hebrew_phonetic at 0.7667 (radiating / chains)."
+  ]
+}

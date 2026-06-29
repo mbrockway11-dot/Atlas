@@ -1,0 +1,44 @@
+{
+  "analysis_count": 21,
+  "dominant_motifs": {
+    "bridges": 12,
+    "chains": 9
+  },
+  "dominant_patterns": {
+    "linear": 12,
+    "looping": 9
+  },
+  "name": "Carl Jung",
+  "strongest_amplifier": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "looping",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.31666666666666665
+  },
+  "strongest_driver": {
+    "cipher": "ordinal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "looping",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.42857142857142855
+  },
+  "strongest_regulator": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "looping",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.7174603174603176
+  },
+  "summary_lines": [
+    "Profile contains 21 deterministic analyses.",
+    "Most common pattern is linear, appearing 12 times.",
+    "Most common motif is bridges, appearing 12 times.",
+    "Strongest driver: Saturn / ordinal at 0.4286 (looping / chains).",
+    "Strongest amplifier: Saturn / hebrew_literal at 0.3167 (looping / chains).",
+    "Strongest regulator: Saturn / hebrew_literal at 0.7175 (looping / chains)."
+  ]
+}

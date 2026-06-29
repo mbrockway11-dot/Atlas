@@ -1,0 +1,43 @@
+{
+  "analysis_count": 21,
+  "dominant_motifs": {
+    "chains": 21
+  },
+  "dominant_patterns": {
+    "looping": 17,
+    "radiating": 4
+  },
+  "name": "Isaac Newton",
+  "strongest_amplifier": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "looping",
+    "kamea": "mars",
+    "planet": "Mars",
+    "score": 0.3592592592592592
+  },
+  "strongest_driver": {
+    "cipher": "ordinal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "looping",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.3
+  },
+  "strongest_regulator": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "looping",
+    "kamea": "mars",
+    "planet": "Mars",
+    "score": 0.7851851851851852
+  },
+  "summary_lines": [
+    "Profile contains 21 deterministic analyses.",
+    "Most common pattern is looping, appearing 17 times.",
+    "Most common motif is chains, appearing 21 times.",
+    "Strongest driver: Saturn / ordinal at 0.3000 (looping / chains).",
+    "Strongest amplifier: Mars / hebrew_literal at 0.3593 (looping / chains).",
+    "Strongest regulator: Mars / hebrew_literal at 0.7852 (looping / chains)."
+  ]
+}

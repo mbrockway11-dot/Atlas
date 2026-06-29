@@ -1,0 +1,42 @@
+{
+  "analysis_count": 21,
+  "dominant_motifs": {
+    "chains": 21
+  },
+  "dominant_patterns": {
+    "looping": 21
+  },
+  "name": "Genghis Khan",
+  "strongest_amplifier": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "looping",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.3592592592592592
+  },
+  "strongest_driver": {
+    "cipher": "ordinal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "looping",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.2
+  },
+  "strongest_regulator": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "looping",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.7481481481481481
+  },
+  "summary_lines": [
+    "Profile contains 21 deterministic analyses.",
+    "Most common pattern is looping, appearing 21 times.",
+    "Most common motif is chains, appearing 21 times.",
+    "Strongest driver: Saturn / ordinal at 0.2000 (looping / chains).",
+    "Strongest amplifier: Saturn / hebrew_literal at 0.3593 (looping / chains).",
+    "Strongest regulator: Saturn / hebrew_literal at 0.7481 (looping / chains)."
+  ]
+}

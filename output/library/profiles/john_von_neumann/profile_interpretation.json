@@ -1,0 +1,43 @@
+{
+  "analysis_count": 21,
+  "dominant_motifs": {
+    "chains": 21
+  },
+  "dominant_patterns": {
+    "looping": 2,
+    "radiating": 19
+  },
+  "name": "John von Neumann",
+  "strongest_amplifier": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "looping",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.39999999999999997
+  },
+  "strongest_driver": {
+    "cipher": "ordinal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.38461538461538464
+  },
+  "strongest_regulator": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "radiating",
+    "kamea": "jupiter",
+    "planet": "Jupiter",
+    "score": 0.7261503928170595
+  },
+  "summary_lines": [
+    "Profile contains 21 deterministic analyses.",
+    "Most common pattern is radiating, appearing 19 times.",
+    "Most common motif is chains, appearing 21 times.",
+    "Strongest driver: Saturn / ordinal at 0.3846 (radiating / chains).",
+    "Strongest amplifier: Saturn / hebrew_literal at 0.4000 (looping / chains).",
+    "Strongest regulator: Jupiter / hebrew_literal at 0.7262 (radiating / chains)."
+  ]
+}

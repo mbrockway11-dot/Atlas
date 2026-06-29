@@ -1,0 +1,44 @@
+{
+  "analysis_count": 21,
+  "dominant_motifs": {
+    "chains": 19,
+    "hubs": 2
+  },
+  "dominant_patterns": {
+    "looping": 2,
+    "radiating": 19
+  },
+  "name": "Arthur Schopenhauer",
+  "strongest_amplifier": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "hubs",
+    "dominant_pattern": "radiating",
+    "kamea": "mars",
+    "planet": "Mars",
+    "score": 0.44920634920634916
+  },
+  "strongest_driver": {
+    "cipher": "hebrew_phonetic",
+    "dominant_motif": "chains",
+    "dominant_pattern": "radiating",
+    "kamea": "mars",
+    "planet": "Mars",
+    "score": 0.35714285714285715
+  },
+  "strongest_regulator": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "hubs",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.7898242630385487
+  },
+  "summary_lines": [
+    "Profile contains 21 deterministic analyses.",
+    "Most common pattern is radiating, appearing 19 times.",
+    "Most common motif is chains, appearing 19 times.",
+    "Strongest driver: Mars / hebrew_phonetic at 0.3571 (radiating / chains).",
+    "Strongest amplifier: Mars / hebrew_literal at 0.4492 (radiating / hubs).",
+    "Strongest regulator: Saturn / hebrew_literal at 0.7898 (radiating / hubs)."
+  ]
+}

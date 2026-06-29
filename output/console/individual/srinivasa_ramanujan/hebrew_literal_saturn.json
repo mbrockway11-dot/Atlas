@@ -1,0 +1,358 @@
+{
+  "graph": {
+    "edge_weights": [
+      {
+        "edge": [
+          [
+            2,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "weight": 1
+      },
+      {
+        "edge": [
+          [
+            0,
+            2
+          ],
+          [
+            2,
+            1
+          ]
+        ],
+        "weight": 2
+      },
+      {
+        "edge": [
+          [
+            2,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "weight": 3
+      },
+      {
+        "edge": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            1
+          ]
+        ],
+        "weight": 1
+      },
+      {
+        "edge": [
+          [
+            2,
+            1
+          ],
+          [
+            2,
+            2
+          ]
+        ],
+        "weight": 2
+      },
+      {
+        "edge": [
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            1
+          ]
+        ],
+        "weight": 3
+      },
+      {
+        "edge": [
+          [
+            2,
+            1
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "weight": 1
+      },
+      {
+        "edge": [
+          [
+            2,
+            1
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "weight": 1
+      },
+      {
+        "edge": [
+          [
+            0,
+            0
+          ],
+          [
+            2,
+            1
+          ]
+        ],
+        "weight": 1
+      },
+      {
+        "edge": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            2
+          ]
+        ],
+        "weight": 1
+      },
+      {
+        "edge": [
+          [
+            2,
+            1
+          ],
+          [
+            2,
+            1
+          ]
+        ],
+        "weight": 1
+      }
+    ],
+    "edges": [
+      [
+        [
+          2,
+          2
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      [
+        [
+          0,
+          2
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      [
+        [
+          2,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      [
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      [
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      [
+        [
+          2,
+          1
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      [
+        [
+          2,
+          1
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        [
+          0,
+          0
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      [
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          1
+        ]
+      ]
+    ],
+    "node_weights": [
+      {
+        "node": [
+          2,
+          2
+        ],
+        "weight": 4
+      },
+      {
+        "node": [
+          0,
+          2
+        ],
+        "weight": 2
+      },
+      {
+        "node": [
+          2,
+          1
+        ],
+        "weight": 8
+      },
+      {
+        "node": [
+          1,
+          1
+        ],
+        "weight": 3
+      },
+      {
+        "node": [
+          0,
+          0
+        ],
+        "weight": 1
+      }
+    ],
+    "nodes": [
+      [
+        2,
+        2
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        0,
+        0
+      ]
+    ],
+    "summary": {
+      "edge_count": 11,
+      "node_count": 5,
+      "total_edge_weight": 17,
+      "total_node_weight": 18
+    }
+  },
+  "signature": {
+    "metrics": {
+      "component_count": 1,
+      "edge_count": 11,
+      "edge_density": 0.55,
+      "entropy": 0.8686210827146237,
+      "node_count": 5,
+      "symmetry": 0.8181818181818182
+    },
+    "motifs": {
+      "bridges": 0,
+      "chains": 1,
+      "dead_ends": 0,
+      "dominant_motif": "reciprocal_pairs",
+      "hubs": 1,
+      "isolated_nodes": 0,
+      "loops": 1,
+      "motif_density": 1.4,
+      "reciprocal_pairs": 4
+    },
+    "patterns": {
+      "branching_level": "high",
+      "compression_level": "high",
+      "dominant_pattern": "reciprocal",
+      "reciprocity_level": "high"
+    },
+    "scores": {
+      "amplifier": 0.5712121212121212,
+      "driver": 0.47058823529411764,
+      "regulator": 0.9165367965367966
+    }
+  }
+}

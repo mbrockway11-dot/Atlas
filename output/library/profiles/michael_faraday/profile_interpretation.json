@@ -1,0 +1,42 @@
+{
+  "analysis_count": 21,
+  "dominant_motifs": {
+    "chains": 21
+  },
+  "dominant_patterns": {
+    "radiating": 21
+  },
+  "name": "Michael Faraday",
+  "strongest_amplifier": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.4333333333333333
+  },
+  "strongest_driver": {
+    "cipher": "hebrew_phonetic",
+    "dominant_motif": "chains",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.4166666666666667
+  },
+  "strongest_regulator": {
+    "cipher": "hebrew_phonetic",
+    "dominant_motif": "chains",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.8282828282828283
+  },
+  "summary_lines": [
+    "Profile contains 21 deterministic analyses.",
+    "Most common pattern is radiating, appearing 21 times.",
+    "Most common motif is chains, appearing 21 times.",
+    "Strongest driver: Saturn / hebrew_phonetic at 0.4167 (radiating / chains).",
+    "Strongest amplifier: Saturn / hebrew_literal at 0.4333 (radiating / chains).",
+    "Strongest regulator: Saturn / hebrew_phonetic at 0.8283 (radiating / chains)."
+  ]
+}

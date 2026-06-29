@@ -1,0 +1,44 @@
+{
+  "analysis_count": 21,
+  "dominant_motifs": {
+    "chains": 16,
+    "hubs": 3,
+    "reciprocal_pairs": 2
+  },
+  "dominant_patterns": {
+    "radiating": 21
+  },
+  "name": "Marcus Aurelius Antoninus",
+  "strongest_amplifier": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "reciprocal_pairs",
+    "dominant_pattern": "radiating",
+    "kamea": "mars",
+    "planet": "Mars",
+    "score": 0.49906629318394025
+  },
+  "strongest_driver": {
+    "cipher": "ordinal",
+    "dominant_motif": "hubs",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.2727272727272727
+  },
+  "strongest_regulator": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "reciprocal_pairs",
+    "dominant_pattern": "radiating",
+    "kamea": "mars",
+    "planet": "Mars",
+    "score": 0.8098350451291628
+  },
+  "summary_lines": [
+    "Profile contains 21 deterministic analyses.",
+    "Most common pattern is radiating, appearing 21 times.",
+    "Most common motif is chains, appearing 16 times.",
+    "Strongest driver: Saturn / ordinal at 0.2727 (radiating / hubs).",
+    "Strongest amplifier: Mars / hebrew_literal at 0.4991 (radiating / reciprocal_pairs).",
+    "Strongest regulator: Mars / hebrew_literal at 0.8098 (radiating / reciprocal_pairs)."
+  ]
+}

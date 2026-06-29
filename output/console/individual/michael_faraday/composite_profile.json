@@ -1,0 +1,96 @@
+{
+  "analysis_count": 21,
+  "analysis_files": [
+    {
+      "file": "hebrew_literal_jupiter.json",
+      "path": "output/console/individual/michael_faraday/hebrew_literal_jupiter.json"
+    },
+    {
+      "file": "hebrew_literal_mars.json",
+      "path": "output/console/individual/michael_faraday/hebrew_literal_mars.json"
+    },
+    {
+      "file": "hebrew_literal_mercury.json",
+      "path": "output/console/individual/michael_faraday/hebrew_literal_mercury.json"
+    },
+    {
+      "file": "hebrew_literal_moon.json",
+      "path": "output/console/individual/michael_faraday/hebrew_literal_moon.json"
+    },
+    {
+      "file": "hebrew_literal_saturn.json",
+      "path": "output/console/individual/michael_faraday/hebrew_literal_saturn.json"
+    },
+    {
+      "file": "hebrew_literal_sun.json",
+      "path": "output/console/individual/michael_faraday/hebrew_literal_sun.json"
+    },
+    {
+      "file": "hebrew_literal_venus.json",
+      "path": "output/console/individual/michael_faraday/hebrew_literal_venus.json"
+    },
+    {
+      "file": "hebrew_phonetic_jupiter.json",
+      "path": "output/console/individual/michael_faraday/hebrew_phonetic_jupiter.json"
+    },
+    {
+      "file": "hebrew_phonetic_mars.json",
+      "path": "output/console/individual/michael_faraday/hebrew_phonetic_mars.json"
+    },
+    {
+      "file": "hebrew_phonetic_mercury.json",
+      "path": "output/console/individual/michael_faraday/hebrew_phonetic_mercury.json"
+    },
+    {
+      "file": "hebrew_phonetic_moon.json",
+      "path": "output/console/individual/michael_faraday/hebrew_phonetic_moon.json"
+    },
+    {
+      "file": "hebrew_phonetic_saturn.json",
+      "path": "output/console/individual/michael_faraday/hebrew_phonetic_saturn.json"
+    },
+    {
+      "file": "hebrew_phonetic_sun.json",
+      "path": "output/console/individual/michael_faraday/hebrew_phonetic_sun.json"
+    },
+    {
+      "file": "hebrew_phonetic_venus.json",
+      "path": "output/console/individual/michael_faraday/hebrew_phonetic_venus.json"
+    },
+    {
+      "file": "ordinal_jupiter.json",
+      "path": "output/console/individual/michael_faraday/ordinal_jupiter.json"
+    },
+    {
+      "file": "ordinal_mars.json",
+      "path": "output/console/individual/michael_faraday/ordinal_mars.json"
+    },
+    {
+      "file": "ordinal_mercury.json",
+      "path": "output/console/individual/michael_faraday/ordinal_mercury.json"
+    },
+    {
+      "file": "ordinal_moon.json",
+      "path": "output/console/individual/michael_faraday/ordinal_moon.json"
+    },
+    {
+      "file": "ordinal_saturn.json",
+      "path": "output/console/individual/michael_faraday/ordinal_saturn.json"
+    },
+    {
+      "file": "ordinal_sun.json",
+      "path": "output/console/individual/michael_faraday/ordinal_sun.json"
+    },
+    {
+      "file": "ordinal_venus.json",
+      "path": "output/console/individual/michael_faraday/ordinal_venus.json"
+    }
+  ],
+  "codex_report_markdown": "output/console/individual/michael_faraday/michael_faraday_codex_report.md",
+  "composite_overlay_svg": "output/console/individual/michael_faraday/michael_faraday_composite_overlay.svg",
+  "name": "Michael Faraday",
+  "profile_dir": "output/console/individual/michael_faraday",
+  "profile_interpretation_json": "output/console/individual/michael_faraday/michael_faraday_profile_interpretation.json",
+  "profile_key": "michael_faraday",
+  "profile_summary_json": "output/console/individual/michael_faraday/michael_faraday_profile_summary.json"
+}

@@ -1,0 +1,45 @@
+{
+  "analysis_count": 21,
+  "dominant_motifs": {
+    "chains": 12,
+    "loops": 1,
+    "reciprocal_pairs": 8
+  },
+  "dominant_patterns": {
+    "looping": 6,
+    "radiating": 15
+  },
+  "name": "Marie Sk\u0142odowska Curie",
+  "strongest_amplifier": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "reciprocal_pairs",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.5777777777777778
+  },
+  "strongest_driver": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "reciprocal_pairs",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.2777777777777778
+  },
+  "strongest_regulator": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "reciprocal_pairs",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.8240740740740741
+  },
+  "summary_lines": [
+    "Profile contains 21 deterministic analyses.",
+    "Most common pattern is radiating, appearing 15 times.",
+    "Most common motif is chains, appearing 12 times.",
+    "Strongest driver: Saturn / hebrew_literal at 0.2778 (radiating / reciprocal_pairs).",
+    "Strongest amplifier: Saturn / hebrew_literal at 0.5778 (radiating / reciprocal_pairs).",
+    "Strongest regulator: Saturn / hebrew_literal at 0.8241 (radiating / reciprocal_pairs)."
+  ]
+}

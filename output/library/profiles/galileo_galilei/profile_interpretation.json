@@ -1,0 +1,44 @@
+{
+  "analysis_count": 21,
+  "dominant_motifs": {
+    "chains": 21
+  },
+  "dominant_patterns": {
+    "dense": 2,
+    "looping": 17,
+    "radiating": 2
+  },
+  "name": "Galileo Galilei",
+  "strongest_amplifier": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "radiating",
+    "kamea": "mars",
+    "planet": "Mars",
+    "score": 0.6214285714285714
+  },
+  "strongest_driver": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "dense",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.46153846153846156
+  },
+  "strongest_regulator": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "radiating",
+    "kamea": "mars",
+    "planet": "Mars",
+    "score": 0.773968253968254
+  },
+  "summary_lines": [
+    "Profile contains 21 deterministic analyses.",
+    "Most common pattern is looping, appearing 17 times.",
+    "Most common motif is chains, appearing 21 times.",
+    "Strongest driver: Saturn / hebrew_literal at 0.4615 (dense / chains).",
+    "Strongest amplifier: Mars / hebrew_literal at 0.6214 (radiating / chains).",
+    "Strongest regulator: Mars / hebrew_literal at 0.7740 (radiating / chains)."
+  ]
+}

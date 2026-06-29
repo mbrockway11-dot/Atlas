@@ -1,0 +1,44 @@
+{
+  "analysis_count": 21,
+  "dominant_motifs": {
+    "bridges": 17,
+    "chains": 4
+  },
+  "dominant_patterns": {
+    "linear": 15,
+    "looping": 6
+  },
+  "name": "Plato",
+  "strongest_amplifier": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "looping",
+    "kamea": "jupiter",
+    "planet": "Jupiter",
+    "score": 0.19444444444444442
+  },
+  "strongest_driver": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "looping",
+    "kamea": "jupiter",
+    "planet": "Jupiter",
+    "score": 0.5
+  },
+  "strongest_regulator": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "bridges",
+    "dominant_pattern": "looping",
+    "kamea": "mars",
+    "planet": "Mars",
+    "score": 0.638888888888889
+  },
+  "summary_lines": [
+    "Profile contains 21 deterministic analyses.",
+    "Most common pattern is linear, appearing 15 times.",
+    "Most common motif is bridges, appearing 17 times.",
+    "Strongest driver: Jupiter / hebrew_literal at 0.5000 (looping / chains).",
+    "Strongest amplifier: Jupiter / hebrew_literal at 0.1944 (looping / chains).",
+    "Strongest regulator: Mars / hebrew_literal at 0.6389 (looping / bridges)."
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "analysis_count": 21,
+  "dominant_motifs": {
+    "bridges": 2,
+    "chains": 19
+  },
+  "dominant_patterns": {
+    "looping": 18,
+    "radiating": 3
+  },
+  "name": "Sigmund Freud",
+  "strongest_amplifier": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "bridges",
+    "dominant_pattern": "looping",
+    "kamea": "mars",
+    "planet": "Mars",
+    "score": 0.3253968253968254
+  },
+  "strongest_driver": {
+    "cipher": "ordinal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "radiating",
+    "kamea": "jupiter",
+    "planet": "Jupiter",
+    "score": 0.2727272727272727
+  },
+  "strongest_regulator": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.7688311688311688
+  },
+  "summary_lines": [
+    "Profile contains 21 deterministic analyses.",
+    "Most common pattern is looping, appearing 18 times.",
+    "Most common motif is chains, appearing 19 times.",
+    "Strongest driver: Jupiter / ordinal at 0.2727 (radiating / chains).",
+    "Strongest amplifier: Mars / hebrew_literal at 0.3254 (looping / bridges).",
+    "Strongest regulator: Saturn / hebrew_literal at 0.7688 (radiating / chains)."
+  ]
+}

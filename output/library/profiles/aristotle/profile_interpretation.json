@@ -1,0 +1,45 @@
+{
+  "analysis_count": 21,
+  "dominant_motifs": {
+    "bridges": 17,
+    "chains": 2,
+    "loops": 2
+  },
+  "dominant_patterns": {
+    "looping": 19,
+    "reciprocal": 2
+  },
+  "name": "Aristotle",
+  "strongest_amplifier": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "loops",
+    "dominant_pattern": "reciprocal",
+    "kamea": "mars",
+    "planet": "Mars",
+    "score": 0.3333333333333333
+  },
+  "strongest_driver": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "loops",
+    "dominant_pattern": "reciprocal",
+    "kamea": "mars",
+    "planet": "Mars",
+    "score": 0.375
+  },
+  "strongest_regulator": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "loops",
+    "dominant_pattern": "reciprocal",
+    "kamea": "mars",
+    "planet": "Mars",
+    "score": 0.8277777777777778
+  },
+  "summary_lines": [
+    "Profile contains 21 deterministic analyses.",
+    "Most common pattern is looping, appearing 19 times.",
+    "Most common motif is bridges, appearing 17 times.",
+    "Strongest driver: Mars / hebrew_literal at 0.3750 (reciprocal / loops).",
+    "Strongest amplifier: Mars / hebrew_literal at 0.3333 (reciprocal / loops).",
+    "Strongest regulator: Mars / hebrew_literal at 0.8278 (reciprocal / loops)."
+  ]
+}

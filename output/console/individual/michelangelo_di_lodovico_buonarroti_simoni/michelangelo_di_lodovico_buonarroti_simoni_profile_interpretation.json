@@ -1,0 +1,44 @@
+{
+  "analysis_count": 21,
+  "dominant_motifs": {
+    "chains": 7,
+    "hubs": 3,
+    "reciprocal_pairs": 11
+  },
+  "dominant_patterns": {
+    "radiating": 21
+  },
+  "name": "Michelangelo di Lodovico Buonarroti Simoni",
+  "strongest_amplifier": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "reciprocal_pairs",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.5734989648033126
+  },
+  "strongest_driver": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "reciprocal_pairs",
+    "dominant_pattern": "radiating",
+    "kamea": "jupiter",
+    "planet": "Jupiter",
+    "score": 0.24324324324324326
+  },
+  "strongest_regulator": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "reciprocal_pairs",
+    "dominant_pattern": "radiating",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.9056360708534621
+  },
+  "summary_lines": [
+    "Profile contains 21 deterministic analyses.",
+    "Most common pattern is radiating, appearing 21 times.",
+    "Most common motif is reciprocal_pairs, appearing 11 times.",
+    "Strongest driver: Jupiter / hebrew_literal at 0.2432 (radiating / reciprocal_pairs).",
+    "Strongest amplifier: Saturn / hebrew_literal at 0.5735 (radiating / reciprocal_pairs).",
+    "Strongest regulator: Saturn / hebrew_literal at 0.9056 (radiating / reciprocal_pairs)."
+  ]
+}

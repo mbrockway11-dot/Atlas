@@ -1,0 +1,44 @@
+{
+  "analysis_count": 21,
+  "dominant_motifs": {
+    "chains": 21
+  },
+  "dominant_patterns": {
+    "looping": 17,
+    "radiating": 2,
+    "reciprocal": 2
+  },
+  "name": "Alan Turing",
+  "strongest_amplifier": {
+    "cipher": "ordinal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "looping",
+    "kamea": "saturn",
+    "planet": "Saturn",
+    "score": 0.3222222222222222
+  },
+  "strongest_driver": {
+    "cipher": "hebrew_literal",
+    "dominant_motif": "chains",
+    "dominant_pattern": "reciprocal",
+    "kamea": "mars",
+    "planet": "Mars",
+    "score": 0.4444444444444444
+  },
+  "strongest_regulator": {
+    "cipher": "hebrew_phonetic",
+    "dominant_motif": "chains",
+    "dominant_pattern": "reciprocal",
+    "kamea": "mars",
+    "planet": "Mars",
+    "score": 0.9265873015873015
+  },
+  "summary_lines": [
+    "Profile contains 21 deterministic analyses.",
+    "Most common pattern is looping, appearing 17 times.",
+    "Most common motif is chains, appearing 21 times.",
+    "Strongest driver: Mars / hebrew_literal at 0.4444 (reciprocal / chains).",
+    "Strongest amplifier: Saturn / ordinal at 0.3222 (looping / chains).",
+    "Strongest regulator: Mars / hebrew_phonetic at 0.9266 (reciprocal / chains)."
+  ]
+}
