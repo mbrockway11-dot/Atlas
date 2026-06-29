@@ -14,6 +14,7 @@ from atlas.corpus.validation import (
     validate_profile_library,
     validation_result_to_dict,
 )
+from atlas.fusion import build_translation_fusion_report
 from atlas.ive import (
     build_identity_vector,
     identity_vector_to_dict,
@@ -58,11 +59,13 @@ def build_research_corpus(
             normalization_mode=normalization_mode,
         )
         ontology = synthesize_identity_ontology(identity_vector)
+        translation_fusion = build_translation_fusion_report(acf)
 
         rows.append(
             flatten_profile_record(
                 identity_vector=identity_vector,
                 ontology=ontology,
+                translation_fusion=translation_fusion,
             )
         )
 
@@ -118,8 +121,9 @@ def flatten_profile_record(
     *,
     identity_vector,
     ontology: dict,
+    translation_fusion=None,
 ) -> dict[str, Any]:
-    """Flatten IdentityVector + ontology into one corpus row."""
+    """Flatten IdentityVector + ontology + fusion into one corpus row."""
     data = identity_vector_to_dict(identity_vector)
 
     row: dict[str, Any] = {
@@ -163,4 +167,40 @@ def flatten_profile_record(
         key = archetype["key"]
         row[f"archetype_{key}"] = archetype["score"]
 
+    if translation_fusion is not None:
+        add_translation_fusion_fields(
+            row=row,
+            translation_fusion=translation_fusion,
+        )
+
     return row
+
+
+def add_translation_fusion_fields(
+    *,
+    row: dict[str, Any],
+    translation_fusion,
+) -> None:
+    """Add translation-fusion agreement and confidence fields to corpus row."""
+    row["fusion_global_agreement_score"] = (
+        translation_fusion.global_agreement_score
+    )
+    row["fusion_global_confidence_score"] = (
+        translation_fusion.global_confidence_score
+    )
+    row["fusion_global_completeness"] = (
+        translation_fusion.global_completeness
+    )
+
+    for planet, planet_fusion in translation_fusion.planets.items():
+        prefix = planet.lower()
+
+        row[f"fusion_{prefix}_agreement_score"] = (
+            planet_fusion.agreement_score
+        )
+        row[f"fusion_{prefix}_confidence_score"] = (
+            planet_fusion.confidence_score
+        )
+        row[f"fusion_{prefix}_completeness"] = (
+            planet_fusion.completeness
+        )

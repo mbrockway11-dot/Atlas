@@ -29,3 +29,12 @@ def test_build_research_corpus(tmp_path):
     assert (output_directory / "vectors.csv").exists()
     assert (output_directory / "metadata.json").exists()
     assert (output_directory / "statistics.json").exists()
+
+    row = result["rows"][0]
+
+    assert "fusion_global_agreement_score" in row
+    assert "fusion_global_confidence_score" in row
+    assert "fusion_global_completeness" in row
+    assert "fusion_saturn_agreement_score" in row
+    assert "fusion_saturn_confidence_score" in row
+    assert "fusion_saturn_completeness" in row
