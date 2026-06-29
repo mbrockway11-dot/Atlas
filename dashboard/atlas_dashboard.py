@@ -43,13 +43,14 @@ def main() -> None:
     debug("loading page imports")
 
     from pages.compare_profiles import render_compare_profiles_page
+    from pages.developer_console import render_developer_console_page
     from pages.identity_stack_lab import render_identity_stack_lab_page
+    from pages.intelligence_engine import render_intelligence_engine_page
     from pages.morphology_lab import render_morphology_lab_page
     from pages.population_intelligence import render_population_intelligence_page
     from pages.population_observatory import render_population_observatory_page
-    from pages.population_validation import render_population_validation_page
     from pages.population_topology import render_population_topology_page
-    from pages.statistical_intelligence import render_statistical_intelligence_page
+    from pages.population_validation import render_population_validation_page
     from pages.profile_builder import render_profile_builder_page
     from pages.profile_library import render_profile_library_page
     from pages.profile_observatory import render_profile_observatory_page
@@ -57,6 +58,7 @@ def main() -> None:
     from pages.research_corpus import render_research_corpus_page
     from pages.research_session import render_research_session_page
     from pages.role_calibration_lab import render_role_calibration_lab_page
+    from pages.statistical_intelligence import render_statistical_intelligence_page
     from pages.temporal_intelligence import render_temporal_intelligence_page
     from pages.validation_lab import render_validation_lab_page
 
@@ -65,6 +67,7 @@ def main() -> None:
     page = st.sidebar.radio(
         "Navigation",
         [
+            "Developer Console",
             "Profile Builder",
             "Profile Observatory",
             "Population Observatory",
@@ -72,6 +75,7 @@ def main() -> None:
             "Population Validation Lab",
             "Population Topology",
             "Statistical Intelligence",
+            "Intelligence Engine",
             "Temporal Intelligence",
             "Research Session",
             "Identity Stack Lab",
@@ -87,53 +91,38 @@ def main() -> None:
 
     debug(f"selected page: {page}")
 
-    if page == "Profile Builder":
+    if page == "Developer Console":
+        safe_render("Developer Console", render_developer_console_page)
+
+    elif page == "Profile Builder":
         safe_render("Profile Builder", render_profile_builder_page)
 
     elif page == "Profile Observatory":
         safe_render("Profile Observatory", render_profile_observatory_page)
 
     elif page == "Population Observatory":
-        safe_render(
-            "Population Observatory",
-            render_population_observatory_page,
-        )
+        safe_render("Population Observatory", render_population_observatory_page)
 
     elif page == "Population Intelligence":
-        safe_render(
-            "Population Intelligence",
-            render_population_intelligence_page,
-        )
+        safe_render("Population Intelligence", render_population_intelligence_page)
 
     elif page == "Population Validation Lab":
-        safe_render(
-            "Population Validation Lab",
-            render_population_validation_page,
-        )
+        safe_render("Population Validation Lab", render_population_validation_page)
 
     elif page == "Population Topology":
-        safe_render(
-            "Population Topology",
-            render_population_topology_page,
-        )
+        safe_render("Population Topology", render_population_topology_page)
 
     elif page == "Statistical Intelligence":
-        safe_render(
-            "Statistical Intelligence",
-            render_statistical_intelligence_page,
-        )
+        safe_render("Statistical Intelligence", render_statistical_intelligence_page)
+
+    elif page == "Intelligence Engine":
+        safe_render("Intelligence Engine", render_intelligence_engine_page)
 
     elif page == "Temporal Intelligence":
-        safe_render(
-            "Temporal Intelligence",
-            render_temporal_intelligence_page,
-        )
+        safe_render("Temporal Intelligence", render_temporal_intelligence_page)
 
     elif page == "Research Session":
-        safe_render(
-            "Research Session",
-            render_research_session_page,
-        )
+        safe_render("Research Session", render_research_session_page)
 
     elif page == "Identity Stack Lab":
         safe_render("Identity Stack Lab", render_identity_stack_lab_page)

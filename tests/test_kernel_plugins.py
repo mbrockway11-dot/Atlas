@@ -1,5 +1,5 @@
 from atlas.core.context import ResearchContext
-from atlas.core.pipeline import run_core_pipeline
+from atlas.kernel.runtime import AtlasKernel
 from atlas.plugins.registry import build_default_registry, default_enabled_plugins
 
 
@@ -11,7 +11,7 @@ def sample_context() -> ResearchContext:
     )
 
 
-def test_default_registry_contains_expected_plugins():
+def test_default_registry_contains_kernel_plugins():
     registry = build_default_registry()
 
     assert registry.names() == [
@@ -22,7 +22,7 @@ def test_default_registry_contains_expected_plugins():
     ]
 
 
-def test_default_enabled_plugins_are_declared():
+def test_default_enabled_plugins_include_validation_and_statistics():
     assert default_enabled_plugins() == {
         "identity",
         "validation",
@@ -31,7 +31,7 @@ def test_default_enabled_plugins_are_declared():
     }
 
 
-def test_default_registry_orders_dependencies():
+def test_default_registry_dependency_order():
     registry = build_default_registry()
     ordered = registry.ordered(enabled=default_enabled_plugins())
 
@@ -43,14 +43,25 @@ def test_default_registry_orders_dependencies():
     ]
 
 
-def test_identity_plugin_can_run_alone():
-    registry = build_default_registry()
+def test_kernel_can_run_identity_only_pipeline():
+    kernel = AtlasKernel(manifest_path="missing_plugins.yaml")
+    context = sample_context()
 
-    result = run_core_pipeline(
-        sample_context(),
-        registry=registry,
-        enabled={"identity"},
-    )
+    result, metrics = kernel.run_context(context, enabled={"identity"})
 
     assert result.data["identity"]["display_name"] == "Alpha"
-    assert any(item["section"] == "identity" for item in result.provenance)
+    assert metrics.plugin_timings[0].plugin == "identity"
+    assert metrics.plugin_timings[0].status == "ok"
+
+
+def test_kernel_records_failure_for_unavailable_profile_pipeline():
+    kernel = AtlasKernel(manifest_path="missing_plugins.yaml")
+    context = sample_context()
+
+    result, metrics = kernel.run_context(
+        context,
+        enabled={"identity", "intelligence"},
+    )
+
+    assert "identity" in result.data
+    assert metrics.plugin_timings

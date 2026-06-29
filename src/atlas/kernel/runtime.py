@@ -132,9 +132,35 @@ class AtlasKernel:
 
         payload["kernel"] = {
             "runtime": "atlas.kernel.runtime.AtlasKernel",
+            "mode": "atlas_profile_service",
+            "enabled_plugins": sorted(self.enabled_plugins()),
             "metrics": metrics.to_dict(),
         }
 
+        return payload
+
+    def run_profile_pipeline(
+        self,
+        profile_key: str,
+        config: IntelligenceEngineConfig | None = None,
+        *,
+        enabled: set[str] | None = None,
+    ) -> dict[str, Any]:
+        """Run core plugin pipeline and return context payload.
+
+        This exposes the registry-managed execution path directly. It is useful
+        for developer diagnostics and future migration work.
+        """
+        context = self.build_context(profile_key, config=config)
+        result, metrics = self.run_context(context, enabled=enabled)
+
+        payload = result.to_dict()
+        payload["kernel"] = {
+            "runtime": "atlas.kernel.runtime.AtlasKernel",
+            "mode": "core_pipeline",
+            "enabled_plugins": sorted(enabled if enabled is not None else self.enabled_plugins()),
+            "metrics": metrics.to_dict(),
+        }
         return payload
 
     def load_base_profile(self, profile_key: str) -> AtlasProfile:
