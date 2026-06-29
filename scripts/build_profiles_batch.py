@@ -1,12 +1,18 @@
-"""Build Atlas ACF profiles from a batch name list."""
+"""Build Atlas ACF profiles from TXT or CSV intake datasets."""
 
 from __future__ import annotations
 
 import argparse
+import json
 import re
 from pathlib import Path
 
 from atlas.acf.builder import export_acf_profile
+from atlas.datasets import (
+    IdentityRecord,
+    dataset_load_result_to_dict,
+    load_dataset,
+)
 
 
 DEFAULT_INPUT = "research/profile_intake/names.txt"
@@ -14,15 +20,15 @@ DEFAULT_OUTPUT = "output/library/profiles"
 
 
 def main() -> None:
-    """Build profiles from one-name-per-line input file."""
+    """Build profiles from TXT or CSV intake file."""
     parser = argparse.ArgumentParser(
-        description="Build Atlas profiles from a batch name list."
+        description="Build Atlas profiles from TXT or CSV intake datasets."
     )
 
     parser.add_argument(
         "--input",
         default=DEFAULT_INPUT,
-        help="Text file containing one profile name per line.",
+        help="Input TXT or CSV dataset.",
     )
 
     parser.add_argument(
@@ -37,92 +43,108 @@ def main() -> None:
         help="Overwrite existing profile.acf.json files.",
     )
 
+    parser.add_argument(
+        "--report",
+        default="output/dataset_load_report.json",
+        help="Dataset load validation report path.",
+    )
+
     args = parser.parse_args()
 
     input_path = Path(args.input)
     output_dir = Path(args.output)
+    report_path = Path(args.report)
 
     if not input_path.exists():
-        raise FileNotFoundError(f"Name intake file not found: {input_path}")
+        raise FileNotFoundError(f"Intake file not found: {input_path}")
 
-    names = load_names(input_path)
+    load_result = load_dataset(input_path)
+    records = load_result.records
 
-    if not names:
-        raise ValueError(f"No names found in {input_path}")
+    if not records:
+        raise ValueError(f"No valid records found in {input_path}")
 
     output_dir.mkdir(parents=True, exist_ok=True)
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+
+    report_path.write_text(
+        json.dumps(
+            dataset_load_result_to_dict(load_result),
+            indent=2,
+            sort_keys=True,
+        ),
+        encoding="utf-8",
+    )
 
     built = 0
     skipped = 0
+    failed = 0
 
     print("")
     print("Atlas Batch Profile Builder")
     print("=" * 56)
-    print(f"Input: {input_path}")
-    print(f"Output: {output_dir}")
-    print(f"Names: {len(names)}")
+    print(f"Input:   {input_path}")
+    print(f"Output:  {output_dir}")
+    print(f"Report:  {report_path}")
+    print(f"Records: {len(records)}")
+    print(f"Issues:  {len(load_result.issues)}")
     print("")
 
-    for name in names:
-        slug = slugify_name(name)
+    for record in records:
+        slug = slugify_name(record.name)
         profile_dir = output_dir / slug
         acf_path = profile_dir / "profile.acf.json"
+        metadata_path = profile_dir / "profile.intake.json"
 
         if acf_path.exists() and not args.overwrite:
             skipped += 1
-            print(f"SKIP  {name} -> {acf_path}")
+            print(f"SKIP  {record.name} -> {acf_path}")
             continue
 
         profile_dir.mkdir(parents=True, exist_ok=True)
 
-        export_acf_profile(
-            name=name,
-            output_path=acf_path,
-        )
+        try:
+            export_acf_profile(
+                name=record.name,
+                output_path=acf_path,
+            )
 
-        built += 1
-        print(f"BUILT {name} -> {acf_path}")
+            metadata_path.write_text(
+                json.dumps(
+                    identity_record_to_metadata(record),
+                    indent=2,
+                    sort_keys=True,
+                ),
+                encoding="utf-8",
+            )
+
+            built += 1
+            print(f"BUILT {record.name} -> {acf_path}")
+
+        except Exception as error:
+            failed += 1
+            print(f"FAIL  {record.name}: {error}")
 
     print("")
     print("Batch complete")
     print("=" * 56)
     print(f"Built:   {built}")
     print(f"Skipped: {skipped}")
+    print(f"Failed:  {failed}")
 
 
-def load_names(path: Path) -> list[str]:
-    """Load one name per line, ignoring blanks and comments."""
-    names = []
-
-    for line in path.read_text(encoding="utf-8").splitlines():
-        cleaned = line.strip()
-
-        if not cleaned:
-            continue
-
-        if cleaned.startswith("#"):
-            continue
-
-        names.append(cleaned)
-
-    return dedupe_preserve_order(names)
-
-
-def dedupe_preserve_order(values: list[str]) -> list[str]:
-    """Deduplicate values while preserving input order."""
-    seen = set()
-    deduped = []
-
-    for value in values:
-        key = value.casefold()
-
-        if key in seen:
-            continue
-
-        seen.add(key)
-        deduped.append(value)
-
-    return deduped
+def identity_record_to_metadata(
+    record: IdentityRecord,
+) -> dict[str, str | int]:
+    """Convert IdentityRecord to saved intake metadata."""
+    return {
+        "name": record.name,
+        "birth_date": record.birth_date,
+        "birth_time": record.birth_time,
+        "birth_place": record.birth_place,
+        "source_file": record.source_file,
+        "row_number": record.row_number,
+    }
 
 
 def slugify_name(name: str) -> str:

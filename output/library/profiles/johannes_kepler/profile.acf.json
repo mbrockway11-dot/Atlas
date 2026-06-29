@@ -9950,6 +9950,18 @@
             "repeat_edge_ratio": 0.08333333333333333,
             "repeat_node_ratio": 0.5714285714285713,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.40109890109890106,
+            "bridge": 0.15384615384615385,
+            "core": 0.28571428571428564,
+            "exit": 0.9230769230769232,
+            "gateway": 0.7692307692307692,
+            "hub": 0.2692307692307692,
+            "isolate": 0.0,
+            "leaf": 0.0,
+            "loop_anchor": 0.0,
+            "oscillator": 0.25
           }
         },
         "grid_size": 3,
@@ -11916,6 +11928,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.22222222222222224,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.26495726495726496,
+            "bridge": 0.07692307692307693,
+            "core": 0.28571428571428564,
+            "exit": 0.7692307692307692,
+            "gateway": 1.0,
+            "hub": 0.2692307692307692,
+            "isolate": 0.0,
+            "leaf": 0.11111111111111112,
+            "loop_anchor": 0.0,
+            "oscillator": 0.3333333333333333
           }
         },
         "grid_size": 4,
@@ -13964,6 +13988,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.2727272727272727,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.2132867132867133,
+            "bridge": 0.07692307692307693,
+            "core": 0.14285714285714282,
+            "exit": 1.0,
+            "gateway": 1.0,
+            "hub": 0.15384615384615385,
+            "isolate": 0.0,
+            "leaf": 0.18181818181818185,
+            "loop_anchor": 0.0,
+            "oscillator": 0.16666666666666666
           }
         },
         "grid_size": 5,
@@ -16377,6 +16413,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.16666666666666666,
             "self_loop_ratio": 0.15384615384615385
+          },
+          "structural_roles": {
+            "attractor": 0.16025641025641024,
+            "bridge": 0.07692307692307693,
+            "core": 0.14285714285714282,
+            "exit": 0.9230769230769232,
+            "gateway": 1.0,
+            "hub": 0.15384615384615385,
+            "isolate": 0.0,
+            "leaf": 0.08333333333333333,
+            "loop_anchor": 0.15384615384615385,
+            "oscillator": 0.0
           }
         },
         "grid_size": 6,
@@ -18971,6 +19019,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.07692307692307693,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.1153846153846154,
+            "bridge": 0.07692307692307693,
+            "core": 0.14285714285714282,
+            "exit": 1.0,
+            "gateway": 1.0,
+            "hub": 0.15384615384615385,
+            "isolate": 0.0,
+            "leaf": 0.15384615384615385,
+            "loop_anchor": 0.0,
+            "oscillator": 0.0
           }
         },
         "grid_size": 7,
@@ -21209,6 +21269,18 @@
             "repeat_edge_ratio": 0.08333333333333333,
             "repeat_node_ratio": 0.3333333333333333,
             "self_loop_ratio": 0.2307692307692308
+          },
+          "structural_roles": {
+            "attractor": 0.3205128205128205,
+            "bridge": 0.15384615384615385,
+            "core": 0.28571428571428564,
+            "exit": 1.0,
+            "gateway": 1.0,
+            "hub": 0.3076923076923077,
+            "isolate": 0.0,
+            "leaf": 0.22222222222222224,
+            "loop_anchor": 0.2307692307692308,
+            "oscillator": 0.08333333333333333
           }
         },
         "grid_size": 8,
@@ -24197,6 +24269,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.07692307692307693,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.1153846153846154,
+            "bridge": 0.07692307692307693,
+            "core": 0.14285714285714282,
+            "exit": 0.9230769230769232,
+            "gateway": 1.0,
+            "hub": 0.1153846153846154,
+            "isolate": 0.0,
+            "leaf": 0.07692307692307693,
+            "loop_anchor": 0.0,
+            "oscillator": 0.0
           }
         },
         "grid_size": 9,
@@ -25868,6 +25952,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.7142857142857143,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.47252747252747257,
+            "bridge": 0.07692307692307693,
+            "core": 0.28571428571428564,
+            "exit": 1.0,
+            "gateway": 0.7692307692307692,
+            "hub": 0.2692307692307692,
+            "isolate": 0.0,
+            "leaf": 0.14285714285714282,
+            "loop_anchor": 0.0,
+            "oscillator": 0.16666666666666666
           }
         },
         "grid_size": 3,
@@ -27878,6 +27974,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.2727272727272727,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.2132867132867133,
+            "bridge": 0.07692307692307693,
+            "core": 0.14285714285714282,
+            "exit": 1.0,
+            "gateway": 1.0,
+            "hub": 0.15384615384615385,
+            "isolate": 0.0,
+            "leaf": 0.18181818181818185,
+            "loop_anchor": 0.0,
+            "oscillator": 0.08333333333333333
           }
         },
         "grid_size": 4,
@@ -29846,6 +29954,18 @@
             "repeat_edge_ratio": 0.08333333333333333,
             "repeat_node_ratio": 0.42857142857142855,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.36813186813186816,
+            "bridge": 0.15384615384615385,
+            "core": 0.28571428571428564,
+            "exit": 0.7692307692307692,
+            "gateway": 1.0,
+            "hub": 0.2692307692307692,
+            "isolate": 0.0,
+            "leaf": 0.14285714285714282,
+            "loop_anchor": 0.0,
+            "oscillator": 0.08333333333333333
           }
         },
         "grid_size": 5,
@@ -32218,6 +32338,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.2727272727272727,
             "self_loop_ratio": 0.07692307692307693
+          },
+          "structural_roles": {
+            "attractor": 0.2132867132867133,
+            "bridge": 0.07692307692307693,
+            "core": 0.14285714285714282,
+            "exit": 0.9230769230769232,
+            "gateway": 1.0,
+            "hub": 0.15384615384615385,
+            "isolate": 0.0,
+            "leaf": 0.09090909090909093,
+            "loop_anchor": 0.07692307692307693,
+            "oscillator": 0.08333333333333333
           }
         },
         "grid_size": 6,
@@ -34643,6 +34775,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.0,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.038461538461538464,
+            "bridge": 0.07692307692307693,
+            "core": 0.07142857142857141,
+            "exit": 1.0,
+            "gateway": 1.0,
+            "hub": 0.07692307692307693,
+            "isolate": 0.0,
+            "leaf": 0.14285714285714282,
+            "loop_anchor": 0.0,
+            "oscillator": 0.0
           }
         },
         "grid_size": 7,
@@ -37202,6 +37346,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.08333333333333333,
             "self_loop_ratio": 0.07692307692307693
+          },
+          "structural_roles": {
+            "attractor": 0.15705128205128205,
+            "bridge": 0.07692307692307693,
+            "core": 0.21428571428571427,
+            "exit": 1.0,
+            "gateway": 1.0,
+            "hub": 0.2307692307692308,
+            "isolate": 0.0,
+            "leaf": 0.16666666666666666,
+            "loop_anchor": 0.07692307692307693,
+            "oscillator": 0.0
           }
         },
         "grid_size": 8,
@@ -40005,6 +40161,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.0,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.038461538461538464,
+            "bridge": 0.07692307692307693,
+            "core": 0.07142857142857141,
+            "exit": 1.0,
+            "gateway": 1.0,
+            "hub": 0.07692307692307693,
+            "isolate": 0.0,
+            "leaf": 0.14285714285714282,
+            "loop_anchor": 0.0,
+            "oscillator": 0.0
           }
         },
         "grid_size": 9,
@@ -41676,6 +41844,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.7142857142857143,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.47252747252747257,
+            "bridge": 0.07692307692307693,
+            "core": 0.28571428571428564,
+            "exit": 1.0,
+            "gateway": 0.7692307692307692,
+            "hub": 0.2692307692307692,
+            "isolate": 0.0,
+            "leaf": 0.14285714285714282,
+            "loop_anchor": 0.0,
+            "oscillator": 0.16666666666666666
           }
         },
         "grid_size": 3,
@@ -43686,6 +43866,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.2727272727272727,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.2132867132867133,
+            "bridge": 0.07692307692307693,
+            "core": 0.14285714285714282,
+            "exit": 1.0,
+            "gateway": 1.0,
+            "hub": 0.15384615384615385,
+            "isolate": 0.0,
+            "leaf": 0.18181818181818185,
+            "loop_anchor": 0.0,
+            "oscillator": 0.08333333333333333
           }
         },
         "grid_size": 4,
@@ -45654,6 +45846,18 @@
             "repeat_edge_ratio": 0.08333333333333333,
             "repeat_node_ratio": 0.42857142857142855,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.36813186813186816,
+            "bridge": 0.15384615384615385,
+            "core": 0.28571428571428564,
+            "exit": 0.7692307692307692,
+            "gateway": 1.0,
+            "hub": 0.2692307692307692,
+            "isolate": 0.0,
+            "leaf": 0.14285714285714282,
+            "loop_anchor": 0.0,
+            "oscillator": 0.08333333333333333
           }
         },
         "grid_size": 5,
@@ -48026,6 +48230,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.2727272727272727,
             "self_loop_ratio": 0.07692307692307693
+          },
+          "structural_roles": {
+            "attractor": 0.2132867132867133,
+            "bridge": 0.07692307692307693,
+            "core": 0.14285714285714282,
+            "exit": 0.9230769230769232,
+            "gateway": 1.0,
+            "hub": 0.15384615384615385,
+            "isolate": 0.0,
+            "leaf": 0.09090909090909093,
+            "loop_anchor": 0.07692307692307693,
+            "oscillator": 0.08333333333333333
           }
         },
         "grid_size": 6,
@@ -50451,6 +50667,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.0,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.038461538461538464,
+            "bridge": 0.07692307692307693,
+            "core": 0.07142857142857141,
+            "exit": 1.0,
+            "gateway": 1.0,
+            "hub": 0.07692307692307693,
+            "isolate": 0.0,
+            "leaf": 0.14285714285714282,
+            "loop_anchor": 0.0,
+            "oscillator": 0.0
           }
         },
         "grid_size": 7,
@@ -53010,6 +53238,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.08333333333333333,
             "self_loop_ratio": 0.07692307692307693
+          },
+          "structural_roles": {
+            "attractor": 0.15705128205128205,
+            "bridge": 0.07692307692307693,
+            "core": 0.21428571428571427,
+            "exit": 1.0,
+            "gateway": 1.0,
+            "hub": 0.2307692307692308,
+            "isolate": 0.0,
+            "leaf": 0.16666666666666666,
+            "loop_anchor": 0.07692307692307693,
+            "oscillator": 0.0
           }
         },
         "grid_size": 8,
@@ -55813,6 +56053,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.0,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.038461538461538464,
+            "bridge": 0.07692307692307693,
+            "core": 0.07142857142857141,
+            "exit": 1.0,
+            "gateway": 1.0,
+            "hub": 0.07692307692307693,
+            "isolate": 0.0,
+            "leaf": 0.14285714285714282,
+            "loop_anchor": 0.0,
+            "oscillator": 0.0
           }
         },
         "grid_size": 9,
@@ -65519,6 +65771,18 @@
             "repeat_edge_ratio": 0.08333333333333333,
             "repeat_node_ratio": 0.5714285714285713,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.40109890109890106,
+            "bridge": 0.15384615384615385,
+            "core": 0.28571428571428564,
+            "exit": 0.9230769230769232,
+            "gateway": 0.7692307692307692,
+            "hub": 0.2692307692307692,
+            "isolate": 0.0,
+            "leaf": 0.0,
+            "loop_anchor": 0.0,
+            "oscillator": 0.25
           }
         },
         "grid_size": 3,
@@ -67453,6 +67717,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.22222222222222224,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.26495726495726496,
+            "bridge": 0.07692307692307693,
+            "core": 0.28571428571428564,
+            "exit": 0.7692307692307692,
+            "gateway": 1.0,
+            "hub": 0.2692307692307692,
+            "isolate": 0.0,
+            "leaf": 0.11111111111111112,
+            "loop_anchor": 0.0,
+            "oscillator": 0.3333333333333333
           }
         },
         "grid_size": 4,
@@ -69481,6 +69757,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.2727272727272727,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.2132867132867133,
+            "bridge": 0.07692307692307693,
+            "core": 0.14285714285714282,
+            "exit": 1.0,
+            "gateway": 1.0,
+            "hub": 0.15384615384615385,
+            "isolate": 0.0,
+            "leaf": 0.18181818181818185,
+            "loop_anchor": 0.0,
+            "oscillator": 0.16666666666666666
           }
         },
         "grid_size": 5,
@@ -71883,6 +72171,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.16666666666666666,
             "self_loop_ratio": 0.15384615384615385
+          },
+          "structural_roles": {
+            "attractor": 0.16025641025641024,
+            "bridge": 0.07692307692307693,
+            "core": 0.14285714285714282,
+            "exit": 0.9230769230769232,
+            "gateway": 1.0,
+            "hub": 0.15384615384615385,
+            "isolate": 0.0,
+            "leaf": 0.08333333333333333,
+            "loop_anchor": 0.15384615384615385,
+            "oscillator": 0.0
           }
         },
         "grid_size": 6,
@@ -74466,6 +74766,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.07692307692307693,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.1153846153846154,
+            "bridge": 0.07692307692307693,
+            "core": 0.14285714285714282,
+            "exit": 1.0,
+            "gateway": 1.0,
+            "hub": 0.15384615384615385,
+            "isolate": 0.0,
+            "leaf": 0.15384615384615385,
+            "loop_anchor": 0.0,
+            "oscillator": 0.0
           }
         },
         "grid_size": 7,
@@ -76750,6 +77062,18 @@
             "repeat_edge_ratio": 0.08333333333333333,
             "repeat_node_ratio": 0.3333333333333333,
             "self_loop_ratio": 0.2307692307692308
+          },
+          "structural_roles": {
+            "attractor": 0.3205128205128205,
+            "bridge": 0.15384615384615385,
+            "core": 0.28571428571428564,
+            "exit": 1.0,
+            "gateway": 1.0,
+            "hub": 0.3076923076923077,
+            "isolate": 0.0,
+            "leaf": 0.22222222222222224,
+            "loop_anchor": 0.2307692307692308,
+            "oscillator": 0.08333333333333333
           }
         },
         "grid_size": 8,
@@ -79688,6 +80012,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.07692307692307693,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.1153846153846154,
+            "bridge": 0.07692307692307693,
+            "core": 0.14285714285714282,
+            "exit": 0.9230769230769232,
+            "gateway": 1.0,
+            "hub": 0.1153846153846154,
+            "isolate": 0.0,
+            "leaf": 0.07692307692307693,
+            "loop_anchor": 0.0,
+            "oscillator": 0.0
           }
         },
         "grid_size": 9,
@@ -81411,6 +81747,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.7142857142857143,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.47252747252747257,
+            "bridge": 0.07692307692307693,
+            "core": 0.28571428571428564,
+            "exit": 1.0,
+            "gateway": 0.7692307692307692,
+            "hub": 0.2692307692307692,
+            "isolate": 0.0,
+            "leaf": 0.14285714285714282,
+            "loop_anchor": 0.0,
+            "oscillator": 0.16666666666666666
           }
         },
         "grid_size": 3,
@@ -83383,6 +83731,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.2727272727272727,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.2132867132867133,
+            "bridge": 0.07692307692307693,
+            "core": 0.14285714285714282,
+            "exit": 1.0,
+            "gateway": 1.0,
+            "hub": 0.15384615384615385,
+            "isolate": 0.0,
+            "leaf": 0.18181818181818185,
+            "loop_anchor": 0.0,
+            "oscillator": 0.08333333333333333
           }
         },
         "grid_size": 4,
@@ -85397,6 +85757,18 @@
             "repeat_edge_ratio": 0.08333333333333333,
             "repeat_node_ratio": 0.42857142857142855,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.36813186813186816,
+            "bridge": 0.15384615384615385,
+            "core": 0.28571428571428564,
+            "exit": 0.7692307692307692,
+            "gateway": 1.0,
+            "hub": 0.2692307692307692,
+            "isolate": 0.0,
+            "leaf": 0.14285714285714282,
+            "loop_anchor": 0.0,
+            "oscillator": 0.08333333333333333
           }
         },
         "grid_size": 5,
@@ -87719,6 +88091,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.2727272727272727,
             "self_loop_ratio": 0.07692307692307693
+          },
+          "structural_roles": {
+            "attractor": 0.2132867132867133,
+            "bridge": 0.07692307692307693,
+            "core": 0.14285714285714282,
+            "exit": 0.9230769230769232,
+            "gateway": 1.0,
+            "hub": 0.15384615384615385,
+            "isolate": 0.0,
+            "leaf": 0.09090909090909093,
+            "loop_anchor": 0.07692307692307693,
+            "oscillator": 0.08333333333333333
           }
         },
         "grid_size": 6,
@@ -90115,6 +90499,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.0,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.038461538461538464,
+            "bridge": 0.07692307692307693,
+            "core": 0.07142857142857141,
+            "exit": 1.0,
+            "gateway": 1.0,
+            "hub": 0.07692307692307693,
+            "isolate": 0.0,
+            "leaf": 0.14285714285714282,
+            "loop_anchor": 0.0,
+            "oscillator": 0.0
           }
         },
         "grid_size": 7,
@@ -92690,6 +93086,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.08333333333333333,
             "self_loop_ratio": 0.07692307692307693
+          },
+          "structural_roles": {
+            "attractor": 0.15705128205128205,
+            "bridge": 0.07692307692307693,
+            "core": 0.21428571428571427,
+            "exit": 1.0,
+            "gateway": 1.0,
+            "hub": 0.2307692307692308,
+            "isolate": 0.0,
+            "leaf": 0.16666666666666666,
+            "loop_anchor": 0.07692307692307693,
+            "oscillator": 0.0
           }
         },
         "grid_size": 8,
@@ -95473,6 +95881,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.0,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.038461538461538464,
+            "bridge": 0.07692307692307693,
+            "core": 0.07142857142857141,
+            "exit": 1.0,
+            "gateway": 1.0,
+            "hub": 0.07692307692307693,
+            "isolate": 0.0,
+            "leaf": 0.14285714285714282,
+            "loop_anchor": 0.0,
+            "oscillator": 0.0
           }
         },
         "grid_size": 9,
@@ -97205,6 +97625,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.7142857142857143,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.47252747252747257,
+            "bridge": 0.07692307692307693,
+            "core": 0.28571428571428564,
+            "exit": 1.0,
+            "gateway": 0.7692307692307692,
+            "hub": 0.2692307692307692,
+            "isolate": 0.0,
+            "leaf": 0.14285714285714282,
+            "loop_anchor": 0.0,
+            "oscillator": 0.16666666666666666
           }
         },
         "grid_size": 3,
@@ -99177,6 +99609,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.2727272727272727,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.2132867132867133,
+            "bridge": 0.07692307692307693,
+            "core": 0.14285714285714282,
+            "exit": 1.0,
+            "gateway": 1.0,
+            "hub": 0.15384615384615385,
+            "isolate": 0.0,
+            "leaf": 0.18181818181818185,
+            "loop_anchor": 0.0,
+            "oscillator": 0.08333333333333333
           }
         },
         "grid_size": 4,
@@ -101191,6 +101635,18 @@
             "repeat_edge_ratio": 0.08333333333333333,
             "repeat_node_ratio": 0.42857142857142855,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.36813186813186816,
+            "bridge": 0.15384615384615385,
+            "core": 0.28571428571428564,
+            "exit": 0.7692307692307692,
+            "gateway": 1.0,
+            "hub": 0.2692307692307692,
+            "isolate": 0.0,
+            "leaf": 0.14285714285714282,
+            "loop_anchor": 0.0,
+            "oscillator": 0.08333333333333333
           }
         },
         "grid_size": 5,
@@ -103513,6 +103969,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.2727272727272727,
             "self_loop_ratio": 0.07692307692307693
+          },
+          "structural_roles": {
+            "attractor": 0.2132867132867133,
+            "bridge": 0.07692307692307693,
+            "core": 0.14285714285714282,
+            "exit": 0.9230769230769232,
+            "gateway": 1.0,
+            "hub": 0.15384615384615385,
+            "isolate": 0.0,
+            "leaf": 0.09090909090909093,
+            "loop_anchor": 0.07692307692307693,
+            "oscillator": 0.08333333333333333
           }
         },
         "grid_size": 6,
@@ -105909,6 +106377,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.0,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.038461538461538464,
+            "bridge": 0.07692307692307693,
+            "core": 0.07142857142857141,
+            "exit": 1.0,
+            "gateway": 1.0,
+            "hub": 0.07692307692307693,
+            "isolate": 0.0,
+            "leaf": 0.14285714285714282,
+            "loop_anchor": 0.0,
+            "oscillator": 0.0
           }
         },
         "grid_size": 7,
@@ -108484,6 +108964,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.08333333333333333,
             "self_loop_ratio": 0.07692307692307693
+          },
+          "structural_roles": {
+            "attractor": 0.15705128205128205,
+            "bridge": 0.07692307692307693,
+            "core": 0.21428571428571427,
+            "exit": 1.0,
+            "gateway": 1.0,
+            "hub": 0.2307692307692308,
+            "isolate": 0.0,
+            "leaf": 0.16666666666666666,
+            "loop_anchor": 0.07692307692307693,
+            "oscillator": 0.0
           }
         },
         "grid_size": 8,
@@ -111267,6 +111759,18 @@
             "repeat_edge_ratio": 0.0,
             "repeat_node_ratio": 0.0,
             "self_loop_ratio": 0.0
+          },
+          "structural_roles": {
+            "attractor": 0.038461538461538464,
+            "bridge": 0.07692307692307693,
+            "core": 0.07142857142857141,
+            "exit": 1.0,
+            "gateway": 1.0,
+            "hub": 0.07692307692307693,
+            "isolate": 0.0,
+            "leaf": 0.14285714285714282,
+            "loop_anchor": 0.0,
+            "oscillator": 0.0
           }
         },
         "grid_size": 9,
@@ -112345,7 +112849,7 @@
   "metadata": {
     "analysis_count": 21,
     "atlas_codex_format": "1.0",
-    "created_utc": "2026-06-28T09:58:00.370660+00:00",
+    "created_utc": "2026-06-29T15:38:23.842018+00:00",
     "deterministic": true,
     "entity_name": "Johannes Kepler",
     "entity_type": "person"

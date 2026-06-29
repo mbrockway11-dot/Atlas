@@ -1,0 +1,2960 @@
+{
+  "analyses": [
+    {
+      "cipher": "ordinal",
+      "coordinates": [
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "graph_summary": {
+        "edge_count": 11,
+        "node_count": 6,
+        "total_edge_weight": 14,
+        "total_node_weight": 15
+      },
+      "kamea": "saturn",
+      "kamea_size": 3,
+      "planet": "Saturn",
+      "raw_values": [
+        19,
+        1,
+        18,
+        1,
+        8,
+        10,
+        5,
+        1,
+        14,
+        4,
+        5,
+        8,
+        1,
+        18,
+        15
+      ],
+      "reduced_values": [
+        1,
+        1,
+        9,
+        1,
+        8,
+        1,
+        5,
+        1,
+        5,
+        4,
+        5,
+        8,
+        1,
+        9,
+        6
+      ],
+      "signature": {
+        "metrics": {
+          "component_count": 1,
+          "edge_count": 11,
+          "edge_density": 0.36666666666666664,
+          "entropy": 0.8856014073204163,
+          "node_count": 6,
+          "symmetry": 0.8181818181818182
+        },
+        "motifs": {
+          "bridges": 1,
+          "chains": 1,
+          "dead_ends": 1,
+          "dominant_motif": "reciprocal_pairs",
+          "hubs": 2,
+          "isolated_nodes": 0,
+          "loops": 1,
+          "motif_density": 1.6666666666666667,
+          "reciprocal_pairs": 4
+        },
+        "patterns": {
+          "branching_level": "high",
+          "compression_level": "medium",
+          "dominant_pattern": "reciprocal",
+          "reciprocity_level": "high"
+        },
+        "scores": {
+          "amplifier": 0.4353535353535353,
+          "driver": 0.42857142857142855,
+          "regulator": 0.8787878787878789
+        }
+      }
+    },
+    {
+      "cipher": "ordinal",
+      "coordinates": [
+        [
+          3,
+          2
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "graph_summary": {
+        "edge_count": 13,
+        "node_count": 9,
+        "total_edge_weight": 14,
+        "total_node_weight": 15
+      },
+      "kamea": "jupiter",
+      "kamea_size": 4,
+      "planet": "Jupiter",
+      "raw_values": [
+        19,
+        1,
+        18,
+        1,
+        8,
+        10,
+        5,
+        1,
+        14,
+        4,
+        5,
+        8,
+        1,
+        18,
+        15
+      ],
+      "reduced_values": [
+        3,
+        1,
+        2,
+        1,
+        8,
+        10,
+        5,
+        1,
+        14,
+        4,
+        5,
+        8,
+        1,
+        2,
+        15
+      ],
+      "signature": {
+        "metrics": {
+          "component_count": 1,
+          "edge_count": 13,
+          "edge_density": 0.18055555555555555,
+          "entropy": 0.9380528753589503,
+          "node_count": 9,
+          "symmetry": 0.3076923076923077
+        },
+        "motifs": {
+          "bridges": 2,
+          "chains": 3,
+          "dead_ends": 1,
+          "dominant_motif": "chains",
+          "hubs": 1,
+          "isolated_nodes": 0,
+          "loops": 0,
+          "motif_density": 1.0,
+          "reciprocal_pairs": 2
+        },
+        "patterns": {
+          "branching_level": "medium",
+          "compression_level": "low",
+          "dominant_pattern": "radiating",
+          "reciprocity_level": "low"
+        },
+        "scores": {
+          "amplifier": 0.23397435897435895,
+          "driver": 0.2857142857142857,
+          "regulator": 0.6951566951566952
+        }
+      }
+    },
+    {
+      "cipher": "ordinal",
+      "coordinates": [
+        [
+          4,
+          2
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          4
+        ]
+      ],
+      "graph_summary": {
+        "edge_count": 13,
+        "node_count": 9,
+        "total_edge_weight": 14,
+        "total_node_weight": 15
+      },
+      "kamea": "mars",
+      "kamea_size": 5,
+      "planet": "Mars",
+      "raw_values": [
+        19,
+        1,
+        18,
+        1,
+        8,
+        10,
+        5,
+        1,
+        14,
+        4,
+        5,
+        8,
+        1,
+        18,
+        15
+      ],
+      "reduced_values": [
+        19,
+        1,
+        18,
+        1,
+        8,
+        10,
+        5,
+        1,
+        14,
+        4,
+        5,
+        8,
+        1,
+        18,
+        15
+      ],
+      "signature": {
+        "metrics": {
+          "component_count": 1,
+          "edge_count": 13,
+          "edge_density": 0.18055555555555555,
+          "entropy": 0.9380528753589503,
+          "node_count": 9,
+          "symmetry": 0.3076923076923077
+        },
+        "motifs": {
+          "bridges": 2,
+          "chains": 3,
+          "dead_ends": 1,
+          "dominant_motif": "chains",
+          "hubs": 1,
+          "isolated_nodes": 0,
+          "loops": 0,
+          "motif_density": 1.0,
+          "reciprocal_pairs": 2
+        },
+        "patterns": {
+          "branching_level": "medium",
+          "compression_level": "low",
+          "dominant_pattern": "radiating",
+          "reciprocity_level": "low"
+        },
+        "scores": {
+          "amplifier": 0.23397435897435895,
+          "driver": 0.2857142857142857,
+          "regulator": 0.6951566951566952
+        }
+      }
+    },
+    {
+      "cipher": "ordinal",
+      "coordinates": [
+        [
+          2,
+          0
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "graph_summary": {
+        "edge_count": 13,
+        "node_count": 9,
+        "total_edge_weight": 14,
+        "total_node_weight": 15
+      },
+      "kamea": "sun",
+      "kamea_size": 6,
+      "planet": "Sun",
+      "raw_values": [
+        19,
+        1,
+        18,
+        1,
+        8,
+        10,
+        5,
+        1,
+        14,
+        4,
+        5,
+        8,
+        1,
+        18,
+        15
+      ],
+      "reduced_values": [
+        19,
+        1,
+        18,
+        1,
+        8,
+        10,
+        5,
+        1,
+        14,
+        4,
+        5,
+        8,
+        1,
+        18,
+        15
+      ],
+      "signature": {
+        "metrics": {
+          "component_count": 1,
+          "edge_count": 13,
+          "edge_density": 0.18055555555555555,
+          "entropy": 0.9380528753589503,
+          "node_count": 9,
+          "symmetry": 0.3076923076923077
+        },
+        "motifs": {
+          "bridges": 2,
+          "chains": 3,
+          "dead_ends": 1,
+          "dominant_motif": "chains",
+          "hubs": 1,
+          "isolated_nodes": 0,
+          "loops": 0,
+          "motif_density": 1.0,
+          "reciprocal_pairs": 2
+        },
+        "patterns": {
+          "branching_level": "medium",
+          "compression_level": "low",
+          "dominant_pattern": "radiating",
+          "reciprocity_level": "low"
+        },
+        "scores": {
+          "amplifier": 0.23397435897435895,
+          "driver": 0.2857142857142857,
+          "regulator": 0.6951566951566952
+        }
+      }
+    },
+    {
+      "cipher": "ordinal",
+      "coordinates": [
+        [
+          3,
+          5
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          2,
+          4
+        ],
+        [
+          6,
+          1
+        ]
+      ],
+      "graph_summary": {
+        "edge_count": 13,
+        "node_count": 9,
+        "total_edge_weight": 14,
+        "total_node_weight": 15
+      },
+      "kamea": "venus",
+      "kamea_size": 7,
+      "planet": "Venus",
+      "raw_values": [
+        19,
+        1,
+        18,
+        1,
+        8,
+        10,
+        5,
+        1,
+        14,
+        4,
+        5,
+        8,
+        1,
+        18,
+        15
+      ],
+      "reduced_values": [
+        19,
+        1,
+        18,
+        1,
+        8,
+        10,
+        5,
+        1,
+        14,
+        4,
+        5,
+        8,
+        1,
+        18,
+        15
+      ],
+      "signature": {
+        "metrics": {
+          "component_count": 1,
+          "edge_count": 13,
+          "edge_density": 0.18055555555555555,
+          "entropy": 0.9380528753589503,
+          "node_count": 9,
+          "symmetry": 0.3076923076923077
+        },
+        "motifs": {
+          "bridges": 2,
+          "chains": 3,
+          "dead_ends": 1,
+          "dominant_motif": "chains",
+          "hubs": 1,
+          "isolated_nodes": 0,
+          "loops": 0,
+          "motif_density": 1.0,
+          "reciprocal_pairs": 2
+        },
+        "patterns": {
+          "branching_level": "medium",
+          "compression_level": "low",
+          "dominant_pattern": "radiating",
+          "reciprocity_level": "low"
+        },
+        "scores": {
+          "amplifier": 0.23397435897435895,
+          "driver": 0.2857142857142857,
+          "regulator": 0.6951566951566952
+        }
+      }
+    },
+    {
+      "cipher": "ordinal",
+      "coordinates": [
+        [
+          2,
+          5
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          6
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          2,
+          6
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "graph_summary": {
+        "edge_count": 13,
+        "node_count": 9,
+        "total_edge_weight": 14,
+        "total_node_weight": 15
+      },
+      "kamea": "mercury",
+      "kamea_size": 8,
+      "planet": "Mercury",
+      "raw_values": [
+        19,
+        1,
+        18,
+        1,
+        8,
+        10,
+        5,
+        1,
+        14,
+        4,
+        5,
+        8,
+        1,
+        18,
+        15
+      ],
+      "reduced_values": [
+        19,
+        1,
+        18,
+        1,
+        8,
+        10,
+        5,
+        1,
+        14,
+        4,
+        5,
+        8,
+        1,
+        18,
+        15
+      ],
+      "signature": {
+        "metrics": {
+          "component_count": 1,
+          "edge_count": 13,
+          "edge_density": 0.18055555555555555,
+          "entropy": 0.9380528753589503,
+          "node_count": 9,
+          "symmetry": 0.3076923076923077
+        },
+        "motifs": {
+          "bridges": 2,
+          "chains": 3,
+          "dead_ends": 1,
+          "dominant_motif": "chains",
+          "hubs": 1,
+          "isolated_nodes": 0,
+          "loops": 0,
+          "motif_density": 1.0,
+          "reciprocal_pairs": 2
+        },
+        "patterns": {
+          "branching_level": "medium",
+          "compression_level": "low",
+          "dominant_pattern": "radiating",
+          "reciprocity_level": "low"
+        },
+        "scores": {
+          "amplifier": 0.23397435897435895,
+          "driver": 0.2857142857142857,
+          "regulator": 0.6951566951566952
+        }
+      }
+    },
+    {
+      "cipher": "ordinal",
+      "coordinates": [
+        [
+          7,
+          2
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          6,
+          3
+        ],
+        [
+          0,
+          8
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          1,
+          7
+        ],
+        [
+          8,
+          7
+        ],
+        [
+          0,
+          8
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          2,
+          8
+        ]
+      ],
+      "graph_summary": {
+        "edge_count": 13,
+        "node_count": 9,
+        "total_edge_weight": 14,
+        "total_node_weight": 15
+      },
+      "kamea": "moon",
+      "kamea_size": 9,
+      "planet": "Moon",
+      "raw_values": [
+        19,
+        1,
+        18,
+        1,
+        8,
+        10,
+        5,
+        1,
+        14,
+        4,
+        5,
+        8,
+        1,
+        18,
+        15
+      ],
+      "reduced_values": [
+        19,
+        1,
+        18,
+        1,
+        8,
+        10,
+        5,
+        1,
+        14,
+        4,
+        5,
+        8,
+        1,
+        18,
+        15
+      ],
+      "signature": {
+        "metrics": {
+          "component_count": 1,
+          "edge_count": 13,
+          "edge_density": 0.18055555555555555,
+          "entropy": 0.9380528753589503,
+          "node_count": 9,
+          "symmetry": 0.3076923076923077
+        },
+        "motifs": {
+          "bridges": 2,
+          "chains": 3,
+          "dead_ends": 1,
+          "dominant_motif": "chains",
+          "hubs": 1,
+          "isolated_nodes": 0,
+          "loops": 0,
+          "motif_density": 1.0,
+          "reciprocal_pairs": 2
+        },
+        "patterns": {
+          "branching_level": "medium",
+          "compression_level": "low",
+          "dominant_pattern": "radiating",
+          "reciprocity_level": "low"
+        },
+        "scores": {
+          "amplifier": 0.23397435897435895,
+          "driver": 0.2857142857142857,
+          "regulator": 0.6951566951566952
+        }
+      }
+    },
+    {
+      "cipher": "hebrew_literal",
+      "coordinates": [
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "graph_summary": {
+        "edge_count": 11,
+        "node_count": 7,
+        "total_edge_weight": 14,
+        "total_node_weight": 15
+      },
+      "kamea": "saturn",
+      "kamea_size": 3,
+      "planet": "Saturn",
+      "raw_values": [
+        60,
+        1,
+        200,
+        1,
+        8,
+        10,
+        5,
+        1,
+        50,
+        4,
+        5,
+        8,
+        1,
+        200,
+        70
+      ],
+      "reduced_values": [
+        6,
+        1,
+        2,
+        1,
+        8,
+        1,
+        5,
+        1,
+        5,
+        4,
+        5,
+        8,
+        1,
+        2,
+        7
+      ],
+      "signature": {
+        "metrics": {
+          "component_count": 1,
+          "edge_count": 11,
+          "edge_density": 0.2619047619047619,
+          "entropy": 0.9080630942453353,
+          "node_count": 7,
+          "symmetry": 0.7272727272727273
+        },
+        "motifs": {
+          "bridges": 2,
+          "chains": 1,
+          "dead_ends": 1,
+          "dominant_motif": "reciprocal_pairs",
+          "hubs": 2,
+          "isolated_nodes": 0,
+          "loops": 0,
+          "motif_density": 1.4285714285714286,
+          "reciprocal_pairs": 4
+        },
+        "patterns": {
+          "branching_level": "medium",
+          "compression_level": "medium",
+          "dominant_pattern": "radiating",
+          "reciprocity_level": "medium"
+        },
+        "scores": {
+          "amplifier": 0.3686868686868687,
+          "driver": 0.35714285714285715,
+          "regulator": 0.8138528138528138
+        }
+      }
+    },
+    {
+      "cipher": "hebrew_literal",
+      "coordinates": [
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "graph_summary": {
+        "edge_count": 11,
+        "node_count": 8,
+        "total_edge_weight": 14,
+        "total_node_weight": 15
+      },
+      "kamea": "jupiter",
+      "kamea_size": 4,
+      "planet": "Jupiter",
+      "raw_values": [
+        60,
+        1,
+        200,
+        1,
+        8,
+        10,
+        5,
+        1,
+        50,
+        4,
+        5,
+        8,
+        1,
+        200,
+        70
+      ],
+      "reduced_values": [
+        12,
+        1,
+        8,
+        1,
+        8,
+        10,
+        5,
+        1,
+        2,
+        4,
+        5,
+        8,
+        1,
+        8,
+        6
+      ],
+      "signature": {
+        "metrics": {
+          "component_count": 1,
+          "edge_count": 11,
+          "edge_density": 0.19642857142857142,
+          "entropy": 0.9022968652028395,
+          "node_count": 8,
+          "symmetry": 0.18181818181818182
+        },
+        "motifs": {
+          "bridges": 2,
+          "chains": 3,
+          "dead_ends": 1,
+          "dominant_motif": "chains",
+          "hubs": 1,
+          "isolated_nodes": 0,
+          "loops": 0,
+          "motif_density": 1.0,
+          "reciprocal_pairs": 1
+        },
+        "patterns": {
+          "branching_level": "medium",
+          "compression_level": "low",
+          "dominant_pattern": "radiating",
+          "reciprocity_level": "low"
+        },
+        "scores": {
+          "amplifier": 0.2510822510822511,
+          "driver": 0.2857142857142857,
+          "regulator": 0.6439393939393939
+        }
+      }
+    },
+    {
+      "cipher": "hebrew_literal",
+      "coordinates": [
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          0,
+          3
+        ]
+      ],
+      "graph_summary": {
+        "edge_count": 12,
+        "node_count": 7,
+        "total_edge_weight": 14,
+        "total_node_weight": 15
+      },
+      "kamea": "mars",
+      "kamea_size": 5,
+      "planet": "Mars",
+      "raw_values": [
+        60,
+        1,
+        200,
+        1,
+        8,
+        10,
+        5,
+        1,
+        50,
+        4,
+        5,
+        8,
+        1,
+        200,
+        70
+      ],
+      "reduced_values": [
+        10,
+        1,
+        25,
+        1,
+        8,
+        10,
+        5,
+        1,
+        25,
+        4,
+        5,
+        8,
+        1,
+        25,
+        20
+      ],
+      "signature": {
+        "metrics": {
+          "component_count": 1,
+          "edge_count": 12,
+          "edge_density": 0.2857142857142857,
+          "entropy": 0.9462874612889592,
+          "node_count": 7,
+          "symmetry": 0.3333333333333333
+        },
+        "motifs": {
+          "bridges": 1,
+          "chains": 1,
+          "dead_ends": 1,
+          "dominant_motif": "reciprocal_pairs",
+          "hubs": 1,
+          "isolated_nodes": 0,
+          "loops": 0,
+          "motif_density": 0.8571428571428571,
+          "reciprocal_pairs": 2
+        },
+        "patterns": {
+          "branching_level": "medium",
+          "compression_level": "medium",
+          "dominant_pattern": "radiating",
+          "reciprocity_level": "low"
+        },
+        "scores": {
+          "amplifier": 0.36111111111111116,
+          "driver": 0.2857142857142857,
+          "regulator": 0.7142857142857143
+        }
+      }
+    },
+    {
+      "cipher": "hebrew_literal",
+      "coordinates": [
+        [
+          2,
+          5
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          0,
+          3
+        ]
+      ],
+      "graph_summary": {
+        "edge_count": 13,
+        "node_count": 9,
+        "total_edge_weight": 14,
+        "total_node_weight": 15
+      },
+      "kamea": "sun",
+      "kamea_size": 6,
+      "planet": "Sun",
+      "raw_values": [
+        60,
+        1,
+        200,
+        1,
+        8,
+        10,
+        5,
+        1,
+        50,
+        4,
+        5,
+        8,
+        1,
+        200,
+        70
+      ],
+      "reduced_values": [
+        24,
+        1,
+        20,
+        1,
+        8,
+        10,
+        5,
+        1,
+        14,
+        4,
+        5,
+        8,
+        1,
+        20,
+        34
+      ],
+      "signature": {
+        "metrics": {
+          "component_count": 1,
+          "edge_count": 13,
+          "edge_density": 0.18055555555555555,
+          "entropy": 0.9380528753589503,
+          "node_count": 9,
+          "symmetry": 0.3076923076923077
+        },
+        "motifs": {
+          "bridges": 2,
+          "chains": 3,
+          "dead_ends": 1,
+          "dominant_motif": "chains",
+          "hubs": 1,
+          "isolated_nodes": 0,
+          "loops": 0,
+          "motif_density": 1.0,
+          "reciprocal_pairs": 2
+        },
+        "patterns": {
+          "branching_level": "medium",
+          "compression_level": "low",
+          "dominant_pattern": "radiating",
+          "reciprocity_level": "low"
+        },
+        "scores": {
+          "amplifier": 0.23397435897435895,
+          "driver": 0.2857142857142857,
+          "regulator": 0.6951566951566952
+        }
+      }
+    },
+    {
+      "cipher": "hebrew_literal",
+      "coordinates": [
+        [
+          1,
+          5
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          5,
+          0
+        ]
+      ],
+      "graph_summary": {
+        "edge_count": 12,
+        "node_count": 7,
+        "total_edge_weight": 14,
+        "total_node_weight": 15
+      },
+      "kamea": "venus",
+      "kamea_size": 7,
+      "planet": "Venus",
+      "raw_values": [
+        60,
+        1,
+        200,
+        1,
+        8,
+        10,
+        5,
+        1,
+        50,
+        4,
+        5,
+        8,
+        1,
+        200,
+        70
+      ],
+      "reduced_values": [
+        11,
+        1,
+        4,
+        1,
+        8,
+        10,
+        5,
+        1,
+        1,
+        4,
+        5,
+        8,
+        1,
+        4,
+        21
+      ],
+      "signature": {
+        "metrics": {
+          "component_count": 1,
+          "edge_count": 12,
+          "edge_density": 0.2857142857142857,
+          "entropy": 0.9080630942453353,
+          "node_count": 7,
+          "symmetry": 0.4166666666666667
+        },
+        "motifs": {
+          "bridges": 2,
+          "chains": 1,
+          "dead_ends": 1,
+          "dominant_motif": "hubs",
+          "hubs": 2,
+          "isolated_nodes": 0,
+          "loops": 1,
+          "motif_density": 1.2857142857142858,
+          "reciprocal_pairs": 2
+        },
+        "patterns": {
+          "branching_level": "medium",
+          "compression_level": "medium",
+          "dominant_pattern": "radiating",
+          "reciprocity_level": "medium"
+        },
+        "scores": {
+          "amplifier": 0.3134920634920635,
+          "driver": 0.35714285714285715,
+          "regulator": 0.7103174603174603
+        }
+      }
+    },
+    {
+      "cipher": "hebrew_literal",
+      "coordinates": [
+        [
+          7,
+          4
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          6
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          6,
+          6
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          7,
+          5
+        ]
+      ],
+      "graph_summary": {
+        "edge_count": 11,
+        "node_count": 8,
+        "total_edge_weight": 14,
+        "total_node_weight": 15
+      },
+      "kamea": "mercury",
+      "kamea_size": 8,
+      "planet": "Mercury",
+      "raw_values": [
+        60,
+        1,
+        200,
+        1,
+        8,
+        10,
+        5,
+        1,
+        50,
+        4,
+        5,
+        8,
+        1,
+        200,
+        70
+      ],
+      "reduced_values": [
+        60,
+        1,
+        8,
+        1,
+        8,
+        10,
+        5,
+        1,
+        50,
+        4,
+        5,
+        8,
+        1,
+        8,
+        6
+      ],
+      "signature": {
+        "metrics": {
+          "component_count": 1,
+          "edge_count": 11,
+          "edge_density": 0.19642857142857142,
+          "entropy": 0.9022968652028395,
+          "node_count": 8,
+          "symmetry": 0.18181818181818182
+        },
+        "motifs": {
+          "bridges": 2,
+          "chains": 3,
+          "dead_ends": 1,
+          "dominant_motif": "chains",
+          "hubs": 1,
+          "isolated_nodes": 0,
+          "loops": 0,
+          "motif_density": 1.0,
+          "reciprocal_pairs": 1
+        },
+        "patterns": {
+          "branching_level": "medium",
+          "compression_level": "low",
+          "dominant_pattern": "radiating",
+          "reciprocity_level": "low"
+        },
+        "scores": {
+          "amplifier": 0.2510822510822511,
+          "driver": 0.2857142857142857,
+          "regulator": 0.6439393939393939
+        }
+      }
+    },
+    {
+      "cipher": "hebrew_literal",
+      "coordinates": [
+        [
+          7,
+          3
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          6,
+          3
+        ],
+        [
+          0,
+          8
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          8,
+          7
+        ],
+        [
+          0,
+          8
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          0,
+          3
+        ]
+      ],
+      "graph_summary": {
+        "edge_count": 13,
+        "node_count": 9,
+        "total_edge_weight": 14,
+        "total_node_weight": 15
+      },
+      "kamea": "moon",
+      "kamea_size": 9,
+      "planet": "Moon",
+      "raw_values": [
+        60,
+        1,
+        200,
+        1,
+        8,
+        10,
+        5,
+        1,
+        50,
+        4,
+        5,
+        8,
+        1,
+        200,
+        70
+      ],
+      "reduced_values": [
+        60,
+        1,
+        38,
+        1,
+        8,
+        10,
+        5,
+        1,
+        50,
+        4,
+        5,
+        8,
+        1,
+        38,
+        70
+      ],
+      "signature": {
+        "metrics": {
+          "component_count": 1,
+          "edge_count": 13,
+          "edge_density": 0.18055555555555555,
+          "entropy": 0.9380528753589503,
+          "node_count": 9,
+          "symmetry": 0.3076923076923077
+        },
+        "motifs": {
+          "bridges": 2,
+          "chains": 3,
+          "dead_ends": 1,
+          "dominant_motif": "chains",
+          "hubs": 1,
+          "isolated_nodes": 0,
+          "loops": 0,
+          "motif_density": 1.0,
+          "reciprocal_pairs": 2
+        },
+        "patterns": {
+          "branching_level": "medium",
+          "compression_level": "low",
+          "dominant_pattern": "radiating",
+          "reciprocity_level": "low"
+        },
+        "scores": {
+          "amplifier": 0.23397435897435895,
+          "driver": 0.2857142857142857,
+          "regulator": 0.6951566951566952
+        }
+      }
+    },
+    {
+      "cipher": "hebrew_phonetic",
+      "coordinates": [
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "graph_summary": {
+        "edge_count": 11,
+        "node_count": 7,
+        "total_edge_weight": 14,
+        "total_node_weight": 15
+      },
+      "kamea": "saturn",
+      "kamea_size": 3,
+      "planet": "Saturn",
+      "raw_values": [
+        60,
+        1,
+        200,
+        1,
+        8,
+        10,
+        5,
+        1,
+        50,
+        4,
+        5,
+        8,
+        1,
+        200,
+        70
+      ],
+      "reduced_values": [
+        6,
+        1,
+        2,
+        1,
+        8,
+        1,
+        5,
+        1,
+        5,
+        4,
+        5,
+        8,
+        1,
+        2,
+        7
+      ],
+      "signature": {
+        "metrics": {
+          "component_count": 1,
+          "edge_count": 11,
+          "edge_density": 0.2619047619047619,
+          "entropy": 0.9080630942453353,
+          "node_count": 7,
+          "symmetry": 0.7272727272727273
+        },
+        "motifs": {
+          "bridges": 2,
+          "chains": 1,
+          "dead_ends": 1,
+          "dominant_motif": "reciprocal_pairs",
+          "hubs": 2,
+          "isolated_nodes": 0,
+          "loops": 0,
+          "motif_density": 1.4285714285714286,
+          "reciprocal_pairs": 4
+        },
+        "patterns": {
+          "branching_level": "medium",
+          "compression_level": "medium",
+          "dominant_pattern": "radiating",
+          "reciprocity_level": "medium"
+        },
+        "scores": {
+          "amplifier": 0.3686868686868687,
+          "driver": 0.35714285714285715,
+          "regulator": 0.8138528138528138
+        }
+      }
+    },
+    {
+      "cipher": "hebrew_phonetic",
+      "coordinates": [
+        [
+          1,
+          3
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "graph_summary": {
+        "edge_count": 11,
+        "node_count": 8,
+        "total_edge_weight": 14,
+        "total_node_weight": 15
+      },
+      "kamea": "jupiter",
+      "kamea_size": 4,
+      "planet": "Jupiter",
+      "raw_values": [
+        60,
+        1,
+        200,
+        1,
+        8,
+        10,
+        5,
+        1,
+        50,
+        4,
+        5,
+        8,
+        1,
+        200,
+        70
+      ],
+      "reduced_values": [
+        12,
+        1,
+        8,
+        1,
+        8,
+        10,
+        5,
+        1,
+        2,
+        4,
+        5,
+        8,
+        1,
+        8,
+        6
+      ],
+      "signature": {
+        "metrics": {
+          "component_count": 1,
+          "edge_count": 11,
+          "edge_density": 0.19642857142857142,
+          "entropy": 0.9022968652028395,
+          "node_count": 8,
+          "symmetry": 0.18181818181818182
+        },
+        "motifs": {
+          "bridges": 2,
+          "chains": 3,
+          "dead_ends": 1,
+          "dominant_motif": "chains",
+          "hubs": 1,
+          "isolated_nodes": 0,
+          "loops": 0,
+          "motif_density": 1.0,
+          "reciprocal_pairs": 1
+        },
+        "patterns": {
+          "branching_level": "medium",
+          "compression_level": "low",
+          "dominant_pattern": "radiating",
+          "reciprocity_level": "low"
+        },
+        "scores": {
+          "amplifier": 0.2510822510822511,
+          "driver": 0.2857142857142857,
+          "regulator": 0.6439393939393939
+        }
+      }
+    },
+    {
+      "cipher": "hebrew_phonetic",
+      "coordinates": [
+        [
+          3,
+          0
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          3,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          0,
+          3
+        ]
+      ],
+      "graph_summary": {
+        "edge_count": 12,
+        "node_count": 7,
+        "total_edge_weight": 14,
+        "total_node_weight": 15
+      },
+      "kamea": "mars",
+      "kamea_size": 5,
+      "planet": "Mars",
+      "raw_values": [
+        60,
+        1,
+        200,
+        1,
+        8,
+        10,
+        5,
+        1,
+        50,
+        4,
+        5,
+        8,
+        1,
+        200,
+        70
+      ],
+      "reduced_values": [
+        10,
+        1,
+        25,
+        1,
+        8,
+        10,
+        5,
+        1,
+        25,
+        4,
+        5,
+        8,
+        1,
+        25,
+        20
+      ],
+      "signature": {
+        "metrics": {
+          "component_count": 1,
+          "edge_count": 12,
+          "edge_density": 0.2857142857142857,
+          "entropy": 0.9462874612889592,
+          "node_count": 7,
+          "symmetry": 0.3333333333333333
+        },
+        "motifs": {
+          "bridges": 1,
+          "chains": 1,
+          "dead_ends": 1,
+          "dominant_motif": "reciprocal_pairs",
+          "hubs": 1,
+          "isolated_nodes": 0,
+          "loops": 0,
+          "motif_density": 0.8571428571428571,
+          "reciprocal_pairs": 2
+        },
+        "patterns": {
+          "branching_level": "medium",
+          "compression_level": "medium",
+          "dominant_pattern": "radiating",
+          "reciprocity_level": "low"
+        },
+        "scores": {
+          "amplifier": 0.36111111111111116,
+          "driver": 0.2857142857142857,
+          "regulator": 0.7142857142857143
+        }
+      }
+    },
+    {
+      "cipher": "hebrew_phonetic",
+      "coordinates": [
+        [
+          2,
+          5
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          5,
+          1
+        ],
+        [
+          1,
+          4
+        ],
+        [
+          0,
+          5
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          0,
+          3
+        ]
+      ],
+      "graph_summary": {
+        "edge_count": 13,
+        "node_count": 9,
+        "total_edge_weight": 14,
+        "total_node_weight": 15
+      },
+      "kamea": "sun",
+      "kamea_size": 6,
+      "planet": "Sun",
+      "raw_values": [
+        60,
+        1,
+        200,
+        1,
+        8,
+        10,
+        5,
+        1,
+        50,
+        4,
+        5,
+        8,
+        1,
+        200,
+        70
+      ],
+      "reduced_values": [
+        24,
+        1,
+        20,
+        1,
+        8,
+        10,
+        5,
+        1,
+        14,
+        4,
+        5,
+        8,
+        1,
+        20,
+        34
+      ],
+      "signature": {
+        "metrics": {
+          "component_count": 1,
+          "edge_count": 13,
+          "edge_density": 0.18055555555555555,
+          "entropy": 0.9380528753589503,
+          "node_count": 9,
+          "symmetry": 0.3076923076923077
+        },
+        "motifs": {
+          "bridges": 2,
+          "chains": 3,
+          "dead_ends": 1,
+          "dominant_motif": "chains",
+          "hubs": 1,
+          "isolated_nodes": 0,
+          "loops": 0,
+          "motif_density": 1.0,
+          "reciprocal_pairs": 2
+        },
+        "patterns": {
+          "branching_level": "medium",
+          "compression_level": "low",
+          "dominant_pattern": "radiating",
+          "reciprocity_level": "low"
+        },
+        "scores": {
+          "amplifier": 0.23397435897435895,
+          "driver": 0.2857142857142857,
+          "regulator": 0.6951566951566952
+        }
+      }
+    },
+    {
+      "cipher": "hebrew_phonetic",
+      "coordinates": [
+        [
+          1,
+          5
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          5,
+          2
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          0,
+          6
+        ],
+        [
+          5,
+          0
+        ]
+      ],
+      "graph_summary": {
+        "edge_count": 12,
+        "node_count": 7,
+        "total_edge_weight": 14,
+        "total_node_weight": 15
+      },
+      "kamea": "venus",
+      "kamea_size": 7,
+      "planet": "Venus",
+      "raw_values": [
+        60,
+        1,
+        200,
+        1,
+        8,
+        10,
+        5,
+        1,
+        50,
+        4,
+        5,
+        8,
+        1,
+        200,
+        70
+      ],
+      "reduced_values": [
+        11,
+        1,
+        4,
+        1,
+        8,
+        10,
+        5,
+        1,
+        1,
+        4,
+        5,
+        8,
+        1,
+        4,
+        21
+      ],
+      "signature": {
+        "metrics": {
+          "component_count": 1,
+          "edge_count": 12,
+          "edge_density": 0.2857142857142857,
+          "entropy": 0.9080630942453353,
+          "node_count": 7,
+          "symmetry": 0.4166666666666667
+        },
+        "motifs": {
+          "bridges": 2,
+          "chains": 1,
+          "dead_ends": 1,
+          "dominant_motif": "hubs",
+          "hubs": 2,
+          "isolated_nodes": 0,
+          "loops": 1,
+          "motif_density": 1.2857142857142858,
+          "reciprocal_pairs": 2
+        },
+        "patterns": {
+          "branching_level": "medium",
+          "compression_level": "medium",
+          "dominant_pattern": "radiating",
+          "reciprocity_level": "medium"
+        },
+        "scores": {
+          "amplifier": 0.3134920634920635,
+          "driver": 0.35714285714285715,
+          "regulator": 0.7103174603174603
+        }
+      }
+    },
+    {
+      "cipher": "hebrew_phonetic",
+      "coordinates": [
+        [
+          7,
+          4
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          6
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          6,
+          6
+        ],
+        [
+          0,
+          4
+        ],
+        [
+          0,
+          3
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          7
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          7,
+          5
+        ]
+      ],
+      "graph_summary": {
+        "edge_count": 11,
+        "node_count": 8,
+        "total_edge_weight": 14,
+        "total_node_weight": 15
+      },
+      "kamea": "mercury",
+      "kamea_size": 8,
+      "planet": "Mercury",
+      "raw_values": [
+        60,
+        1,
+        200,
+        1,
+        8,
+        10,
+        5,
+        1,
+        50,
+        4,
+        5,
+        8,
+        1,
+        200,
+        70
+      ],
+      "reduced_values": [
+        60,
+        1,
+        8,
+        1,
+        8,
+        10,
+        5,
+        1,
+        50,
+        4,
+        5,
+        8,
+        1,
+        8,
+        6
+      ],
+      "signature": {
+        "metrics": {
+          "component_count": 1,
+          "edge_count": 11,
+          "edge_density": 0.19642857142857142,
+          "entropy": 0.9022968652028395,
+          "node_count": 8,
+          "symmetry": 0.18181818181818182
+        },
+        "motifs": {
+          "bridges": 2,
+          "chains": 3,
+          "dead_ends": 1,
+          "dominant_motif": "chains",
+          "hubs": 1,
+          "isolated_nodes": 0,
+          "loops": 0,
+          "motif_density": 1.0,
+          "reciprocal_pairs": 1
+        },
+        "patterns": {
+          "branching_level": "medium",
+          "compression_level": "low",
+          "dominant_pattern": "radiating",
+          "reciprocity_level": "low"
+        },
+        "scores": {
+          "amplifier": 0.2510822510822511,
+          "driver": 0.2857142857142857,
+          "regulator": 0.6439393939393939
+        }
+      }
+    },
+    {
+      "cipher": "hebrew_phonetic",
+      "coordinates": [
+        [
+          7,
+          3
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          6,
+          3
+        ],
+        [
+          0,
+          8
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          5,
+          3
+        ],
+        [
+          8,
+          7
+        ],
+        [
+          0,
+          8
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          0,
+          3
+        ]
+      ],
+      "graph_summary": {
+        "edge_count": 13,
+        "node_count": 9,
+        "total_edge_weight": 14,
+        "total_node_weight": 15
+      },
+      "kamea": "moon",
+      "kamea_size": 9,
+      "planet": "Moon",
+      "raw_values": [
+        60,
+        1,
+        200,
+        1,
+        8,
+        10,
+        5,
+        1,
+        50,
+        4,
+        5,
+        8,
+        1,
+        200,
+        70
+      ],
+      "reduced_values": [
+        60,
+        1,
+        38,
+        1,
+        8,
+        10,
+        5,
+        1,
+        50,
+        4,
+        5,
+        8,
+        1,
+        38,
+        70
+      ],
+      "signature": {
+        "metrics": {
+          "component_count": 1,
+          "edge_count": 13,
+          "edge_density": 0.18055555555555555,
+          "entropy": 0.9380528753589503,
+          "node_count": 9,
+          "symmetry": 0.3076923076923077
+        },
+        "motifs": {
+          "bridges": 2,
+          "chains": 3,
+          "dead_ends": 1,
+          "dominant_motif": "chains",
+          "hubs": 1,
+          "isolated_nodes": 0,
+          "loops": 0,
+          "motif_density": 1.0,
+          "reciprocal_pairs": 2
+        },
+        "patterns": {
+          "branching_level": "medium",
+          "compression_level": "low",
+          "dominant_pattern": "radiating",
+          "reciprocity_level": "low"
+        },
+        "scores": {
+          "amplifier": 0.23397435897435895,
+          "driver": 0.2857142857142857,
+          "regulator": 0.6951566951566952
+        }
+      }
+    }
+  ],
+  "analysis_count": 21,
+  "ciphers": [
+    "ordinal",
+    "hebrew_literal",
+    "hebrew_phonetic"
+  ],
+  "kameas": [
+    "saturn",
+    "jupiter",
+    "mars",
+    "sun",
+    "venus",
+    "mercury",
+    "moon"
+  ],
+  "name": "Sarah Jean Deharo"
+}

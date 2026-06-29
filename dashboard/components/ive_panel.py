@@ -220,19 +220,20 @@ def render_quality(identity_vector) -> None:
     c3.metric("Mean Calibration Size", format_float(quality["mean_calibration_size"]))
     c4.metric("Min Calibration Size", quality["minimum_calibration_size"])
 
-    st.dataframe(
-        pd.DataFrame(
-            [
-                {
-                    "quality_metric": key,
-                    "value": value,
-                }
-                for key, value in quality.items()
-            ]
-        ),
-        width="stretch",
+    quality_dataframe = pd.DataFrame(
+        [
+            {
+                "quality_metric": str(key),
+                "value": format_table_value(value),
+            }
+            for key, value in quality.items()
+        ]
     )
 
+    st.dataframe(
+        quality_dataframe,
+        width="stretch",
+    )
 
 def format_float(value) -> str:
     """Format float safely."""
@@ -240,3 +241,13 @@ def format_float(value) -> str:
         return f"{float(value):.4f}"
     except (TypeError, ValueError):
         return "n/a"
+
+def format_table_value(value) -> str:
+    """Format mixed values for dashboard tables."""
+    if value is None:
+        return "n/a"
+
+    if isinstance(value, float):
+        return f"{value:.4f}"
+
+    return str(value)

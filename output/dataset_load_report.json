@@ -1,0 +1,552 @@
+{
+  "invalid_count": 0,
+  "issue_count": 12,
+  "issues": [
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Julius Caesar"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 9,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Marcus Aurelius"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 10,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Michelangelo"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 12,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Plato"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 27,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Aristotle"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 28,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Socrates"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 29,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Confucius"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 30,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Laozi"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 31,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Harriet Tubman"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 41,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Frederick Douglass"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 42,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "William Shakespeare"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 43,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Ludwig van Beethoven"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 48,
+      "severity": "info"
+    }
+  ],
+  "record_count": 54,
+  "records": [
+    {
+      "birth_date": "1809-02-12",
+      "birth_place": "Hodgenville",
+      "birth_time": "00:00",
+      "name": "Abraham Lincoln",
+      "row_number": 2,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1732-02-22",
+      "birth_place": "Westmoreland County",
+      "birth_time": "00:00",
+      "name": "George Washington",
+      "row_number": 3,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1743-04-13",
+      "birth_place": "Shadwell",
+      "birth_time": "00:00",
+      "name": "Thomas Jefferson",
+      "row_number": 4,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1706-01-17",
+      "birth_place": "Boston",
+      "birth_time": "10:30",
+      "name": "Benjamin Franklin",
+      "row_number": 5,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1735-10-30",
+      "birth_place": "Braintree",
+      "birth_time": "00:00",
+      "name": "John Adams",
+      "row_number": 6,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1755-01-11",
+      "birth_place": "Charlestown",
+      "birth_time": "00:00",
+      "name": "Alexander Hamilton",
+      "row_number": 7,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1769-08-15",
+      "birth_place": "Ajaccio",
+      "birth_time": "11:30",
+      "name": "Napoleon Bonaparte",
+      "row_number": 8,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "-0100-07-13",
+      "birth_place": "Rome",
+      "birth_time": "Unknown",
+      "name": "Julius Caesar",
+      "row_number": 9,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "0121-04-26",
+      "birth_place": "Rome",
+      "birth_time": "Unknown",
+      "name": "Marcus Aurelius",
+      "row_number": 10,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1452-04-15",
+      "birth_place": "Vinci",
+      "birth_time": "22:30",
+      "name": "Leonardo da Vinci",
+      "row_number": 11,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1475-03-06",
+      "birth_place": "Caprese",
+      "birth_time": "Unknown",
+      "name": "Michelangelo",
+      "row_number": 12,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1564-02-15",
+      "birth_place": "Pisa",
+      "birth_time": "15:00",
+      "name": "Galileo Galilei",
+      "row_number": 13,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1571-12-27",
+      "birth_place": "Weil der Stadt",
+      "birth_time": "14:37",
+      "name": "Johannes Kepler",
+      "row_number": 14,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1643-01-04",
+      "birth_place": "Woolsthorpe",
+      "birth_time": "01:00",
+      "name": "Isaac Newton",
+      "row_number": 15,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1856-07-10",
+      "birth_place": "Smiljan",
+      "birth_time": "00:00",
+      "name": "Nikola Tesla",
+      "row_number": 16,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1867-11-07",
+      "birth_place": "Warsaw",
+      "birth_time": "12:00",
+      "name": "Marie Curie",
+      "row_number": 17,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1879-03-14",
+      "birth_place": "Ulm",
+      "birth_time": "11:30",
+      "name": "Albert Einstein",
+      "row_number": 18,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1809-02-12",
+      "birth_place": "Shrewsbury",
+      "birth_time": "03:00",
+      "name": "Charles Darwin",
+      "row_number": 19,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1912-06-23",
+      "birth_place": "London",
+      "birth_time": "02:15",
+      "name": "Alan Turing",
+      "row_number": 20,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1815-12-10",
+      "birth_place": "London",
+      "birth_time": "16:00",
+      "name": "Ada Lovelace",
+      "row_number": 21,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1906-12-09",
+      "birth_place": "New York City",
+      "birth_time": "09:30",
+      "name": "Grace Hopper",
+      "row_number": 22,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1916-04-30",
+      "birth_place": "Petoskey",
+      "birth_time": "12:00",
+      "name": "Claude Shannon",
+      "row_number": 23,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1903-12-28",
+      "birth_place": "Budapest",
+      "birth_time": "12:00",
+      "name": "John von Neumann",
+      "row_number": 24,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1934-11-09",
+      "birth_place": "Brooklyn",
+      "birth_time": "16:05",
+      "name": "Carl Sagan",
+      "row_number": 25,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1942-01-08",
+      "birth_place": "Oxford",
+      "birth_time": "20:00",
+      "name": "Stephen Hawking",
+      "row_number": 26,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "-0428-05-21",
+      "birth_place": "Athens",
+      "birth_time": "Unknown",
+      "name": "Plato",
+      "row_number": 27,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "-0384-09-23",
+      "birth_place": "Stagira",
+      "birth_time": "Unknown",
+      "name": "Aristotle",
+      "row_number": 28,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "-0470-06-04",
+      "birth_place": "Athens",
+      "birth_time": "Unknown",
+      "name": "Socrates",
+      "row_number": 29,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "-0551-09-28",
+      "birth_place": "Qufu",
+      "birth_time": "Unknown",
+      "name": "Confucius",
+      "row_number": 30,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "-0571-01-01",
+      "birth_place": "Chu",
+      "birth_time": "Unknown",
+      "name": "Laozi",
+      "row_number": 31,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1724-04-22",
+      "birth_place": "K\u00f6nigsberg",
+      "birth_time": "05:00",
+      "name": "Immanuel Kant",
+      "row_number": 32,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1596-03-31",
+      "birth_place": "La Haye en Touraine",
+      "birth_time": "02:00",
+      "name": "Ren\u00e9 Descartes",
+      "row_number": 33,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1844-10-15",
+      "birth_place": "R\u00f6cken",
+      "birth_time": "10:00",
+      "name": "Friedrich Nietzsche",
+      "row_number": 34,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1875-07-26",
+      "birth_place": "Kesswil",
+      "birth_time": "19:32",
+      "name": "Carl Jung",
+      "row_number": 35,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1856-05-06",
+      "birth_place": "Freiberg",
+      "birth_time": "18:30",
+      "name": "Sigmund Freud",
+      "row_number": 36,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1842-01-11",
+      "birth_place": "New York City",
+      "birth_time": "09:00",
+      "name": "William James",
+      "row_number": 37,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1869-10-02",
+      "birth_place": "Porbandar",
+      "birth_time": "07:11",
+      "name": "Mahatma Gandhi",
+      "row_number": 38,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1929-01-15",
+      "birth_place": "Atlanta",
+      "birth_time": "12:00",
+      "name": "Martin Luther King Jr.",
+      "row_number": 39,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1918-07-18",
+      "birth_place": "Mvezo",
+      "birth_time": "14:54",
+      "name": "Nelson Mandela",
+      "row_number": 40,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1822-03-01",
+      "birth_place": "Dorchester County",
+      "birth_time": "Unknown",
+      "name": "Harriet Tubman",
+      "row_number": 41,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1818-02-14",
+      "birth_place": "Talbot County",
+      "birth_time": "Unknown",
+      "name": "Frederick Douglass",
+      "row_number": 42,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1564-04-23",
+      "birth_place": "Stratford-upon-Avon",
+      "birth_time": "Unknown",
+      "name": "William Shakespeare",
+      "row_number": 43,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1828-09-09",
+      "birth_place": "Yasnaya Polyana",
+      "birth_time": "12:00",
+      "name": "Leo Tolstoy",
+      "row_number": 44,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1821-11-11",
+      "birth_place": "Moscow",
+      "birth_time": "11:00",
+      "name": "Fyodor Dostoevsky",
+      "row_number": 45,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1775-12-16",
+      "birth_place": "Steventon",
+      "birth_time": "08:00",
+      "name": "Jane Austen",
+      "row_number": 46,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1756-01-27",
+      "birth_place": "Salzburg",
+      "birth_time": "20:00",
+      "name": "Wolfgang Amadeus Mozart",
+      "row_number": 47,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1770-12-17",
+      "birth_place": "Bonn",
+      "birth_time": "Unknown",
+      "name": "Ludwig van Beethoven",
+      "row_number": 48,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1685-03-31",
+      "birth_place": "Eisenach",
+      "birth_time": "08:00",
+      "name": "Johann Sebastian Bach",
+      "row_number": 49,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1853-03-30",
+      "birth_place": "Zundert",
+      "birth_time": "11:00",
+      "name": "Vincent van Gogh",
+      "row_number": 50,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1881-10-25",
+      "birth_place": "M\u00e1laga",
+      "birth_time": "23:15",
+      "name": "Pablo Picasso",
+      "row_number": 51,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1955-02-24",
+      "birth_place": "San Francisco",
+      "birth_time": "19:15",
+      "name": "Steve Jobs",
+      "row_number": 52,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1955-10-28",
+      "birth_place": "Seattle",
+      "birth_time": "21:15",
+      "name": "Bill Gates",
+      "row_number": 53,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1863-07-30",
+      "birth_place": "Dearborn",
+      "birth_time": "07:00",
+      "name": "Henry Ford",
+      "row_number": 54,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    },
+    {
+      "birth_date": "1847-02-11",
+      "birth_place": "Milan",
+      "birth_time": "03:00",
+      "name": "Thomas Edison",
+      "row_number": 55,
+      "source_file": "research\\profile_intake\\historical_batch.csv"
+    }
+  ],
+  "source_file": "research\\profile_intake\\historical_batch.csv",
+  "valid_count": 54,
+  "version": "1.0"
+}

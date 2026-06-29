@@ -8,6 +8,7 @@ import pandas as pd
 import streamlit as st
 
 from atlas.acf.builder import export_acf_profile
+from atlas.comparison import compare_planet_agreement
 from atlas.ive import (
     build_identity_vector,
     compare_identity_vectors,
@@ -28,8 +29,8 @@ def render_compare_profiles_page() -> None:
     """Render Compare Profiles page."""
     st.header("Compare Profiles")
     st.caption(
-        "Compare saved profiles using the Identity Vector Engine: "
-        "global similarity, planet similarity, and relationship similarity."
+        "Compare saved profiles using the Identity Vector Engine, "
+        "Planet Agreement Matrix, and feature-level divergence diagnostics."
     )
 
     profiles = list_saved_profiles()
@@ -178,14 +179,49 @@ def render_ive_comparison(
     )
 
     comparison = compare_identity_vectors(vector_a, vector_b)
+    planet_matrix = build_planet_agreement_from_vectors(vector_a, vector_b)
 
     render_similarity_summary(comparison)
     render_planet_similarity(comparison)
+    render_planet_agreement_matrix(planet_matrix)
     render_global_feature_delta(vector_a, vector_b)
     render_planet_feature_delta(vector_a, vector_b)
 
     with st.expander("Raw IVE Similarity JSON"):
         st.json(identity_similarity_to_dict(comparison))
+
+    with st.expander("Raw Planet Agreement Matrix JSON"):
+        st.json(planet_agreement_to_dict(planet_matrix))
+
+
+def build_planet_agreement_from_vectors(vector_a, vector_b):
+    """Build Planet Agreement Matrix from IdentityVector planet features."""
+    fingerprint_a = {
+        planet: vector.features
+        for planet, vector in vector_a.planets.items()
+    }
+
+    fingerprint_b = {
+        planet: vector.features
+        for planet, vector in vector_b.planets.items()
+    }
+
+    confidence_a = {
+        planet: 1.0
+        for planet in vector_a.planets
+    }
+
+    confidence_b = {
+        planet: 1.0
+        for planet in vector_b.planets
+    }
+
+    return compare_planet_agreement(
+        fingerprint_a=fingerprint_a,
+        fingerprint_b=fingerprint_b,
+        confidence_a=confidence_a,
+        confidence_b=confidence_b,
+    )
 
 
 def render_similarity_summary(comparison) -> None:
@@ -207,6 +243,62 @@ def render_similarity_summary(comparison) -> None:
     c6.metric("Weakest Planet Match", diagnostics["weakest_planet_match"])
     c7.metric("Most Divergent Planet", diagnostics["most_divergent_planet"])
 
+def render_score_interpretation(comparison) -> None:
+    """Explain how the similarity scores relate to one another."""
+
+    st.markdown("## Score Interpretation")
+
+    global_similarity = comparison.global_similarity
+    relationship_similarity = comparison.relationship_similarity
+    composite_similarity = comparison.composite_similarity
+
+    gap = relationship_similarity - global_similarity
+
+    c1, c2, c3 = st.columns(3)
+
+    c1.metric(
+        "Relationship − Global Gap",
+        format_float(gap),
+    )
+
+    c2.metric(
+        "Composite Similarity",
+        format_float(composite_similarity),
+    )
+
+    c3.metric(
+        "Shared Planets",
+        str(comparison.diagnostics["shared_planet_count"]),
+    )
+
+    st.markdown("### Interpretation")
+
+    if relationship_similarity >= 0.90 and global_similarity >= 0.90:
+        st.success(
+            "These identities are highly aligned both globally and internally. "
+            "Atlas detects similar overall structural fingerprints and very similar "
+            "relationships between planetary layers."
+        )
+
+    elif relationship_similarity >= 0.90 and global_similarity < 0.90:
+        st.info(
+            "The internal planetary relationships are highly aligned, but the overall "
+            "structural fingerprint differs more. This suggests similar organization "
+            "with different absolute expression."
+        )
+
+    elif relationship_similarity < 0.90 and global_similarity >= 0.90:
+        st.warning(
+            "The overall feature profile is similar, but the relationships between "
+            "planetary layers differ. The identities share comparable measurements "
+            "but organize them differently."
+        )
+
+    else:
+        st.warning(
+            "Both global structure and planetary relationships differ. "
+            "Atlas detects limited structural correspondence between these identities."
+        )
 
 def render_planet_similarity(comparison) -> None:
     """Render per-planet similarity table."""
@@ -233,6 +325,126 @@ def render_planet_similarity(comparison) -> None:
             dataframe.set_index("planet")["similarity"],
             width="stretch",
         )
+
+
+def render_planet_agreement_matrix(matrix) -> None:
+    """Render Planet Agreement Matrix diagnostics."""
+    st.markdown("## Planet Agreement Matrix")
+
+    c1, c2, c3, c4 = st.columns(4)
+
+    c1.metric("Overall Similarity", format_float(matrix.overall_similarity))
+    c2.metric("Planet Agreement", format_float(matrix.planet_agreement))
+    c3.metric("Dominant Match", matrix.dominant_match)
+    c4.metric("Dominant Divergence", matrix.dominant_divergence)
+
+    rows = []
+
+    for row in matrix.rows:
+        rows.append(
+            {
+                "planet": row.planet,
+                "similarity": row.similarity,
+                "distance": row.distance,
+                "confidence": row.confidence,
+                "strongest_matches": ", ".join(row.strongest_matches),
+                "strongest_differences": ", ".join(row.strongest_differences),
+            }
+        )
+
+    dataframe = pd.DataFrame(rows)
+
+    st.markdown("### Planet-Level Agreement")
+    st.dataframe(dataframe, width="stretch")
+
+    if not dataframe.empty:
+        st.bar_chart(
+            dataframe.set_index("planet")["similarity"],
+            width="stretch",
+        )
+
+    render_planet_drilldown(matrix)
+
+
+def render_planet_drilldown(matrix) -> None:
+    """Render selected-planet feature-distance drilldown."""
+    st.markdown("### Planet Drilldown")
+
+    planet_names = [
+        row.planet
+        for row in matrix.rows
+    ]
+
+    if not planet_names:
+        st.info("No planet rows available.")
+        return
+
+    default_index = (
+        planet_names.index(matrix.dominant_divergence)
+        if matrix.dominant_divergence in planet_names
+        else 0
+    )
+
+    selected_planet = st.selectbox(
+        "Inspect Planet",
+        planet_names,
+        index=default_index,
+    )
+
+    selected_row = next(
+        row
+        for row in matrix.rows
+        if row.planet == selected_planet
+    )
+
+    c1, c2, c3 = st.columns(3)
+
+    c1.metric("Similarity", format_float(selected_row.similarity))
+    c2.metric("Distance", format_float(selected_row.distance))
+    c3.metric("Confidence", format_float(selected_row.confidence))
+
+    col_match, col_difference = st.columns(2)
+
+    with col_match:
+        st.markdown("#### Strongest Matches")
+        if selected_row.strongest_matches:
+            for feature in selected_row.strongest_matches:
+                st.write(f"- `{feature}`")
+        else:
+            st.info("No strongest matches available.")
+
+    with col_difference:
+        st.markdown("#### Strongest Differences")
+        if selected_row.strongest_differences:
+            for feature in selected_row.strongest_differences:
+                st.write(f"- `{feature}`")
+        else:
+            st.info("No strongest differences available.")
+
+    detail_rows = [
+        {
+            "feature": feature,
+            "distance": distance,
+        }
+        for feature, distance in selected_row.feature_distances.items()
+    ]
+
+    detail = pd.DataFrame(detail_rows)
+
+    if detail.empty:
+        st.info("No feature-distance detail available for this planet.")
+        return
+
+    detail = detail.sort_values("distance", ascending=False)
+
+    st.markdown("#### Feature Distance Ranking")
+    st.dataframe(detail, width="stretch")
+
+    st.markdown("#### Top Divergence Features")
+    st.bar_chart(
+        detail.head(12).set_index("feature")["distance"],
+        width="stretch",
+    )
 
 
 def render_global_feature_delta(vector_a, vector_b) -> None:
@@ -314,6 +526,31 @@ def render_planet_feature_delta(vector_a, vector_b) -> None:
     if not top.empty:
         st.markdown("### Top 20 Separating Planet Features")
         st.dataframe(top, width="stretch")
+
+
+def planet_agreement_to_dict(matrix) -> dict:
+    """Convert Planet Agreement Matrix to a JSON-safe dictionary."""
+    return {
+        "overall_similarity": matrix.overall_similarity,
+        "planet_similarity": matrix.planet_similarity,
+        "planet_confidence": matrix.planet_confidence,
+        "planet_variance": matrix.planet_variance,
+        "planet_agreement": matrix.planet_agreement,
+        "dominant_match": matrix.dominant_match,
+        "dominant_divergence": matrix.dominant_divergence,
+        "rows": [
+            {
+                "planet": row.planet,
+                "similarity": row.similarity,
+                "distance": row.distance,
+                "confidence": row.confidence,
+                "strongest_matches": row.strongest_matches,
+                "strongest_differences": row.strongest_differences,
+                "feature_distances": row.feature_distances,
+            }
+            for row in matrix.rows
+        ],
+    }
 
 
 def format_float(value) -> str:

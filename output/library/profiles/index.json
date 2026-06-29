@@ -436,6 +436,18 @@
       "tags": []
     },
     {
+      "acf_path": "sarah_jean_deharo\\profile.acf.json",
+      "birth_confidence": "unknown",
+      "codex_report_path": "sarah_jean_deharo\\codex_report.md",
+      "entity_type": "person",
+      "id": "sarah_jean_deharo",
+      "interpretation_path": "sarah_jean_deharo\\profile_interpretation.json",
+      "name": "Sarah Jean Deharo",
+      "notes": null,
+      "summary_path": "sarah_jean_deharo\\profile_summary.json",
+      "tags": []
+    },
+    {
       "acf_path": "stephen_william_hawking\\profile.acf.json",
       "birth_confidence": "unknown",
       "codex_report_path": "stephen_william_hawking\\codex_report.md",

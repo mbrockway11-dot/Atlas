@@ -13,7 +13,7 @@ from atlas.ive.relationship_matrix import (
     euclidean_distance,
     feature_agreement,
 )
-from atlas.ive.schema import IVE_VERSION, VECTOR_FEATURES, IdentityVector
+from atlas.ive.schema import IVE_VERSION, IdentityVector
 
 
 @dataclass(frozen=True)
@@ -38,11 +38,8 @@ def compare_identity_vectors(
     vector_b: IdentityVector,
 ) -> IdentityVectorSimilarity:
     """Compare two IdentityVectors."""
-    global_similarity = cosine_similarity(
-        vector_a.global_features,
-        vector_b.global_features,
-    )
     global_distance = global_feature_distance(vector_a, vector_b)
+    global_similarity = 1.0 - global_distance
 
     planet_similarity = {}
     planet_distance = {}
@@ -67,7 +64,6 @@ def compare_identity_vectors(
             average(list(planet_similarity.values())),
             average(list(planet_agreement.values())),
             relationship_similarity,
-            1.0 - global_distance,
         ]
     )
 
@@ -77,6 +73,7 @@ def compare_identity_vectors(
         "most_divergent_planet": max_key(planet_distance),
         "shared_planet_count": len(planet_similarity),
         "global_similarity": global_similarity,
+        "global_distance": global_distance,
         "relationship_similarity": relationship_similarity,
     }
 
@@ -84,7 +81,7 @@ def compare_identity_vectors(
         version=IVE_VERSION,
         name_a=vector_a.name,
         name_b=vector_b.name,
-        global_similarity=global_similarity,
+        global_similarity=clamp(global_similarity),
         global_distance=global_distance,
         planet_similarity=planet_similarity,
         planet_distance=planet_distance,
@@ -137,7 +134,7 @@ def global_feature_distance(
     )
 
     if not features:
-        return 0.0
+        return 1.0
 
     squared = sum(
         (

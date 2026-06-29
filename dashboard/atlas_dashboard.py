@@ -43,6 +43,10 @@ def main() -> None:
     debug("loading page imports")
 
     from pages.compare_profiles import render_compare_profiles_page
+    from pages.identity_stack_lab import render_identity_stack_lab_page
+    from pages.morphology_lab import render_morphology_lab_page
+    from pages.population_intelligence import render_population_intelligence_page
+    from pages.population_observatory import render_population_observatory_page
     from pages.profile_builder import render_profile_builder_page
     from pages.profile_library import render_profile_library_page
     from pages.profile_observatory import render_profile_observatory_page
@@ -58,6 +62,10 @@ def main() -> None:
         [
             "Profile Builder",
             "Profile Observatory",
+            "Population Observatory",
+            "Population Intelligence",
+            "Identity Stack Lab",
+            "Morphology Lab",
             "Profile Test Lab",
             "Role Calibration Lab",
             "Validation Lab",
@@ -74,6 +82,24 @@ def main() -> None:
 
     elif page == "Profile Observatory":
         safe_render("Profile Observatory", render_profile_observatory_page)
+
+    elif page == "Population Observatory":
+        safe_render(
+            "Population Observatory",
+            render_population_observatory_page,
+        )
+
+    elif page == "Population Intelligence":
+        safe_render(
+            "Population Intelligence",
+            render_population_intelligence_page,
+        )
+
+    elif page == "Identity Stack Lab":
+        safe_render("Identity Stack Lab", render_identity_stack_lab_page)
+
+    elif page == "Morphology Lab":
+        safe_render("Morphology Lab", render_morphology_lab_page)
 
     elif page == "Profile Test Lab":
         safe_render("Profile Test Lab", render_profile_test_lab_page)
