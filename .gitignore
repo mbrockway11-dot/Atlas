@@ -9,3 +9,20 @@ build/
 *.pyc
 .vscode/
 .idea/
+# ==========================================================
+# Atlas Generated Research Corpus
+# ==========================================================
+
+research/corpus/*.csv
+research/corpus/*.parquet
+research/corpus/*.json
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+.venv/
+
+# IDE settings
+.vscode/settings.json
