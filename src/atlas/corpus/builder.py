@@ -6,14 +6,19 @@ import json
 from pathlib import Path
 from typing import Any
 
+from atlas.corpus.export import export_corpus_rows
+from atlas.corpus.schema import build_corpus_metadata
+from atlas.corpus.statistics import build_corpus_statistics
+from atlas.corpus.validation import (
+    validate_profile_acfs,
+    validate_profile_library,
+    validation_result_to_dict,
+)
 from atlas.ive import (
     build_identity_vector,
     identity_vector_to_dict,
 )
 from atlas.ontology import synthesize_identity_ontology
-from atlas.corpus.export import export_corpus_rows
-from atlas.corpus.schema import build_corpus_metadata
-from atlas.corpus.statistics import build_corpus_statistics
 
 
 def build_research_corpus(
@@ -28,7 +33,21 @@ def build_research_corpus(
     profile_library_path = Path(profile_library)
     output_dir = Path(output_directory)
 
+    library_validation = validate_profile_library(profile_library_path)
+
+    if not library_validation.valid:
+        raise ValueError(
+            f"Profile library validation failed: {library_validation.errors}"
+        )
+
     acfs = load_profile_acfs(profile_library_path)
+
+    acf_validation = validate_profile_acfs(acfs)
+
+    if not acf_validation.valid:
+        raise ValueError(
+            f"ACF validation failed: {acf_validation.errors}"
+        )
 
     rows = []
 
@@ -48,6 +67,11 @@ def build_research_corpus(
         )
 
     metadata = build_corpus_metadata(profile_count=len(rows))
+    metadata["validation"] = {
+        "library": validation_result_to_dict(library_validation),
+        "acfs": validation_result_to_dict(acf_validation),
+    }
+
     export_paths = export_corpus_rows(rows, output_dir, metadata)
     statistics = build_corpus_statistics(rows, output_dir)
 
@@ -57,6 +81,10 @@ def build_research_corpus(
         "metadata": metadata,
         "statistics": statistics,
         "exports": export_paths,
+        "validation": {
+            "library": library_validation,
+            "acfs": acf_validation,
+        },
     }
 
 
