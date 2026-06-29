@@ -1,27 +1,27 @@
-"""Statistical Intelligence dashboard page."""
+"""Statistical Intelligence dashboard page.
+
+This page is service-backed. Dashboard code renders controls, tables, charts,
+and downloads only. Statistical calculations are routed through
+atlas.services.statistical_service.
+"""
 
 from __future__ import annotations
-
-from pathlib import Path
-import json
 
 import pandas as pd
 import streamlit as st
 
-from atlas.library.profile_library import LIBRARY_DIR, list_saved_profiles
-from atlas.research.matrix import build_profile_matrix_rows
-from atlas.research.statistical import (
-    build_statistical_intelligence_report,
-    cluster_summary,
-    cohort_separation,
-    kmeans_clusters,
-    principal_components,
-    silhouette_scores,
-    statistical_report_to_json,
+from atlas.services.statistical_service import (
+    DEFAULT_COHORT_INDEX,
+    get_cluster_summary,
+    get_cohort_separation,
+    get_kmeans_clusters,
+    get_principal_components,
+    get_silhouette_scores,
+    get_statistical_intelligence_report,
+    get_statistical_population_matrix,
+    get_statistical_profile_features,
+    statistical_json,
 )
-from atlas.research.validation import build_profile_feature_matrix, load_cohort_index
-
-DEFAULT_COHORT_INDEX = Path("research/profile_intake/cohort_index.csv")
 
 
 def render_statistical_intelligence_page() -> None:
@@ -32,18 +32,17 @@ def render_statistical_intelligence_page() -> None:
         "No new symbolic engine is added here."
     )
 
-    matrix = load_profile_library_matrix()
+    matrix = get_statistical_population_matrix()
     if matrix.empty:
         st.error("No profile matrix rows could be loaded from the profile library.")
         return
 
-    profile_features = build_profile_feature_matrix(matrix)
+    profile_features = get_statistical_profile_features(matrix)
     if profile_features.empty or len(profile_features) < 2:
         st.error("At least two profiles are required for Statistical Intelligence.")
         return
 
     cohort_path = st.text_input("Optional cohort index CSV", value=str(DEFAULT_COHORT_INDEX))
-    cohort_index = load_cohort_index(cohort_path)
 
     c1, c2, c3 = st.columns(3)
     k = c1.slider(
@@ -60,9 +59,9 @@ def render_statistical_intelligence_page() -> None:
     )
     c3.metric("Profiles", len(profile_features))
 
-    report = build_statistical_intelligence_report(
+    report = get_statistical_intelligence_report(
         profile_features,
-        cohort_index=cohort_index,
+        cohort_path=cohort_path,
         k=k,
         n_components=n_components,
     )
@@ -89,28 +88,10 @@ def render_statistical_intelligence_page() -> None:
         render_silhouette(profile_features, k)
 
     with tab_cohorts:
-        render_cohorts(profile_features, cohort_index)
+        render_cohorts(profile_features, cohort_path)
 
     with tab_exports:
         render_exports(report)
-
-
-def load_profile_library_matrix() -> pd.DataFrame:
-    """Load every saved profile into the row-level research matrix."""
-    rows: list[dict] = []
-
-    for profile_key in list_saved_profiles():
-        acf_path = LIBRARY_DIR / profile_key / "profile.acf.json"
-        if not acf_path.exists():
-            continue
-
-        try:
-            acf = json.loads(acf_path.read_text(encoding="utf-8"))
-            rows.extend(build_profile_matrix_rows(acf))
-        except Exception as exc:
-            st.warning(f"Skipped {profile_key}: {exc}")
-
-    return pd.DataFrame(rows)
 
 
 def render_overview(report: dict) -> None:
@@ -140,7 +121,7 @@ def render_overview(report: dict) -> None:
 def render_principal_components(profile_features: pd.DataFrame, n_components: int) -> None:
     """Render PCA-style dimensional reduction."""
     st.markdown("## Principal Components")
-    pca = principal_components(profile_features, n_components=n_components)
+    pca = get_principal_components(profile_features, n_components=n_components)
 
     if not pca["available"]:
         st.warning(pca["reason"])
@@ -170,8 +151,8 @@ def render_principal_components(profile_features: pd.DataFrame, n_components: in
 def render_clusters(profile_features: pd.DataFrame, k: int) -> None:
     """Render deterministic k-means clusters."""
     st.markdown("## Deterministic Cluster Analysis")
-    assignments = kmeans_clusters(profile_features, k=k)
-    summary = cluster_summary(assignments)
+    assignments = get_kmeans_clusters(profile_features, k=k)
+    summary = get_cluster_summary(assignments)
 
     st.markdown("### Cluster Summary")
     st.dataframe(summary, use_container_width=True)
@@ -183,8 +164,8 @@ def render_clusters(profile_features: pd.DataFrame, k: int) -> None:
 def render_silhouette(profile_features: pd.DataFrame, k: int) -> None:
     """Render silhouette coherence scores."""
     st.markdown("## Silhouette Coherence")
-    assignments = kmeans_clusters(profile_features, k=k)
-    scores = silhouette_scores(profile_features, assignments)
+    assignments = get_kmeans_clusters(profile_features, k=k)
+    scores = get_silhouette_scores(profile_features, assignments)
 
     if scores.empty:
         st.info("Silhouette scores are unavailable for the current data.")
@@ -195,10 +176,10 @@ def render_silhouette(profile_features: pd.DataFrame, k: int) -> None:
     st.dataframe(scores, use_container_width=True)
 
 
-def render_cohorts(profile_features: pd.DataFrame, cohort_index: pd.DataFrame) -> None:
+def render_cohorts(profile_features: pd.DataFrame, cohort_path: str) -> None:
     """Render cohort separation metrics."""
     st.markdown("## Cohort Separation")
-    separation = cohort_separation(profile_features, cohort_index)
+    separation = get_cohort_separation(profile_features, cohort_path)
 
     if not separation["available"]:
         st.info(separation["reason"])
@@ -234,7 +215,7 @@ def render_exports(report: dict) -> None:
     st.markdown("## Exports")
     st.download_button(
         "Download statistical_intelligence_report.json",
-        data=statistical_report_to_json(report),
+        data=statistical_json(report),
         file_name="statistical_intelligence_report.json",
         mime="application/json",
     )

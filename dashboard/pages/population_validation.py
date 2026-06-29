@@ -1,28 +1,29 @@
-"""Population Validation Lab dashboard page."""
+﻿"""Population Validation Lab dashboard page.
+
+This page is service-backed. Dashboard code should render controls, tables,
+charts, and downloads only. Population validation calculations are routed
+through atlas.services.validation_service.
+"""
 
 from __future__ import annotations
-
-from pathlib import Path
-import json
 
 import pandas as pd
 import streamlit as st
 
-from atlas.library.profile_library import LIBRARY_DIR, list_saved_profiles
-from atlas.research.matrix import build_profile_matrix_rows
-from atlas.research.validation import (
-    build_population_validation_report,
-    build_profile_feature_matrix,
-    correlated_feature_pairs,
-    data_quality_checks,
-    load_cohort_index,
-    nearest_neighbors,
-    numeric_columns,
-    outlier_scores,
-    report_to_json,
+from atlas.services.validation_service import (
+    DEFAULT_COHORT_INDEX,
+    get_cohort_index,
+    get_correlated_feature_pairs,
+    get_data_quality,
+    get_feature_variance,
+    get_nearest_neighbors,
+    get_numeric_columns,
+    get_outlier_scores,
+    get_population_matrix,
+    get_population_validation_report,
+    get_profile_feature_matrix,
+    validation_report_json,
 )
-
-DEFAULT_COHORT_INDEX = Path("research/profile_intake/cohort_index.csv")
 
 
 def render_population_validation_page() -> None:
@@ -33,7 +34,7 @@ def render_population_validation_page() -> None:
         "discriminating structure before adding more engines."
     )
 
-    matrix = load_profile_library_matrix()
+    matrix = get_population_matrix()
 
     if matrix.empty:
         st.error("No profile matrix rows could be loaded from the profile library.")
@@ -52,11 +53,10 @@ def render_population_validation_page() -> None:
         step=0.01,
     )
 
-    cohort_index = load_cohort_index(cohort_path)
-    profile_features = build_profile_feature_matrix(matrix)
-    report = build_population_validation_report(
-        matrix,
-        cohort_index=cohort_index,
+    cohort_index = get_cohort_index(cohort_path)
+    profile_features = get_profile_feature_matrix(matrix)
+    report = get_population_validation_report(
+        cohort_path=cohort_path,
         correlation_threshold=correlation_threshold,
     )
 
@@ -78,7 +78,7 @@ def render_population_validation_page() -> None:
         render_quality(matrix)
 
     with tab_variance:
-        render_variance(report)
+        render_variance(matrix, report)
 
     with tab_neighbors:
         render_neighbors(profile_features)
@@ -90,33 +90,15 @@ def render_population_validation_page() -> None:
         render_correlation(profile_features, correlation_threshold)
 
     with tab_cohorts:
-        render_cohorts(report)
+        render_cohorts(report, cohort_index)
 
     with tab_exports:
         render_exports(report, profile_features)
 
 
-def load_profile_library_matrix() -> pd.DataFrame:
-    """Load every saved profile into the row-level research matrix."""
-    rows: list[dict] = []
-
-    for profile_key in list_saved_profiles():
-        acf_path = LIBRARY_DIR / profile_key / "profile.acf.json"
-        if not acf_path.exists():
-            continue
-
-        try:
-            acf = json.loads(acf_path.read_text(encoding="utf-8"))
-            rows.extend(build_profile_matrix_rows(acf))
-        except Exception as exc:  # pragma: no cover - dashboard safety
-            st.warning(f"Skipped {profile_key}: {exc}")
-
-    return pd.DataFrame(rows)
-
-
 def render_summary(matrix: pd.DataFrame) -> None:
     """Render corpus summary cards."""
-    numeric = numeric_columns(matrix)
+    numeric = get_numeric_columns(matrix)
 
     c1, c2, c3, c4, c5 = st.columns(5)
     c1.metric("Rows", len(matrix))
@@ -129,7 +111,7 @@ def render_summary(matrix: pd.DataFrame) -> None:
 def render_quality(matrix: pd.DataFrame) -> None:
     """Render data quality checks."""
     st.markdown("## Data Quality Checks")
-    quality = data_quality_checks(matrix)
+    quality = get_data_quality(matrix)
 
     c1, c2, c3 = st.columns(3)
     c1.metric("Duplicate profile/cipher/planet rows", quality["duplicate_profile_cipher_planet_rows"])
@@ -166,10 +148,13 @@ def render_quality(matrix: pd.DataFrame) -> None:
         st.success("All profiles have the expected 21 cipher/planet realizations.")
 
 
-def render_variance(report: dict) -> None:
+def render_variance(matrix: pd.DataFrame, report: dict) -> None:
     """Render feature variance audit."""
     st.markdown("## Feature Variance")
-    variance = report["feature_variance"]
+
+    variance = report.get("feature_variance")
+    if variance is None:
+        variance = get_feature_variance(matrix)
 
     c1, c2 = st.columns(2)
     c1.metric("Zero-variance columns", len(variance["zero_variance_columns"]))
@@ -198,7 +183,12 @@ def render_neighbors(profile_features: pd.DataFrame) -> None:
     metric = st.radio("Distance metric", ["cosine", "euclidean"], horizontal=True)
     limit = st.slider("Neighbor limit", 1, min(50, len(names) - 1), min(10, len(names) - 1))
 
-    neighbors = nearest_neighbors(profile_features, selected, limit=limit, metric=metric)
+    neighbors = get_nearest_neighbors(
+        profile_features,
+        selected,
+        limit=limit,
+        metric=metric,
+    )
     st.dataframe(pd.DataFrame(neighbors), use_container_width=True)
 
 
@@ -207,14 +197,14 @@ def render_outliers(profile_features: pd.DataFrame) -> None:
     st.markdown("## Outlier Detection")
     st.caption("Profiles are ranked by distance from the normalized population centroid.")
 
-    outliers = outlier_scores(profile_features)
+    outliers = get_outlier_scores(profile_features)
     st.dataframe(outliers.head(100), use_container_width=True)
 
 
 def render_correlation(profile_features: pd.DataFrame, threshold: float) -> None:
     """Render redundant feature pairs."""
     st.markdown("## Feature Correlation / Redundancy")
-    pairs = correlated_feature_pairs(profile_features, threshold=threshold)
+    pairs = get_correlated_feature_pairs(profile_features, threshold=threshold)
 
     st.metric("Highly correlated pairs", len(pairs))
 
@@ -224,12 +214,12 @@ def render_correlation(profile_features: pd.DataFrame, threshold: float) -> None
         st.success("No feature pairs exceeded the selected threshold.")
 
 
-def render_cohorts(report: dict) -> None:
+def render_cohorts(report: dict, cohort_index: pd.DataFrame) -> None:
     """Render optional cohort support."""
     st.markdown("## Cohort Support")
     support = report["cohort_support"]
 
-    if not support["available"]:
+    if cohort_index.empty or not support["available"]:
         st.info(
             "No cohort index found yet. Add research/profile_intake/cohort_index.csv "
             "with columns: name,cohort."
@@ -258,7 +248,7 @@ def render_exports(report: dict, profile_features: pd.DataFrame) -> None:
 
     st.download_button(
         "Download population_validation_report.json",
-        data=report_to_json(report),
+        data=validation_report_json(report),
         file_name="population_validation_report.json",
         mime="application/json",
     )
