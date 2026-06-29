@@ -179,6 +179,57 @@ def dignity_strength(
 
     return score
 
+def build_dignity_chart(
+    natal: NatalChart,
+) -> DignityChart:
+    """Build a dignity chart from a natal chart."""
+
+    dignities: dict[str, PlanetDignity] = {}
+
+    for planet, position in natal.planets.items():
+
+        sign = position.sign
+        ruler = SIGN_RULERS[sign]
+
+        own_sign = sign in OWN_SIGNS.get(planet, set())
+        exalted = EXALTATION_SIGNS.get(planet) == sign
+        debilitated = DEBILITATION_SIGNS.get(planet) == sign
+        moolatrikona = MOOLATRIKONA_SIGNS.get(planet) == sign
+
+        relationship = planetary_relationship(
+            planet,
+            ruler,
+        )
+
+        strength = dignity_strength(
+            exalted=exalted,
+            own_sign=own_sign,
+            moolatrikona=moolatrikona,
+            debilitated=debilitated,
+            relationship=relationship,
+        )
+
+        dignities[planet] = PlanetDignity(
+            planet=planet,
+            sign=sign,
+            ruler=ruler,
+            own_sign=own_sign,
+            exalted=exalted,
+            debilitated=debilitated,
+            moolatrikona=moolatrikona,
+            relationship=relationship,
+            strength_score=strength,
+        )
+
+    return DignityChart(
+        version=DIGNITY_ENGINE_VERSION,
+        name=natal.name,
+        dignities=dignities,
+        summary={
+            "planet_count": len(dignities),
+        },
+    )
+
 def dignity_chart_to_dict(
     chart: DignityChart,
 ) -> dict[str, Any]:

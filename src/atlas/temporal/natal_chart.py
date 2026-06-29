@@ -108,3 +108,24 @@ def build_natal_chart_payload(
         "sidereal": sidereal_chart_to_dict(sidereal),
         "natal_chart": chart,
     }
+
+def natal_chart_to_dict(
+    chart: NatalChart,
+) -> dict[str, Any]:
+    """Convert NatalChart to dictionary."""
+
+    from atlas.temporal.models import birth_data_to_dict
+    from atlas.temporal.models import planet_position_to_dict
+
+    return {
+        "version": chart.version,
+        "name": chart.name,
+        "birth": birth_data_to_dict(chart.birth),
+        "ayanamsa": chart.ayanamsa,
+        "zodiac": chart.zodiac,
+        "planets": {
+            planet: planet_position_to_dict(position)
+            for planet, position in chart.planets.items()
+        },
+        "summary": chart.summary,
+    }

@@ -53,6 +53,7 @@ def main() -> None:
     from pages.profile_test_lab import render_profile_test_lab_page
     from pages.research_corpus import render_research_corpus_page
     from pages.role_calibration_lab import render_role_calibration_lab_page
+    from pages.temporal_intelligence import render_temporal_intelligence_page
     from pages.validation_lab import render_validation_lab_page
 
     debug("page imports loaded")
@@ -64,6 +65,7 @@ def main() -> None:
             "Profile Observatory",
             "Population Observatory",
             "Population Intelligence",
+            "Temporal Intelligence",
             "Identity Stack Lab",
             "Morphology Lab",
             "Profile Test Lab",
@@ -93,6 +95,12 @@ def main() -> None:
         safe_render(
             "Population Intelligence",
             render_population_intelligence_page,
+        )
+
+    elif page == "Temporal Intelligence":
+        safe_render(
+            "Temporal Intelligence",
+            render_temporal_intelligence_page,
         )
 
     elif page == "Identity Stack Lab":

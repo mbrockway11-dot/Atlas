@@ -426,18 +426,17 @@ def longitude_to_nakshatra(
 
 def build_nakshatra_chart(
     natal_chart: NatalChart,
-) -> dict[str, NakshatraPosition]:
-    """Build Nakshatra positions for every body in the natal chart."""
+) -> NakshatraChart:
+    """Build Nakshatra chart."""
 
-    output: dict[str, NakshatraPosition] = {}
+    positions: dict[str, NakshatraPosition] = {}
 
     for body, position in natal_chart.planets.items():
-
         nakshatra = longitude_to_nakshatra(
             position.longitude,
         )
 
-        output[body] = NakshatraPosition(
+        positions[body] = NakshatraPosition(
             body=body,
             nakshatra=nakshatra.nakshatra,
             nakshatra_index=nakshatra.nakshatra_index,
@@ -446,7 +445,20 @@ def build_nakshatra_chart(
             degree_in_nakshatra=nakshatra.degree_in_nakshatra,
         )
 
-    return output
+    return NakshatraChart(
+        version=NAKSHATRA_ENGINE_VERSION,
+        name=natal_chart.name,
+        positions=positions,
+        summary={
+            "body_count": len(positions),
+            "nakshatra_count": len(
+                {
+                    position.nakshatra
+                    for position in positions.values()
+                }
+            ),
+        },
+    )
 
 
 def get_nakshatra_metadata(
@@ -479,3 +491,18 @@ def nakshatra_metadata_to_dict(
     """Convert NakshatraMetadata into a dictionary."""
 
     return asdict(metadata)
+
+def nakshatra_chart_to_dict(
+    chart: NakshatraChart,
+) -> dict[str, Any]:
+    """Convert NakshatraChart into a dictionary."""
+
+    return {
+        "version": chart.version,
+        "name": chart.name,
+        "positions": {
+            body: nakshatra_position_to_dict(position)
+            for body, position in chart.positions.items()
+        },
+        "summary": chart.summary,
+    }
