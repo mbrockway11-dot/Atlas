@@ -81,6 +81,26 @@ class ConfidenceSummary:
 
 
 @dataclass(frozen=True)
+class IntelligenceSummary:
+    """Human-readable Intelligence Engine summary."""
+
+    headline: str
+    population: str
+    statistics: str
+    topology: str
+    confidence: str
+
+
+@dataclass(frozen=True)
+class ProvenanceRecord:
+    """Traceability record for an Intelligence Engine section."""
+
+    section: str
+    source: str
+    role: str
+
+
+@dataclass(frozen=True)
 class AtlasIntelligencePayload:
     """Canonical Intelligence Engine payload."""
 
@@ -91,6 +111,8 @@ class AtlasIntelligencePayload:
     topology_position: TopologyPosition | None
     evidence: list[EvidenceRecord]
     confidence: ConfidenceSummary
+    summary: IntelligenceSummary
+    provenance: list[ProvenanceRecord]
     warnings: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:

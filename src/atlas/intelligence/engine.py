@@ -14,6 +14,7 @@ from typing import Any
 
 import pandas as pd
 
+from atlas.intelligence.explain import build_intelligence_summary
 from atlas.intelligence.models import (
     AtlasIntelligencePayload,
     ConfidenceSummary,
@@ -21,6 +22,7 @@ from atlas.intelligence.models import (
     IntelligenceEngineConfig,
     PopulationPosition,
     ProfileReference,
+    ProvenanceRecord,
     StatisticalPosition,
     TopologyPosition,
 )
@@ -296,6 +298,42 @@ def build_confidence(evidence: list[EvidenceRecord]) -> ConfidenceSummary:
     )
 
 
+def build_provenance() -> list[ProvenanceRecord]:
+    """Build static provenance records for the Intelligence Engine payload."""
+    return [
+        ProvenanceRecord(
+            section="research_session",
+            source="atlas.research.session.build_research_session",
+            role="Builds the canonical research session for the selected profile.",
+        ),
+        ProvenanceRecord(
+            section="population_position",
+            source="atlas.research.validation.nearest_neighbors / outlier_scores",
+            role="Provides nearest-neighbor and centroid-distance evidence.",
+        ),
+        ProvenanceRecord(
+            section="statistical_position",
+            source="atlas.research.statistical",
+            role="Provides PCA coordinates, cluster assignment, and silhouette score.",
+        ),
+        ProvenanceRecord(
+            section="topology_position",
+            source="atlas.research.population_topology.build_population_topology_graph",
+            role="Provides population graph role, community, component, and centrality.",
+        ),
+        ProvenanceRecord(
+            section="summary",
+            source="atlas.intelligence.explain",
+            role="Converts evidence-backed metrics into readable summaries.",
+        ),
+        ProvenanceRecord(
+            section="confidence",
+            source="atlas.intelligence.engine.build_confidence",
+            role="Summarizes available evidence coverage into conservative confidence.",
+        ),
+    ]
+
+
 def build_intelligence_model(
     profile_dir: str | Path,
     config: IntelligenceEngineConfig | None = None,
@@ -320,7 +358,21 @@ def build_intelligence_model(
         profile_dir=str(profile_path),
     )
 
+    provenance = build_provenance()
+
     if profile_features.empty:
+        confidence = ConfidenceSummary(
+            score=0.0,
+            label="unavailable",
+            evidence_count=0,
+        )
+        summary = build_intelligence_summary(
+            population_position=None,
+            statistical_position=None,
+            topology_position=None,
+            confidence=confidence,
+        )
+
         return AtlasIntelligencePayload(
             profile=profile_ref,
             research_session=research_session,
@@ -328,11 +380,9 @@ def build_intelligence_model(
             statistical_position=None,
             topology_position=None,
             evidence=[],
-            confidence=ConfidenceSummary(
-                score=0.0,
-                label="unavailable",
-                evidence_count=0,
-            ),
+            confidence=confidence,
+            summary=summary,
+            provenance=provenance,
             warnings=[
                 "Population feature matrix is empty; population intelligence unavailable."
             ],
@@ -364,6 +414,13 @@ def build_intelligence_model(
 
     confidence = build_confidence(evidence)
 
+    summary = build_intelligence_summary(
+        population_position=population_position,
+        statistical_position=statistical_position,
+        topology_position=topology_position,
+        confidence=confidence,
+    )
+
     return AtlasIntelligencePayload(
         profile=profile_ref,
         research_session=research_session,
@@ -372,6 +429,8 @@ def build_intelligence_model(
         topology_position=topology_position,
         evidence=evidence,
         confidence=confidence,
+        summary=summary,
+        provenance=provenance,
         warnings=[],
     )
 
@@ -380,9 +439,5 @@ def build_intelligence_payload(
     profile_dir: str | Path,
     config: IntelligenceEngineConfig | None = None,
 ) -> dict[str, Any]:
-    """Build a JSON-safe Atlas intelligence payload.
-
-    This preserves dashboard compatibility while the backend uses structured
-    models internally.
-    """
+    """Build a JSON-safe Atlas intelligence payload."""
     return build_intelligence_model(profile_dir, config=config).to_dict()
