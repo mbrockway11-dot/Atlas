@@ -1,14 +1,59 @@
 {
   "invalid_count": 0,
-  "issue_count": 12,
+  "issue_count": 58,
   "issues": [
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Alexander the Great"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 2,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Philip II of Macedon"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 3,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Hannibal Barca"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 4,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Scipio Africanus"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 5,
+      "severity": "info"
+    },
     {
       "code": "unknown_birth_time",
       "details": {
         "name": "Julius Caesar"
       },
       "message": "Birth time is unknown.",
-      "row_number": 9,
+      "row_number": 6,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Augustus"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 7,
       "severity": "info"
     },
     {
@@ -17,13 +62,40 @@
         "name": "Marcus Aurelius"
       },
       "message": "Birth time is unknown.",
+      "row_number": 8,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Belisarius"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 9,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Charlemagne"
+      },
+      "message": "Birth time is unknown.",
       "row_number": 10,
       "severity": "info"
     },
     {
       "code": "unknown_birth_time",
       "details": {
-        "name": "Michelangelo"
+        "name": "William the Conqueror"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 11,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Saladin"
       },
       "message": "Birth time is unknown.",
       "row_number": 12,
@@ -32,7 +104,133 @@
     {
       "code": "unknown_birth_time",
       "details": {
-        "name": "Plato"
+        "name": "Genghis Khan"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 13,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Kublai Khan"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 14,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Joan of Arc"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 15,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Mehmed II"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 16,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Christopher Columbus"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 17,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Vasco da Gama"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 18,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Ferdinand Magellan"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 19,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Hern\u00e1n Cort\u00e9s"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 20,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Francisco Pizarro"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 21,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Zheng He"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 22,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Francis Drake"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 23,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Walter Raleigh"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 24,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Oliver Cromwell"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 25,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "George Washington"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 26,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Horatio Nelson"
       },
       "message": "Birth time is unknown.",
       "row_number": 27,
@@ -41,7 +239,7 @@
     {
       "code": "unknown_birth_time",
       "details": {
-        "name": "Aristotle"
+        "name": "Arthur Wellesley"
       },
       "message": "Birth time is unknown.",
       "row_number": 28,
@@ -50,7 +248,7 @@
     {
       "code": "unknown_birth_time",
       "details": {
-        "name": "Socrates"
+        "name": "Napoleon Bonaparte"
       },
       "message": "Birth time is unknown.",
       "row_number": 29,
@@ -59,7 +257,7 @@
     {
       "code": "unknown_birth_time",
       "details": {
-        "name": "Confucius"
+        "name": "Sim\u00f3n Bol\u00edvar"
       },
       "message": "Birth time is unknown.",
       "row_number": 30,
@@ -68,7 +266,7 @@
     {
       "code": "unknown_birth_time",
       "details": {
-        "name": "Laozi"
+        "name": "Andrew Jackson"
       },
       "message": "Birth time is unknown.",
       "row_number": 31,
@@ -77,7 +275,88 @@
     {
       "code": "unknown_birth_time",
       "details": {
-        "name": "Harriet Tubman"
+        "name": "Robert E. Lee"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 32,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Ulysses S. Grant"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 33,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "William Tecumseh Sherman"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 34,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "George Armstrong Custer"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 35,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Theodore Roosevelt"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 36,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Robert Falcon Scott"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 37,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Roald Amundsen"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 38,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Ernest Shackleton"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 39,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Douglas MacArthur"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 40,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "George S. Patton"
       },
       "message": "Birth time is unknown.",
       "row_number": 41,
@@ -86,7 +365,7 @@
     {
       "code": "unknown_birth_time",
       "details": {
-        "name": "Frederick Douglass"
+        "name": "Bernard Montgomery"
       },
       "message": "Birth time is unknown.",
       "row_number": 42,
@@ -95,7 +374,7 @@
     {
       "code": "unknown_birth_time",
       "details": {
-        "name": "William Shakespeare"
+        "name": "Erwin Rommel"
       },
       "message": "Birth time is unknown.",
       "row_number": 43,
@@ -104,449 +383,616 @@
     {
       "code": "unknown_birth_time",
       "details": {
-        "name": "Ludwig van Beethoven"
+        "name": "Dwight D. Eisenhower"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 44,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Chester W. Nimitz"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 45,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Isoroku Yamamoto"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 46,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Vo Nguyen Giap"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 47,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Tenzing Norgay"
       },
       "message": "Birth time is unknown.",
       "row_number": 48,
       "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Edmund Hillary"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 49,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Yuri Gagarin"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 50,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Neil Armstrong"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 51,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Buzz Aldrin"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 52,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Sally Ride"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 53,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "John Glenn"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 54,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Mae Jemison"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 55,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Jacques Cousteau"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 56,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Thor Heyerdahl"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 57,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Ranulph Fiennes"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 58,
+      "severity": "info"
+    },
+    {
+      "code": "unknown_birth_time",
+      "details": {
+        "name": "Bear Grylls"
+      },
+      "message": "Birth time is unknown.",
+      "row_number": 59,
+      "severity": "info"
     }
   ],
-  "record_count": 54,
+  "record_count": 58,
   "records": [
     {
-      "birth_date": "1809-02-12",
-      "birth_place": "Hodgenville",
-      "birth_time": "00:00",
-      "name": "Abraham Lincoln",
+      "birth_date": "-0356-07-20",
+      "birth_place": "Pella, Macedonia",
+      "birth_time": "Unknown",
+      "name": "Alexander the Great",
       "row_number": 2,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1732-02-22",
-      "birth_place": "Westmoreland County",
-      "birth_time": "00:00",
-      "name": "George Washington",
+      "birth_date": "-0382-01-01",
+      "birth_place": "Pella, Macedonia",
+      "birth_time": "Unknown",
+      "name": "Philip II of Macedon",
       "row_number": 3,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1743-04-13",
-      "birth_place": "Shadwell",
-      "birth_time": "00:00",
-      "name": "Thomas Jefferson",
+      "birth_date": "-0247-01-01",
+      "birth_place": "Carthage, Tunisia",
+      "birth_time": "Unknown",
+      "name": "Hannibal Barca",
       "row_number": 4,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1706-01-17",
-      "birth_place": "Boston",
-      "birth_time": "10:30",
-      "name": "Benjamin Franklin",
+      "birth_date": "-0236-01-01",
+      "birth_place": "Rome, Italy",
+      "birth_time": "Unknown",
+      "name": "Scipio Africanus",
       "row_number": 5,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
-    },
-    {
-      "birth_date": "1735-10-30",
-      "birth_place": "Braintree",
-      "birth_time": "00:00",
-      "name": "John Adams",
-      "row_number": 6,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
-    },
-    {
-      "birth_date": "1755-01-11",
-      "birth_place": "Charlestown",
-      "birth_time": "00:00",
-      "name": "Alexander Hamilton",
-      "row_number": 7,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
-    },
-    {
-      "birth_date": "1769-08-15",
-      "birth_place": "Ajaccio",
-      "birth_time": "11:30",
-      "name": "Napoleon Bonaparte",
-      "row_number": 8,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
       "birth_date": "-0100-07-13",
-      "birth_place": "Rome",
+      "birth_place": "Rome, Italy",
       "birth_time": "Unknown",
       "name": "Julius Caesar",
-      "row_number": 9,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "row_number": 6,
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
+    },
+    {
+      "birth_date": "-0063-09-23",
+      "birth_place": "Rome, Italy",
+      "birth_time": "Unknown",
+      "name": "Augustus",
+      "row_number": 7,
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
       "birth_date": "0121-04-26",
-      "birth_place": "Rome",
+      "birth_place": "Rome, Italy",
       "birth_time": "Unknown",
       "name": "Marcus Aurelius",
+      "row_number": 8,
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
+    },
+    {
+      "birth_date": "0500-01-01",
+      "birth_place": "Germania, Bulgaria",
+      "birth_time": "Unknown",
+      "name": "Belisarius",
+      "row_number": 9,
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
+    },
+    {
+      "birth_date": "0742-04-02",
+      "birth_place": "Aachen, Germany",
+      "birth_time": "Unknown",
+      "name": "Charlemagne",
       "row_number": 10,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1452-04-15",
-      "birth_place": "Vinci",
-      "birth_time": "22:30",
-      "name": "Leonardo da Vinci",
+      "birth_date": "1028-01-01",
+      "birth_place": "Falaise, France",
+      "birth_time": "Unknown",
+      "name": "William the Conqueror",
       "row_number": 11,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1475-03-06",
-      "birth_place": "Caprese",
+      "birth_date": "1137-01-01",
+      "birth_place": "Tikrit, Iraq",
       "birth_time": "Unknown",
-      "name": "Michelangelo",
+      "name": "Saladin",
       "row_number": 12,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1564-02-15",
-      "birth_place": "Pisa",
-      "birth_time": "15:00",
-      "name": "Galileo Galilei",
+      "birth_date": "1162-01-01",
+      "birth_place": "Del\u00fc\u00fcn Boldog, Mongolia",
+      "birth_time": "Unknown",
+      "name": "Genghis Khan",
       "row_number": 13,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1571-12-27",
-      "birth_place": "Weil der Stadt",
-      "birth_time": "14:37",
-      "name": "Johannes Kepler",
+      "birth_date": "1215-09-23",
+      "birth_place": "Mongolia",
+      "birth_time": "Unknown",
+      "name": "Kublai Khan",
       "row_number": 14,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1643-01-04",
-      "birth_place": "Woolsthorpe",
-      "birth_time": "01:00",
-      "name": "Isaac Newton",
+      "birth_date": "1412-01-06",
+      "birth_place": "Domr\u00e9my, France",
+      "birth_time": "Unknown",
+      "name": "Joan of Arc",
       "row_number": 15,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1856-07-10",
-      "birth_place": "Smiljan",
-      "birth_time": "00:00",
-      "name": "Nikola Tesla",
+      "birth_date": "1432-03-30",
+      "birth_place": "Edirne, Turkey",
+      "birth_time": "Unknown",
+      "name": "Mehmed II",
       "row_number": 16,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1867-11-07",
-      "birth_place": "Warsaw",
-      "birth_time": "12:00",
-      "name": "Marie Curie",
+      "birth_date": "1451-10-31",
+      "birth_place": "Genoa, Italy",
+      "birth_time": "Unknown",
+      "name": "Christopher Columbus",
       "row_number": 17,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1879-03-14",
-      "birth_place": "Ulm",
-      "birth_time": "11:30",
-      "name": "Albert Einstein",
+      "birth_date": "1460-01-01",
+      "birth_place": "Sines, Portugal",
+      "birth_time": "Unknown",
+      "name": "Vasco da Gama",
       "row_number": 18,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1809-02-12",
-      "birth_place": "Shrewsbury",
-      "birth_time": "03:00",
-      "name": "Charles Darwin",
+      "birth_date": "1480-01-01",
+      "birth_place": "Sabrosa, Portugal",
+      "birth_time": "Unknown",
+      "name": "Ferdinand Magellan",
       "row_number": 19,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1912-06-23",
-      "birth_place": "London",
-      "birth_time": "02:15",
-      "name": "Alan Turing",
+      "birth_date": "1485-12-01",
+      "birth_place": "Medell\u00edn, Spain",
+      "birth_time": "Unknown",
+      "name": "Hern\u00e1n Cort\u00e9s",
       "row_number": 20,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1815-12-10",
-      "birth_place": "London",
-      "birth_time": "16:00",
-      "name": "Ada Lovelace",
+      "birth_date": "1478-03-16",
+      "birth_place": "Trujillo, Spain",
+      "birth_time": "Unknown",
+      "name": "Francisco Pizarro",
       "row_number": 21,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1906-12-09",
-      "birth_place": "New York City",
-      "birth_time": "09:30",
-      "name": "Grace Hopper",
+      "birth_date": "1371-01-01",
+      "birth_place": "Kunming, China",
+      "birth_time": "Unknown",
+      "name": "Zheng He",
       "row_number": 22,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1916-04-30",
-      "birth_place": "Petoskey",
-      "birth_time": "12:00",
-      "name": "Claude Shannon",
+      "birth_date": "1540-01-01",
+      "birth_place": "Tavistock, England",
+      "birth_time": "Unknown",
+      "name": "Francis Drake",
       "row_number": 23,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1903-12-28",
-      "birth_place": "Budapest",
-      "birth_time": "12:00",
-      "name": "John von Neumann",
+      "birth_date": "1552-01-01",
+      "birth_place": "East Budleigh, England",
+      "birth_time": "Unknown",
+      "name": "Walter Raleigh",
       "row_number": 24,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1934-11-09",
-      "birth_place": "Brooklyn",
-      "birth_time": "16:05",
-      "name": "Carl Sagan",
+      "birth_date": "1599-04-25",
+      "birth_place": "Huntingdon, England",
+      "birth_time": "Unknown",
+      "name": "Oliver Cromwell",
       "row_number": 25,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1942-01-08",
-      "birth_place": "Oxford",
-      "birth_time": "20:00",
-      "name": "Stephen Hawking",
+      "birth_date": "1732-02-22",
+      "birth_place": "Westmoreland County, Virginia, USA",
+      "birth_time": "Unknown",
+      "name": "George Washington",
       "row_number": 26,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "-0428-05-21",
-      "birth_place": "Athens",
+      "birth_date": "1758-09-29",
+      "birth_place": "Burnham Thorpe, England",
       "birth_time": "Unknown",
-      "name": "Plato",
+      "name": "Horatio Nelson",
       "row_number": 27,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "-0384-09-23",
-      "birth_place": "Stagira",
+      "birth_date": "1769-05-01",
+      "birth_place": "Dublin, Ireland",
       "birth_time": "Unknown",
-      "name": "Aristotle",
+      "name": "Arthur Wellesley",
       "row_number": 28,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "-0470-06-04",
-      "birth_place": "Athens",
+      "birth_date": "1769-08-15",
+      "birth_place": "Ajaccio, Corsica",
       "birth_time": "Unknown",
-      "name": "Socrates",
+      "name": "Napoleon Bonaparte",
       "row_number": 29,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "-0551-09-28",
-      "birth_place": "Qufu",
+      "birth_date": "1783-07-24",
+      "birth_place": "Caracas, Venezuela",
       "birth_time": "Unknown",
-      "name": "Confucius",
+      "name": "Sim\u00f3n Bol\u00edvar",
       "row_number": 30,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "-0571-01-01",
-      "birth_place": "Chu",
+      "birth_date": "1767-03-15",
+      "birth_place": "Waxhaws, USA",
       "birth_time": "Unknown",
-      "name": "Laozi",
+      "name": "Andrew Jackson",
       "row_number": 31,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1724-04-22",
-      "birth_place": "K\u00f6nigsberg",
-      "birth_time": "05:00",
-      "name": "Immanuel Kant",
+      "birth_date": "1807-01-19",
+      "birth_place": "Stratford Hall, Virginia, USA",
+      "birth_time": "Unknown",
+      "name": "Robert E. Lee",
       "row_number": 32,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1596-03-31",
-      "birth_place": "La Haye en Touraine",
-      "birth_time": "02:00",
-      "name": "Ren\u00e9 Descartes",
+      "birth_date": "1822-04-27",
+      "birth_place": "Point Pleasant, Ohio, USA",
+      "birth_time": "Unknown",
+      "name": "Ulysses S. Grant",
       "row_number": 33,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1844-10-15",
-      "birth_place": "R\u00f6cken",
-      "birth_time": "10:00",
-      "name": "Friedrich Nietzsche",
+      "birth_date": "1820-02-08",
+      "birth_place": "Lancaster, Ohio, USA",
+      "birth_time": "Unknown",
+      "name": "William Tecumseh Sherman",
       "row_number": 34,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1875-07-26",
-      "birth_place": "Kesswil",
-      "birth_time": "19:32",
-      "name": "Carl Jung",
+      "birth_date": "1839-12-05",
+      "birth_place": "New Rumley, Ohio, USA",
+      "birth_time": "Unknown",
+      "name": "George Armstrong Custer",
       "row_number": 35,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1856-05-06",
-      "birth_place": "Freiberg",
-      "birth_time": "18:30",
-      "name": "Sigmund Freud",
+      "birth_date": "1858-10-27",
+      "birth_place": "New York City, New York, USA",
+      "birth_time": "Unknown",
+      "name": "Theodore Roosevelt",
       "row_number": 36,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1842-01-11",
-      "birth_place": "New York City",
-      "birth_time": "09:00",
-      "name": "William James",
+      "birth_date": "1868-06-06",
+      "birth_place": "Plymouth, England",
+      "birth_time": "Unknown",
+      "name": "Robert Falcon Scott",
       "row_number": 37,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1869-10-02",
-      "birth_place": "Porbandar",
-      "birth_time": "07:11",
-      "name": "Mahatma Gandhi",
+      "birth_date": "1872-07-16",
+      "birth_place": "Borge, Norway",
+      "birth_time": "Unknown",
+      "name": "Roald Amundsen",
       "row_number": 38,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1929-01-15",
-      "birth_place": "Atlanta",
-      "birth_time": "12:00",
-      "name": "Martin Luther King Jr.",
+      "birth_date": "1874-02-15",
+      "birth_place": "Kilkea, Ireland",
+      "birth_time": "Unknown",
+      "name": "Ernest Shackleton",
       "row_number": 39,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1918-07-18",
-      "birth_place": "Mvezo",
-      "birth_time": "14:54",
-      "name": "Nelson Mandela",
+      "birth_date": "1880-01-26",
+      "birth_place": "Little Rock, Arkansas, USA",
+      "birth_time": "Unknown",
+      "name": "Douglas MacArthur",
       "row_number": 40,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1822-03-01",
-      "birth_place": "Dorchester County",
+      "birth_date": "1885-11-11",
+      "birth_place": "San Gabriel, California, USA",
       "birth_time": "Unknown",
-      "name": "Harriet Tubman",
+      "name": "George S. Patton",
       "row_number": 41,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1818-02-14",
-      "birth_place": "Talbot County",
+      "birth_date": "1887-11-17",
+      "birth_place": "London, England",
       "birth_time": "Unknown",
-      "name": "Frederick Douglass",
+      "name": "Bernard Montgomery",
       "row_number": 42,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1564-04-23",
-      "birth_place": "Stratford-upon-Avon",
+      "birth_date": "1891-11-15",
+      "birth_place": "Heidenheim, Germany",
       "birth_time": "Unknown",
-      "name": "William Shakespeare",
+      "name": "Erwin Rommel",
       "row_number": 43,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1828-09-09",
-      "birth_place": "Yasnaya Polyana",
-      "birth_time": "12:00",
-      "name": "Leo Tolstoy",
-      "row_number": 44,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
-    },
-    {
-      "birth_date": "1821-11-11",
-      "birth_place": "Moscow",
-      "birth_time": "11:00",
-      "name": "Fyodor Dostoevsky",
-      "row_number": 45,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
-    },
-    {
-      "birth_date": "1775-12-16",
-      "birth_place": "Steventon",
-      "birth_time": "08:00",
-      "name": "Jane Austen",
-      "row_number": 46,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
-    },
-    {
-      "birth_date": "1756-01-27",
-      "birth_place": "Salzburg",
-      "birth_time": "20:00",
-      "name": "Wolfgang Amadeus Mozart",
-      "row_number": 47,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
-    },
-    {
-      "birth_date": "1770-12-17",
-      "birth_place": "Bonn",
+      "birth_date": "1890-10-14",
+      "birth_place": "Denison, Texas, USA",
       "birth_time": "Unknown",
-      "name": "Ludwig van Beethoven",
+      "name": "Dwight D. Eisenhower",
+      "row_number": 44,
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
+    },
+    {
+      "birth_date": "1885-02-24",
+      "birth_place": "Fredericksburg, Texas, USA",
+      "birth_time": "Unknown",
+      "name": "Chester W. Nimitz",
+      "row_number": 45,
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
+    },
+    {
+      "birth_date": "1884-04-04",
+      "birth_place": "Nagaoka, Japan",
+      "birth_time": "Unknown",
+      "name": "Isoroku Yamamoto",
+      "row_number": 46,
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
+    },
+    {
+      "birth_date": "1911-08-25",
+      "birth_place": "Qu\u1ea3ng B\u00ecnh, Vietnam",
+      "birth_time": "Unknown",
+      "name": "Vo Nguyen Giap",
+      "row_number": 47,
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
+    },
+    {
+      "birth_date": "1914-05-29",
+      "birth_place": "Khumbu, Nepal",
+      "birth_time": "Unknown",
+      "name": "Tenzing Norgay",
       "row_number": 48,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1685-03-31",
-      "birth_place": "Eisenach",
-      "birth_time": "08:00",
-      "name": "Johann Sebastian Bach",
+      "birth_date": "1919-07-20",
+      "birth_place": "Auckland, New Zealand",
+      "birth_time": "Unknown",
+      "name": "Edmund Hillary",
       "row_number": 49,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1853-03-30",
-      "birth_place": "Zundert",
-      "birth_time": "11:00",
-      "name": "Vincent van Gogh",
+      "birth_date": "1934-03-09",
+      "birth_place": "Klushino, Russia",
+      "birth_time": "Unknown",
+      "name": "Yuri Gagarin",
       "row_number": 50,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1881-10-25",
-      "birth_place": "M\u00e1laga",
-      "birth_time": "23:15",
-      "name": "Pablo Picasso",
+      "birth_date": "1930-08-05",
+      "birth_place": "Wapakoneta, Ohio, USA",
+      "birth_time": "Unknown",
+      "name": "Neil Armstrong",
       "row_number": 51,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1955-02-24",
-      "birth_place": "San Francisco",
-      "birth_time": "19:15",
-      "name": "Steve Jobs",
+      "birth_date": "1930-01-20",
+      "birth_place": "Glen Ridge, New Jersey, USA",
+      "birth_time": "Unknown",
+      "name": "Buzz Aldrin",
       "row_number": 52,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1955-10-28",
-      "birth_place": "Seattle",
-      "birth_time": "21:15",
-      "name": "Bill Gates",
+      "birth_date": "1951-05-26",
+      "birth_place": "Los Angeles, California, USA",
+      "birth_time": "Unknown",
+      "name": "Sally Ride",
       "row_number": 53,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1863-07-30",
-      "birth_place": "Dearborn",
-      "birth_time": "07:00",
-      "name": "Henry Ford",
+      "birth_date": "1921-07-18",
+      "birth_place": "Cambridge, Ohio, USA",
+      "birth_time": "Unknown",
+      "name": "John Glenn",
       "row_number": 54,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     },
     {
-      "birth_date": "1847-02-11",
-      "birth_place": "Milan",
-      "birth_time": "03:00",
-      "name": "Thomas Edison",
+      "birth_date": "1956-10-17",
+      "birth_place": "Decatur, Alabama, USA",
+      "birth_time": "Unknown",
+      "name": "Mae Jemison",
       "row_number": 55,
-      "source_file": "research\\profile_intake\\historical_batch.csv"
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
+    },
+    {
+      "birth_date": "1910-06-11",
+      "birth_place": "Saint-Andr\u00e9-de-Cubzac, France",
+      "birth_time": "Unknown",
+      "name": "Jacques Cousteau",
+      "row_number": 56,
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
+    },
+    {
+      "birth_date": "1914-10-06",
+      "birth_place": "Larvik, Norway",
+      "birth_time": "Unknown",
+      "name": "Thor Heyerdahl",
+      "row_number": 57,
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
+    },
+    {
+      "birth_date": "1944-03-07",
+      "birth_place": "Windsor, England",
+      "birth_time": "Unknown",
+      "name": "Ranulph Fiennes",
+      "row_number": 58,
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
+    },
+    {
+      "birth_date": "1974-06-07",
+      "birth_place": "London, England",
+      "birth_time": "Unknown",
+      "name": "Bear Grylls",
+      "row_number": 59,
+      "source_file": "research\\profile_intake\\explorers_military_batch.csv"
     }
   ],
-  "source_file": "research\\profile_intake\\historical_batch.csv",
-  "valid_count": 54,
+  "source_file": "research\\profile_intake\\explorers_military_batch.csv",
+  "valid_count": 58,
   "version": "1.0"
 }

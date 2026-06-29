@@ -110,11 +110,20 @@ def build_temporal_payload(
         aspects=aspects,
     )
     navamsa = build_navamsa_chart(natal)
-    dasha = build_vimshottari_dasha(
-        name=birth.name,
-        birth_date=birth.birth_date,
-        nakshatra_chart=nakshatras,
-    )
+    if birth.birth_date.startswith("-"):
+        dasha_payload = {
+            "error": "Vimshottari Dasha calendar timeline skipped for BCE birth date.",
+            "birth_date": birth.birth_date,
+            "reason": "Python datetime.date does not support BCE years.",
+        }
+    else:
+        dasha = build_vimshottari_dasha(
+            name=birth.name,
+            birth_date=birth.birth_date,
+            nakshatra_chart=nakshatras,
+        )
+        dasha_payload = vimshottari_dasha_to_dict(dasha)
+
     transits = build_transit_chart(
         natal,
         transit_date=transit_date,
@@ -129,7 +138,7 @@ def build_temporal_payload(
         "aspects": aspect_chart_to_dict(aspects),
         "yogas": yoga_evaluation_to_dict(yogas),
         "navamsa": navamsa_chart_to_dict(navamsa),
-        "dasha": vimshottari_dasha_to_dict(dasha),
+        "dasha": dasha_payload,
         "transits": transit_chart_to_dict(transits),
     }
 
