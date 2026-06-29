@@ -176,25 +176,41 @@ def build_comparison_interpretation(
     most_different_features: list[dict[str, Any]],
 ) -> list[str]:
     """Build deterministic interpretation lines for a comparison."""
-    lines = [
+    lines: list[str] = []
+
+    lines.append(
         (
-            f"{profile_a} and {profile_b} have similarity {similarity:.4f} "
-            f"and distance {distance:.4f} under the selected corpus metric."
+            f"{profile_a} and {profile_b} have a structural similarity of "
+            f"{similarity:.4f} with a standardized distance of "
+            f"{distance:.4f} using the selected corpus metric."
         )
-    ]
+    )
 
     most_divergent_planet = planet_summary.get("most_divergent_planet")
 
     if most_divergent_planet:
         lines.append(
-            f"The strongest planet-level divergence appears in {most_divergent_planet}."
+            f"The greatest planet-level divergence occurs within "
+            f"{most_divergent_planet}."
         )
 
     if most_different_features:
-        top = most_different_features[0]
+        feature = most_different_features[0]
+
         lines.append(
-            f"The largest separating feature is {top['feature']} "
-            f"with standardized difference {top['standardized_difference']:.4f}."
+            f"The single strongest distinguishing feature is "
+            f"{feature['feature']} "
+            f"(Δz = {feature['standardized_difference']:.4f})."
+        )
+
+    if len(most_different_features) >= 3:
+        top_features = ", ".join(
+            feature["feature"]
+            for feature in most_different_features[:3]
+        )
+
+        lines.append(
+            f"The three largest structural separators are: {top_features}."
         )
 
     return lines
