@@ -1,47 +1,71 @@
-"""Atlas Validation Lab page."""
+"""Validation Lab dashboard page.
+
+This page is service-backed. Dashboard code renders controls, audits, and
+exports only. Validation lab calculations are routed through
+atlas.services.validation_lab_service.
+"""
+
+from __future__ import annotations
 
 import pandas as pd
 import streamlit as st
 
-from atlas.acf.builder import build_acf_profile
-from atlas.library.profile_library import list_saved_profiles
-from atlas.research import (
-    build_feature_correlation_audit,
-    build_feature_variance_audit,
-    build_profile_matrix_rows,
-    compare_profile_feature_importance,
-    summarize_feature_importance,
+from atlas.services.validation_lab_service import (
+    build_pair_matrix_rows,
+    build_validation_correlation_audit,
+    build_validation_rows_for_profiles,
+    build_validation_variance_audit,
+    rows_to_dataframe,
 )
 
 
+DEFAULT_PROFILES = [
+    "Albert Einstein",
+    "Nikola Tesla",
+    "Carl Jung",
+    "Leonardo da Vinci",
+    "Isaac Newton",
+]
+
+
 def render_validation_lab_page() -> None:
-    """Render Atlas Validation Lab."""
-    st.header("Atlas Validation Lab")
-    st.caption("Audit which features actually distinguish profiles.")
+    """Render validation lab page."""
+    st.header("Validation Lab")
+    st.caption("Feature variance, correlation, comparison, and research matrix inspection.")
 
-    profiles = list_saved_profiles()
+    profiles_text = st.text_area(
+        "Profiles",
+        value="\n".join(DEFAULT_PROFILES),
+        height=150,
+    )
 
-    if len(profiles) < 2:
-        st.info("Build at least two profiles first.")
+    profiles = [
+        line.strip()
+        for line in profiles_text.splitlines()
+        if line.strip()
+    ]
+
+    if not profiles:
+        st.info("Enter at least one profile name.")
         return
 
     selected_profiles = st.multiselect(
-        "Profiles for population audit",
+        "Selected profiles",
         profiles,
-        default=profiles[: min(5, len(profiles))],
+        default=profiles,
     )
 
-    if len(selected_profiles) < 2:
-        st.warning("Select at least two profiles.")
+    if not selected_profiles:
+        st.info("Select at least one profile.")
         return
 
-    rows = build_rows_for_profiles(selected_profiles)
+    rows = build_validation_rows_for_profiles(selected_profiles)
 
     tab_variance, tab_correlation, tab_importance, tab_matrix = st.tabs(
         [
             "Feature Variance",
             "Feature Correlation",
-            "Feature Importance",
+            "Pair Comparison",
             "Research Matrix",
         ]
     )
@@ -59,112 +83,105 @@ def render_validation_lab_page() -> None:
         render_matrix_tab(rows)
 
 
-def build_rows_for_profiles(profile_keys: list[str]) -> list[dict]:
-    """Build research rows for selected saved profiles."""
-    rows = []
-
-    for profile_key in profile_keys:
-        # Use the profile key as fallback name if no loader is available.
-        name = profile_key.replace("_", " ").title()
-        acf = build_acf_profile(name)
-        rows.extend(build_profile_matrix_rows(acf))
-
-    return rows
-
-
 def render_variance_tab(rows: list[dict]) -> None:
-    """Render feature variance audit."""
+    """Render variance audit."""
     st.markdown("## Feature Variance")
 
-    audit = build_feature_variance_audit(rows)
-    dataframe = pd.DataFrame(audit)
+    audit = build_validation_variance_audit(rows)
 
-    st.dataframe(dataframe, use_container_width=True)
-
-    st.info(
-        "High-variance features are more useful for distinguishing profiles. "
-        "Low-variance features may be structurally constant or over-normalized."
-    )
+    if isinstance(audit, dict):
+        st.json(audit)
+    else:
+        st.write(audit)
 
 
 def render_correlation_tab(rows: list[dict]) -> None:
-    """Render feature correlation audit."""
+    """Render correlation audit."""
     st.markdown("## Feature Correlation")
 
-    audit = build_feature_correlation_audit(rows)
-    dataframe = pd.DataFrame(audit)
+    audit = build_validation_correlation_audit(rows)
 
-    st.dataframe(dataframe, use_container_width=True)
-
-    st.info(
-        "Near-duplicate correlations suggest redundant measurements. "
-        "Those features should not all be allowed to dominate similarity scoring."
-    )
+    if isinstance(audit, dict):
+        st.json(audit)
+    else:
+        st.write(audit)
 
 
 def render_importance_tab(profiles: list[str]) -> None:
-    """Render pairwise feature importance audit."""
-    st.markdown("## Feature Importance")
+    """Render pair comparison tab."""
+    st.markdown("## Pair Comparison")
 
-    col1, col2 = st.columns(2)
+    if len(profiles) < 2:
+        st.info("At least two profiles are required.")
+        return
 
-    with col1:
-        profile_a = st.selectbox(
-            "Profile A",
-            profiles,
-            key="validation_profile_a",
-        )
+    c1, c2 = st.columns(2)
+    name_a = c1.selectbox("Profile A", profiles, index=0)
+    name_b = c2.selectbox("Profile B", profiles, index=1 if len(profiles) > 1 else 0)
 
-    with col2:
-        profile_b = st.selectbox(
-            "Profile B",
-            profiles,
-            index=1 if len(profiles) > 1 else 0,
-            key="validation_profile_b",
-        )
-
-    if profile_a == profile_b:
+    if name_a == name_b:
         st.warning("Choose two different profiles.")
         return
 
-    name_a = profile_a.replace("_", " ").title()
-    name_b = profile_b.replace("_", " ").title()
+    rows_a, rows_b = build_pair_matrix_rows(name_a, name_b)
 
-    acf_a = build_acf_profile(name_a)
-    acf_b = build_acf_profile(name_b)
+    df_a = rows_to_dataframe(rows_a)
+    df_b = rows_to_dataframe(rows_b)
 
-    rows_a = build_profile_matrix_rows(acf_a)
-    rows_b = build_profile_matrix_rows(acf_b)
+    st.markdown("### Profile A Matrix")
+    st.dataframe(df_a, use_container_width=True)
 
-    importance = compare_profile_feature_importance(rows_a, rows_b)
-    summary = summarize_feature_importance(importance)
+    st.markdown("### Profile B Matrix")
+    st.dataframe(df_b, use_container_width=True)
 
-    st.markdown("### Top Layer Differences")
-    st.dataframe(
-        pd.DataFrame(summary["top_layer_differences"]),
-        use_container_width=True,
+    numeric_a = df_a.select_dtypes(include="number")
+    numeric_b = df_b.select_dtypes(include="number")
+
+    if numeric_a.empty or numeric_b.empty:
+        st.info("No numeric columns available for comparison.")
+        return
+
+    mean_a = numeric_a.mean(numeric_only=True)
+    mean_b = numeric_b.mean(numeric_only=True)
+
+    common = sorted(set(mean_a.index).intersection(mean_b.index))
+    comparison = pd.DataFrame(
+        [
+            {
+                "metric": metric,
+                "profile_a_mean": float(mean_a[metric]),
+                "profile_b_mean": float(mean_b[metric]),
+                "difference": float(mean_a[metric] - mean_b[metric]),
+                "absolute_difference": abs(float(mean_a[metric] - mean_b[metric])),
+            }
+            for metric in common
+        ]
     )
 
-    st.markdown("### Top Feature Families")
-    st.dataframe(
-        pd.DataFrame(summary["top_feature_families"]),
-        use_container_width=True,
+    if comparison.empty:
+        st.info("No common numeric metrics found.")
+        return
+
+    comparison = comparison.sort_values(
+        by="absolute_difference",
+        ascending=False,
     )
+
+    st.markdown("### Largest Mean Metric Differences")
+    st.dataframe(comparison.head(50), use_container_width=True)
 
 
 def render_matrix_tab(rows: list[dict]) -> None:
     """Render raw research matrix."""
     st.markdown("## Research Matrix")
 
-    dataframe = pd.DataFrame(rows)
+    df = rows_to_dataframe(rows)
 
-    st.dataframe(dataframe, use_container_width=True)
-
-    csv = dataframe.to_csv(index=False).encode("utf-8")
+    st.dataframe(df, use_container_width=True)
 
     st.download_button(
         "Download research_matrix.csv",
-        data=csv,
+        data=df.to_csv(index=False).encode("utf-8"),
         file_name="research_matrix.csv",
         mime="text/csv",
     )
