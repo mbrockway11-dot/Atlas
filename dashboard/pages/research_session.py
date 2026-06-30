@@ -1,157 +1,203 @@
-"""Research Session dashboard page."""
+"""Research Session dashboard page.
+
+This page is service-backed. Dashboard code renders controls, summaries, and
+JSON views only. Research session construction is routed through
+atlas.services.research_session_service.
+"""
 
 from __future__ import annotations
 
 import json
-from pathlib import Path
 
 import streamlit as st
 
-from atlas.research.session import (
-    build_research_session,
-    research_session_to_dict,
-)
-
-
-DEFAULT_PROFILE_DIR = Path("output/library/profiles")
+from atlas.services.profile_service import list_profile_keys, resolve_profile_display_name
+from atlas.services.research_session_service import get_research_session
 
 
 def render_research_session_page() -> None:
-    """Render Research Session page."""
+    """Render Research Session dashboard."""
     st.header("Research Session")
-    st.caption("Build a complete AtlasIdentity → Interpretation → Report session.")
+    st.caption(
+        "Build and inspect the canonical Atlas research session for a saved profile."
+    )
 
-    root = Path(
-        st.text_input(
-            "Profile library directory",
-            value=str(DEFAULT_PROFILE_DIR),
+    profile_keys = list_profile_keys()
+
+    if not profile_keys:
+        st.error("No saved profiles found in the profile library.")
+        return
+
+    selected_profile = st.selectbox(
+        "Profile",
+        profile_keys,
+        format_func=resolve_profile_display_name,
+    )
+
+    transit_date = st.text_input("Transit date", value="2026-06-29")
+
+    try:
+        session = get_research_session(
+            selected_profile,
+            transit_date=transit_date,
         )
-    )
-
-    if not root.exists():
-        st.error(f"Profile directory not found: {root}")
+    except Exception as exc:
+        st.error("Research session service failed.")
+        st.exception(exc)
         return
 
-    profiles = load_profiles(root)
+    render_summary(selected_profile, session)
 
-    if not profiles:
-        st.warning("No profiles found.")
+    tab_overview, tab_identity, tab_temporal, tab_raw, tab_export = st.tabs(
+        [
+            "Overview",
+            "Identity",
+            "Temporal",
+            "Raw Session",
+            "Export",
+        ]
+    )
+
+    with tab_overview:
+        render_overview(session)
+
+    with tab_identity:
+        render_identity(session)
+
+    with tab_temporal:
+        render_temporal(session)
+
+    with tab_raw:
+        st.json(session)
+
+    with tab_export:
+        render_export(selected_profile, session)
+
+
+def render_summary(profile_key: str, session: object) -> None:
+    """Render top-level session summary."""
+    st.subheader(resolve_profile_display_name(profile_key))
+
+    if isinstance(session, dict):
+        c1, c2, c3 = st.columns(3)
+        c1.metric("Top-level keys", len(session.keys()))
+        c2.metric("Has identity", "yes" if "identity" in session else "no")
+        c3.metric("Has temporal", "yes" if has_temporal_data(session) else "no")
+    else:
+        st.info(f"Session object type: {type(session).__name__}")
+
+
+def render_overview(session: object) -> None:
+    """Render overview of research session."""
+    st.markdown("## Overview")
+
+    if not isinstance(session, dict):
+        st.json(session)
         return
 
-    selected_name = st.selectbox(
-        "Select profile",
-        [profile["name"] for profile in profiles],
-    )
-
-    selected = next(
-        profile
-        for profile in profiles
-        if profile["name"] == selected_name
-    )
-
-    transit_date = st.text_input(
-        "Transit date",
-        value="2026-06-29",
-        help="Use YYYY-MM-DD.",
-    )
-
-    profile_path = root / selected["slug"]
-
-    if st.button("Build Research Session"):
-        with st.spinner("Building research session..."):
-            session = build_research_session(
-                profile_path,
-                transit_date=transit_date,
-            )
-
-        render_session_summary(session)
-        render_report(session)
-        render_exports(session)
-
-
-def load_profiles(root: Path) -> list[dict]:
-    """Load profile names and slugs."""
-    profiles: list[dict] = []
-
-    for profile_path in sorted(root.iterdir()):
-        if not profile_path.is_dir():
-            continue
-
-        intake_path = profile_path / "profile.intake.json"
-        name = profile_path.name
-
-        if intake_path.exists():
-            try:
-                intake = json.loads(
-                    intake_path.read_text(encoding="utf-8")
-                )
-                name = intake.get("name", name)
-            except json.JSONDecodeError:
-                pass
-
-        profiles.append(
+    rows = []
+    for key, value in session.items():
+        rows.append(
             {
-                "name": name,
-                "slug": profile_path.name,
+                "section": key,
+                "type": type(value).__name__,
+                "items": len(value) if hasattr(value, "__len__") else None,
             }
         )
 
-    return profiles
+    st.dataframe(rows, use_container_width=True)
 
 
-def render_session_summary(session) -> None:
-    """Render session summary."""
-    st.markdown("## Session Summary")
+def render_identity(session: object) -> None:
+    """Render identity-related section."""
+    st.markdown("## Identity")
 
-    c1, c2, c3, c4 = st.columns(4)
+    if not isinstance(session, dict):
+        st.info("Session is not dictionary-like.")
+        return
 
-    c1.metric("Name", session.name)
-    c2.metric("Version", session.version)
-    c3.metric("Sections", session.summary.get("section_count", 0))
-    c4.metric("Transit Date", session.transit_date or "Today")
+    identity = session.get("identity")
+    if identity is None:
+        st.info("No identity section found.")
+        return
 
-    with st.expander("Session Summary JSON", expanded=False):
-        st.json(session.summary)
-
-
-def render_report(session) -> None:
-    """Render Markdown report."""
-    st.markdown("## Atlas Report")
-    st.markdown(session.report.markdown)
+    st.json(identity)
 
 
-def render_exports(session) -> None:
-    """Render export buttons."""
-    st.markdown("## Exports")
+def render_temporal(session: object) -> None:
+    """Render temporal-related session data."""
+    st.markdown("## Temporal")
 
-    session_json = json.dumps(
-        research_session_to_dict(session),
+    if not isinstance(session, dict):
+        st.info("Session is not dictionary-like.")
+        return
+
+    temporal_keys = [
+        "temporal",
+        "temporal_payload",
+        "temporal_intelligence",
+        "birth",
+        "natal",
+        "transits",
+        "dasha",
+    ]
+
+    found = {
+        key: session[key]
+        for key in temporal_keys
+        if key in session
+    }
+
+    identity = session.get("identity")
+    if isinstance(identity, dict):
+        for key in temporal_keys:
+            if key in identity:
+                found[f"identity.{key}"] = identity[key]
+
+    if not found:
+        st.info("No known temporal section found in this research session.")
+        st.caption(f"Available keys: {sorted(session.keys())}")
+        return
+
+    st.json(found)
+
+
+def render_export(profile_key: str, session: object) -> None:
+    """Render export controls."""
+    st.markdown("## Export")
+
+    payload = json.dumps(
+        session,
         indent=2,
         sort_keys=True,
+        default=str,
     )
 
-    c1, c2 = st.columns(2)
-
-    c1.download_button(
-        label="Download Research Session JSON",
-        data=session_json,
-        file_name=f"{slugify(session.name)}_research_session.json",
+    st.download_button(
+        "Download research_session.json",
+        data=payload,
+        file_name=f"{profile_key}_research_session.json",
         mime="application/json",
     )
 
-    c2.download_button(
-        label="Download Atlas Report Markdown",
-        data=session.report.markdown,
-        file_name=f"{slugify(session.name)}_atlas_report.md",
-        mime="text/markdown",
-    )
 
+def has_temporal_data(session: dict) -> bool:
+    """Return whether session appears to contain temporal data."""
+    temporal_keys = {
+        "temporal",
+        "temporal_payload",
+        "temporal_intelligence",
+        "birth",
+        "natal",
+        "transits",
+        "dasha",
+    }
 
-def slugify(value: str) -> str:
-    """Build safe filename slug."""
-    return (
-        value.casefold()
-        .replace(" ", "_")
-        .replace("/", "_")
-        .replace("\\", "_")
-    )
+    if any(key in session for key in temporal_keys):
+        return True
+
+    identity = session.get("identity")
+    if isinstance(identity, dict):
+        return any(key in identity for key in temporal_keys)
+
+    return False
