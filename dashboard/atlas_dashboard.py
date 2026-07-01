@@ -6,6 +6,7 @@ from collections.abc import Callable
 
 import streamlit as st
 
+from pages.atlas_ai import render_atlas_ai_page
 from pages.compare_profiles import render_compare_profiles_page
 from pages.developer_console import render_developer_console_page
 from pages.evidence_explorer import render_evidence_explorer_page
@@ -47,7 +48,8 @@ def safe_render(label: str, render_fn: PageRenderer) -> None:
 def build_page_registry() -> dict[str, PageRenderer]:
     """Build the Atlas dashboard page registry."""
     return {
-        "Developer Console": render_developer_console_page,
+    "Atlas AI": render_atlas_ai_page,
+    "Developer Console": render_developer_console_page,
 
         # Intelligence Reports
         "Profile Report": render_profile_report_page,
