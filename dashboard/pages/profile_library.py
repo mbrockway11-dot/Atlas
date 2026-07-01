@@ -1,130 +1,82 @@
-"""Profile Library page."""
-
 from __future__ import annotations
-
-import json
 
 import streamlit as st
 
-from atlas.acf.builder import export_acf_profile
-from atlas.library.profile_library import (
-    LIBRARY_DIR,
-    list_saved_profiles,
-    load_profile_interpretation,
+from atlas.services.profile_library_service import (
+    list_profile_library_profiles,
+    load_profile_library_payload,
 )
-from components.functional_role_panel import render_functional_role_panel
-from utils.dataframe import dict_to_dataframe
 
 
 def render_profile_library_page() -> None:
-    """Render Profile Library page."""
-    st.header("Profile Library")
+    st.title("Profile Library")
+    st.caption("Browse saved profile artifacts through the service layer.")
 
-    profiles = list_saved_profiles()
+    profiles = list_profile_library_profiles()
 
     if not profiles:
-        st.info("No saved profiles yet.")
+        st.warning("No saved profiles found.")
         return
 
-    selected = st.selectbox("Saved profiles", profiles)
+    selected = st.selectbox("Profile", profiles)
 
-    if not selected:
+    payload = load_profile_library_payload(selected)
+
+    if not payload.get("exists"):
+        st.error("Profile directory does not exist.")
+        st.json(payload)
         return
 
-    interpretation = load_profile_interpretation(selected)
-    acf = load_or_repair_acf(selected, interpretation["name"])
+    st.caption(payload.get("profile_dir", ""))
 
-    st.subheader(interpretation["name"])
-    st.write(f"Analysis count: `{interpretation['analysis_count']}`")
+    available = payload.get("available", [])
+    missing = payload.get("missing", [])
 
-    if acf is not None:
-        render_functional_role_panel(acf)
-    else:
-        st.warning("No ACF available. Rebuild this profile to enable Atlas v2 role analysis.")
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Available Files", len(available))
+    col2.metric("Missing Files", len(missing))
+    col3.metric("Profile Key", payload.get("profile_key", selected))
 
-    st.markdown("### Summary")
-    for line in interpretation["summary_lines"]:
-        st.write(f"- {line}")
+    if missing:
+        st.warning("Missing files: " + ", ".join(missing))
 
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.markdown("### Dominant Patterns")
-        st.dataframe(
-            dict_to_dataframe(interpretation["dominant_patterns"], "pattern", "count"),
-            width="stretch",
-        )
-
-    with col2:
-        st.markdown("### Dominant Motifs")
-        st.dataframe(
-            dict_to_dataframe(interpretation["dominant_motifs"], "motif", "count"),
-            width="stretch",
-        )
-
-    profile_dir = LIBRARY_DIR / selected
-    report_path = profile_dir / "codex_report.md"
-    essence_svg = profile_dir / f"{selected}_essence_topology_3d.svg"
-    acf_path = profile_dir / "profile.acf.json"
-
-    st.markdown("### Files")
-    st.write(f"Folder: `{profile_dir}`")
-    st.write(f"Codex report: `{report_path}`")
-    st.write(f"Essence SVG: `{essence_svg}`")
-    st.write(f"ACF: `{acf_path}`")
-
-    if report_path.exists():
-        with st.expander("View Codex Report"):
-            st.markdown(report_path.read_text(encoding="utf-8"))
-
-    if acf is not None:
-        render_legacy_library_debug(acf)
-
-
-def load_or_repair_acf(profile_key: str, name: str) -> dict | None:
-    """Load ACF and repair/export it if missing or stale."""
-    profile_dir = LIBRARY_DIR / profile_key
-    acf_path = profile_dir / "profile.acf.json"
-
-    if not acf_path.exists():
-        profile_dir.mkdir(parents=True, exist_ok=True)
-        export_acf_profile(
-            name=name,
-            output_path=acf_path,
-            entity_type="person",
-        )
-
-    if not acf_path.exists():
-        return None
-
-    data = json.loads(acf_path.read_text(encoding="utf-8"))
-
-    required_keys = {
-        "identity",
-        "identity_graph",
-        "identity_persistence",
-        "invariant_analysis",
-    }
-
-    if required_keys.issubset(data.keys()):
-        return data
-
-    entity_type = data.get("identity", {}).get("entity_type", "person")
-
-    export_acf_profile(
-        name=name,
-        output_path=acf_path,
-        entity_type=entity_type,
+    tabs = st.tabs(
+        [
+            "Interpretation",
+            "ACF",
+            "Intake",
+            "Research Session",
+            "Raw Payload",
+        ]
     )
 
-    return json.loads(acf_path.read_text(encoding="utf-8"))
+    with tabs[0]:
+        interpretation = payload.get("interpretation")
+        if interpretation is None:
+            st.info("No profile interpretation file exists for this profile yet.")
+        else:
+            st.json(interpretation)
 
+    with tabs[1]:
+        acf = payload.get("acf")
+        if acf is None:
+            st.info("No ACF profile exists for this profile yet.")
+        else:
+            st.json(acf)
 
-def render_legacy_library_debug(acf: dict) -> None:
-    """Render legacy library classification only as collapsed debug."""
-    with st.expander("Legacy Classification Debug"):
-        st.warning(
-            "This is Atlas v1 legacy classification from acf['essence']. "
-            "Atlas v2 Functional Role above is the canonical classification."
-        )
-        st.json(acf.get("essence", {}).get("classification", {}))
+    with tabs[2]:
+        intake = payload.get("intake")
+        if intake is None:
+            st.info("No intake metadata exists for this profile yet.")
+        else:
+            st.json(intake)
+
+    with tabs[3]:
+        research_session = payload.get("research_session")
+        if research_session is None:
+            st.info("No research session exists for this profile yet.")
+        else:
+            st.json(research_session)
+
+    with tabs[4]:
+        st.json(payload)
