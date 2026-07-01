@@ -187,17 +187,22 @@ def build_identity_stack_metrics(
     stack_data: dict[str, Any],
     audit_data: dict[str, Any],
 ) -> dict[str, Any]:
-    """Build identity stack summary metrics."""
+    """Build identity stack summary metrics from stack summary."""
     summary = stack_data.get("summary", {})
 
     return {
-        "name": stack_data.get("name", "n/a"),
-        "version": stack_data.get("version", "n/a"),
-        "cig_nodes": summary.get("cig_node_count", 0),
-        "cig_edges": summary.get("cig_edge_count", 0),
-        "stg_nodes": summary.get("stg_node_count", 0),
-        "stg_edges": summary.get("stg_edge_count", 0),
-        "motif_count": summary.get("motif_count", 0),
+        "name": stack_data.get("name", summary.get("name", "n/a")),
+        "version": stack_data.get("version", summary.get("version", "n/a")),
+        "cig_nodes": summary.get("raw_node_count", 0),
+        "cig_edges": summary.get("raw_edge_count", 0),
+        "stg_nodes": summary.get("truth_node_count", 0),
+        "stg_edges": summary.get("truth_edge_count", 0),
+        "motif_count": summary.get("motif_richness", 0),
+        "dominant_motif": summary.get("dominant_motif", "n/a"),
+        "topology_class": summary.get("topology_class", "n/a"),
+        "dominant_topology_axis": summary.get("dominant_topology_axis", "n/a"),
+        "resonance_class": summary.get("resonance_class", "n/a"),
+        "dominant_resonance_axis": summary.get("dominant_resonance_axis", "n/a"),
         "audit_status": audit_data.get("status", "unknown"),
         "audit_errors": len(audit_data.get("errors", [])),
         "audit_warnings": len(audit_data.get("warnings", [])),
@@ -205,15 +210,91 @@ def build_identity_stack_metrics(
 
 
 def build_morphology_metrics(data: dict[str, Any]) -> dict[str, Any]:
-    """Build morphology summary metrics."""
+    """Build morphology summary metrics from raw morphology data."""
+    summary = data.get("summary", {})
+
+    structural_distance = data.get(
+        "structural_edit_distance",
+        summary.get("structural_edit_distance", 0),
+    )
+
+    node_overlap = data.get(
+        "node_overlap",
+        summary.get("node_overlap", 0),
+    )
+    edge_overlap = data.get(
+        "edge_overlap",
+        summary.get("edge_overlap", 0),
+    )
+
+    motif_mutation = data.get("motif_mutation", {}).get("mutation_score", 0)
+    genome_mutation = data.get("genome_mutation", {}).get("mutation_score", 0)
+    topology_mutation = data.get("topology_mutation", {}).get("mutation_score", 0)
+    resonance_mutation = data.get("resonance_mutation", {}).get("mutation_score", 0)
+
+    mutation_scores = [
+        safe_float(motif_mutation),
+        safe_float(genome_mutation),
+        safe_float(topology_mutation),
+        safe_float(resonance_mutation),
+    ]
+
+    mutation_score = sum(mutation_scores) / len(mutation_scores)
+
+    similarity = (
+        safe_float(node_overlap)
+        + safe_float(edge_overlap)
+    ) / 2
+
     return {
-        "source": data.get("source_name", "n/a"),
-        "target": data.get("target_name", "n/a"),
-        "morphology_class": data.get("morphology_class", "n/a"),
-        "distance": data.get("distance", 0),
-        "similarity": data.get("similarity", 0),
-        "mutation_score": data.get("mutation_score", 0),
+        "source": data.get("name_a", summary.get("name_a", "n/a")),
+        "target": data.get("name_b", summary.get("name_b", "n/a")),
+        "morphology_class": data.get(
+            "morphology_class",
+            summary.get("morphology_class", "n/a"),
+        ),
+        "distance": structural_distance,
+        "similarity": similarity,
+        "node_overlap": node_overlap,
+        "edge_overlap": edge_overlap,
+        "mutation_score": mutation_score,
+        "motif_mutation": motif_mutation,
+        "genome_mutation": genome_mutation,
+        "topology_mutation": topology_mutation,
+        "resonance_mutation": resonance_mutation,
+        "shared_node_count": data.get(
+            "shared_node_count",
+            summary.get("shared_node_count", 0),
+        ),
+        "shared_edge_count": data.get(
+            "shared_edge_count",
+            summary.get("shared_edge_count", 0),
+        ),
+        "added_node_count": data.get(
+            "added_node_count",
+            summary.get("added_node_count", 0),
+        ),
+        "removed_node_count": data.get(
+            "removed_node_count",
+            summary.get("removed_node_count", 0),
+        ),
+        "added_edge_count": data.get(
+            "added_edge_count",
+            summary.get("added_edge_count", 0),
+        ),
+        "removed_edge_count": data.get(
+            "removed_edge_count",
+            summary.get("removed_edge_count", 0),
+        ),
     }
+
+
+def safe_float(value: Any) -> float:
+    """Convert numeric values safely."""
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return 0.0
 
 
 def json_export(data: Any) -> str:
