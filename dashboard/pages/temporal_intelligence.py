@@ -2,47 +2,28 @@
 
 from __future__ import annotations
 
-import json
-from pathlib import Path
-
 import pandas as pd
 import streamlit as st
 
-from atlas.temporal.aspects import aspect_chart_to_dict, build_aspect_chart
-from atlas.temporal.birth import load_birth_data_from_profile
-from atlas.temporal.dignity import build_dignity_chart, dignity_chart_to_dict
-from atlas.temporal.houses import build_house_chart, house_chart_to_dict
-from atlas.temporal.nakshatra import build_nakshatra_chart, nakshatra_chart_to_dict
-from atlas.temporal.natal_chart import build_natal_chart, natal_chart_to_dict
-from atlas.temporal.navamsa import build_navamsa_chart, navamsa_chart_to_dict
-from atlas.temporal.transits import build_transit_chart, transit_chart_to_dict
-from atlas.temporal.vimshottari_dasha import (
-    build_vimshottari_dasha,
-    vimshottari_dasha_to_dict,
+from atlas.services.temporal_intelligence_service import (
+    DEFAULT_PROFILE_DIR,
+    DEFAULT_TRANSIT_DATE,
+    build_temporal_intelligence_payload,
+    json_export,
+    list_temporal_profiles,
 )
-from atlas.temporal.yoga_engine import evaluate_all_yogas, yoga_evaluation_to_dict
-
-
-DEFAULT_PROFILE_DIR = Path("output/library/profiles")
 
 
 def render_temporal_intelligence_page() -> None:
-    """Render Temporal Intelligence dashboard."""
     st.header("Temporal Intelligence")
     st.caption("Natal, houses, nakshatras, dignities, yogas, dashas, and transits.")
 
-    root = Path(
-        st.text_input(
-            "Profile library directory",
-            value=str(DEFAULT_PROFILE_DIR),
-        )
+    profile_dir = st.text_input(
+        "Profile library directory",
+        value=str(DEFAULT_PROFILE_DIR),
     )
 
-    if not root.exists():
-        st.error(f"Profile directory not found: {root}")
-        return
-
-    profiles = load_profiles(root)
+    profiles = list_temporal_profiles(profile_dir)
 
     if not profiles:
         st.warning("No profiles found.")
@@ -53,332 +34,231 @@ def render_temporal_intelligence_page() -> None:
         [profile["name"] for profile in profiles],
     )
 
-    selected = next(
-        profile
-        for profile in profiles
-        if profile["name"] == selected_name
-    )
+    selected = next(profile for profile in profiles if profile["name"] == selected_name)
 
     transit_date = st.text_input(
         "Transit date",
-        value="2026-06-29",
-        help="Use YYYY-MM-DD.",
+        value=DEFAULT_TRANSIT_DATE,
     )
 
-    profile_path = root / selected["slug"]
-    birth = load_birth_data_from_profile(profile_path)
-
-    if not birth.birth_date:
-        st.error("Selected profile has no birth date.")
-        return
-
     with st.spinner("Building temporal intelligence layers..."):
-        natal = build_natal_chart(birth)
-        houses = build_house_chart(natal)
-        nakshatras = build_nakshatra_chart(natal)
-        dignity = build_dignity_chart(natal)
-        aspects = build_aspect_chart(houses)
-        yogas = evaluate_all_yogas(
-            natal=natal,
-            houses=houses,
-            dignity=dignity,
-            aspects=aspects,
-        )
-        navamsa = build_navamsa_chart(natal)
-        dasha = build_vimshottari_dasha(
-            name=birth.name,
-            birth_date=birth.birth_date,
-            nakshatra_chart=nakshatras,
-        )
-        transits = build_transit_chart(
-            natal,
+        payload = build_temporal_intelligence_payload(
+            selected["slug"],
+            profile_dir,
             transit_date=transit_date,
         )
 
-    render_summary(birth, natal, houses, nakshatras, dignity, yogas, dasha, transits)
-    render_planets(natal)
-    render_houses(houses)
-    render_nakshatras(nakshatras)
-    render_dignities(dignity)
-    render_aspects(aspects)
-    render_yogas(yogas)
-    render_navamsa(navamsa)
-    render_dasha(dasha)
-    render_transits(transits)
-    render_exports(natal, houses, nakshatras, dignity, aspects, yogas, navamsa, dasha, transits)
+    if not payload.get("success"):
+        for error in payload.get("errors", []):
+            st.error(error)
+        with st.expander("Raw service payload", expanded=False):
+            st.json(payload)
+        return
+
+    data = payload["data"]
+
+    render_summary(payload)
+    render_planets(data["natal"])
+    render_houses(data["houses"])
+    render_nakshatras(data["nakshatras"])
+    render_dignities(data["dignity"])
+    render_aspects(data["aspects"])
+    render_yogas(data["yogas"])
+    render_navamsa(data["navamsa"])
+    render_dasha(data["dasha"])
+    render_transits(data["transits"])
+    render_exports(payload["exports"])
 
 
-def load_profiles(root: Path) -> list[dict]:
-    """Load profile names and slugs."""
-    profiles: list[dict] = []
-
-    for profile_path in sorted(root.iterdir()):
-        if not profile_path.is_dir():
-            continue
-
-        intake_path = profile_path / "profile.intake.json"
-
-        name = profile_path.name
-
-        if intake_path.exists():
-            try:
-                intake = json.loads(intake_path.read_text(encoding="utf-8"))
-                name = intake.get("name", name)
-            except json.JSONDecodeError:
-                pass
-
-        profiles.append(
-            {
-                "name": name,
-                "slug": profile_path.name,
-            }
-        )
-
-    return profiles
-
-
-def render_summary(
-    birth,
-    natal,
-    houses,
-    nakshatras,
-    dignity,
-    yogas,
-    dasha,
-    transits,
-) -> None:
-    """Render summary cards."""
+def render_summary(payload: dict) -> None:
     st.markdown("## Summary")
 
-    c1, c2, c3, c4 = st.columns(4)
+    metrics = payload.get("metrics", {})
 
-    c1.metric("Name", birth.name)
-    c2.metric("Birth Date", birth.birth_date)
-    c3.metric("Zodiac", natal.zodiac)
-    c4.metric("Ayanamsa", natal.ayanamsa)
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Birth Date", metrics.get("birth_date", ""))
+    c2.metric("Birth Time", metrics.get("birth_time", "Unknown"))
+    c3.metric("Planets", metrics.get("planet_count", 0))
+    c4.metric("Houses", metrics.get("house_count", 0))
 
     c5, c6, c7, c8 = st.columns(4)
+    c5.metric("Nakshatras", metrics.get("nakshatra_count", 0))
+    c6.metric("Dignities", metrics.get("dignity_count", 0))
+    c7.metric("Yogas", metrics.get("yoga_count", 0))
+    c8.metric("Dasha Periods", metrics.get("dasha_periods", 0))
 
-    c5.metric("Ascendant", houses.ascendant.sign)
-    c6.metric("Moon Nakshatra", dasha.moon_nakshatra)
-    c7.metric("Starting Dasha", dasha.moon_nakshatra_lord)
-    c8.metric("Yoga Matches", yogas.summary.get("matched", 0))
+    c9, c10 = st.columns(2)
+    c9.metric("Transit Contacts", metrics.get("transit_contacts", 0))
+    c10.metric("Transit Aspects", metrics.get("transit_aspects", 0))
 
-    c9, c10, c11, c12 = st.columns(4)
-
-    c9.metric("Planets", len(natal.planets))
-    c10.metric("Nakshatras", nakshatras.summary.get("nakshatra_count", 0))
-    c11.metric("Aspects", aspects_count_safe(transits))
-    c12.metric("Transit Contacts", transits.summary.get("contact_count", 0))
+    with st.expander("Temporal Metrics JSON", expanded=False):
+        st.json(metrics)
 
 
 def render_planets(natal) -> None:
-    """Render natal planets."""
     st.markdown("## Natal Planets")
 
     rows = [
         {
-            "planet": planet,
-            "sign": position.sign,
-            "degree": round(position.degree_in_sign, 4),
-            "longitude": round(position.longitude, 4),
-            "retrograde": position.retrograde,
+            "planet": planet.planet,
+            "sign": planet.sign,
+            "longitude": planet.longitude,
+            "nakshatra": getattr(planet, "nakshatra", ""),
+            "pada": getattr(planet, "pada", ""),
         }
-        for planet, position in natal.planets.items()
+        for planet in natal.planets
     ]
 
-    st.dataframe(pd.DataFrame(rows), use_container_width=True)
+    render_table(rows, "No natal planets available.")
 
 
 def render_houses(houses) -> None:
-    """Render house placements."""
     st.markdown("## Houses")
 
     rows = [
         {
-            "planet": planet,
-            "house": placement.house,
-            "sign": placement.sign,
-            "degree": round(placement.degree_in_sign, 4),
+            "house": house.house,
+            "sign": house.sign,
+            "ruler": getattr(house, "ruler", ""),
+            "theme": getattr(house, "theme", ""),
         }
-        for planet, placement in houses.placements.items()
+        for house in houses.houses
     ]
 
-    st.dataframe(pd.DataFrame(rows), use_container_width=True)
+    render_table(rows, "No houses available.")
 
 
 def render_nakshatras(nakshatras) -> None:
-    """Render nakshatras."""
     st.markdown("## Nakshatras")
 
     rows = [
         {
-            "body": body,
-            "nakshatra": position.nakshatra,
-            "index": position.nakshatra_index,
-            "pada": position.pada,
-            "degree_in_nakshatra": round(position.degree_in_nakshatra, 4),
+            "planet": placement.planet,
+            "nakshatra": placement.nakshatra,
+            "pada": placement.pada,
+            "ruler": getattr(placement, "ruler", ""),
         }
-        for body, position in nakshatras.positions.items()
+        for placement in nakshatras.placements
     ]
 
-    st.dataframe(pd.DataFrame(rows), use_container_width=True)
+    render_table(rows, "No nakshatra placements available.")
 
 
 def render_dignities(dignity) -> None:
-    """Render dignity chart."""
-    st.markdown("## Planetary Dignity")
+    st.markdown("## Dignities")
 
     rows = [
         {
-            "planet": planet,
-            "sign": value.sign,
-            "ruler": value.ruler,
-            "relationship": value.relationship,
-            "own_sign": value.own_sign,
-            "exalted": value.exalted,
-            "debilitated": value.debilitated,
-            "moolatrikona": value.moolatrikona,
-            "strength_score": value.strength_score,
+            "planet": placement.planet,
+            "sign": placement.sign,
+            "dignity": placement.dignity,
+            "score": getattr(placement, "score", None),
+            "notes": getattr(placement, "notes", ""),
         }
-        for planet, value in dignity.dignities.items()
+        for placement in dignity.placements
     ]
 
-    st.dataframe(pd.DataFrame(rows), use_container_width=True)
+    render_table(rows, "No dignity placements available.")
 
 
 def render_aspects(aspects) -> None:
-    """Render Graha Drishti."""
-    st.markdown("## Graha Drishti")
+    st.markdown("## Aspects")
 
     rows = [
         {
-            "source": aspect.source,
-            "target": aspect.target,
-            "source_house": aspect.source_house,
-            "target_house": aspect.target_house,
-            "aspect_type": aspect.aspect_type,
-            "strength": aspect.strength,
+            "planet_a": aspect.planet_a,
+            "planet_b": aspect.planet_b,
+            "aspect": aspect.aspect,
+            "orb": getattr(aspect, "orb", None),
         }
         for aspect in aspects.aspects
     ]
 
-    st.dataframe(pd.DataFrame(rows), use_container_width=True)
+    render_table(rows, "No aspects available.")
 
 
 def render_yogas(yogas) -> None:
-    """Render yogas."""
     st.markdown("## Yogas")
 
     rows = [
         {
-            "name": match.name,
-            "category": match.category,
-            "source": match.source,
-            "score": match.score,
-            "conditions": f"{match.conditions_passed}/{match.conditions_total}",
+            "name": yoga.name,
+            "present": yoga.present,
+            "strength": getattr(yoga, "strength", None),
+            "description": getattr(yoga, "description", ""),
         }
-        for match in yogas.matches
+        for yoga in yogas.yogas
     ]
 
-    if rows:
-        st.dataframe(pd.DataFrame(rows), use_container_width=True)
-    else:
-        st.info("No yogas matched with the current rule set.")
+    render_table(rows, "No yogas available.")
 
 
 def render_navamsa(navamsa) -> None:
-    """Render Navamsa D9."""
-    st.markdown("## Navamsa / D9")
+    st.markdown("## Navamsa")
 
     rows = [
         {
-            "planet": planet,
-            "sign": position.sign,
-            "division_number": position.division_number,
-            "degree_in_division": round(position.degree_in_division, 4),
+            "planet": placement.planet,
+            "rashi_sign": getattr(placement, "rashi_sign", ""),
+            "navamsa_sign": placement.navamsa_sign,
+            "degree": getattr(placement, "degree", None),
         }
-        for planet, position in navamsa.positions.items()
+        for placement in navamsa.placements
     ]
 
-    st.dataframe(pd.DataFrame(rows), use_container_width=True)
+    render_table(rows, "No navamsa placements available.")
 
 
 def render_dasha(dasha) -> None:
-    """Render Vimshottari Dasha."""
     st.markdown("## Vimshottari Dasha")
 
     rows = [
         {
-            "lord": period.lord,
+            "mahadasha_lord": period.mahadasha_lord,
             "start_date": period.start_date,
             "end_date": period.end_date,
-            "years": round(period.years, 4),
-            "level": period.level,
+            "duration_years": getattr(period, "duration_years", None),
         }
         for period in dasha.periods
     ]
 
-    st.dataframe(pd.DataFrame(rows), use_container_width=True)
+    render_table(rows, "No dasha periods available.")
 
 
 def render_transits(transits) -> None:
-    """Render transit contacts."""
     st.markdown("## Transits")
 
     rows = [
         {
             "transit_planet": contact.transit_planet,
             "natal_planet": contact.natal_planet,
+            "aspect": contact.aspect,
             "transit_sign": contact.transit_sign,
-            "natal_sign": contact.natal_sign,
-            "sign_distance": contact.sign_distance,
-            "same_sign": contact.same_sign,
-            "opposition": contact.opposition,
+            "orb": getattr(contact, "orb", None),
         }
         for contact in transits.contacts
     ]
 
-    st.dataframe(pd.DataFrame(rows), use_container_width=True)
+    render_table(rows, "No transit contacts available.")
 
 
-def render_exports(
-    natal,
-    houses,
-    nakshatras,
-    dignity,
-    aspects,
-    yogas,
-    navamsa,
-    dasha,
-    transits,
-) -> None:
-    """Render export buttons."""
+def render_exports(exports: dict) -> None:
     st.markdown("## Exports")
-
-    payload = {
-        "natal": natal_chart_to_dict(natal),
-        "houses": house_chart_to_dict(houses),
-        "nakshatras": nakshatra_chart_to_dict(nakshatras),
-        "dignity": dignity_chart_to_dict(dignity),
-        "aspects": aspect_chart_to_dict(aspects),
-        "yogas": yoga_evaluation_to_dict(yogas),
-        "navamsa": navamsa_chart_to_dict(navamsa),
-        "dasha": vimshottari_dasha_to_dict(dasha),
-        "transits": transit_chart_to_dict(transits),
-    }
 
     st.download_button(
         label="Download temporal intelligence JSON",
-        data=json.dumps(payload, indent=2, sort_keys=True),
+        data=json_export(exports),
         file_name="temporal_intelligence.json",
         mime="application/json",
     )
 
+    with st.expander("Raw Temporal Export JSON", expanded=False):
+        st.json(exports)
 
-def aspects_count_safe(transits) -> int:
-    """Temporary summary helper."""
-    return transits.summary.get("opposition_count", 0) + transits.summary.get(
-        "same_sign_count",
-        0,
-    )
+
+def render_table(rows: list[dict], empty_message: str) -> None:
+    if not rows:
+        st.info(empty_message)
+        return
+
+    st.dataframe(pd.DataFrame(rows), width="stretch")
