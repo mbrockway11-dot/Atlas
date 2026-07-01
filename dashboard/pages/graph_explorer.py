@@ -14,6 +14,11 @@ from atlas.services.graph_service import (
     json_export,
     list_graph_profiles,
 )
+from atlas.services.graph_reasoning_service import (
+    build_profile_graph_reasoning_payload,
+    build_relationship_graph_reasoning_payload,
+    json_export as graph_reasoning_json_export,
+)
 
 
 def render_graph_explorer_page() -> None:
@@ -31,11 +36,12 @@ def render_graph_explorer_page() -> None:
         return
 
     tabs = st.tabs(
-        [
+    [
             "Identity Graph",
             "Truth Graph",
             "Topology",
             "Morphology",
+            "Graph Reasoning",
             "Diagnostics",
         ]
     )
@@ -53,6 +59,9 @@ def render_graph_explorer_page() -> None:
         render_morphology_tab(profiles)
 
     with tabs[4]:
+        render_graph_reasoning_tab(profiles)
+
+    with tabs[5]:
         render_diagnostics_tab(profiles)
 
 
@@ -258,6 +267,211 @@ def render_morphology_tab(profiles: list[str]) -> None:
         st.json(morphology_data)
 
     render_morphology_exports(payload)
+
+def render_graph_reasoning_tab(profiles: list[str]) -> None:
+    """Render graph reasoning tab."""
+    st.markdown("## Graph Reasoning")
+    st.caption(
+        "Deterministic reasoning over graph stack and morphology metrics."
+    )
+
+    mode = st.radio(
+        "Reasoning scope",
+        ["Profile", "Relationship"],
+        horizontal=True,
+        key="graph_reasoning_scope",
+    )
+
+    if mode == "Profile":
+        profile_key = st.selectbox(
+            "Profile",
+            profiles,
+            key="graph_reasoning_profile",
+        )
+
+        if not st.button("Build Profile Graph Reasoning", type="primary"):
+            st.info("Select a profile and build graph reasoning.")
+            return
+
+        with st.spinner("Building profile graph reasoning..."):
+            payload = build_profile_graph_reasoning_payload(profile_key)
+
+    else:
+        col_a, col_b = st.columns(2)
+
+        with col_a:
+            profile_a = st.selectbox(
+                "Profile A",
+                profiles,
+                index=0,
+                key="graph_reasoning_profile_a",
+            )
+
+        with col_b:
+            profile_b = st.selectbox(
+                "Profile B",
+                profiles,
+                index=1 if len(profiles) > 1 else 0,
+                key="graph_reasoning_profile_b",
+            )
+
+        if profile_a == profile_b:
+            st.warning("Select two different profiles.")
+            return
+
+        if not st.button("Build Relationship Graph Reasoning", type="primary"):
+            st.info("Select two profiles and build graph reasoning.")
+            return
+
+        with st.spinner("Building relationship graph reasoning..."):
+            payload = build_relationship_graph_reasoning_payload(
+                profile_a,
+                profile_b,
+            )
+
+    render_graph_reasoning_payload(payload)
+
+
+def render_graph_reasoning_payload(payload: dict) -> None:
+    """Render graph reasoning payload."""
+    if not payload.get("success"):
+        render_errors(payload)
+        return
+
+    metrics = payload.get("metrics", {})
+    reasoning = payload.get("data", {}).get("reasoning", {})
+    confidence = reasoning.get("confidence", {})
+    sections = reasoning.get("sections", [])
+
+    st.markdown("### Reasoning Health")
+
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Sections", metrics.get("section_count", 0))
+    c2.metric("Claims", metrics.get("claim_count", 0))
+    c3.metric("Evidence Items", metrics.get("evidence_count", 0))
+    c4.metric(
+        "Overall Confidence",
+        format_confidence(metrics.get("overall_confidence", {})),
+    )
+
+    if confidence:
+        st.markdown("### Confidence Model")
+        confidence_rows = []
+
+        for key, record in confidence.items():
+            if isinstance(record, dict) and "percent" in record:
+                confidence_rows.append(
+                    {
+                        "layer": key,
+                        "label": record.get("label", "unknown"),
+                        "percent": record.get("percent", 0),
+                        "score": record.get("score", 0),
+                    }
+                )
+
+        if confidence_rows:
+            st.dataframe(pd.DataFrame(confidence_rows), width="stretch")
+
+    markdown = payload.get("exports", {}).get("markdown", "")
+
+    if markdown:
+        st.markdown("### Reasoning Report")
+        st.markdown(markdown)
+
+    st.markdown("### Structured Reasoning")
+
+    if not sections:
+        st.info("No reasoning sections available.")
+    else:
+        for section in sections:
+            with st.expander(section.get("title", "Untitled Section"), expanded=False):
+                summary = section.get("summary", "")
+                details = section.get("details", [])
+                claims = section.get("claims", [])
+                cautions = section.get("cautions", [])
+
+                if summary:
+                    st.write(summary)
+
+                if details:
+                    st.markdown("#### Details")
+                    for detail in details:
+                        st.write(f"- {detail}")
+
+                if claims:
+                    st.markdown("#### Claims")
+                    for item in claims:
+                        item_confidence = item.get("confidence", {})
+                        st.write(
+                            f"- **{item.get('claim', '')}** "
+                            f"({item_confidence.get('label', 'unknown')}, "
+                            f"{item_confidence.get('percent', 0)}%)"
+                        )
+
+                        for evidence in item.get("evidence", []):
+                            st.write(f"  - Evidence: {evidence}")
+
+                if cautions:
+                    st.markdown("#### Cautions")
+                    for caution in cautions:
+                        st.warning(caution)
+
+                st.json(section)
+
+    st.markdown("### Exports")
+
+    c1, c2, c3 = st.columns(3)
+
+    c1.download_button(
+        "Download Markdown",
+        data=payload.get("exports", {}).get("markdown", ""),
+        file_name="graph_reasoning.md",
+        mime="text/markdown",
+    )
+
+    c2.download_button(
+        "Download Reasoning JSON",
+        data=graph_reasoning_json_export(
+            payload.get("exports", {}).get("reasoning_json", {}),
+        ),
+        file_name="graph_reasoning.json",
+        mime="application/json",
+    )
+
+    c3.download_button(
+        "Download Full Payload JSON",
+        data=graph_reasoning_json_export(build_safe_graph_reasoning_payload(payload)),
+        file_name="graph_reasoning_payload.json",
+        mime="application/json",
+    )
+
+    with st.expander("Raw Graph Reasoning Payload", expanded=False):
+        st.json(build_safe_graph_reasoning_payload(payload))
+
+
+def build_safe_graph_reasoning_payload(payload: dict) -> dict:
+    """Build circular-safe graph reasoning payload."""
+    return {
+        "success": payload.get("success"),
+        "version": payload.get("version"),
+        "scope": payload.get("scope"),
+        "profile_key": payload.get("profile_key"),
+        "profile_a": payload.get("profile_a"),
+        "profile_b": payload.get("profile_b"),
+        "errors": payload.get("errors", []),
+        "warnings": payload.get("warnings", []),
+        "metrics": payload.get("metrics", {}),
+        "reasoning": payload.get("data", {}).get("reasoning", {}),
+        "source_summary": payload.get("data", {}).get("source_summary", {}),
+    }
+
+
+def format_confidence(record: dict) -> str:
+    """Format confidence record."""
+    if not isinstance(record, dict):
+        return "n/a"
+
+    return f"{record.get('percent', 0)}% {record.get('label', 'unknown')}"
 
 
 def render_diagnostics_tab(profiles: list[str]) -> None:
