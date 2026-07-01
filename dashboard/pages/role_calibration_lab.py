@@ -2,15 +2,15 @@
 
 from __future__ import annotations
 
-import json
+from typing import Any
 
 import pandas as pd
 import streamlit as st
 
-from atlas.classification.role_calibration import calibrate_functional_roles_v2
-from atlas.classification.role_diagnostics import audit_functional_roles_v2
-from atlas.library.profile_library import LIBRARY_DIR, list_saved_profiles
-from atlas.research import build_profile_matrix_rows
+from atlas.services.role_calibration_service import (
+    build_role_calibration_payload,
+    list_role_calibration_profiles,
+)
 
 
 def render_role_calibration_lab_page() -> None:
@@ -18,10 +18,10 @@ def render_role_calibration_lab_page() -> None:
     st.header("Functional Role Calibration Lab")
     st.caption(
         "Audit Functional Role v2 distribution, drift, metric separation, "
-        "learned weights, and layer consensus."
+        "learned role weights, and profile-level consensus."
     )
 
-    profiles = list_saved_profiles()
+    profiles = list_role_calibration_profiles()
 
     if len(profiles) < 2:
         st.info("Build at least two profiles first.")
@@ -37,134 +37,148 @@ def render_role_calibration_lab_page() -> None:
         st.warning("Select at least two profiles.")
         return
 
-    rows = load_matrix_rows(selected_profiles)
+    with st.spinner("Building role calibration payload..."):
+        payload = build_role_calibration_payload(selected_profiles)
 
-    if not rows:
-        st.error("No research rows could be loaded.")
+    if not payload.get("success"):
+        st.error("Role calibration failed.")
+        for warning in payload.get("warnings", []):
+            st.warning(warning)
+        with st.expander("Raw failure payload", expanded=False):
+            st.json(payload)
         return
 
-    calibration = calibrate_functional_roles_v2(rows)
-    diagnostics = audit_functional_roles_v2(rows)
+    calibration = payload["calibration"]
+    diagnostics = payload["diagnostics"]
 
+    render_service_health(payload)
     render_health(calibration, diagnostics)
 
-    tab_distribution, tab_separation, tab_weights, tab_consensus, tab_raw = st.tabs(
+    tabs = st.tabs(
         [
             "Role Distribution",
             "Metric Separation",
             "Learned Weights",
             "Profile Consensus",
-            "Raw JSON",
+            "Raw",
         ]
     )
 
-    with tab_distribution:
+    with tabs[0]:
         render_role_distribution(calibration)
 
-    with tab_separation:
+    with tabs[1]:
         render_metric_separation(calibration)
 
-    with tab_weights:
+    with tabs[2]:
         render_learned_weights(calibration)
 
-    with tab_consensus:
+    with tabs[3]:
         render_profile_consensus(diagnostics)
 
-    with tab_raw:
-        render_raw(calibration, diagnostics)
+    with tabs[4]:
+        render_raw(payload, calibration, diagnostics)
 
 
-def load_matrix_rows(profile_keys: list[str]) -> list[dict]:
-    """Load saved ACF files and convert them to research rows."""
-    rows = []
+def render_service_health(payload: dict[str, Any]) -> None:
+    """Render service-level health metrics."""
+    metrics = payload.get("metrics", {})
 
-    for profile_key in profile_keys:
-        acf_path = LIBRARY_DIR / profile_key / "profile.acf.json"
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Selected Profiles", metrics.get("profile_count", 0))
+    c2.metric("Rows Loaded", metrics.get("row_count", 0))
+    c3.metric("Valid Rows", metrics.get("valid_row_count", 0))
+    c4.metric("Errors", metrics.get("error_count", 0))
 
-        if not acf_path.exists():
-            continue
+    for warning in payload.get("warnings", []):
+        st.warning(warning)
 
-        acf = json.loads(acf_path.read_text(encoding="utf-8"))
-        rows.extend(build_profile_matrix_rows(acf))
-
-    return rows
+    errors = payload.get("errors", [])
+    if errors:
+        with st.expander("Row Load Errors", expanded=False):
+            st.json(errors)
 
 
 def render_health(calibration: dict, diagnostics: dict) -> None:
-    """Render top-level classifier health metrics."""
-    st.markdown("## Classifier Health")
+    """Render calibration health summary."""
+    st.markdown("## Calibration Health")
 
-    drift = calibration["drift"]
-    confidence = diagnostics["profile_confidence_summary"]
+    drift = calibration.get("drift", {})
+    confidence = diagnostics.get("profile_confidence_summary", {})
 
     c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Rows", calibration.get("row_count", 0))
+    c2.metric("Profiles", diagnostics.get("profile_count", 0))
+    c3.metric("Dominant Role Drift", format_percent(drift.get("dominant_role_drift")))
+    c4.metric("Mean Role Consensus", format_percent(confidence.get("mean_role_consensus")))
 
-    c1.metric("Rows", calibration["row_count"])
-    c2.metric("Profiles", diagnostics["profile_count"])
-    c3.metric("Mean Confidence", format_float(confidence["mean"]))
-    c4.metric("Hybrid Ratio", format_percent(confidence["hybrid_ratio"]))
+    c5, c6, c7, c8 = st.columns(4)
+    c5.metric("Min Role Consensus", format_percent(confidence.get("min_role_consensus")))
+    c6.metric("Max Role Consensus", format_percent(confidence.get("max_role_consensus")))
+    c7.metric("Low Consensus Profiles", confidence.get("low_consensus_count", 0))
+    c8.metric("Role Count", len(calibration.get("role_distribution", [])))
 
-    status = drift["status"]
+    with st.expander("Drift JSON", expanded=False):
+        st.json(drift)
 
-    if status == "balanced":
-        st.success(drift["message"])
-    elif status == "moderate_drift":
-        st.warning(drift["message"])
-    elif status == "severe_drift":
-        st.error(drift["message"])
-    else:
-        st.info(drift["message"])
+    with st.expander("Confidence Summary JSON", expanded=False):
+        st.json(confidence)
 
 
 def render_role_distribution(calibration: dict) -> None:
     """Render role distribution tables."""
     st.markdown("## Role Distribution")
 
-    dataframe = pd.DataFrame(calibration["role_distribution"])
+    dataframe = pd.DataFrame(calibration.get("role_distribution", []))
 
-    st.dataframe(
-        dataframe,
-        width="stretch",
-    )
+    if dataframe.empty:
+        st.info("No role distribution data available.")
+        return
 
-    st.bar_chart(
-        dataframe.set_index("role")["ratio"],
-        width="stretch",
+    st.dataframe(dataframe, width="stretch")
+
+    if "role" in dataframe.columns and "ratio" in dataframe.columns:
+        st.bar_chart(dataframe.set_index("role")["ratio"], width="stretch")
+
+    st.download_button(
+        "Download role_distribution.csv",
+        data=dataframe.to_csv(index=False).encode("utf-8"),
+        file_name="role_distribution.csv",
+        mime="text/csv",
     )
 
 
 def render_metric_separation(calibration: dict) -> None:
-    """Render metric separation ranking."""
+    """Render metric separation."""
     st.markdown("## Metric Separation")
 
-    dataframe = pd.DataFrame(calibration["metric_separation"])
+    dataframe = pd.DataFrame(calibration.get("metric_separation", []))
 
     if dataframe.empty:
         st.info("No metric separation data available.")
         return
 
-    visible_columns = [
-        "metric",
-        "separation_score",
-        "between_role_variance",
-        "within_role_variance",
-        "overall_mean",
-        "overall_variance",
-        "count",
+    st.dataframe(dataframe, width="stretch")
+
+    chart_columns = [
+        column
+        for column in [
+            "between_role_variance",
+            "within_role_variance",
+            "separation_ratio",
+        ]
+        if column in dataframe.columns
     ]
 
-    st.dataframe(
-        dataframe[visible_columns],
-        width="stretch",
-    )
+    if "metric" in dataframe.columns and chart_columns:
+        chart_df = dataframe.set_index("metric")[chart_columns]
+        st.bar_chart(chart_df, width="stretch")
 
-    st.markdown("### Top Separating Metrics")
-
-    top = dataframe.head(12)
-
-    st.bar_chart(
-        top.set_index("metric")["separation_score"],
-        width="stretch",
+    st.download_button(
+        "Download metric_separation.csv",
+        data=dataframe.to_csv(index=False).encode("utf-8"),
+        file_name="metric_separation.csv",
+        mime="text/csv",
     )
 
 
@@ -172,7 +186,11 @@ def render_learned_weights(calibration: dict) -> None:
     """Render learned role weights."""
     st.markdown("## Learned Weights")
 
-    learned_weights = calibration["learned_weights"]
+    learned_weights = calibration.get("learned_weights", {})
+
+    if not learned_weights:
+        st.info("No learned weights available.")
+        return
 
     for role, records in learned_weights.items():
         st.markdown(f"### {role}")
@@ -183,23 +201,27 @@ def render_learned_weights(calibration: dict) -> None:
             st.info(f"No learned weights available for {role}.")
             continue
 
-        visible_columns = [
-            "metric",
-            "weight",
-            "role_mean",
-            "other_mean",
-            "directional_advantage",
-            "separation_score",
+        st.dataframe(dataframe, width="stretch")
+
+        chart_columns = [
+            column
+            for column in [
+                "role_mean",
+                "global_mean",
+                "delta",
+                "weight",
+            ]
+            if column in dataframe.columns
         ]
 
-        st.dataframe(
-            dataframe[visible_columns],
-            width="stretch",
-        )
+        if "metric" in dataframe.columns and chart_columns:
+            st.bar_chart(dataframe.set_index("metric")[chart_columns], width="stretch")
 
-        st.bar_chart(
-            dataframe.head(10).set_index("metric")["weight"],
-            width="stretch",
+        st.download_button(
+            f"Download {role}_learned_weights.csv",
+            data=dataframe.to_csv(index=False).encode("utf-8"),
+            file_name=f"{slugify(role)}_learned_weights.csv",
+            mime="text/csv",
         )
 
 
@@ -207,27 +229,31 @@ def render_profile_consensus(diagnostics: dict) -> None:
     """Render profile-level consensus."""
     st.markdown("## Profile Consensus")
 
-    dataframe = pd.DataFrame(diagnostics["profile_consensus"])
+    dataframe = pd.DataFrame(diagnostics.get("profile_consensus", []))
 
     if dataframe.empty:
         st.info("No profile consensus data available.")
         return
 
-    st.dataframe(
-        dataframe,
-        width="stretch",
+    st.dataframe(dataframe, width="stretch")
+
+    if "name" in dataframe.columns and "role_consensus" in dataframe.columns:
+        st.markdown("### Role Consensus")
+        st.bar_chart(dataframe.set_index("name")["role_consensus"], width="stretch")
+
+    st.download_button(
+        "Download profile_consensus.csv",
+        data=dataframe.to_csv(index=False).encode("utf-8"),
+        file_name="profile_consensus.csv",
+        mime="text/csv",
     )
 
-    st.markdown("### Role Consensus")
 
-    st.bar_chart(
-        dataframe.set_index("name")["role_consensus"],
-        width="stretch",
-    )
-
-
-def render_raw(calibration: dict, diagnostics: dict) -> None:
+def render_raw(payload: dict, calibration: dict, diagnostics: dict) -> None:
     """Render raw calibration/diagnostic JSON."""
+    with st.expander("Raw Service Payload JSON"):
+        st.json(payload)
+
     with st.expander("Raw Calibration JSON"):
         st.json(calibration)
 
@@ -235,17 +261,22 @@ def render_raw(calibration: dict, diagnostics: dict) -> None:
         st.json(diagnostics)
 
 
-def format_float(value) -> str:
-    """Format float safely."""
+def format_float(value: Any) -> str:
+    """Format a float value."""
     try:
         return f"{float(value):.4f}"
     except (TypeError, ValueError):
         return "n/a"
 
 
-def format_percent(value) -> str:
-    """Format percent safely."""
+def format_percent(value: Any) -> str:
+    """Format a ratio as percentage."""
     try:
         return f"{float(value) * 100:.2f}%"
     except (TypeError, ValueError):
         return "n/a"
+
+
+def slugify(value: str) -> str:
+    """Build a safe filename slug."""
+    return value.casefold().replace(" ", "_").replace("/", "_").replace("\\", "_")
