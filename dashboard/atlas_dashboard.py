@@ -20,6 +20,7 @@ from pages.profile_library import render_profile_library_page
 from pages.profile_observatory import render_profile_observatory_page
 from pages.profile_report import render_profile_report_page
 from pages.profile_test_lab import render_profile_test_lab_page
+from pages.relationship_report import render_relationship_report_page
 from pages.research_corpus import render_research_corpus_page
 from pages.research_session import render_research_session_page
 from pages.role_calibration_lab import render_role_calibration_lab_page
@@ -45,6 +46,7 @@ def build_page_registry() -> dict[str, PageRenderer]:
     return {
         "Developer Console": render_developer_console_page,
         "Profile Report": render_profile_report_page,
+        "Relationship Report": render_relationship_report_page,
         "Profile Library": render_profile_library_page,
         "Profile Builder": render_profile_builder_page,
         "Profile Observatory": render_profile_observatory_page,
