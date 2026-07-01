@@ -19,7 +19,11 @@ from atlas.services.graph_reasoning_service import (
     build_relationship_graph_reasoning_payload,
     json_export as graph_reasoning_json_export,
 )
-
+from atlas.services.graph_intelligence_service import (
+    build_profile_graph_intelligence_payload,
+    build_relationship_graph_intelligence_payload,
+    json_export as graph_intelligence_json_export,
+)
 
 def render_graph_explorer_page() -> None:
     """Render Graph Explorer."""
@@ -36,12 +40,13 @@ def render_graph_explorer_page() -> None:
         return
 
     tabs = st.tabs(
-    [
+        [
             "Identity Graph",
             "Truth Graph",
             "Topology",
             "Morphology",
             "Graph Reasoning",
+            "Graph Intelligence",
             "Diagnostics",
         ]
     )
@@ -62,6 +67,9 @@ def render_graph_explorer_page() -> None:
         render_graph_reasoning_tab(profiles)
 
     with tabs[5]:
+        render_graph_intelligence_tab(profiles)
+
+    with tabs[6]:
         render_diagnostics_tab(profiles)
 
 
@@ -472,6 +480,207 @@ def format_confidence(record: dict) -> str:
         return "n/a"
 
     return f"{record.get('percent', 0)}% {record.get('label', 'unknown')}"
+
+def render_graph_intelligence_tab(profiles: list[str]) -> None:
+    """Render graph intelligence tab."""
+    st.markdown("## Graph Intelligence")
+    st.caption("Strategic intelligence synthesized from graph reasoning outputs.")
+
+    mode = st.radio(
+        "Intelligence scope",
+        ["Profile", "Relationship"],
+        horizontal=True,
+        key="graph_intelligence_scope",
+    )
+
+    if mode == "Profile":
+        profile_key = st.selectbox(
+            "Profile",
+            profiles,
+            key="graph_intelligence_profile",
+        )
+
+        if not st.button("Build Profile Graph Intelligence", type="primary"):
+            st.info("Select a profile and build graph intelligence.")
+            return
+
+        with st.spinner("Building profile graph intelligence..."):
+            payload = build_profile_graph_intelligence_payload(profile_key)
+
+    else:
+        col_a, col_b = st.columns(2)
+
+        with col_a:
+            profile_a = st.selectbox(
+                "Profile A",
+                profiles,
+                index=0,
+                key="graph_intelligence_profile_a",
+            )
+
+        with col_b:
+            profile_b = st.selectbox(
+                "Profile B",
+                profiles,
+                index=1 if len(profiles) > 1 else 0,
+                key="graph_intelligence_profile_b",
+            )
+
+        if profile_a == profile_b:
+            st.warning("Select two different profiles.")
+            return
+
+        if not st.button("Build Relationship Graph Intelligence", type="primary"):
+            st.info("Select two profiles and build graph intelligence.")
+            return
+
+        with st.spinner("Building relationship graph intelligence..."):
+            payload = build_relationship_graph_intelligence_payload(
+                profile_a,
+                profile_b,
+            )
+
+    render_graph_intelligence_payload(payload)
+
+
+def render_graph_intelligence_payload(payload: dict) -> None:
+    """Render graph intelligence payload."""
+    if not payload.get("success"):
+        render_errors(payload)
+        return
+
+    metrics = payload.get("metrics", {})
+    intelligence = payload.get("data", {}).get("intelligence", {})
+    confidence = intelligence.get("confidence", {})
+    sections = intelligence.get("sections", [])
+
+    st.markdown("### Intelligence Health")
+
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Sections", metrics.get("section_count", 0))
+    c2.metric("Claims", metrics.get("claim_count", 0))
+    c3.metric("Evidence Items", metrics.get("evidence_count", 0))
+    c4.metric(
+        "Overall Confidence",
+        format_confidence(metrics.get("overall_confidence", {})),
+    )
+
+    c5, c6 = st.columns(2)
+    c5.metric("Research Priorities", metrics.get("priority_count", 0))
+    c6.metric("Words", metrics.get("word_count", 0))
+
+    if confidence:
+        st.markdown("### Confidence Model")
+        rows = []
+
+        for key, record in confidence.items():
+            if isinstance(record, dict) and "percent" in record:
+                rows.append(
+                    {
+                        "layer": key,
+                        "label": record.get("label", "unknown"),
+                        "percent": record.get("percent", 0),
+                        "score": record.get("score", 0),
+                    }
+                )
+
+        if rows:
+            st.dataframe(pd.DataFrame(rows), width="stretch")
+
+    markdown = payload.get("exports", {}).get("markdown", "")
+
+    if markdown:
+        st.markdown("### Intelligence Report")
+        st.markdown(markdown)
+
+    st.markdown("### Structured Intelligence")
+
+    if not sections:
+        st.info("No graph intelligence sections available.")
+    else:
+        for section in sections:
+            with st.expander(section.get("title", "Untitled Section"), expanded=False):
+                summary = section.get("summary", "")
+                claims = section.get("claims", [])
+                priorities = section.get("priorities", [])
+                cautions = section.get("cautions", [])
+
+                if summary:
+                    st.write(summary)
+
+                if claims:
+                    st.markdown("#### Claims")
+                    for item in claims:
+                        item_confidence = item.get("confidence", {})
+                        st.write(
+                            f"- **{item.get('claim', '')}** "
+                            f"({item_confidence.get('label', 'unknown')}, "
+                            f"{item_confidence.get('percent', 0)}%)"
+                        )
+
+                        for evidence in item.get("evidence", []):
+                            st.write(f"  - Evidence: {evidence}")
+
+                if priorities:
+                    st.markdown("#### Research Priorities")
+                    for priority in priorities:
+                        st.write(f"- {priority}")
+
+                if cautions:
+                    st.markdown("#### Cautions")
+                    for caution in cautions:
+                        st.warning(caution)
+
+                st.json(section)
+
+    st.markdown("### Exports")
+
+    c1, c2, c3 = st.columns(3)
+
+    c1.download_button(
+        "Download Markdown",
+        data=payload.get("exports", {}).get("markdown", ""),
+        file_name="graph_intelligence.md",
+        mime="text/markdown",
+    )
+
+    c2.download_button(
+        "Download Intelligence JSON",
+        data=graph_intelligence_json_export(
+            payload.get("exports", {}).get("intelligence_json", {}),
+        ),
+        file_name="graph_intelligence.json",
+        mime="application/json",
+    )
+
+    c3.download_button(
+        "Download Full Payload JSON",
+        data=graph_intelligence_json_export(
+            build_safe_graph_intelligence_payload(payload),
+        ),
+        file_name="graph_intelligence_payload.json",
+        mime="application/json",
+    )
+
+    with st.expander("Raw Graph Intelligence Payload", expanded=False):
+        st.json(build_safe_graph_intelligence_payload(payload))
+
+
+def build_safe_graph_intelligence_payload(payload: dict) -> dict:
+    """Build circular-safe graph intelligence payload."""
+    return {
+        "success": payload.get("success"),
+        "version": payload.get("version"),
+        "scope": payload.get("scope"),
+        "profile_key": payload.get("profile_key"),
+        "profile_a": payload.get("profile_a"),
+        "profile_b": payload.get("profile_b"),
+        "errors": payload.get("errors", []),
+        "warnings": payload.get("warnings", []),
+        "metrics": payload.get("metrics", {}),
+        "intelligence": payload.get("data", {}).get("intelligence", {}),
+        "source_summary": payload.get("data", {}).get("source_summary", {}),
+    }
 
 
 def render_diagnostics_tab(profiles: list[str]) -> None:
