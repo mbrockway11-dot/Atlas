@@ -1,8 +1,4 @@
-"""Canonical Profile Report service.
-
-This service assembles existing Atlas layers into one report payload.
-It does not introduce new symbolic algorithms.
-"""
+"""Canonical Profile Report service."""
 
 from __future__ import annotations
 
@@ -27,7 +23,6 @@ from atlas.services.temporal_intelligence_service import (
 
 
 def list_profile_report_profiles() -> list[str]:
-    """Return profiles available for reporting."""
     return list_saved_profiles()
 
 
@@ -36,14 +31,10 @@ def build_profile_report_payload(
     *,
     transit_date: str = DEFAULT_TRANSIT_DATE,
 ) -> dict[str, Any]:
-    """Build canonical profile report payload."""
     profile_dir = LIBRARY_DIR / profile_key
 
     if not profile_dir.exists():
-        return failure_payload(
-            profile_key,
-            f"Profile directory not found: {profile_dir}",
-        )
+        return failure_payload(profile_key, f"Profile directory not found: {profile_dir}")
 
     library_payload = load_profile_library_payload(profile_key)
 
@@ -100,7 +91,6 @@ def build_profile_report_payload(
     }
 
     payload["exports"]["full_payload_json"] = make_json_safe_for_export(payload)
-
     return payload
 
 
@@ -112,7 +102,6 @@ def build_atlas_profile(
     temporal_payload: dict[str, Any],
     graph_payload: dict[str, Any],
 ) -> AtlasProfile:
-    """Build AtlasProfile from existing service payloads."""
     display_name = resolve_display_name(profile_key, library_payload)
 
     profile = AtlasProfile(
@@ -158,21 +147,17 @@ class InterpreterIdentity:
         }
         self.intake = sections.get("intake", {})
         self.acf = sections.get("acf", {})
-        self.temporal = normalize_temporal_for_interpreter(
-            sections.get("temporal", {})
-        )
+        self.temporal = normalize_temporal_for_interpreter(sections.get("temporal", {}))
         self.graph = sections.get("graph", {})
 
 
 def build_interpreter_identity(profile: AtlasProfile) -> InterpreterIdentity:
-    """Build interpreter-compatible identity object."""
     return InterpreterIdentity(profile)
 
 
 def normalize_temporal_for_interpreter(
     temporal_payload: dict[str, Any],
 ) -> dict[str, Any]:
-    """Expose temporal exports in the shape expected by interpreter.py."""
     if not isinstance(temporal_payload, dict):
         return {}
 
@@ -180,10 +165,7 @@ def normalize_temporal_for_interpreter(
 
     if exports:
         return {
-            "birth": exports.get(
-                "birth",
-                temporal_payload.get("data", {}).get("birth", {}),
-            ),
+            "birth": exports.get("birth", {}),
             "natal": exports.get("natal", {}),
             "houses": exports.get("houses", {}),
             "nakshatras": exports.get("nakshatras", {}),
@@ -200,7 +182,6 @@ def normalize_temporal_for_interpreter(
 
 
 def resolve_display_name(profile_key: str, library_payload: dict[str, Any]) -> str:
-    """Resolve display name from available profile artifacts."""
     intake = library_payload.get("intake") or {}
     acf = library_payload.get("acf") or {}
 
@@ -225,7 +206,6 @@ def build_report_metrics(
     interpretation: dict[str, Any],
     report: dict[str, Any],
 ) -> dict[str, Any]:
-    """Build report-level metrics."""
     return {
         "has_acf": library_payload.get("acf") is not None,
         "has_intake": library_payload.get("intake") is not None,
@@ -240,24 +220,19 @@ def build_report_metrics(
 
 
 def collect_errors(*payloads: dict[str, Any]) -> list[Any]:
-    """Collect service errors."""
     errors: list[Any] = []
-
     for payload in payloads:
         errors.extend(payload.get("errors", []))
-
     return errors
 
 
 def collect_warnings(*payloads: dict[str, Any]) -> list[str]:
-    """Collect service warnings and missing artifact notes."""
     warnings: list[str] = []
 
     for payload in payloads:
         warnings.extend(str(item) for item in payload.get("warnings", []))
 
     library_payload = payloads[0] if payloads else {}
-
     for missing in library_payload.get("missing", []):
         warnings.append(f"Missing artifact: {missing}")
 
@@ -265,7 +240,6 @@ def collect_warnings(*payloads: dict[str, Any]) -> list[str]:
 
 
 def build_report_evidence(profile_key: str) -> list[dict[str, Any]]:
-    """Build provenance-friendly report evidence."""
     return [
         {
             "source": "profile_report_service",
@@ -276,7 +250,6 @@ def build_report_evidence(profile_key: str) -> list[dict[str, Any]]:
 
 
 def build_report_provenance() -> list[dict[str, Any]]:
-    """Build report provenance records."""
     return [
         {
             "source": "atlas.services.profile_library_service",
@@ -302,7 +275,6 @@ def build_report_provenance() -> list[dict[str, Any]]:
 
 
 def strip_runtime_objects(payload: dict[str, Any]) -> dict[str, Any]:
-    """Remove non-JSON runtime objects while preserving exports and metrics."""
     clean = dict(payload)
 
     if "data" in clean:
@@ -316,7 +288,6 @@ def strip_runtime_objects(payload: dict[str, Any]) -> dict[str, Any]:
 
 
 def is_json_safe(value: Any) -> bool:
-    """Return whether value is directly JSON serializable."""
     try:
         json.dumps(value)
         return True
@@ -325,15 +296,11 @@ def is_json_safe(value: Any) -> bool:
 
 
 def make_json_safe_for_export(value: Any) -> Any:
-    """Recursively convert common runtime values into JSON-safe data."""
     if is_json_safe(value):
         return value
 
     if isinstance(value, dict):
-        return {
-            str(key): make_json_safe_for_export(item)
-            for key, item in value.items()
-        }
+        return {str(key): make_json_safe_for_export(item) for key, item in value.items()}
 
     if isinstance(value, list):
         return [make_json_safe_for_export(item) for item in value]
@@ -348,7 +315,6 @@ def make_json_safe_for_export(value: Any) -> Any:
 
 
 def failure_payload(profile_key: str, message: str) -> dict[str, Any]:
-    """Build failure payload."""
     return {
         "success": False,
         "profile_key": profile_key,
@@ -361,5 +327,4 @@ def failure_payload(profile_key: str, message: str) -> dict[str, Any]:
 
 
 def json_export(data: Any) -> str:
-    """Serialize JSON for downloads."""
     return json.dumps(make_json_safe_for_export(data), indent=2, sort_keys=True)
