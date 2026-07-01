@@ -29,22 +29,24 @@ from atlas.services.temporal_intelligence_service import (
     build_temporal_intelligence_payload,
 )
 from atlas.services.vedic_behavior_service import build_vedic_behavior_payload
-
+from atlas.services.validation_domain_service import (
+    build_validation_domain_payload,
+)
 ATLAS_AI_VERSION = "1.0"
 
 ProfileService = Callable[[str], dict[str, Any]]
 RelationshipService = Callable[[str, str], dict[str, Any]]
 
 
-PROFILE_SERVICE_REGISTRY: dict[str, ProfileService] = {
+PROFILE_SERVICE_REGISTRY = {
     "profile_report": build_profile_report_payload,
     "narrative": build_profile_narrative_payload,
     "evidence": build_profile_evidence_payload,
     "graph_intelligence": build_profile_graph_intelligence_payload,
     "temporal": build_temporal_intelligence_payload,
     "vedic_behavior": build_vedic_behavior_payload,
+    "validation_domain": build_validation_domain_payload,
 }
-
 
 RELATIONSHIP_SERVICE_REGISTRY: dict[str, RelationshipService] = {
     "relationship_report": build_relationship_report_payload,
@@ -59,6 +61,7 @@ DEFAULT_PROFILE_SERVICES = [
     "evidence",
     "graph_intelligence",
     "temporal",
+    "vedic_behavior",
 ]
 
 DEFAULT_RELATIONSHIP_SERVICES = [
