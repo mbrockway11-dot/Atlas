@@ -129,10 +129,10 @@ def render_importance_tab(profiles: list[str]) -> None:
     df_b = rows_to_dataframe(rows_b)
 
     st.markdown("### Profile A Matrix")
-    st.dataframe(df_a, use_container_width=True)
+    st.dataframe(df_a, width="stretch")
 
     st.markdown("### Profile B Matrix")
-    st.dataframe(df_b, use_container_width=True)
+    st.dataframe(df_b, width="stretch")
 
     numeric_a = df_a.select_dtypes(include="number")
     numeric_b = df_b.select_dtypes(include="number")
@@ -168,7 +168,7 @@ def render_importance_tab(profiles: list[str]) -> None:
     )
 
     st.markdown("### Largest Mean Metric Differences")
-    st.dataframe(comparison.head(50), use_container_width=True)
+    st.dataframe(comparison.head(50), width="stretch")
 
 
 def render_matrix_tab(rows: list[dict]) -> None:
@@ -177,7 +177,7 @@ def render_matrix_tab(rows: list[dict]) -> None:
 
     df = rows_to_dataframe(rows)
 
-    st.dataframe(df, use_container_width=True)
+    st.dataframe(df, width="stretch")
 
     st.download_button(
         "Download research_matrix.csv",

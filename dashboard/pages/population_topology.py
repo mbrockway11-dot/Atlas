@@ -112,10 +112,10 @@ def render_graph(graph: dict, profile_features: pd.DataFrame, layout_mode: str) 
     st.markdown("## Population Similarity Network")
     positions = build_positions(graph, profile_features, layout_mode)
     figure = build_network_figure(graph, positions)
-    st.plotly_chart(figure, use_container_width=True)
+    st.plotly_chart(figure, width="stretch")
 
     st.markdown("### Most Connected Profiles")
-    st.dataframe(pd.DataFrame(graph["summary"]["most_connected_profiles"]), use_container_width=True)
+    st.dataframe(pd.DataFrame(graph["summary"]["most_connected_profiles"]), width="stretch")
 
 
 def build_positions(graph: dict, profile_features: pd.DataFrame, layout_mode: str) -> dict[str, dict[str, float]]:
@@ -229,7 +229,7 @@ def render_nodes(graph: dict) -> None:
     nodes = get_topology_nodes_dataframe(graph)
     if not nodes.empty:
         nodes = nodes.sort_values(by=["weighted_degree", "degree", "id"], ascending=[False, False, True])
-    st.dataframe(nodes, use_container_width=True)
+    st.dataframe(nodes, width="stretch")
 
 
 def render_edges(graph: dict) -> None:
@@ -238,20 +238,20 @@ def render_edges(graph: dict) -> None:
     edges = get_topology_edges_dataframe(graph)
     if not edges.empty:
         edges = edges.sort_values(by=["similarity", "source", "target"], ascending=[False, True, True])
-    st.dataframe(edges, use_container_width=True)
+    st.dataframe(edges, width="stretch")
 
 
 def render_components(graph: dict) -> None:
     """Render connected components."""
     st.markdown("## Connected Components")
-    st.dataframe(pd.DataFrame(graph["components"]), use_container_width=True)
+    st.dataframe(pd.DataFrame(graph["components"]), width="stretch")
 
 
 def render_communities(graph: dict) -> None:
     """Render detected communities."""
     st.markdown("## Communities")
     st.caption("Deterministic weighted label-propagation communities over the similarity graph.")
-    st.dataframe(pd.DataFrame(graph["communities"]), use_container_width=True)
+    st.dataframe(pd.DataFrame(graph["communities"]), width="stretch")
 
 
 def render_exports(graph: dict) -> None:

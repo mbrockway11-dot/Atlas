@@ -77,13 +77,13 @@ def render_3d_topology_view(acf: dict) -> None:
 
     st.plotly_chart(
         figure,
-        use_container_width=True,
+        width="stretch",
     )
 
     with st.expander("3D point data"):
         st.dataframe(
             pd.DataFrame(points),
-            use_container_width=True,
+            width="stretch",
         )
 
 

@@ -156,12 +156,12 @@ def render_emanation_summary(acf: dict[str, Any]) -> None:
     ]
 
     if preview_columns:
-        st.dataframe(df[preview_columns], use_container_width=True)
+        st.dataframe(df[preview_columns], width="stretch")
     else:
-        st.dataframe(df, use_container_width=True)
+        st.dataframe(df, width="stretch")
 
     with st.expander("Full 21-layer matrix", expanded=False):
-        st.dataframe(df, use_container_width=True)
+        st.dataframe(df, width="stretch")
 
 
 def render_composite_overlay(acf: dict[str, Any]) -> None:
@@ -179,7 +179,7 @@ def render_composite_overlay(acf: dict[str, Any]) -> None:
         key: type(value).__name__
         for key, value in overlay.items()
     }
-    st.dataframe(dict_table(summary, "key", "type"), use_container_width=True)
+    st.dataframe(dict_table(summary, "key", "type"), width="stretch")
 
     st.markdown("### Overlay JSON")
     st.json(overlay)
@@ -247,7 +247,7 @@ def render_research_matrix(acf: dict[str, Any]) -> None:
     rows = build_current_profile_matrix_rows(acf)
     df = clean_display_dataframe(pd.DataFrame(rows))
 
-    st.dataframe(df, use_container_width=True)
+    st.dataframe(df, width="stretch")
 
     st.download_button(
         "Download current_profile_matrix.csv",

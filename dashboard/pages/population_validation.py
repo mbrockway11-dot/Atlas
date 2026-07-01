@@ -1,4 +1,4 @@
-﻿"""Population Validation Lab dashboard page.
+"""Population Validation Lab dashboard page.
 
 This page is service-backed. Dashboard code should render controls, tables,
 charts, and downloads only. Population validation calculations are routed
@@ -127,7 +127,7 @@ def render_quality(matrix: pd.DataFrame) -> None:
                     for column, count in quality["missing_values"].items()
                 ]
             ),
-            use_container_width=True,
+            width="stretch",
         )
     else:
         st.success("No missing values detected.")
@@ -139,7 +139,7 @@ def render_quality(matrix: pd.DataFrame) -> None:
             for name, count in quality["rows_per_profile"].items()
         ]
     )
-    st.dataframe(rows_per_profile, use_container_width=True)
+    st.dataframe(rows_per_profile, width="stretch")
 
     if quality["profiles_missing_realizations"]:
         st.warning("Some profiles do not have exactly 21 rows.")
@@ -161,7 +161,7 @@ def render_variance(matrix: pd.DataFrame, report: dict) -> None:
     c2.metric("Low-variance columns", len(variance["low_variance_columns"]))
 
     st.markdown("### Highest Variance Columns")
-    st.dataframe(pd.DataFrame(variance["highest_variance_columns"]), use_container_width=True)
+    st.dataframe(pd.DataFrame(variance["highest_variance_columns"]), width="stretch")
 
     with st.expander("Zero-variance columns", expanded=False):
         st.write(variance["zero_variance_columns"])
@@ -189,7 +189,7 @@ def render_neighbors(profile_features: pd.DataFrame) -> None:
         limit=limit,
         metric=metric,
     )
-    st.dataframe(pd.DataFrame(neighbors), use_container_width=True)
+    st.dataframe(pd.DataFrame(neighbors), width="stretch")
 
 
 def render_outliers(profile_features: pd.DataFrame) -> None:
@@ -198,7 +198,7 @@ def render_outliers(profile_features: pd.DataFrame) -> None:
     st.caption("Profiles are ranked by distance from the normalized population centroid.")
 
     outliers = get_outlier_scores(profile_features)
-    st.dataframe(outliers.head(100), use_container_width=True)
+    st.dataframe(outliers.head(100), width="stretch")
 
 
 def render_correlation(profile_features: pd.DataFrame, threshold: float) -> None:
@@ -209,7 +209,7 @@ def render_correlation(profile_features: pd.DataFrame, threshold: float) -> None
     st.metric("Highly correlated pairs", len(pairs))
 
     if pairs:
-        st.dataframe(pd.DataFrame(pairs), use_container_width=True)
+        st.dataframe(pd.DataFrame(pairs), width="stretch")
     else:
         st.success("No feature pairs exceeded the selected threshold.")
 
@@ -234,7 +234,7 @@ def render_cohorts(report: dict, cohort_index: pd.DataFrame) -> None:
                 for cohort, count in support["cohort_counts"].items()
             ]
         ),
-        use_container_width=True,
+        width="stretch",
     )
 
     if support["profiles_without_cohort"]:
@@ -259,3 +259,4 @@ def render_exports(report: dict, profile_features: pd.DataFrame) -> None:
         file_name="profile_level_feature_matrix.csv",
         mime="text/csv",
     )
+

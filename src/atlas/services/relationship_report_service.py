@@ -510,23 +510,60 @@ def build_relationship_confidence(
         morphology_metrics,
     )
 
-    communication_score = clamp((profile_score * 0.55) + (morphology_score * 0.45))
-    complementarity_score = morphology_score
-    tension_score = clamp((morphology_score * 0.70) + (profile_score * 0.30))
+    data_richness_score = confidence_from_relationship_data_richness(
+        morphology_metrics,
+    )
 
-    warning_penalty = min(len(warnings) * 0.04, 0.24)
-    error_penalty = min(len(errors) * 0.10, 0.40)
+    warning_penalty = min(len(warnings) * 0.06, 0.36)
+    error_penalty = min(len(errors) * 0.14, 0.56)
+
+    readiness = resolve_shared_readiness(
+        profile_report_a,
+        profile_report_b,
+        morphology_payload,
+    )
+
+    readiness_penalty = {
+        "ready": 0.00,
+        "caution": 0.12,
+        "partial": 0.24,
+        "blocked": 0.50,
+    }.get(readiness, 0.20)
+
+    communication_score = clamp(
+        morphology_score * 0.45
+        + data_richness_score * 0.35
+        + profile_score * 0.20
+        - warning_penalty * 0.50
+    )
+
+    complementarity_score = clamp(
+        morphology_score * 0.55
+        + data_richness_score * 0.45
+        - readiness_penalty * 0.35
+    )
+
+    tension_score = clamp(
+        morphology_score * 0.45
+        + data_richness_score * 0.35
+        + min(len(warnings) * 0.03, 0.15)
+    )
 
     overall_score = clamp(
-        profile_score * 0.35
-        + morphology_score * 0.35
-        + communication_score * 0.15
-        + max(0.0, 1.0 - warning_penalty - error_penalty) * 0.15
+        profile_score * 0.25
+        + morphology_score * 0.25
+        + data_richness_score * 0.30
+        + communication_score * 0.10
+        + complementarity_score * 0.10
+        - warning_penalty
+        - error_penalty
+        - readiness_penalty
     )
 
     return {
         "profile_readiness": confidence_record(profile_score),
         "morphology": confidence_record(morphology_score),
+        "data_richness": confidence_record(data_richness_score),
         "communication": confidence_record(communication_score),
         "complementarity": confidence_record(complementarity_score),
         "tension": confidence_record(tension_score),
@@ -538,9 +575,12 @@ def build_relationship_confidence(
             "count": len(errors),
             "penalty": error_penalty,
         },
+        "readiness": {
+            "label": readiness,
+            "penalty": readiness_penalty,
+        },
         "overall": confidence_record(overall_score),
     }
-
 
 def confidence_from_booleans(values: list[bool]) -> float:
     """Build confidence from booleans."""
@@ -571,6 +611,44 @@ def confidence_from_morphology(
 
     if "distance" in morphology_metrics:
         score += 0.10
+
+    return clamp(score)
+
+def confidence_from_relationship_data_richness(
+    morphology_metrics: dict[str, Any],
+) -> float:
+    """Score relationship confidence from actual morphology metric richness."""
+    node_overlap = safe_float(morphology_metrics.get("node_overlap"))
+    edge_overlap = safe_float(morphology_metrics.get("edge_overlap"))
+    similarity = safe_float(morphology_metrics.get("similarity"))
+    distance = safe_float(morphology_metrics.get("distance"))
+    mutation = safe_float(morphology_metrics.get("mutation_score"))
+
+    shared_nodes = safe_float(morphology_metrics.get("shared_node_count"))
+    shared_edges = safe_float(morphology_metrics.get("shared_edge_count"))
+
+    score = 0.0
+
+    if shared_nodes > 0:
+        score += 0.18
+
+    if shared_edges > 0:
+        score += 0.18
+
+    if node_overlap > 0:
+        score += min(node_overlap, 1.0) * 0.18
+
+    if edge_overlap > 0:
+        score += min(edge_overlap, 1.0) * 0.18
+
+    if similarity > 0:
+        score += min(similarity, 1.0) * 0.14
+
+    if distance > 0:
+        score += min(distance, 1.0) * 0.07
+
+    if mutation > 0:
+        score += min(mutation, 1.0) * 0.07
 
     return clamp(score)
 

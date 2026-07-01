@@ -132,8 +132,8 @@ def render_research_corpus_page() -> None:
         ]
 
     st.markdown("### Results")
-    st.dataframe(filtered, use_container_width=True)
+    st.dataframe(filtered, width="stretch")
 
     st.markdown("### Raw Database View")
     with st.expander("Show full index-derived table"):
-        st.dataframe(df, use_container_width=True)
+        st.dataframe(df, width="stretch")

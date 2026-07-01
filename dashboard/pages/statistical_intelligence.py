@@ -133,11 +133,11 @@ def render_principal_components(profile_features: pd.DataFrame, n_components: in
             for index, value in enumerate(pca["explained_variance_ratio"])
         ]
     )
-    st.dataframe(explained, use_container_width=True)
+    st.dataframe(explained, width="stretch")
 
     coordinates = pd.DataFrame(pca["coordinates"])
     st.markdown("### Profile Coordinates")
-    st.dataframe(coordinates, use_container_width=True)
+    st.dataframe(coordinates, width="stretch")
 
     if {"pc1", "pc2"}.issubset(coordinates.columns):
         st.scatter_chart(coordinates, x="pc1", y="pc2")
@@ -145,7 +145,7 @@ def render_principal_components(profile_features: pd.DataFrame, n_components: in
     st.markdown("### Top Feature Loadings")
     for component, rows in pca["top_loadings"].items():
         with st.expander(component.upper(), expanded=component == "pc1"):
-            st.dataframe(pd.DataFrame(rows), use_container_width=True)
+            st.dataframe(pd.DataFrame(rows), width="stretch")
 
 
 def render_clusters(profile_features: pd.DataFrame, k: int) -> None:
@@ -155,10 +155,10 @@ def render_clusters(profile_features: pd.DataFrame, k: int) -> None:
     summary = get_cluster_summary(assignments)
 
     st.markdown("### Cluster Summary")
-    st.dataframe(summary, use_container_width=True)
+    st.dataframe(summary, width="stretch")
 
     st.markdown("### Assignments")
-    st.dataframe(assignments, use_container_width=True)
+    st.dataframe(assignments, width="stretch")
 
 
 def render_silhouette(profile_features: pd.DataFrame, k: int) -> None:
@@ -173,7 +173,7 @@ def render_silhouette(profile_features: pd.DataFrame, k: int) -> None:
 
     st.metric("Mean silhouette", f"{scores['silhouette'].mean():.3f}")
     st.caption("Higher is cleaner separation. Near zero means overlap. Negative means likely misassignment.")
-    st.dataframe(scores, use_container_width=True)
+    st.dataframe(scores, width="stretch")
 
 
 def render_cohorts(profile_features: pd.DataFrame, cohort_path: str) -> None:
@@ -207,7 +207,7 @@ def render_cohorts(profile_features: pd.DataFrame, cohort_path: str) -> None:
     )
 
     st.caption("A ratio below 1.0 means cohorts are internally tighter than they are externally distant.")
-    st.dataframe(pd.DataFrame(separation["cohorts"]), use_container_width=True)
+    st.dataframe(pd.DataFrame(separation["cohorts"]), width="stretch")
 
 
 def render_exports(report: dict) -> None:

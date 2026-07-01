@@ -41,7 +41,7 @@ def render_calibration_view(acf: dict) -> None:
 
     st.dataframe(
         dataframe,
-        use_container_width=True,
+        width="stretch",
     )
 
     with st.expander("Raw calibrated layer data"):

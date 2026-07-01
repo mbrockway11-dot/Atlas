@@ -91,7 +91,7 @@ def render_intelligence_engine_page() -> None:
         render_evidence(payload)
 
     with tab_provenance:
-        st.dataframe(payload.get("provenance", []), use_container_width=True)
+        st.dataframe(payload.get("provenance", []), width="stretch")
 
     with tab_raw:
         render_raw(payload)
@@ -147,7 +147,7 @@ def render_population(payload: dict) -> None:
     c2.metric("Centroid distance", "n/a" if centroid_distance is None else f"{centroid_distance:.3f}")
 
     st.markdown("### Nearest Neighbors")
-    st.dataframe(population.get("nearest_neighbors", []), use_container_width=True)
+    st.dataframe(population.get("nearest_neighbors", []), width="stretch")
 
 
 def render_statistics(payload: dict) -> None:
@@ -202,7 +202,7 @@ def render_topology(payload: dict) -> None:
 def render_evidence(payload: dict) -> None:
     """Render evidence section."""
     st.markdown("## Evidence")
-    st.dataframe(payload.get("evidence", []), use_container_width=True)
+    st.dataframe(payload.get("evidence", []), width="stretch")
 
     st.markdown("## Confidence")
     st.json(payload.get("confidence", {}))

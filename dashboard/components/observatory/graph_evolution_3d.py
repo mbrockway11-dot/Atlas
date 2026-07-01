@@ -62,15 +62,15 @@ def render_graph_evolution_3d(acf: dict) -> None:
 
     figure = build_graph_figure(graph, z_mode)
 
-    st.plotly_chart(figure, use_container_width=True)
+    st.plotly_chart(figure, width="stretch")
 
     render_graph_summary(graph, state_name)
 
     with st.expander("Node Data"):
-        st.dataframe(pd.DataFrame(graph["nodes"].values()), use_container_width=True)
+        st.dataframe(pd.DataFrame(graph["nodes"].values()), width="stretch")
 
     with st.expander("Edge Data"):
-        st.dataframe(pd.DataFrame(graph["edges"].values()), use_container_width=True)
+        st.dataframe(pd.DataFrame(graph["edges"].values()), width="stretch")
 
 
 def build_graph_figure(graph: dict, z_mode: str) -> go.Figure:

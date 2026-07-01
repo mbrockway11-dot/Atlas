@@ -8,6 +8,8 @@ import streamlit as st
 
 from pages.compare_profiles import render_compare_profiles_page
 from pages.developer_console import render_developer_console_page
+from pages.evidence_explorer import render_evidence_explorer_page
+from pages.graph_explorer import render_graph_explorer_page
 from pages.identity_stack_lab import render_identity_stack_lab_page
 from pages.intelligence_engine import render_intelligence_engine_page
 from pages.morphology_lab import render_morphology_lab_page
@@ -51,6 +53,7 @@ def build_page_registry() -> dict[str, PageRenderer]:
         "Profile Report": render_profile_report_page,
         "Narrative Intelligence": render_narrative_intelligence_page,
         "Relationship Report": render_relationship_report_page,
+        "Evidence Explorer": render_evidence_explorer_page,
 
         # Profile Tools
         "Profile Library": render_profile_library_page,
@@ -77,18 +80,16 @@ def build_page_registry() -> dict[str, PageRenderer]:
         "Role Calibration Lab": render_role_calibration_lab_page,
 
         # Graph / Identity
+        "Graph Explorer": render_graph_explorer_page,
         "Identity Stack Lab": render_identity_stack_lab_page,
         "Morphology Lab": render_morphology_lab_page,
     }
 
 
 def render_sidebar(pages: dict[str, PageRenderer]) -> str:
-    """Render sidebar navigation."""
+    """Render sidebar navigation and return selected page label."""
     st.sidebar.title("Atlas")
-
-    st.sidebar.caption(
-        "Deterministic Intelligence Operating System"
-    )
+    st.sidebar.caption("Deterministic Intelligence Operating System")
 
     selected = st.sidebar.radio(
         "Navigation",
@@ -96,51 +97,41 @@ def render_sidebar(pages: dict[str, PageRenderer]) -> str:
     )
 
     st.sidebar.divider()
-
     st.sidebar.caption("Architecture")
-
-    st.sidebar.write(
-        "Dashboard → Services → AtlasProfile → Kernel → Plugins"
-    )
+    st.sidebar.write("Dashboard → Services → AtlasProfile → Kernel → Plugins")
 
     return selected
 
 
 def render_mission_control() -> None:
-    """Render Mission Control landing metrics."""
-
+    """Render Atlas mission-control summary."""
     st.markdown("## Mission Control")
 
     c1, c2, c3, c4 = st.columns(4)
-
-    c1.metric("Tests", "501")
-    c2.metric("Dashboard Audit", "Clean")
-    c3.metric("Kernel", "Healthy")
-    c4.metric("Architecture", "Service-backed")
+    c1.metric("Architecture", "Service-backed")
+    c2.metric("Tests", "501 passing")
+    c3.metric("Dashboard Audit", "Clean")
+    c4.metric("Kernel", "Healthy")
 
     c5, c6, c7, c8 = st.columns(4)
-
-    c5.metric("Profile Reports", "Online")
-    c6.metric("Narrative Engine", "Online")
-    c7.metric("Relationship Engine", "Online")
-    c8.metric("Temporal Engine", "Online")
+    c5.metric("Narrative Engine", "Online")
+    c6.metric("Relationship Engine", "Online")
+    c7.metric("Evidence Explorer", "Online")
+    c8.metric("Graph Explorer", "Online")
 
     st.success(
-        "Atlas Kernel v1 is operational. "
-        "All major dashboard pages are now backed by service-layer APIs "
-        "using the canonical AtlasProfile architecture."
+        "Atlas Kernel v1 is operational. All major dashboard pages are now "
+        "backed by service-layer APIs using the canonical AtlasProfile architecture."
     )
 
     st.info(
-        "Current development focus: Narrative Intelligence v1 → "
-        "Relationship Intelligence v2 → Population Observatory → "
-        "Graph Explorer → Atlas AI."
+        "Current development focus: Evidence & Explainability → "
+        "Graph Explorer → Population Observatory → Atlas AI."
     )
 
 
 def main() -> None:
     """Run Atlas dashboard."""
-
     st.set_page_config(
         page_title="Atlas Studio",
         page_icon="🧭",
@@ -151,25 +142,19 @@ def main() -> None:
     selected = render_sidebar(pages)
 
     st.title("Atlas Studio")
-
-    st.markdown(
-        "### Deterministic Intelligence Operating System"
-    )
+    st.markdown("### Deterministic Intelligence Operating System")
 
     st.caption(
-        "A unified platform for deterministic identity, temporal, "
-        "topological, graph, relationship, and population intelligence—"
-        "designed for research, interpretation, and discovery."
+        "A unified platform for deterministic identity, temporal, topological, "
+        "graph, relationship, and population intelligence—designed for research, "
+        "interpretation, and discovery."
     )
 
     render_mission_control()
 
     st.divider()
 
-    safe_render(
-        selected,
-        pages[selected],
-    )
+    safe_render(selected, pages[selected])
 
 
 if __name__ == "__main__":

@@ -105,7 +105,7 @@ def render_overview(session: object) -> None:
             }
         )
 
-    st.dataframe(rows, use_container_width=True)
+    st.dataframe(rows, width="stretch")
 
 
 def render_identity(session: object) -> None:

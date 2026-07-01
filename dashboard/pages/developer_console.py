@@ -84,7 +84,7 @@ def render_plugins() -> None:
             }
         )
 
-    st.dataframe(pd.DataFrame(rows), use_container_width=True)
+    st.dataframe(pd.DataFrame(rows), width="stretch")
 
 
 def render_cache_status() -> None:
@@ -107,7 +107,7 @@ def render_cache_status() -> None:
             }
         )
 
-    st.dataframe(pd.DataFrame(rows), use_container_width=True)
+    st.dataframe(pd.DataFrame(rows), width="stretch")
 
 
 def render_git_status() -> None:
@@ -152,7 +152,7 @@ def render_architecture_audit() -> None:
                 if file.is_file()
             ]
         ),
-        use_container_width=True,
+        width="stretch",
     )
 
     inventory_path = audit_dir / "module_inventory.json"
