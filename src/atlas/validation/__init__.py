@@ -9,6 +9,13 @@ from atlas.validation.base import (
     build_agreement_score,
     summarize_validation_results,
 )
+from atlas.validation.registry import (
+    RegisteredValidationDomain,
+    ValidationDomainRegistry,
+    build_registry_payload,
+    get_default_validation_registry,
+    validate_with_registry,
+)
 
 __all__ = [
     "Confidence",
@@ -18,4 +25,9 @@ __all__ = [
     "ValidationSignal",
     "build_agreement_score",
     "summarize_validation_results",
+    "RegisteredValidationDomain",
+    "ValidationDomainRegistry",
+    "build_registry_payload",
+    "get_default_validation_registry",
+    "validate_with_registry",
 ]
