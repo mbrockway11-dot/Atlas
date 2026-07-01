@@ -1,317 +1,257 @@
-"""Population Observatory page."""
+"""Population Observatory dashboard page."""
 
 from __future__ import annotations
-
-import json
-from pathlib import Path
 
 import pandas as pd
 import streamlit as st
 
-from atlas.calibration.nearest_neighbor import (
-    find_nearest_neighbors,
-    neighbor_result_to_dict,
+from atlas.services.population_observatory_service import (
+    DEFAULT_PROFILE_DIR,
+    build_neighbor_payload,
+    build_population_observatory_payload,
+    collect_population_identities,
+    json_export,
+    load_profile_detail,
+    slugify,
 )
-from atlas.calibration.population_graph import (
-    build_population_graph,
-    population_graph_to_dict,
-)
-from atlas.calibration.similarity_matrix import (
-    build_similarity_matrix_from_library,
-    similarity_matrix_to_dict,
-)
-
-
-DEFAULT_PROFILE_DIR = Path("output/library/profiles")
 
 
 def render_population_observatory_page() -> None:
-    """Render Population Observatory."""
+    """Render Population Observatory dashboard."""
     st.header("Population Observatory")
-    st.caption("Explore Atlas population metadata, similarity, and graph structure.")
+    st.caption("Browse population records, similarity structure, and profile details.")
 
     profile_dir = st.text_input(
         "Profile library directory",
         value=str(DEFAULT_PROFILE_DIR),
     )
 
-    root = Path(profile_dir)
-
-    if not root.exists():
-        st.error(f"Profile directory not found: {root}")
-        return
-
-    records = load_population_records(root)
-
-    if not records:
-        st.warning("No profiles found.")
-        return
-
-    dataframe = pd.DataFrame(records)
-
-    render_population_summary(dataframe)
-    render_population_table(dataframe)
-    render_population_intelligence(root, dataframe)
-    render_profile_detail(root, dataframe)
-
-
-def load_population_records(root: Path) -> list[dict]:
-    """Load profile intake records."""
-    records: list[dict] = []
-
-    for profile_path in sorted(root.iterdir()):
-        if not profile_path.is_dir():
-            continue
-
-        acf_path = profile_path / "profile.acf.json"
-        intake_path = profile_path / "profile.intake.json"
-
-        if not acf_path.exists():
-            continue
-
-        intake = {}
-
-        if intake_path.exists():
-            try:
-                intake = json.loads(
-                    intake_path.read_text(encoding="utf-8")
-                )
-            except json.JSONDecodeError:
-                intake = {}
-
-        records.append(
-            {
-                "slug": profile_path.name,
-                "name": intake.get("name", profile_path.name),
-                "birth_date": intake.get("birth_date", ""),
-                "birth_time": intake.get("birth_time", "Unknown"),
-                "birth_place": intake.get("birth_place", ""),
-                "source_file": intake.get("source_file", ""),
-                "row_number": intake.get("row_number", ""),
-                "has_acf": acf_path.exists(),
-                "has_intake": intake_path.exists(),
-            }
-        )
-
-    return records
-
-
-def render_population_summary(dataframe: pd.DataFrame) -> None:
-    """Render population summary cards."""
-    st.markdown("## Population Summary")
-
-    total = len(dataframe)
-    with_intake = int(dataframe["has_intake"].sum())
-    unknown_times = int(
-        (dataframe["birth_time"].fillna("Unknown") == "Unknown").sum()
-    )
-    known_times = total - unknown_times
-
-    c1, c2, c3, c4 = st.columns(4)
-
-    c1.metric("Profiles", total)
-    c2.metric("With Intake Metadata", with_intake)
-    c3.metric("Known Birth Times", known_times)
-    c4.metric("Unknown Birth Times", unknown_times)
-
-
-def render_population_table(dataframe: pd.DataFrame) -> None:
-    """Render searchable population table."""
-    st.markdown("## Population Table")
-
-    search = st.text_input("Search profiles", "")
-
-    filtered = dataframe.copy()
-
-    if search.strip():
-        query = search.casefold().strip()
-        filtered = filtered[
-            filtered["name"].str.casefold().str.contains(query)
-            | filtered["slug"].str.casefold().str.contains(query)
-        ]
-
-    st.dataframe(
-        filtered[
-            [
-                "name",
-                "birth_date",
-                "birth_time",
-                "birth_place",
-                "slug",
-                "has_intake",
-            ]
-        ],
-        use_container_width=True,
-    )
-
-    st.download_button(
-        label="Download population table CSV",
-        data=filtered.to_csv(index=False),
-        file_name="atlas_population_observatory.csv",
-        mime="text/csv",
-    )
-
-
-def render_population_intelligence(
-    root: Path,
-    dataframe: pd.DataFrame,
-) -> None:
-    """Render similarity matrix, nearest neighbors, and population graph."""
-    st.markdown("## Population Intelligence")
-
-    with st.spinner("Building similarity matrix..."):
-        matrix = build_similarity_matrix_from_library(root)
-
     threshold = st.slider(
-        "Population graph similarity threshold",
+        "Similarity graph threshold",
         min_value=0.0,
         max_value=1.0,
         value=0.85,
         step=0.01,
     )
 
-    graph = build_population_graph(
-        matrix,
-        threshold=threshold,
+    with st.spinner("Loading population observatory payload..."):
+        payload = build_population_observatory_payload(
+            profile_dir,
+            threshold=threshold,
+        )
+
+    if not payload.get("success"):
+        for error in payload.get("errors", []):
+            st.error(error)
+
+        with st.expander("Raw service payload", expanded=False):
+            st.json(payload)
+        return
+
+    records = payload.get("records", [])
+    dataframe = pd.DataFrame(records)
+
+    render_population_summary(payload)
+    render_population_table(dataframe)
+    render_population_intelligence(payload)
+    render_profile_detail(profile_dir, dataframe)
+
+
+def render_population_summary(payload: dict) -> None:
+    """Render population summary cards."""
+    st.markdown("## Population Summary")
+
+    metrics = payload.get("metrics", {})
+
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Profiles", metrics.get("profiles", 0))
+    c2.metric("With Intake Metadata", metrics.get("with_intake", 0))
+    c3.metric("With ACF", metrics.get("with_acf", 0))
+    c4.metric("Known Birth Times", metrics.get("known_birth_times", 0))
+
+    c5, c6, c7, c8 = st.columns(4)
+    c5.metric("Unknown Birth Times", metrics.get("unknown_birth_times", 0))
+    c6.metric("Similarity Pairs", metrics.get("similarity_pairs", 0))
+    c7.metric("Graph Edges", metrics.get("graph_edges", 0))
+    c8.metric("Graph Density", round(metrics.get("graph_density", 0.0), 4))
+
+    with st.expander("Population Metrics JSON", expanded=False):
+        st.json(metrics)
+
+
+def render_population_table(dataframe: pd.DataFrame) -> None:
+    """Render searchable population table."""
+    st.markdown("## Population Table")
+
+    if dataframe.empty:
+        st.info("No population records available.")
+        return
+
+    search = st.text_input("Search profiles", "")
+
+    filtered = dataframe.copy()
+
+    if search:
+        needle = search.casefold()
+        filtered = filtered[
+            filtered.apply(
+                lambda row: needle
+                in " ".join(str(value).casefold() for value in row.values),
+                axis=1,
+            )
+        ]
+
+    st.dataframe(filtered, width="stretch")
+
+    st.download_button(
+        "Download population_records.csv",
+        data=filtered.to_csv(index=False).encode("utf-8"),
+        file_name="population_records.csv",
+        mime="text/csv",
     )
 
-    m1, m2, m3, m4 = st.columns(4)
 
-    m1.metric("Similarity Pairs", matrix.pair_count)
-    m2.metric(
-        "Mean Similarity",
-        round(matrix.summary.get("mean_similarity", 0.0), 4),
-    )
-    m3.metric("Graph Edges", graph.edge_count)
-    m4.metric(
-        "Most Connected",
-        graph.summary.get("most_connected_identity") or "None",
-    )
+def render_population_intelligence(payload: dict) -> None:
+    """Render similarity matrix, nearest neighbors, and graph exports."""
+    st.markdown("## Population Intelligence")
+
+    data = payload.get("data", {})
+    matrix = data.get("matrix")
+    graph = data.get("graph")
+
+    if matrix is None or graph is None:
+        st.info("Population intelligence artifacts are unavailable.")
+        return
+
+    metrics = payload.get("metrics", {})
+
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Similarity Pairs", metrics.get("similarity_pairs", 0))
+    c2.metric("Mean Similarity", round(metrics.get("mean_similarity", 0.0), 4))
+    c3.metric("Graph Edges", metrics.get("graph_edges", 0))
+    c4.metric("Threshold", payload.get("threshold", 0.85))
 
     with st.expander("Similarity Matrix Summary", expanded=False):
-        st.json(matrix.summary)
+        st.json(getattr(matrix, "summary", {}))
 
     with st.expander("Population Graph Summary", expanded=False):
-        st.json(graph.summary)
+        st.json(getattr(graph, "summary", {}))
+
+    render_neighbor_explorer(matrix)
+    render_population_exports(data)
+
+
+def render_neighbor_explorer(matrix) -> None:
+    """Render nearest-neighbor explorer."""
+    st.markdown("### Nearest Neighbor Explorer")
+
+    identities = collect_population_identities(matrix)
+
+    if not identities:
+        st.info("No identities available for nearest-neighbor query.")
+        return
 
     selected = st.selectbox(
         "Nearest neighbor query",
-        dataframe["name"].tolist(),
+        identities,
         key="nearest_neighbor_query",
     )
+
+    max_limit = min(25, max(1, len(identities) - 1))
 
     limit = st.slider(
         "Neighbor limit",
         min_value=1,
-        max_value=25,
-        value=10,
+        max_value=max_limit,
+        value=min(10, max_limit),
         step=1,
     )
 
-    neighbors = find_nearest_neighbors(
-        matrix,
-        selected,
-        limit=limit,
-    )
+    neighbor_payload = build_neighbor_payload(matrix, selected, limit=limit)
+    neighbors = neighbor_payload.get("neighbors", [])
 
-    st.markdown(f"### Nearest Neighbors for {selected}")
+    st.markdown(f"#### Nearest Neighbors for {selected}")
 
-    if neighbors.neighbors:
-        st.dataframe(
-            pd.DataFrame(neighbors.neighbors),
-            use_container_width=True,
-        )
+    if neighbors:
+        st.dataframe(pd.DataFrame(neighbors), width="stretch")
     else:
         st.info("No neighbors found.")
 
-    c1, c2, c3 = st.columns(3)
+    with st.expander("Neighbor Report JSON", expanded=False):
+        st.json(neighbor_payload.get("report", {}))
+
+    st.download_button(
+        label="Download neighbors JSON",
+        data=json_export(neighbor_payload.get("report", {})),
+        file_name=f"{slugify(selected)}_neighbors.json",
+        mime="application/json",
+    )
+
+
+def render_population_exports(data: dict) -> None:
+    """Render population intelligence export buttons."""
+    st.markdown("### Exports")
+
+    c1, c2 = st.columns(2)
 
     c1.download_button(
         label="Download similarity matrix JSON",
-        data=json.dumps(
-            similarity_matrix_to_dict(matrix),
-            indent=2,
-            sort_keys=True,
-        ),
+        data=json_export(data.get("matrix_dict", {})),
         file_name="similarity_matrix.json",
         mime="application/json",
     )
 
     c2.download_button(
         label="Download population graph JSON",
-        data=json.dumps(
-            population_graph_to_dict(graph),
-            indent=2,
-            sort_keys=True,
-        ),
+        data=json_export(data.get("graph_dict", {})),
         file_name="population_graph.json",
         mime="application/json",
     )
 
-    c3.download_button(
-        label="Download neighbors JSON",
-        data=json.dumps(
-            neighbor_result_to_dict(neighbors),
-            indent=2,
-            sort_keys=True,
-        ),
-        file_name=f"{slugify(selected)}_neighbors.json",
-        mime="application/json",
-    )
 
-
-def render_profile_detail(
-    root: Path,
-    dataframe: pd.DataFrame,
-) -> None:
+def render_profile_detail(profile_dir: str, dataframe: pd.DataFrame) -> None:
     """Render selected profile details."""
     st.markdown("## Profile Detail")
 
-    names = dataframe["name"].tolist()
+    if dataframe.empty or "slug" not in dataframe.columns:
+        st.info("No profiles available.")
+        return
 
     selected = st.selectbox(
         "Select profile",
-        names,
+        dataframe["slug"].tolist(),
+        key="population_observatory_profile_detail",
     )
 
-    row = dataframe[dataframe["name"] == selected].iloc[0]
-    profile_path = root / row["slug"]
+    detail = load_profile_detail(selected, profile_dir)
 
-    c1, c2, c3 = st.columns(3)
+    st.write(f"**Profile Folder:** `{detail.get('profile_dir')}`")
 
-    c1.metric("Name", row["name"])
-    c2.metric("Birth Date", row["birth_date"] or "Unknown")
-    c3.metric("Birth Time", row["birth_time"] or "Unknown")
+    available = detail.get("available", [])
+    missing = detail.get("missing", [])
 
-    st.write(f"**Birth Place:** {row['birth_place'] or 'Unknown'}")
-    st.write(f"**Profile Folder:** `{profile_path}`")
+    c1, c2 = st.columns(2)
+    c1.metric("Available Files", len(available))
+    c2.metric("Missing Files", len(missing))
 
-    intake_path = profile_path / "profile.intake.json"
-    acf_path = profile_path / "profile.acf.json"
+    if missing:
+        st.warning("Missing files: " + ", ".join(missing))
 
-    with st.expander("Intake Metadata JSON", expanded=False):
-        if intake_path.exists():
-            st.json(
-                json.loads(
-                    intake_path.read_text(encoding="utf-8")
-                )
-            )
-        else:
+    tabs = st.tabs(["Intake", "ACF", "Raw Detail"])
+
+    with tabs[0]:
+        intake = detail.get("intake")
+        if intake is None:
             st.info("No profile.intake.json found.")
-
-    with st.expander("ACF Profile JSON Preview", expanded=False):
-        if acf_path.exists():
-            acf = json.loads(acf_path.read_text(encoding="utf-8"))
-            st.json(acf)
         else:
+            st.json(intake)
+
+    with tabs[1]:
+        acf = detail.get("acf")
+        if acf is None:
             st.info("No profile.acf.json found.")
+        else:
+            st.json(acf)
 
-
-def slugify(value: str) -> str:
-    """Build safe filename slug."""
-    return (
-        value.casefold()
-        .replace(" ", "_")
-        .replace("/", "_")
-        .replace("\\", "_")
-    )
+    with tabs[2]:
+        st.json(detail)

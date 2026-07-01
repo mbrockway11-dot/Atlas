@@ -2,31 +2,18 @@
 
 from __future__ import annotations
 
-import json
-from pathlib import Path
-
 import pandas as pd
 import streamlit as st
 
-from atlas.calibration.nearest_neighbor import (
-    find_nearest_neighbors,
-    neighbor_result_to_dict,
+from atlas.services.population_intelligence_service import (
+    DEFAULT_PROFILE_DIR,
+    build_cluster_rows,
+    build_neighbor_payload,
+    build_population_intelligence_payload,
+    collect_population_identities,
+    json_export,
+    slugify,
 )
-from atlas.calibration.population_graph import (
-    build_population_graph,
-    population_graph_to_dict,
-)
-from atlas.calibration.similarity_matrix import (
-    build_similarity_matrix_from_library,
-    similarity_matrix_to_dict,
-)
-from atlas.calibration.structural_clustering import (
-    build_structural_clusters,
-    structural_clustering_result_to_dict,
-)
-
-
-DEFAULT_PROFILE_DIR = Path("output/library/profiles")
 
 
 def render_population_intelligence_page() -> None:
@@ -39,12 +26,6 @@ def render_population_intelligence_page() -> None:
         value=str(DEFAULT_PROFILE_DIR),
     )
 
-    root = Path(profile_dir)
-
-    if not root.exists():
-        st.error(f"Profile directory not found: {root}")
-        return
-
     threshold = st.slider(
         "Similarity graph threshold",
         min_value=0.0,
@@ -53,80 +34,86 @@ def render_population_intelligence_page() -> None:
         step=0.01,
     )
 
-    with st.spinner("Building similarity matrix, population graph, and clusters..."):
-        matrix = build_similarity_matrix_from_library(root)
-        graph = build_population_graph(matrix, threshold=threshold)
-        clusters = build_structural_clusters(graph)
+    with st.spinner("Building population intelligence payload..."):
+        payload = build_population_intelligence_payload(
+            profile_dir,
+            threshold=threshold,
+        )
 
-    render_summary_cards(matrix, graph, clusters)
+    if not payload.get("success"):
+        for error in payload.get("errors", []):
+            st.error(error)
+        with st.expander("Raw service payload", expanded=False):
+            st.json(payload)
+        return
+
+    data = payload["data"]
+    matrix = data["matrix"]
+    graph = data["graph"]
+    clusters = data["clusters"]
+
+    render_summary_cards(payload)
     render_cluster_table(clusters)
     render_neighbor_explorer(matrix)
-    render_downloads(matrix, graph, clusters)
+    render_downloads(data)
 
 
-def render_summary_cards(matrix, graph, clusters) -> None:
+def render_summary_cards(payload: dict) -> None:
     """Render top-level population intelligence cards."""
     st.markdown("## Summary")
 
-    c1, c2, c3, c4 = st.columns(4)
+    metrics = payload.get("metrics", {})
 
-    c1.metric("Profiles", matrix.profile_count)
-    c2.metric("Similarity Pairs", matrix.pair_count)
-    c3.metric("Graph Edges", graph.edge_count)
-    c4.metric("Clusters", clusters.cluster_count)
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Profiles", metrics.get("profiles", 0))
+    c2.metric("Similarity Pairs", metrics.get("similarity_pairs", 0))
+    c3.metric("Graph Edges", metrics.get("graph_edges", 0))
+    c4.metric("Clusters", metrics.get("clusters", 0))
 
     c5, c6, c7, c8 = st.columns(4)
+    c5.metric("Mean Similarity", round(metrics.get("mean_similarity", 0.0), 4))
+    c6.metric("Graph Density", round(metrics.get("graph_density", 0.0), 4))
+    c7.metric("Largest Cluster", metrics.get("largest_cluster", 0))
+    c8.metric("Singletons", metrics.get("singletons", 0))
 
-    c5.metric(
-        "Mean Similarity",
-        round(matrix.summary.get("mean_similarity", 0.0), 4),
-    )
-    c6.metric(
-        "Graph Density",
-        round(graph.summary.get("density", 0.0), 4),
-    )
-    c7.metric(
-        "Largest Cluster",
-        clusters.summary.get("largest_cluster_size", 0),
-    )
-    c8.metric(
-        "Singletons",
-        clusters.singleton_count,
-    )
+    data = payload.get("data", {})
 
     with st.expander("Similarity Summary", expanded=False):
-        st.json(matrix.summary)
+        st.json(getattr(data.get("matrix"), "summary", {}))
 
     with st.expander("Population Graph Summary", expanded=False):
-        st.json(graph.summary)
+        st.json(getattr(data.get("graph"), "summary", {}))
 
     with st.expander("Structural Clustering Summary", expanded=False):
-        st.json(clusters.summary)
+        st.json(getattr(data.get("clusters"), "summary", {}))
+
+    with st.expander("Raw Service Payload Metadata", expanded=False):
+        st.json(
+            {
+                "success": payload.get("success"),
+                "profile_dir": payload.get("profile_dir"),
+                "threshold": payload.get("threshold"),
+                "warnings": payload.get("warnings", []),
+                "errors": payload.get("errors", []),
+                "metrics": metrics,
+            }
+        )
 
 
 def render_cluster_table(clusters) -> None:
     """Render structural cluster table."""
     st.markdown("## Structural Families")
 
-    rows = []
-
-    for cluster in clusters.clusters:
-        rows.append(
-            {
-                "cluster_id": cluster.cluster_id,
-                "member_count": cluster.member_count,
-                "internal_edge_count": cluster.internal_edge_count,
-                "average_internal_similarity": cluster.average_internal_similarity,
-                "members": ", ".join(cluster.members),
-                "strongest_pair": format_strongest_pair(cluster.strongest_pair),
-            }
-        )
-
+    rows = build_cluster_rows(clusters)
     dataframe = pd.DataFrame(rows)
+
+    if dataframe.empty:
+        st.info("No structural clusters found.")
+        return
 
     st.dataframe(
         dataframe,
-        use_container_width=True,
+        width="stretch",
     )
 
     st.download_button(
@@ -141,7 +128,7 @@ def render_neighbor_explorer(matrix) -> None:
     """Render nearest-neighbor explorer."""
     st.markdown("## Nearest Neighbor Explorer")
 
-    identities = collect_matrix_identities(matrix)
+    identities = collect_population_identities(matrix)
 
     if not identities:
         st.info("No identities available.")
@@ -152,15 +139,17 @@ def render_neighbor_explorer(matrix) -> None:
         identities,
     )
 
+    max_limit = min(25, max(1, len(identities) - 1))
+
     limit = st.slider(
         "Neighbor limit",
         min_value=1,
-        max_value=min(25, max(1, len(identities) - 1)),
-        value=min(10, max(1, len(identities) - 1)),
+        max_value=max_limit,
+        value=min(10, max_limit),
         step=1,
     )
 
-    neighbors = find_nearest_neighbors(
+    neighbor_payload = build_neighbor_payload(
         matrix,
         selected,
         limit=limit,
@@ -168,30 +157,28 @@ def render_neighbor_explorer(matrix) -> None:
 
     st.markdown(f"### Nearest Neighbors for {selected}")
 
-    if neighbors.neighbors:
+    neighbors = neighbor_payload.get("neighbors", [])
+
+    if neighbors:
         st.dataframe(
-            pd.DataFrame(neighbors.neighbors),
-            use_container_width=True,
+            pd.DataFrame(neighbors),
+            width="stretch",
         )
     else:
         st.info("No neighbors found.")
 
     with st.expander("Neighbor Report JSON", expanded=False):
-        st.json(neighbor_result_to_dict(neighbors))
+        st.json(neighbor_payload.get("report", {}))
 
     st.download_button(
         label="Download selected neighbor report JSON",
-        data=json.dumps(
-            neighbor_result_to_dict(neighbors),
-            indent=2,
-            sort_keys=True,
-        ),
+        data=json_export(neighbor_payload.get("report", {})),
         file_name=f"{slugify(selected)}_neighbors.json",
         mime="application/json",
     )
 
 
-def render_downloads(matrix, graph, clusters) -> None:
+def render_downloads(data: dict) -> None:
     """Render JSON export buttons."""
     st.markdown("## Exports")
 
@@ -199,65 +186,21 @@ def render_downloads(matrix, graph, clusters) -> None:
 
     c1.download_button(
         label="Download similarity matrix JSON",
-        data=json.dumps(
-            similarity_matrix_to_dict(matrix),
-            indent=2,
-            sort_keys=True,
-        ),
+        data=json_export(data.get("matrix_dict", {})),
         file_name="similarity_matrix.json",
         mime="application/json",
     )
 
     c2.download_button(
         label="Download population graph JSON",
-        data=json.dumps(
-            population_graph_to_dict(graph),
-            indent=2,
-            sort_keys=True,
-        ),
+        data=json_export(data.get("graph_dict", {})),
         file_name="population_graph.json",
         mime="application/json",
     )
 
     c3.download_button(
         label="Download structural clusters JSON",
-        data=json.dumps(
-            structural_clustering_result_to_dict(clusters),
-            indent=2,
-            sort_keys=True,
-        ),
+        data=json_export(data.get("clusters_dict", {})),
         file_name="structural_clusters.json",
         mime="application/json",
-    )
-
-
-def collect_matrix_identities(matrix) -> list[str]:
-    """Collect identities represented in a similarity matrix."""
-    identities: set[str] = set()
-
-    for result in matrix.results:
-        identities.add(result.identity_a)
-        identities.add(result.identity_b)
-
-    return sorted(identities)
-
-
-def format_strongest_pair(pair) -> str:
-    """Format strongest pair display."""
-    if not pair:
-        return ""
-
-    return (
-        f"{pair['identity_a']} ↔ {pair['identity_b']} "
-        f"({round(pair['similarity'], 4)})"
-    )
-
-
-def slugify(value: str) -> str:
-    """Build safe filename slug."""
-    return (
-        value.casefold()
-        .replace(" ", "_")
-        .replace("/", "_")
-        .replace("\\", "_")
     )

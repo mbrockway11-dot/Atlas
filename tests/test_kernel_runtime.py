@@ -34,8 +34,11 @@ def test_kernel_exposes_default_enabled_plugins():
 
     assert kernel.enabled_plugins() == {
         "identity",
+        "research_session",
+        "temporal",
         "validation",
         "statistics",
+        "topology",
         "intelligence",
     }
 

@@ -17,7 +17,10 @@ def test_default_registry_contains_expected_plugins():
     assert registry.names() == [
         "identity",
         "intelligence",
+        "research_session",
         "statistics",
+        "temporal",
+        "topology",
         "validation",
     ]
 
@@ -25,8 +28,11 @@ def test_default_registry_contains_expected_plugins():
 def test_default_enabled_plugins_are_declared():
     assert default_enabled_plugins() == {
         "identity",
+        "research_session",
+        "temporal",
         "validation",
         "statistics",
+        "topology",
         "intelligence",
     }
 
@@ -37,8 +43,11 @@ def test_default_registry_orders_dependencies():
 
     assert [plugin.name for plugin in ordered] == [
         "identity",
+        "research_session",
+        "temporal",
         "validation",
         "statistics",
+        "topology",
         "intelligence",
     ]
 

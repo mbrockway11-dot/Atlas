@@ -1,34 +1,24 @@
-"""Profile Test Lab page."""
+"""Profile Test Lab dashboard page."""
 
 from __future__ import annotations
 
-import json
+from typing import Any
 
 import pandas as pd
 import streamlit as st
 
-from atlas.diagnostics import audit_research_matrix
-from atlas.library.profile_library import LIBRARY_DIR, list_saved_profiles
-from atlas.research import (
-    build_feature_correlation_audit,
-    build_feature_variance_audit,
-    build_profile_matrix_rows,
+from atlas.services.profile_test_service import (
+    build_profile_test_payload,
+    list_profile_test_profiles,
 )
 
 
-LEGACY_COLUMNS = [
-    "kamea_score",
-]
-
-
 def render_profile_test_lab_page() -> None:
-    """Render Profile Test Lab."""
+    """Render service-backed Profile Test Lab."""
     st.header("Profile Test Lab")
-    st.caption(
-        "Test whether saved profiles are producing meaningfully different graph data."
-    )
+    st.caption("Profile matrix diagnostics through the service layer.")
 
-    profiles = list_saved_profiles()
+    profiles = list_profile_test_profiles()
 
     if len(profiles) < 2:
         st.info("Build at least two profiles first.")
@@ -44,452 +34,255 @@ def render_profile_test_lab_page() -> None:
         st.warning("Select at least two profiles.")
         return
 
-    rows = load_matrix_rows(selected_profiles)
+    with st.spinner("Building profile test payload..."):
+        payload = call_profile_test_service(selected_profiles)
 
-    if not rows:
-        st.error("No research rows could be loaded.")
+    if not payload:
+        st.error("Profile Test Lab service returned no payload.")
         return
 
-    render_summary(selected_profiles, rows)
+    if payload.get("success") is False:
+        st.error("Profile Test Lab service failed.")
+        for error in payload.get("errors", []):
+            st.error(error)
+        st.json(payload)
+        return
 
-    tab_matrix, tab_diagnostics, tab_describe, tab_variance, tab_correlation, tab_by_planet = st.tabs(
+    render_summary(payload, selected_profiles)
+
+    tabs = st.tabs(
         [
             "Research Matrix",
-            "Research Diagnostics",
-            "Metric Describe",
-            "Feature Variance",
-            "Feature Correlation",
+            "Diagnostics",
+            "Describe",
+            "Variance",
+            "Correlation",
             "Planet Breakdown",
+            "Raw Payload",
         ]
     )
 
-    with tab_matrix:
-        render_matrix(rows)
-
-    with tab_diagnostics:
-        render_diagnostics(rows)
-
-    with tab_describe:
-        render_metric_describe(rows)
-
-    with tab_variance:
-        render_variance(rows)
-
-    with tab_correlation:
-        render_correlation(rows)
-
-    with tab_by_planet:
-        render_planet_breakdown(rows)
-
-
-def load_matrix_rows(profile_keys: list[str]) -> list[dict]:
-    """Load ACF files and convert them into canonical research matrix rows."""
-    rows = []
-
-    for profile_key in profile_keys:
-        acf_path = LIBRARY_DIR / profile_key / "profile.acf.json"
-
-        if not acf_path.exists():
-            continue
-
-        acf = json.loads(acf_path.read_text(encoding="utf-8"))
-        profile_rows = build_profile_matrix_rows(acf)
-
-        for row in profile_rows:
-            remove_legacy_columns(row)
-
-        rows.extend(profile_rows)
-
-    return rows
-
-
-def remove_legacy_columns(row: dict) -> dict:
-    """Remove deprecated dashboard/research columns from a row."""
-    for column in LEGACY_COLUMNS:
-        row.pop(column, None)
-
-    return row
-
-
-def clean_dataframe(dataframe: pd.DataFrame) -> pd.DataFrame:
-    """Remove deprecated columns from dashboard display/export data."""
-    return dataframe.drop(
-        columns=[
-            column
-            for column in LEGACY_COLUMNS
-            if column in dataframe.columns
-        ],
-    )
-
-
-def numeric_dataframe(rows: list[dict]) -> pd.DataFrame:
-    """Return numeric-only research dataframe."""
-    dataframe = clean_dataframe(pd.DataFrame(rows))
-
-    excluded = {
-        "name",
-        "cipher",
-        "planet",
-        "kamea",
-        "subtype_primary",
-        "subtype_secondary",
-    }
-
-    numeric_columns = [
-        column
-        for column in dataframe.columns
-        if column not in excluded
-        and pd.api.types.is_numeric_dtype(dataframe[column])
-    ]
-
-    return dataframe[numeric_columns]
-
-
-def render_summary(profile_keys: list[str], rows: list[dict]) -> None:
-    """Render top summary metrics."""
-    c1, c2, c3, c4 = st.columns(4)
-
-    c1.metric("Profiles", len(profile_keys))
-    c2.metric("Rows", len(rows))
-    c3.metric("Expected Rows", len(profile_keys) * 21)
-    c4.metric("Features", len(rows[0].keys()) if rows else 0)
-
-    if len(rows) != len(profile_keys) * 21:
-        st.warning(
-            "Some selected profiles did not produce 21 rows. Rebuild those profiles."
+    with tabs[0]:
+        render_dataframe_section(
+            "Research Matrix",
+            extract_dataframe(payload, ["rows", "matrix", "research_rows"]),
+            "profile_test_matrix.csv",
         )
 
-    if rows and any(
-        column in row
-        for row in rows
-        for column in LEGACY_COLUMNS
-    ):
-        st.error(
-            "Legacy research columns detected in dashboard rows. "
-            "Atlas Studio removed them before display/export."
+    with tabs[1]:
+        render_dataframe_section(
+            "Diagnostics",
+            extract_dataframe(payload, ["diagnostics", "audit_metrics", "metrics"]),
+            "profile_test_diagnostics.csv",
         )
 
+    with tabs[2]:
+        rows = extract_dataframe(payload, ["rows", "matrix", "research_rows"])
+        render_describe(rows)
 
-def render_matrix(rows: list[dict]) -> None:
-    """Render raw research matrix."""
-    st.markdown("## Research Matrix")
+    with tabs[3]:
+        render_dataframe_section(
+            "Feature Variance",
+            extract_dataframe(payload, ["variance", "variance_audit"]),
+            "profile_test_variance.csv",
+        )
 
-    dataframe = clean_dataframe(pd.DataFrame(rows))
+    with tabs[4]:
+        render_dataframe_section(
+            "Feature Correlation",
+            extract_dataframe(payload, ["correlation", "correlation_audit"]),
+            "profile_test_correlation.csv",
+        )
 
-    st.dataframe(
-        dataframe,
-        width="stretch",
+    with tabs[5]:
+        render_dataframe_section(
+            "Planet Breakdown",
+            extract_dataframe(payload, ["planet_breakdown", "by_planet"]),
+            "profile_test_planet_breakdown.csv",
+        )
+
+    with tabs[6]:
+        st.json(make_json_safe(payload))
+
+
+def call_profile_test_service(profile_keys: list[str]) -> dict[str, Any]:
+    """Call service while tolerating positional or keyword signatures."""
+    try:
+        return build_profile_test_payload(profile_keys)
+    except TypeError:
+        return build_profile_test_payload(profile_keys=profile_keys)
+
+
+def render_summary(payload: dict[str, Any], selected_profiles: list[str]) -> None:
+    """Render summary metrics."""
+    summary = payload.get("summary", {})
+    metrics = payload.get("metrics", {})
+
+    rows_df = extract_dataframe(payload, ["rows", "matrix", "research_rows"])
+
+    profile_count = (
+        summary.get("profile_count")
+        or metrics.get("profile_count")
+        or len(selected_profiles)
     )
-
-    csv = dataframe.to_csv(index=False).encode("utf-8")
-
-    st.download_button(
-        "Download profile_test_matrix.csv",
-        data=csv,
-        file_name="profile_test_matrix.csv",
-        mime="text/csv",
+    row_count = (
+        summary.get("row_count")
+        or metrics.get("row_count")
+        or len(rows_df)
     )
-
-
-def render_diagnostics(rows: list[dict]) -> None:
-    """Render research diagnostics audit."""
-    st.markdown("## Research Diagnostics")
-
-    clean_rows = [
-        remove_legacy_columns(dict(row))
-        for row in rows
-    ]
-
-    audit = audit_research_matrix(clean_rows)
-
-    if not audit["valid"]:
-        st.error("Research diagnostics audit is invalid.")
-        st.json(audit)
-        return
-
-    metrics = audit["metrics"]
-    dataframe = pd.DataFrame(metrics)
+    expected_rows = (
+        summary.get("expected_rows")
+        or metrics.get("expected_rows")
+        or len(selected_profiles) * 21
+    )
+    feature_count = (
+        summary.get("feature_count")
+        or metrics.get("feature_count")
+        or len(rows_df.columns)
+    )
 
     c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Profiles", profile_count)
+    c2.metric("Rows", row_count)
+    c3.metric("Expected Rows", expected_rows)
+    c4.metric("Features", feature_count)
 
-    c1.metric("Rows Audited", audit["row_count"])
-    c2.metric("Numeric Metrics", audit["metric_count"])
-    c3.metric(
-        "A/B Metrics",
-        len(
-            [
-                metric
-                for metric in metrics
-                if metric["quality_grade"] in ["A", "B"]
-            ]
-        ),
-    )
-    c4.metric(
-        "D/F Metrics",
-        len(
-            [
-                metric
-                for metric in metrics
-                if metric["quality_grade"] in ["D", "F"]
-            ]
-        ),
-    )
+    warnings = payload.get("warnings", [])
+    errors = payload.get("errors", [])
 
-    grade_counts = (
-        dataframe["quality_grade"]
-        .value_counts()
-        .reset_index()
-        .rename(
-            columns={
-                "quality_grade": "grade",
-                "count": "metric_count",
-            }
-        )
-    )
+    for warning in warnings:
+        st.warning(warning)
 
-    st.markdown("### Metric Quality Grades")
-    st.dataframe(
-        grade_counts,
-        width="stretch",
-    )
+    for error in errors:
+        st.error(error)
 
-    preferred_columns = [
-        "metric",
-        "quality_grade",
-        "quality_rank",
-        "mean",
-        "median",
-        "std",
-        "variance",
-        "range",
-        "minimum",
-        "maximum",
-        "unique_value_count",
-        "constant_ratio",
-        "coefficient_of_variation",
-        "diagnostic",
-    ]
-
-    visible_columns = [
-        column
-        for column in preferred_columns
-        if column in dataframe.columns
-    ]
-
-    st.markdown("### Strongest Metrics")
-    strongest = dataframe.sort_values(
-        by=["quality_rank", "std", "unique_value_count"],
-        ascending=False,
-    ).head(12)
-
-    st.dataframe(
-        strongest[visible_columns],
-        width="stretch",
-    )
-
-    st.markdown("### Weakest / Most Compressed Metrics")
-    weakest = dataframe.sort_values(
-        by=["quality_rank", "std", "unique_value_count"],
-        ascending=True,
-    ).head(12)
-
-    st.dataframe(
-        weakest[visible_columns],
-        width="stretch",
-    )
-
-    st.markdown("### Full Metric Audit Table")
-    st.dataframe(
-        dataframe[visible_columns],
-        width="stretch",
-    )
-
-    csv = dataframe.to_csv(index=False).encode("utf-8")
-
-    st.download_button(
-        "Download research_diagnostics.csv",
-        data=csv,
-        file_name="research_diagnostics.csv",
-        mime="text/csv",
-    )
+    if row_count != expected_rows:
+        st.warning("Row count does not match expected 21 rows per profile.")
 
 
-def render_metric_describe(rows: list[dict]) -> None:
-    """Render pandas descriptive statistics for numeric metrics."""
-    st.markdown("## Metric Describe")
-
-    dataframe = numeric_dataframe(rows)
+def render_dataframe_section(
+    title: str,
+    dataframe: pd.DataFrame,
+    filename: str,
+) -> None:
+    """Render a dataframe section with download."""
+    st.markdown(f"## {title}")
 
     if dataframe.empty:
+        st.info(f"No {title.lower()} data available.")
+        return
+
+    st.dataframe(dataframe, width="stretch")
+
+    st.download_button(
+        f"Download {filename}",
+        data=dataframe.to_csv(index=False).encode("utf-8"),
+        file_name=filename,
+        mime="text/csv",
+    )
+
+
+def render_describe(dataframe: pd.DataFrame) -> None:
+    """Render numeric describe table."""
+    st.markdown("## Metric Describe")
+
+    if dataframe.empty:
+        st.info("No matrix rows available.")
+        return
+
+    numeric = dataframe.select_dtypes(include="number")
+
+    if numeric.empty:
         st.info("No numeric metrics available.")
         return
 
-    describe = dataframe.describe().transpose().reset_index()
+    describe = numeric.describe().transpose().reset_index()
     describe = describe.rename(columns={"index": "metric"})
 
-    st.markdown("### Numeric Metric Summary")
-    st.dataframe(
-        describe,
-        width="stretch",
-    )
+    st.dataframe(describe, width="stretch")
 
-    st.markdown("### Selected Metric Distribution")
+    metric = st.selectbox("Metric", sorted(numeric.columns))
 
-    metric = st.selectbox(
-        "Metric",
-        sorted(dataframe.columns),
-    )
-
-    selected = dataframe[metric].dropna()
+    series = numeric[metric].dropna()
 
     c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Minimum", format_float(series.min()))
+    c2.metric("Maximum", format_float(series.max()))
+    c3.metric("Mean", format_float(series.mean()))
+    c4.metric("Std", format_float(series.std()))
 
-    c1.metric("Minimum", format_float(selected.min()))
-    c2.metric("Maximum", format_float(selected.max()))
-    c3.metric("Mean", format_float(selected.mean()))
-    c4.metric("Std", format_float(selected.std()))
-
-    st.bar_chart(
-        selected.value_counts().sort_index(),
-        width="stretch",
-    )
-
-    csv = describe.to_csv(index=False).encode("utf-8")
+    st.bar_chart(series.value_counts().sort_index(), width="stretch")
 
     st.download_button(
         "Download metric_describe.csv",
-        data=csv,
+        data=describe.to_csv(index=False).encode("utf-8"),
         file_name="metric_describe.csv",
         mime="text/csv",
     )
 
 
-def render_variance(rows: list[dict]) -> None:
-    """Render feature variance audit."""
-    st.markdown("## Feature Variance")
+def extract_dataframe(
+    payload: dict[str, Any],
+    keys: list[str],
+) -> pd.DataFrame:
+    """Extract dataframe from likely service payload locations."""
+    for key in keys:
+        value = payload.get(key)
 
-    clean_rows = [
-        remove_legacy_columns(dict(row))
-        for row in rows
-    ]
+        if value is None and isinstance(payload.get("data"), dict):
+            value = payload["data"].get(key)
 
-    audit = build_feature_variance_audit(clean_rows)
-    dataframe = clean_dataframe(pd.DataFrame(audit))
+        dataframe = coerce_dataframe(value)
 
-    st.dataframe(
-        dataframe,
-        width="stretch",
-    )
+        if not dataframe.empty:
+            return dataframe
 
-    if dataframe.empty or "variance_class" not in dataframe.columns:
-        st.info("No variance audit rows available.")
-        return
-
-    low_variance = dataframe[
-        dataframe["variance_class"].isin(["none", "low"])
-    ]
-
-    high_variance = dataframe[
-        dataframe["variance_class"].isin(["high", "very_high"])
-    ]
-
-    c1, c2 = st.columns(2)
-
-    c1.metric("High-Variance Features", len(high_variance))
-    c2.metric("Low/Dead Features", len(low_variance))
-
-    st.info(
-        "High-variance features are currently better candidates for profile "
-        "separation. Low-variance features may be too constant across the corpus."
-    )
+    return pd.DataFrame()
 
 
-def render_correlation(rows: list[dict]) -> None:
-    """Render feature correlation audit."""
-    st.markdown("## Feature Correlation")
-
-    clean_rows = [
-        remove_legacy_columns(dict(row))
-        for row in rows
-    ]
-
-    audit = build_feature_correlation_audit(clean_rows)
-    dataframe = clean_dataframe(pd.DataFrame(audit))
-
-    st.dataframe(
-        dataframe,
-        width="stretch",
-    )
-
-    if dataframe.empty or "correlation_class" not in dataframe.columns:
-        st.info("No correlation audit rows available.")
-        return
-
-    near_duplicates = dataframe[
-        dataframe["correlation_class"] == "near_duplicate"
-    ]
-
-    st.metric("Near-Duplicate Feature Pairs", len(near_duplicates))
-
-    if not near_duplicates.empty:
-        st.warning(
-            "Near-duplicate features may be redundant and should not all dominate "
-            "similarity."
-        )
-
-
-def render_planet_breakdown(rows: list[dict]) -> None:
-    """Render grouped metrics by planet."""
-    st.markdown("## Planet Breakdown")
-
-    dataframe = clean_dataframe(pd.DataFrame(rows))
-
-    required_columns = [
-        "planet",
-        "node_coverage",
-        "density",
-        "entropy",
-        "max_depth",
-        "unique_edges",
-        "self_loops",
-    ]
-
-    missing_columns = [
-        column
-        for column in required_columns
-        if column not in dataframe.columns
-    ]
-
-    if missing_columns:
-        st.error(
-            "Planet breakdown is missing required columns: "
-            + ", ".join(missing_columns)
-        )
-        return
-
-    group = dataframe.groupby("planet").agg(
-        {
-            "node_coverage": "mean",
-            "density": "mean",
-            "entropy": "mean",
-            "max_depth": "mean",
-            "unique_edges": "mean",
-            "self_loops": "mean",
-        }
-    ).reset_index()
-
-    st.dataframe(
-        group,
-        width="stretch",
-    )
-
-
-def format_float(value) -> str:
-    """Format numeric values safely."""
+def coerce_dataframe(value: Any) -> pd.DataFrame:
+    """Convert common payload values into a dataframe."""
     if value is None:
-        return "n/a"
+        return pd.DataFrame()
 
+    if isinstance(value, pd.DataFrame):
+        return value
+
+    if isinstance(value, list):
+        return pd.DataFrame(value)
+
+    if isinstance(value, dict):
+        if "rows" in value and isinstance(value["rows"], list):
+            return pd.DataFrame(value["rows"])
+
+        if "metrics" in value and isinstance(value["metrics"], list):
+            return pd.DataFrame(value["metrics"])
+
+        if "data" in value and isinstance(value["data"], list):
+            return pd.DataFrame(value["data"])
+
+        return pd.DataFrame([value])
+
+    return pd.DataFrame()
+
+
+def make_json_safe(value: Any) -> Any:
+    """Convert pandas and non-JSON values into Streamlit-safe objects."""
+    if isinstance(value, pd.DataFrame):
+        return value.to_dict(orient="records")
+
+    if isinstance(value, dict):
+        return {key: make_json_safe(item) for key, item in value.items()}
+
+    if isinstance(value, list):
+        return [make_json_safe(item) for item in value]
+
+    return value
+
+
+def format_float(value: Any) -> str:
+    """Format numeric values safely."""
     try:
         return f"{float(value):.4f}"
     except (TypeError, ValueError):
-        return str(value)
+        return "n/a"

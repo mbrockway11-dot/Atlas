@@ -1,24 +1,27 @@
-"""Population Topology dashboard page."""
+"""Population Topology dashboard page.
+
+This page is service-backed. Dashboard code renders controls, graph views,
+tables, and downloads only. Population topology calculations are routed through
+atlas.services.topology_service and supporting services.
+"""
 
 from __future__ import annotations
 
 from pathlib import Path
-import json
 
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
-from atlas.library.profile_library import LIBRARY_DIR, list_saved_profiles
-from atlas.research.matrix import build_profile_matrix_rows
-from atlas.research.population_topology import (
-    build_population_topology_graph,
-    population_topology_report_to_json,
-    topology_edges_dataframe,
-    topology_nodes_dataframe,
+from atlas.services.statistical_service import get_principal_components
+from atlas.services.topology_service import (
+    get_population_topology_graph,
+    get_topology_edges_dataframe,
+    get_topology_nodes_dataframe,
+    get_topology_profile_features,
+    topology_json,
 )
-from atlas.research.statistical import principal_components
-from atlas.research.validation import build_profile_feature_matrix, load_cohort_index
+from atlas.services.validation_service import get_cohort_index
 
 DEFAULT_COHORT_INDEX = Path("research/profile_intake/cohort_index.csv")
 
@@ -31,12 +34,8 @@ def render_population_topology_page() -> None:
         "the existing single-profile topology system to the corpus scale."
     )
 
-    matrix = load_profile_library_matrix()
-    if matrix.empty:
-        st.error("No profile matrix rows could be loaded from the profile library.")
-        return
+    profile_features = get_topology_profile_features()
 
-    profile_features = build_profile_feature_matrix(matrix)
     if profile_features.empty or len(profile_features) < 2:
         st.error("At least two profiles are required for population topology.")
         return
@@ -44,13 +43,18 @@ def render_population_topology_page() -> None:
     controls = st.columns(4)
     metric = controls[0].radio("Similarity metric", ["cosine", "euclidean"], horizontal=True)
     threshold = controls[1].slider("Edge threshold", 0.0, 1.0, 0.75, 0.01)
-    top_k = controls[2].slider("Minimum top-k neighbors", 0, min(20, len(profile_features) - 1), min(5, len(profile_features) - 1))
+    top_k = controls[2].slider(
+        "Minimum top-k neighbors",
+        0,
+        min(20, len(profile_features) - 1),
+        min(5, len(profile_features) - 1),
+    )
     layout_mode = controls[3].radio("Layout", ["PCA", "Circle"], horizontal=True)
 
     cohort_path = st.text_input("Optional cohort index CSV", value=str(DEFAULT_COHORT_INDEX))
-    cohort_index = load_cohort_index(cohort_path)
+    cohort_index = get_cohort_index(cohort_path)
 
-    graph = build_population_topology_graph(
+    graph = get_population_topology_graph(
         profile_features,
         threshold=threshold,
         top_k=top_k,
@@ -83,24 +87,6 @@ def render_population_topology_page() -> None:
 
     with tab_exports:
         render_exports(graph)
-
-
-def load_profile_library_matrix() -> pd.DataFrame:
-    """Load every saved profile into the row-level research matrix."""
-    rows: list[dict] = []
-
-    for profile_key in list_saved_profiles():
-        acf_path = LIBRARY_DIR / profile_key / "profile.acf.json"
-        if not acf_path.exists():
-            continue
-
-        try:
-            acf = json.loads(acf_path.read_text(encoding="utf-8"))
-            rows.extend(build_profile_matrix_rows(acf))
-        except Exception as exc:  # pragma: no cover - dashboard safety
-            st.warning(f"Skipped {profile_key}: {exc}")
-
-    return pd.DataFrame(rows)
 
 
 def attach_cohorts(graph: dict, cohort_index: pd.DataFrame) -> None:
@@ -137,7 +123,7 @@ def build_positions(graph: dict, profile_features: pd.DataFrame, layout_mode: st
     names = sorted(graph["nodes"])
 
     if layout_mode == "PCA":
-        pca = principal_components(profile_features, n_components=2)
+        pca = get_principal_components(profile_features, n_components=2)
         if pca["available"]:
             positions = {}
             for row in pca["coordinates"]:
@@ -151,18 +137,18 @@ def build_positions(graph: dict, profile_features: pd.DataFrame, layout_mode: st
     count = max(len(names), 1)
     for index, name in enumerate(names):
         angle = 2.0 * 3.141592653589793 * index / count
-        positions[name] = {"x": float(np_cos(angle)), "y": float(np_sin(angle))}
+        positions[name] = {"x": float(math_cos(angle)), "y": float(math_sin(angle))}
     return positions
 
 
-def np_cos(value: float) -> float:
+def math_cos(value: float) -> float:
     """Small wrapper to avoid importing numpy in dashboard page."""
     import math
 
     return math.cos(value)
 
 
-def np_sin(value: float) -> float:
+def math_sin(value: float) -> float:
     """Small wrapper to avoid importing numpy in dashboard page."""
     import math
 
@@ -240,7 +226,7 @@ def node_hover_text(node: dict) -> str:
 def render_nodes(graph: dict) -> None:
     """Render node table."""
     st.markdown("## Nodes / Profile Centrality")
-    nodes = topology_nodes_dataframe(graph)
+    nodes = get_topology_nodes_dataframe(graph)
     if not nodes.empty:
         nodes = nodes.sort_values(by=["weighted_degree", "degree", "id"], ascending=[False, False, True])
     st.dataframe(nodes, use_container_width=True)
@@ -249,7 +235,7 @@ def render_nodes(graph: dict) -> None:
 def render_edges(graph: dict) -> None:
     """Render edge table."""
     st.markdown("## Edges / Similarity Links")
-    edges = topology_edges_dataframe(graph)
+    edges = get_topology_edges_dataframe(graph)
     if not edges.empty:
         edges = edges.sort_values(by=["similarity", "source", "target"], ascending=[False, True, True])
     st.dataframe(edges, use_container_width=True)
@@ -273,12 +259,12 @@ def render_exports(graph: dict) -> None:
     st.markdown("## Exports")
     st.download_button(
         "Download population_topology_graph.json",
-        data=population_topology_report_to_json(graph),
+        data=topology_json(graph),
         file_name="population_topology_graph.json",
         mime="application/json",
     )
 
-    nodes = topology_nodes_dataframe(graph)
+    nodes = get_topology_nodes_dataframe(graph)
     st.download_button(
         "Download population_topology_nodes.csv",
         data=nodes.to_csv(index=False).encode("utf-8"),
@@ -286,7 +272,7 @@ def render_exports(graph: dict) -> None:
         mime="text/csv",
     )
 
-    edges = topology_edges_dataframe(graph)
+    edges = get_topology_edges_dataframe(graph)
     st.download_button(
         "Download population_topology_edges.csv",
         data=edges.to_csv(index=False).encode("utf-8"),

@@ -17,16 +17,22 @@ def test_default_registry_contains_kernel_plugins():
     assert registry.names() == [
         "identity",
         "intelligence",
+        "research_session",
         "statistics",
+        "temporal",
+        "topology",
         "validation",
     ]
 
 
-def test_default_enabled_plugins_include_validation_and_statistics():
+def test_default_enabled_plugins_include_full_kernel_set():
     assert default_enabled_plugins() == {
         "identity",
+        "research_session",
+        "temporal",
         "validation",
         "statistics",
+        "topology",
         "intelligence",
     }
 
@@ -37,8 +43,11 @@ def test_default_registry_dependency_order():
 
     assert [plugin.name for plugin in ordered] == [
         "identity",
+        "research_session",
+        "temporal",
         "validation",
         "statistics",
+        "topology",
         "intelligence",
     ]
 

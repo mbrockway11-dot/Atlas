@@ -146,19 +146,17 @@ class AtlasKernel:
         *,
         enabled: set[str] | None = None,
     ) -> dict[str, Any]:
-        """Run core plugin pipeline and return context payload.
-
-        This exposes the registry-managed execution path directly. It is useful
-        for developer diagnostics and future migration work.
-        """
+        """Run core plugin pipeline and return context payload."""
         context = self.build_context(profile_key, config=config)
         result, metrics = self.run_context(context, enabled=enabled)
+
+        active = enabled if enabled is not None else self.enabled_plugins()
 
         payload = result.to_dict()
         payload["kernel"] = {
             "runtime": "atlas.kernel.runtime.AtlasKernel",
             "mode": "core_pipeline",
-            "enabled_plugins": sorted(enabled if enabled is not None else self.enabled_plugins()),
+            "enabled_plugins": sorted(active),
             "metrics": metrics.to_dict(),
         }
         return payload
