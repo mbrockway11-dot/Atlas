@@ -28,7 +28,7 @@ from atlas.services.relationship_report_service import build_relationship_report
 from atlas.services.temporal_intelligence_service import (
     build_temporal_intelligence_payload,
 )
-
+from atlas.services.vedic_behavior_service import build_vedic_behavior_payload
 
 ATLAS_AI_VERSION = "1.0"
 
@@ -42,6 +42,7 @@ PROFILE_SERVICE_REGISTRY: dict[str, ProfileService] = {
     "evidence": build_profile_evidence_payload,
     "graph_intelligence": build_profile_graph_intelligence_payload,
     "temporal": build_temporal_intelligence_payload,
+    "vedic_behavior": build_vedic_behavior_payload,
 }
 
 
