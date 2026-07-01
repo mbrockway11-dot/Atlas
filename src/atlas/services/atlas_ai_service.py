@@ -389,7 +389,7 @@ def collect_priorities_from_intelligence(intelligence: dict[str, Any]) -> list[s
 def fuse_service_confidence(
     service_outputs: dict[str, dict[str, Any]],
 ) -> dict[str, Any]:
-    """Fuse available service confidence scores."""
+    """Fuse available service confidence scores with warning-aware calibration."""
     scores: list[float] = []
 
     for payload in service_outputs.values():
@@ -399,15 +399,52 @@ def fuse_service_confidence(
         if score is not None:
             scores.append(score)
 
-    if not scores:
-        overall_score = 0.0
-    else:
-        overall_score = sum(scores) / len(scores)
+    base_score = sum(scores) / len(scores) if scores else 0.0
+
+    warning_count = len(collect_service_warnings(service_outputs))
+    error_count = len(collect_service_errors(service_outputs))
+    failed_count = count_failures(service_outputs)
+
+    warning_penalty = min(warning_count * 0.025, 0.20)
+    error_penalty = min(error_count * 0.08, 0.40)
+    failure_penalty = min(failed_count * 0.12, 0.48)
+
+    low_confidence_penalty = min(
+        count_low_confidence_services(service_outputs) * 0.06,
+        0.24,
+    )
+
+    calibrated_score = clamp(
+        base_score
+        - warning_penalty
+        - error_penalty
+        - failure_penalty
+        - low_confidence_penalty
+    )
 
     return {
-        "overall": confidence_record(overall_score),
+        "overall": confidence_record(calibrated_score),
+        "base": confidence_record(base_score),
         "service_confidence_scores": [round(score, 4) for score in scores],
         "scored_service_count": len(scores),
+        "penalties": {
+            "warnings": {
+                "count": warning_count,
+                "penalty": round(warning_penalty, 4),
+            },
+            "errors": {
+                "count": error_count,
+                "penalty": round(error_penalty, 4),
+            },
+            "failures": {
+                "count": failed_count,
+                "penalty": round(failure_penalty, 4),
+            },
+            "low_confidence_services": {
+                "count": count_low_confidence_services(service_outputs),
+                "penalty": round(low_confidence_penalty, 4),
+            },
+        },
     }
 
 
@@ -422,6 +459,21 @@ def extract_confidence_score(metrics: dict[str, Any]) -> float | None:
         return safe_float(metrics.get("average_confidence_percent")) / 100
 
     return None
+
+def count_low_confidence_services(
+    service_outputs: dict[str, dict[str, Any]],
+) -> int:
+    """Count services whose extracted confidence is limited or low."""
+    count = 0
+
+    for payload in service_outputs.values():
+        metrics = payload.get("metrics", {})
+        score = extract_confidence_score(metrics)
+
+        if score is not None and score < 0.65:
+            count += 1
+
+    return count
 
 
 def summarize_services(
