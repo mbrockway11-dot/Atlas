@@ -23,6 +23,11 @@ __all__ = [
     "POPULATION_SEARCH_VERSION",
     "PopulationSearchResult",
     "search_population",
+    "POPULATION_ARCHIVE_VERSION",
+    "load_population_index",
+    "population_index_from_json",
+    "population_index_to_json",
+    "save_population_index",
 ]
 
 from atlas.population.similarity import (
@@ -39,4 +44,13 @@ from atlas.population.search import (
     POPULATION_SEARCH_VERSION,
     PopulationSearchResult,
     search_population,
+)
+
+
+from atlas.population.archive import (
+    POPULATION_ARCHIVE_VERSION,
+    load_population_index,
+    population_index_from_json,
+    population_index_to_json,
+    save_population_index,
 )
