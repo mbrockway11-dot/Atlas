@@ -11,24 +11,30 @@ from atlas.core.compiler_framework.base import (
     CompilerPass,
     PassResult,
 )
+from atlas.core.compiler_framework.registry import PassRegistry
 
 
 @dataclass
 class CompilerEngine:
     """Deterministic compiler-pass execution engine."""
 
-    passes: list[CompilerPass] = field(default_factory=list)
+    registry: PassRegistry = field(default_factory=PassRegistry)
 
     def register(self, compiler_pass: CompilerPass) -> None:
         """Register one compiler pass."""
-        self.passes.append(compiler_pass)
+        self.registry.register(compiler_pass)
+
+    @property
+    def passes(self) -> list[CompilerPass]:
+        """Return registered compiler passes in execution order."""
+        return self.registry.passes()
 
     def run(self, css: Any, context: CompilerContext) -> tuple[Any, list[PassResult]]:
         """Run registered passes in order."""
         results: list[PassResult] = []
         completed: set[str] = set()
 
-        for compiler_pass in self.passes:
+        for compiler_pass in self.registry.passes():
             metadata = compiler_pass.metadata
 
             missing = [
