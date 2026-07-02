@@ -1,4 +1,13 @@
-"""Atlas Core Compiler."""
+"""Atlas Core Compiler.
+
+Compiles saved Atlas profile-library artifacts into a CanonicalStructuralSignature.
+
+Compiler passes currently implemented:
+
+1. Identity pass
+2. Temporal seed pass
+3. ACF pass
+"""
 
 from __future__ import annotations
 
@@ -8,13 +17,15 @@ from typing import Any
 
 from atlas.core.canonical_structural_signature import (
     CanonicalStructuralSignature,
+    CipherLayer,
     IdentityLayer,
+    KameaLayer,
     TemporalLayer,
 )
 from atlas.library.profile_library import LIBRARY_DIR
 
 
-CORE_COMPILER_VERSION = "1.1"
+CORE_COMPILER_VERSION = "1.2"
 
 
 def compile_profile(profile_key: str) -> CanonicalStructuralSignature:
@@ -26,14 +37,19 @@ def compile_profile(profile_key: str) -> CanonicalStructuralSignature:
         profile_payload=profile_payload,
     )
     temporal = build_temporal_layer(profile_payload=profile_payload)
+    cipher = build_cipher_layer(profile_payload=profile_payload)
+    kamea = build_kamea_layer(profile_payload=profile_payload)
 
     return CanonicalStructuralSignature(
         identity=identity,
+        cipher=cipher,
+        kamea=kamea,
         temporal=temporal,
         metadata={
             "compiler_version": CORE_COMPILER_VERSION,
             "source": "atlas.core.compiler",
             "profile_loaded": bool(profile_payload),
+            "acf_loaded": bool(extract_acf(profile_payload)),
         },
     )
 
@@ -56,11 +72,18 @@ def compile_profile_payload(profile_key: str) -> dict[str, Any]:
             "has_birth_date": bool(css.identity and css.identity.birth_date),
             "has_birth_time": bool(css.identity and css.identity.birth_time),
             "has_birth_location": bool(css.identity and css.identity.birth_location),
+            "has_cipher": has_cipher_data(css.cipher),
+            "has_kamea": has_kamea_data(css.kamea),
             "has_temporal": has_temporal_data(css.temporal),
             "has_natal": bool(css.temporal.natal),
             "has_transits": bool(css.temporal.transits),
             "has_dasha": bool(css.temporal.dasha),
             "has_calibration": bool(css.temporal.calibration),
+            "has_topology": bool(css.kamea.topology),
+            "has_planetary_graphs": bool(css.kamea.planetary_graphs),
+            "has_resonance": bool(css.kamea.resonance),
+            "has_graph_metrics": bool(css.kamea.graph_metrics),
+            "has_fingerprint": bool(css.kamea.fingerprint),
         },
     }
 
@@ -72,10 +95,14 @@ def build_identity_layer(
 ) -> IdentityLayer:
     """Build CSS identity layer from saved profile data."""
     intake = extract_intake(profile_payload)
+    acf = extract_acf(profile_payload)
+    acf_identity = first_dict(acf.get("identity"))
 
     canonical_name = (
         intake.get("name")
         or intake.get("canonical_name")
+        or acf_identity.get("name")
+        or acf_identity.get("canonical_name")
         or profile_payload.get("name")
         or profile_payload.get("canonical_name")
         or profile_payload.get("display_name")
@@ -84,6 +111,7 @@ def build_identity_layer(
 
     aliases = normalize_aliases(
         intake.get("aliases")
+        or acf_identity.get("aliases")
         or profile_payload.get("aliases")
         or []
     )
@@ -101,7 +129,130 @@ def build_identity_layer(
             "identity_source": "profile_library",
             "has_profile_payload": bool(profile_payload),
             "has_intake": bool(intake),
+            "has_acf_identity": bool(acf_identity),
         },
+    )
+
+
+def build_cipher_layer(*, profile_payload: dict[str, Any]) -> CipherLayer:
+    """Build CSS cipher layer from ACF/profile payload."""
+    acf = extract_acf(profile_payload)
+    cipher_matrix = first_dict(
+        acf.get("cipher_matrix"),
+        profile_payload.get("cipher_matrix"),
+    )
+
+    ciphers = first_dict(
+        profile_payload.get("ciphers"),
+        profile_payload.get("profile_summary", {}).get("ciphers")
+        if isinstance(profile_payload.get("profile_summary"), dict)
+        else None,
+    )
+
+    ordinal = first_dict(
+        cipher_matrix.get("ordinal"),
+        ciphers.get("ordinal"),
+    )
+
+    hebrew_phonetic = first_dict(
+        cipher_matrix.get("hebrew_phonetic"),
+        cipher_matrix.get("hebrew"),
+        ciphers.get("hebrew_phonetic"),
+        ciphers.get("hebrew"),
+    )
+
+    hebrew_transliteration = first_dict(
+        cipher_matrix.get("hebrew_transliteration"),
+        cipher_matrix.get("hebrew_transliteral"),
+        ciphers.get("hebrew_transliteration"),
+        ciphers.get("hebrew_transliteral"),
+    )
+
+    gematria = first_dict(
+        cipher_matrix.get("gematria"),
+        ciphers.get("gematria"),
+    )
+
+    fallback = {
+        "cipher_matrix": cipher_matrix,
+        "ciphers": ciphers,
+        "cipher_status": "compiled_from_saved_profile",
+    }
+
+    return CipherLayer(
+        ordinal=ordinal or {"source": fallback} if cipher_matrix or ciphers else {},
+        hebrew_phonetic=hebrew_phonetic,
+        hebrew_transliteration=hebrew_transliteration,
+        gematria=gematria,
+    )
+
+
+def build_kamea_layer(*, profile_payload: dict[str, Any]) -> KameaLayer:
+    """Build CSS Kamea/topology layer from ACF/profile payload."""
+    acf = extract_acf(profile_payload)
+    essence_graph = extract_essence_graph(profile_payload)
+
+    identity_graph = first_dict(
+        acf.get("identity_graph"),
+        essence_graph.get("graph"),
+        profile_payload.get("identity_graph"),
+        profile_payload.get("graph"),
+    )
+
+    planetary_matrix = first_dict(
+        acf.get("planetary_matrix"),
+        profile_payload.get("planetary_matrix"),
+    )
+
+    essence = first_dict(
+        acf.get("essence"),
+        essence_graph.get("signature"),
+        profile_payload.get("essence"),
+        profile_payload.get("signature"),
+    )
+
+    invariant_analysis = first_dict(
+        acf.get("invariant_analysis"),
+        profile_payload.get("invariant_analysis"),
+    )
+
+    metadata = first_dict(
+        acf.get("metadata"),
+        profile_payload.get("metadata"),
+    )
+
+    fingerprint = first_dict(
+        essence.get("fingerprint") if isinstance(essence, dict) else None,
+        identity_graph.get("fingerprint") if isinstance(identity_graph, dict) else None,
+        metadata.get("fingerprint") if isinstance(metadata, dict) else None,
+    )
+
+    return KameaLayer(
+        topology={
+            **identity_graph,
+            "topology_status": "compiled_from_acf",
+        }
+        if identity_graph
+        else {},
+        planetary_graphs={
+            **planetary_matrix,
+            "planetary_status": "compiled_from_acf",
+        }
+        if planetary_matrix
+        else {},
+        resonance={
+            **essence,
+            "resonance_status": "compiled_from_acf",
+        }
+        if essence
+        else {},
+        graph_metrics={
+            **invariant_analysis,
+            "metrics_status": "compiled_from_acf",
+        }
+        if invariant_analysis
+        else {},
+        fingerprint=fingerprint,
     )
 
 
@@ -121,14 +272,10 @@ def build_temporal_layer(*, profile_payload: dict[str, Any]) -> TemporalLayer:
         if value is not None
     }
 
+    acf = extract_acf(profile_payload)
     planetary_matrix = first_dict(
         profile_payload.get("planetary_matrix"),
-        profile_payload.get("profile.acf", {}).get("planetary_matrix")
-        if isinstance(profile_payload.get("profile.acf"), dict)
-        else None,
-        profile_payload.get("profile_acf", {}).get("planetary_matrix")
-        if isinstance(profile_payload.get("profile_acf"), dict)
-        else None,
+        acf.get("planetary_matrix"),
     )
 
     natal = first_dict(
@@ -174,6 +321,7 @@ def build_temporal_layer(*, profile_payload: dict[str, Any]) -> TemporalLayer:
         calibration=calibration,
     )
 
+
 def safe_load_profile(profile_key: str) -> dict[str, Any]:
     """Load a saved profile from the profile library."""
     profile_dir = Path(LIBRARY_DIR) / profile_key
@@ -197,6 +345,7 @@ def safe_load_profile(profile_key: str) -> dict[str, Any]:
         data = read_json(path)
         if data:
             merged[path.stem] = data
+            merged[normalize_file_key(path.name)] = data
             if isinstance(data, dict):
                 merged.update(data)
 
@@ -219,13 +368,67 @@ def read_json(path: Path) -> dict[str, Any]:
     return {}
 
 
+def extract_acf(profile_payload: dict[str, Any]) -> dict[str, Any]:
+    """Extract ACF data from known profile shapes."""
+    candidates = [
+        profile_payload.get("profile.acf"),
+        profile_payload.get("profile_acf"),
+        profile_payload.get("acf"),
+        profile_payload.get("atlas_profile"),
+        profile_payload.get("data", {}).get("acf")
+        if isinstance(profile_payload.get("data"), dict)
+        else None,
+    ]
+
+    for candidate in candidates:
+        if isinstance(candidate, dict):
+            return candidate
+
+    if any(
+        key in profile_payload
+        for key in [
+            "analyses",
+            "cipher_matrix",
+            "essence",
+            "identity",
+            "identity_graph",
+            "identity_persistence",
+            "invariant_analysis",
+            "planetary_matrix",
+        ]
+    ):
+        return profile_payload
+
+    return {}
+
+
+def extract_essence_graph(profile_payload: dict[str, Any]) -> dict[str, Any]:
+    """Extract saved essence graph data."""
+    candidates = [
+        profile_payload.get("essence_graph"),
+        profile_payload.get("nikola_tesla_essence_graph"),
+        profile_payload.get("data", {}).get("essence_graph")
+        if isinstance(profile_payload.get("data"), dict)
+        else None,
+    ]
+
+    for candidate in candidates:
+        if isinstance(candidate, dict):
+            return candidate
+
+    if "graph" in profile_payload and "signature" in profile_payload:
+        return profile_payload
+
+    return {}
+
+
 def extract_intake(profile_payload: dict[str, Any]) -> dict[str, Any]:
     """Extract intake-like data from known profile shapes."""
     candidates = [
-        profile_payload.get("intake"),
-        profile_payload.get("profile_intake"),
         profile_payload.get("profile.intake"),
+        profile_payload.get("profile_intake"),
         profile_payload.get("profile_intake_json"),
+        profile_payload.get("intake"),
         profile_payload.get("data", {}).get("intake")
         if isinstance(profile_payload.get("data"), dict)
         else None,
@@ -237,6 +440,12 @@ def extract_intake(profile_payload: dict[str, Any]) -> dict[str, Any]:
     for candidate in candidates:
         if isinstance(candidate, dict):
             return candidate
+
+    if any(
+        key in profile_payload
+        for key in ["birth_date", "birth_place", "birth_time", "name"]
+    ):
+        return profile_payload
 
     return {}
 
@@ -318,6 +527,31 @@ def first_dict(*values: Any) -> dict[str, Any]:
     return {}
 
 
+def has_cipher_data(cipher: CipherLayer) -> bool:
+    """Return whether cipher layer has any data."""
+    return any(
+        [
+            bool(cipher.ordinal),
+            bool(cipher.hebrew_phonetic),
+            bool(cipher.hebrew_transliteration),
+            bool(cipher.gematria),
+        ]
+    )
+
+
+def has_kamea_data(kamea: KameaLayer) -> bool:
+    """Return whether Kamea layer has any data."""
+    return any(
+        [
+            bool(kamea.topology),
+            bool(kamea.planetary_graphs),
+            bool(kamea.resonance),
+            bool(kamea.graph_metrics),
+            bool(kamea.fingerprint),
+        ]
+    )
+
+
 def has_temporal_data(temporal: TemporalLayer) -> bool:
     """Return whether temporal layer has any data."""
     return any(
@@ -342,6 +576,15 @@ def normalize_aliases(value: Any) -> list[str]:
         return [str(item) for item in value if item]
 
     return []
+
+
+def normalize_file_key(filename: str) -> str:
+    """Normalize file name to a payload key."""
+    return (
+        filename.replace(".json", "")
+        .replace(".", "_")
+        .replace("-", "_")
+    )
 
 
 def stringify_or_none(value: Any) -> str | None:
