@@ -23,6 +23,10 @@ from atlas.temporal.houses import (
     build_house_chart,
     house_chart_to_dict,
 )
+from atlas.temporal.aspects import (
+    aspect_chart_to_dict,
+    build_aspect_chart,
+)
 from atlas.temporal.ephemeris import build_ephemeris, ephemeris_result_to_dict
 from atlas.temporal.models import BirthData, NatalChart
 
@@ -202,9 +206,25 @@ def build_safe_ephemeris(
 
                     data["houses_status"] = "computed"
 
+                    try:
+                        aspect_chart = build_aspect_chart(house_chart)
+
+                        data["aspects"] = aspect_chart_to_dict(
+                            aspect_chart
+                        )
+
+                        data["aspects_status"] = "computed"
+
+                    except Exception as exc:
+                        data["aspects"] = {}
+                        data["aspects_status"] = "failed"
+                        data["aspects_error"] = str(exc)
+
                 except Exception as exc:
                     data["houses"] = {}
+                    data["aspects"] = {}
                     data["houses_status"] = "failed"
+                    data["aspects_status"] = "skipped"
                     data["houses_error"] = str(exc)
 
             except Exception as exc:
