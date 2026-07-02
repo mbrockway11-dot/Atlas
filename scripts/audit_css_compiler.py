@@ -10,7 +10,7 @@ from atlas.core.compiler import compile_profile
 from atlas.library.profile_library import list_saved_profiles
 
 
-LIMIT = 10
+LIMIT: int | None = None
 
 
 def main() -> None:
@@ -20,10 +20,9 @@ def main() -> None:
     print("=" * 80)
 
     profiles = list_saved_profiles()
+    selected = profiles if LIMIT is None else profiles[:LIMIT]
 
-    selected = profiles[:LIMIT]
     results = []
-
     started = time.perf_counter()
 
     for index, profile_key in enumerate(selected, start=1):
@@ -42,7 +41,6 @@ def main() -> None:
             print(f"  error: {error}")
 
     elapsed = time.perf_counter() - started
-
     summary = build_summary(results, elapsed)
 
     print()
