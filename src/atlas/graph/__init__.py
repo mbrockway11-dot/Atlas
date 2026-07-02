@@ -48,4 +48,15 @@ __all__ = [
     "StackAuditIssue",
     "audit_identity_stack",
     "stack_audit_to_dict",
+    "ATLAS_GRAPH_VERSION",
+    "AtlasEdge",
+    "AtlasGraph",
+    "AtlasNode",
 ]
+
+from atlas.graph.semantic import (
+    ATLAS_GRAPH_VERSION,
+    AtlasEdge,
+    AtlasGraph,
+    AtlasNode,
+)
