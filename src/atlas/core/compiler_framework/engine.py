@@ -11,6 +11,7 @@ from atlas.core.compiler_framework.base import (
     CompilerPass,
     PassResult,
 )
+from atlas.core.compiler_framework.dependencies import order_passes_by_dependency
 from atlas.core.compiler_framework.registry import PassRegistry
 
 
@@ -26,35 +27,26 @@ class CompilerEngine:
 
     @property
     def passes(self) -> list[CompilerPass]:
-        """Return registered compiler passes in execution order."""
-        return self.registry.passes()
+        """Return registered compiler passes in dependency order."""
+        return order_passes_by_dependency(self.registry.passes())
 
     def run(self, css: Any, context: CompilerContext) -> tuple[Any, list[PassResult]]:
-        """Run registered passes in order."""
+        """Run registered passes in dependency order."""
         results: list[PassResult] = []
-        completed: set[str] = set()
 
-        for compiler_pass in self.registry.passes():
-            metadata = compiler_pass.metadata
-
-            missing = [
-                dependency
-                for dependency in metadata.dependencies
-                if dependency not in completed
+        try:
+            ordered_passes = self.passes
+        except ValueError as exc:
+            return css, [
+                PassResult(
+                    name="compiler_engine",
+                    success=False,
+                    errors=(str(exc),),
+                )
             ]
 
-            if missing:
-                results.append(
-                    PassResult(
-                        name=metadata.name,
-                        success=False,
-                        errors=(
-                            f"Missing dependencies: {', '.join(missing)}",
-                        ),
-                    )
-                )
-                continue
-
+        for compiler_pass in ordered_passes:
+            metadata = compiler_pass.metadata
             start = perf_counter()
 
             try:
@@ -67,7 +59,6 @@ class CompilerEngine:
                         elapsed_ms=elapsed_ms,
                     )
                 )
-                completed.add(metadata.name)
             except Exception as exc:  # pragma: no cover
                 elapsed_ms = (perf_counter() - start) * 1000
                 results.append(

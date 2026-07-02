@@ -6,6 +6,7 @@ from atlas.core.compiler_framework.base import (
     PassMetadata,
     PassResult,
 )
+from atlas.core.compiler_framework.dependencies import order_passes_by_dependency
 from atlas.core.compiler_framework.engine import CompilerEngine
 from atlas.core.compiler_framework.registry import PassRegistry
 
@@ -16,4 +17,5 @@ __all__ = [
     "PassMetadata",
     "PassRegistry",
     "PassResult",
+    "order_passes_by_dependency",
 ]
