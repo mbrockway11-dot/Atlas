@@ -40,3 +40,22 @@ def test_temporal_runtime_engine_evaluates_compiled_css():
     assert result.scoring["score_status"] == "computed"
     assert result.scoring["activation_score"] > 0
     assert result.metadata["runtime"] == "atlas.temporal_runtime"
+
+def test_temporal_runtime_result_to_dict():
+    css = compile_profile("nikola_tesla").to_dict()
+
+    result = TemporalRuntimeEngine().evaluate(
+        profile_key="nikola_tesla",
+        css=css,
+        evaluation_date="2026-07-02",
+    )
+
+    payload = result.to_dict()
+
+    assert payload["profile_key"] == "nikola_tesla"
+    assert payload["success"] is True
+    assert "activation" in payload
+    assert "scoring" in payload
+    assert "metadata" in payload
+    assert payload["metadata"]["runtime"] == "atlas.temporal_runtime"
+

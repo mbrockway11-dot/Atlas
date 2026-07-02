@@ -23,6 +23,18 @@ class TemporalRuntimeResult:
     scoring: dict[str, Any]
     metadata: dict[str, Any]
 
+    def to_dict(self) -> dict[str, Any]:
+        """Return a serializable runtime payload."""
+
+        return {
+            "profile_key": self.profile_key,
+            "evaluation_date": self.evaluation_date,
+            "success": self.success,
+            "activation": self.activation,
+            "scoring": self.scoring,
+            "metadata": self.metadata,
+        }
+
 
 class TemporalRuntimeEngine:
     """Evaluate compiled CSS temporal structures."""
