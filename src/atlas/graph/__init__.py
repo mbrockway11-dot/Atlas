@@ -57,6 +57,11 @@ __all__ = [
     "GRAPH_METRICS_VERSION",
     "GraphMetrics",
     "compute_graph_metrics",
+    "GRAPH_ACTIVATION_VERSION",
+    "ActivatedEdge",
+    "ActivatedNode",
+    "GraphActivation",
+    "build_graph_activation",
 ]
 
 from atlas.graph.semantic import (
@@ -77,4 +82,13 @@ from atlas.graph.metrics import (
     GRAPH_METRICS_VERSION,
     GraphMetrics,
     compute_graph_metrics,
+)
+
+
+from atlas.graph.activation import (
+    GRAPH_ACTIVATION_VERSION,
+    ActivatedEdge,
+    ActivatedNode,
+    GraphActivation,
+    build_graph_activation,
 )
