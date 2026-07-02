@@ -245,3 +245,127 @@ def classify_individual_fingerprint(
             f"{reduction_profile} / Individual"
         ),
     }
+from hashlib import sha256
+
+from atlas.graph.activation import GraphActivation
+from atlas.graph.metrics import GraphMetrics
+from atlas.graph.propagation import PropagationResult
+from atlas.graph.resonance import GraphResonance
+
+
+@dataclass(frozen=True)
+class StructuralFingerprint:
+    """Canonical structural fingerprint from graph intelligence outputs."""
+
+    version: str
+    profile_key: str
+    vector: dict[str, float]
+    labels: dict[str, Any]
+    structural_hash: str
+    metadata: dict[str, Any]
+
+    def to_dict(self) -> dict[str, Any]:
+        """Return JSON-safe structural fingerprint."""
+        return {
+            "version": self.version,
+            "profile_key": self.profile_key,
+            "vector": self.vector,
+            "labels": self.labels,
+            "structural_hash": self.structural_hash,
+            "metadata": self.metadata,
+        }
+
+
+def build_structural_fingerprint(
+    *,
+    profile_key: str,
+    metrics: GraphMetrics,
+    activation: GraphActivation,
+    propagation: PropagationResult,
+    resonance: GraphResonance | None = None,
+) -> StructuralFingerprint:
+    """Build deterministic structural fingerprint from graph intelligence."""
+    vector = {
+        "node_count": float(metrics.node_count),
+        "edge_count": float(metrics.edge_count),
+        "density": float(metrics.density),
+        "average_degree": float(metrics.average_degree),
+        "max_degree": float(metrics.max_degree),
+        "activated_node_count": float(
+            activation.summary.get("activated_node_count", 0)
+        ),
+        "activated_edge_count": float(
+            activation.summary.get("activated_edge_count", 0)
+        ),
+        "max_node_activation": float(
+            activation.summary.get("max_node_activation", 0.0)
+        ),
+        "total_node_activation": float(
+            activation.summary.get("total_node_activation", 0.0)
+        ),
+        "total_edge_activation": float(
+            activation.summary.get("total_edge_activation", 0.0)
+        ),
+        "propagation_max_score": float(
+            propagation.summary.get("max_score", 0.0)
+        ),
+        "propagation_total_score": float(
+            propagation.summary.get("total_score", 0.0)
+        ),
+    }
+
+    if resonance is not None:
+        vector.update(
+            {
+                "resonance_overall_score": float(resonance.overall_score),
+                "resonance_node_overlap": float(resonance.node_overlap),
+                "resonance_activation_overlap": float(
+                    resonance.activation_overlap
+                ),
+            }
+        )
+
+    labels = {
+        "activation_center": activation.summary.get("activation_center"),
+        "propagation_top_node": propagation.summary.get("top_node"),
+        "hub_nodes": list(metrics.hub_nodes),
+        "isolated_nodes": list(metrics.isolated_nodes),
+        "top_nodes": list(propagation.top_nodes),
+    }
+
+    structural_hash = _structural_hash(
+        profile_key=profile_key,
+        vector=vector,
+        labels=labels,
+    )
+
+    return StructuralFingerprint(
+        version="0.1",
+        profile_key=profile_key,
+        vector=vector,
+        labels=labels,
+        structural_hash=structural_hash,
+        metadata={
+            "fingerprint_type": "structural_graph",
+            "source": "atlas.graph",
+            "has_resonance": resonance is not None,
+        },
+    )
+
+
+def _structural_hash(
+    *,
+    profile_key: str,
+    vector: dict[str, float],
+    labels: dict[str, Any],
+) -> str:
+    """Build deterministic structural hash."""
+    parts = [profile_key]
+
+    for key in sorted(vector):
+        parts.append(f"{key}={vector[key]:.8f}")
+
+    for key in sorted(labels):
+        parts.append(f"{key}={labels[key]}")
+
+    return sha256("|".join(parts).encode("utf-8")).hexdigest()

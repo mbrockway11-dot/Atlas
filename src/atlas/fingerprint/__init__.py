@@ -2,8 +2,10 @@
 
 from atlas.fingerprint.builder import (
     IdentityFingerprint,
+    StructuralFingerprint,
     build_fingerprint_dict,
     build_identity_fingerprint,
+    build_structural_fingerprint,
     classify_individual_fingerprint,
 )
 
