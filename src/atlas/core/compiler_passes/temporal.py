@@ -11,8 +11,16 @@ from atlas.core.compiler_passes.utils import (
     extract_temporal,
     first_dict,
 )
+from atlas.temporal.sidereal import (
+    convert_ephemeris_to_sidereal,
+    sidereal_chart_to_dict,
+)
+from atlas.temporal.nakshatra import (
+    build_nakshatra_chart,
+    nakshatra_chart_to_dict,
+)
 from atlas.temporal.ephemeris import build_ephemeris, ephemeris_result_to_dict
-from atlas.temporal.models import BirthData
+from atlas.temporal.models import BirthData, NatalChart
 
 
 def build_temporal_layer(*, profile_payload: dict[str, Any]) -> TemporalLayer:
@@ -145,8 +153,58 @@ def build_safe_ephemeris(
         )
 
         result = build_ephemeris(birth_data)
+
         data = ephemeris_result_to_dict(result)
+
+        #
+        # NEW
+        # Convert the tropical ephemeris into
+        # a sidereal chart.
+        #
+        try:
+            sidereal_chart = convert_ephemeris_to_sidereal(result)
+
+            data["sidereal"] = sidereal_chart_to_dict(
+                sidereal_chart
+            )
+
+            data["sidereal_status"] = "computed"
+
+            try:
+                natal_chart = NatalChart(
+                    version="1.0",
+                    name=sidereal_chart.name,
+                    birth=birth_data,
+                    ayanamsa=sidereal_chart.ayanamsa,
+                    zodiac=sidereal_chart.zodiac,
+                    planets=sidereal_chart.planets,
+                    summary=sidereal_chart.summary,
+                )
+
+                nakshatra_chart = build_nakshatra_chart(natal_chart)
+
+                data["nakshatra"] = nakshatra_chart_to_dict(
+                    nakshatra_chart
+                )
+
+                data["nakshatra_status"] = "computed"
+
+            except Exception as exc:
+                data["nakshatra"] = {}
+                data["nakshatra_status"] = "failed"
+                data["nakshatra_error"] = str(exc)
+
+        except Exception as exc:
+            data["sidereal"] = {}
+            data["nakshatra"] = {}
+
+            data["sidereal_status"] = "failed"
+            data["nakshatra_status"] = "skipped"
+
+            data["sidereal_error"] = str(exc)
+
         data["ephemeris_status"] = "computed"
+
         return data
 
     except Exception as exc:  # noqa: BLE001
@@ -183,3 +241,4 @@ def is_time_known(value: str) -> bool:
         return False
 
     return text not in {"unknown", "12:00", "12:00:00"}
+
