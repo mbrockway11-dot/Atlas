@@ -1,6 +1,22 @@
 {
-  "record_count": 2,
+  "record_count": 3,
   "records": [
+    {
+      "best_hypothesis": "Temporal-Uncertainty Hypothesis",
+      "intent": "profile_analysis",
+      "path": "output\\research_memory\\20260702T013636938076z0000_explain_nikola_tesla_d545fa6addb4.json",
+      "query": "Explain Nikola Tesla",
+      "reasoning_confidence": {
+        "label": "moderate",
+        "percent": 72.03,
+        "score": 0.7203
+      },
+      "recommended_experiment": "Temporal Repair: Resolve Moon Nakshatra and rerun temporal intelligence.",
+      "record_id": "20260702T013636938076z0000_explain_nikola_tesla_d545fa6addb4",
+      "scope": "profile",
+      "subject": "nikola_tesla",
+      "timestamp": "2026-07-02T01:36:36.938076+00:00"
+    },
     {
       "best_hypothesis": "Temporal-Uncertainty Hypothesis",
       "intent": "profile_analysis",
@@ -34,6 +50,6 @@
       "timestamp": "2026-07-01T11:03:55.380857+00:00"
     }
   ],
-  "updated_at": "2026-07-01T11:14:08.514394+00:00",
+  "updated_at": "2026-07-02T01:36:36.958337+00:00",
   "version": "1.0"
 }

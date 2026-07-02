@@ -1,0 +1,255 @@
+{
+  "confidence": {
+    "best_hypothesis": {
+      "label": "moderate",
+      "percent": 77.02,
+      "score": 0.7702
+    },
+    "experiment_value": {
+      "label": "limited",
+      "percent": 44.88,
+      "score": 0.4488
+    },
+    "highest_falsification_pressure": {
+      "components": {
+        "confidence_inverse": 0.1644,
+        "counter_pressure": 0.32,
+        "observation_pressure": 0.16,
+        "support_buffer": 0.165,
+        "test_pressure": 0.09
+      },
+      "label": "moderate",
+      "percent": 56.94,
+      "score": 0.5694
+    },
+    "reasoning": {
+      "label": "moderate",
+      "percent": 72.03,
+      "score": 0.7203
+    }
+  },
+  "intent": "profile_analysis",
+  "outputs": {
+    "discovery": {},
+    "experiment": {
+      "data_keys": [
+        "experiment_model",
+        "falsification_summary"
+      ],
+      "errors": [],
+      "export_keys": [
+        "experiment_json",
+        "markdown"
+      ],
+      "metrics": {
+        "average_effort": 0.5818,
+        "average_expected_gain": 0.2577,
+        "experiment_count": 33,
+        "highest_value_score": {
+          "label": "limited",
+          "percent": 44.88,
+          "score": 0.4488
+        },
+        "phase_count": 3,
+        "recommended_next_experiment": "Temporal Repair: Resolve Moon Nakshatra and rerun temporal intelligence.",
+        "source_case_count": 3,
+        "source_error_count": 0,
+        "source_warning_count": 14,
+        "word_count": 847
+      },
+      "success": true,
+      "version": "1.0",
+      "warnings": [
+        "atlas_ai: profile_report: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "atlas_ai: profile_report: Missing artifact: research_session.json",
+        "atlas_ai: narrative: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "atlas_ai: narrative: Missing artifact: research_session.json",
+        "atlas_ai: evidence: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "atlas_ai: evidence: Missing artifact: research_session.json",
+        "atlas_ai: temporal: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "reasoning: profile_report: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "reasoning: profile_report: Missing artifact: research_session.json",
+        "reasoning: narrative: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "reasoning: narrative: Missing artifact: research_session.json",
+        "reasoning: evidence: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "reasoning: evidence: Missing artifact: research_session.json",
+        "reasoning: temporal: Moon nakshatra could not be resolved; dasha output may be limited."
+      ]
+    },
+    "falsification": {
+      "data_keys": [
+        "falsification_model",
+        "hypothesis_summary"
+      ],
+      "errors": [],
+      "export_keys": [
+        "falsification_json",
+        "markdown"
+      ],
+      "metrics": {
+        "case_count": 3,
+        "disconfirming_signal_count": 27,
+        "highest_pressure": {
+          "components": {
+            "confidence_inverse": 0.1644,
+            "counter_pressure": 0.32,
+            "observation_pressure": 0.16,
+            "support_buffer": 0.165,
+            "test_pressure": 0.09
+          },
+          "label": "moderate",
+          "percent": 56.94,
+          "score": 0.5694
+        },
+        "highest_priority_case": "Graph-Limited Interpretation Hypothesis",
+        "observation_count": 33,
+        "repair_action_count": 45,
+        "source_error_count": 0,
+        "source_hypothesis_count": 3,
+        "source_warning_count": 14,
+        "test_count": 9,
+        "word_count": 1377
+      },
+      "success": true,
+      "version": "1.0",
+      "warnings": [
+        "atlas_ai: profile_report: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "atlas_ai: profile_report: Missing artifact: research_session.json",
+        "atlas_ai: narrative: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "atlas_ai: narrative: Missing artifact: research_session.json",
+        "atlas_ai: evidence: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "atlas_ai: evidence: Missing artifact: research_session.json",
+        "atlas_ai: temporal: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "reasoning: profile_report: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "reasoning: profile_report: Missing artifact: research_session.json",
+        "reasoning: narrative: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "reasoning: narrative: Missing artifact: research_session.json",
+        "reasoning: evidence: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "reasoning: evidence: Missing artifact: research_session.json",
+        "reasoning: temporal: Moon nakshatra could not be resolved; dasha output may be limited."
+      ]
+    },
+    "hypothesis": {
+      "data_keys": [
+        "hypothesis_model",
+        "reasoning_summary"
+      ],
+      "errors": [],
+      "export_keys": [
+        "hypothesis_json",
+        "markdown"
+      ],
+      "metrics": {
+        "best_confidence": {
+          "label": "moderate",
+          "percent": 77.02,
+          "score": 0.7702
+        },
+        "best_hypothesis": "Temporal-Uncertainty Hypothesis",
+        "counter_evidence_count": 35,
+        "falsification_test_count": 9,
+        "hypothesis_count": 3,
+        "next_experiment_count": 12,
+        "source_error_count": 0,
+        "source_reasoning_confidence": {
+          "label": "moderate",
+          "percent": 72.03,
+          "score": 0.7203
+        },
+        "source_warning_count": 14,
+        "supporting_evidence_count": 44,
+        "word_count": 1057
+      },
+      "success": true,
+      "version": "1.0",
+      "warnings": [
+        "atlas_ai: profile_report: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "atlas_ai: profile_report: Missing artifact: research_session.json",
+        "atlas_ai: narrative: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "atlas_ai: narrative: Missing artifact: research_session.json",
+        "atlas_ai: evidence: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "atlas_ai: evidence: Missing artifact: research_session.json",
+        "atlas_ai: temporal: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "reasoning: profile_report: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "reasoning: profile_report: Missing artifact: research_session.json",
+        "reasoning: narrative: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "reasoning: narrative: Missing artifact: research_session.json",
+        "reasoning: evidence: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "reasoning: evidence: Missing artifact: research_session.json",
+        "reasoning: temporal: Moon nakshatra could not be resolved; dasha output may be limited."
+      ]
+    },
+    "reasoning": {
+      "data_keys": [
+        "execution",
+        "plan",
+        "reasoning"
+      ],
+      "errors": [],
+      "export_keys": [
+        "markdown",
+        "reasoning_json"
+      ],
+      "metrics": {
+        "atlas_ai_confidence": {
+          "label": "moderate",
+          "percent": 75.04,
+          "score": 0.7504
+        },
+        "conclusion_count": 4,
+        "conflict_count": 1,
+        "intent": "profile_analysis",
+        "limitation_count": 7,
+        "overall_confidence": {
+          "label": "moderate",
+          "percent": 72.03,
+          "score": 0.7203
+        },
+        "planner_confidence": {
+          "label": "high",
+          "percent": 100.0,
+          "score": 1.0
+        },
+        "recommendation_count": 11,
+        "scope": "profile",
+        "source_error_count": 0,
+        "source_warning_count": 14,
+        "word_count": 657
+      },
+      "success": true,
+      "version": "1.0",
+      "warnings": [
+        "atlas_ai: profile_report: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "atlas_ai: profile_report: Missing artifact: research_session.json",
+        "atlas_ai: narrative: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "atlas_ai: narrative: Missing artifact: research_session.json",
+        "atlas_ai: evidence: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "atlas_ai: evidence: Missing artifact: research_session.json",
+        "atlas_ai: temporal: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "reasoning: profile_report: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "reasoning: profile_report: Missing artifact: research_session.json",
+        "reasoning: narrative: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "reasoning: narrative: Missing artifact: research_session.json",
+        "reasoning: evidence: Moon nakshatra could not be resolved; dasha output may be limited.",
+        "reasoning: evidence: Missing artifact: research_session.json",
+        "reasoning: temporal: Moon nakshatra could not be resolved; dasha output may be limited."
+      ]
+    }
+  },
+  "path": "output\\research_memory\\20260702T013636938076z0000_explain_nikola_tesla_d545fa6addb4.json",
+  "paths": {},
+  "query": "Explain Nikola Tesla",
+  "record_id": "20260702T013636938076z0000_explain_nikola_tesla_d545fa6addb4",
+  "scope": "profile",
+  "subject": "nikola_tesla",
+  "success": true,
+  "summary": {
+    "best_hypothesis": "Temporal-Uncertainty Hypothesis",
+    "discovery_highest_priority": {},
+    "final_answer": "Atlas Reasoning analyzed **nikola_tesla** for the query: \u201cExplain Nikola Tesla\u201d.\n\nnikola_tesla can be analyzed through Atlas with moderate reasoning confidence. The result should be read as an evidence-bounded profile synthesis.\n\nOverall reasoning confidence: **72.03% moderate**.\n\nPrimary limitations:\n- profile_report: Moon nakshatra could not be resolved; dasha output may be limited.\n- profile_report: Missing artifact: research_session.json\n- narrative: Moon nakshatra could not be resolved; dasha output may be limited.\n- narrative: Missing artifact: research_session.json\n- evidence: Moon nakshatra could not be resolved; dasha output may be limited.\n\nNext research priorities:\n- Use topology, resonance, and motif together rather than reading one metric alone.\n- Inspect dominant motif and topology axis for strongest identity pathways.\n- Use Evidence Explorer when interpreting profile-level graph claims.\n- Check audit status before strong topology claims.\n- Prefer limited-confidence language when graph cautions are present.",
+    "highest_falsification_case": "Graph-Limited Interpretation Hypothesis",
+    "recommended_experiment": "Temporal Repair: Resolve Moon Nakshatra and rerun temporal intelligence."
+  },
+  "timestamp": "2026-07-02T01:36:36.938076+00:00",
+  "version": "1.0"
+}

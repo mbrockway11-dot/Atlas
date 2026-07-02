@@ -8,7 +8,6 @@ import traceback
 TEST_PROFILE = "nikola_tesla"
 TEST_PROFILE_B = "thomas_edison"
 TEST_QUERY = "Explain Nikola Tesla"
-TEST_RELATIONSHIP_QUERY = "Compare Nikola Tesla and Thomas Edison"
 
 
 def main() -> None:
@@ -28,6 +27,8 @@ def main() -> None:
         ("Discovery Engine", audit_discovery),
         ("Research Memory", audit_research_memory),
         ("Vedic Behavior Overlay", audit_vedic_behavior),
+        ("Validation Domain Service", audit_validation_domain),
+        ("Research Cycle", audit_research_cycle),
     ]
 
     failures = []
@@ -39,15 +40,13 @@ def main() -> None:
             if not result.get("success"):
                 failures.append((label, result))
         except Exception as exc:  # noqa: BLE001
-            failures.append((label, {"success": False, "error": str(exc)}))
-            print_result(
-                label,
-                {
-                    "success": False,
-                    "error": str(exc),
-                    "traceback": traceback.format_exc(),
-                },
-            )
+            result = {
+                "success": False,
+                "error": str(exc),
+                "traceback": traceback.format_exc(),
+            }
+            failures.append((label, result))
+            print_result(label, result)
 
     print()
     print("=" * 80)
@@ -70,9 +69,11 @@ def audit_query_planner() -> dict:
     plan = payload.get("data", {}).get("plan", {})
 
     return {
-        "success": payload.get("success") is True
-        and plan.get("scope") == "profile"
-        and TEST_PROFILE in plan.get("profiles", []),
+        "success": (
+            payload.get("success") is True
+            and plan.get("scope") == "profile"
+            and TEST_PROFILE in plan.get("profiles", [])
+        ),
         "intent": plan.get("intent"),
         "scope": plan.get("scope"),
         "profiles": plan.get("profiles", []),
@@ -211,6 +212,36 @@ def audit_vedic_behavior() -> dict:
     return {
         "success": payload.get("success") is True,
         "metrics": payload.get("metrics", {}),
+    }
+
+
+def audit_validation_domain() -> dict:
+    """Audit validation domain service."""
+    from atlas.services.validation_domain_service import build_validation_domain_payload
+
+    payload = build_validation_domain_payload(TEST_PROFILE)
+
+    return {
+        "success": payload.get("success") is True,
+        "metrics": payload.get("metrics", {}),
+    }
+
+
+def audit_research_cycle() -> dict:
+    """Audit research cycle engine."""
+    from atlas.research.research_cycle import build_research_cycle_payload
+
+    payload = build_research_cycle_payload(
+        TEST_QUERY,
+        include_memory=False,
+    )
+    cycle = payload.get("data", {}).get("research_cycle", {})
+
+    return {
+        "success": payload.get("success") is True,
+        "metrics": payload.get("metrics", {}),
+        "state": cycle.get("state"),
+        "next_question_count": len(cycle.get("next_research_questions", [])),
     }
 
 
