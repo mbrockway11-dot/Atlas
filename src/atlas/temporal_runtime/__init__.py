@@ -7,6 +7,7 @@ from atlas.temporal_runtime.engine import (
 from atlas.temporal_runtime.timeline import (
     TemporalTimeline,
     build_date_range,
+    build_timeline_summary,
     evaluate_timeline,
 )
 
@@ -15,5 +16,6 @@ __all__ = [
     "TemporalRuntimeResult",
     "TemporalTimeline",
     "build_date_range",
+    "build_timeline_summary",
     "evaluate_timeline",
 ]

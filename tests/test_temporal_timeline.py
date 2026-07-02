@@ -50,3 +50,41 @@ def test_evaluate_timeline_returns_serializable_payload():
     assert payload["results"][0]["evaluation_date"] == "2026-07-02"
     assert payload["results"][0]["success"] is True
     assert payload["metadata"]["runtime"] == "atlas.temporal_runtime.timeline"
+
+def test_timeline_summary_is_computed():
+    css = compile_profile("nikola_tesla").to_dict()
+
+    timeline = evaluate_timeline(
+        profile_key="nikola_tesla",
+        css=css,
+        start_date="2026-07-02",
+        end_date="2026-07-04",
+    )
+
+    assert timeline.summary["summary_status"] == "computed"
+    assert timeline.summary["count"] == 3
+    assert timeline.summary["min_score"] >= 0
+    assert timeline.summary["max_score"] >= timeline.summary["min_score"]
+    assert timeline.summary["average_score"] >= 0
+    assert timeline.summary["peak_date"] in {
+        "2026-07-02",
+        "2026-07-03",
+        "2026-07-04",
+    }
+
+
+def test_timeline_payload_includes_summary():
+    css = compile_profile("nikola_tesla").to_dict()
+
+    timeline = evaluate_timeline(
+        profile_key="nikola_tesla",
+        css=css,
+        start_date="2026-07-02",
+        end_date="2026-07-04",
+    )
+
+    payload = timeline.to_dict()
+
+    assert "summary" in payload
+    assert payload["summary"]["summary_status"] == "computed"
+    assert payload["summary"]["count"] == 3

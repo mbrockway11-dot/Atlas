@@ -20,6 +20,7 @@ class TemporalTimeline:
     start_date: str
     end_date: str
     results: tuple[TemporalRuntimeResult, ...]
+    summary: dict[str, Any]
     metadata: dict[str, Any]
 
     @property
@@ -38,6 +39,7 @@ class TemporalTimeline:
                 result.to_dict()
                 for result in self.results
             ],
+            "summary": self.summary,
             "metadata": self.metadata,
         }
 
@@ -62,6 +64,48 @@ def build_date_range(
         current += timedelta(days=1)
 
     return dates
+
+
+def build_timeline_summary(
+    results: tuple[TemporalRuntimeResult, ...],
+) -> dict[str, Any]:
+    """Build summary statistics for a temporal timeline."""
+    if not results:
+        return {
+            "count": 0,
+            "min_score": 0.0,
+            "max_score": 0.0,
+            "average_score": 0.0,
+            "peak_date": None,
+            "summary_status": "empty",
+        }
+
+    scored = [
+        (
+            result.evaluation_date,
+            float(result.scoring.get("activation_score", 0.0)),
+        )
+        for result in results
+    ]
+
+    scores = [
+        score
+        for _date, score in scored
+    ]
+
+    peak_date, max_score = max(
+        scored,
+        key=lambda item: item[1],
+    )
+
+    return {
+        "count": len(results),
+        "min_score": min(scores),
+        "max_score": max_score,
+        "average_score": sum(scores) / len(scores),
+        "peak_date": peak_date,
+        "summary_status": "computed",
+    }
 
 
 def evaluate_timeline(
@@ -94,6 +138,7 @@ def evaluate_timeline(
         start_date=start_date,
         end_date=end_date,
         results=results,
+        summary=build_timeline_summary(results),
         metadata={
             "runtime": "atlas.temporal_runtime.timeline",
             "timeline_version": "0.1",
