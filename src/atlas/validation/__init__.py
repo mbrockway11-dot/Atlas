@@ -9,6 +9,10 @@ from atlas.validation.base import (
     build_agreement_score,
     summarize_validation_results,
 )
+from atlas.validation.cross_domain_engine import (
+    build_cross_domain_model,
+    build_cross_domain_payload,
+)
 from atlas.validation.registry import (
     RegisteredValidationDomain,
     ValidationDomainRegistry,
@@ -25,6 +29,8 @@ __all__ = [
     "ValidationSignal",
     "build_agreement_score",
     "summarize_validation_results",
+    "build_cross_domain_model",
+    "build_cross_domain_payload",
     "RegisteredValidationDomain",
     "ValidationDomainRegistry",
     "build_registry_payload",

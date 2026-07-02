@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from typing import Any
-
+from atlas.validation.domains.vedic import VedicValidationDomain
 from atlas.validation.base import (
     Confidence,
     ValidationContext,
@@ -293,6 +293,13 @@ def build_registry_payload(
 
 
 DEFAULT_VALIDATION_REGISTRY = ValidationDomainRegistry()
+DEFAULT_VALIDATION_REGISTRY.register(
+    VedicValidationDomain(),
+    metadata={
+        "description": "Vedic Behavior validation domain adapter.",
+        "status": "active",
+    },
+)
 
 
 def get_default_validation_registry() -> ValidationDomainRegistry:
