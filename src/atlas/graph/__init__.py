@@ -65,6 +65,9 @@ __all__ = [
     "GRAPH_PROPAGATION_VERSION",
     "PropagationResult",
     "propagate_activation",
+    "GRAPH_RESONANCE_VERSION",
+    "GraphResonance",
+    "compute_graph_resonance",
 ]
 
 from atlas.graph.semantic import (
@@ -101,4 +104,11 @@ from atlas.graph.propagation import (
     GRAPH_PROPAGATION_VERSION,
     PropagationResult,
     propagate_activation,
+)
+
+
+from atlas.graph.resonance import (
+    GRAPH_RESONANCE_VERSION,
+    GraphResonance,
+    compute_graph_resonance,
 )
