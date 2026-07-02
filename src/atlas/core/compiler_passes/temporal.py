@@ -31,6 +31,10 @@ from atlas.temporal.dignity import (
     build_dignity_chart,
     dignity_chart_to_dict,
 )
+from atlas.temporal.navamsa import (
+    build_navamsa_chart,
+    navamsa_chart_to_dict,
+)
 from atlas.temporal.ephemeris import build_ephemeris, ephemeris_result_to_dict
 from atlas.temporal.models import BirthData, NatalChart
 
@@ -238,13 +242,39 @@ def build_safe_ephemeris(
                         data["dignity_status"] = "failed"
                         data["dignity_error"] = str(exc)
 
+                    try:
+                        navamsa_chart = build_navamsa_chart(natal_chart)
+
+                        navamsa_payload = navamsa_chart_to_dict(
+                            navamsa_chart
+                        )
+
+                        data["navamsa"] = navamsa_payload
+                        data["vargas"] = {
+                            "d9": navamsa_payload,
+                        }
+
+                        data["navamsa_status"] = "computed"
+                        data["vargas_status"] = "computed"
+
+                    except Exception as exc:
+                        data["navamsa"] = {}
+                        data["vargas"] = {}
+                        data["navamsa_status"] = "failed"
+                        data["vargas_status"] = "failed"
+                        data["navamsa_error"] = str(exc)
+
                 except Exception as exc:
                     data["houses"] = {}
                     data["aspects"] = {}
                     data["dignity"] = {}
+                    data["navamsa"] = {}
+                    data["vargas"] = {}
                     data["houses_status"] = "failed"
                     data["aspects_status"] = "skipped"
                     data["dignity_status"] = "skipped"
+                    data["navamsa_status"] = "skipped"
+                    data["vargas_status"] = "skipped"
                     data["houses_error"] = str(exc)
 
             except Exception as exc:
