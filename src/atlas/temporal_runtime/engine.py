@@ -9,6 +9,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
+from atlas.temporal_runtime.scoring import score_transit_activation
+
 
 @dataclass(frozen=True)
 class TemporalRuntimeResult:
@@ -37,19 +39,19 @@ class TemporalRuntimeEngine:
         natal = temporal.get("natal", {})
         ephemeris = natal.get("ephemeris", {})
         transits = ephemeris.get("transits", {})
+        transit_summary = transits.get("summary", {})
 
         activation = {
             "has_temporal": bool(temporal),
             "has_natal": bool(natal),
             "has_ephemeris": bool(ephemeris),
             "has_transits": bool(transits),
-            "transit_summary": transits.get("summary", {}),
+            "transit_summary": transit_summary,
         }
 
-        scoring = {
-            "activation_score": 0.0,
-            "score_status": "placeholder",
-        }
+        scoring = score_transit_activation(
+            transit_summary
+        )
 
         return TemporalRuntimeResult(
             profile_key=profile_key,
