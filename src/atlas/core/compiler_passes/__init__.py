@@ -1,5 +1,11 @@
 """Atlas CSS compiler passes."""
 
+from atlas.core.compiler_passes.adapters import (
+    CipherPass,
+    IdentityPass,
+    KameaPass,
+    TemporalPass,
+)
 from atlas.core.compiler_passes.cipher import build_cipher_layer
 from atlas.core.compiler_passes.identity import build_identity_layer
 from atlas.core.compiler_passes.kamea import build_kamea_layer
@@ -12,4 +18,8 @@ __all__ = [
     "build_cipher_layer",
     "build_kamea_layer",
     "build_temporal_layer",
+    "IdentityPass",
+    "CipherPass",
+    "KameaPass",
+    "TemporalPass",
 ]
