@@ -2,8 +2,8 @@
 
 Compiles saved Atlas profile-library artifacts into a CanonicalStructuralSignature.
 
-The compiler is intentionally an orchestrator only. Business logic belongs in
-compiler_passes.
+This module is the internal compiler orchestrator. Business logic belongs in
+compiler passes. Pass execution is handled by the CompilerEngine.
 """
 
 from __future__ import annotations
@@ -11,60 +11,98 @@ from __future__ import annotations
 from typing import Any
 
 from atlas.core.canonical_structural_signature import CanonicalStructuralSignature
+from atlas.core.compiler_framework import CompilerContext, CompilerEngine
 from atlas.core.compiler_passes import (
-    build_cipher_layer,
-    build_identity_layer,
-    build_kamea_layer,
-    build_temporal_layer,
+    CipherPass,
+    IdentityPass,
+    KameaPass,
+    TemporalPass,
     safe_load_profile,
 )
 
 
-CORE_COMPILER_VERSION = "1.3"
+CORE_COMPILER_VERSION = "2.0"
+
+
+def build_default_engine() -> CompilerEngine:
+    """Build the default Atlas compiler engine."""
+    engine = CompilerEngine()
+    engine.register(IdentityPass())
+    engine.register(CipherPass())
+    engine.register(KameaPass())
+    engine.register(TemporalPass())
+    return engine
 
 
 def compile_profile(profile_key: str) -> CanonicalStructuralSignature:
     """Compile one profile into a CanonicalStructuralSignature."""
     profile_payload = safe_load_profile(profile_key)
 
-    identity = build_identity_layer(
+    context = CompilerContext(
         profile_key=profile_key,
         profile_payload=profile_payload,
+        metadata={
+            "compiler_version": CORE_COMPILER_VERSION,
+            "source": "atlas.core.compiler",
+        },
     )
-    cipher = build_cipher_layer(profile_payload=profile_payload)
-    kamea = build_kamea_layer(profile_payload=profile_payload)
-    temporal = build_temporal_layer(profile_payload=profile_payload)
 
-    return CanonicalStructuralSignature(
-        identity=identity,
-        cipher=cipher,
-        kamea=kamea,
-        temporal=temporal,
+    css = CanonicalStructuralSignature(
         metadata={
             "compiler_version": CORE_COMPILER_VERSION,
             "source": "atlas.core.compiler",
             "profile_loaded": bool(profile_payload),
-            "pass_count": 4,
-            "passes": [
-                "identity",
-                "cipher",
-                "kamea",
-                "temporal",
-            ],
-        },
+        }
     )
+
+    engine = build_default_engine()
+    css, pass_results = engine.run(css, context)
+
+    css.metadata.update(
+        {
+            "compiler_version": CORE_COMPILER_VERSION,
+            "source": "atlas.core.compiler",
+            "profile_loaded": bool(profile_payload),
+            "pass_count": len(pass_results),
+            "passes": [result.name for result in pass_results],
+            "pass_results": [
+                {
+                    "name": result.name,
+                    "success": result.success,
+                    "warnings": list(result.warnings),
+                    "errors": list(result.errors),
+                    "elapsed_ms": result.elapsed_ms,
+                }
+                for result in pass_results
+            ],
+        }
+    )
+
+    return css
 
 
 def compile_profile_payload(profile_key: str) -> dict[str, Any]:
     """Compile one profile and return a serializable payload."""
     css = compile_profile(profile_key)
 
+    pass_results = css.metadata.get("pass_results", [])
+    errors = [
+        error
+        for result in pass_results
+        for error in result.get("errors", [])
+    ]
+    warnings = [
+        warning
+        for result in pass_results
+        for warning in result.get("warnings", [])
+    ]
+
     return {
-        "success": css.identity is not None,
+        "success": css.identity is not None and not errors,
         "version": CORE_COMPILER_VERSION,
         "profile_key": profile_key,
-        "errors": [],
-        "warnings": [],
+        "errors": errors,
+        "warnings": warnings,
         "data": {
             "canonical_structural_signature": css.to_dict(),
         },
