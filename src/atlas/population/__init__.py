@@ -14,4 +14,19 @@ __all__ = [
     "PopulationRecord",
     "build_population_index",
     "build_population_record",
+    "POPULATION_SIMILARITY_VERSION",
+    "PopulationSimilarity",
+    "compare_fingerprint_to_record",
+    "find_similar_profiles",
+    "similarity_from_distance",
+    "vector_distance",
 ]
+
+from atlas.population.similarity import (
+    POPULATION_SIMILARITY_VERSION,
+    PopulationSimilarity,
+    compare_fingerprint_to_record,
+    find_similar_profiles,
+    similarity_from_distance,
+    vector_distance,
+)
