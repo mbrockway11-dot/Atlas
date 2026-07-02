@@ -19,6 +19,10 @@ from atlas.temporal.nakshatra import (
     build_nakshatra_chart,
     nakshatra_chart_to_dict,
 )
+from atlas.temporal.houses import (
+    build_house_chart,
+    house_chart_to_dict,
+)
 from atlas.temporal.ephemeris import build_ephemeris, ephemeris_result_to_dict
 from atlas.temporal.models import BirthData, NatalChart
 
@@ -189,6 +193,20 @@ def build_safe_ephemeris(
 
                 data["nakshatra_status"] = "computed"
 
+                try:
+                    house_chart = build_house_chart(natal_chart)
+
+                    data["houses"] = house_chart_to_dict(
+                        house_chart
+                    )
+
+                    data["houses_status"] = "computed"
+
+                except Exception as exc:
+                    data["houses"] = {}
+                    data["houses_status"] = "failed"
+                    data["houses_error"] = str(exc)
+
             except Exception as exc:
                 data["nakshatra"] = {}
                 data["nakshatra_status"] = "failed"
@@ -197,9 +215,11 @@ def build_safe_ephemeris(
         except Exception as exc:
             data["sidereal"] = {}
             data["nakshatra"] = {}
+            data["houses"] = {}
 
             data["sidereal_status"] = "failed"
             data["nakshatra_status"] = "skipped"
+            data["houses_status"] = "skipped"
 
             data["sidereal_error"] = str(exc)
 
