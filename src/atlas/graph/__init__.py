@@ -52,6 +52,8 @@ __all__ = [
     "AtlasEdge",
     "AtlasGraph",
     "AtlasNode",
+    "TEMPORAL_GRAPH_BRIDGE_VERSION",
+    "build_temporal_graph",
 ]
 
 from atlas.graph.semantic import (
@@ -59,4 +61,10 @@ from atlas.graph.semantic import (
     AtlasEdge,
     AtlasGraph,
     AtlasNode,
+)
+
+
+from atlas.graph.temporal_bridge import (
+    TEMPORAL_GRAPH_BRIDGE_VERSION,
+    build_temporal_graph,
 )
