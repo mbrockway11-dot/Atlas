@@ -20,6 +20,9 @@ __all__ = [
     "find_similar_profiles",
     "similarity_from_distance",
     "vector_distance",
+    "POPULATION_SEARCH_VERSION",
+    "PopulationSearchResult",
+    "search_population",
 ]
 
 from atlas.population.similarity import (
@@ -29,4 +32,11 @@ from atlas.population.similarity import (
     find_similar_profiles,
     similarity_from_distance,
     vector_distance,
+)
+
+
+from atlas.population.search import (
+    POPULATION_SEARCH_VERSION,
+    PopulationSearchResult,
+    search_population,
 )
