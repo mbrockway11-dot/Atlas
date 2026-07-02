@@ -8,10 +8,16 @@ compiler passes. Pass execution is handled by the CompilerEngine.
 
 from __future__ import annotations
 
+from time import perf_counter
 from typing import Any
 
 from atlas.core.canonical_structural_signature import CanonicalStructuralSignature
-from atlas.core.compiler_framework import CompilerContext, CompilerEngine
+from atlas.core.compiler_framework import (
+    CompilationReport,
+    CompilerContext,
+    CompilerEngine,
+    build_compilation_report,
+)
 from atlas.core.compiler_passes import (
     CipherPass,
     IdentityPass,
@@ -21,7 +27,7 @@ from atlas.core.compiler_passes import (
 )
 
 
-CORE_COMPILER_VERSION = "2.0"
+CORE_COMPILER_VERSION = "2.1"
 
 
 def build_default_engine() -> CompilerEngine:
@@ -36,6 +42,14 @@ def build_default_engine() -> CompilerEngine:
 
 def compile_profile(profile_key: str) -> CanonicalStructuralSignature:
     """Compile one profile into a CanonicalStructuralSignature."""
+    css, _report = compile_profile_with_report(profile_key)
+    return css
+
+
+def compile_profile_with_report(
+    profile_key: str,
+) -> tuple[CanonicalStructuralSignature, CompilationReport]:
+    """Compile one profile and return CSS plus compilation report."""
     profile_payload = safe_load_profile(profile_key)
 
     context = CompilerContext(
@@ -56,57 +70,46 @@ def compile_profile(profile_key: str) -> CanonicalStructuralSignature:
     )
 
     engine = build_default_engine()
+    start = perf_counter()
     css, pass_results = engine.run(css, context)
+    total_elapsed_ms = (perf_counter() - start) * 1000
+
+    report = build_compilation_report(
+        compiler_version=CORE_COMPILER_VERSION,
+        pass_results=pass_results,
+        total_elapsed_ms=total_elapsed_ms,
+    )
 
     css.metadata.update(
         {
             "compiler_version": CORE_COMPILER_VERSION,
             "source": "atlas.core.compiler",
             "profile_loaded": bool(profile_payload),
-            "pass_count": len(pass_results),
-            "passes": [result.name for result in pass_results],
-            "pass_results": [
-                {
-                    "name": result.name,
-                    "success": result.success,
-                    "warnings": list(result.warnings),
-                    "errors": list(result.errors),
-                    "elapsed_ms": result.elapsed_ms,
-                }
-                for result in pass_results
-            ],
+            "pass_count": report.pass_count,
+            "passes": list(report.passes),
+            "pass_results": report.to_dict()["pass_results"],
+            "compilation_report": report.to_dict(),
         }
     )
 
-    return css
+    return css, report
 
 
 def compile_profile_payload(profile_key: str) -> dict[str, Any]:
     """Compile one profile and return a serializable payload."""
-    css = compile_profile(profile_key)
-
-    pass_results = css.metadata.get("pass_results", [])
-    errors = [
-        error
-        for result in pass_results
-        for error in result.get("errors", [])
-    ]
-    warnings = [
-        warning
-        for result in pass_results
-        for warning in result.get("warnings", [])
-    ]
+    css, report = compile_profile_with_report(profile_key)
 
     return {
-        "success": css.identity is not None and not errors,
+        "success": css.identity is not None and report.success,
         "version": CORE_COMPILER_VERSION,
         "profile_key": profile_key,
-        "errors": errors,
-        "warnings": warnings,
+        "errors": list(report.errors),
+        "warnings": list(report.warnings),
         "data": {
             "canonical_structural_signature": css.to_dict(),
         },
         "metrics": build_compiler_metrics(css),
+        "compilation_report": report.to_dict(),
     }
 
 
@@ -131,6 +134,8 @@ def build_compiler_metrics(css: CanonicalStructuralSignature) -> dict[str, Any]:
         "has_fingerprint": bool(css.kamea.fingerprint),
         "compiler_version": css.metadata.get("compiler_version"),
         "pass_count": css.metadata.get("pass_count", 0),
+        "report_success": css.metadata.get("compilation_report", {}).get("success"),
+        "total_elapsed_ms": css.metadata.get("compilation_report", {}).get("total_elapsed_ms"),
     }
 
 
