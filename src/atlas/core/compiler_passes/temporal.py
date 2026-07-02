@@ -43,6 +43,10 @@ from atlas.temporal.yoga_engine import (
     evaluate_all_yogas,
     yoga_evaluation_to_dict,
 )
+from atlas.temporal.transits import (
+    build_transit_chart,
+    transit_chart_to_dict,
+)
 from atlas.temporal.ephemeris import build_ephemeris, ephemeris_result_to_dict
 from atlas.temporal.models import BirthData, NatalChart
 
@@ -291,6 +295,22 @@ def build_safe_ephemeris(
                         data["yogas_status"] = "failed"
                         data["yogas_error"] = str(exc)
 
+                    try:
+                        transit_chart = build_transit_chart(
+                            natal_chart,
+                        )
+
+                        data["transits"] = transit_chart_to_dict(
+                            transit_chart
+                        )
+
+                        data["transits_status"] = "computed"
+
+                    except Exception as exc:
+                        data["transits"] = {}
+                        data["transits_status"] = "failed"
+                        data["transits_error"] = str(exc)
+
                 except Exception as exc:
                     data["houses"] = {}
                     data["aspects"] = {}
@@ -298,12 +318,14 @@ def build_safe_ephemeris(
                     data["navamsa"] = {}
                     data["vargas"] = {}
                     data["yogas"] = {}
+                    data["transits"] = {}
                     data["houses_status"] = "failed"
                     data["aspects_status"] = "skipped"
                     data["dignity_status"] = "skipped"
                     data["navamsa_status"] = "skipped"
                     data["vargas_status"] = "skipped"
                     data["yogas_status"] = "skipped"
+                    data["transits_status"] = "skipped"
                     data["houses_error"] = str(exc)
 
                 try:
@@ -335,10 +357,12 @@ def build_safe_ephemeris(
             data["sidereal"] = {}
             data["nakshatra"] = {}
             data["houses"] = {}
+            data["transits"] = {}
 
             data["sidereal_status"] = "failed"
             data["nakshatra_status"] = "skipped"
             data["houses_status"] = "skipped"
+            data["transits_status"] = "skipped"
 
             data["sidereal_error"] = str(exc)
 
