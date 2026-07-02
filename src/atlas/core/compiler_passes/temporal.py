@@ -35,6 +35,10 @@ from atlas.temporal.navamsa import (
     build_navamsa_chart,
     navamsa_chart_to_dict,
 )
+from atlas.temporal.vimshottari_dasha import (
+    build_vimshottari_dasha,
+    vimshottari_dasha_to_dict,
+)
 from atlas.temporal.ephemeris import build_ephemeris, ephemeris_result_to_dict
 from atlas.temporal.models import BirthData, NatalChart
 
@@ -277,9 +281,29 @@ def build_safe_ephemeris(
                     data["vargas_status"] = "skipped"
                     data["houses_error"] = str(exc)
 
+                try:
+                    dasha = build_vimshottari_dasha(
+                        name=sidereal_chart.name,
+                        birth_date=str(birth_date),
+                        nakshatra_chart=nakshatra_chart,
+                    )
+
+                    data["vimshottari_dasha"] = vimshottari_dasha_to_dict(
+                        dasha
+                    )
+
+                    data["vimshottari_dasha_status"] = "computed"
+
+                except Exception as exc:
+                    data["vimshottari_dasha"] = {}
+                    data["vimshottari_dasha_status"] = "failed"
+                    data["vimshottari_dasha_error"] = str(exc)
+
             except Exception as exc:
                 data["nakshatra"] = {}
+                data["vimshottari_dasha"] = {}
                 data["nakshatra_status"] = "failed"
+                data["vimshottari_dasha_status"] = "skipped"
                 data["nakshatra_error"] = str(exc)
 
         except Exception as exc:
