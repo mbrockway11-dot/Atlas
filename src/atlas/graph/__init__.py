@@ -62,6 +62,9 @@ __all__ = [
     "ActivatedNode",
     "GraphActivation",
     "build_graph_activation",
+    "GRAPH_PROPAGATION_VERSION",
+    "PropagationResult",
+    "propagate_activation",
 ]
 
 from atlas.graph.semantic import (
@@ -91,4 +94,11 @@ from atlas.graph.activation import (
     ActivatedNode,
     GraphActivation,
     build_graph_activation,
+)
+
+
+from atlas.graph.propagation import (
+    GRAPH_PROPAGATION_VERSION,
+    PropagationResult,
+    propagate_activation,
 )
