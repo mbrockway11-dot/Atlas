@@ -2,6 +2,14 @@
 
 Runs the Atlas Research Cycle across multiple corpus profiles.
 
+v2 adds:
+- safe resume
+- skip already-processed profiles
+- force rebuild option
+- stale-version detection
+- batch run summaries
+- failure isolation per profile
+
 This module does not build profiles.
 It assumes profiles already exist in the Atlas profile library/corpus and runs
 scientific research cycles across selected profile keys.
@@ -18,7 +26,7 @@ from atlas.library.profile_library import list_saved_profiles
 from atlas.research.research_cycle import build_research_cycle_payload
 
 
-CORPUS_RESEARCH_RUNNER_VERSION = "1.0"
+CORPUS_RESEARCH_RUNNER_VERSION = "2.0"
 
 OUTPUT_DIR = Path("output") / "corpus_research"
 INDEX_PATH = OUTPUT_DIR / "corpus_research_index.json"
@@ -31,6 +39,8 @@ def run_corpus_research(
     include_memory: bool = False,
     include_validation: bool = True,
     validation_domains: list[str] | None = None,
+    force: bool = False,
+    resume: bool = True,
 ) -> dict[str, Any]:
     """Run research cycles across corpus profiles."""
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -42,7 +52,24 @@ def run_corpus_research(
 
     results: list[dict[str, Any]] = []
 
-    for profile_key in selected_profiles:
+    for index, profile_key in enumerate(selected_profiles, start=1):
+        print(f"[{index}/{len(selected_profiles)}] {profile_key}")
+
+        existing = load_existing_profile_result(profile_key)
+
+        if should_skip_existing(
+            existing=existing,
+            force=force,
+            resume=resume,
+            include_memory=include_memory,
+            include_validation=include_validation,
+            validation_domains=validation_domains,
+        ):
+            result = mark_result_skipped(existing)
+            results.append(result)
+            print(f"  skipped: {profile_key}")
+            continue
+
         query = f"Explain {profile_key}"
         payload = safe_call(
             profile_key,
@@ -58,16 +85,26 @@ def run_corpus_research(
             profile_key=profile_key,
             query=query,
             payload=payload,
+            include_memory=include_memory,
+            include_validation=include_validation,
+            validation_domains=validation_domains,
         )
         results.append(result)
 
         write_profile_result(result)
+
+        if result.get("success"):
+            print(f"  completed: {profile_key}")
+        else:
+            print(f"  failed: {profile_key}")
 
     run_model = build_corpus_research_model(
         results=results,
         include_memory=include_memory,
         include_validation=include_validation,
         validation_domains=validation_domains,
+        force=force,
+        resume=resume,
     )
 
     write_run_index(run_model)
@@ -105,11 +142,75 @@ def select_profiles(
     return selected
 
 
+def should_skip_existing(
+    *,
+    existing: dict[str, Any] | None,
+    force: bool,
+    resume: bool,
+    include_memory: bool,
+    include_validation: bool,
+    validation_domains: list[str] | None,
+) -> bool:
+    """Return whether existing profile result may be reused."""
+    if force:
+        return False
+
+    if not resume:
+        return False
+
+    if not existing:
+        return False
+
+    if not existing.get("success"):
+        return False
+
+    if existing.get("runner_version") != CORPUS_RESEARCH_RUNNER_VERSION:
+        return False
+
+    if existing.get("include_memory") != include_memory:
+        return False
+
+    if existing.get("include_validation") != include_validation:
+        return False
+
+    if normalize_domains(existing.get("validation_domains")) != normalize_domains(
+        validation_domains
+    ):
+        return False
+
+    return True
+
+
+def mark_result_skipped(existing: dict[str, Any]) -> dict[str, Any]:
+    """Return existing result marked as skipped for current run."""
+    result = dict(existing)
+    result["skipped"] = True
+    result["reused_existing"] = True
+    result["run_status"] = "skipped_existing"
+    return result
+
+
+def load_existing_profile_result(profile_key: str) -> dict[str, Any] | None:
+    """Load existing profile research result if present."""
+    path = profile_result_path(profile_key)
+
+    if not path.exists():
+        return None
+
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+
+
 def build_profile_research_result(
     *,
     profile_key: str,
     query: str,
     payload: dict[str, Any],
+    include_memory: bool,
+    include_validation: bool,
+    validation_domains: list[str] | None,
 ) -> dict[str, Any]:
     """Build one compact profile research result."""
     cycle = payload.get("data", {}).get("research_cycle", {})
@@ -118,12 +219,20 @@ def build_profile_research_result(
     confidence = metrics.get("overall_confidence", {})
 
     return {
+        "runner_version": CORPUS_RESEARCH_RUNNER_VERSION,
+        "timestamp": now_iso(),
         "profile_key": profile_key,
         "query": query,
         "success": payload.get("success", False),
+        "skipped": False,
+        "reused_existing": False,
+        "run_status": "completed" if payload.get("success") else "failed",
         "state": metrics.get("state"),
         "intent": metrics.get("intent"),
         "scope": metrics.get("scope"),
+        "include_memory": include_memory,
+        "include_validation": include_validation,
+        "validation_domains": validation_domains,
         "validation_profile_count": metrics.get("validation_profile_count", 0),
         "memory_recorded": metrics.get("memory_recorded", False),
         "next_question_count": metrics.get("next_question_count", 0),
@@ -143,10 +252,14 @@ def build_corpus_research_model(
     include_memory: bool,
     include_validation: bool,
     validation_domains: list[str] | None,
+    force: bool,
+    resume: bool,
 ) -> dict[str, Any]:
     """Build corpus research model."""
     successful = [item for item in results if item.get("success")]
     failed = [item for item in results if not item.get("success")]
+    skipped = [item for item in results if item.get("skipped")]
+    completed = [item for item in results if not item.get("skipped")]
 
     confidence_scores = [
         safe_float(item.get("overall_confidence", {}).get("score"))
@@ -184,9 +297,13 @@ def build_corpus_research_model(
         "profile_count": len(results),
         "successful_profiles": len(successful),
         "failed_profiles": len(failed),
+        "completed_profiles": len(completed),
+        "skipped_profiles": len(skipped),
         "include_memory": include_memory,
         "include_validation": include_validation,
         "validation_domains": validation_domains,
+        "force": force,
+        "resume": resume,
         "average_confidence": confidence_record(average_confidence),
         "total_next_questions": sum(
             safe_int(item.get("next_question_count"))
@@ -202,6 +319,14 @@ def build_corpus_research_model(
         "top_recommended_experiments": top_counts(experiment_counts),
         "top_best_hypotheses": top_counts(hypothesis_counts),
         "top_falsification_cases": top_counts(falsification_counts),
+        "failed_profile_keys": [
+            item.get("profile_key")
+            for item in failed
+        ],
+        "skipped_profile_keys": [
+            item.get("profile_key")
+            for item in skipped
+        ],
         "results": results,
         "index_path": str(INDEX_PATH),
     }
@@ -238,6 +363,8 @@ def build_corpus_research_metrics(model: dict[str, Any]) -> dict[str, Any]:
         "profile_count": model.get("profile_count", 0),
         "successful_profiles": model.get("successful_profiles", 0),
         "failed_profiles": model.get("failed_profiles", 0),
+        "completed_profiles": model.get("completed_profiles", 0),
+        "skipped_profiles": model.get("skipped_profiles", 0),
         "average_confidence": model.get("average_confidence", {}),
         "total_next_questions": model.get("total_next_questions", 0),
         "memory_recorded_count": model.get("memory_recorded_count", 0),
@@ -263,6 +390,8 @@ def render_corpus_research_markdown(model: dict[str, Any]) -> str:
         f"- Profiles: {model.get('profile_count', 0)}",
         f"- Successful profiles: {model.get('successful_profiles', 0)}",
         f"- Failed profiles: {model.get('failed_profiles', 0)}",
+        f"- Completed profiles: {model.get('completed_profiles', 0)}",
+        f"- Skipped profiles: {model.get('skipped_profiles', 0)}",
         (
             f"- Average confidence: {confidence.get('percent', 0)}% "
             f"{confidence.get('label', 'unknown')}"
@@ -288,6 +417,13 @@ def render_corpus_research_markdown(model: dict[str, Any]) -> str:
 
     for item in model.get("top_falsification_cases", []):
         lines.append(f"- {item.get('value')}: {item.get('count')}")
+
+    failed = model.get("failed_profile_keys", [])
+    if failed:
+        lines.append("")
+        lines.append("## Failed Profiles")
+        for item in failed:
+            lines.append(f"- {item}")
 
     return "\n".join(lines).strip() + "\n"
 
@@ -408,6 +544,17 @@ def safe_int(value: Any) -> int:
 def clamp(value: float) -> float:
     """Clamp score to 0..1."""
     return max(0.0, min(1.0, value))
+
+
+def normalize_domains(domains: Any) -> list[str] | None:
+    """Normalize validation-domain list."""
+    if domains is None:
+        return None
+
+    if not isinstance(domains, list):
+        return [str(domains)]
+
+    return sorted(str(item) for item in domains)
 
 
 def slugify(value: str) -> str:

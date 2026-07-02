@@ -4,7 +4,10 @@
     "percent": 57.98,
     "score": 0.5798
   },
+  "completed_profiles": 0,
+  "failed_profile_keys": [],
   "failed_profiles": 0,
+  "force": false,
   "include_memory": false,
   "include_validation": true,
   "index_path": "output\\corpus_research\\corpus_research_index.json",
@@ -15,6 +18,8 @@
       "best_hypothesis": "Temporal-Uncertainty Hypothesis",
       "errors": [],
       "highest_falsification_case": "Graph-Limited Interpretation Hypothesis",
+      "include_memory": false,
+      "include_validation": true,
       "intent": "profile_analysis",
       "memory_recorded": false,
       "next_question_count": 17,
@@ -27,9 +32,15 @@
       "profile_key": "aaron_beck",
       "query": "Explain aaron_beck",
       "recommended_experiment": "Temporal Repair: Resolve Moon Nakshatra and rerun temporal intelligence.",
+      "reused_existing": true,
+      "run_status": "skipped_existing",
+      "runner_version": "2.0",
       "scope": "profile",
+      "skipped": true,
       "state": "research_cycle_complete",
       "success": true,
+      "timestamp": "2026-07-02T02:07:52.873723+00:00",
+      "validation_domains": null,
       "validation_profile_count": 1,
       "warnings": [
         "reasoning: atlas_ai: profile_report: Moon nakshatra could not be resolved; dasha output may be limited.",
@@ -118,6 +129,8 @@
       "best_hypothesis": "Temporal-Uncertainty Hypothesis",
       "errors": [],
       "highest_falsification_case": "Graph-Limited Interpretation Hypothesis",
+      "include_memory": false,
+      "include_validation": true,
       "intent": "profile_analysis",
       "memory_recorded": false,
       "next_question_count": 17,
@@ -130,9 +143,15 @@
       "profile_key": "abdus_salam",
       "query": "Explain abdus_salam",
       "recommended_experiment": "Temporal Repair: Resolve Moon Nakshatra and rerun temporal intelligence.",
+      "reused_existing": true,
+      "run_status": "skipped_existing",
+      "runner_version": "2.0",
       "scope": "profile",
+      "skipped": true,
       "state": "research_cycle_complete",
       "success": true,
+      "timestamp": "2026-07-02T02:08:00.662568+00:00",
+      "validation_domains": null,
       "validation_profile_count": 1,
       "warnings": [
         "reasoning: atlas_ai: profile_report: Moon nakshatra could not be resolved; dasha output may be limited.",
@@ -221,6 +240,8 @@
       "best_hypothesis": "Temporal-Uncertainty Hypothesis",
       "errors": [],
       "highest_falsification_case": "Graph-Limited Interpretation Hypothesis",
+      "include_memory": false,
+      "include_validation": true,
       "intent": "profile_analysis",
       "memory_recorded": false,
       "next_question_count": 15,
@@ -233,9 +254,15 @@
       "profile_key": "abraham_lincoln",
       "query": "Explain abraham_lincoln",
       "recommended_experiment": "Temporal Repair: Resolve Moon Nakshatra and rerun temporal intelligence.",
+      "reused_existing": true,
+      "run_status": "skipped_existing",
+      "runner_version": "2.0",
       "scope": "profile",
+      "skipped": true,
       "state": "research_cycle_complete",
       "success": true,
+      "timestamp": "2026-07-02T02:08:09.308463+00:00",
+      "validation_domains": null,
       "validation_profile_count": 1,
       "warnings": [
         "reasoning: atlas_ai: profile_report: Moon nakshatra could not be resolved; dasha output may be limited.",
@@ -297,8 +324,15 @@
       ]
     }
   ],
+  "resume": true,
+  "skipped_profile_keys": [
+    "aaron_beck",
+    "abdus_salam",
+    "abraham_lincoln"
+  ],
+  "skipped_profiles": 3,
   "successful_profiles": 3,
-  "timestamp": "2026-07-02T02:00:24.995185+00:00",
+  "timestamp": "2026-07-02T02:08:14.776542+00:00",
   "top_best_hypotheses": [
     {
       "count": 3,
@@ -320,5 +354,5 @@
   "total_next_questions": 49,
   "validation_domains": null,
   "validation_profile_count": 3,
-  "version": "1.0"
+  "version": "2.0"
 }
