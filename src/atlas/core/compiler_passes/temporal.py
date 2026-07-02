@@ -39,6 +39,10 @@ from atlas.temporal.vimshottari_dasha import (
     build_vimshottari_dasha,
     vimshottari_dasha_to_dict,
 )
+from atlas.temporal.yoga_engine import (
+    evaluate_all_yogas,
+    yoga_evaluation_to_dict,
+)
 from atlas.temporal.ephemeris import build_ephemeris, ephemeris_result_to_dict
 from atlas.temporal.models import BirthData, NatalChart
 
@@ -268,17 +272,38 @@ def build_safe_ephemeris(
                         data["vargas_status"] = "failed"
                         data["navamsa_error"] = str(exc)
 
+                    try:
+                        yoga_evaluation = evaluate_all_yogas(
+                            natal=natal_chart,
+                            houses=house_chart,
+                            dignity=dignity_chart,
+                            aspects=aspect_chart,
+                        )
+
+                        data["yogas"] = yoga_evaluation_to_dict(
+                            yoga_evaluation
+                        )
+
+                        data["yogas_status"] = "computed"
+
+                    except Exception as exc:
+                        data["yogas"] = {}
+                        data["yogas_status"] = "failed"
+                        data["yogas_error"] = str(exc)
+
                 except Exception as exc:
                     data["houses"] = {}
                     data["aspects"] = {}
                     data["dignity"] = {}
                     data["navamsa"] = {}
                     data["vargas"] = {}
+                    data["yogas"] = {}
                     data["houses_status"] = "failed"
                     data["aspects_status"] = "skipped"
                     data["dignity_status"] = "skipped"
                     data["navamsa_status"] = "skipped"
                     data["vargas_status"] = "skipped"
+                    data["yogas_status"] = "skipped"
                     data["houses_error"] = str(exc)
 
                 try:
