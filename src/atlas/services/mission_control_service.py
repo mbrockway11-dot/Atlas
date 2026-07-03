@@ -6,7 +6,7 @@ from typing import Any
 
 
 MISSION_CONTROL_VERSION = "0.1"
-CURRENT_VERIFIED_TESTS = 551
+CURRENT_VERIFIED_TESTS = 552
 
 
 def build_mission_control_status() -> dict[str, Any]:
@@ -38,7 +38,7 @@ def build_mission_control_status() -> dict[str, Any]:
             "single_profile_intelligence": "Online",
         },
         "current_focus": (
-            "Dashboard Integration ? Profile Observatory ? IVE Integration ? "
+            "Dashboard Integration -> Profile Observatory -> IVE Integration -> "
             "Population Corpus Builder"
         ),
         "summary": (
