@@ -1,4 +1,4 @@
-"""Atlas question-answer service.
+﻿"""Atlas question-answer service.
 
 Turns normal user questions into concise, descriptive Atlas interpretations.
 
@@ -14,6 +14,7 @@ from __future__ import annotations
 from typing import Any
 
 from atlas.ai import run_research_pipeline
+from atlas.services.temporal_graph_synthesis_service import build_temporal_graph_synthesis
 
 
 ATLAS_QA_SERVICE_VERSION = "3.0"
@@ -52,6 +53,13 @@ def answer_question(question: str) -> dict[str, Any]:
     experiments = ensure_dict_list(experiment_model.get("experiments"))
     discoveries = ensure_dict_list(discovery_model.get("discoveries"))
 
+    temporal_graph = build_temporal_graph_synthesis(
+        query_plan=query_plan,
+        hypothesis_model=hypothesis_model,
+        falsification_model=falsification_model,
+        discovery_model=discovery_model,
+    )
+
     best_hypothesis = (
         hypothesis_model.get("best_supported_hypothesis")
         or first(hypotheses)
@@ -75,6 +83,7 @@ def answer_question(question: str) -> dict[str, Any]:
         experiments=experiments,
         discoveries=discoveries,
         runtime=runtime,
+        temporal_graph=temporal_graph,
     )
 
     evidence = collect_evidence(best_hypothesis, discoveries)
@@ -100,6 +109,7 @@ def answer_question(question: str) -> dict[str, Any]:
             experiments=experiments,
             discoveries=discoveries,
         ),
+        "temporal_graph": temporal_graph,
         "metrics": {
             "completed_stages": len(runtime.integrated.get("completed_stages", [])),
             "failed_stages": len(runtime.integrated.get("failed_stages", [])),
@@ -134,6 +144,7 @@ def build_answer(
     experiments: list[dict[str, Any]],
     discoveries: list[dict[str, Any]],
     runtime: Any,
+    temporal_graph: dict[str, Any],
 ) -> str:
     """Build the user-facing answer."""
     if not runtime.success:
@@ -176,6 +187,16 @@ Atlas reads this as: **{claim}**
 ### Plain-English Meaning
 
 {plain_meaning_for_claim(claim, comparison=comparison)}
+
+### Temporal-Graph Overlay
+
+{temporal_graph.get("human_interpretation", "")}
+
+**Structural pattern:** {temporal_graph.get("structural_pattern", "")}
+
+**Temporal overlay:** {temporal_graph.get("temporal_overlay", "")}
+
+**Activation pressure:** {temporal_graph.get("activation_pressure", "")}
 
 {middle}
 
@@ -282,7 +303,7 @@ def profile_or_general_interpretation() -> str:
 
 Atlas is identifying how the subject appears to organize reality.
 
-The core question is not simply “what traits exist?” but:
+The core question is not simply â€œwhat traits exist?â€ but:
 
 - What initiates movement?
 - What amplifies signal?
@@ -535,6 +556,7 @@ def failure_payload(*, question: str, error: str, answer: str) -> dict[str, Any]
         "evidence": [],
         "limitations": [error],
         "suggested_next_questions": [],
+        "temporal_graph": temporal_graph,
         "metrics": {
             "completed_stages": 0,
             "failed_stages": 0,
@@ -548,3 +570,4 @@ def failure_payload(*, question: str, error: str, answer: str) -> dict[str, Any]
         "errors": [error],
         "raw": {},
     }
+
