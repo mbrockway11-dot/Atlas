@@ -1,35 +1,60 @@
-"""Interpretation engine public API."""
+"""
+Atlas Interpretation Layer.
 
-from atlas.interpretation.identity import (
-    IdentityInterpretation,
-    identity_interpretation_to_dict,
-    interpret_identity_vector,
+This package converts deterministic Atlas outputs into coherent,
+human-readable explanations.
+
+The interpretation layer does NOT perform analysis itself.
+Instead, it synthesizes results produced by:
+
+    • Identity Engine
+    • Graph Intelligence
+    • Temporal Intelligence
+    • Relationship Intelligence
+    • Population Intelligence
+    • Civilization Intelligence
+    • Market Intelligence (future)
+
+This package should be the primary interface used by:
+
+    • atlas_qa_service
+    • Profile Report
+    • Relationship Report
+    • Narrative Intelligence
+    • Atlas AI
+    • Future LLM interfaces
+
+Architecture
+
+Compiler
+    ↓
+Deterministic Engines
+    ↓
+Interpretation Layer
+    ↓
+Narrative / QA / Dashboard
+"""
+
+from __future__ import annotations
+
+#
+# Existing interpretation modules
+#
+
+from .identity import *          # noqa: F401,F403
+from .profile import *           # noqa: F401,F403
+from .rules import *             # noqa: F401,F403
+
+#
+# New synthesis layer
+#
+
+from .synthesis import (
+    synthesize_relationship_interpretation,
 )
-from atlas.interpretation.profile import (
-    ProfileInterpretation,
-    interpret_profile_summary,
-    profile_interpretation_to_dict,
-)
-from atlas.interpretation.rules import (
-    interpret_amplifier,
-    interpret_driver,
-    interpret_motif,
-    interpret_pattern,
-    interpret_regulator,
-    interpret_signature,
-)
+
+__version__ = "3.0"
 
 __all__ = [
-    "ProfileInterpretation",
-    "interpret_profile_summary",
-    "profile_interpretation_to_dict",
-    "IdentityInterpretation",
-    "interpret_identity_vector",
-    "identity_interpretation_to_dict",
-    "interpret_driver",
-    "interpret_amplifier",
-    "interpret_regulator",
-    "interpret_pattern",
-    "interpret_motif",
-    "interpret_signature",
+    "synthesize_relationship_interpretation",
 ]

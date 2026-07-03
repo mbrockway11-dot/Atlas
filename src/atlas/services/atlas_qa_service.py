@@ -1,27 +1,21 @@
-﻿"""Atlas question-answer service.
-
-Turns normal user questions into concise, descriptive Atlas interpretations.
-
-Design goal:
-- Answer the question first.
-- Then explain structure, natal/temperamental influence, interaction dynamics,
-  probable outcomes, evidence, and uncertainty.
-- Do not bury the user in framework boilerplate.
-"""
+"""Atlas question-answer service."""
 
 from __future__ import annotations
 
 from typing import Any
 
 from atlas.ai import run_research_pipeline
-from atlas.services.temporal_graph_synthesis_service import build_temporal_graph_synthesis
+from atlas.interpretation import synthesize_relationship_interpretation
+from atlas.services.temporal_graph_synthesis_service import (
+    build_temporal_graph_synthesis,
+)
 
 
 ATLAS_QA_SERVICE_VERSION = "3.0"
 
 
 def answer_question(question: str) -> dict[str, Any]:
-    """Answer a user question with a clear Atlas interpretation."""
+    """Answer a user question with Atlas interpretation."""
     clean_question = question.strip()
 
     if not clean_question:
@@ -35,16 +29,8 @@ def answer_question(question: str) -> dict[str, Any]:
 
     query_plan = get_stage_model(runtime.stages, "query_planner", "plan")
     hypothesis_model = get_stage_model(runtime.stages, "hypothesis", "hypothesis_model")
-    falsification_model = get_stage_model(
-        runtime.stages,
-        "falsification",
-        "falsification_model",
-    )
-    experiment_model = get_stage_model(
-        runtime.stages,
-        "experiment_planner",
-        "experiment_model",
-    )
+    falsification_model = get_stage_model(runtime.stages, "falsification", "falsification_model")
+    experiment_model = get_stage_model(runtime.stages, "experiment_planner", "experiment_model")
     discovery_model = get_stage_model(runtime.stages, "discovery", "discovery_model")
     memory_record = get_stage_model(runtime.stages, "research_memory", "memory_record")
 
@@ -53,6 +39,9 @@ def answer_question(question: str) -> dict[str, Any]:
     experiments = ensure_dict_list(experiment_model.get("experiments"))
     discoveries = ensure_dict_list(discovery_model.get("discoveries"))
 
+    best_hypothesis = hypothesis_model.get("best_supported_hypothesis") or first(hypotheses)
+    evidence = collect_evidence(best_hypothesis, discoveries)
+
     temporal_graph = build_temporal_graph_synthesis(
         query_plan=query_plan,
         hypothesis_model=hypothesis_model,
@@ -60,22 +49,21 @@ def answer_question(question: str) -> dict[str, Any]:
         discovery_model=discovery_model,
     )
 
-    best_hypothesis = (
-        hypothesis_model.get("best_supported_hypothesis")
-        or first(hypotheses)
-    )
+    relationship_synthesis: dict[str, Any] = {}
+    profiles = query_plan.get("profiles", [])
 
-    subject = (
-        hypothesis_model.get("subject")
-        or falsification_model.get("subject")
-        or experiment_model.get("subject")
-        or query_plan.get("profiles")
-        or clean_question
-    )
+    if query_plan.get("scope") == "relationship" and len(profiles) >= 2:
+        relationship_synthesis = synthesize_relationship_interpretation(
+            profile_a=profiles[0],
+            profile_b=profiles[1],
+            graph_pattern=temporal_graph.get("structural_pattern", ""),
+            temporal_overlay=temporal_graph.get("temporal_overlay", ""),
+            claim=extract_claim(best_hypothesis),
+            evidence=evidence,
+        )
 
     answer = build_answer(
         question=clean_question,
-        subject=subject,
         query_plan=query_plan,
         best_hypothesis=best_hypothesis,
         hypotheses=hypotheses,
@@ -84,10 +72,8 @@ def answer_question(question: str) -> dict[str, Any]:
         discoveries=discoveries,
         runtime=runtime,
         temporal_graph=temporal_graph,
+        relationship_synthesis=relationship_synthesis,
     )
-
-    evidence = collect_evidence(best_hypothesis, discoveries)
-    limitations = collect_limitations(falsification_cases, runtime)
 
     return {
         "success": runtime.success,
@@ -103,13 +89,14 @@ def answer_question(question: str) -> dict[str, Any]:
         ),
         "confidence": resolve_confidence(best_hypothesis),
         "evidence": evidence,
-        "limitations": limitations,
+        "limitations": collect_limitations(falsification_cases, runtime),
         "suggested_next_questions": build_suggested_questions(
             question=clean_question,
             experiments=experiments,
             discoveries=discoveries,
         ),
         "temporal_graph": temporal_graph,
+        "relationship_synthesis": relationship_synthesis,
         "metrics": {
             "completed_stages": len(runtime.integrated.get("completed_stages", [])),
             "failed_stages": len(runtime.integrated.get("failed_stages", [])),
@@ -136,7 +123,6 @@ def answer_question(question: str) -> dict[str, Any]:
 def build_answer(
     *,
     question: str,
-    subject: Any,
     query_plan: dict[str, Any],
     best_hypothesis: dict[str, Any] | None,
     hypotheses: list[dict[str, Any]],
@@ -145,8 +131,9 @@ def build_answer(
     discoveries: list[dict[str, Any]],
     runtime: Any,
     temporal_graph: dict[str, Any],
+    relationship_synthesis: dict[str, Any],
 ) -> str:
-    """Build the user-facing answer."""
+    """Build human-facing Atlas answer."""
     if not runtime.success:
         return (
             "Atlas could not complete the full research pipeline for this question. "
@@ -155,16 +142,10 @@ def build_answer(
 
     intent = query_plan.get("intent", "interpretation")
     scope = query_plan.get("scope", "general")
-    claim = extract_claim(best_hypothesis)
-
-    if not claim:
-        claim = (
-            "Atlas processed the question successfully, but did not identify one dominant "
-            "interpretive claim. The answer should be treated as provisional."
-        )
-
-    evidence = collect_evidence(best_hypothesis, discoveries)
-    strongest_evidence = evidence[:5]
+    claim = extract_claim(best_hypothesis) or (
+        "Atlas processed the question successfully, but did not identify one dominant "
+        "interpretive claim. Treat this answer as provisional."
+    )
 
     pressure_case = first(falsification_cases) or {}
     pressure_title = (
@@ -188,6 +169,10 @@ Atlas reads this as: **{claim}**
 
 {plain_meaning_for_claim(claim, comparison=comparison)}
 
+### Comparative Atlas Profile
+
+{format_relationship_synthesis(relationship_synthesis)}
+
 ### Temporal-Graph Overlay
 
 {temporal_graph.get("human_interpretation", "")}
@@ -202,18 +187,18 @@ Atlas reads this as: **{claim}**
 
 ### Natal / Temperamental Influence
 
-Natal influence should explain the *style* of expression, not replace the structural reading.
+Natal influence explains the *style* of expression.
 
-- Strong Mercury signatures usually show up as language, invention, pattern recognition, translation, and technical cognition.
-- Strong Venus signatures shape taste, harmony, attraction, relational tone, and aesthetic refinement.
-- Strong Mars signatures increase pressure, action, competition, rupture, and execution.
-- Strong Jupiter signatures expand scale, belief, teaching, growth, and long-range vision.
-- Strong Saturn signatures create discipline, structure, delay, mastery, responsibility, and constraint.
-- Strong Uranus signatures intensify disruption, originality, independence, invention, and rebellion.
-- Strong Neptune signatures bring imagination, symbolism, dreams, ambiguity, and idealization.
-- Strong Pluto signatures bring depth pressure, transformation, obsession, power, and irreversible change.
+- Mercury: cognition, language, invention, translation, and pattern recognition.
+- Venus: values, aesthetic refinement, harmony, attraction, and relational tone.
+- Mars: action, conflict style, pressure, rupture, and execution.
+- Jupiter: growth, belief, scale, teaching, and long-range vision.
+- Saturn: discipline, limits, responsibility, structure, and mastery.
+- Uranus: originality, disruption, independence, rebellion, and innovation.
+- Neptune: imagination, symbolism, ambiguity, dream, and idealization.
+- Pluto: transformation, power, obsession, depth pressure, and irreversible change.
 
-When Atlas does not have exact natal placements available, it should speak in probabilities. When natal data is complete, this section should become more specific.
+When exact natal placements are available, Atlas should become more specific. When they are incomplete, it should speak in probabilities.
 
 ### Probable Outcomes
 
@@ -224,7 +209,7 @@ When Atlas does not have exact natal placements available, it should speak in pr
 
 ### Evidence Atlas Used
 
-{format_short_list(strongest_evidence)}
+{format_short_list(collect_evidence(best_hypothesis, discoveries)[:5])}
 
 ### Main Caution
 
@@ -244,14 +229,59 @@ Detected intent: **{intent}**
 Detected scope: **{scope}**"""
 
 
+def format_relationship_synthesis(payload: dict[str, Any]) -> str:
+    """Format relationship synthesis."""
+    if not payload:
+        return "No relationship synthesis was generated for this question."
+
+    a = payload.get("profile_a", {})
+    b = payload.get("profile_b", {})
+
+    outcomes = payload.get("probable_outcomes", [])
+    outcome_text = "\n".join(f"- {item}" for item in outcomes) if outcomes else "- No outcomes generated."
+
+    return f"""**{a.get("name", "Profile A")}**
+
+Working classification: **{a.get("working_classification", "unknown")}**
+
+{a.get("structural_description", "")}
+
+{a.get("likely_expression", "")}
+
+Civilization role: **{a.get("civilization_role", "unknown")}**
+
+**{b.get("name", "Profile B")}**
+
+Working classification: **{b.get("working_classification", "unknown")}**
+
+{b.get("structural_description", "")}
+
+{b.get("likely_expression", "")}
+
+Civilization role: **{b.get("civilization_role", "unknown")}**
+
+**Structural Relationship**
+
+{payload.get("structural_relationship", "")}
+
+**Civilization Function**
+
+{payload.get("civilization_function", "")}
+
+**Probable Relationship Outcomes**
+
+{outcome_text}
+"""
+
+
 def plain_meaning_for_claim(claim: str, *, comparison: bool) -> str:
-    """Translate the best claim into simpler language."""
+    """Translate claim into simple language."""
     lower = claim.lower()
 
     if comparison and ("limited" in lower or "low" in lower):
         return (
-            "This does not mean the two subjects are irrelevant to each other. It means "
-            "their relationship is probably not smooth similarity. Atlas is seeing contrast, "
+            "This does not mean the subjects are irrelevant to each other. It means their "
+            "relationship is probably not smooth similarity. Atlas is seeing contrast, "
             "friction, and transformation more than easy resonance."
         )
 
@@ -262,13 +292,6 @@ def plain_meaning_for_claim(claim: str, *, comparison: bool) -> str:
             "resist, or become."
         )
 
-    if "temporal" in lower or "birth" in lower or "nakshatra" in lower:
-        return (
-            "Atlas is warning that timing data may affect the interpretation. The structural "
-            "reading can still be useful, but exact natal or transit conclusions should be "
-            "treated carefully."
-        )
-
     return (
         "Atlas found a meaningful interpretive pattern, but the result should be read as a "
         "probable synthesis rather than an absolute verdict."
@@ -276,46 +299,38 @@ def plain_meaning_for_claim(claim: str, *, comparison: bool) -> str:
 
 
 def relationship_interpretation() -> str:
-    """Relationship-specific interpretive section."""
+    """Relationship-specific interpretation."""
     return """### Interaction Dynamic
 
 Atlas is comparing how two structures react against each other.
 
-A strong relationship reading should not only say whether two profiles are similar. It should describe the feedback loop between them:
+A strong relationship reading should describe the feedback loop:
 
 - One side may initiate movement while the other stabilizes it.
 - One may amplify meaning while the other imposes structure.
 - One may generate vision while the other demands proof, form, or control.
 - One may expose unresolved pressure in the other.
 
-When the relationship is healthy, contrast becomes productive. When it is strained, the same contrast becomes competition, misunderstanding, or resistance.
-
-For a Tesla/Edison-style comparison, the likely archetypal tension is:
-
-**vision versus execution, revelation versus control, invention versus institution, signal versus ownership.**
-
-That kind of pairing can produce enormous historical force, but it is rarely emotionally simple."""
+When the relationship is healthy, contrast becomes productive. When strained, the same contrast becomes competition, misunderstanding, or resistance."""
 
 
 def profile_or_general_interpretation() -> str:
-    """General interpretive section."""
+    """General interpretation."""
     return """### Structural Dynamic
 
-Atlas is identifying how the subject appears to organize reality.
+Atlas is identifying how the subject organizes reality.
 
-The core question is not simply â€œwhat traits exist?â€ but:
+The core question is not simply “what traits exist?” but:
 
 - What initiates movement?
 - What amplifies signal?
 - What stabilizes the system?
 - What creates stress or distortion?
-- What pattern is likely to repeat?
-
-A useful Atlas reading should describe the operating pattern beneath the behavior."""
+- What pattern is likely to repeat?"""
 
 
 def bottom_line_for_claim(claim: str, *, comparison: bool) -> str:
-    """Build concise bottom line."""
+    """Build bottom line."""
     lower = claim.lower()
 
     if comparison and ("limited" in lower or "alignment" in lower):
@@ -327,13 +342,13 @@ def bottom_line_for_claim(claim: str, *, comparison: bool) -> str:
 
     if comparison and "transformation" in lower:
         return (
-            "The relationship is valuable because it changes the field. The important question "
-            "is not whether the two are alike, but what each one forces into motion in the other."
+            "The relationship is valuable because it changes the field. The key question is "
+            "not whether the two are alike, but what each forces into motion in the other."
         )
 
     return (
         "Atlas sees a meaningful pattern, but the interpretation should stay tied to available "
-        "evidence and should become more specific as more deterministic outputs are available."
+        "evidence and become more specific as deterministic outputs become more complete."
     )
 
 
@@ -345,7 +360,7 @@ def build_key_points(
     experiments: list[dict[str, Any]],
     discoveries: list[dict[str, Any]],
 ) -> list[str]:
-    """Build concise key points."""
+    """Build key points."""
     points: list[str] = []
 
     if best_hypothesis:
@@ -370,7 +385,7 @@ def collect_evidence(
     best_hypothesis: dict[str, Any] | None,
     discoveries: list[dict[str, Any]],
 ) -> list[str]:
-    """Collect evidence snippets."""
+    """Collect evidence."""
     evidence: list[str] = []
 
     if best_hypothesis:
@@ -393,7 +408,7 @@ def collect_limitations(
     falsification_cases: list[dict[str, Any]],
     runtime: Any,
 ) -> list[str]:
-    """Collect limitations and caveats."""
+    """Collect limitations."""
     limitations: list[str] = []
 
     for case in falsification_cases[:4]:
@@ -421,7 +436,7 @@ def build_suggested_questions(
     experiments: list[dict[str, Any]],
     discoveries: list[dict[str, Any]],
 ) -> list[str]:
-    """Suggest useful follow-up questions."""
+    """Suggest follow-up questions."""
     suggestions: list[str] = []
 
     for experiment in experiments[:3]:
@@ -438,15 +453,15 @@ def build_suggested_questions(
         suggestions = [
             f"What evidence supports this answer to: {question}?",
             f"What would falsify this answer to: {question}?",
-            f"What natal factors would refine this answer?",
-            f"What Kamea outputs would increase confidence?",
+            "What natal factors would refine this answer?",
+            "What Kamea outputs would increase confidence?",
         ]
 
     return dedupe(suggestions)[:6]
 
 
 def resolve_confidence(best_hypothesis: dict[str, Any] | None) -> str:
-    """Resolve readable confidence label."""
+    """Resolve confidence."""
     if not best_hypothesis:
         return "provisional"
 
@@ -466,7 +481,7 @@ def resolve_confidence(best_hypothesis: dict[str, Any] | None) -> str:
 
 
 def extract_claim(best_hypothesis: dict[str, Any] | None) -> str:
-    """Extract the clearest claim text."""
+    """Extract claim."""
     if not best_hypothesis:
         return ""
 
@@ -483,7 +498,7 @@ def get_stage_model(
     stage_name: str,
     model_key: str,
 ) -> dict[str, Any]:
-    """Read a stage model from runtime stages."""
+    """Read stage model."""
     stage = stages.get(stage_name)
     if not stage:
         return {}
@@ -496,7 +511,7 @@ def get_stage_model(
 
 
 def is_relationship_scope(scope: str, query_plan: dict[str, Any]) -> bool:
-    """Return whether the query is relationship/comparison oriented."""
+    """Check relationship scope."""
     if scope == "relationship":
         return True
 
@@ -505,7 +520,7 @@ def is_relationship_scope(scope: str, query_plan: dict[str, Any]) -> bool:
 
 
 def ensure_dict_list(value: Any) -> list[dict[str, Any]]:
-    """Normalize values to list of dictionaries."""
+    """Normalize to list of dicts."""
     if value is None:
         return []
 
@@ -519,12 +534,12 @@ def ensure_dict_list(value: Any) -> list[dict[str, Any]]:
 
 
 def first(values: list[Any]) -> Any:
-    """Return first item or None."""
+    """Return first item."""
     return values[0] if values else None
 
 
 def format_short_list(items: list[str]) -> str:
-    """Format a short markdown list."""
+    """Format markdown list."""
     if not items:
         return "- No direct evidence surfaced."
 
@@ -532,7 +547,7 @@ def format_short_list(items: list[str]) -> str:
 
 
 def dedupe(values: list[str]) -> list[str]:
-    """Preserve order while removing duplicates."""
+    """Deduplicate while preserving order."""
     seen: set[str] = set()
     result: list[str] = []
 
@@ -545,7 +560,7 @@ def dedupe(values: list[str]) -> list[str]:
 
 
 def failure_payload(*, question: str, error: str, answer: str) -> dict[str, Any]:
-    """Build a failed QA payload."""
+    """Build failure payload."""
     return {
         "success": False,
         "version": ATLAS_QA_SERVICE_VERSION,
@@ -556,7 +571,8 @@ def failure_payload(*, question: str, error: str, answer: str) -> dict[str, Any]
         "evidence": [],
         "limitations": [error],
         "suggested_next_questions": [],
-        "temporal_graph": temporal_graph,
+        "temporal_graph": {},
+        "relationship_synthesis": {},
         "metrics": {
             "completed_stages": 0,
             "failed_stages": 0,
@@ -570,4 +586,3 @@ def failure_payload(*, question: str, error: str, answer: str) -> dict[str, Any]
         "errors": [error],
         "raw": {},
     }
-
