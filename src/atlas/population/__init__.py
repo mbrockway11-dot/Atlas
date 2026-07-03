@@ -28,6 +28,10 @@ __all__ = [
     "population_index_from_json",
     "population_index_to_json",
     "save_population_index",
+    "POPULATION_CORPUS_VERSION",
+    "PopulationCorpusResult",
+    "build_population_corpus",
+    "structural_fingerprint_from_payload",
 ]
 
 from atlas.population.similarity import (
@@ -53,4 +57,12 @@ from atlas.population.archive import (
     population_index_from_json,
     population_index_to_json,
     save_population_index,
+)
+
+
+from atlas.population.corpus import (
+    POPULATION_CORPUS_VERSION,
+    PopulationCorpusResult,
+    build_population_corpus,
+    structural_fingerprint_from_payload,
 )
