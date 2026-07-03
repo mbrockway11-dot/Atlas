@@ -1,14 +1,21 @@
-﻿"""Compare Profiles page."""
+"""Compare Profiles page."""
 
 from __future__ import annotations
+
+import json
+
 import pandas as pd
 import streamlit as st
 
-from atlas.library.profile_library import list_saved_profiles
-
-from atlas.services.compare_profiles_service import (
-    build_compare_profiles_payload,
+from atlas.acf.builder import export_acf_profile
+from atlas.comparison import compare_planet_agreement
+from atlas.ive import (
+    build_identity_vector,
+    compare_identity_vectors,
+    identity_similarity_to_dict,
 )
+from atlas.library.profile_library import LIBRARY_DIR, list_saved_profiles
+
 
 NORMALIZATION_MODES = [
     "raw",
@@ -66,23 +73,155 @@ def render_compare_profiles_page() -> None:
     if not st.button("Compare Profiles", type="primary"):
         return
 
-    payload = build_compare_profiles_payload(
-        profile_a_key,
-        profile_b_key,
+    acf_a = load_or_repair_acf(profile_a_key)
+    acf_b = load_or_repair_acf(profile_b_key)
+
+    if acf_a is None or acf_b is None:
+        st.error("Could not load one or both ACF profiles.")
+        return
+
+    calibration_acfs = (
+        load_calibration_acfs()
+        if normalization_mode != "raw"
+        else None
+    )
+
+    render_ive_comparison(
+        acf_a=acf_a,
+        acf_b=acf_b,
+        calibration_acfs=calibration_acfs,
         normalization_mode=normalization_mode,
     )
 
-    if not payload.success:
-        st.error("\n".join(payload.errors))
-        return
 
-    render_similarity_summary(payload.comparison)
-    render_score_interpretation(payload.comparison)
-    render_planet_similarity(payload.comparison)
-    render_planet_agreement_matrix(payload.planet_agreement_matrix)
-    render_planet_drilldown(payload.planet_agreement_matrix)
-    render_global_feature_delta(payload.vector_a, payload.vector_b)
-    render_planet_feature_delta(payload.vector_a, payload.vector_b)
+def load_or_repair_acf(profile_key: str) -> dict | None:
+    """Load ACF and repair older exports if required."""
+    acf_path = LIBRARY_DIR / profile_key / "profile.acf.json"
+
+    if not acf_path.exists():
+        return None
+
+    data = json.loads(acf_path.read_text(encoding="utf-8"))
+
+    required_keys = {
+        "identity",
+        "identity_graph",
+        "identity_persistence",
+        "invariant_analysis",
+    }
+
+    if required_keys.issubset(data.keys()):
+        return data
+
+    name = data["identity"]["name"]
+    entity_type = data["identity"].get("entity_type", "person")
+
+    export_acf_profile(
+        name=name,
+        output_path=acf_path,
+        entity_type=entity_type,
+    )
+
+    return json.loads(acf_path.read_text(encoding="utf-8"))
+
+
+def load_calibration_acfs() -> list[dict]:
+    """Load saved ACF profiles as calibration corpus."""
+    calibration_acfs = []
+
+    for profile_key in list_saved_profiles():
+        acf_path = LIBRARY_DIR / profile_key / "profile.acf.json"
+
+        if not acf_path.exists():
+            continue
+
+        try:
+            calibration_acfs.append(
+                json.loads(acf_path.read_text(encoding="utf-8"))
+            )
+        except json.JSONDecodeError:
+            continue
+
+    return calibration_acfs
+
+
+def render_ive_comparison(
+    *,
+    acf_a: dict,
+    acf_b: dict,
+    calibration_acfs: list[dict] | None,
+    normalization_mode: str,
+) -> None:
+    """Render Identity Vector Engine comparison."""
+    name_a = acf_a["identity"]["name"]
+    name_b = acf_b["identity"]["name"]
+
+    st.subheader(f"{name_a} ↔ {name_b}")
+
+    if normalization_mode == "raw":
+        st.info("Using raw bounded IdentityVector measurements.")
+    else:
+        calibration_count = len(calibration_acfs or [])
+        st.info(
+            f"Using `{normalization_mode}` normalization with "
+            f"{calibration_count} calibration profiles."
+        )
+
+    vector_a = build_identity_vector(
+        acf=acf_a,
+        calibration_acfs=calibration_acfs,
+        normalization_mode=normalization_mode,
+    )
+    vector_b = build_identity_vector(
+        acf=acf_b,
+        calibration_acfs=calibration_acfs,
+        normalization_mode=normalization_mode,
+    )
+
+    comparison = compare_identity_vectors(vector_a, vector_b)
+    planet_matrix = build_planet_agreement_from_vectors(vector_a, vector_b)
+
+    render_similarity_summary(comparison)
+    render_planet_similarity(comparison)
+    render_planet_agreement_matrix(planet_matrix)
+    render_global_feature_delta(vector_a, vector_b)
+    render_planet_feature_delta(vector_a, vector_b)
+
+    with st.expander("Raw IVE Similarity JSON"):
+        st.json(identity_similarity_to_dict(comparison))
+
+    with st.expander("Raw Planet Agreement Matrix JSON"):
+        st.json(planet_agreement_to_dict(planet_matrix))
+
+
+def build_planet_agreement_from_vectors(vector_a, vector_b):
+    """Build Planet Agreement Matrix from IdentityVector planet features."""
+    fingerprint_a = {
+        planet: vector.features
+        for planet, vector in vector_a.planets.items()
+    }
+
+    fingerprint_b = {
+        planet: vector.features
+        for planet, vector in vector_b.planets.items()
+    }
+
+    confidence_a = {
+        planet: 1.0
+        for planet in vector_a.planets
+    }
+
+    confidence_b = {
+        planet: 1.0
+        for planet in vector_b.planets
+    }
+
+    return compare_planet_agreement(
+        fingerprint_a=fingerprint_a,
+        fingerprint_b=fingerprint_b,
+        confidence_a=confidence_a,
+        confidence_b=confidence_b,
+    )
 
 
 def render_similarity_summary(comparison) -> None:
@@ -118,7 +257,7 @@ def render_score_interpretation(comparison) -> None:
     c1, c2, c3 = st.columns(3)
 
     c1.metric(
-        "Relationship âˆ’ Global Gap",
+        "Relationship − Global Gap",
         format_float(gap),
     )
 
@@ -389,10 +528,34 @@ def render_planet_feature_delta(vector_a, vector_b) -> None:
         st.dataframe(top, width="stretch")
 
 
+def planet_agreement_to_dict(matrix) -> dict:
+    """Convert Planet Agreement Matrix to a JSON-safe dictionary."""
+    return {
+        "overall_similarity": matrix.overall_similarity,
+        "planet_similarity": matrix.planet_similarity,
+        "planet_confidence": matrix.planet_confidence,
+        "planet_variance": matrix.planet_variance,
+        "planet_agreement": matrix.planet_agreement,
+        "dominant_match": matrix.dominant_match,
+        "dominant_divergence": matrix.dominant_divergence,
+        "rows": [
+            {
+                "planet": row.planet,
+                "similarity": row.similarity,
+                "distance": row.distance,
+                "confidence": row.confidence,
+                "strongest_matches": row.strongest_matches,
+                "strongest_differences": row.strongest_differences,
+                "feature_distances": row.feature_distances,
+            }
+            for row in matrix.rows
+        ],
+    }
+
+
 def format_float(value) -> str:
     """Format float safely."""
     try:
         return f"{float(value):.4f}"
     except (TypeError, ValueError):
         return "n/a"
-

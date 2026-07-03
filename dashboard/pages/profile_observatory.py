@@ -19,6 +19,9 @@ from atlas.services.profile_observatory_service import (
     list_observatory_profiles,
     load_or_repair_profile_acf,
 )
+from atlas.services.single_profile_intelligence_service import (
+    build_single_profile_intelligence_payload,
+)
 from components.ive_panel import render_ive_panel
 from components.observatory.calibration import render_calibration_view
 from components.observatory.functional_role_v2 import render_functional_role_v2
@@ -45,8 +48,11 @@ def render_profile_observatory_page() -> None:
 
     safe_section("Header", lambda: render_observatory_header(acf))
 
-    tab_identity, tab_graph, tab_emanations, tab_overlay, tab_resonance, tab_layers, tab_calibration, tab_matrix, tab_debug = st.tabs(
+    intelligence_payload = build_single_profile_intelligence_payload(selected)
+
+    tab_integrated, tab_identity, tab_graph, tab_emanations, tab_overlay, tab_resonance, tab_layers, tab_calibration, tab_matrix, tab_debug = st.tabs(
         [
+            "Integrated Intelligence",
             "Identity",
             "Graph 3D",
             "21 Emanations",
@@ -58,6 +64,18 @@ def render_profile_observatory_page() -> None:
             "Legacy Debug",
         ]
     )
+
+    with tab_integrated:
+        safe_section(
+            "Integrated Intelligence",
+            lambda: render_integrated_intelligence(intelligence_payload),
+        )
+
+    with tab_integrated:
+        safe_section(
+            "Integrated Intelligence",
+            lambda: render_integrated_intelligence(intelligence_payload),
+        )
 
     with tab_identity:
         safe_section("Identity Vector", lambda: render_ive_panel(acf))
@@ -364,3 +382,95 @@ def format_float(value) -> str:
         return f"{float(value):.4f}"
     except Exception:
         return str(value)
+
+def render_integrated_intelligence(payload: dict[str, Any]) -> None:
+    """Render integrated single-profile intelligence payload."""
+    st.markdown("## Integrated Intelligence")
+
+    if not payload.get("success"):
+        st.error("Single profile intelligence payload failed.")
+        st.json(
+            {
+                "warnings": payload.get("warnings", []),
+                "errors": payload.get("errors", []),
+            }
+        )
+        return
+
+    runtime = payload.get("temporal_runtime", {})
+    forecast = payload.get("forecast", {})
+    graph_metrics = payload.get("graph_metrics", {})
+    activation = payload.get("graph_activation", {})
+    propagation = payload.get("graph_propagation", {})
+    fingerprint = payload.get("structural_fingerprint", {})
+
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Runtime", "yes" if runtime.get("success") else "no")
+    c2.metric("Graph nodes", graph_metrics.get("node_count", 0))
+    c3.metric("Graph edges", graph_metrics.get("edge_count", 0))
+    c4.metric("Forecast days", forecast.get("count", 0))
+
+    activation_summary = activation.get("summary", {})
+    propagation_summary = propagation.get("summary", {})
+
+    c5, c6, c7, c8 = st.columns(4)
+    c5.metric(
+        "Activation center",
+        activation_summary.get("activation_center", "n/a"),
+    )
+    c6.metric(
+        "Top propagated node",
+        propagation_summary.get("top_node", "n/a"),
+    )
+    c7.metric(
+        "Max activation",
+        format_float(activation_summary.get("max_node_activation", 0.0)),
+    )
+    c8.metric(
+        "Propagation total",
+        format_float(propagation_summary.get("total_score", 0.0)),
+    )
+
+    st.markdown("### Structural Fingerprint")
+    if fingerprint:
+        st.code(fingerprint.get("structural_hash", ""), language="text")
+
+        vector = fingerprint.get("vector", {})
+        if isinstance(vector, dict) and vector:
+            st.dataframe(
+                dict_table(vector, "feature", "value"),
+                width="stretch",
+            )
+
+    tabs = st.tabs(
+        [
+            "Runtime",
+            "Forecast",
+            "Graph Metrics",
+            "Activation",
+            "Propagation",
+            "Fingerprint",
+            "Raw Payload",
+        ]
+    )
+
+    with tabs[0]:
+        st.json(runtime)
+
+    with tabs[1]:
+        st.json(forecast)
+
+    with tabs[2]:
+        st.json(graph_metrics)
+
+    with tabs[3]:
+        st.json(activation)
+
+    with tabs[4]:
+        st.json(propagation)
+
+    with tabs[5]:
+        st.json(fingerprint)
+
+    with tabs[6]:
+        st.json(payload)

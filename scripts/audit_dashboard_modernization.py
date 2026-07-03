@@ -1,4 +1,4 @@
-"""Audit dashboard pages for service-layer modernization."""
+﻿"""Audit dashboard pages for service-layer modernization."""
 
 from __future__ import annotations
 
@@ -29,6 +29,8 @@ def main() -> None:
     rows = []
 
     for path in sorted(DASHBOARD_DIR.glob("*.py")):
+        if path.name == "__init__.py":
+            continue
         text = path.read_text(encoding="utf-8")
 
         direct_hits = [
@@ -85,3 +87,8 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+
+
+
