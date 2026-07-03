@@ -104,4 +104,17 @@ __all__ = [
     "ordered_planet_vectors",
     "build_planet_relationship_matrix",
     "compare_identity_vectors",
+    "IVE_GRAPH_BRIDGE_VERSION",
+    "GraphBackedIdentityVector",
+    "build_graph_backed_identity_vector",
+    "build_graph_ive_global_features",
+    "graph_backed_identity_vector_to_dict",
 ]
+
+from atlas.ive.graph_bridge import (
+    IVE_GRAPH_BRIDGE_VERSION,
+    GraphBackedIdentityVector,
+    build_graph_backed_identity_vector,
+    build_graph_ive_global_features,
+    graph_backed_identity_vector_to_dict,
+)

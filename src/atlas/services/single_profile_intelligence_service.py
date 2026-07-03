@@ -18,6 +18,7 @@ from atlas.graph import (
     compute_graph_metrics,
     propagate_activation,
 )
+from atlas.ive import build_graph_backed_identity_vector
 from atlas.temporal_runtime import TemporalRuntimeEngine, evaluate_forecast
 
 
@@ -142,6 +143,23 @@ def build_single_profile_intelligence_payload(
                     propagation=propagation,
                 )
                 payload["structural_fingerprint"] = fingerprint.to_dict()
+
+                try:
+                    ive_vector = build_graph_backed_identity_vector(
+                        profile_key=profile_key,
+                        metrics=metrics,
+                        activation=activation,
+                        propagation=propagation,
+                        fingerprint=fingerprint,
+                    )
+                    payload["ive"] = ive_vector.to_dict()
+                except Exception as exc:  # noqa: BLE001
+                    warnings.append(f"IVE graph bridge failed: {exc}")
+                    payload["ive"] = {
+                        "status": "failed",
+                        "error": str(exc),
+                    }
+
             except Exception as exc:  # noqa: BLE001
                 warnings.append(f"Structural fingerprint failed: {exc}")
 

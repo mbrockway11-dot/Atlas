@@ -28,7 +28,7 @@ def build_mission_control_status() -> dict[str, Any]:
             "fingerprint": "Healthy",
             "population": "Healthy",
             "dashboard": "Integration in progress",
-            "ive": "Pending integration",
+            "ive": "Integrated",
         },
         "engines": {
             "narrative": "Online",

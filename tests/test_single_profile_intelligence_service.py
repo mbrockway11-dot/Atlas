@@ -27,13 +27,14 @@ def test_single_profile_intelligence_payload_builds():
     assert len(payload["structural_fingerprint"]["structural_hash"]) == 64
 
 
-def test_single_profile_intelligence_payload_has_dashboard_placeholders():
+def test_single_profile_intelligence_payload_has_dashboard_integration_status():
     payload = build_single_profile_intelligence_payload(
         "nikola_tesla",
         evaluation_date="2026-07-02",
     )
 
-    assert payload["ive"]["status"] == "not_integrated"
+    assert payload["ive"]["metadata"]["status"] == "integrated"
+    assert payload["ive"]["quality"]["source"] == "graph_intelligence"
     assert payload["population"]["status"] == "not_integrated"
     assert "warnings" in payload
     assert "errors" in payload

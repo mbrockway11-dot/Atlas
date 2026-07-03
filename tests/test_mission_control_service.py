@@ -11,5 +11,5 @@ def test_mission_control_status_builds():
     assert status["architecture"] == "Service-backed"
     assert status["tests"]["count"] >= 551
     assert status["systems"]["kernel"] == "Healthy"
-    assert status["systems"]["ive"] == "Pending integration"
+    assert status["systems"]["ive"] == "Integrated"
     assert status["engines"]["single_profile_intelligence"] == "Online"
