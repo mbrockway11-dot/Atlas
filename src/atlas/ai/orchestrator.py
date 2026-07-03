@@ -342,23 +342,32 @@ def extract_first_list(
     *,
     keys: tuple[str, ...],
 ) -> list[Any]:
-    """Extract the first list-like value from a stage payload."""
+    """Extract the first list-like value from a nested stage payload."""
     if stage is None or not stage.payload:
         return []
 
-    for key in keys:
-        value = stage.payload.get(key)
+    found = find_first_list(stage.payload, keys)
+    return found or []
 
-        if value is None and isinstance(stage.payload.get("data"), dict):
-            value = stage.payload["data"].get(key)
 
-        if isinstance(value, list):
-            return value
+def find_first_list(value: Any, keys: tuple[str, ...]) -> list[Any] | None:
+    """Recursively find the first list stored under preferred keys."""
+    if isinstance(value, dict):
+        for key in keys:
+            candidate = value.get(key)
 
-        if value is not None:
-            return [value]
+            if isinstance(candidate, list):
+                return candidate
 
-    return []
+            if candidate is not None and not isinstance(candidate, dict):
+                return [candidate]
+
+        for child in value.values():
+            found = find_first_list(child, keys)
+            if found is not None:
+                return found
+
+    return None
 
 
 def extract_subject(payload: dict[str, Any]) -> str | None:
