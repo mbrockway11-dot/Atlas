@@ -1,4 +1,4 @@
-"""Atlas Discovery Engine service.
+﻿"""Atlas Discovery Engine service.
 
 Generates corpus-level research discoveries from existing Atlas services.
 
@@ -333,7 +333,7 @@ def build_population_gaps(profile_summaries: list[dict[str, Any]]) -> list[dict[
                 in profile.get("signals", {}).get("missing_artifacts", [])
             ],
             total=len(profile_summaries),
-            repair="Generate or restore research_session.json for affected profiles.",
+            repair="Research sessions are generated on demand and are not required profile artifacts.",
         )
     )
 

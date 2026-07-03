@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import json
 from pathlib import Path
@@ -25,11 +25,8 @@ def load_profile_library_payload(profile_key: str) -> dict[str, Any]:
     profile_dir = LIBRARY_DIR / profile_key
 
     files = {
-        "interpretation": profile_dir / "profile_interpretation.json",
-        "acf": profile_dir / "profile.acf.json",
-        "intake": profile_dir / "profile.intake.json",
-        "research_session": profile_dir / "research_session.json",
-    }
+                "acf": profile_dir / "profile.acf.json",
+        "intake": profile_dir / "profile.intake.json",    }
 
     payload: dict[str, Any] = {
         "profile_key": profile_key,
@@ -51,3 +48,4 @@ def load_profile_library_payload(profile_key: str) -> dict[str, Any]:
             payload["missing"].append(path.name)
 
     return payload
+
