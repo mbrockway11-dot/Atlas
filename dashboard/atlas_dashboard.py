@@ -1,4 +1,4 @@
-"""Atlas Streamlit dashboard router."""
+﻿"""Atlas Streamlit dashboard router."""
 
 from __future__ import annotations
 
@@ -102,7 +102,7 @@ def render_sidebar(pages: dict[str, PageRenderer]) -> str:
 
     st.sidebar.divider()
     st.sidebar.caption("Architecture")
-    st.sidebar.write("Dashboard → Services → AtlasProfile → Kernel → Plugins")
+    st.sidebar.write("Dashboard â†’ Services â†’ AtlasProfile â†’ Kernel â†’ Plugins")
 
     return selected
 
@@ -144,7 +144,7 @@ def main() -> None:
     """Run Atlas dashboard."""
     st.set_page_config(
         page_title="Atlas Studio",
-        page_icon="🧭",
+        page_icon="ðŸ§­",
         layout="wide",
     )
 
@@ -156,7 +156,7 @@ def main() -> None:
 
     st.caption(
         "A unified platform for deterministic identity, temporal, topological, "
-        "graph, relationship, and population intelligence—designed for research, "
+        "graph, relationship, and population intelligenceâ€”designed for research, "
         "interpretation, and discovery."
     )
 

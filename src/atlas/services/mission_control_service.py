@@ -1,4 +1,4 @@
-"""Mission Control service for Atlas Studio."""
+﻿"""Mission Control service for Atlas Studio."""
 
 from __future__ import annotations
 
@@ -13,7 +13,7 @@ def build_mission_control_status() -> dict[str, Any]:
     """Return dashboard-safe Atlas mission control status."""
     return {
         "version": MISSION_CONTROL_VERSION,
-        "atlas_version": "2.8-dev",
+        "atlas_version": "3.0.0-rc1",
         "architecture": "Service-backed",
         "tests": {
             "count": CURRENT_VERIFIED_TESTS,
@@ -46,3 +46,4 @@ def build_mission_control_status() -> dict[str, Any]:
             "of the dashboard; current work is service unification and UI wiring."
         ),
     }
+
