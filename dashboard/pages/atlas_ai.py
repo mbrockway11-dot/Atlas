@@ -1,8 +1,10 @@
-"""Atlas AI dashboard page."""
+﻿"""Atlas AI dashboard page."""
 
 from __future__ import annotations
 
 import streamlit as st
+
+from atlas.services.atlas_qa_service import answer_question
 
 from atlas.services.atlas_ai_service import (
     build_profile_ai_payload,
@@ -28,17 +30,83 @@ def render_atlas_ai_page() -> None:
 
     mode = st.radio(
         "AI scope",
-        ["Profile", "Relationship"],
+        ["Profile", "Relationship", "Research Question"],
         horizontal=True,
         key="atlas_ai_scope",
     )
 
     if mode == "Profile":
         render_profile_ai_mode(profiles)
-    else:
+    elif mode == "Relationship":
         render_relationship_ai_mode(profiles)
+    else:
+        render_question_ai_mode()
 
 
+
+def render_question_ai_mode() -> None:
+    """Render free-form Atlas question answering mode."""
+    st.subheader("Ask Atlas")
+
+    question = st.text_area(
+        "Research Question",
+        height=150,
+        placeholder=(
+            "Example: Describe Lance and Sarah using Atlas, "
+            "including natal influence and probable outcomes."
+        ),
+        key="atlas_ai_research_question",
+    )
+
+    if not st.button("Run Atlas Research", type="primary"):
+        st.info("Ask Atlas any research question.")
+        return
+
+    with st.spinner("Atlas is reasoning..."):
+        payload = answer_question(question)
+
+    render_question_payload(payload)
+
+
+def render_question_payload(payload: dict) -> None:
+    """Render Atlas question-answer payload."""
+    if not payload.get("success"):
+        st.error("Atlas could not answer the question.")
+        for error in payload.get("errors", []):
+            st.error(error)
+        return
+
+    st.markdown("## Atlas Interpretation")
+    st.markdown(payload.get("answer", ""))
+
+    st.markdown("## Key Findings")
+    for item in payload.get("key_points", []):
+        st.markdown(f"- {item}")
+
+    st.markdown("## Confidence")
+    st.write(payload.get("confidence", "unknown"))
+
+    metrics = payload.get("metrics", {})
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Hypotheses", metrics.get("hypotheses", 0))
+    c2.metric("Falsification", metrics.get("falsification_cases", 0))
+    c3.metric("Experiments", metrics.get("experiments", 0))
+    c4.metric("Discoveries", metrics.get("discoveries", 0))
+
+    with st.expander("Evidence", expanded=False):
+        for item in payload.get("evidence", []):
+            st.markdown(f"- {item}")
+
+    with st.expander("Limitations", expanded=False):
+        for item in payload.get("limitations", []):
+            st.markdown(f"- {item}")
+
+    with st.expander("Suggested Next Questions", expanded=False):
+        for item in payload.get("suggested_next_questions", []):
+            st.markdown(f"- {item}")
+
+    with st.expander("Raw Atlas QA Payload", expanded=False):
+        st.json(payload)
 def render_profile_ai_mode(profiles: list[str]) -> None:
     """Render profile Atlas AI mode."""
     profile_key = st.selectbox(
@@ -310,3 +378,4 @@ def format_confidence(record: dict) -> str:
         return "n/a"
 
     return f"{record.get('percent', 0)}% {record.get('label', 'unknown')}"
+

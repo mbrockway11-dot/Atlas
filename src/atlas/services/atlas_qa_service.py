@@ -1,16 +1,12 @@
 """Atlas question-answer service.
 
-This service turns normal user questions into readable Atlas interpretations.
+Turns normal user questions into concise, descriptive Atlas interpretations.
 
-It sits above the AI research runtime:
-
-User Question
-    -> Atlas QA Service
-    -> AI Orchestrator
-    -> Query Planner / Hypothesis / Falsification / Experiment / Discovery / Memory
-    -> Plain-language answer
-
-The goal is clarity, not pretending uncertainty is certainty.
+Design goal:
+- Answer the question first.
+- Then explain structure, natal/temperamental influence, interaction dynamics,
+  probable outcomes, evidence, and uncertainty.
+- Do not bury the user in framework boilerplate.
 """
 
 from __future__ import annotations
@@ -24,7 +20,7 @@ ATLAS_QA_SERVICE_VERSION = "3.0"
 
 
 def answer_question(question: str) -> dict[str, Any]:
-    """Answer a user question in clear, layered Atlas language."""
+    """Answer a user question with a clear Atlas interpretation."""
     clean_question = question.strip()
 
     if not clean_question:
@@ -36,28 +32,42 @@ def answer_question(question: str) -> dict[str, Any]:
 
     runtime = run_research_pipeline(clean_question)
 
-    stages = runtime.stages
-    integrated = runtime.integrated
+    query_plan = get_stage_model(runtime.stages, "query_planner", "plan")
+    hypothesis_model = get_stage_model(runtime.stages, "hypothesis", "hypothesis_model")
+    falsification_model = get_stage_model(
+        runtime.stages,
+        "falsification",
+        "falsification_model",
+    )
+    experiment_model = get_stage_model(
+        runtime.stages,
+        "experiment_planner",
+        "experiment_model",
+    )
+    discovery_model = get_stage_model(runtime.stages, "discovery", "discovery_model")
+    memory_record = get_stage_model(runtime.stages, "research_memory", "memory_record")
 
-    query_plan = get_stage_model(stages, "query_planner", "plan")
-    hypothesis_model = get_stage_model(stages, "hypothesis", "hypothesis_model")
-    falsification_model = get_stage_model(stages, "falsification", "falsification_model")
-    experiment_model = get_stage_model(stages, "experiment_planner", "experiment_model")
-    discovery_model = get_stage_model(stages, "discovery", "discovery_model")
-    memory_record = get_stage_model(stages, "research_memory", "memory_record")
+    hypotheses = ensure_dict_list(hypothesis_model.get("hypotheses"))
+    falsification_cases = ensure_dict_list(falsification_model.get("cases"))
+    experiments = ensure_dict_list(experiment_model.get("experiments"))
+    discoveries = ensure_dict_list(discovery_model.get("discoveries"))
 
-    hypotheses = ensure_list(hypothesis_model.get("hypotheses"))
     best_hypothesis = (
         hypothesis_model.get("best_supported_hypothesis")
         or first(hypotheses)
     )
 
-    falsification_cases = ensure_list(falsification_model.get("cases"))
-    experiments = ensure_list(experiment_model.get("experiments"))
-    discoveries = ensure_list(discovery_model.get("discoveries"))
+    subject = (
+        hypothesis_model.get("subject")
+        or falsification_model.get("subject")
+        or experiment_model.get("subject")
+        or query_plan.get("profiles")
+        or clean_question
+    )
 
-    answer = build_layered_answer(
+    answer = build_answer(
         question=clean_question,
+        subject=subject,
         query_plan=query_plan,
         best_hypothesis=best_hypothesis,
         hypotheses=hypotheses,
@@ -66,6 +76,9 @@ def answer_question(question: str) -> dict[str, Any]:
         discoveries=discoveries,
         runtime=runtime,
     )
+
+    evidence = collect_evidence(best_hypothesis, discoveries)
+    limitations = collect_limitations(falsification_cases, runtime)
 
     return {
         "success": runtime.success,
@@ -80,23 +93,23 @@ def answer_question(question: str) -> dict[str, Any]:
             discoveries=discoveries,
         ),
         "confidence": resolve_confidence(best_hypothesis),
-        "evidence": collect_evidence(best_hypothesis, discoveries),
-        "limitations": collect_limitations(falsification_cases, runtime),
+        "evidence": evidence,
+        "limitations": limitations,
         "suggested_next_questions": build_suggested_questions(
             question=clean_question,
             experiments=experiments,
             discoveries=discoveries,
         ),
         "metrics": {
-            "completed_stages": len(integrated.get("completed_stages", [])),
-            "failed_stages": len(integrated.get("failed_stages", [])),
+            "completed_stages": len(runtime.integrated.get("completed_stages", [])),
+            "failed_stages": len(runtime.integrated.get("failed_stages", [])),
             "hypotheses": len(hypotheses),
             "falsification_cases": len(falsification_cases),
             "experiments": len(experiments),
             "discoveries": len(discoveries),
             "has_research_memory": bool(memory_record),
         },
-        "warnings": runtime.warnings,
+        "warnings": dedupe([str(item) for item in runtime.warnings]),
         "errors": runtime.errors,
         "raw": {
             "runtime": runtime.to_dict(),
@@ -110,9 +123,10 @@ def answer_question(question: str) -> dict[str, Any]:
     }
 
 
-def build_layered_answer(
+def build_answer(
     *,
     question: str,
+    subject: Any,
     query_plan: dict[str, Any],
     best_hypothesis: dict[str, Any] | None,
     hypotheses: list[dict[str, Any]],
@@ -121,94 +135,185 @@ def build_layered_answer(
     discoveries: list[dict[str, Any]],
     runtime: Any,
 ) -> str:
-    """Build an eloquent, easy-to-understand Atlas answer."""
+    """Build the user-facing answer."""
     if not runtime.success:
         return (
             "Atlas could not complete the full research pipeline for this question. "
-            "The interpretation is incomplete because one or more AI stages failed. "
-            "Review the warnings and errors before treating the result as usable."
+            "The result should be treated as incomplete until the failed stages are resolved."
         )
 
     intent = query_plan.get("intent", "interpretation")
-    scope = query_plan.get("scope", "unknown")
-
+    scope = query_plan.get("scope", "general")
     claim = extract_claim(best_hypothesis)
 
-    if claim:
-        synthesis = claim
-    else:
-        synthesis = (
-            "Atlas processed the question successfully, but it did not identify one "
-            "dominant hypothesis. The answer should be treated as provisional."
+    if not claim:
+        claim = (
+            "Atlas processed the question successfully, but did not identify one dominant "
+            "interpretive claim. The answer should be treated as provisional."
         )
 
-    return f"""Atlas can answer this question through a layered interpretive frame.
+    evidence = collect_evidence(best_hypothesis, discoveries)
+    strongest_evidence = evidence[:5]
 
-Question
+    pressure_case = first(falsification_cases) or {}
+    pressure_title = (
+        pressure_case.get("hypothesis_title")
+        or pressure_case.get("title")
+        or "the strongest uncertainty"
+    )
 
-{question}
+    comparison = is_relationship_scope(scope, query_plan)
 
-Data and Confidence
+    if comparison:
+        middle = relationship_interpretation()
+    else:
+        middle = profile_or_general_interpretation()
 
-Atlas is using the information currently available in the project corpus and research runtime. If exact Kamea graphs, natal charts, transit overlays, or population comparisons are not present for the subjects involved, Atlas should not pretend those outputs exist. It should provide a rich interpretation from available data while clearly marking uncertain parts as probable rather than final.
+    return f"""### Direct Answer
 
-Detected Intent
+Atlas reads this as: **{claim}**
 
-Atlas reads this as a {intent} question with {scope} scope.
+### Plain-English Meaning
 
-Structural Layer
+{plain_meaning_for_claim(claim, comparison=comparison)}
 
-The structural layer describes how a person, pair, or system appears to organize reality. This is where Atlas looks for Driver, Amplifier, and Regulator tendencies.
+{middle}
 
-- Driver describes what initiates movement.
-- Amplifier describes what intensifies signal, meaning, emotion, or expression.
-- Regulator describes what stabilizes, disciplines, delays, or contains the system.
+### Natal / Temperamental Influence
 
-In plain language, this layer asks: What role does this person or dynamic naturally play in a field?
+Natal influence should explain the *style* of expression, not replace the structural reading.
 
-Natal Layer
+- Strong Mercury signatures usually show up as language, invention, pattern recognition, translation, and technical cognition.
+- Strong Venus signatures shape taste, harmony, attraction, relational tone, and aesthetic refinement.
+- Strong Mars signatures increase pressure, action, competition, rupture, and execution.
+- Strong Jupiter signatures expand scale, belief, teaching, growth, and long-range vision.
+- Strong Saturn signatures create discipline, structure, delay, mastery, responsibility, and constraint.
+- Strong Uranus signatures intensify disruption, originality, independence, invention, and rebellion.
+- Strong Neptune signatures bring imagination, symbolism, dreams, ambiguity, and idealization.
+- Strong Pluto signatures bring depth pressure, transformation, obsession, power, and irreversible change.
 
-The natal layer explains why the structure may express itself in a particular way. Atlas treats natal influence as interpretive context rather than isolated prediction.
+When Atlas does not have exact natal placements available, it should speak in probabilities. When natal data is complete, this section should become more specific.
 
-- Sun describes identity, vitality, and core orientation.
-- Moon describes emotional regulation, instinct, and inner safety.
-- Mercury describes cognition, language, perception, and communication.
-- Venus describes values, attraction, taste, harmony, and relational tone.
-- Mars describes action, pressure, conflict style, and execution.
-- Jupiter describes growth, faith, scale, and expansion.
-- Saturn describes discipline, limits, responsibility, and mastery.
-- Uranus describes disruption, independence, and innovation.
-- Neptune describes imagination, symbolism, longing, and ambiguity.
-- Pluto describes transformation, intensity, power, and deep pressure.
+### Probable Outcomes
 
-This layer asks: Why does this structure tend to behave the way it does?
+- **High alignment:** the pattern becomes productive. Each side strengthens what the other lacks.
+- **Moderate stress:** differences in pace, communication, emotional need, control strategy, or recognition become visible.
+- **Low alignment:** the same differences become conflict, competition, distance, or misunderstanding.
+- **Growth path:** the best outcome comes when each role is named clearly and used intentionally.
 
-Integrated Interpretation
+### Evidence Atlas Used
 
-Atlas' best current synthesis is:
+{format_short_list(strongest_evidence)}
 
-{synthesis}
+### Main Caution
 
-This interpretation is supported by {len(hypotheses)} generated hypotheses, {len(falsification_cases)} falsification checks, {len(experiments)} proposed experiments, and {len(discoveries)} discovery signals.
+The strongest uncertainty is: **{pressure_title}**.
 
-Interaction Dynamics
+Atlas should not overstate final judgment until graph overlap, temporal assumptions, natal data, and evidence strength are checked more deeply.
 
-When Atlas evaluates two people or a group, it should explain how their structures react against each other. Some people reinforce each other's signal. Some stabilize each other. Some amplify unresolved pressure. A strong interpretation should describe the likely feedback loop, not just each person separately.
+### Bottom Line
 
-In high alignment, Driver, Amplifier, and Regulator roles become complementary. One person may provide movement while another gives emotional meaning or containment. In stress, the same traits can polarize: Driver becomes force, Amplifier becomes overwhelm, and Regulator becomes rigidity or withdrawal.
+{bottom_line_for_claim(claim, comparison=comparison)}
 
-Probable Outcomes
+### Runtime Summary
 
-Atlas should present outcomes as scenarios, not certainties.
+Atlas used {len(hypotheses)} hypotheses, {len(falsification_cases)} falsification checks, {len(experiments)} proposed experiments, and {len(discoveries)} discovery signals for this answer.
 
-- High alignment: the available structures reinforce coherence, expression, and shared purpose.
-- Moderate stress: differences in pacing, emotional need, communication style, or control strategy become visible.
-- Low alignment: each person may interpret the other's natural function as resistance, intensity, distance, or instability.
-- Growth path: the best outcome usually comes when each role is named consciously and used intentionally.
+Detected intent: **{intent}**  
+Detected scope: **{scope}**"""
 
-Evidence and Uncertainty
 
-Computed outputs should be treated as evidence. Behavioral descriptions are interpretive synthesis. Exact Kamea node weights, natal placements, transit timing, graph metrics, and population comparisons increase confidence when available. Without those complete outputs, Atlas should still answer meaningfully, but it should speak in probabilities rather than final claims."""
+def plain_meaning_for_claim(claim: str, *, comparison: bool) -> str:
+    """Translate the best claim into simpler language."""
+    lower = claim.lower()
+
+    if comparison and ("limited" in lower or "low" in lower):
+        return (
+            "This does not mean the two subjects are irrelevant to each other. It means "
+            "their relationship is probably not smooth similarity. Atlas is seeing contrast, "
+            "friction, and transformation more than easy resonance."
+        )
+
+    if comparison and "transformation" in lower:
+        return (
+            "This comparison is best read as a change-producing relationship. The value is "
+            "not simple compatibility; it is what each side forces the other to reveal, refine, "
+            "resist, or become."
+        )
+
+    if "temporal" in lower or "birth" in lower or "nakshatra" in lower:
+        return (
+            "Atlas is warning that timing data may affect the interpretation. The structural "
+            "reading can still be useful, but exact natal or transit conclusions should be "
+            "treated carefully."
+        )
+
+    return (
+        "Atlas found a meaningful interpretive pattern, but the result should be read as a "
+        "probable synthesis rather than an absolute verdict."
+    )
+
+
+def relationship_interpretation() -> str:
+    """Relationship-specific interpretive section."""
+    return """### Interaction Dynamic
+
+Atlas is comparing how two structures react against each other.
+
+A strong relationship reading should not only say whether two profiles are similar. It should describe the feedback loop between them:
+
+- One side may initiate movement while the other stabilizes it.
+- One may amplify meaning while the other imposes structure.
+- One may generate vision while the other demands proof, form, or control.
+- One may expose unresolved pressure in the other.
+
+When the relationship is healthy, contrast becomes productive. When it is strained, the same contrast becomes competition, misunderstanding, or resistance.
+
+For a Tesla/Edison-style comparison, the likely archetypal tension is:
+
+**vision versus execution, revelation versus control, invention versus institution, signal versus ownership.**
+
+That kind of pairing can produce enormous historical force, but it is rarely emotionally simple."""
+
+
+def profile_or_general_interpretation() -> str:
+    """General interpretive section."""
+    return """### Structural Dynamic
+
+Atlas is identifying how the subject appears to organize reality.
+
+The core question is not simply “what traits exist?” but:
+
+- What initiates movement?
+- What amplifies signal?
+- What stabilizes the system?
+- What creates stress or distortion?
+- What pattern is likely to repeat?
+
+A useful Atlas reading should describe the operating pattern beneath the behavior."""
+
+
+def bottom_line_for_claim(claim: str, *, comparison: bool) -> str:
+    """Build concise bottom line."""
+    lower = claim.lower()
+
+    if comparison and ("limited" in lower or "alignment" in lower):
+        return (
+            "This is not best understood as simple compatibility. It is better understood "
+            "as two different kinds of power meeting in the same field. The probable outcome "
+            "is creative friction, transformation, and contested influence rather than easy harmony."
+        )
+
+    if comparison and "transformation" in lower:
+        return (
+            "The relationship is valuable because it changes the field. The important question "
+            "is not whether the two are alike, but what each one forces into motion in the other."
+        )
+
+    return (
+        "Atlas sees a meaningful pattern, but the interpretation should stay tied to available "
+        "evidence and should become more specific as more deterministic outputs are available."
+    )
 
 
 def build_key_points(
@@ -219,21 +324,25 @@ def build_key_points(
     experiments: list[dict[str, Any]],
     discoveries: list[dict[str, Any]],
 ) -> list[str]:
-    """Build readable key points."""
+    """Build concise key points."""
     points: list[str] = []
 
     if best_hypothesis:
         title = best_hypothesis.get("title") or "Best supported hypothesis"
         points.append(f"Best hypothesis: {title}")
 
+    claim = extract_claim(best_hypothesis)
+    if claim:
+        points.append(claim)
+
     points.append(f"Atlas generated {len(hypotheses)} hypotheses.")
-    points.append(f"Atlas checked {len(falsification_cases)} ways the answer could be wrong.")
-    points.append(f"Atlas proposed {len(experiments)} next experiments.")
+    points.append(f"Atlas checked {len(falsification_cases)} ways the interpretation could be wrong.")
+    points.append(f"Atlas proposed {len(experiments)} next research actions.")
 
     if discoveries:
-        points.append(f"Atlas found {len(discoveries)} discovery signals.")
+        points.append(f"Atlas found {len(discoveries)} broader discovery signals.")
 
-    return points
+    return dedupe(points)
 
 
 def collect_evidence(
@@ -246,7 +355,6 @@ def collect_evidence(
     if best_hypothesis:
         for key in ("supporting_evidence", "evidence", "support"):
             value = best_hypothesis.get(key)
-
             if isinstance(value, list):
                 evidence.extend(str(item) for item in value)
             elif value:
@@ -268,11 +376,11 @@ def collect_limitations(
     limitations: list[str] = []
 
     for case in falsification_cases[:4]:
-        title = case.get("title") or case.get("claim")
+        title = case.get("hypothesis_title") or case.get("title") or case.get("claim")
         if title:
             limitations.append(f"Needs falsification check: {title}")
 
-        pressure = case.get("pressure") or case.get("falsification_pressure")
+        pressure = case.get("falsification_pressure") or case.get("pressure")
         if isinstance(pressure, dict) and pressure.get("label"):
             limitations.append(f"Falsification pressure: {pressure['label']}")
 
@@ -280,7 +388,7 @@ def collect_limitations(
 
     if not limitations:
         limitations.append(
-            "Interpretive confidence depends on the completeness of available profile, natal, graph, and Kamea data."
+            "Confidence depends on complete profile, natal, graph, temporal, and Kamea data."
         )
 
     return dedupe(limitations)[:10]
@@ -309,8 +417,8 @@ def build_suggested_questions(
         suggestions = [
             f"What evidence supports this answer to: {question}?",
             f"What would falsify this answer to: {question}?",
-            f"What natal factors would refine this answer to: {question}?",
-            f"What Kamea outputs would increase confidence for: {question}?",
+            f"What natal factors would refine this answer?",
+            f"What Kamea outputs would increase confidence?",
         ]
 
     return dedupe(suggestions)[:6]
@@ -324,11 +432,11 @@ def resolve_confidence(best_hypothesis: dict[str, Any] | None) -> str:
     confidence = best_hypothesis.get("confidence")
 
     if isinstance(confidence, dict):
-        return str(
-            confidence.get("label")
-            or confidence.get("score")
-            or "unknown"
-        )
+        percent = confidence.get("percent")
+        label = confidence.get("label", "unknown")
+        if percent is not None:
+            return f"{percent}% {label}"
+        return str(label)
 
     if confidence:
         return str(confidence)
@@ -366,20 +474,40 @@ def get_stage_model(
     return model if isinstance(model, dict) else {}
 
 
-def ensure_list(value: Any) -> list[Any]:
-    """Normalize values to a list."""
+def is_relationship_scope(scope: str, query_plan: dict[str, Any]) -> bool:
+    """Return whether the query is relationship/comparison oriented."""
+    if scope == "relationship":
+        return True
+
+    intent = str(query_plan.get("intent", ""))
+    return "relationship" in intent or "compare" in intent or "comparison" in intent
+
+
+def ensure_dict_list(value: Any) -> list[dict[str, Any]]:
+    """Normalize values to list of dictionaries."""
     if value is None:
         return []
 
     if isinstance(value, list):
-        return value
+        return [item for item in value if isinstance(item, dict)]
 
-    return [value]
+    if isinstance(value, dict):
+        return [value]
+
+    return []
 
 
 def first(values: list[Any]) -> Any:
     """Return first item or None."""
     return values[0] if values else None
+
+
+def format_short_list(items: list[str]) -> str:
+    """Format a short markdown list."""
+    if not items:
+        return "- No direct evidence surfaced."
+
+    return "\n".join(f"- {item}" for item in items)
 
 
 def dedupe(values: list[str]) -> list[str]:
