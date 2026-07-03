@@ -27,3 +27,51 @@ __pycache__/
 # IDE settings
 .vscode/settings.json
 output/css/
+
+# Atlas generated artifacts
+output/library/
+output/research_memory/
+output/cache/
+output/console/
+output/corpus/
+architecture_audit/
+
+# Python/cache
+__pycache__/
+.pytest_cache/
+*.pyc
+*.pyo
+
+# Backups
+*.bak
+
+# Virtual environments
+.venv/
+.venv-1/
+
+# Atlas generated artifacts
+output/library/
+output/research_memory/
+output/cache/
+output/console/
+output/corpus/
+architecture_audit/
+
+# Python/cache
+__pycache__/
+.pytest_cache/
+*.pyc
+*.pyo
+
+# Backups
+*.bak
+
+# Virtual environments
+.venv/
+.venv-1/
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

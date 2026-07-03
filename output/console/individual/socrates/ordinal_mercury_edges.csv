@@ -1,8 +1,0 @@
-source_row,source_col,target_row,target_col,weight
-2,5,1,1,1
-1,1,7,2,1
-7,2,2,6,1
-2,6,0,7,1
-0,7,5,3,1
-5,3,0,3,1
-0,3,2,5,1
