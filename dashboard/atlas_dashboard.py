@@ -6,6 +6,8 @@ from collections.abc import Callable
 
 import streamlit as st
 
+from atlas.services.mission_control_service import build_mission_control_status
+
 from pages.atlas_ai import render_atlas_ai_page
 from pages.compare_profiles import render_compare_profiles_page
 from pages.developer_console import render_developer_console_page
@@ -107,29 +109,35 @@ def render_sidebar(pages: dict[str, PageRenderer]) -> str:
 
 def render_mission_control() -> None:
     """Render Atlas mission-control summary."""
+    status = build_mission_control_status()
+    systems = status["systems"]
+    engines = status["engines"]
+
     st.markdown("## Mission Control")
 
     c1, c2, c3, c4 = st.columns(4)
-    c1.metric("Architecture", "Service-backed")
-    c2.metric("Tests", "501 passing")
-    c3.metric("Dashboard Audit", "Clean")
-    c4.metric("Kernel", "Healthy")
+    c1.metric("Architecture", status["architecture"])
+    c2.metric("Tests", status["tests"]["label"])
+    c3.metric("Atlas Version", status["atlas_version"])
+    c4.metric("Kernel", systems["kernel"])
 
     c5, c6, c7, c8 = st.columns(4)
-    c5.metric("Narrative Engine", "Online")
-    c6.metric("Relationship Engine", "Online")
-    c7.metric("Evidence Explorer", "Online")
-    c8.metric("Graph Explorer", "Online")
+    c5.metric("Narrative Engine", engines["narrative"])
+    c6.metric("Relationship Engine", engines["relationship"])
+    c7.metric("Evidence Explorer", engines["evidence"])
+    c8.metric("Graph Explorer", engines["graph_explorer"])
 
-    st.success(
-        "Atlas Kernel v1 is operational. All major dashboard pages are now "
-        "backed by service-layer APIs using the canonical AtlasProfile architecture."
-    )
+    c9, c10, c11, c12 = st.columns(4)
+    c9.metric("Temporal Runtime", systems["temporal_runtime"])
+    c10.metric("Graph Intelligence", systems["graph_intelligence"])
+    c11.metric("Population", systems["population"])
+    c12.metric("IVE", systems["ive"])
 
-    st.info(
-        "Current development focus: Evidence & Explainability → "
-        "Graph Explorer → Population Observatory → Atlas AI."
-    )
+    st.success(status["summary"])
+    st.info(f"Current development focus: {status['current_focus']}")
+
+    with st.expander("Raw Mission Control Status", expanded=False):
+        st.json(status)
 
 
 def main() -> None:
