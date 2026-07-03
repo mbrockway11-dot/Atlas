@@ -1,4 +1,8 @@
-"""Temporal Intelligence service layer."""
+"""Temporal Intelligence service layer.
+
+Atlas 3.0 service-backed temporal payloads should read from the canonical
+compiler output instead of rebuilding temporal layers manually.
+"""
 
 from __future__ import annotations
 
@@ -6,51 +10,27 @@ import json
 from pathlib import Path
 from typing import Any
 
-from atlas.temporal.aspects import aspect_chart_to_dict, build_aspect_chart
-from atlas.temporal.birth import load_birth_data_from_profile
-from atlas.temporal.dignity import build_dignity_chart, dignity_chart_to_dict
-from atlas.temporal.houses import build_house_chart, house_chart_to_dict
-from atlas.temporal.nakshatra import build_nakshatra_chart, nakshatra_chart_to_dict
-from atlas.temporal.natal_chart import build_natal_chart, natal_chart_to_dict
-from atlas.temporal.navamsa import build_navamsa_chart, navamsa_chart_to_dict
-from atlas.temporal.transits import build_transit_chart, transit_chart_to_dict
-from atlas.temporal.vimshottari_dasha import (
-    build_vimshottari_dasha,
-    vimshottari_dasha_to_dict,
-)
-from atlas.temporal.yoga_engine import evaluate_all_yogas, yoga_evaluation_to_dict
+from atlas.core.compiler import compile_profile
+from atlas.library.profile_library import list_saved_profiles
 
 
 DEFAULT_PROFILE_DIR = Path("output/library/profiles")
-DEFAULT_TRANSIT_DATE = "2026-06-29"
+DEFAULT_TRANSIT_DATE = "2026-07-02"
 
 
 def list_temporal_profiles(
     profile_dir: str | Path = DEFAULT_PROFILE_DIR,
 ) -> list[dict[str, str]]:
     """Load profile names and slugs for Temporal Intelligence."""
-    root = Path(profile_dir)
-
-    if not root.exists():
-        return []
-
     profiles: list[dict[str, str]] = []
 
-    for profile_path in sorted(root.iterdir()):
-        if not profile_path.is_dir():
-            continue
-
-        intake_path = profile_path / "profile.intake.json"
-        name = profile_path.name
-
-        if intake_path.exists():
-            try:
-                intake = json.loads(intake_path.read_text(encoding="utf-8"))
-                name = intake.get("name", profile_path.name)
-            except json.JSONDecodeError:
-                name = profile_path.name
-
-        profiles.append({"name": name, "slug": profile_path.name})
+    for profile_key in list_saved_profiles():
+        profiles.append(
+            {
+                "name": profile_key.replace("_", " ").title(),
+                "slug": profile_key,
+            }
+        )
 
     return profiles
 
@@ -61,198 +41,180 @@ def build_temporal_intelligence_payload(
     *,
     transit_date: str = DEFAULT_TRANSIT_DATE,
 ) -> dict[str, Any]:
-    """Build all temporal layers for one profile."""
-    root = Path(profile_dir)
-    profile_path = root / profile_key
-
-    if not profile_path.exists():
+    """Build canonical temporal intelligence payload from compiled CSS."""
+    try:
+        css = compile_profile(profile_key).to_dict()
+    except Exception as exc:  # noqa: BLE001
         return failure_payload(
             profile_key=profile_key,
-            profile_path=profile_path,
+            profile_path=Path(profile_dir) / profile_key,
             transit_date=transit_date,
-            error=f"Profile not found: {profile_path}",
+            error=f"Profile compilation failed: {exc}",
         )
 
-    birth = load_birth_data_from_profile(profile_path)
+    temporal = css.get("temporal", {})
+    natal = temporal.get("natal", {})
+    ephemeris = natal.get("ephemeris", {})
 
-    if not birth.birth_date:
-        return {
-            "success": False,
-            "profile_key": profile_key,
-            "profile_dir": str(profile_path),
-            "transit_date": transit_date,
-            "errors": ["Selected profile has no birth date."],
-            "warnings": [],
-            "data": {"birth": make_json_safe_object(birth)},
-            "exports": {},
-            "metrics": {},
-        }
-
-    try:
-        natal = build_natal_chart(birth)
-        houses = build_house_chart(natal)
-        nakshatras = build_nakshatra_chart(natal)
-        dignity = build_dignity_chart(natal)
-        aspects = build_aspect_chart(houses)
-
-        yogas = evaluate_all_yogas(
-            natal=natal,
-            houses=houses,
-            dignity=dignity,
-            aspects=aspects,
-        )
-
-        navamsa = build_navamsa_chart(natal)
-        moon_nakshatra = resolve_moon_nakshatra(nakshatras)
-
-        dasha = build_vimshottari_dasha(
-            name=resolve_birth_name(profile_key, birth),
-            birth_date=birth.birth_date,
-            nakshatra_chart=nakshatras,
-        )
-
-        transits = build_transit_chart(
-            natal,
+    if not ephemeris:
+        return failure_payload(
+            profile_key=profile_key,
+            profile_path=Path(profile_dir) / profile_key,
             transit_date=transit_date,
+            error="Compiled profile has no temporal ephemeris payload.",
         )
-
-    except Exception as exc:
-        return {
-            "success": False,
-            "profile_key": profile_key,
-            "profile_dir": str(profile_path),
-            "transit_date": transit_date,
-            "errors": [str(exc)],
-            "warnings": [],
-            "data": {"birth": make_json_safe_object(birth)},
-            "exports": {},
-            "metrics": {},
-        }
 
     exports = {
-        "birth": make_json_safe_object(birth),
-        "natal": natal_chart_to_dict(natal),
-        "houses": house_chart_to_dict(houses),
-        "nakshatras": nakshatra_chart_to_dict(nakshatras),
-        "dignity": dignity_chart_to_dict(dignity),
-        "aspects": aspect_chart_to_dict(aspects),
-        "yogas": yoga_evaluation_to_dict(yogas),
-        "navamsa": navamsa_chart_to_dict(navamsa),
-        "dasha": vimshottari_dasha_to_dict(dasha),
-        "transits": transit_chart_to_dict(transits),
+        "css_temporal": temporal,
+        "birth": ephemeris.get("birth", {}),
+        "natal": ephemeris,
+        "sidereal": ephemeris.get("sidereal", {}),
+        "houses": ephemeris.get("houses", {}),
+        "nakshatras": ephemeris.get("nakshatra", {}),
+        "dignity": ephemeris.get("dignity", {}),
+        "aspects": ephemeris.get("aspects", {}),
+        "yogas": ephemeris.get("yogas", {}),
+        "navamsa": ephemeris.get("navamsa", {}),
+        "vargas": ephemeris.get("vargas", {}),
+        "dasha": ephemeris.get("vimshottari_dasha", {}),
+        "transits": ephemeris.get("transits", {}),
     }
+
+    warnings = build_temporal_warnings(exports)
 
     return {
         "success": True,
         "profile_key": profile_key,
-        "profile_dir": str(profile_path),
+        "profile_dir": str(Path(profile_dir) / profile_key),
         "transit_date": transit_date,
         "errors": [],
-        "warnings": build_temporal_warnings(moon_nakshatra),
-        "data": {
-            "birth": birth,
-            "natal": natal,
-            "houses": houses,
-            "nakshatras": nakshatras,
-            "dignity": dignity,
-            "aspects": aspects,
-            "yogas": yogas,
-            "navamsa": navamsa,
-            "dasha": dasha,
-            "transits": transits,
-        },
+        "warnings": warnings,
+        "data": exports,
         "exports": exports,
-        "metrics": build_temporal_metrics(
-            birth=birth,
-            natal=natal,
-            houses=houses,
-            nakshatras=nakshatras,
-            dignity=dignity,
-            aspects=aspects,
-            yogas=yogas,
-            dasha=dasha,
-            transits=transits,
-            moon_nakshatra=moon_nakshatra,
-        ),
+        "metrics": build_temporal_metrics(exports),
     }
 
 
 def build_temporal_metrics(
-    *,
-    birth: Any,
-    natal: Any,
-    houses: Any,
-    nakshatras: Any,
-    dignity: Any,
-    aspects: Any,
-    yogas: Any,
-    dasha: Any,
-    transits: Any,
-    moon_nakshatra: str,
+    exports: dict[str, Any],
 ) -> dict[str, Any]:
     """Build summary metrics for dashboard rendering."""
+    birth = exports.get("birth", {})
+    natal = exports.get("natal", {})
+    sidereal = exports.get("sidereal", {})
+    houses = exports.get("houses", {})
+    nakshatras = exports.get("nakshatras", {})
+    dignity = exports.get("dignity", {})
+    aspects = exports.get("aspects", {})
+    yogas = exports.get("yogas", {})
+    navamsa = exports.get("navamsa", {})
+    dasha = exports.get("dasha", {})
+    transits = exports.get("transits", {})
+
     return {
-        "birth_date": getattr(birth, "birth_date", ""),
-        "birth_time": getattr(birth, "birth_time", "") or "Unknown",
-        "birth_place": getattr(birth, "birth_place", "") or "",
-        "moon_nakshatra": moon_nakshatra,
-        "planet_count": len(getattr(natal, "planets", [])),
-        "house_count": len(getattr(houses, "houses", [])),
-        "nakshatra_count": len(getattr(nakshatras, "placements", [])),
-        "dignity_count": len(getattr(dignity, "placements", [])),
-        "aspect_count": len(getattr(aspects, "aspects", [])),
-        "yoga_count": len(getattr(yogas, "yogas", [])),
-        "dasha_periods": len(getattr(dasha, "periods", [])),
-        "transit_contacts": getattr(transits, "summary", {}).get("contact_count", 0),
-        "transit_aspects": aspects_count_safe(transits),
+        "birth_date": birth.get("date", birth.get("birth_date", "")),
+        "birth_time": birth.get("time", birth.get("birth_time", "Unknown")),
+        "birth_place": birth.get("place", birth.get("birth_place", "")),
+        "planet_count": len(natal.get("planets", {})),
+        "sidereal_status": natal.get("sidereal_status", ""),
+        "nakshatra_status": natal.get("nakshatra_status", ""),
+        "houses_status": natal.get("houses_status", ""),
+        "aspects_status": natal.get("aspects_status", ""),
+        "dignity_status": natal.get("dignity_status", ""),
+        "navamsa_status": natal.get("navamsa_status", ""),
+        "vargas_status": natal.get("vargas_status", ""),
+        "yogas_status": natal.get("yogas_status", ""),
+        "vimshottari_dasha_status": natal.get("vimshottari_dasha_status", ""),
+        "transits_status": natal.get("transits_status", ""),
+        "house_count": _summary_count(houses, "house_count", "houses"),
+        "nakshatra_count": _summary_count(nakshatras, "planet_count", "positions"),
+        "dignity_count": _summary_count(dignity, "planet_count", "dignities"),
+        "aspect_count": _summary_count(aspects, "aspect_count", "aspects"),
+        "yoga_count": _summary_count(yogas, "matched", "matches"),
+        "navamsa_count": _summary_count(navamsa, "planet_count", "positions"),
+        "dasha_periods": _summary_count(dasha, "period_count", "periods"),
+        "transit_contacts": _summary_count(transits, "contact_count", "contacts"),
+        "moon_nakshatra": _moon_nakshatra(nakshatras),
+        "zodiac": sidereal.get("zodiac", natal.get("zodiac", "")),
     }
 
 
-def resolve_birth_name(profile_key: str, birth: Any) -> str:
-    """Resolve name for temporal builders."""
-    name = getattr(birth, "name", "")
-
-    if name:
-        return str(name)
-
-    return profile_key.replace("_", " ").title()
-
-
-def resolve_moon_nakshatra(nakshatras: Any) -> str:
-    """Resolve Moon nakshatra from nakshatra placements."""
-    for placement in getattr(nakshatras, "placements", []):
-        planet = str(getattr(placement, "planet", ""))
-        if planet.casefold() == "moon":
-            return str(getattr(placement, "nakshatra", ""))
-
-    return ""
-
-
-def build_temporal_warnings(moon_nakshatra: str) -> list[str]:
-    """Build temporal warnings."""
+def build_temporal_warnings(
+    exports: dict[str, Any],
+) -> list[str]:
+    """Build temporal warnings from canonical payload."""
     warnings: list[str] = []
+    metrics = build_temporal_metrics(exports)
 
-    if not moon_nakshatra:
-        warnings.append("Moon nakshatra could not be resolved; dasha output may be limited.")
+    if not metrics.get("moon_nakshatra"):
+        warnings.append(
+            "Moon nakshatra could not be resolved; dasha output may be limited."
+        )
+
+    for key in [
+        "sidereal_status",
+        "nakshatra_status",
+        "houses_status",
+        "aspects_status",
+        "dignity_status",
+        "navamsa_status",
+        "yogas_status",
+        "vimshottari_dasha_status",
+        "transits_status",
+    ]:
+        if metrics.get(key) not in {"computed", ""}:
+            warnings.append(f"{key}={metrics.get(key)}")
 
     return warnings
 
 
-def aspects_count_safe(transits: Any) -> int:
-    """Return transit aspect count from summary fields."""
-    summary = getattr(transits, "summary", {}) or {}
+def _summary_count(
+    payload: dict[str, Any],
+    summary_key: str,
+    collection_key: str,
+) -> int:
+    """Read count from summary, then fall back to collection length."""
+    summary = payload.get("summary", {})
+    value = summary.get(summary_key)
 
-    return (
-        summary.get("opposition_count", 0)
-        + summary.get("conjunction_count", 0)
-        + summary.get("trine_count", 0)
-        + summary.get("square_count", 0)
-    )
+    if isinstance(value, int):
+        return value
+
+    collection = payload.get(collection_key, {})
+
+    if isinstance(collection, dict):
+        return len(collection)
+
+    if isinstance(collection, list):
+        return len(collection)
+
+    return 0
+
+
+def _moon_nakshatra(
+    nakshatras: dict[str, Any],
+) -> str:
+    """Return Moon nakshatra from canonical nakshatra payload."""
+    positions = nakshatras.get("positions", {})
+
+    if isinstance(positions, dict):
+        moon = positions.get("Moon", {})
+        if isinstance(moon, dict):
+            return str(moon.get("nakshatra", ""))
+
+    placements = nakshatras.get("placements", [])
+
+    if isinstance(placements, list):
+        for placement in placements:
+            if placement.get("planet") == "Moon":
+                return str(placement.get("nakshatra", ""))
+
+    return ""
 
 
 def json_export(data: Any) -> str:
     """Serialize JSON exports."""
-    return json.dumps(data, indent=2, sort_keys=True)
+    return json.dumps(data, indent=2, sort_keys=True, default=str)
 
 
 def failure_payload(
@@ -274,14 +236,3 @@ def failure_payload(
         "exports": {},
         "metrics": {},
     }
-
-
-def make_json_safe_object(value: Any) -> Any:
-    """Best-effort conversion for error/export payloads."""
-    if isinstance(value, dict):
-        return value
-
-    if hasattr(value, "__dict__"):
-        return dict(value.__dict__)
-
-    return str(value)

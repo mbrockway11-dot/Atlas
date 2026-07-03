@@ -98,15 +98,16 @@ def render_summary(payload: dict) -> None:
 def render_planets(natal) -> None:
     st.markdown("## Natal Planets")
 
+    planets = natal.get("planets", {}) if isinstance(natal, dict) else {}
+
     rows = [
         {
-            "planet": planet.planet,
-            "sign": planet.sign,
-            "longitude": planet.longitude,
-            "nakshatra": getattr(planet, "nakshatra", ""),
-            "pada": getattr(planet, "pada", ""),
+            "planet": planet,
+            "sign": data.get("sign", ""),
+            "longitude": data.get("longitude", ""),
+            "degree": data.get("degree", ""),
         }
-        for planet in natal.planets
+        for planet, data in planets.items()
     ]
 
     render_table(rows, "No natal planets available.")
@@ -115,14 +116,18 @@ def render_planets(natal) -> None:
 def render_houses(houses) -> None:
     st.markdown("## Houses")
 
+    items = houses.get("houses", {}) if isinstance(houses, dict) else {}
+
     rows = [
         {
-            "house": house.house,
-            "sign": house.sign,
-            "ruler": getattr(house, "ruler", ""),
-            "theme": getattr(house, "theme", ""),
+            "house": key,
+            "sign": value.get("sign", ""),
+            "ruler": value.get("ruler", ""),
+            "theme": value.get("theme", ""),
         }
-        for house in houses.houses
+        for key, value in (
+            items.items() if isinstance(items, dict) else enumerate(items, start=1)
+        )
     ]
 
     render_table(rows, "No houses available.")
@@ -131,14 +136,17 @@ def render_houses(houses) -> None:
 def render_nakshatras(nakshatras) -> None:
     st.markdown("## Nakshatras")
 
+    positions = nakshatras.get("positions", {}) if isinstance(nakshatras, dict) else {}
+
     rows = [
         {
-            "planet": placement.planet,
-            "nakshatra": placement.nakshatra,
-            "pada": placement.pada,
-            "ruler": getattr(placement, "ruler", ""),
+            "planet": planet,
+            "nakshatra": data.get("nakshatra", ""),
+            "pada": data.get("pada", ""),
+            "ruler": data.get("ruler", ""),
+            "degree_in_nakshatra": data.get("degree_in_nakshatra", ""),
         }
-        for placement in nakshatras.placements
+        for planet, data in positions.items()
     ]
 
     render_table(rows, "No nakshatra placements available.")
@@ -147,15 +155,21 @@ def render_nakshatras(nakshatras) -> None:
 def render_dignities(dignity) -> None:
     st.markdown("## Dignities")
 
+    dignities = dignity.get("dignities", {}) if isinstance(dignity, dict) else {}
+
     rows = [
         {
-            "planet": placement.planet,
-            "sign": placement.sign,
-            "dignity": placement.dignity,
-            "score": getattr(placement, "score", None),
-            "notes": getattr(placement, "notes", ""),
+            "planet": planet,
+            "sign": data.get("sign", ""),
+            "ruler": data.get("ruler", ""),
+            "relationship": data.get("relationship", ""),
+            "own_sign": data.get("own_sign", False),
+            "exalted": data.get("exalted", False),
+            "debilitated": data.get("debilitated", False),
+            "moolatrikona": data.get("moolatrikona", False),
+            "strength_score": data.get("strength_score", ""),
         }
-        for placement in dignity.placements
+        for planet, data in dignities.items()
     ]
 
     render_table(rows, "No dignity placements available.")
@@ -166,12 +180,14 @@ def render_aspects(aspects) -> None:
 
     rows = [
         {
-            "planet_a": aspect.planet_a,
-            "planet_b": aspect.planet_b,
-            "aspect": aspect.aspect,
-            "orb": getattr(aspect, "orb", None),
+            "source": aspect.get("source", ""),
+            "target": aspect.get("target", ""),
+            "source_house": aspect.get("source_house", ""),
+            "target_house": aspect.get("target_house", ""),
+            "aspect_type": aspect.get("aspect_type", ""),
+            "strength": aspect.get("strength", ""),
         }
-        for aspect in aspects.aspects
+        for aspect in (aspects.get("aspects", []) if isinstance(aspects, dict) else [])
     ]
 
     render_table(rows, "No aspects available.")
@@ -196,14 +212,18 @@ def render_yogas(yogas) -> None:
 def render_navamsa(navamsa) -> None:
     st.markdown("## Navamsa")
 
+    positions = navamsa.get("positions", {}) if isinstance(navamsa, dict) else {}
+
     rows = [
         {
-            "planet": placement.planet,
-            "rashi_sign": getattr(placement, "rashi_sign", ""),
-            "navamsa_sign": placement.navamsa_sign,
-            "degree": getattr(placement, "degree", None),
+            "planet": planet,
+            "sign": data.get("sign", ""),
+            "sign_index": data.get("sign_index", ""),
+            "division": data.get("division", ""),
+            "division_number": data.get("division_number", ""),
+            "degree_in_division": data.get("degree_in_division", ""),
         }
-        for placement in navamsa.placements
+        for planet, data in positions.items()
     ]
 
     render_table(rows, "No navamsa placements available.")
@@ -214,12 +234,13 @@ def render_dasha(dasha) -> None:
 
     rows = [
         {
-            "mahadasha_lord": period.mahadasha_lord,
-            "start_date": period.start_date,
-            "end_date": period.end_date,
-            "duration_years": getattr(period, "duration_years", None),
+            "lord": period.get("lord", ""),
+            "level": period.get("level", ""),
+            "start_date": period.get("start_date", ""),
+            "end_date": period.get("end_date", ""),
+            "years": period.get("years", ""),
         }
-        for period in dasha.periods
+        for period in (dasha.get("periods", []) if isinstance(dasha, dict) else [])
     ]
 
     render_table(rows, "No dasha periods available.")
@@ -230,13 +251,14 @@ def render_transits(transits) -> None:
 
     rows = [
         {
-            "transit_planet": contact.transit_planet,
-            "natal_planet": contact.natal_planet,
-            "aspect": contact.aspect,
-            "transit_sign": contact.transit_sign,
-            "orb": getattr(contact, "orb", None),
+            "transit_planet": contact.get("transit_planet", ""),
+            "natal_planet": contact.get("natal_planet", ""),
+            "contact_type": contact.get("contact_type", ""),
+            "transit_sign": contact.get("transit_sign", ""),
+            "natal_sign": contact.get("natal_sign", ""),
+            "orb": contact.get("orb", ""),
         }
-        for contact in transits.contacts
+        for contact in (transits.get("contacts", []) if isinstance(transits, dict) else [])
     ]
 
     render_table(rows, "No transit contacts available.")
