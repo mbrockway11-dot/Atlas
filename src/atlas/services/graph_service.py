@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+
+from atlas.services.profile_path_service import profile_artifact_path
 from typing import Any
 
 from atlas.graph.identity_morphology import (
@@ -26,7 +28,7 @@ def list_graph_profiles() -> list[str]:
 
 def load_graph_acf(profile_key: str) -> dict[str, Any] | None:
     """Load an ACF profile safely."""
-    acf_path = LIBRARY_DIR / profile_key / "profile.acf.json"
+    acf_path = profile_artifact_path(profile_key, "profile.acf.json")
 
     if not acf_path.exists():
         return None
@@ -49,6 +51,7 @@ def build_identity_stack_payload(profile_key: str) -> dict[str, Any]:
             "metrics": {},
         }
 
+    acf = normalize_acf_for_graph_stack(acf, profile_key)
     stack = build_identity_graph_stack(acf)
     stack_data = identity_graph_stack_to_dict(stack)
 
@@ -75,6 +78,70 @@ def build_identity_stack_payload(profile_key: str) -> dict[str, Any]:
         },
         "metrics": build_identity_stack_metrics(stack_data, audit_data),
     }
+
+
+def normalize_acf_for_graph_stack(acf: dict[str, Any], profile_key: str) -> dict[str, Any]:
+    """Normalize newer intake ACF shape for legacy graph stack expectations."""
+    identity = acf.setdefault("identity", {})
+
+    name = (
+        identity.get("name")
+        or identity.get("display_name")
+        or identity.get("full_name")
+        or acf.get("name")
+        or profile_key.replace("_", " ").title()
+    )
+
+    identity["name"] = name
+    identity.setdefault("profile_key", profile_key)
+
+    if "identity_graph" not in acf:
+        tokens = [
+            token.strip().lower()
+            for token in str(name).replace("_", " ").split()
+            if token.strip()
+        ]
+
+        layers = []
+        previous_node = None
+
+        for index, token in enumerate(tokens):
+            node_id = f"name_token_{index}_{token}"
+
+            layer = {
+                "id": f"identity_layer_{index}",
+                "label": token.title(),
+                "nodes": [
+                    {
+                        "id": node_id,
+                        "label": token.title(),
+                        "type": "name_token",
+                        "weight": 1,
+                    }
+                ],
+                "edges": [],
+            }
+
+            if previous_node:
+                layer["edges"].append(
+                    {
+                        "source": previous_node,
+                        "target": node_id,
+                        "type": "name_sequence",
+                        "weight": 1,
+                    }
+                )
+
+            layers.append(layer)
+            previous_node = node_id
+
+        acf["identity_graph"] = {
+            "version": "1.0",
+            "source": "normalized_intake_identity",
+            "layers": layers,
+        }
+
+    return acf
 
 
 def build_morphology_payload(
