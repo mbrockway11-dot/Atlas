@@ -26,7 +26,12 @@ def atlas_section(title: str, body: str = "", *, expanded: bool = True) -> None:
                 st.markdown(body)
 
 
-def developer_section(payload: dict[str, Any], *, expanded: bool = False) -> None:
+def developer_section(
+    payload: dict[str, Any],
+    *,
+    title: str = "Developer",
+    expanded: bool = False,
+) -> None:
     """Render developer/debug data."""
-    with st.expander("Developer", expanded=expanded):
+    with st.expander(title, expanded=expanded):
         st.json(payload)
