@@ -88,29 +88,56 @@ def resolve_profile_payload(payload: dict[str, Any]) -> dict[str, Any]:
     if not semantic and "semantic" in payload:
         semantic = payload.get("semantic", {})
 
+    # Canonical profile.payload.json support.
+    identity = payload.get("identity", {})
+    lifecycle = payload.get("lifecycle", {})
+    temporal = payload.get("temporal", {})
+    interpretation = payload.get("interpretation", {})
+    summary_payload = payload.get("summary", {})
+
+    if not semantic and isinstance(interpretation, dict):
+        semantic = interpretation.get("semantic", {}) or {}
+
     evidence = payload.get("evidence", [])
     if not evidence and isinstance(semantic, dict):
         evidence = semantic.get("evidence", [])
 
     name = (
         semantic.get("name")
+        or identity.get("display_name")
+        or identity.get("full_name")
+        or summary_payload.get("name")
         or payload.get("name")
         or payload.get("profile_key")
         or first(payload.get("profiles", []))
         or "Unknown Profile"
     )
 
-    role = semantic.get("structural_role") or payload.get("role", "")
+    role = (
+        semantic.get("structural_role")
+        or payload.get("role", "")
+        or infer_role_from_payload(payload)
+    )
+
     civilization_role = (
         semantic.get("civilization_function")
         or payload.get("civilization_role", "")
+        or infer_civilization_function(payload)
     )
 
     summary = (
         payload.get("answer")
+        or summary_payload.get("summary")
         or payload.get("summary")
+        or lifecycle.get("human_summary")
         or semantic.get("cognitive_style")
         or ""
+    )
+
+    temporal_outlook = (
+        semantic.get("temporal_activation", "")
+        or temporal.get("runtime", {}).get("temporal_status", "")
+        or lifecycle.get("human_summary", "")
     )
 
     return {
@@ -118,16 +145,17 @@ def resolve_profile_payload(payload: dict[str, Any]) -> dict[str, Any]:
         "role": role,
         "civilization_role": civilization_role,
         "confidence": payload.get("confidence", ""),
-        "summary": clean_summary(summary),
+        "summary": clean_summary(str(summary)),
         "structural_intelligence": semantic.get("cognitive_style", ""),
         "human_interpretation": build_human_interpretation(semantic),
         "vedic_behavior": payload.get("vedic_behavior", ""),
-        "temporal_outlook": semantic.get("temporal_activation", ""),
+        "temporal_outlook": temporal_outlook,
         "civilization_function": civilization_role,
         "stress_pattern": semantic.get("stress_response", ""),
         "growth_path": semantic.get("growth_path", ""),
         "evidence": evidence if isinstance(evidence, list) else [],
         "metrics": payload.get("metrics", {}),
+        "lifecycle": lifecycle,
     }
 
 
@@ -165,3 +193,28 @@ def first(values: Any) -> Any:
 def humanize(value: str) -> str:
     """Humanize profile keys."""
     return str(value).replace("_", " ").title()
+
+
+def infer_role_from_payload(payload: dict[str, Any]) -> str:
+    """Infer role from canonical payload when semantic role is unavailable."""
+    graph = payload.get("graph", {})
+    topology = graph.get("topology", {}) if isinstance(graph, dict) else {}
+
+    for key in ("role", "structural_role", "classification", "topology_class"):
+        value = topology.get(key)
+        if value:
+            return str(value)
+
+    return ""
+
+
+def infer_civilization_function(payload: dict[str, Any]) -> str:
+    """Infer civilization function from payload when available."""
+    interpretation = payload.get("interpretation", {})
+
+    if isinstance(interpretation, dict):
+        value = interpretation.get("civilization_function")
+        if value:
+            return str(value)
+
+    return ""
