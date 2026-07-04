@@ -45,6 +45,10 @@ from .layout import (
     action_row,
 )
 
+from .profile_view import (
+    render_profile_view,
+)
+
 __all__ = [
     "atlas_card",
     "executive_summary_card",
@@ -73,4 +77,5 @@ __all__ = [
     "developer_panel",
     "divider",
     "action_row",
+    "render_profile_view",
 ]
