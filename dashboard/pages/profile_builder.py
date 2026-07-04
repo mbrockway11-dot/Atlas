@@ -5,6 +5,7 @@ from __future__ import annotations
 import streamlit as st
 
 from atlas.services.person_intake_service import create_person_profile
+from atlas.services.profile_compile_service import compile_person_profile
 
 
 def render_profile_builder_page() -> None:
@@ -72,6 +73,42 @@ def render_profile_builder_page() -> None:
         st.subheader("Warnings")
         for warning in warnings:
             st.warning(warning)
+
+    st.subheader("Compile Profile")
+
+    compile_now = st.button(
+        "Compile Profile",
+        type="primary",
+        key=f"compile_{payload.get('profile_key', '')}",
+    )
+
+    if compile_now:
+        with st.spinner("Compiling Atlas profile..."):
+            compile_payload = compile_person_profile(
+                payload.get("profile_key", ""),
+                force=True,
+            )
+
+        if compile_payload.get("success"):
+            st.success("Profile compiled successfully.")
+
+            st.subheader("Compiled Artifacts")
+            for item in compile_payload.get("created_files", []):
+                st.code(item)
+
+            st.subheader("Artifact Status")
+            st.json(compile_payload.get("artifact_status", {}))
+        else:
+            st.error("Profile compile failed.")
+
+        for warning in compile_payload.get("warnings", []):
+            st.warning(warning)
+
+        for error in compile_payload.get("errors", []):
+            st.error(error)
+
+        with st.expander("Raw Compile Payload", expanded=False):
+            st.json(compile_payload)
 
     st.subheader("Next Steps")
     for step in payload.get("next_steps", []):
