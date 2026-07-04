@@ -18,6 +18,7 @@ from typing import Any
 
 from atlas.ai import run_research_pipeline
 from atlas.interpretation import (
+    compose_interpretive_answer,
     compose_profile,
     compose_relationship,
     synthesize_profile,
@@ -178,26 +179,23 @@ def build_narrative_answer(
             "The answer should be treated as incomplete until failed stages are resolved."
         )
 
-    if synthesis.get("kind") == "relationship":
-        body = compose_relationship(
-            synthesis.get("profile_a", {}),
-            synthesis.get("profile_b", {}),
-            synthesis.get("relationship", {}),
-        )
-    elif synthesis.get("kind") == "profile":
-        body = compose_profile(synthesis.get("semantic", {}))
-    else:
-        body = claim or (
-            "Atlas processed the question, but no dominant semantic interpretation was generated."
-        )
+    composer_payload = {
+        "scope": scope,
+        "intent": intent,
+        "claim": claim,
+        "profiles": synthesis.get("profiles", []),
+        "synthesis": synthesis,
+        "metrics": {
+            "hypotheses": len(hypotheses),
+            "falsification_cases": len(falsification_cases),
+            "experiments": len(experiments),
+            "discoveries": len(discoveries),
+        },
+    }
 
-    return f"""### Direct Answer
+    body = compose_interpretive_answer(composer_payload)
 
-{claim or "Atlas found a meaningful pattern, but the conclusion remains provisional."}
-
-### Atlas Interpretation
-
-{body}
+    return f"""{body}
 
 ### Evidence
 

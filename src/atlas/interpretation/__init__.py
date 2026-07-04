@@ -1,74 +1,122 @@
 """
 Atlas Interpretation Package.
 
-The interpretation layer is responsible for converting deterministic Atlas
-outputs into coherent, human-readable understanding.
+The interpretation layer transforms deterministic Atlas outputs into
+human-understandable meaning.
 
-It does not perform deterministic analysis itself. Instead, it synthesizes
-results from the Atlas engines into semantic and narrative explanations.
+This package never performs deterministic computation itself.
+Instead, it converts deterministic outputs into semantic,
+behavioral, narrative, and human-facing interpretations.
 
-Primary inputs include:
+Architecture
+------------
 
-    • Identity Intelligence
-    • Kamea Topology
-    • Natal Intelligence
-    • Temporal Intelligence
-    • Graph Intelligence
-    • Relationship Intelligence
-    • Population Intelligence
-    • Civilization Intelligence
-    • Market Intelligence (future)
-
-Typical flow:
-
-    Compiler
-        ↓
-    Deterministic Engines
-        ↓
-    Interpretation Layer
-        ↓
-    Atlas QA
-    Profile Reports
-    Relationship Reports
-    Narrative Intelligence
-    Dashboard
+Compiler
+    ↓
+Deterministic Services
+    ↓
+Interpretation Layer
+    ├── Semantic Engine
+    ├── Vedic Behavior
+    ├── Synthesis Engine
+    ├── Narrative Engine
+    └── Interpretive Composer
+    ↓
+Reasoning Kernel
+    ↓
+Atlas QA
 """
 
 from __future__ import annotations
 
-__version__ = "3.0.0"
+__version__ = "3.3.0"
 
-#
-# Core interpretation modules
-#
+###############################################################################
+# Core Interpretation
+###############################################################################
 
 from .identity import *      # noqa: F401,F403
 from .profile import *       # noqa: F401,F403
 from .rules import *         # noqa: F401,F403
 
-#
-# High-level synthesis
-#
-
-from .synthesis import (
-    synthesize_relationship_interpretation,
-)
-
-#
-# Semantic interpretation engine
-#
+###############################################################################
+# Semantic Interpretation
+###############################################################################
 
 from .semantic_engine import (
     build_semantic_profile,
     build_semantic_relationship,
 )
 
-#
+###############################################################################
+# Vedic Behavior
+###############################################################################
+
+from .vedic_behavior import (
+    interpret_vedic_behavior,
+)
+
+###############################################################################
+# Interpretation Synthesis
+###############################################################################
+
+from .synthesis import (
+    synthesize_profile,
+    synthesize_relationship,
+    synthesize_relationship_interpretation,
+)
+
+###############################################################################
+# Narrative Generation
+###############################################################################
+
+from .narrative import (
+    compose_profile,
+    compose_relationship,
+    compose_population,
+)
+
+###############################################################################
+# Human Interpretation Composer
+###############################################################################
+
+from .composer import (
+    compose_interpretive_answer,
+)
+
+###############################################################################
 # Public API
-#
+###############################################################################
 
 __all__ = [
+
+    #
+    # Semantic
+    #
     "build_semantic_profile",
     "build_semantic_relationship",
+
+    #
+    # Vedic Behavior
+    #
+    "interpret_vedic_behavior",
+
+    #
+    # Synthesis
+    #
+    "synthesize_profile",
+    "synthesize_relationship",
     "synthesize_relationship_interpretation",
+
+    #
+    # Narrative
+    #
+    "compose_profile",
+    "compose_relationship",
+    "compose_population",
+
+    #
+    # Human Composer
+    #
+    "compose_interpretive_answer",
 ]
