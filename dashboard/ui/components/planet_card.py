@@ -39,8 +39,16 @@ def render_planet_card(
 
         question = interpretation.get("structural_question")
         if question:
-            st.markdown("**Structural Question**")
-            st.markdown(question)
+            sign_meaning = interpretation.get("sign_meaning")
+        if sign_meaning:
+            st.markdown(sign_meaning)
+
+        house_meaning = interpretation.get("house_meaning")
+        if house_meaning:
+            st.markdown(house_meaning)
+
+        st.markdown("**Structural Question**")
+        st.markdown(question)
 
         st.markdown("**Contribution to Structural Role**")
         st.markdown(interpretation.get("role_bridge", ""))

@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from typing import Any
 
+from atlas.knowledge.vedic_interpreter import interpret_planet_placement
+
 from dashboard.ui.components.planet_definitions import (
     PLANET_ORDER,
     get_planet_definition,
@@ -83,18 +85,25 @@ def build_planet_interpretation(
 ) -> dict[str, str]:
     """Build deterministic planet interpretation language."""
     definition = planet.get("definition", {})
-    role = classification.get("structural_role", "this profile")
-    sign = planet.get("sign")
-    house = planet.get("house")
-    nakshatra = planet.get("nakshatra")
+
+    result = interpret_planet_placement(
+        planet_name=planet.get("key") or planet.get("name", ""),
+        sign=planet.get("sign"),
+        house=planet.get("house"),
+        nakshatra=planet.get("nakshatra"),
+        classification=classification,
+    )
+
+    sign_info = result.get("sign") or {}
+    house_info = result.get("house") or {}
 
     placement_parts = []
-    if sign:
-        placement_parts.append(f"sign: **{sign}**")
-    if house:
-        placement_parts.append(f"house: **{house}**")
-    if nakshatra:
-        placement_parts.append(f"nakshatra: **{nakshatra}**")
+    if planet.get("sign"):
+        placement_parts.append(f"sign: **{planet.get('sign')}**")
+    if planet.get("house"):
+        placement_parts.append(f"house: **{planet.get('house')}**")
+    if planet.get("nakshatra"):
+        placement_parts.append(f"nakshatra: **{planet.get('nakshatra')}**")
 
     if placement_parts:
         placement = "Compiler placement data includes " + ", ".join(placement_parts) + "."
@@ -104,16 +113,26 @@ def build_planet_interpretation(
             "current canonical payload, but this planet is present in the ephemeris layer."
         )
 
-    role_bridge = (
-        f"In relation to the compiled **{role}** role, this planet describes one "
-        "functional channel through which the broader structural pattern may express."
-    )
+    sign_meaning = ""
+    if sign_info:
+        sign_meaning = (
+            f"**What {sign_info.get('name')} Represents:** "
+            f"{sign_info.get('description', '')}"
+        )
+
+    house_meaning = ""
+    if house_info:
+        house_meaning = (
+            f"**House Meaning:** {house_info.get('description', '')}"
+        )
 
     return {
         "represents": str(definition.get("represents", "")),
         "placement": placement,
+        "sign_meaning": sign_meaning,
+        "house_meaning": house_meaning,
         "structural_question": str(definition.get("structural_question", "")),
-        "role_bridge": role_bridge,
+        "role_bridge": str(result.get("summary", "")),
     }
 
 
