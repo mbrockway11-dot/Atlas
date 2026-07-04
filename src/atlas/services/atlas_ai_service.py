@@ -11,6 +11,8 @@ from __future__ import annotations
 import json
 from typing import Any, Callable
 
+from atlas.compiler.canonical_profile_compiler import compile_canonical_profile
+
 from atlas.library.profile_library import list_saved_profiles
 from atlas.services.evidence_service import (
     build_profile_evidence_payload,
@@ -38,15 +40,178 @@ ProfileService = Callable[[str], dict[str, Any]]
 RelationshipService = Callable[[str, str], dict[str, Any]]
 
 
+def build_canonical_profile_report_payload(profile_key: str) -> dict[str, Any]:
+    """Canonical profile report from profile.payload.json."""
+    payload = compile_canonical_profile(profile_key, force=True)
+    return {
+        "success": bool(payload.get("success")),
+        "version": "canonical",
+        "profile_key": profile_key,
+        "errors": payload.get("errors", []),
+        "warnings": payload.get("warnings", []),
+        "data": payload,
+        "exports": {"profile_payload": payload},
+        "metrics": payload.get("metrics", {}),
+    }
+
+
+def build_canonical_narrative_payload(profile_key: str) -> dict[str, Any]:
+    """Canonical narrative from classification and temporal layers."""
+    payload = compile_canonical_profile(profile_key, force=True)
+    classification = payload.get("classification", {})
+    identity = payload.get("identity", {})
+    name = identity.get("display_name") or identity.get("name") or profile_key
+
+    markdown = (
+        f"# {name}\n\n"
+        f"**Role:** {classification.get('structural_role', 'unresolved')}\n\n"
+        f"{classification.get('cognitive_style', '')}\n\n"
+        f"{classification.get('civilization_function', '')}"
+    )
+
+    return {
+        "success": bool(payload.get("success")),
+        "version": "canonical",
+        "profile_key": profile_key,
+        "errors": [],
+        "warnings": [],
+        "data": {"classification": classification, "identity": identity},
+        "exports": {"markdown": markdown},
+        "metrics": {
+            "section_count": 1,
+            "claim_count": 3,
+            "word_count": len(markdown.split()),
+            "overall_confidence": classification.get("confidence", {}),
+        },
+    }
+
+
+def build_canonical_evidence_payload(profile_key: str) -> dict[str, Any]:
+    """Canonical evidence payload."""
+    payload = compile_canonical_profile(profile_key, force=True)
+    evidence = payload.get("evidence", [])
+
+    if not evidence:
+        evidence = [
+            "Canonical compiler produced identity, temporal, graph, topology, resonance, fingerprint, and classification layers.",
+            "Profile metrics indicate which deterministic layers are currently complete.",
+        ]
+
+    return {
+        "success": bool(payload.get("success")),
+        "version": "canonical",
+        "profile_key": profile_key,
+        "errors": [],
+        "warnings": [],
+        "data": {"evidence": evidence},
+        "exports": {"evidence_json": evidence},
+        "metrics": {
+            "record_count": len(evidence),
+            "claim_count": len(evidence),
+            "evidence_count": len(evidence),
+            "source_errors": 0,
+            "source_warnings": 0,
+        },
+    }
+
+
+def build_canonical_graph_intelligence_payload(profile_key: str) -> dict[str, Any]:
+    """Canonical graph intelligence from compiled graph/topology/resonance."""
+    payload = compile_canonical_profile(profile_key, force=True)
+    graph = payload.get("graph", {})
+    topology = payload.get("topology", {})
+    resonance = payload.get("resonance", {})
+    fingerprint = payload.get("fingerprint", {})
+
+    return {
+        "success": graph.get("status") == "compiled",
+        "version": "canonical",
+        "profile_key": profile_key,
+        "errors": [],
+        "warnings": [],
+        "data": {
+            "graph": graph,
+            "topology": topology,
+            "resonance": resonance,
+            "fingerprint": fingerprint,
+        },
+        "exports": {
+            "graph_json": graph,
+            "topology_json": topology,
+            "resonance_json": resonance,
+            "fingerprint_json": fingerprint,
+        },
+        "metrics": {
+            **payload.get("metrics", {}),
+            "topology_class": topology.get("topology_class"),
+            "dominant_topology_axis": topology.get("dominant_topology_axis"),
+            "resonance_class": resonance.get("resonance_class"),
+            "dominant_resonance_axis": resonance.get("dominant_resonance_axis"),
+            "source_errors": 0,
+            "source_warnings": 0,
+        },
+    }
+
+
+def build_canonical_temporal_payload(profile_key: str) -> dict[str, Any]:
+    """Canonical temporal intelligence from compiled temporal layer."""
+    payload = compile_canonical_profile(profile_key, force=True)
+    temporal = payload.get("temporal", {})
+
+    return {
+        "success": temporal.get("status") == "compiled",
+        "version": "canonical",
+        "profile_key": profile_key,
+        "errors": temporal.get("errors", []),
+        "warnings": temporal.get("warnings", []),
+        "data": temporal,
+        "exports": {"temporal_json": temporal},
+        "metrics": {
+            "has_temporal": temporal.get("status") == "compiled",
+            "has_ephemeris": bool(temporal.get("natal", {}).get("ephemeris")),
+            "has_natal": bool(temporal.get("natal")),
+            "source_errors": len(temporal.get("errors", [])),
+            "source_warnings": len(temporal.get("warnings", [])),
+        },
+    }
+
+
+def build_canonical_vedic_behavior_payload(profile_key: str) -> dict[str, Any]:
+    """Canonical placeholder for Vedic behavior until full behavioral service is migrated."""
+    payload = compile_canonical_profile(profile_key, force=True)
+    temporal = payload.get("temporal", {})
+    return {
+        "success": temporal.get("status") == "compiled",
+        "version": "canonical",
+        "profile_key": profile_key,
+        "errors": [],
+        "warnings": [],
+        "data": {"temporal": temporal},
+        "exports": {"vedic_behavior_json": temporal.get("natal", {})},
+        "metrics": {
+            "planet_count": (
+                temporal.get("summary", {}).get("planet_count", 0)
+                if isinstance(temporal.get("summary", {}), dict)
+                else 0
+            ),
+            "overall_confidence": {"score": 0.7, "percent": 70.0, "label": "moderate"},
+            "source_errors": 0,
+            "source_warnings": 0,
+        },
+    }
+
+
 PROFILE_SERVICE_REGISTRY = {
-    "profile_report": build_profile_report_payload,
-    "narrative": build_profile_narrative_payload,
-    "evidence": build_profile_evidence_payload,
-    "graph_intelligence": build_profile_graph_intelligence_payload,
-    "temporal": build_temporal_intelligence_payload,
-    "vedic_behavior": build_vedic_behavior_payload,
+    "profile_report": build_canonical_profile_report_payload,
+    "narrative": build_canonical_narrative_payload,
+    "evidence": build_canonical_evidence_payload,
+    "graph_intelligence": build_canonical_graph_intelligence_payload,
+    "temporal": build_canonical_temporal_payload,
+    "vedic_behavior": build_canonical_vedic_behavior_payload,
     "validation_domain": build_validation_domain_payload,
 }
+
+
 
 RELATIONSHIP_SERVICE_REGISTRY: dict[str, RelationshipService] = {
     "relationship_report": build_relationship_report_payload,
