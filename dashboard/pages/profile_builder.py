@@ -1,153 +1,115 @@
-"""Service-backed Profile Builder dashboard page."""
+"""Profile Builder page."""
 
 from __future__ import annotations
 
-from typing import Any
-
 import streamlit as st
 
-from atlas.services.profile_builder_service import ProfileBuilderPayload, build_profile_builder_payload
-from components.functional_role_panel import render_functional_role_panel
-
-
-ENTITY_TYPES = [
-    "person",
-    "institution",
-    "civilization",
-    "organization",
-    "cohort",
-]
-
-BIRTH_CONFIDENCE_LEVELS = [
-    "unknown",
-    "low",
-    "medium",
-    "high",
-]
+from atlas.services.person_intake_service import create_person_profile
 
 
 def render_profile_builder_page() -> None:
-    """Render the Profile Builder as a thin UI layer over the service."""
-    st.header("Build Profile")
-    st.caption("Create, compile, index, and optionally export an Atlas profile.")
+    """Render Profile Builder."""
+    st.title("Profile Builder")
+    st.caption("Create a new Atlas profile intake record.")
 
-    form_state = render_profile_builder_form()
-    if form_state is None:
-        return
+    with st.form("person_intake_form"):
+        full_name = st.text_input("Full name", placeholder="Nikola Tesla")
+        birth_date = st.text_input("Birth date", placeholder="1856-07-10")
+        birth_time = st.text_input("Birth time", placeholder="00:00")
+        birth_place = st.text_input("Birth place", placeholder="Smiljan, Croatia")
 
-    with st.spinner("Building profile..."):
-        payload = build_profile_builder_payload(**form_state)
+        st.markdown("### Lifecycle")
+        death_date = st.text_input("Death date", placeholder="1943-01-07 or leave blank if living/open")
+        death_place = st.text_input("Death place", placeholder="New York City or leave blank")
 
-    render_profile_builder_payload(payload)
-
-
-def render_profile_builder_form() -> dict[str, Any] | None:
-    """Render Profile Builder inputs and return normalized service args on submit."""
-    with st.form("profile_builder_form"):
-        name = st.text_input("Name", placeholder="Gaius Julius Caesar")
-
-        col1, col2 = st.columns(2)
-        with col1:
-            entity_type = st.selectbox("Entity Type", ENTITY_TYPES)
-        with col2:
-            birth_confidence = st.selectbox("Birth Confidence", BIRTH_CONFIDENCE_LEVELS)
-
-        tags_raw = st.text_input("Tags", placeholder="rome, military, founder")
-        notes = st.text_area(
-            "Notes",
-            placeholder="Optional research notes or source comments.",
+        major_events_raw = st.text_area(
+            "Major events",
+            placeholder="One per line, format: YYYY-MM-DD | Label | Summary",
         )
 
-        col3, col4 = st.columns(2)
-        with col3:
-            save_library = st.checkbox("Save to profile library", value=True)
-        with col4:
-            export_acf = st.checkbox("Export ACF", value=True)
+        notes = st.text_area("Notes", placeholder="Optional context, source notes, or uncertainty.")
+        overwrite = st.checkbox("Overwrite existing intake file", value=False)
 
-        submitted = st.form_submit_button("Build Atlas Profile", type="primary")
+        submitted = st.form_submit_button("Create Profile", type="primary")
 
     if not submitted:
-        return None
-
-    return {
-        "name": name,
-        "entity_type": entity_type,
-        "birth_confidence": birth_confidence,
-        "tags": parse_tags(tags_raw),
-        "notes": notes,
-        "save_library": save_library,
-        "export_acf": export_acf,
-    }
-
-
-def parse_tags(tags_raw: str) -> list[str]:
-    """Normalize comma-separated tags from the UI."""
-    return [tag.strip() for tag in tags_raw.split(",") if tag.strip()]
-
-
-def render_profile_builder_payload(payload: ProfileBuilderPayload) -> None:
-    """Render the canonical Profile Builder service payload."""
-    if not payload.success:
-        st.error("\n".join(payload.errors))
+        st.info("Enter a person and create a profile.intake.json record.")
         return
 
-    st.success("Profile built and indexed successfully.")
-    render_profile_metadata(payload)
-    render_profile_summary(payload)
+    payload = create_person_profile(
+        full_name=full_name,
+        birth_date=birth_date,
+        birth_time=birth_time,
+        birth_place=birth_place,
+        death_date=death_date,
+        death_place=death_place,
+        major_events=parse_major_events(major_events_raw),
+        notes=notes,
+        overwrite=overwrite,
+    )
 
-    if payload.acf:
-        render_functional_role_panel(payload.acf)
-        render_legacy_classification_debug(payload.acf)
-
-    if payload.warnings:
-        render_profile_warnings(payload.warnings)
-
-
-def render_profile_metadata(payload: ProfileBuilderPayload) -> None:
-    """Render profile identity and artifact paths returned by the service."""
-    st.subheader("Generated Artifacts")
-
-    if payload.entity:
-        st.write(f"Entity ID: `{payload.entity['id']}`")
-
-    path_labels = {
-        "profile_dir": "Profile folder",
-        "summary": "Summary JSON",
-        "interpretation": "Interpretation JSON",
-        "report": "Markdown report",
-        "essence_json": "Essence graph",
-        "essence_svg": "Essence 3D SVG",
-        "acf": "ACF export",
-    }
-
-    for key, label in path_labels.items():
-        path = payload.paths.get(key)
-        if path:
-            st.write(f"{label}: `{path}`")
-
-
-def render_profile_summary(payload: ProfileBuilderPayload) -> None:
-    """Render interpretation summary lines returned by the service."""
-    if not payload.interpretation:
+    if not payload.get("success"):
+        st.error("Profile intake was not created.")
+        for error in payload.get("errors", []):
+            st.error(error)
+        for warning in payload.get("warnings", []):
+            st.warning(warning)
+        st.json(payload)
         return
 
-    st.subheader("Summary")
-    for line in payload.interpretation.summary_lines:
-        st.write(f"- {line}")
+    st.success(f"Created profile: {payload.get('profile_key')}")
 
+    c1, c2 = st.columns(2)
+    c1.metric("Profile Key", payload.get("profile_key", ""))
+    c2.metric("Created Files", len(payload.get("created_files", [])))
 
-def render_profile_warnings(warnings: list[str]) -> None:
-    """Render non-fatal Profile Builder service warnings."""
-    with st.expander("Profile build warnings"):
+    st.subheader("Created Files")
+    for item in payload.get("created_files", []):
+        st.code(item)
+
+    warnings = payload.get("warnings", [])
+    if warnings:
+        st.subheader("Warnings")
         for warning in warnings:
             st.warning(warning)
 
+    st.subheader("Next Steps")
+    for step in payload.get("next_steps", []):
+        st.markdown(f"- {step}")
 
-def render_legacy_classification_debug(acf: dict[str, Any]) -> None:
-    """Render legacy classification only as collapsed debug output."""
-    with st.expander("Legacy Classification Debug"):
-        st.warning(
-            "This is Atlas v1 legacy classification from acf['essence']. "
-            "Atlas v2 Functional Role above is the canonical classification."
+    with st.expander("Raw Intake Payload", expanded=False):
+        st.json(payload.get("intake", {}))
+
+    with st.expander("Raw Service Payload", expanded=False):
+        st.json(payload)
+
+
+def render() -> None:
+    """Backward-compatible render alias."""
+    render_profile_builder_page()
+
+
+if __name__ == "__main__":
+    render_profile_builder_page()
+
+
+def parse_major_events(raw: str) -> list[dict]:
+    """Parse major event textarea into event records."""
+    events: list[dict] = []
+
+    for line in raw.splitlines():
+        clean = line.strip()
+        if not clean:
+            continue
+
+        parts = [part.strip() for part in clean.split("|")]
+
+        events.append(
+            {
+                "date": parts[0] if len(parts) > 0 else "",
+                "label": parts[1] if len(parts) > 1 else "Major Event",
+                "summary": parts[2] if len(parts) > 2 else "",
+            }
         )
-        st.json(acf.get("essence", {}).get("classification", {}))
+
+    return events
