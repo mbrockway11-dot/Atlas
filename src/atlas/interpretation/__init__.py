@@ -120,3 +120,7 @@ __all__ = [
     #
     "compose_interpretive_answer",
 ]
+
+from atlas.interpretation.profile_classifier import classify_profile
+
+__all__ = [name for name in globals() if not name.startswith("_")]

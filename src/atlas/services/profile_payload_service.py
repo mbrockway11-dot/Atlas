@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from atlas.services.temporal_composite_intelligence_service import build_temporal_composite_intelligence
+from atlas.interpretation.profile_classifier import classify_profile
 
 
 PROFILE_PAYLOAD_SERVICE_VERSION = "1.0"
@@ -61,6 +62,23 @@ def build_profile_payload(profile_key: str) -> dict[str, Any]:
         "errors": [],
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
+
+    classification = classify_profile(payload)
+    payload["classification"] = classification
+
+    interpretation_payload = payload.get("interpretation", {})
+    if isinstance(interpretation_payload, dict):
+        semantic = interpretation_payload.setdefault("semantic", {})
+        semantic.update({
+            "name": classification.get("name", ""),
+            "structural_role": classification.get("structural_role", ""),
+            "civilization_function": classification.get("civilization_function", ""),
+            "cognitive_style": classification.get("cognitive_style", ""),
+            "motivation": classification.get("motivation", ""),
+            "emotional_pattern": classification.get("emotional_pattern", ""),
+            "stress_response": classification.get("stress_response", ""),
+            "growth_path": classification.get("growth_path", ""),
+        })
 
     payload_path = profile_dir / "profile.payload.json"
     write_json(payload_path, payload)
