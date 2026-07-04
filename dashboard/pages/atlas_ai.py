@@ -4,6 +4,12 @@ from __future__ import annotations
 
 import streamlit as st
 
+from dashboard.ui import (
+    render_profile_view,
+    page_header,
+    developer_section,
+)
+
 from atlas.services.atlas_qa_service import answer_question
 
 from atlas.services.atlas_ai_service import (
@@ -69,44 +75,30 @@ def render_question_ai_mode() -> None:
 
 
 def render_question_payload(payload: dict) -> None:
-    """Render Atlas question-answer payload."""
+    """Render Atlas question-answer payload using the shared UI system."""
     if not payload.get("success"):
         st.error("Atlas could not answer the question.")
+
         for error in payload.get("errors", []):
             st.error(error)
+
+        developer_section(payload, expanded=False)
         return
 
-    st.markdown("## Atlas Interpretation")
-    st.markdown(payload.get("answer", ""))
+    page_header(
+        "Atlas Interpretation",
+        "Human-readable deterministic synthesis",
+    )
 
-    st.markdown("## Key Findings")
-    for item in payload.get("key_points", []):
-        st.markdown(f"- {item}")
+    render_profile_view(payload)
 
-    st.markdown("## Confidence")
-    st.write(payload.get("confidence", "unknown"))
+    developer_section(
+        payload,
+        title="Raw Atlas QA Payload",
+        expanded=False,
+    )
 
-    metrics = payload.get("metrics", {})
-    c1, c2, c3, c4 = st.columns(4)
-    c1.metric("Hypotheses", metrics.get("hypotheses", 0))
-    c2.metric("Falsification", metrics.get("falsification_cases", 0))
-    c3.metric("Experiments", metrics.get("experiments", 0))
-    c4.metric("Discoveries", metrics.get("discoveries", 0))
 
-    with st.expander("Evidence", expanded=False):
-        for item in payload.get("evidence", []):
-            st.markdown(f"- {item}")
-
-    with st.expander("Limitations", expanded=False):
-        for item in payload.get("limitations", []):
-            st.markdown(f"- {item}")
-
-    with st.expander("Suggested Next Questions", expanded=False):
-        for item in payload.get("suggested_next_questions", []):
-            st.markdown(f"- {item}")
-
-    with st.expander("Raw Atlas QA Payload", expanded=False):
-        st.json(payload)
 def render_profile_ai_mode(profiles: list[str]) -> None:
     """Render profile Atlas AI mode."""
     profile_key = st.selectbox(
