@@ -52,7 +52,7 @@ def build_profile_payload(profile_key: str) -> dict[str, Any]:
         "summary": summary,
         "interpretation": interpretation,
         "graph": extract_graph(acf),
-        "temporal": extract_temporal(acf, lifecycle, interpretation),
+        "temporal": extract_temporal(acf, lifecycle, interpretation, clean_key),
         "morphology": extract_morphology(acf),
         "evidence": extract_evidence(acf, interpretation),
         "metrics": extract_metrics(acf),
@@ -143,6 +143,7 @@ def extract_temporal(
     acf: dict[str, Any],
     lifecycle: dict[str, Any],
     interpretation: dict[str, Any],
+    profile_key_fallback: str = "",
 ) -> dict[str, Any]:
     """Extract temporal area and attach temporal composite."""
     data = acf.get("data", {})
@@ -154,6 +155,7 @@ def extract_temporal(
         acf.get("profile_key")
         or data.get("profile_key")
         or semantic.get("profile_key")
+        or profile_key_fallback
         or ""
     )
 
