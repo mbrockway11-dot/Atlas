@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import streamlit as st
+from dashboard.ui.profile_view import render_profile_view
 
 from dashboard.ui import (
     render_profile_view,
@@ -12,6 +13,7 @@ from dashboard.ui import (
 )
 
 from atlas.services.atlas_qa_service import answer_question
+from atlas.services.profile_payload_service import build_profile_payload
 
 from atlas.services.atlas_ai_service import (
     build_profile_ai_payload,
@@ -90,6 +92,8 @@ def render_question_payload(payload: dict) -> None:
         "Atlas Interpretation",
         "Human-readable deterministic synthesis",
     )
+
+    payload = enrich_question_payload(payload)
 
     if payload.get("scope") == "relationship":
         render_relationship_view(payload)
@@ -207,9 +211,58 @@ def render_atlas_ai_payload(payload: dict) -> None:
 
     render_metrics(payload)
     render_warnings(payload)
+
+    # ==============================================================
+    # PRIMARY EXPERIENCE
+    # ==============================================================
+    render_profile_view(payload)
+
+    st.divider()
+
+    # ==============================================================
+    # AI Interpretation
+    # ==============================================================
     render_synthesis(payload)
-    render_service_summary(payload)
+
+    # ==============================================================
+    # Developer Diagnostics
+    # ==============================================================
+    with st.expander("Developer Diagnostics", expanded=False):
+        render_service_summary(payload)
+
     render_exports(payload)
+
+
+def enrich_question_payload(payload: dict) -> dict:
+    """Attach canonical profile payload data to QA payload when available."""
+    if payload.get("scope") != "profile":
+        return payload
+
+    profiles = payload.get("profiles", [])
+    if not profiles:
+        return payload
+
+    canonical = build_profile_payload(str(profiles[0]))
+
+    if not canonical.get("success"):
+        return payload
+
+    payload["canonical_profile_payload"] = canonical
+
+    qa_metrics = payload.get("metrics", {})
+    temporal = canonical.get("temporal", {})
+
+    qa_metrics["temporal_composite_completed"] = bool(
+        temporal.get("temporal_composite_completed")
+    )
+    qa_metrics["temporal_composite_confidence"] = temporal.get("confidence", "")
+    qa_metrics["temporal_composite_kind"] = (
+        temporal.get("composite", {}).get("composite", {}).get("kind", "")
+    )
+
+    payload["metrics"] = qa_metrics
+
+    return payload
 
 
 def render_metrics(payload: dict) -> None:
@@ -251,7 +304,7 @@ def render_synthesis(payload: dict) -> None:
     """Render Atlas AI synthesis."""
     synthesis = payload.get("data", {}).get("synthesis", {})
 
-    st.markdown("## Atlas AI Synthesis")
+    st.markdown("## Atlas Interpretation")
 
     executive = synthesis.get("executive_summary", "")
     if executive:
@@ -278,14 +331,6 @@ def render_synthesis(payload: dict) -> None:
         st.markdown("### Research Priorities")
         for item in synthesis.get("research_priorities", []):
             st.write(f"- {item}")
-
-    markdown = payload.get("exports", {}).get("markdown", "")
-
-    if markdown:
-        st.markdown("## Atlas AI Report")
-        st.markdown(markdown)
-
-
 def render_service_summary(payload: dict) -> None:
     """Render service summary."""
     st.markdown("## Service Summary")
