@@ -35,6 +35,16 @@ from .theme import (
     atlas_small,
 )
 
+from .layout import (
+    atlas_page,
+    hero_panel,
+    two_column_layout,
+    report_layout,
+    developer_panel,
+    divider,
+    action_row,
+)
+
 __all__ = [
     "atlas_card",
     "executive_summary_card",
@@ -56,4 +66,11 @@ __all__ = [
     "apply_atlas_theme",
     "atlas_caption",
     "atlas_small",
+    "atlas_page",
+    "hero_panel",
+    "two_column_layout",
+    "report_layout",
+    "developer_panel",
+    "divider",
+    "action_row",
 ]
