@@ -49,6 +49,10 @@ from .profile_view import (
     render_profile_view,
 )
 
+from .relationship_view import (
+    render_relationship_view,
+)
+
 __all__ = [
     "atlas_card",
     "executive_summary_card",
@@ -78,4 +82,5 @@ __all__ = [
     "divider",
     "action_row",
     "render_profile_view",
+    "render_relationship_view",
 ]
