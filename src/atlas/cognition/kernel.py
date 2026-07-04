@@ -304,16 +304,40 @@ def format_list(items: list[Any]) -> str:
 
 
 def dedupe(values: list[str]) -> list[str]:
-    """Deduplicate while preserving order."""
+    """Deduplicate while preserving order and collapsing nested stage prefixes."""
     seen: set[str] = set()
     result: list[str] = []
 
     for value in values:
-        if value not in seen:
-            seen.add(value)
-            result.append(value)
+        normalized = normalize_warning_text(str(value))
+        if normalized and normalized not in seen:
+            seen.add(normalized)
+            result.append(normalized)
 
     return result
+
+
+def normalize_warning_text(value: str) -> str:
+    """Normalize repeated reasoning/hypothesis warning prefixes."""
+    text = str(value).strip()
+
+    prefixes = (
+        "reasoning: ",
+        "hypothesis: ",
+        "falsification: ",
+        "experiment: ",
+        "atlas_ai: ",
+    )
+
+    changed = True
+    while changed:
+        changed = False
+        for prefix in prefixes:
+            if text.startswith(prefix):
+                text = text[len(prefix):].strip()
+                changed = True
+
+    return text
 
 
 def humanize(value: str) -> str:

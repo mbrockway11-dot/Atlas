@@ -27,10 +27,12 @@ def synthesize_profile(
     temporal_overlay: str = "",
     natal_context: dict[str, Any] | None = None,
     evidence: list[str] | None = None,
+    role: str = "",
 ) -> dict[str, Any]:
     """Synthesize a single profile into semantic interpretation."""
     semantic = build_semantic_profile(
         profile_key=profile_key,
+        role=role,
         graph_pattern=graph_pattern,
         temporal_overlay=temporal_overlay,
         natal_context=natal_context,

@@ -17,6 +17,7 @@ from __future__ import annotations
 from typing import Any
 
 from atlas.ai import run_research_pipeline
+from atlas.services.profile_payload_service import build_profile_payload
 from atlas.interpretation import (
     compose_interpretive_answer,
     compose_profile,
@@ -150,12 +151,35 @@ def build_synthesis(
         )
 
     if profiles:
-        return synthesize_profile(
+        canonical = build_profile_payload(profiles[0])
+        classification = canonical.get("classification", {})
+
+        profile_synthesis = synthesize_profile(
             profile_key=profiles[0],
+            role=classification.get("structural_role", ""),
             graph_pattern=graph_pattern,
             temporal_overlay="Temporal activation should be evaluated from available temporal runtime outputs.",
             evidence=evidence,
         )
+
+        try:
+            # canonical/classification already resolved above
+            semantic = profile_synthesis.setdefault("semantic", {})
+            semantic.update({
+                "name": classification.get("name", ""),
+                "role": classification.get("structural_role", semantic.get("role", "")),
+                "structural_role": classification.get("structural_role", semantic.get("structural_role", "")),
+                "civilization_function": classification.get("civilization_function", semantic.get("civilization_function", "")),
+                "cognitive_style": classification.get("cognitive_style", semantic.get("cognitive_style", "")),
+                "motivation": classification.get("motivation", semantic.get("motivation", "")),
+                "emotional_pattern": classification.get("emotional_pattern", semantic.get("emotional_pattern", "")),
+                "stress_response": classification.get("stress_response", semantic.get("stress_response", "")),
+                "growth_path": classification.get("growth_path", semantic.get("growth_path", "")),
+            })
+        except Exception:
+            pass
+
+        return profile_synthesis
 
     return {
         "success": True,
@@ -403,16 +427,43 @@ def format_short_list(items: list[str]) -> str:
 
 
 def dedupe(values: list[str]) -> list[str]:
-    """Deduplicate while preserving order."""
+    """Deduplicate while preserving order and collapsing nested warning prefixes."""
     seen: set[str] = set()
     result: list[str] = []
 
     for value in values:
-        if value not in seen:
-            seen.add(value)
-            result.append(value)
+        normalized = normalize_warning_text(str(value))
+        if normalized and normalized not in seen:
+            seen.add(normalized)
+            result.append(normalized)
 
     return result
+
+
+def normalize_warning_text(value: str) -> str:
+    """Normalize repeated stage prefixes."""
+    text = str(value).strip()
+
+    if "Compiled profile has no temporal ephemeris payload" in text:
+        return ""
+
+    if "One or more Atlas AI services failed" in text:
+        return ""
+
+    if "No major profile risks were surfaced" in text:
+        return ""
+
+    prefixes = ("reasoning: ", "hypothesis: ", "falsification: ", "experiment: ", "atlas_ai: ")
+
+    changed = True
+    while changed:
+        changed = False
+        for prefix in prefixes:
+            if text.startswith(prefix):
+                text = text[len(prefix):].strip()
+                changed = True
+
+    return text
 
 
 def failure_payload(*, question: str, error: str) -> dict[str, Any]:
