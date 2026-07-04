@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Any
 
 from atlas.services.lifecycle_intelligence_service import build_lifecycle_record
+from atlas.services.profile_payload_service import build_profile_payload
 
 
 PROFILE_COMPILE_SERVICE_VERSION = "1.0"
@@ -71,6 +72,14 @@ def compile_person_profile(
         created_files.extend(fallback.get("created_files", []))
         warnings.extend(fallback.get("warnings", []))
 
+    payload_result = build_profile_payload(clean_key)
+
+    if payload_result.get("success") and payload_result.get("payload_path"):
+        created_files.append(payload_result["payload_path"])
+    else:
+        warnings.extend(payload_result.get("warnings", []))
+        errors.extend(payload_result.get("errors", []))
+
     return {
         "success": bool((profile_dir / "profile.acf.json").exists()),
         "version": PROFILE_COMPILE_SERVICE_VERSION,
@@ -81,6 +90,7 @@ def compile_person_profile(
         "errors": dedupe(errors),
         "artifact_status": artifact_status(profile_dir),
         "compiler_result": compiler_result,
+        "payload_result": payload_result,
     }
 
 
@@ -258,6 +268,7 @@ def artifact_status(profile_dir: Path) -> dict[str, bool]:
         "profile_interpretation.json",
         "codex_report.md",
         "lifecycle.json",
+        "profile.payload.json",
         "research_session.json",
     ]
 
