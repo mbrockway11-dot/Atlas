@@ -569,11 +569,18 @@ def render_ai_markdown(synthesis: dict[str, Any]) -> str:
 def collect_service_errors(
     service_outputs: dict[str, dict[str, Any]],
 ) -> list[Any]:
-    """Collect errors from service outputs."""
+    """Collect unique errors from service outputs."""
     errors: list[Any] = []
+    seen: set[tuple[str, str]] = set()
 
     for name, payload in service_outputs.items():
         for error in payload.get("errors", []):
+            key = (name, str(error))
+
+            if key in seen:
+                continue
+
+            seen.add(key)
             errors.append({"service": name, "error": error})
 
     return errors

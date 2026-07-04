@@ -17,6 +17,8 @@ from typing import Any
 
 from atlas.services.lifecycle_intelligence_service import build_lifecycle_record
 from atlas.services.profile_payload_service import build_profile_payload
+from atlas.temporal.birth import build_birth_data_from_intake
+from atlas.temporal.natal_chart import build_natal_chart_payload
 
 
 PROFILE_COMPILE_SERVICE_VERSION = "1.0"
@@ -71,6 +73,13 @@ def compile_person_profile(
         )
         created_files.extend(fallback.get("created_files", []))
         warnings.extend(fallback.get("warnings", []))
+
+    ephemeris_result = enrich_acf_with_ephemeris(profile_dir, intake)
+    if ephemeris_result.get("success"):
+        created_files.append(str(profile_dir / "profile.acf.json"))
+    else:
+        warnings.extend(ephemeris_result.get("warnings", []))
+        errors.extend(ephemeris_result.get("errors", []))
 
     payload_result = build_profile_payload(clean_key)
 
@@ -331,3 +340,70 @@ def failure_payload(error: str) -> dict[str, Any]:
         "artifact_status": {},
         "compiler_result": {},
     }
+
+
+def enrich_acf_with_ephemeris(
+    profile_dir: Path,
+    intake: dict[str, Any],
+) -> dict[str, Any]:
+    """Attach natal ephemeris payload to profile.acf.json."""
+    acf_path = profile_dir / "profile.acf.json"
+
+    if not acf_path.exists():
+        return {
+            "success": False,
+            "warnings": [],
+            "errors": ["profile.acf.json missing; cannot attach ephemeris."],
+        }
+
+    try:
+        acf = read_json(acf_path)
+        birth = intake.get("birth", {})
+        identity = intake.get("identity", {})
+
+        temporal_intake = {
+            **intake,
+            "name": identity.get("display_name") or identity.get("full_name") or intake.get("profile_key", ""),
+            "birth_date": birth.get("date", ""),
+            "birth_time": birth.get("time", ""),
+            "birth_place": birth.get("place", ""),
+            "birth_location": birth.get("place", ""),
+        }
+
+        birth_data = build_birth_data_from_intake(temporal_intake)
+        natal_payload = build_natal_chart_payload(birth_data)
+
+        data = acf.setdefault("data", {})
+        signature = data.setdefault("canonical_structural_signature", {})
+        temporal = signature.setdefault("temporal", {})
+
+        temporal["birth"] = intake.get("birth", {})
+        temporal["natal"] = {
+            "ephemeris": natal_payload.get("ephemeris", {}),
+            "sidereal": natal_payload.get("sidereal", {}),
+        }
+        temporal["temporal_status"] = "ephemeris_compiled"
+
+        metrics = acf.setdefault("metrics", {})
+        metrics["has_temporal"] = True
+        metrics["has_natal"] = True
+        metrics["has_ephemeris"] = bool(
+            temporal.get("natal", {}).get("ephemeris")
+        )
+
+        write_json(acf_path, acf)
+
+        return {
+            "success": True,
+            "warnings": [],
+            "errors": [],
+        }
+
+    except Exception as exc:
+        return {
+            "success": False,
+            "warnings": [],
+            "errors": [f"Ephemeris enrichment failed: {exc}"],
+        }
+
+

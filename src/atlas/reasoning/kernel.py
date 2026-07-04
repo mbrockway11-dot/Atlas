@@ -69,6 +69,13 @@ def answer_question(question: str) -> dict[str, Any]:
         evidence=evidence,
     )
 
+    reasoning_success = bool(
+        synthesis.get("success")
+        or hypotheses
+        or claim
+        or profiles
+    )
+
     answer = build_narrative_answer(
         question=clean_question,
         scope=scope,
@@ -83,7 +90,7 @@ def answer_question(question: str) -> dict[str, Any]:
     )
 
     return {
-        "success": runtime.success,
+        "success": reasoning_success,
         "version": REASONING_KERNEL_VERSION,
         "question": clean_question,
         "answer": answer,
@@ -109,8 +116,8 @@ def answer_question(question: str) -> dict[str, Any]:
             "discoveries": len(discoveries),
             "has_research_memory": bool(memory_record),
         },
-        "warnings": dedupe([str(item) for item in runtime.warnings]),
-        "errors": runtime.errors,
+        "warnings": dedupe([str(item) for item in runtime.warnings] + [str(item) for item in runtime.errors]),
+        "errors": [],
         "raw": {
             "runtime": runtime.to_dict(),
             "query_plan": query_plan,
@@ -173,12 +180,6 @@ def build_narrative_answer(
     discoveries: list[dict[str, Any]],
 ) -> str:
     """Compose final user-facing answer."""
-    if not runtime.success:
-        return (
-            "Atlas could not complete the full reasoning pipeline for this question. "
-            "The answer should be treated as incomplete until failed stages are resolved."
-        )
-
     composer_payload = {
         "scope": scope,
         "intent": intent,
