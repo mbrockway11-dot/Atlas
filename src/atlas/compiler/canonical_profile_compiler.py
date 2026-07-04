@@ -22,6 +22,7 @@ from atlas.services.profile_path_service import resolve_profile_dir
 from atlas.temporal.birth import build_birth_data_from_intake
 from atlas.temporal.natal_chart import build_natal_chart_payload
 from atlas.interpretation.profile_classifier import classify_profile
+from atlas.graph.identity_stack import build_identity_graph_stack, identity_graph_stack_to_dict
 
 
 CANONICAL_PROFILE_COMPILER_VERSION = "1.0"
@@ -64,10 +65,10 @@ def compile_canonical_profile(profile_key: str, *, force: bool = False) -> dict[
         "lifecycle": build_lifecycle(intake),
         "cipher": missing_layer("cipher", "Cipher compiler not wired into canonical compiler yet."),
         "kamea": missing_layer("kamea", "Kamea compiler not wired into canonical compiler yet."),
-        "graph": missing_layer("graph", "Graph compiler not wired into canonical compiler yet."),
-        "topology": missing_layer("topology", "Topology compiler not wired into canonical compiler yet."),
-        "resonance": missing_layer("resonance", "Resonance compiler not wired into canonical compiler yet."),
-        "fingerprint": missing_layer("fingerprint", "Fingerprint compiler not wired into canonical compiler yet."),
+        "graph": {},
+        "topology": {},
+        "resonance": {},
+        "fingerprint": {},
         "temporal": build_temporal(intake),
         "classification": {},
         "narrative": missing_layer("narrative", "Narrative compiler not wired into canonical compiler yet."),
@@ -80,6 +81,9 @@ def compile_canonical_profile(profile_key: str, *, force: bool = False) -> dict[
             "compiler": "canonical_profile_compiler",
         },
     }
+
+    graph_layers = build_graph_layers(payload)
+    payload.update(graph_layers)
 
     payload["metrics"] = build_metrics(payload)
     payload["classification"] = classify_profile(payload)
@@ -143,6 +147,196 @@ def build_lifecycle(intake: dict[str, Any]) -> dict[str, Any]:
         "status": "compiled",
         "major_events": intake.get("major_events", []),
         "notes": intake.get("notes", ""),
+    }
+
+
+def build_graph_layers(payload: dict[str, Any]) -> dict[str, Any]:
+    """Build graph, topology, resonance, and fingerprint layers."""
+    try:
+        graph_input = build_graph_input(payload)
+        stack = build_identity_graph_stack(graph_input)
+        stack_data = identity_graph_stack_to_dict(stack)
+        summary = stack_data.get("summary", {})
+
+        return {
+            "graph": {
+                "status": "compiled",
+                "identity_stack": stack_data,
+                "summary": summary,
+                "cig": stack_data.get("cig", {}),
+                "stg": stack_data.get("stg", {}),
+                "motifs": stack_data.get("motifs", {}),
+                "genome": stack_data.get("genome", {}),
+            },
+            "topology": {
+                "status": "compiled",
+                "summary": stack_data.get("topology", {}).get("summary", {}),
+                "topology_class": summary.get("topology_class", "n/a"),
+                "dominant_topology_axis": summary.get("dominant_topology_axis", "n/a"),
+                "dominant_motif": summary.get("dominant_motif", "n/a"),
+                "motif_count": summary.get("motif_richness", 0),
+            },
+            "resonance": {
+                "status": "compiled",
+                "summary": stack_data.get("resonance", {}).get("summary", {}),
+                "resonance_class": summary.get("resonance_class", "n/a"),
+                "dominant_resonance_axis": summary.get("dominant_resonance_axis", "n/a"),
+            },
+            "fingerprint": {
+                "status": "compiled",
+                "summary": {
+                    "cig_nodes": summary.get("raw_node_count", 0),
+                    "cig_edges": summary.get("raw_edge_count", 0),
+                    "stg_nodes": summary.get("truth_node_count", 0),
+                    "stg_edges": summary.get("truth_edge_count", 0),
+                    "dominant_motif": summary.get("dominant_motif", "n/a"),
+                    "topology_class": summary.get("topology_class", "n/a"),
+                    "resonance_class": summary.get("resonance_class", "n/a"),
+                },
+            },
+        }
+
+    except Exception as exc:
+        reason = f"Graph compilation failed: {exc}"
+        return {
+            "graph": missing_layer("graph", reason),
+            "topology": missing_layer("topology", reason),
+            "resonance": missing_layer("resonance", reason),
+            "fingerprint": missing_layer("fingerprint", reason),
+        }
+
+
+def build_graph_input(payload: dict[str, Any]) -> dict[str, Any]:
+    """Build legacy-compatible graph input from canonical payload.
+
+    This is a local adapter only. ACF remains legacy; the canonical payload
+    stays the source of truth.
+    """
+    identity = payload.get("identity", {})
+    name = identity.get("name") or identity.get("display_name") or payload.get("profile_key", "")
+
+    tokens = [
+        token.strip().lower()
+        for token in str(name).replace("_", " ").split()
+        if token.strip()
+    ]
+
+    layers = []
+    previous_node = None
+
+    for index, token in enumerate(tokens):
+        node_id = f"name_token_{index}_{token}"
+
+        layer = {
+            "id": f"identity_layer_{index}",
+            "layer_id": f"identity_layer_{index}",
+            "cipher": "canonical_name_token",
+            "planet": "identity",
+            "features": {
+                "token": token,
+                "token_index": index,
+                "token_length": len(token),
+                "source": "canonical_profile_compiler",
+                "path_views": build_minimal_path_views(
+                    node_id=node_id,
+                    previous_node=previous_node,
+                    index=index,
+                ),
+            },
+            "label": token.title(),
+            "nodes": [
+                {
+                    "id": node_id,
+                    "label": token.title(),
+                    "type": "name_token",
+                    "weight": 1,
+                }
+            ],
+            "edges": [],
+        }
+
+        if previous_node:
+            layer["edges"].append(
+                {
+                    "source": previous_node,
+                    "target": node_id,
+                    "type": "name_sequence",
+                    "weight": 1,
+                }
+            )
+
+        layers.append(layer)
+        previous_node = node_id
+
+    return {
+        "identity": {
+            "name": name,
+            "profile_key": payload.get("profile_key", ""),
+        },
+        "identity_graph": {
+            "version": "1.0",
+            "source": "canonical_profile_compiler",
+            "layers": layers,
+            "path_views": {
+                "canonical": [
+                    layer["nodes"][0]["id"]
+                    for layer in layers
+                    if layer.get("nodes")
+                ],
+                "sequence": [
+                    layer["nodes"][0]["id"]
+                    for layer in layers
+                    if layer.get("nodes")
+                ],
+            },
+        },
+    }
+
+
+def build_minimal_path_views(
+    *,
+    node_id: str,
+    previous_node: str | None,
+    index: int,
+) -> dict[str, Any]:
+    """Build minimal path_views contract for graph stack."""
+    sequence = [previous_node, node_id] if previous_node else [node_id]
+    visits = [
+        {
+            "node": node,
+            "coordinate": [position, 0],
+            "depth": position,
+            "visit_depth": position,
+            "visit_index": position,
+            "sequence_index": position,
+        }
+        for position, node in enumerate(sequence)
+    ]
+
+    node_weights = {node: sequence.count(node) for node in sequence}
+    edge_weights = {}
+
+    if previous_node:
+        edge_weights[f"{previous_node}->{node_id}"] = 1
+
+    return {
+        "analysis_path": {
+            "raw_values": sequence,
+            "wrapped_values": sequence,
+            "node_weights": node_weights,
+            "edge_weights": edge_weights,
+            "visit_history": {
+                "visits": visits,
+                "visit_count": len(visits),
+            },
+        },
+        "render_path": {
+            "wrapped_values": sequence,
+            "coordinates": [
+                [position, 0]
+                for position, _node in enumerate(sequence)
+            ],
+        },
     }
 
 
