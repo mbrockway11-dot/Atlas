@@ -6,6 +6,7 @@ import streamlit as st
 
 from dashboard.ui import (
     render_profile_view,
+    render_relationship_view,
     page_header,
     developer_section,
 )
@@ -90,7 +91,10 @@ def render_question_payload(payload: dict) -> None:
         "Human-readable deterministic synthesis",
     )
 
-    render_profile_view(payload)
+    if payload.get("scope") == "relationship":
+        render_relationship_view(payload)
+    else:
+        render_profile_view(payload)
 
     developer_section(
         payload,
