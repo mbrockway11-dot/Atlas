@@ -15,6 +15,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from atlas.services.lifecycle_intelligence_service import build_lifecycle_record
+
 
 PROFILE_COMPILE_SERVICE_VERSION = "1.0"
 
@@ -125,6 +127,7 @@ def write_fallback_artifacts(
     summary_path = profile_dir / "profile_summary.json"
     interpretation_path = profile_dir / "profile_interpretation.json"
     report_path = profile_dir / "codex_report.md"
+    lifecycle_path = profile_dir / "lifecycle.json"
 
     if force or not acf_path.exists():
         acf = {
@@ -213,6 +216,24 @@ Fallback artifacts are present. Run the canonical Atlas compiler to generate the
         report_path.write_text(report, encoding="utf-8")
         created_files.append(str(report_path))
 
+    if force or not lifecycle_path.exists():
+        death = intake.get("death", {})
+        major_events = intake.get("major_events", [])
+
+        lifecycle = build_lifecycle_record(
+            profile_key=str(profile_key or ""),
+            birth_date=str(birth.get("date", "")),
+            birth_time=str(birth.get("time", "")),
+            birth_place=str(birth.get("place", "")),
+            death_date=str(death.get("date", "")),
+            death_place=str(death.get("place", "")),
+            major_events=major_events if isinstance(major_events, list) else [],
+            notes=str(intake.get("notes", "")),
+        )
+
+        write_json(lifecycle_path, lifecycle)
+        created_files.append(str(lifecycle_path))
+
     if not created_files:
         warnings.append("No fallback artifacts were written because files already exist. Use force=True to overwrite.")
 
@@ -230,6 +251,7 @@ def artifact_status(profile_dir: Path) -> dict[str, bool]:
         "profile_summary.json",
         "profile_interpretation.json",
         "codex_report.md",
+        "lifecycle.json",
         "research_session.json",
     ]
 
