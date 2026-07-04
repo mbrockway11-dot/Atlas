@@ -113,16 +113,27 @@ def resolve_profile_payload(payload: dict[str, Any]) -> dict[str, Any]:
         or "Unknown Profile"
     )
 
+    semantic_source = (
+        semantic
+        or payload.get("synthesis", {}).get("semantic", {})
+        or payload.get("data", {}).get("synthesis", {}).get("semantic", {})
+        or payload.get("reasoning", {}).get("synthesis", {}).get("semantic", {})
+    )
+
     role = (
-        semantic.get("structural_role")
+        semantic_source.get("structural_role")
+        or semantic_source.get("role")
         or payload.get("role", "")
         or infer_role_from_payload(payload)
+        or "unresolved"
     )
 
     civilization_role = (
-        semantic.get("civilization_function")
+        semantic_source.get("civilization_function")
+        or semantic_source.get("function")
         or payload.get("civilization_role", "")
         or infer_civilization_function(payload)
+        or "unresolved"
     )
 
     summary = (
@@ -146,14 +157,14 @@ def resolve_profile_payload(payload: dict[str, Any]) -> dict[str, Any]:
         "civilization_role": civilization_role,
         "confidence": payload.get("confidence", ""),
         "summary": clean_summary(str(summary)),
-        "structural_intelligence": semantic.get("cognitive_style", ""),
-        "human_interpretation": build_human_interpretation(semantic),
+        "structural_intelligence": semantic_source.get("cognitive_style", ""),
+        "human_interpretation": build_human_interpretation(semantic_source),
         "vedic_behavior": payload.get("vedic_behavior", ""),
-        "temporal_outlook": temporal_outlook,
+        "temporal_outlook": temporal_outlook or semantic_source.get("temporal_activation", ""),
         "civilization_function": civilization_role,
-        "stress_pattern": semantic.get("stress_response", ""),
-        "growth_path": semantic.get("growth_path", ""),
-        "evidence": evidence if isinstance(evidence, list) else [],
+        "stress_pattern": semantic_source.get("stress_response", ""),
+        "growth_path": semantic_source.get("growth_path", ""),
+        "evidence": evidence if isinstance(evidence, list) else semantic_source.get("evidence", []),
         "metrics": payload.get("metrics", {}),
         "lifecycle": lifecycle,
     }
