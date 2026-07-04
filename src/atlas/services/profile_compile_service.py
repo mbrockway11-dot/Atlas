@@ -17,6 +17,9 @@ from typing import Any
 
 from atlas.services.lifecycle_intelligence_service import build_lifecycle_record
 from atlas.services.profile_payload_service import build_profile_payload
+from atlas.services.profile_path_service import resolve_profile_dir
+from atlas.compiler.canonical_profile_compiler import compile_canonical_profile
+from atlas.services.graph_service import build_identity_stack_payload
 from atlas.temporal.birth import build_birth_data_from_intake
 from atlas.temporal.natal_chart import build_natal_chart_payload
 
@@ -32,74 +35,42 @@ def compile_person_profile(
     *,
     force: bool = False,
 ) -> dict[str, Any]:
-    """Compile a profile from profile.intake.json into Atlas artifacts."""
+    """Compile a profile through the single canonical profile compiler."""
     clean_key = profile_key.strip()
 
     if not clean_key:
         return failure_payload("profile_key is required.")
 
-    profile_dir = LIBRARY_DIR / clean_key
+    profile_dir = resolve_profile_dir(clean_key)
     intake_path = profile_dir / "profile.intake.json"
 
     if not intake_path.exists():
         return failure_payload(f"Missing intake file: {intake_path}")
 
-    intake = read_json(intake_path)
+    canonical_result = compile_canonical_profile(clean_key, force=force)
 
     created_files: list[str] = []
-    warnings: list[str] = []
-    errors: list[str] = []
+    warnings = list(canonical_result.get("warnings", []))
+    errors = list(canonical_result.get("errors", []))
 
-    compiler_result = try_canonical_compile(clean_key)
-
-    if compiler_result.get("success") and (profile_dir / "profile.acf.json").exists():
-        created_files.extend(existing_artifacts(profile_dir))
-        warnings.extend(compiler_result.get("warnings", []))
-    else:
-        if compiler_result.get("success"):
-            warnings.append(
-                "Canonical compiler reported success but did not create profile.acf.json; writing fallback artifacts."
-            )
-        else:
-            warnings.append("Canonical compiler was unavailable or failed; writing fallback artifacts.")
-
-        warnings.extend(compiler_result.get("warnings", []))
-        errors.extend(compiler_result.get("errors", []))
-
-        fallback = write_fallback_artifacts(
-            profile_dir=profile_dir,
-            intake=intake,
-            force=force,
-        )
-        created_files.extend(fallback.get("created_files", []))
-        warnings.extend(fallback.get("warnings", []))
-
-    ephemeris_result = enrich_acf_with_ephemeris(profile_dir, intake)
-    if ephemeris_result.get("success"):
-        created_files.append(str(profile_dir / "profile.acf.json"))
-    else:
-        warnings.extend(ephemeris_result.get("warnings", []))
-        errors.extend(ephemeris_result.get("errors", []))
-
-    payload_result = build_profile_payload(clean_key)
-
-    if payload_result.get("success") and payload_result.get("payload_path"):
-        created_files.append(payload_result["payload_path"])
-    else:
-        warnings.extend(payload_result.get("warnings", []))
-        errors.extend(payload_result.get("errors", []))
+    if canonical_result.get("success") and canonical_result.get("payload_path"):
+        created_files.append(canonical_result["payload_path"])
 
     return {
-        "success": bool((profile_dir / "profile.acf.json").exists()),
+        "success": bool(canonical_result.get("success")),
         "version": PROFILE_COMPILE_SERVICE_VERSION,
         "profile_key": clean_key,
         "profile_dir": str(profile_dir),
         "created_files": sorted(set(created_files)),
-        "warnings": dedupe(warnings),
-        "errors": dedupe(errors),
+        "warnings": dedupe([str(item) for item in warnings]),
+        "errors": dedupe([str(item) for item in errors]),
         "artifact_status": artifact_status(profile_dir),
-        "compiler_result": compiler_result,
-        "payload_result": payload_result,
+        "compiler_result": {
+            "success": bool(canonical_result.get("success")),
+            "compiler": "canonical_profile_compiler",
+            "version": canonical_result.get("version"),
+        },
+        "payload_result": canonical_result,
     }
 
 
