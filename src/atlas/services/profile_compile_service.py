@@ -49,11 +49,17 @@ def compile_person_profile(
 
     compiler_result = try_canonical_compile(clean_key)
 
-    if compiler_result.get("success"):
+    if compiler_result.get("success") and (profile_dir / "profile.acf.json").exists():
         created_files.extend(existing_artifacts(profile_dir))
         warnings.extend(compiler_result.get("warnings", []))
     else:
-        warnings.append("Canonical compiler was unavailable or failed; writing fallback artifacts.")
+        if compiler_result.get("success"):
+            warnings.append(
+                "Canonical compiler reported success but did not create profile.acf.json; writing fallback artifacts."
+            )
+        else:
+            warnings.append("Canonical compiler was unavailable or failed; writing fallback artifacts.")
+
         warnings.extend(compiler_result.get("warnings", []))
         errors.extend(compiler_result.get("errors", []))
 
