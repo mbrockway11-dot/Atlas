@@ -13,6 +13,7 @@ from dashboard.ui.layout import divider, hero_panel
 from dashboard.ui.metrics import metric_grid
 from dashboard.ui.components.executive_summary import render_executive_summary
 from dashboard.ui.components.classification_card import render_classification_card
+from dashboard.ui.components.vedic_section import render_vedic_section
 
 
 def render_profile_view(payload: dict[str, Any]) -> None:
@@ -49,6 +50,7 @@ def render_profile_view(payload: dict[str, Any]) -> None:
 
     render_identity_section(canonical)
     render_classification_card(canonical)
+    render_vedic_section(canonical)
     render_temporal_section(canonical)
     render_graph_section(canonical)
     render_topology_section(canonical)
