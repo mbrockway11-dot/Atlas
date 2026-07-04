@@ -10,11 +10,14 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from atlas.services.temporal_composite_intelligence_service import build_temporal_composite_intelligence
+
 
 PROFILE_PAYLOAD_SERVICE_VERSION = "1.0"
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 LIBRARY_DIR = PROJECT_ROOT / "output" / "library"
+LEGACY_LIBRARY_DIR = PROJECT_ROOT / "data" / "profiles"
 
 
 def build_profile_payload(profile_key: str) -> dict[str, Any]:
@@ -24,10 +27,10 @@ def build_profile_payload(profile_key: str) -> dict[str, Any]:
     if not clean_key:
         return failure_payload("profile_key is required.")
 
-    profile_dir = LIBRARY_DIR / clean_key
+    profile_dir = resolve_profile_dir(clean_key)
 
     if not profile_dir.exists():
-        return failure_payload(f"Profile directory not found: {profile_dir}")
+        return failure_payload(f"Profile directory not found for: {clean_key}")
 
     intake = read_optional_json(profile_dir / "profile.intake.json")
     acf = read_optional_json(profile_dir / "profile.acf.json")
@@ -49,7 +52,7 @@ def build_profile_payload(profile_key: str) -> dict[str, Any]:
         "summary": summary,
         "interpretation": interpretation,
         "graph": extract_graph(acf),
-        "temporal": extract_temporal(acf, lifecycle),
+        "temporal": extract_temporal(acf, lifecycle, interpretation),
         "morphology": extract_morphology(acf),
         "evidence": extract_evidence(acf, interpretation),
         "metrics": extract_metrics(acf),
@@ -65,6 +68,22 @@ def build_profile_payload(profile_key: str) -> dict[str, Any]:
     payload["payload_path"] = str(payload_path)
 
     return payload
+
+
+def resolve_profile_dir(profile_key: str) -> Path:
+    """Resolve profile directory across canonical and legacy libraries."""
+    candidates = [
+        LIBRARY_DIR / profile_key,
+        LIBRARY_DIR / "profiles" / profile_key,
+        PROJECT_ROOT / "output" / "console" / "individual" / profile_key,
+        LEGACY_LIBRARY_DIR / profile_key,
+    ]
+
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+
+    return candidates[0]
 
 
 def extract_identity(
@@ -123,14 +142,54 @@ def extract_graph(acf: dict[str, Any]) -> dict[str, Any]:
 def extract_temporal(
     acf: dict[str, Any],
     lifecycle: dict[str, Any],
+    interpretation: dict[str, Any],
 ) -> dict[str, Any]:
-    """Extract temporal area."""
+    """Extract temporal area and attach temporal composite."""
     data = acf.get("data", {})
     signature = data.get("canonical_structural_signature", {})
+    runtime = signature.get("temporal", {})
+    semantic = interpretation.get("semantic", {}) if isinstance(interpretation, dict) else {}
+
+    profile_key = (
+        acf.get("profile_key")
+        or data.get("profile_key")
+        or semantic.get("profile_key")
+        or ""
+    )
+
+    graph_payload = {
+        "summary": (
+            data.get("graph_intelligence", {}).get("summary", "")
+            or signature.get("topology", {}).get("summary", "")
+        )
+    }
+
+    temporal_payloads = {
+        profile_key: runtime
+    } if profile_key else {}
+
+    natal_payloads = {
+        profile_key: runtime.get("natal", {})
+    } if profile_key and isinstance(runtime, dict) else {}
+
+    composite = build_temporal_composite_intelligence(
+        profiles=[profile_key] if profile_key else [],
+        date_window="current profile window",
+        graph_payload=graph_payload,
+        temporal_payloads=temporal_payloads,
+        natal_payloads=natal_payloads,
+        evidence=semantic.get("evidence", []),
+    )
 
     return {
-        "runtime": signature.get("temporal", {}),
+        "runtime": runtime,
         "lifecycle": lifecycle,
+        "composite": composite,
+        "temporal_composite_completed": bool(composite.get("success")),
+        "summary": composite.get("human_summary", ""),
+        "confidence": composite.get("confidence", "provisional"),
+        "probable_outcomes": composite.get("probable_outcomes", []),
+        "timing_cautions": composite.get("timing_cautions", []),
     }
 
 
@@ -168,7 +227,11 @@ def extract_metrics(acf: dict[str, Any]) -> dict[str, Any]:
     """Extract metrics."""
     metrics = acf.get("metrics", {})
 
-    return metrics if isinstance(metrics, dict) else {}
+    if not isinstance(metrics, dict):
+        metrics = {}
+
+    metrics["temporal_composite_completed"] = True
+    return metrics
 
 
 def collect_warnings(
