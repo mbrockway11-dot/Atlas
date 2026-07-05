@@ -19,6 +19,7 @@ from pathlib import Path
 from typing import Any
 
 from atlas.semantic import build_semantic_profile
+from atlas.knowledge.structural_synthesis import build_structural_synthesis
 
 from atlas.services.profile_path_service import resolve_profile_dir
 from atlas.temporal.birth import build_birth_data_from_intake
@@ -74,6 +75,7 @@ def compile_canonical_profile(profile_key: str, *, force: bool = False) -> dict[
         "fingerprint": {},
         "temporal": build_temporal(intake),
         "classification": {},
+        "structural_synthesis": {},
         "narrative": missing_layer("narrative", "Narrative compiler not wired into canonical compiler yet."),
         "evidence": [],
         "metrics": {},
@@ -95,6 +97,10 @@ def compile_canonical_profile(profile_key: str, *, force: bool = False) -> dict[
     semantic = build_semantic_profile(payload)
     payload["semantic"] = semantic
     payload["metrics"]["has_semantic"] = bool(semantic.get("success"))
+
+    structural_synthesis = build_structural_synthesis(payload)
+    payload["structural_synthesis"] = structural_synthesis
+    payload["metrics"]["has_structural_synthesis"] = bool(structural_synthesis.get("success"))
 
     write_json(payload_path, payload)
 
