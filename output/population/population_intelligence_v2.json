@@ -1,11 +1,11 @@
 {
   "version": "2.0",
-  "profile_count": 555,
+  "profile_count": 556,
   "role_distribution": {
     "Cycle-Weaver": 290,
     "Connector-Architect": 188,
     "Persistence-Architect": 43,
-    "Amplifier-Connector": 25,
+    "Amplifier-Connector": 26,
     "Pattern-Weaver": 9
   },
   "subtype_distribution": {
@@ -13,19 +13,19 @@
     "Distributed Hub Connector": 188,
     "Cyclic Pattern Integrator": 69,
     "Persistent Distributed Architect": 43,
-    "Unresolved Subtype": 25,
+    "Unresolved Subtype": 26,
     "Truth-Graph Pattern Weaver": 9
   },
   "topology_distribution": {
     "distributed_sparse": 440,
-    "branching_tree": 57,
+    "branching_tree": 58,
     "cyclic_network": 33,
     "branching_cycle": 21,
     "hierarchical_bottleneck": 4
   },
   "role_summaries": {
     "Amplifier-Connector": {
-      "count": 25,
+      "count": 26,
       "examples": [
         "albert_ellis",
         "angela_duckworth",
@@ -38,13 +38,13 @@
         "elon_musk",
         "emmy_noether"
       ],
-      "avg_motif_richness": 0.524444,
-      "avg_raw_density": 2.991917,
-      "avg_truth_density": 0.490697,
-      "avg_raw_nodes": 54.16,
-      "avg_raw_edges": 167.2,
-      "avg_truth_nodes": 27.52,
-      "avg_truth_edges": 14.64
+      "avg_motif_richness": 0.525641,
+      "avg_raw_density": 3.058894,
+      "avg_truth_density": 0.488456,
+      "avg_raw_nodes": 54.384615,
+      "avg_raw_edges": 171.692308,
+      "avg_truth_nodes": 27.884615,
+      "avg_truth_edges": 14.692308
     },
     "Connector-Architect": {
       "count": 188,
@@ -7437,6 +7437,27 @@
       "truth_edges": 11,
       "raw_density": 2.763636,
       "truth_density": 0.407407,
+      "confidence": {
+        "score": 0.9,
+        "percent": 90.0,
+        "label": "high"
+      }
+    },
+    {
+      "profile_key": "matthew_jordan_harper",
+      "name": "Matthew Jordan Harper",
+      "role": "Amplifier-Connector",
+      "subtype": "Unresolved Subtype",
+      "topology_class": "branching_tree",
+      "dominant_axis": "motif_richness",
+      "dominant_motif": "hub",
+      "motif_richness": 0.5555555555555556,
+      "raw_nodes": 60,
+      "raw_edges": 284,
+      "truth_nodes": 37,
+      "truth_edges": 16,
+      "raw_density": 4.733333,
+      "truth_density": 0.432432,
       "confidence": {
         "score": 0.9,
         "percent": 90.0,
