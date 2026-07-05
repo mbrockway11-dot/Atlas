@@ -12,7 +12,8 @@ from atlas.profiles.summary import build_individual_profile_summary
 from atlas.reports.markdown import build_profile_markdown_report, write_markdown_report
 
 
-LIBRARY_DIR = Path("output/library/profiles")
+ROOT_LIBRARY_DIR = Path("output/library")
+LIBRARY_DIR = ROOT_LIBRARY_DIR / "profiles"
 
 
 def save_profile_to_library(name: str) -> Path:
@@ -35,15 +36,34 @@ def save_profile_to_library(name: str) -> Path:
 
 
 def list_saved_profiles() -> list[str]:
-    """List saved profile names from the library."""
-    if not LIBRARY_DIR.exists():
-        return []
+    """List saved profile names from legacy and canonical library layouts."""
+    profiles: set[str] = set()
 
-    return sorted(
-        path.name
-        for path in LIBRARY_DIR.iterdir()
-        if path.is_dir()
-    )
+    for base_dir in [ROOT_LIBRARY_DIR, LIBRARY_DIR]:
+        if not base_dir.exists():
+            continue
+
+        for path in base_dir.iterdir():
+            if not path.is_dir():
+                continue
+
+            if path.name == "profiles":
+                continue
+
+            has_artifact = any(
+                (path / artifact).exists()
+                for artifact in [
+                    "profile.intake.json",
+                    "profile.payload.json",
+                    "profile_summary.json",
+                    "profile_interpretation.json",
+                ]
+            )
+
+            if has_artifact:
+                profiles.add(path.name)
+
+    return sorted(profiles)
 
 
 def load_profile_summary(profile_key: str) -> dict[str, Any]:
@@ -67,8 +87,21 @@ def load_profile_interpretation(profile_key: str) -> dict[str, Any]:
 
 
 def profile_exists(profile_key: str) -> bool:
-    """Return whether a profile exists in the library."""
-    return (LIBRARY_DIR / profile_key / "profile_summary.json").exists()
+    """Return whether a profile exists in any supported library layout."""
+    for base_dir in [ROOT_LIBRARY_DIR, LIBRARY_DIR]:
+        profile_dir = base_dir / profile_key
+        if any(
+            (profile_dir / artifact).exists()
+            for artifact in [
+                "profile.intake.json",
+                "profile.payload.json",
+                "profile_summary.json",
+                "profile_interpretation.json",
+            ]
+        ):
+            return True
+
+    return False
 
 
 def safe_name(name: str) -> str:
