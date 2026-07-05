@@ -18,11 +18,14 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from atlas.semantic import build_semantic_profile
+
 from atlas.services.profile_path_service import resolve_profile_dir
 from atlas.temporal.birth import build_birth_data_from_intake
 from atlas.temporal.natal_chart import build_natal_chart_payload
 from atlas.interpretation.profile_classifier import classify_profile
 from atlas.graph.identity_stack import build_identity_graph_stack, identity_graph_stack_to_dict
+from atlas.kamea import build_kamea_identity_graph
 
 
 CANONICAL_PROFILE_COMPILER_VERSION = "1.0"
@@ -88,6 +91,10 @@ def compile_canonical_profile(profile_key: str, *, force: bool = False) -> dict[
     payload["metrics"] = build_metrics(payload)
     payload["classification"] = classify_profile(payload)
     payload["metrics"] = build_metrics(payload)
+
+    semantic = build_semantic_profile(payload)
+    payload["semantic"] = semantic
+    payload["metrics"]["has_semantic"] = bool(semantic.get("success"))
 
     write_json(payload_path, payload)
 
@@ -207,90 +214,98 @@ def build_graph_layers(payload: dict[str, Any]) -> dict[str, Any]:
 
 
 def build_graph_input(payload: dict[str, Any]) -> dict[str, Any]:
-    """Build legacy-compatible graph input from canonical payload.
-
-    This is a local adapter only. ACF remains legacy; the canonical payload
-    stays the source of truth.
-    """
+    """Build legacy-compatible graph input from Kamea identity graph."""
     identity = payload.get("identity", {})
-    name = identity.get("name") or identity.get("display_name") or payload.get("profile_key", "")
-
-    tokens = [
-        token.strip().lower()
-        for token in str(name).replace("_", " ").split()
-        if token.strip()
-    ]
-
-    layers = []
-    previous_node = None
-
-    for index, token in enumerate(tokens):
-        node_id = f"name_token_{index}_{token}"
-
-        layer = {
-            "id": f"identity_layer_{index}",
-            "layer_id": f"identity_layer_{index}",
-            "cipher": "canonical_name_token",
-            "planet": "identity",
-            "features": {
-                "token": token,
-                "token_index": index,
-                "token_length": len(token),
-                "source": "canonical_profile_compiler",
-                "path_views": build_minimal_path_views(
-                    node_id=node_id,
-                    previous_node=previous_node,
-                    index=index,
-                ),
-            },
-            "label": token.title(),
-            "nodes": [
-                {
-                    "id": node_id,
-                    "label": token.title(),
-                    "type": "name_token",
-                    "weight": 1,
-                }
-            ],
-            "edges": [],
-        }
-
-        if previous_node:
-            layer["edges"].append(
-                {
-                    "source": previous_node,
-                    "target": node_id,
-                    "type": "name_sequence",
-                    "weight": 1,
-                }
-            )
-
-        layers.append(layer)
-        previous_node = node_id
+    kamea_graph = build_kamea_identity_graph(payload)
+    layers = build_kamea_graph_layers(kamea_graph)
 
     return {
         "identity": {
-            "name": name,
+            "name": identity.get("name") or identity.get("display_name") or payload.get("profile_key", ""),
             "profile_key": payload.get("profile_key", ""),
         },
         "identity_graph": {
-            "version": "1.0",
-            "source": "canonical_profile_compiler",
+            "version": "2.0-kamea",
+            "source": "atlas.kamea.identity_graph",
             "layers": layers,
-            "path_views": {
-                "canonical": [
-                    layer["nodes"][0]["id"]
-                    for layer in layers
-                    if layer.get("nodes")
-                ],
-                "sequence": [
-                    layer["nodes"][0]["id"]
-                    for layer in layers
-                    if layer.get("nodes")
-                ],
-            },
+            "raw_kamea_graph": kamea_graph,
+            "summary": kamea_graph.get("summary", {}),
         },
     }
+
+
+def build_kamea_graph_layers(kamea_graph: dict[str, Any]) -> list[dict[str, Any]]:
+    """Convert native Kamea graph into graph-stack layer records."""
+    layers: list[dict[str, Any]] = []
+    nodes = kamea_graph.get("nodes", {})
+    edges = kamea_graph.get("edges", {})
+
+    for index, construction_pass in enumerate(kamea_graph.get("construction_passes", [])):
+        cipher = construction_pass.get("cipher", "unknown_cipher")
+        planet = construction_pass.get("planet", "unknown_planet")
+        layer_id = f"kamea_layer_{index}_{cipher}_{planet}"
+
+        layer_nodes = [
+            {
+                "id": node_id,
+                "label": node.get("label", node_id),
+                "type": node.get("type", "kamea_node"),
+                "weight": node.get("weight", 1),
+                "cipher_count": node.get("cipher_count", 1),
+                "planet_count": node.get("planet_count", 1),
+                "coordinate": node.get("coordinate"),
+            }
+            for node_id, node in nodes.items()
+            if cipher in node.get("ciphers", []) and planet in node.get("planets", [])
+        ]
+
+        layer_node_ids = {node["id"] for node in layer_nodes}
+
+        layer_edges = [
+            {
+                "source": edge.get("source"),
+                "target": edge.get("target"),
+                "type": edge.get("type", "kamea_path"),
+                "weight": edge.get("weight", 1),
+            }
+            for edge in edges.values()
+            if edge.get("cipher") == cipher
+            and edge.get("planet") == planet
+            and edge.get("source") in layer_node_ids
+            and edge.get("target") in layer_node_ids
+        ]
+
+        path_views = construction_pass.get("path_views", {})
+        if not isinstance(path_views, dict) or not path_views:
+            path_views = build_minimal_path_views(
+                node_id=layer_nodes[0]["id"] if layer_nodes else layer_id,
+                previous_node=None,
+                index=index,
+            )
+
+        layers.append(
+            {
+                "id": layer_id,
+                "layer_id": layer_id,
+                "cipher": cipher,
+                "planet": planet,
+                "features": {
+                    "source": "kamea_identity_graph",
+                    "cipher": cipher,
+                    "planet": planet,
+                    "path_views": path_views,
+                    "value_count": construction_pass.get("value_count", 0),
+                    "path_length": construction_pass.get("path_length", 0),
+                    "repeated_nodes": construction_pass.get("repeated_nodes", {}),
+                    "repeated_edges": construction_pass.get("repeated_edges", {}),
+                },
+                "label": f"{cipher} / {planet}",
+                "nodes": layer_nodes,
+                "edges": layer_edges,
+            }
+        )
+
+    return layers
 
 
 def build_minimal_path_views(

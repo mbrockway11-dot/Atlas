@@ -9,6 +9,7 @@ from atlas.kamea.projection import (
 )
 from atlas.kamea.squares import KAMEAS
 from atlas.kamea.validation import ValidationReport
+from atlas.kamea.identity_graph import build_kamea_identity_graph
 
 __all__ = [
     "PlanetaryKamea",
@@ -18,4 +19,5 @@ __all__ = [
     "get_kamea",
     "project_values_to_kamea",
     "project_values_to_all_kameas",
+    "build_kamea_identity_graph",
 ]
