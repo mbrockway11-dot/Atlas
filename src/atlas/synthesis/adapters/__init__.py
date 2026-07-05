@@ -2,6 +2,7 @@
 """Synthesis evidence adapters."""
 
 from atlas.synthesis.adapters import (
+    behavior,
     classification,
     graph,
     population,
@@ -10,6 +11,7 @@ from atlas.synthesis.adapters import (
 )
 
 __all__ = [
+    "behavior",
     "classification",
     "graph",
     "population",
