@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import streamlit as st
 
+from atlas.relationship.relationship_intelligence_v2 import compare_relationship_v2
+
 from atlas.services.relationship_report_service import (
     build_relationship_report_payload,
     list_relationship_report_profiles,
@@ -53,6 +55,7 @@ def render_relationship_report_page() -> None:
 
     with st.spinner("Building relationship report..."):
         payload = build_relationship_report_payload(profile_a, profile_b)
+        relationship_v2 = compare_relationship_v2(profile_a, profile_b)
 
     if not payload.get("success"):
         st.error("Relationship report failed.")
@@ -63,6 +66,7 @@ def render_relationship_report_page() -> None:
         return
 
     render_metrics(payload)
+    render_structural_relationship(relationship_v2)
     render_warnings(payload)
     render_report(payload)
     render_structured_interpretation(payload)
@@ -206,3 +210,86 @@ def format_metric(value) -> str:
         return f"{float(value):.4f}"
     except (TypeError, ValueError):
         return "n/a"
+
+
+
+def render_structural_relationship(report: dict) -> None:
+    """Render Relationship Intelligence v2."""
+
+    if not report.get("success"):
+        st.warning("Relationship Intelligence v2 did not complete.")
+        with st.expander("Relationship v2 errors", expanded=False):
+            st.json(report)
+        return
+
+    st.markdown("## Structural Relationship Intelligence v2")
+
+    compatibility = report.get("compatibility", {})
+    structural = report.get("structural_similarity", {})
+
+    c1, c2, c3 = st.columns(3)
+
+    c1.metric(
+        "Structural Similarity",
+        f"{float(structural.get('similarity_percent', 0)):.2f}%",
+    )
+
+    c2.metric(
+        "Compatibility",
+        f"{float(compatibility.get('percent', 0)):.2f}%",
+    )
+
+    c3.metric(
+        "Alignment",
+        compatibility.get("label", "unknown"),
+    )
+
+    st.markdown("### Relationship Summary")
+    st.write(report.get("relationship_summary", ""))
+
+    render_signal_list("Shared Strengths", report.get("shared_strengths", []), "success")
+    render_signal_list("Complementarity", report.get("complementarity", {}).get("signals", []), "info")
+    render_signal_list("Potential Friction", report.get("friction", {}).get("signals", []), "warning")
+
+    c1, c2 = st.columns(2)
+
+    with c1:
+        st.markdown("### Profile A")
+        st.json(
+            {
+                "vector": report.get("vector_a", {}),
+                "rarity": report.get("rarity", {}).get(report.get("profile_a"), {}),
+                "impact": report.get("impact", {}).get(report.get("profile_a"), {}),
+            }
+        )
+
+    with c2:
+        st.markdown("### Profile B")
+        st.json(
+            {
+                "vector": report.get("vector_b", {}),
+                "rarity": report.get("rarity", {}).get(report.get("profile_b"), {}),
+                "impact": report.get("impact", {}).get(report.get("profile_b"), {}),
+            }
+        )
+
+    with st.expander("Relationship Intelligence v2 JSON", expanded=False):
+        st.json(report)
+
+
+def render_signal_list(title: str, items: list, mode: str) -> None:
+    """Render a list of relationship signals."""
+
+    st.markdown(f"### {title}")
+
+    if not items:
+        st.info("No signals available.")
+        return
+
+    for item in items:
+        if mode == "success":
+            st.success(str(item))
+        elif mode == "warning":
+            st.warning(str(item))
+        else:
+            st.info(str(item))

@@ -8,6 +8,7 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
+from atlas.services.population_structural_service import build_structural_neighbors_payload
 from atlas.services.population_intelligence_service import (
     DEFAULT_PROFILE_DIR,
     build_cluster_rows,
@@ -20,6 +21,8 @@ from atlas.services.population_intelligence_service import (
 
 
 POPULATION_V2_PATH = Path("output/population/population_intelligence_v2.json")
+STRUCTURAL_RARITY_PATH = Path("output/population/structural_rarity_report.json")
+STRUCTURAL_IMPACT_PATH = Path("output/population/structural_impact_report.json")
 
 
 def render_population_intelligence_page() -> None:
@@ -60,8 +63,11 @@ def render_population_intelligence_page() -> None:
 
     render_summary_cards(payload)
     render_population_v2_summary()
+    render_structural_rarity_summary()
+    render_structural_impact_summary()
     render_cluster_table(clusters)
     render_neighbor_explorer(matrix)
+    render_structural_neighbors_v2()
     render_downloads(data)
 
 
@@ -298,3 +304,319 @@ def render_role_summaries(role_summaries: dict) -> None:
         for role, summary in role_summaries.items():
             st.markdown(f"#### {role}")
             st.write(", ".join(summary.get("examples", [])))
+
+
+def render_structural_neighbors_v2() -> None:
+    """Render explainable structural nearest neighbors."""
+    st.markdown("## Structural Neighbors v2")
+    st.caption("Weighted similarity using role, topology, motif, resonance, and graph-density metrics.")
+
+    data = load_population_v2()
+    profiles = data.get("profiles", []) if isinstance(data, dict) else []
+
+    if not profiles:
+        st.info("Build Population Intelligence v2 before using structural neighbors.")
+        return
+
+    profile_keys = [item["profile_key"] for item in profiles if item.get("profile_key")]
+
+    selected = st.selectbox(
+        "Select structural profile",
+        profile_keys,
+        key="structural_neighbors_v2_select",
+    )
+
+    limit = st.slider(
+        "Structural neighbor limit",
+        min_value=1,
+        max_value=25,
+        value=10,
+        step=1,
+        key="structural_neighbors_v2_limit",
+    )
+
+    with st.spinner("Computing structural neighbors..."):
+        result = build_structural_neighbors_payload(selected, limit=limit, profile_keys=profile_keys)
+
+    if not result.get("success"):
+        for error in result.get("errors", []):
+            st.error(error)
+        return
+
+    neighbors = result.get("neighbors", [])
+
+    if not neighbors:
+        st.info("No structural neighbors found.")
+        return
+
+    rows = []
+
+    for item in neighbors:
+        candidate = item.get("candidate", {})
+        rows.append(
+            {
+                "profile_key": item.get("profile_key"),
+                "name": item.get("name"),
+                "similarity_percent": item.get("similarity_percent"),
+                "role": candidate.get("role"),
+                "subtype": candidate.get("subtype"),
+                "topology": candidate.get("topology"),
+                "axis": candidate.get("axis"),
+                "motif_richness": candidate.get("motif_richness"),
+                "truth_density": candidate.get("truth_density"),
+                "shared": "; ".join(item.get("shared", [])[:4]),
+                "differences": "; ".join(item.get("differences", [])[:4]),
+            }
+        )
+
+    st.dataframe(pd.DataFrame(rows), width="stretch")
+
+    with st.expander("Selected Structural Neighbor Report", expanded=False):
+        st.json(result)
+
+    st.download_button(
+        label="Download structural neighbor report JSON",
+        data=json_export(result),
+        file_name=f"{slugify(selected)}_structural_neighbors_v2.json",
+        mime="application/json",
+    )
+
+
+def load_structural_rarity() -> dict:
+    """Load Structural Rarity report."""
+    if not STRUCTURAL_RARITY_PATH.exists():
+        return {}
+
+    with STRUCTURAL_RARITY_PATH.open("r", encoding="utf-8") as file:
+        return json.load(file)
+
+
+def render_structural_rarity_summary() -> None:
+    """Render Structural Rarity Engine report."""
+    report = load_structural_rarity()
+
+    if not report:
+        st.info("Structural Rarity report has not been built yet.")
+        return
+
+    st.markdown("## Structural Rarity Engine")
+    st.caption("Corpus-level outlier detection for rare structures, unusual graph density, and exceptional profile signatures.")
+
+    c1, c2, c3 = st.columns(3)
+    c1.metric("Profiles Scored", report.get("profile_count", 0))
+    c2.metric("Top Outliers", len(report.get("top_outliers", [])))
+    c3.metric("Metric Groups", len(report.get("metric_leaders", {})))
+
+    render_top_structural_outliers(report.get("top_outliers", []))
+    render_metric_leaders(report.get("metric_leaders", {}))
+    render_grouped_outliers("Role Outliers", report.get("role_outliers", {}))
+    render_grouped_outliers("Topology Outliers", report.get("topology_outliers", {}))
+
+    with st.expander("Raw Structural Rarity JSON", expanded=False):
+        st.json(report)
+
+
+def render_top_structural_outliers(outliers: list[dict]) -> None:
+    """Render top rarity outliers."""
+    st.markdown("### Top Structural Outliers")
+
+    if not outliers:
+        st.info("No structural outliers found.")
+        return
+
+    rows = []
+
+    for item in outliers[:50]:
+        rows.append(
+            {
+                "profile_key": item.get("profile_key"),
+                "name": item.get("name"),
+                "role": item.get("role"),
+                "subtype": item.get("subtype"),
+                "topology": item.get("topology"),
+                "rarity_score": item.get("overall_rarity_score"),
+                "label": item.get("outlier_label"),
+                "truth_density": item.get("truth_density"),
+                "raw_density": item.get("raw_density"),
+                "reasons": "; ".join(item.get("outlier_reasons", [])[:4]),
+            }
+        )
+
+    st.dataframe(pd.DataFrame(rows), width="stretch")
+
+
+def render_metric_leaders(metric_leaders: dict) -> None:
+    """Render metric leaders."""
+    st.markdown("### Metric Leaders")
+
+    if not metric_leaders:
+        st.info("No metric leader data available.")
+        return
+
+    metric = st.selectbox(
+        "Select rarity metric",
+        list(metric_leaders.keys()),
+        key="structural_rarity_metric_select",
+    )
+
+    rows = []
+
+    for item in metric_leaders.get(metric, []):
+        rows.append(
+            {
+                "profile_key": item.get("profile_key"),
+                "name": item.get("name"),
+                "role": item.get("role"),
+                "topology": item.get("topology"),
+                "axis": item.get("axis"),
+                "motif_richness": item.get("motif_richness"),
+                "raw_density": item.get("raw_density"),
+                "truth_density": item.get("truth_density"),
+                "rarity_score": item.get("overall_rarity_score"),
+                "label": item.get("outlier_label"),
+                "reasons": "; ".join(item.get("outlier_reasons", [])[:3]),
+            }
+        )
+
+    st.dataframe(pd.DataFrame(rows), width="stretch")
+
+
+def render_grouped_outliers(title: str, groups: dict) -> None:
+    """Render grouped outlier tables."""
+    st.markdown(f"### {title}")
+
+    if not groups:
+        st.info(f"No {title.lower()} available.")
+        return
+
+    selected = st.selectbox(
+        title,
+        list(groups.keys()),
+        key=f"{slugify(title)}_select",
+    )
+
+    rows = []
+
+    for item in groups.get(selected, []):
+        rows.append(
+            {
+                "profile_key": item.get("profile_key"),
+                "name": item.get("name"),
+                "role": item.get("role"),
+                "subtype": item.get("subtype"),
+                "topology": item.get("topology"),
+                "axis": item.get("axis"),
+                "rarity_score": item.get("overall_rarity_score"),
+                "label": item.get("outlier_label"),
+                "reasons": "; ".join(item.get("outlier_reasons", [])[:3]),
+            }
+        )
+
+    st.dataframe(pd.DataFrame(rows), width="stretch")
+
+
+def load_structural_impact() -> dict:
+    """Load Structural Impact report."""
+    if not STRUCTURAL_IMPACT_PATH.exists():
+        return {}
+
+    with STRUCTURAL_IMPACT_PATH.open("r", encoding="utf-8") as file:
+        return json.load(file)
+
+
+def render_structural_impact_summary() -> None:
+    """Render Structural Impact Engine report."""
+    report = load_structural_impact()
+
+    if not report:
+        st.info("Structural Impact report has not been built yet.")
+        return
+
+    st.markdown("## Structural Impact Engine")
+    st.caption("Multi-factor ranking of outstanding structural signatures across rarity, graph complexity, truth density, motif richness, and centrality proxies.")
+
+    c1, c2, c3 = st.columns(3)
+    c1.metric("Profiles Scored", report.get("profile_count", 0))
+    c2.metric("Top Impact Profiles", len(report.get("top_impact_profiles", [])))
+    c3.metric("Leaderboards", len(report.get("leaderboards", {})))
+
+    render_top_structural_impact(report.get("top_impact_profiles", []))
+    render_impact_leaderboards(report.get("leaderboards", {}))
+
+    with st.expander("Impact Weights", expanded=False):
+        st.json(report.get("weights", {}))
+
+    with st.expander("Raw Structural Impact JSON", expanded=False):
+        st.json(report)
+
+
+def render_top_structural_impact(profiles: list[dict]) -> None:
+    """Render top impact profiles."""
+    st.markdown("### Top Structural Impact Profiles")
+
+    if not profiles:
+        st.info("No structural impact profiles found.")
+        return
+
+    rows = []
+
+    for item in profiles[:100]:
+        rows.append(
+            {
+                "profile_key": item.get("profile_key"),
+                "name": item.get("name"),
+                "role": item.get("role"),
+                "subtype": item.get("subtype"),
+                "topology": item.get("topology"),
+                "impact_percent": item.get("impact_percent"),
+                "impact_label": item.get("impact_label"),
+                "rarity": item.get("components", {}).get("rarity"),
+                "graph_complexity": item.get("components", {}).get("graph_complexity"),
+                "truth_density": item.get("components", {}).get("truth_density"),
+                "motif_richness": item.get("components", {}).get("motif_richness"),
+                "centrality_proxy": item.get("components", {}).get("centrality_proxy"),
+                "reasons": "; ".join(item.get("impact_reasons", [])[:4]),
+            }
+        )
+
+    st.dataframe(pd.DataFrame(rows), width="stretch")
+
+
+def render_impact_leaderboards(leaderboards: dict) -> None:
+    """Render structural impact leaderboards."""
+    st.markdown("### Impact Leaderboards")
+
+    if not leaderboards:
+        st.info("No impact leaderboards available.")
+        return
+
+    selected = st.selectbox(
+        "Select impact leaderboard",
+        list(leaderboards.keys()),
+        key="structural_impact_leaderboard_select",
+    )
+
+    rows = []
+
+    for item in leaderboards.get(selected, []):
+        components = item.get("components", {})
+
+        rows.append(
+            {
+                "profile_key": item.get("profile_key"),
+                "name": item.get("name"),
+                "role": item.get("role"),
+                "subtype": item.get("subtype"),
+                "topology": item.get("topology"),
+                "impact_percent": item.get("impact_percent"),
+                "impact_label": item.get("impact_label"),
+                "rarity": components.get("rarity"),
+                "graph_complexity": components.get("graph_complexity"),
+                "truth_density": components.get("truth_density"),
+                "motif_richness": components.get("motif_richness"),
+                "centrality_proxy": components.get("centrality_proxy"),
+                "reasons": "; ".join(item.get("impact_reasons", [])[:4]),
+            }
+        )
+
+    st.dataframe(pd.DataFrame(rows), width="stretch")
