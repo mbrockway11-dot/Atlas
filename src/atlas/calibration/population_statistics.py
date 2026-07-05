@@ -36,6 +36,7 @@ POPULATION_STATISTICS_VERSION = "1.0"
 
 DEFAULT_PROFILE_FILENAME = "identity_stack.json"
 LEGACY_PROFILE_FILENAME = "profile.acf.json"
+CANONICAL_PROFILE_FILENAME = "profile.payload.json"
 
 
 # ------------------------------------------------------------
@@ -70,27 +71,56 @@ def load_population_metrics(
 
     import json
 
-    for directory in sorted(profile_library.iterdir()):
+    directories = [
+        item
+        for item in sorted(profile_library.iterdir())
+        if item.is_dir()
+    ]
 
-        if not directory.is_dir():
+    nested_profiles = profile_library / "profiles"
+    if nested_profiles.exists():
+        directories.extend(
+            item
+            for item in sorted(nested_profiles.iterdir())
+            if item.is_dir()
+        )
+
+    seen: set[str] = set()
+
+    for directory in directories:
+
+        if directory.name in seen:
             continue
+
+        seen.add(directory.name)
+
         stack_file = directory / DEFAULT_PROFILE_FILENAME
+        canonical_file = directory / CANONICAL_PROFILE_FILENAME
 
-        if not stack_file.exists():
-            stack_file = directory / LEGACY_PROFILE_FILENAME
-
-        if not stack_file.exists():
+        if stack_file.exists():
+            loader = extract_profile_metrics
+            source_file = stack_file
+        elif (directory / LEGACY_PROFILE_FILENAME).exists():
+            loader = extract_profile_metrics
+            source_file = directory / LEGACY_PROFILE_FILENAME
+        elif canonical_file.exists():
+            loader = extract_canonical_profile_metrics
+            source_file = canonical_file
+        else:
             continue
 
         try:
             stack = json.loads(
-                stack_file.read_text(
+                source_file.read_text(
                     encoding="utf-8",
                 )
             )
 
+            if isinstance(stack, dict):
+                stack.setdefault("_profile_key", directory.name)
+
             profile_metrics.append(
-                extract_profile_metrics(
+                loader(
                     stack,
                 )
             )
@@ -133,6 +163,88 @@ def compute_distributions(
 # ------------------------------------------------------------
 # Metric Extraction
 # ------------------------------------------------------------
+
+
+def extract_canonical_profile_metrics(
+    payload: dict[str, Any],
+) -> ProfileMetrics:
+    """Extract standardized metrics from canonical profile.payload.json."""
+    identity = payload.get("identity", {})
+    graph = payload.get("graph", {})
+    graph_summary = graph.get("summary", {}) if isinstance(graph, dict) else {}
+    topology = payload.get("topology", {})
+    topology_summary = topology.get("summary", {}) if isinstance(topology, dict) else {}
+    resonance = payload.get("resonance", {})
+    resonance_summary = resonance.get("summary", {}) if isinstance(resonance, dict) else {}
+
+    node_count = int(graph_summary.get("raw_node_count") or 0)
+    edge_count = int(graph_summary.get("raw_edge_count") or 0)
+    truth_nodes = int(graph_summary.get("truth_node_count") or 0)
+    truth_edges = int(graph_summary.get("truth_edge_count") or 0)
+
+    density = graph_density(
+        node_count=node_count,
+        edge_count=edge_count,
+    )
+
+    average_degree = graph_average_degree(
+        node_count=node_count,
+        edge_count=edge_count,
+    )
+
+    reduction_ratio = safe_ratio(
+        node_count - truth_nodes,
+        node_count,
+    )
+
+    topology_vector = topology_summary.get("topology_vector", {}) if isinstance(topology_summary, dict) else {}
+    resonance_vector = resonance_summary.get("resonance_vector", {}) if isinstance(resonance_summary, dict) else {}
+
+    return ProfileMetrics(
+        identity=(
+            payload.get("profile_key")
+            or identity.get("profile_key")
+            or identity.get("display_name")
+            or identity.get("full_name")
+            or identity.get("name")
+            or "Unknown"
+        ),
+
+        node_count=node_count,
+        edge_count=edge_count,
+
+        density=density,
+        average_degree=average_degree,
+
+        hub_ratio=1.0 if graph_summary.get("dominant_motif") == "hub" else 0.0,
+        bridge_ratio=0.0,
+        articulation_ratio=0.0,
+        leaf_ratio=0.0,
+
+        chain_count=0,
+        triangle_count=1 if graph_summary.get("dominant_motif") == "triangle" else 0,
+        star_count=1 if graph_summary.get("dominant_motif") == "hub" else 0,
+        bottleneck_count=1 if graph_summary.get("topology_class") == "hierarchical_bottleneck" else 0,
+        cycle_count=1 if "cycle" in str(graph_summary.get("topology_class", "")) else 0,
+
+        hierarchy_score=float(topology_vector.get("hierarchy") or 0.0),
+        branching_score=float(topology_vector.get("branching") or 0.0),
+        cyclicity_score=float(topology_vector.get("cyclicity") or 0.0),
+        bottleneck_score=float(topology_vector.get("bottleneck") or 0.0),
+        persistence_score=float(topology_vector.get("persistence") or 0.0),
+
+        truth_ratio=safe_ratio(truth_edges, truth_nodes),
+
+        mean_node_coherence=float(resonance_vector.get("stability") or 0.0),
+        mean_edge_coherence=float(resonance_vector.get("propagation") or 0.0),
+
+        reduction_ratio=reduction_ratio,
+
+        topology_class=str(graph_summary.get("topology_class") or topology_summary.get("topology_class") or "unknown"),
+        resonance_class=str(graph_summary.get("resonance_class") or resonance_summary.get("resonance_class") or "unknown"),
+    )
+
+
 
 def extract_profile_metrics(
     stack: dict[str, Any],
@@ -207,7 +319,12 @@ def extract_profile_metrics(
     )
 
     return ProfileMetrics(
-        identity=stack.get("name", "Unknown"),
+        identity=(
+            stack.get("name")
+            or stack.get("profile_key")
+            or stack.get("_profile_key")
+            or "Unknown"
+        ),
 
         node_count=node_count,
         edge_count=edge_count,
