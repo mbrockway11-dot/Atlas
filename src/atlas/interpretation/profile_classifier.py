@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
-PROFILE_CLASSIFIER_VERSION = "2.0"
+PROFILE_CLASSIFIER_VERSION = "3.0"
 
 
 def classify_profile(payload: dict[str, Any]) -> dict[str, Any]:
@@ -159,20 +159,26 @@ def infer_role(
     if "developer" in notes or "builder" in notes or "architect" in notes:
         return "Architect-Regulator"
 
+    raw_density = raw_edge_count / max(raw_node_count, 1)
+    truth_density = truth_edge_count / max(truth_node_count, 1)
+
+    if truth_density >= 1.0 and raw_density >= 4.0:
+        return "Pattern-Weaver"
+
     if "cyclic" in topology_class or motif_richness >= 0.65:
         return "Cycle-Weaver"
 
-    if dominant_motif == "hub" and "distributed" in topology_class and "persistence" in axis:
+    if motif_richness <= 0.444 and truth_density <= 0.70:
         return "Persistence-Architect"
 
     if dominant_motif == "hub" and "distributed" in topology_class:
         return "Connector-Architect"
 
+    if truth_density >= 0.85:
+        return "Pattern-Weaver"
+
     if dominant_motif == "hub":
         return "Amplifier-Connector"
-
-    if truth_edge_count > truth_node_count and motif_richness >= 0.4:
-        return "Pattern-Weaver"
 
     if "persistence" in axis or "stability" in axis or "stability" in resonance_axis:
         return "Regulator-Builder"
