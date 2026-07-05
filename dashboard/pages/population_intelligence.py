@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+import json
+from pathlib import Path
+
 import pandas as pd
 import streamlit as st
 
@@ -14,6 +17,9 @@ from atlas.services.population_intelligence_service import (
     json_export,
     slugify,
 )
+
+
+POPULATION_V2_PATH = Path("output/population/population_intelligence_v2.json")
 
 
 def render_population_intelligence_page() -> None:
@@ -53,6 +59,7 @@ def render_population_intelligence_page() -> None:
     clusters = data["clusters"]
 
     render_summary_cards(payload)
+    render_population_v2_summary()
     render_cluster_table(clusters)
     render_neighbor_explorer(matrix)
     render_downloads(data)
@@ -204,3 +211,90 @@ def render_downloads(data: dict) -> None:
         file_name="structural_clusters.json",
         mime="application/json",
     )
+
+
+def load_population_v2() -> dict:
+    """Load Population Intelligence v2 summary."""
+    if not POPULATION_V2_PATH.exists():
+        return {}
+
+    with POPULATION_V2_PATH.open("r", encoding="utf-8") as file:
+        return json.load(file)
+
+
+def render_population_v2_summary() -> None:
+    """Render Population Intelligence v2 corpus summary."""
+    data = load_population_v2()
+
+    if not data:
+        st.info("Population Intelligence v2 summary has not been built yet.")
+        return
+
+    st.markdown("## Population Intelligence v2")
+    st.caption("Corpus-level structural role, subtype, topology, and density summary.")
+
+    c1, c2, c3 = st.columns(3)
+    c1.metric("Compiled Profiles", data.get("profile_count", 0))
+    c2.metric("Structural Roles", len(data.get("role_distribution", {})))
+    c3.metric("Topology Classes", len(data.get("topology_distribution", {})))
+
+    render_distribution_table("Role Distribution", data.get("role_distribution", {}))
+    render_distribution_table("Subtype Distribution", data.get("subtype_distribution", {}))
+    render_distribution_table("Topology Distribution", data.get("topology_distribution", {}))
+    render_role_summaries(data.get("role_summaries", {}))
+
+    with st.expander("Raw Population Intelligence v2 JSON", expanded=False):
+        st.json(data)
+
+
+def render_distribution_table(title: str, distribution: dict) -> None:
+    """Render distribution as dataframe."""
+    st.markdown(f"### {title}")
+
+    if not distribution:
+        st.info(f"No {title.lower()} data available.")
+        return
+
+    total = sum(distribution.values()) or 1
+
+    rows = [
+        {
+            "label": key,
+            "count": value,
+            "percent": round((value / total) * 100, 2),
+        }
+        for key, value in distribution.items()
+    ]
+
+    st.dataframe(pd.DataFrame(rows), width="stretch")
+
+
+def render_role_summaries(role_summaries: dict) -> None:
+    """Render per-role population summaries."""
+    st.markdown("### Role Summaries")
+
+    if not role_summaries:
+        st.info("No role summaries available.")
+        return
+
+    rows = []
+
+    for role, summary in role_summaries.items():
+        rows.append(
+            {
+                "role": role,
+                "count": summary.get("count", 0),
+                "avg_motif_richness": summary.get("avg_motif_richness", 0),
+                "avg_raw_density": summary.get("avg_raw_density", 0),
+                "avg_truth_density": summary.get("avg_truth_density", 0),
+                "avg_raw_nodes": summary.get("avg_raw_nodes", 0),
+                "avg_truth_nodes": summary.get("avg_truth_nodes", 0),
+            }
+        )
+
+    st.dataframe(pd.DataFrame(rows), width="stretch")
+
+    with st.expander("Role Examples", expanded=False):
+        for role, summary in role_summaries.items():
+            st.markdown(f"#### {role}")
+            st.write(", ".join(summary.get("examples", [])))
