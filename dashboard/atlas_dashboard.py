@@ -31,6 +31,7 @@ from pages.research_corpus import render_research_corpus_page
 from pages.research_session import render_research_session_page
 from pages.role_calibration_lab import render_role_calibration_lab_page
 from pages.statistical_intelligence import render_statistical_intelligence_page
+from pages.systems_engineering_report import render_systems_engineering_report_page
 from pages.temporal_intelligence import render_temporal_intelligence_page
 from pages.validation_lab import render_validation_lab_page
 
@@ -74,6 +75,7 @@ def build_page_registry() -> dict[str, PageRenderer]:
         "Intelligence Engine": render_intelligence_engine_page,
         "Temporal Intelligence": render_temporal_intelligence_page,
         "Statistical Intelligence": render_statistical_intelligence_page,
+        "Systems Engineering Report": render_systems_engineering_report_page,
         "Population Intelligence": render_population_intelligence_page,
         "Population Observatory": render_population_observatory_page,
         "Population Topology": render_population_topology_page,

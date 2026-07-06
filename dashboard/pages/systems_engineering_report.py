@@ -7,6 +7,7 @@ import pandas as pd
 import streamlit as st
 
 from atlas.services.systems_engineering_report_service import (
+    build_interactive_structural_graph,
     build_systems_report_payload,
     list_systems_report_profiles,
 )
@@ -15,7 +16,7 @@ from atlas.services.systems_engineering_report_service import (
 def render_systems_engineering_report_page() -> None:
     """Render Systems Engineering Report page."""
     st.header("Systems Engineering Report")
-    st.caption("Evidence ? fusion ? consensus ? reasoning ? inference graph.")
+    st.caption("Evidence -> fusion -> consensus -> reasoning -> inference graph.")
 
     profiles = list_systems_report_profiles()
 
@@ -126,7 +127,7 @@ def render_tensions(report: dict) -> None:
         return
 
     for item in tensions:
-        st.warning(f"{item.get('left')} ? {item.get('right')}")
+        st.warning(f"{item.get('left')} -> {item.get('right')}")
         st.write(item.get("explanation", ""))
 
 
@@ -229,7 +230,7 @@ def render_cognition(report: dict) -> None:
     cognition = report.get("cognition", {})
 
     st.markdown("## Cognitive Architecture")
-    st.write(" ? ".join(cognition.get("flow", [])))
+    st.write(" -> ".join(cognition.get("flow", [])))
     render_theme_table(cognition.get("themes", []))
 
 
@@ -252,11 +253,64 @@ def render_population(report: dict) -> None:
 
 
 def render_diagrams(report: dict) -> None:
-    """Render diagram specs."""
+    """Render interactive structural graph."""
     diagrams = report.get("diagrams", {})
+    graph_payload = build_interactive_structural_graph(report)
 
-    st.markdown("## Systems Diagram")
-    st.write(" ? ".join(diagrams.get("pipeline", [])))
+    st.markdown("## Interactive Structural Graph")
+    st.write(" -> ".join(diagrams.get("pipeline", [])))
+
+    c1, c2 = st.columns(2)
+    c1.metric("Graph Nodes", graph_payload.get("node_count", 0))
+    c2.metric("Graph Edges", graph_payload.get("edge_count", 0))
+
+    dot = graph_payload.get("dot", "")
+    if dot:
+        st.graphviz_chart(dot, use_container_width=True)
+
+    nodes = graph_payload.get("nodes", [])
+    edges = graph_payload.get("edges", [])
+
+    if nodes:
+        node_labels = [
+            f"{node.get('node_id')} | {node.get('label')}"
+            for node in nodes
+        ]
+
+        selected = st.selectbox(
+            "Inspect node",
+            node_labels,
+            key="systems_graph_node_select",
+        )
+
+        selected_id = selected.split(" | ", 1)[0]
+        selected_node = next(
+            (node for node in nodes if node.get("node_id") == selected_id),
+            {},
+        )
+
+        incoming = [
+            edge for edge in edges
+            if edge.get("target") == selected_id
+        ]
+
+        outgoing = [
+            edge for edge in edges
+            if edge.get("source") == selected_id
+        ]
+
+        c3, c4 = st.columns(2)
+
+        with c3:
+            st.markdown("### Node Detail")
+            st.json(selected_node)
+
+        with c4:
+            st.markdown("### Connected Edges")
+            st.write("Incoming")
+            st.json(incoming)
+            st.write("Outgoing")
+            st.json(outgoing)
 
     with st.expander("Inference Graph JSON", expanded=False):
         st.json(diagrams.get("inference_graph", {}))
