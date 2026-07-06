@@ -2,6 +2,7 @@
 """Synthesis evidence adapters."""
 
 from atlas.synthesis.adapters import (
+    gematria,
     behavior,
     classification,
     graph,
@@ -11,6 +12,7 @@ from atlas.synthesis.adapters import (
 )
 
 __all__ = [
+    "gematria",
     "behavior",
     "classification",
     "graph",

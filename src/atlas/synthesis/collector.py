@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 from atlas.synthesis.adapters import (
+    gematria,
     behavior,
     classification,
     graph,
@@ -63,6 +64,7 @@ def collect_structural_evidence_from_payload(
     evidence.extend(resonance.collect(payload))
     evidence.extend(population.collect(payload))
     evidence.extend(behavior.collect(payload))
+    evidence.extend(gematria.collect(payload))
 
     return EvidenceBundle(
         version=SYNTHESIS_COLLECTOR_VERSION,

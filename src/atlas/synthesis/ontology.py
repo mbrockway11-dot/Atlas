@@ -66,6 +66,9 @@ FEATURES: Final[dict[str, str]] = {
     "stability_seeking": "Prioritizes regulation, steadiness, and coherent internal state.",
     "message_propagation": "Moves information outward through channels, networks, or repeated transmission.",
     "activation_driven_action": "Acts when sufficient energetic or situational activation accumulates.",
+    "prime_structure": "A symbolic encoding resolves to a prime total, suggesting low factor decomposition and strong indivisibility.",
+    "reduction_stability": "Multiple encodings reduce to the same root or closely related reduction pattern.",
+    "symbolic_coherence": "Independent symbolic encodings converge rather than diverge.",
 }
 
 
@@ -110,6 +113,9 @@ FEATURE_TO_CATEGORY: Final[dict[str, str]] = {
     "stability_seeking": "emotional_architecture",
     "message_propagation": "relationship_dynamics",
     "activation_driven_action": "motivational_architecture",
+    "prime_structure": "symbolic_architecture",
+    "reduction_stability": "symbolic_architecture",
+    "symbolic_coherence": "symbolic_architecture",
 }
 
 
