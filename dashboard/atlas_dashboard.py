@@ -12,6 +12,7 @@ from pages.atlas_ai import render_atlas_ai_page
 from pages.compare_profiles import render_compare_profiles_page
 from pages.comparison_lab import render_comparison_lab_page
 from pages.developer_console import render_developer_console_page
+from pages.dynamics_lab import render_dynamics_lab_page
 from pages.decision_lab import render_decision_lab_page
 from pages.evidence_explorer import render_evidence_explorer_page
 from pages.evolution_lab import render_evolution_lab_page
@@ -84,6 +85,7 @@ def build_page_registry() -> dict[str, PageRenderer]:
         "Simulation Lab": render_simulation_lab_page,
         "Evolution Lab": render_evolution_lab_page,
         "Decision Lab": render_decision_lab_page,
+        "Dynamics Lab": render_dynamics_lab_page,
         "Population Intelligence": render_population_intelligence_page,
         "Population Observatory": render_population_observatory_page,
         "Population Topology": render_population_topology_page,
