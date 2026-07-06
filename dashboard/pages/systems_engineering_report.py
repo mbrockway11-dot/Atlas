@@ -6,6 +6,8 @@ from __future__ import annotations
 import pandas as pd
 import streamlit as st
 
+from atlas.cognitive_twin import build_cognitive_twin_report
+
 from atlas.services.systems_engineering_report_service import (
     build_interactive_structural_graph,
     build_systems_report_payload,
@@ -57,6 +59,7 @@ def render_systems_engineering_report_page() -> None:
     render_behavior(report)
     render_population(report)
     render_diagrams(report)
+    render_cognitive_twin(report)
     render_raw(report)
 
 
@@ -381,3 +384,45 @@ def format_percent(value) -> str:
         return f"{float(value) * 100:.1f}%"
     except Exception:
         return "n/a"
+
+
+
+def render_cognitive_twin(report: dict) -> None:
+    """Render Cognitive Digital Twin simulation."""
+    st.markdown("## Cognitive Digital Twin")
+
+    scenario = st.text_area(
+        "Scenario",
+        value="complex public project with pressure to innovate",
+        key="cdt_scenario",
+    )
+
+    twin = build_cognitive_twin_report(report, scenario=scenario)
+
+    c1, c2 = st.columns(2)
+    c1.metric("States", twin.get("state_count", 0))
+    c2.metric("Transitions", twin.get("transition_count", 0))
+
+    simulation = twin.get("simulation", {})
+    active = simulation.get("active_state", {})
+
+    st.markdown("### Active State")
+    st.metric(active.get("label", "n/a"), format_percent(simulation.get("activation_score")))
+
+    st.markdown("### Matched Triggers")
+    st.write(", ".join(simulation.get("matched_triggers", [])) or "None")
+
+    st.markdown("### Likely Transitions")
+    transitions = simulation.get("likely_transitions", [])
+    if transitions:
+        st.dataframe(pd.DataFrame(transitions), width="stretch")
+    else:
+        st.info("No likely transitions from this state.")
+
+    st.markdown("### State Scores")
+    scores = simulation.get("state_scores", [])
+    if scores:
+        st.dataframe(pd.DataFrame(scores), width="stretch")
+
+    with st.expander("Cognitive Digital Twin JSON", expanded=False):
+        st.json(twin)
