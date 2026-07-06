@@ -20,6 +20,7 @@ from pages.evolution_lab import render_evolution_lab_page
 from pages.graph_explorer import render_graph_explorer_page
 from pages.identity_stack_lab import render_identity_stack_lab_page
 from pages.intelligence_engine import render_intelligence_engine_page
+from pages.knowledge_lab import render_knowledge_lab_page
 from pages.morphology_lab import render_morphology_lab_page
 from pages.narrative_intelligence import render_narrative_intelligence_page
 from pages.population_intelligence import render_population_intelligence_page
@@ -88,6 +89,7 @@ def build_page_registry() -> dict[str, PageRenderer]:
         "Decision Lab": render_decision_lab_page,
         "Dynamics Lab": render_dynamics_lab_page,
         "Discovery Lab": render_discovery_lab_page,
+        "Knowledge Lab": render_knowledge_lab_page,
         "Population Intelligence": render_population_intelligence_page,
         "Population Observatory": render_population_observatory_page,
         "Population Topology": render_population_topology_page,
