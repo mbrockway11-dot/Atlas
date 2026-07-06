@@ -10,6 +10,7 @@ from atlas.services.mission_control_service import build_mission_control_status
 
 from pages.atlas_ai import render_atlas_ai_page
 from pages.compare_profiles import render_compare_profiles_page
+from pages.comparison_lab import render_comparison_lab_page
 from pages.developer_console import render_developer_console_page
 from pages.decision_lab import render_decision_lab_page
 from pages.evidence_explorer import render_evidence_explorer_page
@@ -69,6 +70,7 @@ def build_page_registry() -> dict[str, PageRenderer]:
         "Profile Observatory": render_profile_observatory_page,
         "Profile Test Lab": render_profile_test_lab_page,
         "Compare Profiles": render_compare_profiles_page,
+        "Comparison Lab": render_comparison_lab_page,
 
         # Research
         "Research Corpus": render_research_corpus_page,
