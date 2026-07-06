@@ -12,6 +12,7 @@ from atlas.population_v4.similarity import (
 from atlas.population_v4.archetypes import build_population_archetypes
 from atlas.population_v4.cluster_report import build_population_cluster_report
 from atlas.population_v4.clustering import build_hierarchical_clusters
+from atlas.population_v4.outliers import build_population_outliers
 from atlas.population_v4.neighbors import (
     find_neighbors_for_all,
     find_population_neighbors,
@@ -29,4 +30,5 @@ __all__ = [
     "build_hierarchical_clusters",
     "build_population_cluster_report",
     "build_population_archetypes",
+    "build_population_outliers",
 ]
