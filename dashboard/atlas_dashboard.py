@@ -34,6 +34,7 @@ from pages.profile_report import render_profile_report_page
 from pages.profile_test_lab import render_profile_test_lab_page
 from pages.relationship_report import render_relationship_report_page
 from pages.research_corpus import render_research_corpus_page
+from pages.research_orchestrator_lab import render_research_orchestrator_lab_page
 from pages.research_session import render_research_session_page
 from pages.simulation_lab import render_simulation_lab_page
 from pages.role_calibration_lab import render_role_calibration_lab_page
@@ -77,6 +78,7 @@ def build_page_registry() -> dict[str, PageRenderer]:
 
         # Research
         "Research Corpus": render_research_corpus_page,
+        "Research Orchestrator": render_research_orchestrator_lab_page,
         "Research Session": render_research_session_page,
 
         # Intelligence
