@@ -15,6 +15,7 @@ from atlas.population_v4.clustering import build_hierarchical_clusters
 from atlas.population_v4.outliers import build_population_outliers
 from atlas.population_v4.structural_rarity import build_structural_rarity_report
 from atlas.population_v4.structural_impact import build_structural_impact_report
+from atlas.population_v4.population_dynamics import build_population_dynamics_report
 from atlas.population_v4.neighbors import (
     find_neighbors_for_all,
     find_population_neighbors,
@@ -35,4 +36,5 @@ __all__ = [
     "build_population_outliers",
     "build_structural_rarity_report",
     "build_structural_impact_report",
+    "build_population_dynamics_report",
 ]
