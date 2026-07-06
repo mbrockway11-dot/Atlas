@@ -7,7 +7,7 @@ import pandas as pd
 import streamlit as st
 
 from atlas.services.autonomous_service import (
-    build_autonomous_lab_payload,
+    build_autonomous_director_payload,
     list_autonomous_profiles,
 )
 
@@ -35,6 +35,8 @@ def render_autonomous_lab_page() -> None:
         force = st.toggle("Force recompile", value=False)
 
     holdout_ratio = st.slider("Prediction holdout ratio", 0.05, 0.50, 0.20, 0.05)
+    goal = st.text_input("Director goal", value="general_autonomous_research")
+    export = st.toggle("Export reports", value=True)
 
     selected_profiles = st.multiselect(
         "Optional profile subset",
@@ -50,12 +52,14 @@ def render_autonomous_lab_page() -> None:
         return
 
     with st.spinner("Running Autonomous Learning Cycle..."):
-        payload = build_autonomous_lab_payload(
+        payload = build_autonomous_director_payload(
             use_profiles,
             limit=effective_limit,
             force=force,
+            goal=goal,
             max_schedule_items=max_schedule_items,
             holdout_ratio=holdout_ratio,
+            export=export,
         )
 
     if not payload.get("success"):
@@ -66,6 +70,7 @@ def render_autonomous_lab_page() -> None:
     report = payload.get("autonomous", {})
 
     render_summary(payload)
+    render_director_status(payload)
     render_learning(report)
     render_experiment_plan(report)
     render_theory(report)
@@ -97,6 +102,33 @@ def render_summary(payload: dict) -> None:
         c5, c6 = st.columns(2)
         c5.metric("Prediction MAE", format_number(scores.get("mean_absolute_error")))
         c6.metric("Accuracy", scores.get("accuracy_label", "n/a"))
+
+
+
+
+def render_director_status(payload: dict) -> None:
+    """Render Director status."""
+    st.markdown("## Director Status")
+
+    director = payload.get("director", {})
+    health = payload.get("health", {})
+    checkpoints = payload.get("checkpoints", {})
+    state = director.get("state", {})
+
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Director State", state.get("state", "n/a"))
+    c2.metric("Health", "healthy" if health.get("healthy") else "warnings")
+    c3.metric("Warnings", health.get("warning_count", 0))
+    c4.metric("Checkpoints", checkpoints.get("checkpoint_count", 0))
+
+    if health.get("warnings"):
+        st.warning("\\n".join(health.get("warnings", [])))
+
+    with st.expander("Director State History", expanded=False):
+        st.json(state.get("history", []))
+
+    with st.expander("Director Checkpoints", expanded=False):
+        st.json(checkpoints)
 
 
 def render_learning(report: dict) -> None:
