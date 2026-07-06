@@ -1,261 +1,149 @@
 # Atlas
 
-> A structural topology framework for measuring persistent identity, relational structure, and emergent archetypal organization in complex systems.
+> A deterministic structural intelligence platform for compiling, analyzing,
+> comparing, and researching human structural signatures.
 
 ---
 
-## Overview
+# Vision
 
-Atlas is a research framework for constructing and measuring identity through structural relationships rather than isolated attributes.
+Atlas is not a chatbot.
 
-Instead of treating a person, object, or system as a collection of independent properties, Atlas models them as an interconnected topology whose persistent features can be measured, compared, and interpreted.
+Atlas is not a personality test.
 
-The framework combines graph theory, topology, symbolic abstraction, and statistical measurement into a unified ontology engine.
+Atlas is a deterministic structural intelligence system that compiles a
+canonical representation of an individual's identity, temporal state,
+graph topology, resonance behavior, and structural fingerprint into a
+single reusable intelligence payload.
 
-Current development focuses on human identity, but the architecture is designed to generalize to any networked system.
-
----
-
-# Core Thesis
-
-Identity is not a list of traits.
-
-Identity is an emergent topology.
-
-Persistent structure contains more information than isolated observations.
-
-Atlas attempts to quantify that structure.
-
-The framework measures:
-
-- Structural persistence
-- Archetypal organization
-- Role distribution
-- Motif recurrence
-- Relational coherence
-- Identity stability
-
-rather than relying solely on demographic or categorical labels.
+Everything in Atlas begins from one canonical source of truth.
 
 ---
 
-# Architecture
+# Core Philosophy
 
-```
-Raw Data
-      │
-      ▼
-Identity Construction
-      │
-      ▼
-Topology Generation
-      │
-      ▼
-Archetype Extraction
-      │
-      ▼
-Structural Measurements
-      │
-      ▼
-Interpretation Layer
-      │
-      ▼
-Markdown / Reports / Visualization
-```
+Atlas separates the platform into two distinct responsibilities.
 
----
+## Intelligence
 
-# Current Modules
+Produces deterministic facts.
 
-```
-src/atlas/
+Examples:
 
-identity/
-ontology/
-topology/
-profiles/
-measurement/
-resonance/
-visualization/
-reports/
-research/
-transits/
-signatures/
-overlay/
-```
+- identity
+- temporal
+- natal
+- ephemeris
+- graph
+- topology
+- resonance
+- fingerprint
+- classification
 
-Major capabilities include
+## Interpretation
 
-- Identity synthesis
-- Ontology construction
-- Archetype generation
-- Structural role classification
-- Motif extraction
-- Persistence measurements
-- Resonance analysis
-- Markdown report generation
-- Visualization utilities
+Explains those facts.
+
+Examples:
+
+- profile report
+- narrative
+- evidence
+- relationship reports
+- AI synthesis
+
+Interpretation never invents intelligence.
 
 ---
 
-# Measurement Philosophy
+# Canonical Pipeline
 
-Atlas attempts to measure structural characteristics instead of assigning subjective labels.
+```
+profile.intake.json
 
-Examples include
+↓
 
-- Structural persistence ratio
-- Edge persistence ratio
-- Role entropy
-- Motif density
-- Topological coherence
-- Network stability
-- Archetype consistency
-- Identity convergence
+compile_canonical_profile()
 
-These measurements are intended to be reproducible and testable.
+↓
+
+profile.payload.json
+
+↓
+
+Atlas AI
+Dashboard
+Population Intelligence
+Relationship Engine
+Research
+Validation
+```
+
+This is the only supported compilation pipeline.
 
 ---
 
-# Research Goals
+# Major Components
 
-The long-term objective is to construct a generalized framework capable of describing persistent organizational structure across multiple domains, including:
+## Canonical Compiler
 
-- Human identity
-- Social systems
-- Organizations
-- Biological networks
-- Knowledge graphs
-- Financial systems
-- Complex adaptive systems
+Produces the complete structural payload.
 
-The underlying hypothesis is that many apparently unrelated systems share common topological signatures.
+## Atlas AI
+
+Synthesizes deterministic services into executive reports.
+
+## Dashboard
+
+Visualizes compiled profiles.
+
+## Population Intelligence
+
+Compares thousands of compiled profiles.
+
+## Research Engine
+
+Builds evidence-driven hypotheses.
 
 ---
 
-# Installation
+# Project Structure
 
-Clone the repository
-
-```bash
-git clone https://github.com/mbrockway11-dot/Atlas.git
 ```
+src/
+    atlas/
 
-Create a virtual environment
-
-```bash
-python -m venv .venv
-```
-
-Activate
-
-Windows
-
-```powershell
-.venv\Scripts\activate
-```
-
-Install dependencies
-
-```bash
-pip install -e .
+        compiler/
+        services/
+        graph/
+        topology/
+        temporal/
+        resonance/
+        fingerprint/
+        dashboard/
 ```
 
 ---
 
-# Running Tests
+# Development Philosophy
 
-```
-pytest
-```
+Atlas prefers:
 
-Atlas is developed with an emphasis on reproducibility.
+- deterministic algorithms
+- composable services
+- immutable compiled payloads
+- explicit evidence
+- reproducibility
 
-New features are expected to include accompanying tests.
+Atlas avoids:
 
----
-
-# Development Principles
-
-- Deterministic outputs
-- Reproducible measurements
-- Modular architecture
-- Test-driven development
-- Explainable structural metrics
-- Separation between measurement and interpretation
-
----
-
-# Roadmap
-
-## Phase I
-
-- Identity engine
-- Ontology builder
-- Structural metrics
-- Report generation
-
-✓ Complete
-
----
-
-## Phase II
-
-- Persistent topology analysis
-- Resonance framework
-- Visualization improvements
-- Archetype refinement
-
-In Progress
-
----
-
-## Phase III
-
-- Multi-identity comparison
-- Coalition topology
-- Cluster atlas
-- Structural forecasting
-- Temporal evolution
-
-Planned
-
----
-
-# Repository Structure
-
-```
-Atlas/
-│
-├── src/
-├── tests/
-├── docs/
-├── data/
-├── research/
-├── reports/
-├── pyproject.toml
-├── README.md
-└── LICENSE
-```
-
----
-
-# Philosophy
-
-> "The topology is the identity."
-
-Atlas is an exploration into whether persistent relational structure provides a more informative description of complex systems than isolated variables alone.
+- duplicated pipelines
+- hidden mutations
+- multiple compilers
+- service-owned intelligence
 
 ---
 
 # License
 
-License to be determined.
-
----
-
-# Author
-
-Michael Elvis Brockway
-
-Research Project — Atlas
+See LICENSE.
