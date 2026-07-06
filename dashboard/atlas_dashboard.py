@@ -6,6 +6,8 @@ from collections.abc import Callable
 
 import streamlit as st
 
+from atlas.services.autonomous_service import build_autonomous_lab_payload
+
 from atlas.services.mission_control_service import build_mission_control_status
 
 from pages.atlas_ai import render_atlas_ai_page
@@ -125,6 +127,66 @@ def render_sidebar(pages: dict[str, PageRenderer]) -> str:
 
     return selected
 
+
+
+
+def render_autonomous_mission_control() -> None:
+    """Render Autonomous Phase V Mission Control metrics."""
+    st.markdown("### Phase V ? Autonomous Scientific Research")
+
+    try:
+        payload = build_autonomous_lab_payload(
+            limit=50,
+            max_schedule_items=2,
+            force=False,
+        )
+    except Exception as exc:
+        st.warning(f"Autonomous metrics unavailable: {exc}")
+        return
+
+    autonomous = payload.get("autonomous", {})
+    learning = autonomous.get("learning_update", {})
+    theory = autonomous.get("theory", {})
+    prediction = autonomous.get("prediction", {})
+    falsification = autonomous.get("falsification", {})
+    evidence = autonomous.get("evidence_registry", {})
+    memory = autonomous.get("memory", {})
+    scheduler = autonomous.get("scheduler", {})
+
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Autonomous Loop", learning.get("learning_label", "offline"))
+    c2.metric("Learning Score", format_number(learning.get("learning_score")))
+    c3.metric("Evidence Records", len(evidence.get("records", {}) or {}))
+    c4.metric("Memory Items", memory_item_count(memory))
+
+    c5, c6, c7, c8 = st.columns(4)
+    c5.metric("Generated Questions", autonomous.get("experiment_plan", {}).get("generated_count", 0))
+    c6.metric("Scheduled", scheduler.get("schedule", {}).get("scheduled_count", 0))
+    c7.metric("Promoted Theories", theory.get("promoted_count", 0))
+    c8.metric("Theory Challenges", falsification.get("challenge_count", 0))
+
+    if prediction.get("success"):
+        scores = prediction.get("benchmark", {}).get("scores", {})
+        c9, c10 = st.columns(2)
+        c9.metric("Prediction MAE", format_number(scores.get("mean_absolute_error")))
+        c10.metric("Prediction Accuracy", scores.get("accuracy_label", "n/a"))
+
+
+def memory_item_count(memory: dict) -> int:
+    """Count memory items."""
+    return (
+        len(memory.get("experiments", {}) or {})
+        + len(memory.get("evidence", {}) or {})
+        + len(memory.get("hypotheses", {}) or {})
+    )
+
+
+def format_number(value) -> str:
+    """Format numeric values."""
+    try:
+        return f"{float(value):.3f}"
+    except Exception:
+        return "n/a"
 
 def render_mission_control() -> None:
     """Render Atlas mission-control summary."""
