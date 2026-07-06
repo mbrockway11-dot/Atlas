@@ -9,6 +9,7 @@ from atlas.population_v4.similarity import (
     compare_population_records,
     find_structural_neighbors,
 )
+from atlas.population_v4.archetypes import build_population_archetypes
 from atlas.population_v4.cluster_report import build_population_cluster_report
 from atlas.population_v4.clustering import build_hierarchical_clusters
 from atlas.population_v4.neighbors import (
@@ -27,4 +28,5 @@ __all__ = [
     "find_population_neighbors",
     "build_hierarchical_clusters",
     "build_population_cluster_report",
+    "build_population_archetypes",
 ]
