@@ -16,6 +16,13 @@ from atlas.synthesis.fusion import (
     fusion_result_to_dict,
     fuse_evidence_bundle,
 )
+from atlas.synthesis.inference_graph import (
+    InferenceEdge,
+    InferenceGraph,
+    InferenceNode,
+    build_inference_graph,
+    inference_graph_to_dict,
+)
 from atlas.synthesis.reasoning import (
     ReasoningReport,
     StructuralInference,
@@ -43,6 +50,11 @@ from atlas.synthesis.evidence import (
 )
 
 __all__ = [
+    "InferenceEdge",
+    "InferenceGraph",
+    "InferenceNode",
+    "build_inference_graph",
+    "inference_graph_to_dict",
     "ReasoningReport",
     "StructuralInference",
     "build_reasoning_report",

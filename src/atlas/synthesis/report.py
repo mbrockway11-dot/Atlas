@@ -15,6 +15,10 @@ from atlas.synthesis.consensus import (
     strongest_theme_names,
 )
 from atlas.synthesis.evidence import bundle_to_dict
+from atlas.synthesis.inference_graph import (
+    build_inference_graph,
+    inference_graph_to_dict,
+)
 from atlas.synthesis.reasoning import (
     build_reasoning_report,
     reasoning_report_to_dict,
@@ -35,6 +39,7 @@ def build_synthesis_report(profile_key: str) -> dict[str, Any]:
     fusion = fuse_evidence_bundle(bundle)
     consensus = build_consensus_report(fusion)
     reasoning = build_reasoning_report(consensus)
+    inference_graph = build_inference_graph(consensus)
 
     return {
         "success": True,
@@ -46,6 +51,7 @@ def build_synthesis_report(profile_key: str) -> dict[str, Any]:
         "fusion": fusion_result_to_dict(fusion),
         "consensus": consensus_report_to_dict(consensus),
         "reasoning": reasoning_report_to_dict(reasoning),
+        "inference_graph": inference_graph_to_dict(inference_graph),
     }
 
 
