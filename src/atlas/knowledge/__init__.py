@@ -17,4 +17,8 @@ __all__ = [
     "add_relation",
     "create_knowledge_base",
     "build_knowledge_graph_from_discovery",
+    "build_knowledge_interpretation",
 ]
+
+
+from atlas.knowledge.interpreter import build_knowledge_interpretation
