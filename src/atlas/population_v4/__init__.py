@@ -9,6 +9,10 @@ from atlas.population_v4.similarity import (
     compare_population_records,
     find_structural_neighbors,
 )
+from atlas.population_v4.neighbors import (
+    find_neighbors_for_all,
+    find_population_neighbors,
+)
 
 __all__ = [
     "build_population_v4_corpus",
@@ -17,4 +21,6 @@ __all__ = [
     "build_similarity_matrix",
     "compare_population_records",
     "find_structural_neighbors",
+    "find_neighbors_for_all",
+    "find_population_neighbors",
 ]
