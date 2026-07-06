@@ -118,6 +118,7 @@ def compile_canonical_profile(profile_key: str, *, force: bool = False) -> dict[
 
     dynamics_report = build_unified_dynamics_report(payload)
     payload["dynamics"] = dynamics_report
+    payload["metrics"]["has_dynamics"] = bool(dynamics_report.get("success"))
     payload["metrics"]["has_systems_report"] = bool(systems_report.get("success"))
 
     write_json(payload_path, payload)
@@ -466,7 +467,8 @@ def build_metrics(payload: dict[str, Any]) -> dict[str, Any]:
         "has_resonance": resonance.get("status") == "compiled",
         "has_fingerprint": payload.get("fingerprint", {}).get("status") == "compiled",
         "has_classification": bool(classification.get("structural_role")),
-    }
+            "has_dynamics": bool(payload.get("dynamics", {}).get("success")),
+}
 
 
 def missing_layer(layer: str, reason: str) -> dict[str, Any]:
