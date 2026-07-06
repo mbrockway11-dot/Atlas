@@ -6,6 +6,8 @@ from __future__ import annotations
 import pandas as pd
 import streamlit as st
 
+from atlas.dynamics import build_temporal_perturbation_report
+
 from atlas.services.dynamics_service import (
     build_dynamics_payload,
     list_dynamics_profiles,
@@ -53,6 +55,7 @@ def render_dynamics_lab_page() -> None:
     render_dynamic_signature(dynamics)
     render_identity_field(dynamics)
     render_prediction(dynamics)
+    render_temporal_perturbation(payload.get("payload", {}))
     render_reasoning(dynamics)
     render_evidence(dynamics)
     render_kamea_dynamics(dynamics)
@@ -123,6 +126,117 @@ def render_prediction(dynamics: dict) -> None:
 
     st.write(prediction_interpretation(prediction))
 
+
+
+def render_temporal_perturbation(profile_payload: dict) -> None:
+    """Render Temporal Perturbation controls."""
+    st.markdown("## Temporal Perturbation")
+
+    st.caption("Apply pressure to the dynamic field and estimate recovery, sensitivity, recurrence, and response shift.")
+
+    c1, c2, c3, c4 = st.columns(4)
+    time_pressure = c1.slider("Time Pressure", 0.0, 1.0, 0.0, 0.05)
+    visibility = c2.slider("Visibility", 0.0, 1.0, 0.0, 0.05)
+    novelty = c3.slider("Novelty", 0.0, 1.0, 0.0, 0.05)
+    uncertainty = c4.slider("Uncertainty", 0.0, 1.0, 0.0, 0.05)
+
+    c5, c6, c7, c8 = st.columns(4)
+    conflict = c5.slider("Conflict", 0.0, 1.0, 0.0, 0.05)
+    fatigue = c6.slider("Fatigue", 0.0, 1.0, 0.0, 0.05)
+    complexity = c7.slider("Complexity", 0.0, 1.0, 0.0, 0.05)
+    resource_constraint = c8.slider("Resource Constraint", 0.0, 1.0, 0.0, 0.05)
+
+    pressure = {
+        "time_pressure": time_pressure,
+        "visibility": visibility,
+        "novelty": novelty,
+        "uncertainty": uncertainty,
+        "conflict": conflict,
+        "fatigue": fatigue,
+        "complexity": complexity,
+        "resource_constraint": resource_constraint,
+    }
+
+    if not st.button("Run Temporal Perturbation"):
+        st.info("Adjust pressure sliders and run the perturbation model.")
+        return
+
+    report = build_temporal_perturbation_report(
+        profile_payload,
+        pressure=pressure,
+        label="dynamics_lab_pressure_field",
+    )
+
+    st.info(report.get("summary", ""))
+
+    baseline = report.get("baseline", {})
+    perturbed = report.get("perturbed", {})
+    deltas = report.get("deltas", {})
+    response = report.get("response", {})
+    shift = report.get("attractor_shift", {})
+
+    c1, c2, c3 = st.columns(3)
+    c1.metric("Pressure Load", format_percent(report.get("pressure_load")))
+    c2.metric("Pressure Vector", report.get("pressure_vector", "n/a"))
+    c3.metric("Response Mode", response.get("mode", "n/a"))
+
+    c4, c5, c6 = st.columns(3)
+    c4.metric(
+        "Recovery",
+        format_percent(perturbed.get("recovery_probability")),
+        delta=format_delta(deltas.get("recovery_probability")),
+    )
+    c5.metric(
+        "Sensitivity",
+        format_percent(perturbed.get("perturbation_sensitivity")),
+        delta=format_delta(deltas.get("perturbation_sensitivity")),
+    )
+    c6.metric(
+        "Recurrence",
+        format_percent(perturbed.get("recurrence")),
+        delta=format_delta(deltas.get("recurrence")),
+    )
+
+    st.markdown("### Interpretation")
+    st.write(response.get("interpretation", ""))
+
+    st.markdown("### Attractor Shift")
+    c7, c8, c9 = st.columns(3)
+    c7.metric("Shift Strength", format_percent(shift.get("shift_strength")))
+    c8.metric("Stability Label", shift.get("stability_label", "n/a"))
+    c9.metric("Activated Currents", shift.get("activated_current_count", 0))
+
+    tabs = st.tabs(["Baseline vs Perturbed", "Stable Attractors", "Activated Currents", "Raw Perturbation"])
+
+    with tabs[0]:
+        rows = []
+        for key in sorted(set(baseline.keys()) | set(perturbed.keys())):
+            rows.append(
+                {
+                    "metric": key,
+                    "baseline": baseline.get(key),
+                    "perturbed": perturbed.get(key),
+                    "delta": deltas.get(key),
+                }
+            )
+        st.dataframe(pd.DataFrame(rows), width="stretch")
+
+    with tabs[1]:
+        stable = shift.get("stable_attractors", [])
+        if stable:
+            st.dataframe(pd.DataFrame(stable), width="stretch")
+        else:
+            st.info("No stable attractors listed.")
+
+    with tabs[2]:
+        currents = shift.get("activated_currents", [])
+        if currents:
+            st.dataframe(pd.DataFrame(currents), width="stretch")
+        else:
+            st.info("No activated currents listed.")
+
+    with tabs[3]:
+        st.json(report)
 
 def render_reasoning(dynamics: dict) -> None:
     """Render dynamics reasoning."""
@@ -243,5 +357,14 @@ def format_percent(value) -> str:
     """Format percent."""
     try:
         return f"{float(value) * 100:.1f}%"
+    except Exception:
+        return "n/a"
+
+
+
+def format_delta(value) -> str:
+    """Format metric delta."""
+    try:
+        return f"{float(value):+.3f}"
     except Exception:
         return "n/a"
