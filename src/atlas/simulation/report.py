@@ -10,6 +10,7 @@ from atlas.simulation.adaptation import build_adaptation_model
 from atlas.simulation.decision import build_decision_candidates
 from atlas.simulation.environment import SimulationEnvironment, environment_from_dict, environment_to_dict
 from atlas.simulation.growth import build_growth_model
+from atlas.simulation.narrative import build_simulation_narrative
 from atlas.simulation.propagation import propagate_activation
 from atlas.simulation.recovery import build_recovery_path
 from atlas.simulation.scenarios import get_scenario_environment
@@ -56,11 +57,14 @@ def build_simulation_report(
         "adaptation": adaptation,
     }
 
-    return {
+    growth = build_growth_model(simulation)
+    output = {
         "success": True,
         "version": SIMULATION_REPORT_VERSION,
         "profile_key": systems_report.get("profile_key"),
         "scenario": scenario,
         "simulation": simulation,
-        "growth": build_growth_model(simulation),
+        "growth": growth,
     }
+    output["narrative"] = build_simulation_narrative(output)
+    return output
