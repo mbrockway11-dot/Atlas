@@ -11,7 +11,9 @@ from atlas.services.mission_control_service import build_mission_control_status
 from pages.atlas_ai import render_atlas_ai_page
 from pages.compare_profiles import render_compare_profiles_page
 from pages.developer_console import render_developer_console_page
+from pages.decision_lab import render_decision_lab_page
 from pages.evidence_explorer import render_evidence_explorer_page
+from pages.evolution_lab import render_evolution_lab_page
 from pages.graph_explorer import render_graph_explorer_page
 from pages.identity_stack_lab import render_identity_stack_lab_page
 from pages.intelligence_engine import render_intelligence_engine_page
@@ -29,6 +31,7 @@ from pages.profile_test_lab import render_profile_test_lab_page
 from pages.relationship_report import render_relationship_report_page
 from pages.research_corpus import render_research_corpus_page
 from pages.research_session import render_research_session_page
+from pages.simulation_lab import render_simulation_lab_page
 from pages.role_calibration_lab import render_role_calibration_lab_page
 from pages.statistical_intelligence import render_statistical_intelligence_page
 from pages.systems_engineering_report import render_systems_engineering_report_page
@@ -76,6 +79,9 @@ def build_page_registry() -> dict[str, PageRenderer]:
         "Temporal Intelligence": render_temporal_intelligence_page,
         "Statistical Intelligence": render_statistical_intelligence_page,
         "Systems Engineering Report": render_systems_engineering_report_page,
+        "Simulation Lab": render_simulation_lab_page,
+        "Evolution Lab": render_evolution_lab_page,
+        "Decision Lab": render_decision_lab_page,
         "Population Intelligence": render_population_intelligence_page,
         "Population Observatory": render_population_observatory_page,
         "Population Topology": render_population_topology_page,
