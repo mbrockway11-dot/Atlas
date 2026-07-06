@@ -12,6 +12,7 @@ from typing import Any
 import pandas as pd
 import streamlit as st
 
+from atlas.services.profile_payload_service import build_profile_payload
 from atlas.services.profile_observatory_service import (
     build_current_profile_matrix_rows,
     build_profile_overlay,
@@ -22,6 +23,8 @@ from atlas.services.profile_observatory_service import (
 from atlas.services.single_profile_intelligence_service import (
     build_single_profile_intelligence_payload,
 )
+from dashboard.ui.profile_view import render_profile_view
+from dashboard.ui.timeline import render_timeline
 from components.ive_panel import render_ive_panel
 from components.observatory.calibration import render_calibration_view
 from components.observatory.functional_role_v2 import render_functional_role_v2
@@ -49,9 +52,11 @@ def render_profile_observatory_page() -> None:
     safe_section("Header", lambda: render_observatory_header(acf))
 
     intelligence_payload = build_single_profile_intelligence_payload(selected)
+    canonical_payload = build_profile_payload(selected)
 
-    tab_integrated, tab_identity, tab_graph, tab_emanations, tab_overlay, tab_resonance, tab_layers, tab_calibration, tab_matrix, tab_debug = st.tabs(
+    tab_dossier, tab_integrated, tab_identity, tab_graph, tab_emanations, tab_overlay, tab_resonance, tab_layers, tab_calibration, tab_matrix, tab_debug = st.tabs(
         [
+            "Profile Dossier",
             "Integrated Intelligence",
             "Identity",
             "Graph 3D",
@@ -65,10 +70,22 @@ def render_profile_observatory_page() -> None:
         ]
     )
 
+    with tab_dossier:
+        safe_section(
+            "Profile Dossier",
+            lambda: render_profile_dossier(canonical_payload),
+        )
+
     with tab_integrated:
         safe_section(
             "Integrated Intelligence",
             lambda: render_integrated_intelligence(intelligence_payload),
+        )
+
+    with tab_dossier:
+        safe_section(
+            "Profile Dossier",
+            lambda: render_profile_dossier(canonical_payload),
         )
 
     with tab_integrated:
@@ -104,6 +121,28 @@ def render_profile_observatory_page() -> None:
 
     with tab_debug:
         safe_section("Legacy Debug", lambda: render_legacy_debug(acf))
+
+
+
+def render_profile_dossier(payload: dict[str, Any]) -> None:
+    """Render canonical profile dossier."""
+    if not payload.get("success"):
+        st.error("Canonical profile payload failed.")
+        st.json(payload)
+        return
+
+    render_profile_view(payload)
+
+    lifecycle = payload.get("lifecycle", {})
+    timeline = lifecycle.get("timeline", []) if isinstance(lifecycle, dict) else []
+
+    if timeline:
+        st.markdown("## Lifecycle Timeline")
+        render_timeline(
+            timeline,
+            title="Lifecycle Timeline",
+            subtitle=lifecycle.get("observed_lifespan", "Historical lifecycle"),
+        )
 
 
 def safe_section(name: str, render_fn) -> None:
