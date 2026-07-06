@@ -6,6 +6,7 @@ from __future__ import annotations
 from typing import Any
 
 from atlas.autonomous.learning import build_autonomous_learning_report
+from atlas.autonomous.memory import ensure_research_memory, persist_research_memory
 from atlas.library.profile_library import list_saved_profiles
 from atlas.services.discovery_service import build_discovery_records
 
@@ -30,16 +31,22 @@ def build_autonomous_lab_payload(
         force=force,
     )
 
+    memory = ensure_research_memory()
+
     report = build_autonomous_learning_report(
         records,
+        memory=memory,
         max_schedule_items=max_schedule_items,
         holdout_ratio=holdout_ratio,
     )
+
+    memory_result = persist_research_memory(report.get("memory", memory))
 
     return {
         "success": True,
         "record_count": len(records),
         "profile_keys": [record.get("profile_key") for record in records],
+        "memory_persistence": memory_result,
         "autonomous": report,
         "summary": report.get("summary", ""),
         "learning_update": report.get("learning_update", {}),
