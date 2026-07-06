@@ -16,6 +16,13 @@ from atlas.synthesis.fusion import (
     fusion_result_to_dict,
     fuse_evidence_bundle,
 )
+from atlas.synthesis.reasoning import (
+    ReasoningReport,
+    StructuralInference,
+    build_reasoning_report,
+    inference_to_dict,
+    reasoning_report_to_dict,
+)
 from atlas.synthesis.report import build_synthesis_report, build_synthesis_report_from_payload
 from atlas.synthesis.ontology import (
     CATEGORIES,
@@ -36,6 +43,11 @@ from atlas.synthesis.evidence import (
 )
 
 __all__ = [
+    "ReasoningReport",
+    "StructuralInference",
+    "build_reasoning_report",
+    "inference_to_dict",
+    "reasoning_report_to_dict",
     "build_synthesis_report",
     "build_synthesis_report_from_payload",
     "ConsensusReport",
