@@ -23,6 +23,7 @@ from atlas.knowledge.structural_synthesis import build_structural_synthesis
 from atlas.synthesis import build_synthesis_report_from_payload
 from atlas.systems_report import build_systems_engineering_report
 from atlas.dynamics import build_unified_dynamics_report
+from atlas.knowledge import build_knowledge_interpretation
 
 from atlas.services.profile_path_service import resolve_profile_dir
 from atlas.temporal.birth import build_birth_data_from_intake
@@ -119,6 +120,10 @@ def compile_canonical_profile(profile_key: str, *, force: bool = False) -> dict[
     dynamics_report = build_unified_dynamics_report(payload)
     payload["dynamics"] = dynamics_report
     payload["metrics"]["has_dynamics"] = bool(dynamics_report.get("success"))
+
+    knowledge_interpretation = build_knowledge_interpretation(payload)
+    payload["knowledge_interpretation"] = knowledge_interpretation
+    payload["metrics"]["has_knowledge_interpretation"] = bool(knowledge_interpretation.get("success"))
     payload["metrics"]["has_systems_report"] = bool(systems_report.get("success"))
 
     write_json(payload_path, payload)
