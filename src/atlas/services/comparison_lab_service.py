@@ -7,6 +7,7 @@ from typing import Any
 
 from atlas.comparison_v3 import build_comparison_v3_report
 from atlas.compiler.canonical_profile_compiler import compile_canonical_profile
+from atlas.dynamics import build_dynamic_resonance_v2
 from atlas.library.profile_library import list_saved_profiles
 from atlas.simulation.scenarios import SCENARIO_PRESETS
 
@@ -67,10 +68,18 @@ def build_comparison_lab_payload(
         scenarios=scenarios,
     )
 
+    dynamic_resonance = build_dynamic_resonance_v2(
+        left_payload,
+        right_payload,
+    )
+
+    comparison["dynamic_resonance_v2"] = dynamic_resonance
+
     return {
         "success": True,
         "errors": [],
         "left_payload": left_payload,
         "right_payload": right_payload,
         "comparison": comparison,
+        "dynamic_resonance": dynamic_resonance,
     }

@@ -88,6 +88,7 @@ def render_comparison_lab_page() -> None:
     render_inference_comparison(comparison)
     render_simulation_comparison(comparison)
     render_evolution_comparison(comparison)
+    render_dynamic_resonance(comparison)
     render_raw(comparison)
 
 
@@ -253,6 +254,53 @@ def render_evolution_comparison(comparison: dict) -> None:
 
     st.info(evolution.get("summary", ""))
 
+
+
+def render_dynamic_resonance(comparison: dict) -> None:
+    """Render Dynamic Resonance v2."""
+    st.markdown("## Dynamic Resonance v2")
+
+    resonance = comparison.get("dynamic_resonance_v2", {})
+
+    if not resonance:
+        st.info("Dynamic Resonance v2 is unavailable.")
+        return
+
+    c1, c2 = st.columns(2)
+    c1.metric("Dynamic Resonance", format_number(resonance.get("dynamic_resonance")))
+    c2.metric("Label", resonance.get("label", "n/a"))
+
+    narrative = resonance.get("narrative", {})
+    st.subheader(narrative.get("headline", "Dynamic resonance"))
+    st.write(narrative.get("summary", ""))
+    st.info(narrative.get("interpretation", ""))
+
+    components = resonance.get("component_scores", {})
+
+    if components:
+        rows = [
+            {
+                "component": key,
+                "score": value,
+            }
+            for key, value in components.items()
+        ]
+        st.markdown("### Component Scores")
+        st.dataframe(pd.DataFrame(rows), width="stretch")
+
+    shared = resonance.get("shared", {})
+    differences = resonance.get("differences", {})
+
+    tabs = st.tabs(["Shared Dynamics", "Differences", "Raw Dynamic Resonance"])
+
+    with tabs[0]:
+        st.json(shared)
+
+    with tabs[1]:
+        st.json(differences)
+
+    with tabs[2]:
+        st.json(resonance)
 
 def render_raw(comparison: dict) -> None:
     """Render raw JSON."""
