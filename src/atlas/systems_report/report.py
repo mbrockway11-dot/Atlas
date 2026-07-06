@@ -11,6 +11,7 @@ from atlas.systems_report.consensus import build_consensus_section
 from atlas.systems_report.diagrams import build_diagrams_section
 from atlas.systems_report.evidence_matrix import build_evidence_matrix
 from atlas.systems_report.evolution import build_evolution_section
+from atlas.synthesis.explainability import build_explainability_report
 from atlas.systems_report.executive import build_executive_summary
 from atlas.systems_report.population import build_population_section
 from atlas.systems_report.reasoning import build_reasoning_section
@@ -31,6 +32,7 @@ def build_systems_engineering_report(payload: dict[str, Any]) -> dict[str, Any]:
         "evidence_matrix": build_evidence_matrix(payload),
         "consensus": build_consensus_section(payload),
         "reasoning": build_reasoning_section(payload),
+        "explainability": build_explainability_report(payload.get("synthesis", {})),
         "tensions": build_tensions_section(payload),
         "cognition": build_cognition_section(payload),
         "behavior": build_behavior_section(payload),

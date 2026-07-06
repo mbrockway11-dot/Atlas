@@ -48,6 +48,7 @@ def render_systems_engineering_report_page() -> None:
 
     render_executive(report)
     render_reasoning(report)
+    render_explainability(report)
     render_tensions(report)
     render_consensus(report)
     render_evidence_matrix(report)
@@ -115,6 +116,56 @@ def render_reasoning(report: dict) -> None:
             st.write(item.get("explanation", ""))
             st.json(item)
 
+
+
+
+def render_explainability(report: dict) -> None:
+    """Render explainability section."""
+    explainability = report.get("explainability", {})
+    explanations = explainability.get("explanations", [])
+
+    st.markdown("## Explainability Engine")
+
+    if not explanations:
+        st.info("No explainability records available.")
+        return
+
+    options = [
+        item.get("inference", "unknown")
+        for item in explanations
+    ]
+
+    selected = st.selectbox(
+        "Explain inference",
+        options,
+        key="systems_explainability_select",
+    )
+
+    record = next(
+        (item for item in explanations if item.get("inference") == selected),
+        {},
+    )
+
+    c1, c2 = st.columns(2)
+    c1.metric("Inference", record.get("inference", "unknown"))
+    c2.metric("Confidence", format_percent(record.get("confidence")))
+
+    st.write(record.get("plain_english", ""))
+    st.write(record.get("reasoning_statement", ""))
+
+    st.markdown("### Supporting Features")
+    st.write(", ".join(record.get("supporting_features", [])))
+
+    st.markdown("### Supporting Engines")
+    st.write(", ".join(record.get("supporting_engines", [])))
+
+    evidence = record.get("supporting_evidence", [])
+    if evidence:
+        st.markdown("### Evidence Trail")
+        st.dataframe(pd.DataFrame(evidence), width="stretch")
+
+    with st.expander("Explainability JSON", expanded=False):
+        st.json(record)
 
 def render_tensions(report: dict) -> None:
     """Render structural tensions."""
