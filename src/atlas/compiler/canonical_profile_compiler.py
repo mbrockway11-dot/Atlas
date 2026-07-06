@@ -21,6 +21,7 @@ from typing import Any
 from atlas.semantic import build_semantic_profile
 from atlas.knowledge.structural_synthesis import build_structural_synthesis
 from atlas.synthesis import build_synthesis_report_from_payload
+from atlas.systems_report import build_systems_engineering_report
 
 from atlas.services.profile_path_service import resolve_profile_dir
 from atlas.temporal.birth import build_birth_data_from_intake
@@ -78,6 +79,7 @@ def compile_canonical_profile(profile_key: str, *, force: bool = False) -> dict[
         "classification": {},
         "structural_synthesis": {},
         "synthesis": {},
+        "systems_report": {},
         "narrative": missing_layer("narrative", "Narrative compiler not wired into canonical compiler yet."),
         "evidence": [],
         "metrics": {},
@@ -109,6 +111,10 @@ def compile_canonical_profile(profile_key: str, *, force: bool = False) -> dict[
     synthesis = build_synthesis_report_from_payload(payload)
     payload["synthesis"] = synthesis
     payload["metrics"]["has_synthesis"] = bool(synthesis.get("success"))
+
+    systems_report = build_systems_engineering_report(payload)
+    payload["systems_report"] = systems_report
+    payload["metrics"]["has_systems_report"] = bool(systems_report.get("success"))
 
     write_json(payload_path, payload)
 

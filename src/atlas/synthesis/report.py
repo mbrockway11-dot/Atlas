@@ -105,14 +105,18 @@ def build_synthesis_report_from_payload(payload: dict[str, Any]) -> dict[str, An
 
     fusion = fuse_evidence_bundle(bundle)
     consensus = build_consensus_report(fusion)
+    reasoning = build_reasoning_report(consensus)
+    inference_graph = build_inference_graph(consensus)
 
     return {
         "success": True,
         "version": SYNTHESIS_REPORT_VERSION,
         "profile_key": profile_key,
-        "summary": build_summary(profile_key, consensus),
+        "summary": build_summary(profile_key, consensus, reasoning),
         "strongest_theme_names": strongest_theme_names(consensus),
         "evidence": bundle_to_dict(bundle),
         "fusion": fusion_result_to_dict(fusion),
         "consensus": consensus_report_to_dict(consensus),
+        "reasoning": reasoning_report_to_dict(reasoning),
+        "inference_graph": inference_graph_to_dict(inference_graph),
     }
