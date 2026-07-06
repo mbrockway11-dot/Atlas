@@ -69,7 +69,7 @@ def compile_canonical_profile(profile_key: str, *, force: bool = False) -> dict[
         "death": build_death(intake),
         "lifecycle": build_lifecycle(intake),
         "cipher": missing_layer("cipher", "Cipher compiler not wired into canonical compiler yet."),
-        "kamea": missing_layer("kamea", "Kamea compiler not wired into canonical compiler yet."),
+        "kamea": {},
         "graph": {},
         "topology": {},
         "resonance": {},
@@ -88,6 +88,8 @@ def compile_canonical_profile(profile_key: str, *, force: bool = False) -> dict[
             "compiler": "canonical_profile_compiler",
         },
     }
+
+    payload["kamea"] = build_kamea_layer(payload)
 
     graph_layers = build_graph_layers(payload)
     payload.update(graph_layers)
@@ -169,6 +171,32 @@ def build_lifecycle(intake: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+
+def build_kamea_layer(payload: dict[str, Any]) -> dict[str, Any]:
+    """Build canonical Kamea layer."""
+    try:
+        graph = build_kamea_identity_graph(payload)
+
+        safe_graph = json_safe(graph)
+
+        return {
+            "status": "compiled",
+            "version": safe_graph.get("version", "1.0"),
+            "summary": safe_graph.get("summary", {}),
+            "construction_passes": safe_graph.get("construction_passes", []),
+            "nodes": safe_graph.get("nodes", {}),
+            "edges": safe_graph.get("edges", {}),
+            "metadata": safe_graph.get("metadata", {}),
+            "raw_graph": safe_graph,
+        }
+
+    except Exception as exc:
+        return missing_layer(
+            "kamea",
+            f"Kamea compilation failed: {exc}",
+        )
+
+
 def build_graph_layers(payload: dict[str, Any]) -> dict[str, Any]:
     """Build graph, topology, resonance, and fingerprint layers."""
     try:
@@ -228,7 +256,8 @@ def build_graph_layers(payload: dict[str, Any]) -> dict[str, Any]:
 def build_graph_input(payload: dict[str, Any]) -> dict[str, Any]:
     """Build legacy-compatible graph input from Kamea identity graph."""
     identity = payload.get("identity", {})
-    kamea_graph = build_kamea_identity_graph(payload)
+    kamea_layer = payload.get("kamea", {})
+    kamea_graph = kamea_layer.get("raw_graph") or kamea_layer
     layers = build_kamea_graph_layers(kamea_graph)
 
     return {
@@ -463,6 +492,38 @@ def failure_payload(
 def read_json(path: Path) -> dict[str, Any]:
     """Read JSON artifact."""
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+
+def json_safe(value: Any) -> Any:
+    """Convert nested structures to JSON-safe values."""
+    if isinstance(value, dict):
+        return {
+            stringify_key(key): json_safe(item)
+            for key, item in value.items()
+        }
+
+    if isinstance(value, list):
+        return [
+            json_safe(item)
+            for item in value
+        ]
+
+    if isinstance(value, tuple):
+        return [
+            json_safe(item)
+            for item in value
+        ]
+
+    return value
+
+
+def stringify_key(key: Any) -> str:
+    """Convert dict keys to JSON-safe strings."""
+    if isinstance(key, tuple):
+        return "|".join(str(item) for item in key)
+
+    return str(key)
 
 
 def write_json(path: Path, payload: dict[str, Any]) -> None:

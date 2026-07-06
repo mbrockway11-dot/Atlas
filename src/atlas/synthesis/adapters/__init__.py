@@ -2,6 +2,7 @@
 """Synthesis evidence adapters."""
 
 from atlas.synthesis.adapters import (
+    kamea,
     astrology,
     numerology,
     gematria,
@@ -14,6 +15,7 @@ from atlas.synthesis.adapters import (
 )
 
 __all__ = [
+    "kamea",
     "astrology",
     "numerology",
     "gematria",
