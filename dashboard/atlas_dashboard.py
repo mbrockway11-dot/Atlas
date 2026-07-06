@@ -9,6 +9,7 @@ import streamlit as st
 from atlas.services.mission_control_service import build_mission_control_status
 
 from pages.atlas_ai import render_atlas_ai_page
+from pages.autonomous_lab import render_autonomous_lab_page
 from pages.compare_profiles import render_compare_profiles_page
 from pages.comparison_lab import render_comparison_lab_page
 from pages.developer_console import render_developer_console_page
