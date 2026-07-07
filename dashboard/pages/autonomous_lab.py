@@ -71,6 +71,7 @@ def render_autonomous_lab_page() -> None:
 
     render_summary(payload)
     render_director_status(payload)
+    render_confidence(report)
     render_learning(report)
     render_experiment_plan(report)
     render_theory(report)
@@ -129,6 +130,37 @@ def render_director_status(payload: dict) -> None:
 
     with st.expander("Director Checkpoints", expanded=False):
         st.json(checkpoints)
+
+
+
+
+def render_confidence(report: dict) -> None:
+    """Render Scientific Confidence panel."""
+    st.markdown("## Scientific Confidence")
+
+    confidence = report.get("scientific_confidence", {})
+
+    if not confidence:
+        st.info("No scientific confidence report available.")
+        return
+
+    st.info(confidence.get("summary", ""))
+
+    c1, c2 = st.columns(2)
+    c1.metric("Scientific Confidence", format_number(confidence.get("scientific_confidence")))
+    c2.metric("Confidence Label", confidence.get("confidence_label", "n/a"))
+
+    components = confidence.get("components", {}) or {}
+
+    if components:
+        rows = [
+            {"component": key, "score": value}
+            for key, value in components.items()
+        ]
+        st.dataframe(pd.DataFrame(rows), width="stretch")
+
+    with st.expander("Confidence Inputs", expanded=False):
+        st.json(confidence.get("inputs", {}))
 
 
 def render_learning(report: dict) -> None:
