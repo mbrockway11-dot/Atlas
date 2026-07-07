@@ -9,6 +9,7 @@ from typing import Any
 
 
 DEFAULT_SIGNAL_PATHS = [
+    Path("output/market_bridge/source_signal.csv"),
     Path("output/live_signal_v5.csv"),
     Path("output/backfilled_live_signals_v5.csv"),
     Path("output/v32_ab_live_signal_snapshot.csv"),
@@ -17,16 +18,15 @@ DEFAULT_SIGNAL_PATHS = [
 
 
 def find_signal_file(paths: list[str | Path] | None = None) -> Path | None:
-    """Find first existing signal file."""
-    candidates = [Path(p) for p in (paths or DEFAULT_SIGNAL_PATHS)]
-    for path in candidates:
+    """Find first available sigil-engine signal file."""
+    for path in [Path(p) for p in (paths or DEFAULT_SIGNAL_PATHS)]:
         if path.exists():
             return path
     return None
 
 
 def read_latest_signal(path: str | Path | None = None) -> dict[str, Any]:
-    """Read latest sigil-engine CSV signal."""
+    """Read latest signal row from CSV."""
     signal_path = Path(path) if path else find_signal_file()
 
     if signal_path is None or not signal_path.exists():
@@ -34,6 +34,7 @@ def read_latest_signal(path: str | Path | None = None) -> dict[str, Any]:
             "success": False,
             "error": "No sigil-engine signal file found.",
             "path": str(signal_path) if signal_path else "",
+            "signal": {},
         }
 
     with signal_path.open("r", newline="", encoding="utf-8") as f:
@@ -44,6 +45,7 @@ def read_latest_signal(path: str | Path | None = None) -> dict[str, Any]:
             "success": False,
             "error": "Signal file is empty.",
             "path": str(signal_path),
+            "signal": {},
         }
 
     latest = rows[-1]

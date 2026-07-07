@@ -14,7 +14,7 @@ def build_market_decision(
     paper_only: bool = True,
     min_confidence: float = 0.70,
 ) -> dict[str, Any]:
-    """Build paper-only trade decision."""
+    """Build paper-only market recommendation."""
     risk = evaluate_market_risk(
         market_state,
         paper_only=paper_only,
@@ -47,12 +47,11 @@ def build_market_decision(
 
 
 def build_reason(decision: str, market_state: dict[str, Any], risk: dict[str, Any]) -> str:
-    """Build decision reason."""
     if decision == "NO_TRADE":
         return risk.get("summary", "No trade conditions met.")
 
     return (
-        f"Market Bridge produced {decision} research decision for "
+        f"Market Bridge produced {decision} paper-only research decision for "
         f"{market_state.get('asset')} with confidence {market_state.get('confidence')}. "
         "Live execution remains disabled."
     )

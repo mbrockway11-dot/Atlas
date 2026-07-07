@@ -13,7 +13,7 @@ def evaluate_market_risk(
     min_confidence: float = 0.70,
     max_position_size: float = 0.10,
 ) -> dict[str, Any]:
-    """Evaluate market risk constraints."""
+    """Evaluate paper-only research risk."""
     reasons = []
 
     if paper_only:
@@ -28,14 +28,13 @@ def evaluate_market_risk(
     if market_state.get("asset") in {"", "UNKNOWN"}:
         reasons.append("No valid asset detected.")
 
-    allowed_research_decision = not any(
-        reason in reasons
-        for reason in [
-            "Entry is not ready.",
-            "Confidence is below minimum threshold.",
-            "No valid asset detected.",
-        ]
-    )
+    blockers = {
+        "Entry is not ready.",
+        "Confidence is below minimum threshold.",
+        "No valid asset detected.",
+    }
+
+    allowed_research_decision = not any(reason in blockers for reason in reasons)
 
     return {
         "success": True,
@@ -49,7 +48,6 @@ def evaluate_market_risk(
 
 
 def build_summary(allowed: bool, reasons: list[str]) -> str:
-    """Build risk summary."""
     if allowed:
         return "Risk Governor allows paper-only research decision. Live execution remains disabled."
     return "Risk Governor blocked action: " + "; ".join(reasons)

@@ -7,14 +7,13 @@ from typing import Any
 
 
 def build_market_state(signal_payload: dict[str, Any]) -> dict[str, Any]:
-    """Convert sigil-engine signal into canonical market state."""
+    """Convert raw sigil-engine output into Atlas market state."""
     signal = signal_payload.get("signal", {}) or {}
 
     asset = first_present(signal, ["asset", "symbol", "leader_asset", "trade_asset"])
     action = normalize_action(first_present(signal, ["action", "signal_state", "decision", "side"]))
     direction = normalize_direction(first_present(signal, ["direction", "side", "trade_direction"]))
     confidence = parse_float(first_present(signal, ["confidence", "score", "signal_score", "edge_score"]), default=0.0)
-
     entry_ready = parse_bool(first_present(signal, ["entry_ready", "setup_active", "valid_signal", "trade_ready"]))
 
     return {
@@ -32,7 +31,6 @@ def build_market_state(signal_payload: dict[str, Any]) -> dict[str, Any]:
 
 
 def first_present(row: dict[str, Any], keys: list[str]) -> Any:
-    """Return first present non-empty value."""
     for key in keys:
         value = row.get(key)
         if value not in (None, ""):
@@ -41,7 +39,6 @@ def first_present(row: dict[str, Any], keys: list[str]) -> Any:
 
 
 def normalize_action(value: Any) -> str:
-    """Normalize action."""
     text = str(value or "").upper()
 
     if "NO" in text and "TRADE" in text:
@@ -59,7 +56,6 @@ def normalize_action(value: Any) -> str:
 
 
 def normalize_direction(value: Any) -> str:
-    """Normalize direction."""
     text = str(value or "").upper()
 
     if "LONG" in text or "BUY" in text:
@@ -73,7 +69,6 @@ def normalize_direction(value: Any) -> str:
 
 
 def classify_market_state(action: str, direction: str, confidence: float, entry_ready: bool) -> str:
-    """Classify market state."""
     if not entry_ready:
         return "inactive_market_state"
     if action in {"LONG", "SHORT"} and confidence >= 0.70:
@@ -84,7 +79,6 @@ def classify_market_state(action: str, direction: str, confidence: float, entry_
 
 
 def parse_float(value: Any, *, default: float = 0.0) -> float:
-    """Parse float."""
     try:
         return float(value)
     except Exception:
@@ -92,6 +86,5 @@ def parse_float(value: Any, *, default: float = 0.0) -> float:
 
 
 def parse_bool(value: Any) -> bool:
-    """Parse boolean."""
     text = str(value).strip().lower()
     return text in {"1", "true", "yes", "y", "ready", "active"}

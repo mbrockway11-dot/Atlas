@@ -22,7 +22,7 @@ def build_market_bridge_report(
     min_confidence: float = 0.70,
     output_path: str | Path = DEFAULT_OUTPUT,
 ) -> dict[str, Any]:
-    """Build full Market Bridge report."""
+    """Build full Market Bridge v1 report."""
     signal_payload = read_latest_signal(signal_path)
     market_state = build_market_state(signal_payload)
     decision = build_market_decision(
@@ -41,14 +41,14 @@ def build_market_bridge_report(
         "summary": decision.get("reason", ""),
     }
 
-    export = export_market_bridge_report(report, output_path)
-    report["export"] = export
-
+    report["export"] = export_market_bridge_report(report, output_path)
     return report
 
 
-def export_market_bridge_report(report: dict[str, Any], output_path: str | Path = DEFAULT_OUTPUT) -> dict[str, Any]:
-    """Export market bridge report."""
+def export_market_bridge_report(
+    report: dict[str, Any],
+    output_path: str | Path = DEFAULT_OUTPUT,
+) -> dict[str, Any]:
     path = Path(output_path)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
