@@ -1,0 +1,2167 @@
+{
+  "success": true,
+  "audit": "investment_system_audit",
+  "files": {
+    "price_data": [
+      {
+        "path": "output/price_data.csv",
+        "status": "ok",
+        "exists": true,
+        "resolved_path": "C:\\Users\\lyfe1\\OneDrive\\Desktop\\sigil-engine\\output\\price_data.csv",
+        "rows": 6743,
+        "columns": [
+          "date",
+          "asset",
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume"
+        ],
+        "column_count": 7,
+        "missing_values": {},
+        "duplicate_rows": 0,
+        "date_column": "date",
+        "date_min": "2020-01-01 00:00:00",
+        "date_max": "2026-03-31 00:00:00",
+        "invalid_dates": 0,
+        "duplicate_asset_timestamps": 0,
+        "asset_column": "asset",
+        "asset_count": 3,
+        "assets": [
+          "BTC-USD",
+          "ETH-USD",
+          "SOL-USD"
+        ],
+        "rows_by_asset": {
+          "BTC-USD": 2281,
+          "ETH-USD": 2281,
+          "SOL-USD": 2181
+        },
+        "numeric_summary": {
+          "open": {
+            "mean": 17107.62614429,
+            "median": 2201.70874023,
+            "min": 0.51339102,
+            "max": 124752.140625
+          },
+          "high": {
+            "mean": 17447.07555502,
+            "median": 2263.32910156,
+            "min": 0.55975902,
+            "max": 126198.0703125
+          },
+          "low": {
+            "mean": 16745.37690648,
+            "median": 2109.05517578,
+            "min": 0.50519401,
+            "max": 123196.046875
+          },
+          "close": {
+            "mean": 17116.11158457,
+            "median": 2201.51025391,
+            "min": 0.51527297,
+            "max": 124752.53125
+          },
+          "volume": {
+            "mean": 19582187440.40071,
+            "median": 14620450464.0,
+            "min": 652020.0,
+            "max": 350967941479.0
+          }
+        }
+      },
+      {
+        "path": "output/btc_price_data.csv",
+        "status": "ok",
+        "exists": true,
+        "resolved_path": "C:\\Users\\lyfe1\\OneDrive\\Desktop\\sigil-engine\\output\\btc_price_data.csv",
+        "rows": 2281,
+        "columns": [
+          "date",
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume"
+        ],
+        "column_count": 6,
+        "missing_values": {},
+        "duplicate_rows": 0,
+        "date_column": "date",
+        "date_min": "2020-01-01 00:00:00",
+        "date_max": "2026-03-31 00:00:00",
+        "invalid_dates": 0,
+        "duplicate_timestamps": 0,
+        "numeric_summary": {
+          "open": {
+            "mean": 48318.05890393,
+            "median": 41561.46484375,
+            "min": 5002.578125,
+            "max": 124752.140625
+          },
+          "high": {
+            "mean": 49260.64084185,
+            "median": 42479.61328125,
+            "min": 5331.83398438,
+            "max": 126198.0703125
+          },
+          "low": {
+            "mean": 47313.17777697,
+            "median": 40667.5625,
+            "min": 4106.98095703,
+            "max": 123196.046875
+          },
+          "close": {
+            "mean": 48342.44606815,
+            "median": 41626.1953125,
+            "min": 4970.78808594,
+            "max": 124752.53125
+          },
+          "volume": {
+            "mean": 36770778009.53705,
+            "median": 32459287866.0,
+            "min": 5331172801.0,
+            "max": 350967941479.0
+          }
+        }
+      },
+      {
+        "path": "output/eth_price_data.csv",
+        "status": "ok",
+        "exists": true,
+        "resolved_path": "C:\\Users\\lyfe1\\OneDrive\\Desktop\\sigil-engine\\output\\eth_price_data.csv",
+        "rows": 2281,
+        "columns": [
+          "date",
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume"
+        ],
+        "column_count": 6,
+        "missing_values": {},
+        "duplicate_rows": 0,
+        "date_column": "date",
+        "date_min": "2020-01-01 00:00:00",
+        "date_max": "2026-03-31 00:00:00",
+        "invalid_dates": 0,
+        "duplicate_timestamps": 0,
+        "numeric_summary": {
+          "open": {
+            "mean": 2171.73544999,
+            "median": 2087.66357422,
+            "min": 110.40678406,
+            "max": 4831.08837891
+          },
+          "high": {
+            "mean": 2229.5731762,
+            "median": 2144.96240234,
+            "min": 116.0216217,
+            "max": 4953.73291016
+          },
+          "low": {
+            "mean": 2108.81053814,
+            "median": 2022.46179199,
+            "min": 95.18430328,
+            "max": 4718.0390625
+          },
+          "close": {
+            "mean": 2172.41038703,
+            "median": 2087.13989258,
+            "min": 110.60587311,
+            "max": 4831.34863281
+          },
+          "volume": {
+            "mean": 18862664432.085487,
+            "median": 16040945448.0,
+            "min": 2081625742.0,
+            "max": 97736621123.0
+          }
+        }
+      },
+      {
+        "path": "output/sol_price_data.csv",
+        "status": "ok",
+        "exists": true,
+        "resolved_path": "C:\\Users\\lyfe1\\OneDrive\\Desktop\\sigil-engine\\output\\sol_price_data.csv",
+        "rows": 2181,
+        "columns": [
+          "date",
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume"
+        ],
+        "column_count": 6,
+        "missing_values": {},
+        "duplicate_rows": 0,
+        "date_column": "date",
+        "date_min": "2020-04-10 00:00:00",
+        "date_max": "2026-03-31 00:00:00",
+        "invalid_dates": 0,
+        "duplicate_timestamps": 0,
+        "numeric_summary": {
+          "open": {
+            "mean": 86.88774401,
+            "median": 74.81178284,
+            "min": 0.51339102,
+            "max": 261.87243652
+          },
+          "high": {
+            "mean": 90.0744119,
+            "median": 79.28379059,
+            "min": 0.55975902,
+            "max": 294.33496094
+          },
+          "low": {
+            "mean": 83.68690217,
+            "median": 71.68074799,
+            "min": 0.50519401,
+            "max": 253.18743896
+          },
+          "close": {
+            "mean": 86.91097684,
+            "median": 75.22018433,
+            "min": 0.51527297,
+            "max": 261.86975098
+          },
+          "volume": {
+            "mean": 2358004448.0884914,
+            "median": 1621130854.0,
+            "min": 652020.0,
+            "max": 33172955667.0
+          }
+        }
+      }
+    ],
+    "leader_laggard": [
+      {
+        "path": "output/leader_laggard_summary.csv",
+        "status": "ok",
+        "exists": true,
+        "resolved_path": "C:\\Users\\lyfe1\\OneDrive\\Desktop\\sigil-engine\\output\\leader_laggard_summary.csv",
+        "rows": 2180,
+        "columns": [
+          "date",
+          "leader_asset",
+          "leader_move",
+          "middle_asset",
+          "middle_move",
+          "laggard_asset",
+          "laggard_move",
+          "leader_middle_spread",
+          "middle_laggard_spread",
+          "spread",
+          "non_leader_same_sign_count",
+          "non_leader_opposite_sign_count",
+          "basket_agreement",
+          "rank_pattern",
+          "positive_count",
+          "negative_count",
+          "strongest_up_asset",
+          "strongest_up_move",
+          "strongest_down_asset",
+          "strongest_down_move",
+          "follow_through_count_next_day",
+          "follow_through_assets_next_day"
+        ],
+        "column_count": 22,
+        "missing_values": {
+          "strongest_up_asset": 1,
+          "strongest_up_move": 1,
+          "strongest_down_asset": 1,
+          "strongest_down_move": 1,
+          "follow_through_count_next_day": 1,
+          "follow_through_assets_next_day": 766
+        },
+        "duplicate_rows": 0,
+        "date_column": "date",
+        "date_min": "2020-04-11 00:00:00",
+        "date_max": "2026-03-31 00:00:00",
+        "invalid_dates": 0,
+        "duplicate_asset_timestamps": 0,
+        "asset_column": "leader_asset",
+        "asset_count": 3,
+        "assets": [
+          "BTC-USD",
+          "ETH-USD",
+          "SOL-USD"
+        ],
+        "rows_by_asset": {
+          "BTC-USD": 792,
+          "SOL-USD": 791,
+          "ETH-USD": 597
+        },
+        "numeric_summary": {
+          "leader_move": {
+            "mean": 2.39294162,
+            "median": 1.32624438,
+            "min": -14.34902247,
+            "max": 47.28278503
+          },
+          "middle_move": {
+            "mean": 0.09642659,
+            "median": 0.01660105,
+            "min": -27.20034942,
+            "max": 25.31362985
+          },
+          "laggard_move": {
+            "mean": -1.73077921,
+            "median": -1.04276955,
+            "min": -42.28090368,
+            "max": 12.1442561
+          },
+          "leader_middle_spread": {
+            "mean": 2.29651503,
+            "median": 1.20547814,
+            "min": 0.00052845,
+            "max": 43.28165365
+          },
+          "middle_laggard_spread": {
+            "mean": 1.8272058,
+            "median": 1.17097328,
+            "min": 0.00013693,
+            "max": 30.34188988
+          },
+          "spread": {
+            "mean": 4.12372083,
+            "median": 2.83346658,
+            "min": 0.08776785,
+            "max": 46.1888614
+          },
+          "non_leader_same_sign_count": {
+            "mean": 1.49954128,
+            "median": 2.0,
+            "min": 0.0,
+            "max": 2.0
+          },
+          "non_leader_opposite_sign_count": {
+            "mean": 0.50045872,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 2.0
+          },
+          "positive_count": {
+            "mean": 1.51972477,
+            "median": 2.0,
+            "min": 0.0,
+            "max": 3.0
+          },
+          "negative_count": {
+            "mean": 1.48027523,
+            "median": 1.0,
+            "min": 0.0,
+            "max": 3.0
+          },
+          "strongest_up_move": {
+            "mean": 2.39408266,
+            "median": 1.33355958,
+            "min": -14.34902247,
+            "max": 47.28278503
+          },
+          "strongest_down_move": {
+            "mean": -1.72316589,
+            "median": -1.04184474,
+            "min": -42.28090368,
+            "max": 12.1442561
+          },
+          "follow_through_count_next_day": {
+            "mean": 1.44882974,
+            "median": 1.0,
+            "min": 0.0,
+            "max": 3.0
+          }
+        }
+      }
+    ],
+    "forward_outcomes": [
+      {
+        "path": "output/forward_outcomes.csv",
+        "status": "ok",
+        "exists": true,
+        "resolved_path": "C:\\Users\\lyfe1\\OneDrive\\Desktop\\sigil-engine\\output\\forward_outcomes.csv",
+        "rows": 6527,
+        "columns": [
+          "date",
+          "leader_asset",
+          "fwd_return_hold_72",
+          "fwd_return_hold_96",
+          "fwd_return_hold_144",
+          "fwd_return_hold_192",
+          "fwd_return_hold_288"
+        ],
+        "column_count": 7,
+        "missing_values": {
+          "fwd_return_hold_96": 72,
+          "fwd_return_hold_144": 216,
+          "fwd_return_hold_192": 360,
+          "fwd_return_hold_288": 648
+        },
+        "duplicate_rows": 0,
+        "date_column": "date",
+        "date_min": "2020-01-01 00:00:00",
+        "date_max": "2026-01-17 00:00:00",
+        "invalid_dates": 0,
+        "duplicate_asset_timestamps": 0,
+        "asset_column": "leader_asset",
+        "asset_count": 3,
+        "assets": [
+          "BTC-USD",
+          "ETH-USD",
+          "SOL-USD"
+        ],
+        "rows_by_asset": {
+          "BTC-USD": 2209,
+          "ETH-USD": 2209,
+          "SOL-USD": 2109
+        },
+        "numeric_summary": {
+          "fwd_return_hold_72": {
+            "mean": 28.34779925,
+            "median": 7.00922364,
+            "min": -78.67427891,
+            "max": 1039.35774889
+          },
+          "fwd_return_hold_96": {
+            "mean": 42.70056028,
+            "median": 9.47545808,
+            "min": -72.42545821,
+            "max": 1551.80877791
+          },
+          "fwd_return_hold_144": {
+            "mean": 74.20867423,
+            "median": 16.23862404,
+            "min": -77.83711422,
+            "max": 3814.83284982
+          },
+          "fwd_return_hold_192": {
+            "mean": 106.78449096,
+            "median": 25.07316046,
+            "min": -86.86145938,
+            "max": 3258.96838627
+          },
+          "fwd_return_hold_288": {
+            "mean": 291.15425634,
+            "median": 40.58623359,
+            "min": -89.72572997,
+            "max": 12696.06916221
+          }
+        }
+      }
+    ],
+    "pre_signal": [
+      {
+        "path": "output/pre_signal_raw.csv",
+        "status": "ok",
+        "exists": true,
+        "resolved_path": "C:\\Users\\lyfe1\\OneDrive\\Desktop\\sigil-engine\\output\\pre_signal_raw.csv",
+        "rows": 2178,
+        "columns": [
+          "date",
+          "prev1_leader",
+          "prev1_move",
+          "prev1_spread",
+          "prev1_follow",
+          "prev1_middle_asset",
+          "prev1_middle_move",
+          "prev1_laggard",
+          "prev1_laggard_move",
+          "prev1_leader_middle_spread",
+          "prev1_middle_laggard_spread",
+          "prev1_non_leader_same_sign_count",
+          "prev1_non_leader_opposite_sign_count",
+          "prev1_basket_agreement",
+          "prev1_rank_pattern",
+          "prev2_leader",
+          "prev2_move",
+          "prev2_spread",
+          "prev2_follow",
+          "prev2_middle_asset",
+          "prev2_middle_move",
+          "prev2_laggard",
+          "prev2_laggard_move",
+          "prev2_leader_middle_spread",
+          "prev2_middle_laggard_spread",
+          "prev2_non_leader_same_sign_count",
+          "prev2_non_leader_opposite_sign_count",
+          "prev2_basket_agreement",
+          "prev2_rank_pattern",
+          "cascade_leader",
+          "cascade_leader_move",
+          "cascade_follow",
+          "cascade",
+          "fwd_return_hold_72",
+          "fwd_return_hold_96",
+          "fwd_return_hold_144",
+          "fwd_return_hold_192",
+          "fwd_return_hold_288"
+        ],
+        "column_count": 38,
+        "missing_values": {
+          "cascade_follow": 1,
+          "fwd_return_hold_72": 72,
+          "fwd_return_hold_96": 96,
+          "fwd_return_hold_144": 144,
+          "fwd_return_hold_192": 192,
+          "fwd_return_hold_288": 288
+        },
+        "duplicate_rows": 0,
+        "date_column": "date",
+        "date_min": "2020-04-13 00:00:00",
+        "date_max": "2026-03-31 00:00:00",
+        "invalid_dates": 0,
+        "duplicate_asset_timestamps": 0,
+        "asset_column": "prev1_middle_asset",
+        "asset_count": 3,
+        "assets": [
+          "BTC-USD",
+          "ETH-USD",
+          "SOL-USD"
+        ],
+        "rows_by_asset": {
+          "ETH-USD": 1008,
+          "BTC-USD": 775,
+          "SOL-USD": 395
+        },
+        "numeric_summary": {
+          "prev1_move": {
+            "mean": 2.39326316,
+            "median": 1.32624438,
+            "min": -14.34902247,
+            "max": 47.28278503
+          },
+          "prev1_spread": {
+            "mean": 4.11831214,
+            "median": 2.83346658,
+            "min": 0.08776785,
+            "max": 46.1888614
+          },
+          "prev1_follow": {
+            "mean": 1.44949495,
+            "median": 1.0,
+            "min": 0.0,
+            "max": 3.0
+          },
+          "prev1_middle_move": {
+            "mean": 0.09537611,
+            "median": 0.01660105,
+            "min": -27.20034942,
+            "max": 25.31362985
+          },
+          "prev1_laggard_move": {
+            "mean": -1.72504898,
+            "median": -1.04276955,
+            "min": -42.28090368,
+            "max": 12.1442561
+          },
+          "prev1_leader_middle_spread": {
+            "mean": 2.29788705,
+            "median": 1.20547814,
+            "min": 0.00052845,
+            "max": 43.28165365
+          },
+          "prev1_middle_laggard_spread": {
+            "mean": 1.82042509,
+            "median": 1.17097328,
+            "min": 0.00013693,
+            "max": 30.34188988
+          },
+          "prev1_non_leader_same_sign_count": {
+            "mean": 1.49908173,
+            "median": 2.0,
+            "min": 0.0,
+            "max": 2.0
+          },
+          "prev1_non_leader_opposite_sign_count": {
+            "mean": 0.50091827,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 2.0
+          },
+          "prev2_move": {
+            "mean": 2.39345381,
+            "median": 1.32624438,
+            "min": -14.34902247,
+            "max": 47.28278503
+          },
+          "prev2_spread": {
+            "mean": 4.12658218,
+            "median": 2.83880378,
+            "min": 0.08776785,
+            "max": 46.1888614
+          },
+          "prev2_follow": {
+            "mean": 1.44949495,
+            "median": 1.0,
+            "min": 0.0,
+            "max": 3.0
+          },
+          "prev2_middle_move": {
+            "mean": 0.09557171,
+            "median": 0.01660105,
+            "min": -27.20034942,
+            "max": 25.31362985
+          },
+          "prev2_laggard_move": {
+            "mean": -1.73312837,
+            "median": -1.04721747,
+            "min": -42.28090368,
+            "max": 12.1442561
+          },
+          "prev2_leader_middle_spread": {
+            "mean": 2.2978821,
+            "median": 1.20547814,
+            "min": 0.00052845,
+            "max": 43.28165365
+          },
+          "prev2_middle_laggard_spread": {
+            "mean": 1.82870008,
+            "median": 1.17370756,
+            "min": 0.00013693,
+            "max": 30.34188988
+          },
+          "prev2_non_leader_same_sign_count": {
+            "mean": 1.49908173,
+            "median": 2.0,
+            "min": 0.0,
+            "max": 2.0
+          },
+          "prev2_non_leader_opposite_sign_count": {
+            "mean": 0.50091827,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 2.0
+          },
+          "cascade_leader_move": {
+            "mean": 2.3889352,
+            "median": 1.32624438,
+            "min": -14.34902247,
+            "max": 47.28278503
+          },
+          "cascade_follow": {
+            "mean": 1.45016077,
+            "median": 1.0,
+            "min": 0.0,
+            "max": 3.0
+          },
+          "fwd_return_hold_72": {
+            "mean": 32.91173905,
+            "median": 7.25088159,
+            "min": -78.27486962,
+            "max": 987.09525548
+          },
+          "fwd_return_hold_96": {
+            "mean": 49.01856054,
+            "median": 9.16700372,
+            "min": -72.42545821,
+            "max": 1387.92639451
+          },
+          "fwd_return_hold_144": {
+            "mean": 79.8306832,
+            "median": 15.89352987,
+            "min": -76.23040868,
+            "max": 3768.19191122
+          },
+          "fwd_return_hold_192": {
+            "mean": 114.15658011,
+            "median": 25.44428402,
+            "min": -86.86145938,
+            "max": 2877.07353267
+          },
+          "fwd_return_hold_288": {
+            "mean": 331.21270273,
+            "median": 37.31466576,
+            "min": -89.24192597,
+            "max": 11566.78400277
+          }
+        }
+      },
+      {
+        "path": "output/pre_signal_candidates.csv",
+        "status": "ok",
+        "exists": true,
+        "resolved_path": "C:\\Users\\lyfe1\\OneDrive\\Desktop\\sigil-engine\\output\\pre_signal_candidates.csv",
+        "rows": 2178,
+        "columns": [
+          "date",
+          "leader_asset",
+          "leader_move",
+          "spread",
+          "follow_through_count_next_day",
+          "signal",
+          "fwd_return_hold_72",
+          "fwd_return_hold_96",
+          "fwd_return_hold_144",
+          "fwd_return_hold_192",
+          "fwd_return_hold_288",
+          "regime_gate_pass"
+        ],
+        "column_count": 12,
+        "missing_values": {
+          "follow_through_count_next_day": 1,
+          "fwd_return_hold_72": 72,
+          "fwd_return_hold_96": 96,
+          "fwd_return_hold_144": 144,
+          "fwd_return_hold_192": 192,
+          "fwd_return_hold_288": 288
+        },
+        "duplicate_rows": 0,
+        "date_column": "date",
+        "date_min": "2020-04-13 00:00:00",
+        "date_max": "2026-03-31 00:00:00",
+        "invalid_dates": 0,
+        "duplicate_asset_timestamps": 0,
+        "asset_column": "leader_asset",
+        "asset_count": 3,
+        "assets": [
+          "BTC-USD",
+          "ETH-USD",
+          "SOL-USD"
+        ],
+        "rows_by_asset": {
+          "BTC-USD": 791,
+          "SOL-USD": 790,
+          "ETH-USD": 597
+        },
+        "numeric_summary": {
+          "leader_move": {
+            "mean": 2.3889352,
+            "median": 1.32624438,
+            "min": -14.34902247,
+            "max": 47.28278503
+          },
+          "spread": {
+            "mean": 4.11831214,
+            "median": 2.83346658,
+            "min": 0.08776785,
+            "max": 46.1888614
+          },
+          "follow_through_count_next_day": {
+            "mean": 1.45016077,
+            "median": 1.0,
+            "min": 0.0,
+            "max": 3.0
+          },
+          "fwd_return_hold_72": {
+            "mean": 32.91173905,
+            "median": 7.25088159,
+            "min": -78.27486962,
+            "max": 987.09525548
+          },
+          "fwd_return_hold_96": {
+            "mean": 49.01856054,
+            "median": 9.16700372,
+            "min": -72.42545821,
+            "max": 1387.92639451
+          },
+          "fwd_return_hold_144": {
+            "mean": 79.8306832,
+            "median": 15.89352987,
+            "min": -76.23040868,
+            "max": 3768.19191122
+          },
+          "fwd_return_hold_192": {
+            "mean": 114.15658011,
+            "median": 25.44428402,
+            "min": -86.86145938,
+            "max": 2877.07353267
+          },
+          "fwd_return_hold_288": {
+            "mean": 331.21270273,
+            "median": 37.31466576,
+            "min": -89.24192597,
+            "max": 11566.78400277
+          }
+        }
+      },
+      {
+        "path": "output/pre_signal_candidates_v5.csv",
+        "status": "ok",
+        "exists": true,
+        "resolved_path": "C:\\Users\\lyfe1\\OneDrive\\Desktop\\sigil-engine\\output\\pre_signal_candidates_v5.csv",
+        "rows": 2178,
+        "columns": [
+          "date",
+          "leader_asset",
+          "leader_move",
+          "middle_asset",
+          "middle_move",
+          "laggard_asset",
+          "laggard_move",
+          "abs_leader_move",
+          "spread",
+          "leader_middle_spread",
+          "middle_laggard_spread",
+          "structure_strength",
+          "follow_through_count_next_day",
+          "non_leader_same_sign_count",
+          "non_leader_opposite_sign_count",
+          "basket_agreement",
+          "rank_pattern",
+          "strict_follow_3",
+          "strict_abs_move_2_5",
+          "strict_all_up_only",
+          "strategy_type",
+          "signal",
+          "trade_allowed",
+          "is_live_candidate",
+          "live_priority",
+          "strategy_note",
+          "regime_gate_pass",
+          "fwd_return_hold_72",
+          "fwd_return_hold_96",
+          "fwd_return_hold_144",
+          "fwd_return_hold_192",
+          "fwd_return_hold_288"
+        ],
+        "column_count": 32,
+        "missing_values": {
+          "follow_through_count_next_day": 1,
+          "fwd_return_hold_72": 72,
+          "fwd_return_hold_96": 96,
+          "fwd_return_hold_144": 144,
+          "fwd_return_hold_192": 192,
+          "fwd_return_hold_288": 288
+        },
+        "duplicate_rows": 0,
+        "date_column": "date",
+        "date_min": "2020-04-13 00:00:00",
+        "date_max": "2026-03-31 00:00:00",
+        "invalid_dates": 0,
+        "duplicate_asset_timestamps": 0,
+        "asset_column": "leader_asset",
+        "asset_count": 3,
+        "assets": [
+          "BTC-USD",
+          "ETH-USD",
+          "SOL-USD"
+        ],
+        "rows_by_asset": {
+          "BTC-USD": 791,
+          "SOL-USD": 790,
+          "ETH-USD": 597
+        },
+        "numeric_summary": {
+          "leader_move": {
+            "mean": 2.3889352,
+            "median": 1.32624438,
+            "min": -14.34902247,
+            "max": 47.28278503
+          },
+          "middle_move": {
+            "mean": 0.09537611,
+            "median": 0.01660105,
+            "min": -27.20034942,
+            "max": 25.31362985
+          },
+          "laggard_move": {
+            "mean": -1.72504898,
+            "median": -1.04276955,
+            "min": -42.28090368,
+            "max": 12.1442561
+          },
+          "abs_leader_move": {
+            "mean": 3.73752426,
+            "median": 2.35776449,
+            "min": 0.00517172,
+            "max": 47.28278503
+          },
+          "spread": {
+            "mean": 4.11831214,
+            "median": 2.83346658,
+            "min": 0.08776785,
+            "max": 46.1888614
+          },
+          "leader_middle_spread": {
+            "mean": 2.29788705,
+            "median": 1.20547814,
+            "min": 0.00052845,
+            "max": 43.28165365
+          },
+          "middle_laggard_spread": {
+            "mean": 1.82042509,
+            "median": 1.17097328,
+            "min": 0.00013693,
+            "max": 30.34188988
+          },
+          "structure_strength": {
+            "mean": 0.47746197,
+            "median": 0.04935105,
+            "min": -28.99525837,
+            "max": 40.3744459
+          },
+          "follow_through_count_next_day": {
+            "mean": 1.45016077,
+            "median": 1.0,
+            "min": 0.0,
+            "max": 3.0
+          },
+          "non_leader_same_sign_count": {
+            "mean": 1.49908173,
+            "median": 2.0,
+            "min": 0.0,
+            "max": 2.0
+          },
+          "non_leader_opposite_sign_count": {
+            "mean": 0.50091827,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 2.0
+          },
+          "live_priority": {
+            "mean": 0.00780533,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 1.0
+          },
+          "fwd_return_hold_72": {
+            "mean": 32.91173905,
+            "median": 7.25088159,
+            "min": -78.27486962,
+            "max": 987.09525548
+          },
+          "fwd_return_hold_96": {
+            "mean": 49.01856054,
+            "median": 9.16700372,
+            "min": -72.42545821,
+            "max": 1387.92639451
+          },
+          "fwd_return_hold_144": {
+            "mean": 79.8306832,
+            "median": 15.89352987,
+            "min": -76.23040868,
+            "max": 3768.19191122
+          },
+          "fwd_return_hold_192": {
+            "mean": 114.15658011,
+            "median": 25.44428402,
+            "min": -86.86145938,
+            "max": 2877.07353267
+          },
+          "fwd_return_hold_288": {
+            "mean": 331.21270273,
+            "median": 37.31466576,
+            "min": -89.24192597,
+            "max": 11566.78400277
+          }
+        }
+      },
+      {
+        "path": "output/pre_signal_candidates_excess.csv",
+        "status": "ok",
+        "exists": true,
+        "resolved_path": "C:\\Users\\lyfe1\\OneDrive\\Desktop\\sigil-engine\\output\\pre_signal_candidates_excess.csv",
+        "rows": 2178,
+        "columns": [
+          "date",
+          "leader_asset",
+          "leader_move",
+          "spread",
+          "follow_through_count_next_day",
+          "signal",
+          "fwd_return_hold_72",
+          "fwd_return_hold_96",
+          "fwd_return_hold_144",
+          "fwd_return_hold_192",
+          "fwd_return_hold_288",
+          "regime_gate_pass",
+          "basket_fwd_return_hold_72",
+          "basket_fwd_return_hold_96",
+          "basket_fwd_return_hold_144",
+          "basket_fwd_return_hold_192",
+          "basket_fwd_return_hold_288",
+          "fwd_excess_return_hold_72",
+          "fwd_excess_return_hold_72_adj",
+          "fwd_excess_return_hold_96",
+          "fwd_excess_return_hold_96_adj",
+          "fwd_excess_return_hold_144",
+          "fwd_excess_return_hold_144_adj",
+          "fwd_excess_return_hold_192",
+          "fwd_excess_return_hold_192_adj",
+          "fwd_excess_return_hold_288",
+          "fwd_excess_return_hold_288_adj"
+        ],
+        "column_count": 27,
+        "missing_values": {
+          "follow_through_count_next_day": 1,
+          "fwd_return_hold_72": 72,
+          "fwd_return_hold_96": 96,
+          "fwd_return_hold_144": 144,
+          "fwd_return_hold_192": 192,
+          "fwd_return_hold_288": 288,
+          "basket_fwd_return_hold_72": 72,
+          "basket_fwd_return_hold_96": 96,
+          "basket_fwd_return_hold_144": 144,
+          "basket_fwd_return_hold_192": 192,
+          "basket_fwd_return_hold_288": 288,
+          "fwd_excess_return_hold_72": 72,
+          "fwd_excess_return_hold_72_adj": 72,
+          "fwd_excess_return_hold_96": 96,
+          "fwd_excess_return_hold_96_adj": 96,
+          "fwd_excess_return_hold_144": 144,
+          "fwd_excess_return_hold_144_adj": 144,
+          "fwd_excess_return_hold_192": 192,
+          "fwd_excess_return_hold_192_adj": 192,
+          "fwd_excess_return_hold_288": 288,
+          "fwd_excess_return_hold_288_adj": 288
+        },
+        "duplicate_rows": 0,
+        "date_column": "date",
+        "date_min": "2020-04-13 00:00:00",
+        "date_max": "2026-03-31 00:00:00",
+        "invalid_dates": 0,
+        "duplicate_asset_timestamps": 0,
+        "asset_column": "leader_asset",
+        "asset_count": 3,
+        "assets": [
+          "BTC-USD",
+          "ETH-USD",
+          "SOL-USD"
+        ],
+        "rows_by_asset": {
+          "BTC-USD": 791,
+          "SOL-USD": 790,
+          "ETH-USD": 597
+        },
+        "numeric_summary": {
+          "leader_move": {
+            "mean": 2.3889352,
+            "median": 1.32624438,
+            "min": -14.34902247,
+            "max": 47.28278503
+          },
+          "spread": {
+            "mean": 4.11831214,
+            "median": 2.83346658,
+            "min": 0.08776785,
+            "max": 46.1888614
+          },
+          "follow_through_count_next_day": {
+            "mean": 1.45016077,
+            "median": 1.0,
+            "min": 0.0,
+            "max": 3.0
+          },
+          "fwd_return_hold_72": {
+            "mean": 32.91173905,
+            "median": 7.25088159,
+            "min": -78.27486962,
+            "max": 987.09525548
+          },
+          "fwd_return_hold_96": {
+            "mean": 49.01856054,
+            "median": 9.16700372,
+            "min": -72.42545821,
+            "max": 1387.92639451
+          },
+          "fwd_return_hold_144": {
+            "mean": 79.8306832,
+            "median": 15.89352987,
+            "min": -76.23040868,
+            "max": 3768.19191122
+          },
+          "fwd_return_hold_192": {
+            "mean": 114.15658011,
+            "median": 25.44428402,
+            "min": -86.86145938,
+            "max": 2877.07353267
+          },
+          "fwd_return_hold_288": {
+            "mean": 331.21270273,
+            "median": 37.31466576,
+            "min": -89.24192597,
+            "max": 11566.78400277
+          },
+          "basket_fwd_return_hold_72": {
+            "mean": 12.97186786,
+            "median": 6.45841192,
+            "min": -57.22400116,
+            "max": 219.71495395
+          },
+          "basket_fwd_return_hold_96": {
+            "mean": 18.94014915,
+            "median": 8.13372411,
+            "min": -59.97556339,
+            "max": 281.19051057
+          },
+          "basket_fwd_return_hold_144": {
+            "mean": 31.57576345,
+            "median": 14.79905075,
+            "min": -57.21690818,
+            "max": 433.64032606
+          },
+          "basket_fwd_return_hold_192": {
+            "mean": 45.23481428,
+            "median": 26.5058958,
+            "min": -63.6497424,
+            "max": 504.03443985
+          },
+          "basket_fwd_return_hold_288": {
+            "mean": 69.99013963,
+            "median": 47.15300891,
+            "min": -69.61231351,
+            "max": 600.16120992
+          },
+          "fwd_excess_return_hold_72": {
+            "mean": 19.93987119,
+            "median": -0.05365115,
+            "min": -168.32159494,
+            "max": 828.20360446
+          },
+          "fwd_excess_return_hold_72_adj": {
+            "mean": 16.73624595,
+            "median": -0.01094533,
+            "min": -692.82567822,
+            "max": 828.20360446
+          },
+          "fwd_excess_return_hold_96": {
+            "mean": 30.07841139,
+            "median": 0.02205788,
+            "min": -245.16587762,
+            "max": 1273.46954296
+          },
+          "fwd_excess_return_hold_96_adj": {
+            "mean": 25.3683422,
+            "median": -0.01367951,
+            "min": -852.18681057,
+            "max": 1273.46954296
+          },
+          "fwd_excess_return_hold_144": {
+            "mean": 48.25491974,
+            "median": 0.00551886,
+            "min": -259.18912994,
+            "max": 3684.95532414
+          },
+          "fwd_excess_return_hold_144_adj": {
+            "mean": 39.70159512,
+            "median": -0.07811452,
+            "min": -2539.80540613,
+            "max": 3684.95532414
+          },
+          "fwd_excess_return_hold_192": {
+            "mean": 68.92176583,
+            "median": 0.06142402,
+            "min": -219.05358915,
+            "max": 2547.41356934
+          },
+          "fwd_excess_return_hold_192_adj": {
+            "mean": 58.04655768,
+            "median": 0.02339439,
+            "min": -2013.84739044,
+            "max": 2547.41356934
+          },
+          "fwd_excess_return_hold_288": {
+            "mean": 261.2225631,
+            "median": 0.19485571,
+            "min": -104.24598723,
+            "max": 11429.85128063
+          },
+          "fwd_excess_return_hold_288_adj": {
+            "mean": 227.73077737,
+            "median": 0.14712811,
+            "min": -10407.89517178,
+            "max": 11429.85128063
+          }
+        }
+      }
+    ],
+    "live_signals": [
+      {
+        "path": "output/live_signal_v5.csv",
+        "status": "missing",
+        "exists": false,
+        "resolved_path": "C:\\Users\\lyfe1\\OneDrive\\Desktop\\sigil-engine\\output\\live_signal_v5.csv"
+      },
+      {
+        "path": "output/backfilled_live_signals_v5.csv",
+        "status": "ok",
+        "exists": true,
+        "resolved_path": "C:\\Users\\lyfe1\\OneDrive\\Desktop\\sigil-engine\\output\\backfilled_live_signals_v5.csv",
+        "rows": 47,
+        "columns": [
+          "date",
+          "leader_asset",
+          "leader_move",
+          "middle_asset",
+          "middle_move",
+          "laggard_asset",
+          "laggard_move",
+          "abs_leader_move",
+          "spread",
+          "leader_middle_spread",
+          "middle_laggard_spread",
+          "structure_strength",
+          "follow_through_count_next_day",
+          "non_leader_same_sign_count",
+          "non_leader_opposite_sign_count",
+          "basket_agreement",
+          "rank_pattern",
+          "strict_follow_3",
+          "strict_abs_move_2_5",
+          "strict_all_up_only",
+          "strategy_type",
+          "signal",
+          "trade_allowed",
+          "is_live_candidate",
+          "live_priority",
+          "strategy_note",
+          "regime_gate_pass",
+          "fwd_return_hold_72",
+          "fwd_return_hold_96",
+          "fwd_return_hold_144",
+          "fwd_return_hold_192",
+          "fwd_return_hold_288",
+          "BTC-USD_ret_1d",
+          "BTC-USD_ret_3d",
+          "BTC-USD_ret_5d",
+          "ETH-USD_ret_1d",
+          "ETH-USD_ret_3d",
+          "ETH-USD_ret_5d",
+          "SOL-USD_ret_1d",
+          "SOL-USD_ret_3d",
+          "SOL-USD_ret_5d",
+          "fwd_1d",
+          "fwd_3d",
+          "fwd_5d",
+          "score",
+          "position_size"
+        ],
+        "column_count": 46,
+        "missing_values": {
+          "fwd_return_hold_288": 1
+        },
+        "duplicate_rows": 0,
+        "date_column": "date",
+        "date_min": "2020-04-23 00:00:00",
+        "date_max": "2025-07-22 00:00:00",
+        "invalid_dates": 0,
+        "duplicate_asset_timestamps": 0,
+        "asset_column": "leader_asset",
+        "asset_count": 3,
+        "assets": [
+          "BTC-USD",
+          "ETH-USD",
+          "SOL-USD"
+        ],
+        "rows_by_asset": {
+          "SOL-USD": 37,
+          "ETH-USD": 6,
+          "BTC-USD": 4
+        },
+        "numeric_summary": {
+          "leader_move": {
+            "mean": 11.67596419,
+            "median": 8.70231068,
+            "min": 2.3386444,
+            "max": 36.18812396
+          },
+          "middle_move": {
+            "mean": 3.57829512,
+            "median": 2.96545848,
+            "min": 0.11828565,
+            "max": 11.37600282
+          },
+          "laggard_move": {
+            "mean": 1.75866646,
+            "median": 1.19358682,
+            "min": 0.03129227,
+            "max": 7.80017424
+          },
+          "abs_leader_move": {
+            "mean": 11.67596419,
+            "median": 8.70231068,
+            "min": 2.3386444,
+            "max": 36.18812396
+          },
+          "spread": {
+            "mean": 12.05049669,
+            "median": 10.31415318,
+            "min": 6.02998866,
+            "max": 46.1888614
+          },
+          "leader_middle_spread": {
+            "mean": 10.23086803,
+            "median": 9.32334834,
+            "min": 4.03772413,
+            "max": 43.28165365
+          },
+          "middle_laggard_spread": {
+            "mean": 1.81962866,
+            "median": 1.26870698,
+            "min": 0.01455026,
+            "max": 7.42653868
+          },
+          "structure_strength": {
+            "mean": 8.41123937,
+            "median": 7.17276157,
+            "min": 1.11137962,
+            "max": 40.3744459
+          },
+          "follow_through_count_next_day": {
+            "mean": 1.65957447,
+            "median": 2.0,
+            "min": 0.0,
+            "max": 3.0
+          },
+          "non_leader_same_sign_count": {
+            "mean": 2.0,
+            "median": 2.0,
+            "min": 2.0,
+            "max": 2.0
+          },
+          "non_leader_opposite_sign_count": {
+            "mean": 0.0,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "live_priority": {
+            "mean": 0.36170213,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 1.0
+          },
+          "fwd_return_hold_72": {
+            "mean": 115.39978546,
+            "median": 39.04773627,
+            "min": -40.79912705,
+            "max": 860.12893777
+          },
+          "fwd_return_hold_96": {
+            "mean": 156.46873234,
+            "median": 60.10664267,
+            "min": -50.23059545,
+            "max": 1337.05884564
+          },
+          "fwd_return_hold_144": {
+            "mean": 286.82906459,
+            "median": 124.89864648,
+            "min": -57.34867221,
+            "max": 3768.19191122
+          },
+          "fwd_return_hold_192": {
+            "mean": 366.14419024,
+            "median": 229.2863836,
+            "min": -76.27568971,
+            "max": 2348.77590499
+          },
+          "fwd_return_hold_288": {
+            "mean": 1239.68693769,
+            "median": 381.19043443,
+            "min": -78.68780752,
+            "max": 10749.97321632
+          },
+          "BTC-USD_ret_1d": {
+            "mean": 0.00268091,
+            "median": -4.332e-05,
+            "min": -0.09930199,
+            "max": 0.10961007
+          },
+          "BTC-USD_ret_3d": {
+            "mean": 0.01119998,
+            "median": 0.00883,
+            "min": -0.13122709,
+            "max": 0.13313257
+          },
+          "BTC-USD_ret_5d": {
+            "mean": 0.02513122,
+            "median": 0.0087023,
+            "min": -0.1479296,
+            "max": 0.21979659
+          },
+          "ETH-USD_ret_1d": {
+            "mean": 0.00655742,
+            "median": 0.01138606,
+            "min": -0.11884948,
+            "max": 0.10100812
+          },
+          "ETH-USD_ret_3d": {
+            "mean": 0.02573718,
+            "median": 0.01176659,
+            "min": -0.17188014,
+            "max": 0.16600392
+          },
+          "ETH-USD_ret_5d": {
+            "mean": 0.05899939,
+            "median": 0.0296542,
+            "min": -0.18683904,
+            "max": 0.38398988
+          },
+          "SOL-USD_ret_1d": {
+            "mean": 0.02361692,
+            "median": 0.00896237,
+            "min": -0.09227518,
+            "max": 0.19582044
+          },
+          "SOL-USD_ret_3d": {
+            "mean": 0.04625092,
+            "median": 0.02557503,
+            "min": -0.25796059,
+            "max": 0.41441979
+          }
+        }
+      },
+      {
+        "path": "output/v32_ab_live_signal_snapshot.csv",
+        "status": "ok",
+        "exists": true,
+        "resolved_path": "C:\\Users\\lyfe1\\OneDrive\\Desktop\\sigil-engine\\output\\v32_ab_live_signal_snapshot.csv",
+        "rows": 1,
+        "columns": [
+          "timestamp",
+          "session_date",
+          "engine_a_asset",
+          "engine_a_signal_state",
+          "engine_a_action",
+          "engine_a_direction",
+          "engine_a_entry_ready",
+          "engine_a_setup_active",
+          "engine_b_asset",
+          "engine_b_signal_state",
+          "engine_b_action",
+          "engine_b_direction",
+          "engine_b_entry_ready",
+          "engine_b_setup_active",
+          "coexistence_state",
+          "combined_action",
+          "combined_direction",
+          "target_exposure",
+          "selected_engine",
+          "decision_reason"
+        ],
+        "column_count": 20,
+        "missing_values": {},
+        "duplicate_rows": 0,
+        "date_column": "timestamp",
+        "date_min": "2024-12-31 23:45:00+00:00",
+        "date_max": "2024-12-31 23:45:00+00:00",
+        "invalid_dates": 0,
+        "duplicate_asset_timestamps": 0,
+        "asset_column": "engine_a_asset",
+        "asset_count": 1,
+        "assets": [
+          "SOL"
+        ],
+        "rows_by_asset": {
+          "SOL": 1
+        },
+        "numeric_summary": {
+          "engine_a_entry_ready": {
+            "mean": 0.0,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "engine_a_setup_active": {
+            "mean": 0.0,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "engine_b_entry_ready": {
+            "mean": 0.0,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "engine_b_setup_active": {
+            "mean": 0.0,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          },
+          "target_exposure": {
+            "mean": 0.0,
+            "median": 0.0,
+            "min": 0.0,
+            "max": 0.0
+          }
+        }
+      },
+      {
+        "path": "output/v32_ab_live_execution.csv",
+        "status": "missing",
+        "exists": false,
+        "resolved_path": "C:\\Users\\lyfe1\\OneDrive\\Desktop\\sigil-engine\\output\\v32_ab_live_execution.csv"
+      }
+    ],
+    "equity": [
+      {
+        "path": "output/equity_curve_v5.csv",
+        "status": "missing",
+        "exists": false,
+        "resolved_path": "C:\\Users\\lyfe1\\OneDrive\\Desktop\\sigil-engine\\output\\equity_curve_v5.csv"
+      },
+      {
+        "path": "output/equity_compare_summary_v5.csv",
+        "status": "missing",
+        "exists": false,
+        "resolved_path": "C:\\Users\\lyfe1\\OneDrive\\Desktop\\sigil-engine\\output\\equity_compare_summary_v5.csv"
+      },
+      {
+        "path": "output/equity_compare_trades_v5.csv",
+        "status": "missing",
+        "exists": false,
+        "resolved_path": "C:\\Users\\lyfe1\\OneDrive\\Desktop\\sigil-engine\\output\\equity_compare_trades_v5.csv"
+      }
+    ]
+  },
+  "signals": {
+    "success": true,
+    "signal_files_found": 6,
+    "files": [
+      {
+        "path": "output/backfilled_live_signals_v5.csv",
+        "rows": 47,
+        "asset_count": 3,
+        "rows_by_asset": {
+          "SOL-USD": 37,
+          "ETH-USD": 6,
+          "BTC-USD": 4
+        },
+        "strategy_type_counts": {
+          "NONE": 30,
+          "CONTINUATION_LONG_SOL": 17
+        }
+      },
+      {
+        "path": "output/v32_ab_live_signal_snapshot.csv",
+        "rows": 1,
+        "asset_count": 1,
+        "rows_by_asset": {
+          "SOL": 1
+        }
+      },
+      {
+        "path": "output/pre_signal_raw.csv",
+        "rows": 2178,
+        "asset_count": 3,
+        "rows_by_asset": {
+          "ETH-USD": 1008,
+          "BTC-USD": 775,
+          "SOL-USD": 395
+        }
+      },
+      {
+        "path": "output/pre_signal_candidates.csv",
+        "rows": 2178,
+        "asset_count": 3,
+        "rows_by_asset": {
+          "BTC-USD": 791,
+          "SOL-USD": 790,
+          "ETH-USD": 597
+        }
+      },
+      {
+        "path": "output/pre_signal_candidates_v5.csv",
+        "rows": 2178,
+        "asset_count": 3,
+        "rows_by_asset": {
+          "BTC-USD": 791,
+          "SOL-USD": 790,
+          "ETH-USD": 597
+        },
+        "strategy_type_counts": {
+          "NONE": 2161,
+          "CONTINUATION_LONG_SOL": 17
+        }
+      },
+      {
+        "path": "output/pre_signal_candidates_excess.csv",
+        "rows": 2178,
+        "asset_count": 3,
+        "rows_by_asset": {
+          "BTC-USD": 791,
+          "SOL-USD": 790,
+          "ETH-USD": 597
+        }
+      }
+    ]
+  },
+  "forward_returns": {
+    "success": true,
+    "reports": [
+      {
+        "path": "output/backfilled_live_signals_v5.csv",
+        "rows": 47,
+        "return_columns": [
+          "fwd_return_hold_72",
+          "fwd_return_hold_96",
+          "fwd_return_hold_144",
+          "fwd_return_hold_192",
+          "fwd_return_hold_288",
+          "BTC-USD_ret_1d",
+          "BTC-USD_ret_3d",
+          "BTC-USD_ret_5d",
+          "ETH-USD_ret_1d",
+          "ETH-USD_ret_3d",
+          "ETH-USD_ret_5d",
+          "SOL-USD_ret_1d",
+          "SOL-USD_ret_3d",
+          "SOL-USD_ret_5d"
+        ],
+        "summary": {
+          "fwd_return_hold_72": {
+            "count": 47,
+            "win_rate_gt_0": 0.76595745,
+            "mean": 115.39978546,
+            "median": 39.04773627,
+            "min": -40.79912705,
+            "max": 860.12893777,
+            "by_asset": {
+              "BTC-USD": {
+                "count": 4,
+                "win_rate_gt_0": 1.0,
+                "mean": 67.2089888,
+                "median": 64.23415893
+              },
+              "ETH-USD": {
+                "count": 6,
+                "win_rate_gt_0": 0.66666667,
+                "mean": 26.36970493,
+                "median": 33.98371193
+              },
+              "SOL-USD": {
+                "count": 37,
+                "win_rate_gt_0": 0.75675676,
+                "mean": 135.04691167,
+                "median": 47.86027919
+              }
+            }
+          },
+          "fwd_return_hold_96": {
+            "count": 47,
+            "win_rate_gt_0": 0.72340426,
+            "mean": 156.46873234,
+            "median": 60.10664267,
+            "min": -50.23059545,
+            "max": 1337.05884564,
+            "by_asset": {
+              "BTC-USD": {
+                "count": 4,
+                "win_rate_gt_0": 1.0,
+                "mean": 89.15552101,
+                "median": 76.9317161
+              },
+              "ETH-USD": {
+                "count": 6,
+                "win_rate_gt_0": 0.83333333,
+                "mean": 39.01577662,
+                "median": 43.30792223
+              },
+              "SOL-USD": {
+                "count": 37,
+                "win_rate_gt_0": 0.67567568,
+                "mean": 182.79226152,
+                "median": 88.83237284
+              }
+            }
+          },
+          "fwd_return_hold_144": {
+            "count": 47,
+            "win_rate_gt_0": 0.76595745,
+            "mean": 286.82906459,
+            "median": 124.89864648,
+            "min": -57.34867221,
+            "max": 3768.19191122,
+            "by_asset": {
+              "BTC-USD": {
+                "count": 4,
+                "win_rate_gt_0": 1.0,
+                "mean": 63.35977193,
+                "median": 32.15897363
+              },
+              "ETH-USD": {
+                "count": 6,
+                "win_rate_gt_0": 0.66666667,
+                "mean": 96.40495244,
+                "median": 100.83014978
+              },
+              "SOL-USD": {
+                "count": 37,
+                "win_rate_gt_0": 0.75675676,
+                "mean": 341.86749279,
+                "median": 145.80704324
+              }
+            }
+          },
+          "fwd_return_hold_192": {
+            "count": 47,
+            "win_rate_gt_0": 0.80851064,
+            "mean": 366.14419024,
+            "median": 229.2863836,
+            "min": -76.27568971,
+            "max": 2348.77590499,
+            "by_asset": {
+              "BTC-USD": {
+                "count": 4,
+                "win_rate_gt_0": 1.0,
+                "mean": 38.98824512,
+                "median": 33.62977979
+              },
+              "ETH-USD": {
+                "count": 6,
+                "win_rate_gt_0": 0.66666667,
+                "mean": 194.71117999,
+                "median": 190.20554669
+              },
+              "SOL-USD": {
+                "count": 37,
+                "win_rate_gt_0": 0.81081081,
+                "mean": 429.31234813,
+                "median": 250.47989699
+              }
+            }
+          },
+          "fwd_return_hold_288": {
+            "count": 46,
+            "win_rate_gt_0": 0.82608696,
+            "mean": 1239.68693769,
+            "median": 381.19043443,
+            "min": -78.68780752,
+            "max": 10749.97321632,
+            "by_asset": {
+              "BTC-USD": {
+                "count": 4,
+                "win_rate_gt_0": 0.75,
+                "mean": 147.2276552,
+                "median": 102.11963117
+              },
+              "ETH-USD": {
+                "count": 6,
+                "win_rate_gt_0": 0.5,
+                "mean": 331.2537641,
+                "median": 188.36769222
+              },
+              "SOL-USD": {
+                "count": 36,
+                "win_rate_gt_0": 0.88888889,
+                "mean": 1512.47683134,
+                "median": 428.57366402
+              }
+            }
+          },
+          "BTC-USD_ret_1d": {
+            "count": 47,
+            "win_rate_gt_0": 0.4893617,
+            "mean": 0.00268091,
+            "median": -4.332e-05,
+            "min": -0.09930199,
+            "max": 0.10961007,
+            "by_asset": {
+              "BTC-USD": {
+                "count": 4,
+                "win_rate_gt_0": 0.75,
+                "mean": 0.01939723,
+                "median": 0.01094197
+              },
+              "ETH-USD": {
+                "count": 6,
+                "win_rate_gt_0": 0.66666667,
+                "mean": 0.01110179,
+                "median": 0.00474688
+              },
+              "SOL-USD": {
+                "count": 37,
+                "win_rate_gt_0": 0.43243243,
+                "mean": -0.00049181,
+                "median": -0.00126134
+              }
+            }
+          },
+          "BTC-USD_ret_3d": {
+            "count": 47,
+            "win_rate_gt_0": 0.5106383,
+            "mean": 0.01119998,
+            "median": 0.00883,
+            "min": -0.13122709,
+            "max": 0.13313257,
+            "by_asset": {
+              "BTC-USD": {
+                "count": 4,
+                "win_rate_gt_0": 0.75,
+                "mean": 0.04897006,
+                "median": 0.07380696
+              },
+              "ETH-USD": {
+                "count": 6,
+                "win_rate_gt_0": 0.5,
+                "mean": 0.00876638,
+                "median": 0.00384398
+              },
+              "SOL-USD": {
+                "count": 37,
+                "win_rate_gt_0": 0.48648649,
+                "mean": 0.00751136,
+                "median": -0.00036907
+              }
+            }
+          },
+          "BTC-USD_ret_5d": {
+            "count": 47,
+            "win_rate_gt_0": 0.65957447,
+            "mean": 0.02513122,
+            "median": 0.0087023,
+            "min": -0.1479296,
+            "max": 0.21979659,
+            "by_asset": {
+              "BTC-USD": {
+                "count": 4,
+                "win_rate_gt_0": 0.75,
+                "mean": 0.04261818,
+                "median": 0.06041096
+              },
+              "ETH-USD": {
+                "count": 6,
+                "win_rate_gt_0": 0.83333333,
+                "mean": 0.0361491,
+                "median": 0.019367
+              },
+              "SOL-USD": {
+                "count": 37,
+                "win_rate_gt_0": 0.62162162,
+                "mean": 0.02145406,
+                "median": 0.00797653
+              }
+            }
+          },
+          "ETH-USD_ret_1d": {
+            "count": 47,
+            "win_rate_gt_0": 0.59574468,
+            "mean": 0.00655742,
+            "median": 0.01138606,
+            "min": -0.11884948,
+            "max": 0.10100812,
+            "by_asset": {
+              "BTC-USD": {
+                "count": 4,
+                "win_rate_gt_0": 0.75,
+                "mean": 0.01073613,
+                "median": 0.01662761
+              },
+              "ETH-USD": {
+                "count": 6,
+                "win_rate_gt_0": 0.83333333,
+                "mean": 0.0342969,
+                "median": 0.02646964
+              },
+              "SOL-USD": {
+                "count": 37,
+                "win_rate_gt_0": 0.54054054,
+                "mean": 0.00160737,
+                "median": 0.00209218
+              }
+            }
+          },
+          "ETH-USD_ret_3d": {
+            "count": 47,
+            "win_rate_gt_0": 0.63829787,
+            "mean": 0.02573718,
+            "median": 0.01176659,
+            "min": -0.17188014,
+            "max": 0.16600392,
+            "by_asset": {
+              "BTC-USD": {
+                "count": 4,
+                "win_rate_gt_0": 1.0,
+                "mean": 0.04782109,
+                "median": 0.04718975
+              },
+              "ETH-USD": {
+                "count": 6,
+                "win_rate_gt_0": 0.66666667,
+                "mean": 0.03851736,
+                "median": 0.01521708
+              },
+              "SOL-USD": {
+                "count": 37,
+                "win_rate_gt_0": 0.59459459,
+                "mean": 0.02127727,
+                "median": 0.01105248
+              }
+            }
+          },
+          "ETH-USD_ret_5d": {
+            "count": 47,
+            "win_rate_gt_0": 0.65957447,
+            "mean": 0.05899939,
+            "median": 0.0296542,
+            "min": -0.18683904,
+            "max": 0.38398988,
+            "by_asset": {
+              "BTC-USD": {
+                "count": 4,
+                "win_rate_gt_0": 0.75,
+                "mean": 0.12983551,
+                "median": 0.08839654
+              },
+              "ETH-USD": {
+                "count": 6,
+                "win_rate_gt_0": 0.5,
+                "mean": 0.05413237,
+                "median": 0.00321774
+              },
+              "SOL-USD": {
+                "count": 37,
+                "win_rate_gt_0": 0.67567568,
+                "mean": 0.05213068,
+                "median": 0.0296542
+              }
+            }
+          },
+          "SOL-USD_ret_1d": {
+            "count": 47,
+            "win_rate_gt_0": 0.57446809,
+            "mean": 0.02361692,
+            "median": 0.00896237,
+            "min": -0.09227518,
+            "max": 0.19582044,
+            "by_asset": {
+              "BTC-USD": {
+                "count": 4,
+                "win_rate_gt_0": 0.5,
+                "mean": 0.01820682,
+                "median": -0.00259057
+              },
+              "ETH-USD": {
+                "count": 6,
+                "win_rate_gt_0": 0.5,
+                "mean": 0.00061941,
+                "median": -0.00076708
+              },
+              "SOL-USD": {
+                "count": 37,
+                "win_rate_gt_0": 0.59459459,
+                "mean": 0.02793112,
+                "median": 0.02452292
+              }
+            }
+          },
+          "SOL-USD_ret_3d": {
+            "count": 47,
+            "win_rate_gt_0": 0.70212766,
+            "mean": 0.04625092,
+            "median": 0.02557503,
+            "min": -0.25796059,
+            "max": 0.41441979,
+            "by_asset": {
+              "BTC-USD": {
+                "count": 4,
+                "win_rate_gt_0": 0.75,
+                "mean": 0.03644338,
+                "median": 0.01920146
+              },
+              "ETH-USD": {
+                "count": 6,
+                "win_rate_gt_0": 0.5,
+                "mean": -0.00310862,
+                "median": -0.02864945
+              },
+              "SOL-USD": {
+                "count": 37,
+                "win_rate_gt_0": 0.72972973,
+                "mean": 0.05531545,
+                "median": 0.04862449
+              }
+            }
+          },
+          "SOL-USD_ret_5d": {
+            "count": 47,
+            "win_rate_gt_0": 0.63829787,
+            "mean": 0.0869177,
+            "median": 0.05185869,
+            "min": -0.17788975,
+            "max": 0.70353226,
+            "by_asset": {
+              "BTC-USD": {
+                "count": 4,
+                "win_rate_gt_0": 0.75,
+                "mean": 0.1602296,
+                "median": 0.0789738
+              },
+              "ETH-USD": {
+                "count": 6,
+                "win_rate_gt_0": 0.33333333,
+                "mean": 0.05800693,
+                "median": -0.05578844
+              },
+              "SOL-USD": {
+                "count": 37,
+                "win_rate_gt_0": 0.67567568,
+                "mean": 0.08368033,
+                "median": 0.06230376
+              }
+            }
+          }
+        }
+      },
+      {
+        "path": "output/forward_outcomes.csv",
+        "rows": 6527,
+        "return_columns": [
+          "fwd_return_hold_72",
+          "fwd_return_hold_96",
+          "fwd_return_hold_144",
+          "fwd_return_hold_192",
+          "fwd_return_hold_288"
+        ],
+        "summary": {
+          "fwd_return_hold_72": {
+            "count": 6527,
+            "win_rate_gt_0": 0.56672284,
+            "mean": 28.34779925,
+            "median": 7.00922364,
+            "min": -78.67427891,
+            "max": 1039.35774889,
+            "by_asset": {
+              "BTC-USD": {
+                "count": 2209,
+                "win_rate_gt_0": 0.56496152,
+                "mean": 12.57984357,
+                "median": 5.65997611
+              },
+              "ETH-USD": {
+                "count": 2209,
+                "win_rate_gt_0": 0.58171118,
+                "mean": 16.628526,
+                "median": 9.14408511
+              },
+              "SOL-USD": {
+                "count": 2109,
+                "win_rate_gt_0": 0.55286866,
+                "mean": 57.13835817,
+                "median": 6.96259695
+              }
+            }
+          },
+          "fwd_return_hold_96": {
+            "count": 6455,
+            "win_rate_gt_0": 0.57846631,
+            "mean": 42.70056028,
+            "median": 9.47545808,
+            "min": -72.42545821,
+            "max": 1551.80877791,
+            "by_asset": {
+              "BTC-USD": {
+                "count": 2185,
+                "win_rate_gt_0": 0.58489703,
+                "mean": 18.61204123,
+                "median": 7.61839405
+              },
+              "ETH-USD": {
+                "count": 2185,
+                "win_rate_gt_0": 0.59496568,
+                "mean": 24.14301315,
+                "median": 13.39566438
+              },
+              "SOL-USD": {
+                "count": 2085,
+                "win_rate_gt_0": 0.55443645,
+                "mean": 87.39200133,
+                "median": 7.34847032
+              }
+            }
+          },
+          "fwd_return_hold_144": {
+            "count": 6311,
+            "win_rate_gt_0": 0.59958802,
+            "mean": 74.20867423,
+            "median": 16.23862404,
+            "min": -77.83711422,
+            "max": 3814.83284982,
+            "by_asset": {
+              "BTC-USD": {
+                "count": 2137,
+                "win_rate_gt_0": 0.61020122,
+                "mean": 31.51556241,
+                "median": 15.12277755
+              },
+              "ETH-USD": {
+                "count": 2137,
+                "win_rate_gt_0": 0.61628451,
+                "mean": 42.63142509,
+                "median": 16.94689842
+              },
+              "SOL-USD": {
+                "count": 2037,
+                "win_rate_gt_0": 0.57093765,
+                "mean": 152.12510102,
+                "median": 18.82263983
+              }
+            }
+          },
+          "fwd_return_hold_192": {
+            "count": 6167,
+            "win_rate_gt_0": 0.65185666,
+            "mean": 106.78449096,
+            "median": 25.07316046,
+            "min": -86.86145938,
+            "max": 3258.96838627,
+            "by_asset": {
+              "BTC-USD": {
+                "count": 2089,
+                "win_rate_gt_0": 0.70943035,
+                "mean": 44.69740654,
+                "median": 26.16199255
+              },
+              "ETH-USD": {
+                "count": 2089,
+                "win_rate_gt_0": 0.65294399,
+                "mean": 62.78948968,
+                "median": 21.20870968
+              },
+              "SOL-USD": {
+                "count": 1989,
+                "win_rate_gt_0": 0.59024635,
+                "mean": 218.20001485,
+                "median": 27.903184
+              }
+            }
+          },
+          "fwd_return_hold_288": {
+            "count": 5879,
+            "win_rate_gt_0": 0.70011907,
+            "mean": 291.15425634,
+            "median": 40.58623359,
+            "min": -89.72572997,
+            "max": 12696.06916221,
+            "by_asset": {
+              "BTC-USD": {
+                "count": 1993,
+                "win_rate_gt_0": 0.74912193,
+                "mean": 75.78526681,
+                "median": 52.14635852
+              },
+              "ETH-USD": {
+                "count": 1993,
+                "win_rate_gt_0": 0.72002007,
+                "mean": 119.40241205,
+                "median": 30.31922561
+              },
+              "SOL-USD": {
+                "count": 1893,
+                "win_rate_gt_0": 0.62757528,
+                "mean": 698.72521347,
+                "median": 44.66978289
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "warnings": [
+    "Missing values detected in output/leader_laggard_summary.csv.",
+    "Missing values detected in output/forward_outcomes.csv.",
+    "Missing values detected in output/pre_signal_raw.csv.",
+    "Missing values detected in output/pre_signal_candidates.csv.",
+    "Missing values detected in output/pre_signal_candidates_v5.csv.",
+    "Missing values detected in output/pre_signal_candidates_excess.csv.",
+    "Missing values detected in output/backfilled_live_signals_v5.csv.",
+    "Small sample size in output/v32_ab_live_signal_snapshot.csv: 1 rows."
+  ],
+  "summary": "Investment system audit inspected 17 expected file(s), found 12, and scanned 30953 total row(s). Warning count: 8."
+}
