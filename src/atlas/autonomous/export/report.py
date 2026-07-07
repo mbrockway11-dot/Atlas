@@ -9,7 +9,7 @@ from typing import Any
 from atlas.autonomous.export.writer import export_autonomous_report
 
 
-EXPORT_VERSION = "1.0.0"
+EXPORT_VERSION = "2.0.0"
 
 
 def build_autonomous_export_report(
