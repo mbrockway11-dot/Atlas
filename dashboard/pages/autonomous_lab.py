@@ -73,6 +73,7 @@ def render_autonomous_lab_page() -> None:
     render_director_status(payload)
     render_confidence(report)
     render_provenance(report)
+    render_timeline(report)
     render_learning(report)
     render_experiment_plan(report)
     render_theory(report)
@@ -234,6 +235,70 @@ def render_provenance(report: dict) -> None:
             st.dataframe(pd.DataFrame(relations), width="stretch")
         else:
             st.info("No lineage relations.")
+
+
+
+
+def render_timeline(report: dict) -> None:
+    """Render Research Timeline panel."""
+    st.markdown("## Research Timeline")
+
+    timeline = report.get("timeline", {})
+
+    if not timeline:
+        st.info("No research timeline available.")
+        return
+
+    st.info(timeline.get("text_summary", ""))
+
+    summary = timeline.get("summary", {}) or {}
+
+    c1, c2 = st.columns(2)
+    c1.metric("Timeline Events", summary.get("event_count", 0))
+    c2.metric("Event Types", len(summary.get("event_type_counts", {}) or {}))
+
+    counts = summary.get("event_type_counts", {}) or {}
+    if counts:
+        st.markdown("### Event Type Counts")
+        rows = [
+            {"event_type": key, "count": value}
+            for key, value in counts.items()
+        ]
+        st.dataframe(pd.DataFrame(rows), width="stretch")
+
+    events = timeline.get("events", []) or []
+
+    if not events:
+        st.info("No timeline events.")
+        return
+
+    event_rows = [
+        {
+            "timestamp": event.get("timestamp"),
+            "event_type": event.get("event_type"),
+            "title": event.get("title"),
+            "source_id": event.get("source_id"),
+            "summary": event.get("summary"),
+        }
+        for event in events
+    ]
+
+    st.markdown("### Events")
+    st.dataframe(pd.DataFrame(event_rows), width="stretch")
+
+    selected_event_id = st.selectbox(
+        "Inspect event payload",
+        [event.get("event_id") for event in events],
+    )
+
+    selected = next(
+        (event for event in events if event.get("event_id") == selected_event_id),
+        None,
+    )
+
+    if selected:
+        with st.expander("Selected Timeline Event", expanded=False):
+            st.json(selected)
 
 
 def render_learning(report: dict) -> None:
