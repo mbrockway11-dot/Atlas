@@ -26,6 +26,8 @@ def export_autonomous_report(
     md_path = target / "autonomous_summary.md"
     theory_path = target / "theory_report.md"
     prediction_path = target / "prediction_benchmark.md"
+    provenance_json_path = target / "provenance_report.json"
+    provenance_md_path = target / "provenance_report.md"
 
     json_path.write_text(
         json.dumps(report, indent=2, ensure_ascii=False),
@@ -47,6 +49,18 @@ def export_autonomous_report(
         encoding="utf-8",
     )
 
+    provenance = report.get("provenance", {}) or {}
+
+    provenance_json_path.write_text(
+        json.dumps(provenance, indent=2, ensure_ascii=False),
+        encoding="utf-8",
+    )
+
+    provenance_md_path.write_text(
+        build_provenance_markdown(provenance),
+        encoding="utf-8",
+    )
+
     return {
         "success": True,
         "output_dir": str(target),
@@ -55,6 +69,8 @@ def export_autonomous_report(
             "summary": str(md_path),
             "theory": str(theory_path),
             "prediction": str(prediction_path),
+            "provenance_json": str(provenance_json_path),
+            "provenance": str(provenance_md_path),
         },
     }
 
@@ -132,3 +148,77 @@ def build_prediction_markdown(prediction: dict[str, Any]) -> str:
         ])
 
     return "\n".join(lines).strip() + "\n"
+
+
+
+def build_provenance_markdown(provenance: dict[str, Any]) -> str:
+    """Build standalone provenance markdown."""
+    lines = [
+        "# Atlas Provenance Report",
+        "",
+        provenance.get("summary", "No provenance summary available."),
+        "",
+    ]
+
+    graph = provenance.get("graph", {}) or {}
+    graph_summary = graph.get("summary", {}) or {}
+
+    lines.extend([
+        "## Graph Summary",
+        "",
+        f"- Node count: `{graph_summary.get('node_count', 0)}`",
+        f"- Edge count: `{graph_summary.get('edge_count', 0)}`",
+        "",
+        "## Object Types",
+        "",
+    ])
+
+    object_types = graph_summary.get("object_types", {}) or {}
+
+    if object_types:
+        for object_type, count in object_types.items():
+            lines.append(f"- `{object_type}`: `{count}`")
+    else:
+        lines.append("No object types available.")
+
+    lines.extend([
+        "",
+        "## Registry Objects",
+        "",
+    ])
+
+    registry = provenance.get("registry", {}) or {}
+    objects = registry.get("objects", {}) or {}
+
+    if objects:
+        for object_id, item in objects.items():
+            lines.extend([
+                f"### {object_id}",
+                "",
+                f"- Type: `{item.get('type')}`",
+                f"- Label: {item.get('label')}",
+                f"- Created: `{item.get('created_at')}`",
+                "",
+            ])
+    else:
+        lines.append("No registry objects available.")
+        lines.append("")
+
+    lines.extend([
+        "## Lineage Relations",
+        "",
+    ])
+
+    lineage = provenance.get("lineage", {}) or {}
+    relations = lineage.get("relations", []) or []
+
+    if relations:
+        for relation in relations:
+            lines.append(
+                f"- `{relation.get('parent')}` --{relation.get('relation')}--> `{relation.get('child')}`"
+            )
+    else:
+        lines.append("No lineage relations available.")
+
+    lines.append("")
+    return "\\n".join(lines).strip() + "\\n"
