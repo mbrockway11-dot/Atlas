@@ -45,6 +45,9 @@ def run_autonomous_director(
     health = inspect_cycle_health(lifecycle.get("cycle", {}))
     checkpoints.append(build_checkpoint("health", health))
 
+    confidence = lifecycle.get("scientific_confidence", {})
+    checkpoints.append(build_checkpoint("scientific_confidence", confidence))
+
     state = transition_state(state, "learning", note="Learning cycle completed.")
     learning = (lifecycle.get("cycle", {}) or {}).get("learning_update", {})
     checkpoints.append(build_checkpoint("learning", learning or {"success": False, "summary": "No learning update."}))
@@ -62,6 +65,7 @@ def run_autonomous_director(
         "goal": goal,
         "state": state,
         "health": health,
+        "scientific_confidence": lifecycle.get("scientific_confidence", {}),
         "checkpoints": status,
         "lifecycle": lifecycle,
         "summary": build_director_summary(goal, lifecycle, health),

@@ -7,6 +7,7 @@ from typing import Any
 
 from atlas.autonomous.export import build_autonomous_export_report
 from atlas.autonomous.learning import build_autonomous_learning_report
+from atlas.autonomous.confidence import build_scientific_confidence_report
 from atlas.autonomous.memory import ensure_research_memory, persist_research_memory
 
 
@@ -27,6 +28,9 @@ def run_director_lifecycle(
         holdout_ratio=holdout_ratio,
     )
 
+    confidence = build_scientific_confidence_report(cycle)
+    cycle["scientific_confidence"] = confidence
+
     memory_result = persist_research_memory(cycle.get("memory", memory))
 
     export_result = None
@@ -37,6 +41,7 @@ def run_director_lifecycle(
         "success": True,
         "record_count": len(records),
         "cycle": cycle,
+        "scientific_confidence": confidence,
         "memory_persistence": memory_result,
         "export": export_result,
         "summary": cycle.get("summary", ""),
