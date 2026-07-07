@@ -9,6 +9,7 @@ from atlas.autonomous.export import build_autonomous_export_report
 from atlas.autonomous.learning import build_autonomous_learning_report
 from atlas.autonomous.confidence import build_scientific_confidence_report
 from atlas.autonomous.memory import ensure_research_memory, persist_research_memory
+from atlas.autonomous.provenance import build_provenance_report
 
 
 def run_director_lifecycle(
@@ -31,6 +32,9 @@ def run_director_lifecycle(
     confidence = build_scientific_confidence_report(cycle)
     cycle["scientific_confidence"] = confidence
 
+    provenance = build_provenance_report(cycle)
+    cycle["provenance"] = provenance
+
     memory_result = persist_research_memory(cycle.get("memory", memory))
 
     export_result = None
@@ -42,6 +46,7 @@ def run_director_lifecycle(
         "record_count": len(records),
         "cycle": cycle,
         "scientific_confidence": confidence,
+        "provenance": provenance,
         "memory_persistence": memory_result,
         "export": export_result,
         "summary": cycle.get("summary", ""),
