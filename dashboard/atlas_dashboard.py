@@ -165,11 +165,22 @@ def render_autonomous_mission_control() -> None:
     c7.metric("Promoted Theories", theory.get("promoted_count", 0))
     c8.metric("Theory Challenges", falsification.get("challenge_count", 0))
 
+    confidence = autonomous.get("scientific_confidence", {}) or {}
+
+    if confidence:
+        c9, c10, c11, c12 = st.columns(4)
+        c9.metric("Scientific Confidence", format_number(confidence.get("scientific_confidence")))
+        c10.metric("Confidence Label", confidence.get("confidence_label", "n/a"))
+
+        components = confidence.get("components", {}) or {}
+        c11.metric("Evidence Score", format_number(components.get("evidence_score")))
+        c12.metric("Prediction Score", format_number(components.get("prediction_score")))
+
     if prediction.get("success"):
         scores = prediction.get("benchmark", {}).get("scores", {})
-        c9, c10 = st.columns(2)
-        c9.metric("Prediction MAE", format_number(scores.get("mean_absolute_error")))
-        c10.metric("Prediction Accuracy", scores.get("accuracy_label", "n/a"))
+        c13, c14 = st.columns(2)
+        c13.metric("Prediction MAE", format_number(scores.get("mean_absolute_error")))
+        c14.metric("Prediction Accuracy", scores.get("accuracy_label", "n/a"))
 
 
 def memory_item_count(memory: dict) -> int:
