@@ -72,6 +72,7 @@ def render_autonomous_lab_page() -> None:
     render_summary(payload)
     render_director_status(payload)
     render_confidence(report)
+    render_provenance(report)
     render_learning(report)
     render_experiment_plan(report)
     render_theory(report)
@@ -161,6 +162,78 @@ def render_confidence(report: dict) -> None:
 
     with st.expander("Confidence Inputs", expanded=False):
         st.json(confidence.get("inputs", {}))
+
+
+
+
+def render_provenance(report: dict) -> None:
+    """Render Research Provenance panel."""
+    st.markdown("## Research Provenance")
+
+    provenance = report.get("provenance", {})
+
+    if not provenance:
+        st.info("No provenance report available.")
+        return
+
+    st.info(provenance.get("summary", ""))
+
+    graph = provenance.get("graph", {}) or {}
+    graph_summary = graph.get("summary", {}) or {}
+
+    c1, c2 = st.columns(2)
+    c1.metric("Provenance Nodes", graph_summary.get("node_count", 0))
+    c2.metric("Provenance Edges", graph_summary.get("edge_count", 0))
+
+    object_types = graph_summary.get("object_types", {}) or {}
+    if object_types:
+        st.markdown("### Object Types")
+        rows = [
+            {"object_type": key, "count": value}
+            for key, value in object_types.items()
+        ]
+        st.dataframe(pd.DataFrame(rows), width="stretch")
+
+    tabs = st.tabs(["Nodes", "Edges", "Registry", "Lineage"])
+
+    with tabs[0]:
+        nodes = graph.get("nodes", []) or []
+        if nodes:
+            st.dataframe(pd.DataFrame(nodes), width="stretch")
+        else:
+            st.info("No provenance nodes.")
+
+    with tabs[1]:
+        edges = graph.get("edges", []) or []
+        if edges:
+            st.dataframe(pd.DataFrame(edges), width="stretch")
+        else:
+            st.info("No provenance edges.")
+
+    with tabs[2]:
+        registry = provenance.get("registry", {}) or {}
+        objects = registry.get("objects", {}) or {}
+        if objects:
+            rows = [
+                {
+                    "id": key,
+                    "type": value.get("type"),
+                    "label": value.get("label"),
+                    "created_at": value.get("created_at"),
+                }
+                for key, value in objects.items()
+            ]
+            st.dataframe(pd.DataFrame(rows), width="stretch")
+        else:
+            st.info("No registry objects.")
+
+    with tabs[3]:
+        lineage = provenance.get("lineage", {}) or {}
+        relations = lineage.get("relations", []) or []
+        if relations:
+            st.dataframe(pd.DataFrame(relations), width="stretch")
+        else:
+            st.info("No lineage relations.")
 
 
 def render_learning(report: dict) -> None:
