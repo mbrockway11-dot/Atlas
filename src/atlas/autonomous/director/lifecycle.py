@@ -10,6 +10,7 @@ from atlas.autonomous.learning import build_autonomous_learning_report
 from atlas.autonomous.confidence import build_scientific_confidence_report
 from atlas.autonomous.memory import ensure_research_memory, persist_research_memory
 from atlas.autonomous.provenance import build_provenance_report
+from atlas.autonomous.timeline import build_research_timeline_report
 
 
 def run_director_lifecycle(
@@ -35,6 +36,16 @@ def run_director_lifecycle(
     provenance = build_provenance_report(cycle)
     cycle["provenance"] = provenance
 
+    timeline_source = {
+        "success": True,
+        "goal": "director_lifecycle",
+        "summary": cycle.get("summary", ""),
+        "health": {"success": True, "healthy": True, "warning_count": 0, "warnings": []},
+        "lifecycle": {"cycle": cycle},
+    }
+    timeline = build_research_timeline_report(timeline_source, export=False)
+    cycle["timeline"] = timeline
+
     memory_result = persist_research_memory(cycle.get("memory", memory))
 
     export_result = None
@@ -47,6 +58,7 @@ def run_director_lifecycle(
         "cycle": cycle,
         "scientific_confidence": confidence,
         "provenance": provenance,
+        "timeline": timeline,
         "memory_persistence": memory_result,
         "export": export_result,
         "summary": cycle.get("summary", ""),

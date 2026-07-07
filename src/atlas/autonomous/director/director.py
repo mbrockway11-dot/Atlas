@@ -51,6 +51,9 @@ def run_autonomous_director(
     provenance = lifecycle.get("provenance", {})
     checkpoints.append(build_checkpoint("provenance", provenance))
 
+    timeline = lifecycle.get("timeline", {})
+    checkpoints.append(build_checkpoint("timeline", timeline))
+
     state = transition_state(state, "learning", note="Learning cycle completed.")
     learning = (lifecycle.get("cycle", {}) or {}).get("learning_update", {})
     checkpoints.append(build_checkpoint("learning", learning or {"success": False, "summary": "No learning update."}))
@@ -70,6 +73,7 @@ def run_autonomous_director(
         "health": health,
         "scientific_confidence": lifecycle.get("scientific_confidence", {}),
         "provenance": lifecycle.get("provenance", {}),
+        "timeline": lifecycle.get("timeline", {}),
         "checkpoints": status,
         "lifecycle": lifecycle,
         "summary": build_director_summary(goal, lifecycle, health),
