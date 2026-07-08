@@ -31,6 +31,7 @@ def build_decision_engine_report() -> dict[str, Any]:
         conflict.get("decision_bias"),
         conflict.get("evidence_confidence"),
         market_direction,
+        evidence,
     )
 
     report = {
@@ -44,6 +45,7 @@ def build_decision_engine_report() -> dict[str, Any]:
             "long_evidence": evidence.get("long_evidence"),
             "short_evidence": evidence.get("short_evidence"),
             "flat_evidence": evidence.get("flat_evidence"),
+            "family_weights": evidence.get("family_weights", {}),
         },
         "conflict": conflict,
         "risk_adjusted_decision": risk,

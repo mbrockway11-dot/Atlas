@@ -3,22 +3,50 @@
 
 from __future__ import annotations
 
+import json
+from pathlib import Path
+
 import pandas as pd
 
 
-FAMILY_WEIGHTS = {
+ADAPTIVE_WEIGHTS_JSON = Path("output/investment_adaptive/adaptive_family_weights.json")
+
+DEFAULT_FAMILY_WEIGHTS = {
     "portfolio_allocation": 0.35,
     "cross_sectional_ranking": 0.30,
     "intraday_execution": 0.35,
 }
 
 
+def load_family_weights() -> dict[str, float]:
+    """Load adaptive family weights when available, otherwise use defaults."""
+    if not ADAPTIVE_WEIGHTS_JSON.exists():
+        return DEFAULT_FAMILY_WEIGHTS
+
+    try:
+        payload = json.loads(ADAPTIVE_WEIGHTS_JSON.read_text(encoding="utf-8"))
+        weights = payload.get("family_weights", {}) or {}
+    except Exception:
+        return DEFAULT_FAMILY_WEIGHTS
+
+    if not weights:
+        return DEFAULT_FAMILY_WEIGHTS
+
+    merged = dict(DEFAULT_FAMILY_WEIGHTS)
+    merged.update({str(k): float(v) for k, v in weights.items()})
+
+    return merged
+
+
 def build_evidence_scores(registry: pd.DataFrame) -> dict:
+    family_weights = load_family_weights()
+
     if registry.empty:
         return {
             "long_evidence": 0.0,
             "short_evidence": 0.0,
             "flat_evidence": 0.0,
+            "family_weights": family_weights,
             "evidence_rows": [],
         }
 
@@ -35,7 +63,7 @@ def build_evidence_scores(registry: pd.DataFrame) -> dict:
 
     for _, row in df.iterrows():
         family = row.get("strategy_family")
-        weight = FAMILY_WEIGHTS.get(family, 0.10)
+        weight = family_weights.get(family, 0.10)
 
         exposure_component = abs(float(row.get("target_exposure") or 0.0))
         confidence_component = float(row.get("confidence") or 0.0)
@@ -63,7 +91,7 @@ def build_evidence_scores(registry: pd.DataFrame) -> dict:
             "direction": evidence_direction,
             "raw_direction": direction,
             "action": action,
-            "weight": round(weight, 6),
+            "weight": round(float(weight), 6),
             "strength": round(float(strength), 6),
             "confidence": confidence_component,
             "target_exposure": exposure_component,
@@ -74,5 +102,6 @@ def build_evidence_scores(registry: pd.DataFrame) -> dict:
         "long_evidence": round(float(long_evidence), 6),
         "short_evidence": round(float(short_evidence), 6),
         "flat_evidence": round(float(flat_evidence), 6),
+        "family_weights": family_weights,
         "evidence_rows": rows,
     }

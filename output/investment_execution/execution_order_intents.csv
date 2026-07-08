@@ -1,5 +1,5 @@
 asset,side,planned_weight,order_action,execution_gate,priority,reason
-BTC-USD,LONG,0.336476,BUY,OPEN,1,No execution adapter signal for asset.
-ETH-USD,LONG,0.287236,BUY,OPEN,2,No execution adapter signal for asset.
-SOL-USD,LONG,0.114894,WAIT,WAIT,3,Execution engines are idle; wait for structure confirmation.
-CASH,CASH,0.261394,NO_ORDER,OPEN,999,Cash row.
+BTC-USD,LONG,0.223984,BUY,OPEN,1,No execution adapter signal for asset.
+ETH-USD,LONG,0.191206,BUY,OPEN,2,No execution adapter signal for asset.
+SOL-USD,LONG,0.076482,WAIT,WAIT,3,Execution engines are idle; wait for structure confirmation.
+CASH,CASH,0.508328,NO_ORDER,OPEN,999,Cash row.

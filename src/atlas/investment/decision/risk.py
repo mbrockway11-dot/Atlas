@@ -8,6 +8,7 @@ def risk_adjust_decision(
     bias: str,
     evidence_confidence: float,
     market_direction: dict,
+    evidence: dict | None = None,
 ) -> dict:
     direction_report = market_direction.get("exposure", {}) if market_direction else {}
 
@@ -15,7 +16,10 @@ def risk_adjust_decision(
     direction_confidence = float(direction_report.get("direction_confidence") or 0.0)
 
     c = max(0.0, min(float(evidence_confidence or 0.0), 1.0))
-    combined_confidence = round((c * 0.60) + (direction_confidence * 0.40), 6)
+    combined_confidence = (c * 0.60) + (direction_confidence * 0.40)
+
+    confirmation = confirmation_adjustment(evidence or {})
+    combined_confidence *= confirmation["confidence_multiplier"]
 
     b = str(bias).upper()
 
@@ -30,12 +34,54 @@ def risk_adjust_decision(
     else:
         target = 0.0
 
+    target *= confirmation["exposure_multiplier"]
+
     return {
         "final_direction": b,
-        "final_confidence": combined_confidence,
+        "final_confidence": round(float(combined_confidence), 6),
         "target_net_exposure": round(float(target), 6),
         "target_cash_weight": round(float(max(0.0, 1.0 - abs(target))), 6),
         "risk_label": label_risk(target),
+        "confirmation_adjustment": confirmation,
+    }
+
+
+def confirmation_adjustment(evidence: dict) -> dict:
+    """Reduce confidence/exposure when execution engines are idle."""
+    rows = evidence.get("evidence_rows", []) or []
+
+    execution_rows = [
+        r for r in rows
+        if r.get("strategy_family") == "intraday_execution"
+    ]
+
+    if not execution_rows:
+        return {
+            "status": "no_execution_layer",
+            "confidence_multiplier": 0.90,
+            "exposure_multiplier": 0.90,
+            "reason": "No intraday execution layer available.",
+        }
+
+    active_rows = [
+        r for r in execution_rows
+        if str(r.get("action", "")).upper() not in {"NO_ACTION", "WAIT"}
+        and str(r.get("direction", "")).upper() not in {"FLAT", "NEUTRAL"}
+    ]
+
+    if active_rows:
+        return {
+            "status": "execution_confirmed",
+            "confidence_multiplier": 1.00,
+            "exposure_multiplier": 1.00,
+            "reason": "At least one intraday execution engine confirms active structure.",
+        }
+
+    return {
+        "status": "execution_idle",
+        "confidence_multiplier": 0.85,
+        "exposure_multiplier": 0.75,
+        "reason": "Intraday execution engines are idle; reduce confidence and exposure.",
     }
 
 
