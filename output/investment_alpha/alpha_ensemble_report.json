@@ -1,0 +1,118 @@
+{
+  "success": true,
+  "summary": "Alpha Ensemble built 2971 historical signal row(s) from 9 promoted strategy/strategies.",
+  "promoted_strategy_count": 9,
+  "signal_count": 2971,
+  "vote_count": 11375,
+  "latest_signal": {
+    "date": "2026-03-04 00:00:00",
+    "asset": "SOL-USD",
+    "long_weight": 0.22065389115969808,
+    "short_weight": 0.0,
+    "total_weight": 0.22065389115969808,
+    "net_long_score": 0.22065389115969808,
+    "strategy_count": 2,
+    "active_strategies": [
+      "breadth_positive_24_0_8",
+      "breadth_positive_24_1_0"
+    ],
+    "ensemble_confidence": 0.82,
+    "consensus_score": 1.0,
+    "breadth_score": 0.4,
+    "confidence_label": "moderate_ensemble_signal"
+  },
+  "weights": {
+    "success": true,
+    "strategy_count": 9,
+    "total_raw_weight": 14.926392179368964,
+    "weights": [
+      {
+        "hypothesis_id": "leader_persistence_72_3",
+        "raw_weight": 2.290333795473491,
+        "alpha_confidence": 0.789901,
+        "rolling_stability": 0.666667,
+        "asset_concentration": 0.423423,
+        "trade_count": 1887,
+        "weight": 0.15344188789566685
+      },
+      {
+        "hypothesis_id": "leader_persistence_72_8",
+        "raw_weight": 2.206769940270384,
+        "alpha_confidence": 0.796182,
+        "rolling_stability": 0.666667,
+        "asset_concentration": 0.434783,
+        "trade_count": 1564,
+        "weight": 0.14784349183324746
+      },
+      {
+        "hypothesis_id": "leader_persistence_288_3",
+        "raw_weight": 1.8269194945224234,
+        "alpha_confidence": 0.786797,
+        "rolling_stability": 0.7,
+        "asset_concentration": 0.552039,
+        "trade_count": 1643,
+        "weight": 0.12239524947278045
+      },
+      {
+        "hypothesis_id": "leader_persistence_288_8",
+        "raw_weight": 1.7326520704431652,
+        "alpha_confidence": 0.785643,
+        "rolling_stability": 0.7,
+        "asset_concentration": 0.570779,
+        "trade_count": 1540,
+        "weight": 0.11607976325571902
+      },
+      {
+        "hypothesis_id": "breadth_positive_24_0_8",
+        "raw_weight": 1.646783257676724,
+        "alpha_confidence": 0.796642,
+        "rolling_stability": 0.692308,
+        "asset_concentration": 0.5511,
+        "trade_count": 773,
+        "weight": 0.11032694557984904
+      },
+      {
+        "hypothesis_id": "breadth_positive_24_1_0",
+        "raw_weight": 1.646783257676724,
+        "alpha_confidence": 0.796642,
+        "rolling_stability": 0.692308,
+        "asset_concentration": 0.5511,
+        "trade_count": 773,
+        "weight": 0.11032694557984904
+      },
+      {
+        "hypothesis_id": "breadth_positive_288_0_5",
+        "raw_weight": 1.2011798536075007,
+        "alpha_confidence": 0.773727,
+        "rolling_stability": 0.7,
+        "asset_concentration": 0.690086,
+        "trade_count": 1281,
+        "weight": 0.08047355577778223
+      },
+      {
+        "hypothesis_id": "breadth_positive_288_0_66",
+        "raw_weight": 1.2011798536075007,
+        "alpha_confidence": 0.773727,
+        "rolling_stability": 0.7,
+        "asset_concentration": 0.690086,
+        "trade_count": 1281,
+        "weight": 0.08047355577778223
+      },
+      {
+        "hypothesis_id": "topology_low_density_leader_72",
+        "raw_weight": 1.1737906560910512,
+        "alpha_confidence": 0.810976,
+        "rolling_stability": 0.666667,
+        "asset_concentration": 0.663507,
+        "trade_count": 633,
+        "weight": 0.07863860482732371
+      }
+    ]
+  },
+  "outputs": {
+    "signals_csv": "output\\investment_alpha\\alpha_ensemble_signals.csv",
+    "weights_csv": "output\\investment_alpha\\alpha_ensemble_weights.csv",
+    "json": "output\\investment_alpha\\alpha_ensemble_report.json",
+    "markdown": "output\\investment_alpha\\alpha_ensemble_report.md"
+  }
+}
