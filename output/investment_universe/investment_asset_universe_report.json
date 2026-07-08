@@ -1,0 +1,80 @@
+{
+  "success": true,
+  "root": "C:\\Users\\lyfe1\\OneDrive\\Desktop\\sigil-engine",
+  "price_data_path": "C:\\Users\\lyfe1\\OneDrive\\Desktop\\sigil-engine\\output\\price_data.csv",
+  "row_count": 6743,
+  "asset_column": "asset",
+  "date_column": "date",
+  "target_assets": [
+    "BTC-USD",
+    "ETH-USD",
+    "SOL-USD",
+    "BNB-USD",
+    "XRP-USD",
+    "ADA-USD",
+    "DOGE-USD",
+    "LINK-USD",
+    "AVAX-USD",
+    "TRX-USD",
+    "SUI-USD"
+  ],
+  "target_count": 11,
+  "current_assets": [
+    "BTC-USD",
+    "ETH-USD",
+    "SOL-USD"
+  ],
+  "current_count": 3,
+  "missing_assets": [
+    "BNB-USD",
+    "XRP-USD",
+    "ADA-USD",
+    "DOGE-USD",
+    "LINK-USD",
+    "AVAX-USD",
+    "TRX-USD",
+    "SUI-USD"
+  ],
+  "missing_count": 8,
+  "extra_assets": [],
+  "extra_count": 0,
+  "rows_by_asset": {
+    "BTC-USD": 2281,
+    "ETH-USD": 2281,
+    "SOL-USD": 2181
+  },
+  "coverage": {
+    "BTC-USD": {
+      "rows": 2281,
+      "date_min": "2020-01-01 00:00:00",
+      "date_max": "2026-03-31 00:00:00",
+      "invalid_dates": 0
+    },
+    "ETH-USD": {
+      "rows": 2281,
+      "date_min": "2020-01-01 00:00:00",
+      "date_max": "2026-03-31 00:00:00",
+      "invalid_dates": 0
+    },
+    "SOL-USD": {
+      "rows": 2181,
+      "date_min": "2020-04-10 00:00:00",
+      "date_max": "2026-03-31 00:00:00",
+      "invalid_dates": 0
+    }
+  },
+  "recommended_next_universe": [
+    "BTC-USD",
+    "ETH-USD",
+    "SOL-USD",
+    "BNB-USD",
+    "XRP-USD",
+    "ADA-USD",
+    "DOGE-USD",
+    "LINK-USD",
+    "AVAX-USD",
+    "TRX-USD",
+    "SUI-USD"
+  ],
+  "summary": "Investment universe report found 3 current asset(s) against 11 target asset(s). Missing: 8."
+}
