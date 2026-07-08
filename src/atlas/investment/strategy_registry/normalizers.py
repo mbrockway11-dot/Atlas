@@ -6,6 +6,7 @@ from __future__ import annotations
 import pandas as pd
 
 from atlas.investment.strategy_registry.schema import RegisteredStrategySignal
+from atlas.investment.strategy_registry.assets import normalize_asset
 
 
 def as_float(value, default: float = 0.0) -> float:
@@ -33,7 +34,7 @@ def normalize_sigil_v32(df: pd.DataFrame) -> list[RegisteredStrategySignal]:
                 source="sigil_v32",
                 strategy_id=str(row.get("engine")),
                 strategy_family="intraday_execution",
-                asset=row.get("asset"),
+                asset=normalize_asset(row.get("asset")),
                 timestamp=str(row.get("timestamp")) if row.get("timestamp") is not None else None,
                 action=row.get("action"),
                 direction=row.get("direction"),
@@ -65,7 +66,7 @@ def normalize_alpha_portfolio(df: pd.DataFrame) -> list[RegisteredStrategySignal
                 source="atlas_alpha",
                 strategy_id="alpha_portfolio_construction",
                 strategy_family="portfolio_allocation",
-                asset=asset,
+                asset=normalize_asset(asset),
                 timestamp=None,
                 action="ALLOCATE" if weight > 0 else "NO_ACTION",
                 direction="LONG" if weight > 0 else "FLAT",
@@ -101,7 +102,7 @@ def normalize_cross_sectional_ranker(df: pd.DataFrame) -> list[RegisteredStrateg
                 source="atlas_alpha",
                 strategy_id="cross_sectional_alpha_ranker",
                 strategy_family="cross_sectional_ranking",
-                asset=row.get("asset"),
+                asset=normalize_asset(row.get("asset")),
                 timestamp=str(row.get("date")) if row.get("date") is not None else None,
                 action=action,
                 direction=direction,

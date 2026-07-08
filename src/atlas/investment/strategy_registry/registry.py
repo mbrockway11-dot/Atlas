@@ -35,6 +35,7 @@ def build_strategy_registry() -> dict[str, Any]:
         "family_counts": df["strategy_family"].value_counts().to_dict() if not df.empty else {},
         "action_counts": df["action"].value_counts().to_dict() if not df.empty else {},
         "asset_counts": df["asset"].value_counts().to_dict() if not df.empty and "asset" in df else {},
+        "unique_assets": sorted(df["asset"].dropna().unique().tolist()) if not df.empty and "asset" in df else [],
     }
 
     return {

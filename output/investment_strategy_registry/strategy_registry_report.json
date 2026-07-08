@@ -5,7 +5,7 @@
       "source": "sigil_v32",
       "strategy_id": "ENGINE_A_PULLBACK_CONTINUATION",
       "strategy_family": "intraday_execution",
-      "asset": "SOL",
+      "asset": "SOL-USD",
       "timestamp": "2024-12-31 23:45:00+00:00",
       "action": "NO_ACTION",
       "direction": "FLAT",
@@ -18,7 +18,7 @@
       "source": "sigil_v32",
       "strategy_id": "ENGINE_B_FAILED_OPENING_EXPANSION",
       "strategy_family": "intraday_execution",
-      "asset": "SOL",
+      "asset": "SOL-USD",
       "timestamp": "2024-12-31 23:45:00+00:00",
       "action": "NO_ACTION",
       "direction": "FLAT",
@@ -123,11 +123,15 @@
       "NO_ACTION": 2
     },
     "asset_counts": {
-      "SOL": 2,
+      "SOL-USD": 4,
       "BTC-USD": 2,
-      "ETH-USD": 2,
-      "SOL-USD": 2
-    }
+      "ETH-USD": 2
+    },
+    "unique_assets": [
+      "BTC-USD",
+      "ETH-USD",
+      "SOL-USD"
+    ]
   },
   "text_summary": "Strategy Registry collected 8 signal row(s) from 2 source(s)."
 }

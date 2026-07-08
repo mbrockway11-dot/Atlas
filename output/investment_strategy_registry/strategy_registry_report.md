@@ -22,18 +22,22 @@ Strategy Registry collected 8 signal row(s) from 2 source(s).
     "NO_ACTION": 2
   },
   "asset_counts": {
-    "SOL": 2,
+    "SOL-USD": 4,
     "BTC-USD": 2,
-    "ETH-USD": 2,
-    "SOL-USD": 2
-  }
+    "ETH-USD": 2
+  },
+  "unique_assets": [
+    "BTC-USD",
+    "ETH-USD",
+    "SOL-USD"
+  ]
 }
 ```
 
 ## Signals
 
-- `sigil_v32` / `ENGINE_A_PULLBACK_CONTINUATION` asset=`SOL` action=`NO_ACTION` direction=`FLAT` exposure=`0.0`
-- `sigil_v32` / `ENGINE_B_FAILED_OPENING_EXPANSION` asset=`SOL` action=`NO_ACTION` direction=`FLAT` exposure=`0.0`
+- `sigil_v32` / `ENGINE_A_PULLBACK_CONTINUATION` asset=`SOL-USD` action=`NO_ACTION` direction=`FLAT` exposure=`0.0`
+- `sigil_v32` / `ENGINE_B_FAILED_OPENING_EXPANSION` asset=`SOL-USD` action=`NO_ACTION` direction=`FLAT` exposure=`0.0`
 - `atlas_alpha` / `alpha_portfolio_construction` asset=`BTC-USD` action=`ALLOCATE` direction=`LONG` exposure=`0.364444`
 - `atlas_alpha` / `alpha_portfolio_construction` asset=`ETH-USD` action=`ALLOCATE` direction=`LONG` exposure=`0.311111`
 - `atlas_alpha` / `alpha_portfolio_construction` asset=`SOL-USD` action=`ALLOCATE` direction=`LONG` exposure=`0.124444`
