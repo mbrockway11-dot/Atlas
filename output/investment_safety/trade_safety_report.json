@@ -1,0 +1,67 @@
+{
+  "success": true,
+  "approved": false,
+  "safety_status": "REJECTED",
+  "check_count": 10,
+  "reject_count": 1,
+  "warning_count": 1,
+  "checks": [
+    {
+      "name": "order_count",
+      "status": "PASS",
+      "message": "Actionable order count 2 <= 5."
+    },
+    {
+      "name": "shorts_disabled",
+      "status": "PASS",
+      "message": "No short orders present."
+    },
+    {
+      "name": "single_asset_exposure",
+      "status": "REJECT",
+      "message": "Single asset planned weight 0.508328 exceeds limit 0.3."
+    },
+    {
+      "name": "total_exposure",
+      "status": "PASS",
+      "message": "Filled exposure 0.415190 within limit."
+    },
+    {
+      "name": "cash_reserve",
+      "status": "PASS",
+      "message": "Cash reserve 0.508328 above minimum."
+    },
+    {
+      "name": "waiting_weight",
+      "status": "PASS",
+      "message": "Waiting weight 0.076482 within limit."
+    },
+    {
+      "name": "cost_drag",
+      "status": "PASS",
+      "message": "Cost drag 0.00083038 within limit."
+    },
+    {
+      "name": "paper_drawdown",
+      "status": "PASS",
+      "message": "Paper PnL acceptable: -0.000830."
+    },
+    {
+      "name": "learning_regime",
+      "status": "PASS",
+      "message": "Learning regime acceptable: improving."
+    },
+    {
+      "name": "execution_confirmation",
+      "status": "WARN",
+      "message": "Execution layer is idle; exposure should remain reduced."
+    }
+  ],
+  "decision": "BLOCK_EXECUTION",
+  "reason": "Single asset planned weight 0.508328 exceeds limit 0.3.",
+  "summary": "Trade Safety Governor status: REJECTED. Decision: BLOCK_EXECUTION. Reason: Single asset planned weight 0.508328 exceeds limit 0.3..",
+  "outputs": {
+    "json": "output\\investment_safety\\trade_safety_report.json",
+    "markdown": "output\\investment_safety\\trade_safety_report.md"
+  }
+}

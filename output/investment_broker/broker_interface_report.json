@@ -1,0 +1,14 @@
+{
+  "success": true,
+  "safety_status": "REJECTED",
+  "approved": false,
+  "broker": "paper",
+  "order_count": 0,
+  "orders": [],
+  "summary": "Broker Interface prepared 0 paper broker order(s). Safety status: REJECTED.",
+  "outputs": {
+    "json": "output\\investment_broker\\broker_interface_report.json",
+    "markdown": "output\\investment_broker\\broker_interface_report.md",
+    "orders_csv": "output\\investment_broker\\broker_orders.csv"
+  }
+}
