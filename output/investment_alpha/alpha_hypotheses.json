@@ -1,0 +1,715 @@
+{
+  "success": true,
+  "hypothesis_count": 36,
+  "families": {
+    "momentum": 9,
+    "breadth": 15,
+    "leadership": 9,
+    "topology": 3
+  },
+  "hypotheses": [
+    {
+      "hypothesis_id": "momentum_top_rank_24_q50",
+      "family": "momentum",
+      "description": "Long strongest-ranked asset when 24-period return is above q50 threshold.",
+      "signal_asset_rule": "asset_with_min_rank_return_24",
+      "conditions": [
+        {
+          "source": "asset",
+          "feature": "rank_return_24",
+          "op": "<=",
+          "value": 1
+        },
+        {
+          "source": "asset",
+          "feature": "return_24",
+          "op": ">",
+          "value": 0.01105646
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 24,
+      "rank_score": 0.5
+    },
+    {
+      "hypothesis_id": "momentum_top_rank_24_q75",
+      "family": "momentum",
+      "description": "Long strongest-ranked asset when 24-period return is above q75 threshold.",
+      "signal_asset_rule": "asset_with_min_rank_return_24",
+      "conditions": [
+        {
+          "source": "asset",
+          "feature": "rank_return_24",
+          "op": "<=",
+          "value": 1
+        },
+        {
+          "source": "asset",
+          "feature": "return_24",
+          "op": ">",
+          "value": 0.16576223
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 24,
+      "rank_score": 0.75
+    },
+    {
+      "hypothesis_id": "momentum_top_rank_24_q90",
+      "family": "momentum",
+      "description": "Long strongest-ranked asset when 24-period return is above q90 threshold.",
+      "signal_asset_rule": "asset_with_min_rank_return_24",
+      "conditions": [
+        {
+          "source": "asset",
+          "feature": "rank_return_24",
+          "op": "<=",
+          "value": 1
+        },
+        {
+          "source": "asset",
+          "feature": "return_24",
+          "op": ">",
+          "value": 0.37735754
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 24,
+      "rank_score": 0.9
+    },
+    {
+      "hypothesis_id": "momentum_top_rank_72_q50",
+      "family": "momentum",
+      "description": "Long strongest-ranked asset when 72-period return is above q50 threshold.",
+      "signal_asset_rule": "asset_with_min_rank_return_72",
+      "conditions": [
+        {
+          "source": "asset",
+          "feature": "rank_return_72",
+          "op": "<=",
+          "value": 1
+        },
+        {
+          "source": "asset",
+          "feature": "return_72",
+          "op": ">",
+          "value": 0.07009224
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 72,
+      "rank_score": 0.5
+    },
+    {
+      "hypothesis_id": "momentum_top_rank_72_q75",
+      "family": "momentum",
+      "description": "Long strongest-ranked asset when 72-period return is above q75 threshold.",
+      "signal_asset_rule": "asset_with_min_rank_return_72",
+      "conditions": [
+        {
+          "source": "asset",
+          "feature": "rank_return_72",
+          "op": "<=",
+          "value": 1
+        },
+        {
+          "source": "asset",
+          "feature": "return_72",
+          "op": ">",
+          "value": 0.39571633
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 72,
+      "rank_score": 0.75
+    },
+    {
+      "hypothesis_id": "momentum_top_rank_72_q90",
+      "family": "momentum",
+      "description": "Long strongest-ranked asset when 72-period return is above q90 threshold.",
+      "signal_asset_rule": "asset_with_min_rank_return_72",
+      "conditions": [
+        {
+          "source": "asset",
+          "feature": "rank_return_72",
+          "op": "<=",
+          "value": 1
+        },
+        {
+          "source": "asset",
+          "feature": "return_72",
+          "op": ">",
+          "value": 0.84247967
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 72,
+      "rank_score": 0.9
+    },
+    {
+      "hypothesis_id": "momentum_top_rank_288_q50",
+      "family": "momentum",
+      "description": "Long strongest-ranked asset when 288-period return is above q50 threshold.",
+      "signal_asset_rule": "asset_with_min_rank_return_288",
+      "conditions": [
+        {
+          "source": "asset",
+          "feature": "rank_return_288",
+          "op": "<=",
+          "value": 1
+        },
+        {
+          "source": "asset",
+          "feature": "return_288",
+          "op": ">",
+          "value": 0.40586234
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 288,
+      "rank_score": 0.5
+    },
+    {
+      "hypothesis_id": "momentum_top_rank_288_q75",
+      "family": "momentum",
+      "description": "Long strongest-ranked asset when 288-period return is above q75 threshold.",
+      "signal_asset_rule": "asset_with_min_rank_return_288",
+      "conditions": [
+        {
+          "source": "asset",
+          "feature": "rank_return_288",
+          "op": "<=",
+          "value": 1
+        },
+        {
+          "source": "asset",
+          "feature": "return_288",
+          "op": ">",
+          "value": 1.40348587
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 288,
+      "rank_score": 0.75
+    },
+    {
+      "hypothesis_id": "momentum_top_rank_288_q90",
+      "family": "momentum",
+      "description": "Long strongest-ranked asset when 288-period return is above q90 threshold.",
+      "signal_asset_rule": "asset_with_min_rank_return_288",
+      "conditions": [
+        {
+          "source": "asset",
+          "feature": "rank_return_288",
+          "op": "<=",
+          "value": 1
+        },
+        {
+          "source": "asset",
+          "feature": "return_288",
+          "op": ">",
+          "value": 6.20529955
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 288,
+      "rank_score": 0.9
+    },
+    {
+      "hypothesis_id": "breadth_positive_24_0_5",
+      "family": "breadth",
+      "description": "Long leader when 50%+ of assets are positive over 24.",
+      "signal_asset_rule": "leader_asset_24",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "breadth_positive_24",
+          "op": ">=",
+          "value": 0.5
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 24,
+      "rank_score": 0.5
+    },
+    {
+      "hypothesis_id": "breadth_positive_24_0_66",
+      "family": "breadth",
+      "description": "Long leader when 66%+ of assets are positive over 24.",
+      "signal_asset_rule": "leader_asset_24",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "breadth_positive_24",
+          "op": ">=",
+          "value": 0.66
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 24,
+      "rank_score": 0.66
+    },
+    {
+      "hypothesis_id": "breadth_positive_24_0_8",
+      "family": "breadth",
+      "description": "Long leader when 80%+ of assets are positive over 24.",
+      "signal_asset_rule": "leader_asset_24",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "breadth_positive_24",
+          "op": ">=",
+          "value": 0.8
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 24,
+      "rank_score": 0.8
+    },
+    {
+      "hypothesis_id": "breadth_positive_24_1_0",
+      "family": "breadth",
+      "description": "Long leader when 100%+ of assets are positive over 24.",
+      "signal_asset_rule": "leader_asset_24",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "breadth_positive_24",
+          "op": ">=",
+          "value": 1.0
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 24,
+      "rank_score": 1.0
+    },
+    {
+      "hypothesis_id": "breadth_dispersion_breakout_24",
+      "family": "breadth",
+      "description": "Long leader when cross-sectional spread is elevated over 24.",
+      "signal_asset_rule": "leader_asset_24",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "spread_return_24",
+          "op": ">",
+          "value": 0.30776666
+        },
+        {
+          "source": "market",
+          "feature": "breadth_positive_24",
+          "op": ">=",
+          "value": 0.5
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 24,
+      "rank_score": 0.75
+    },
+    {
+      "hypothesis_id": "breadth_positive_72_0_5",
+      "family": "breadth",
+      "description": "Long leader when 50%+ of assets are positive over 72.",
+      "signal_asset_rule": "leader_asset_72",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "breadth_positive_72",
+          "op": ">=",
+          "value": 0.5
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 72,
+      "rank_score": 0.5
+    },
+    {
+      "hypothesis_id": "breadth_positive_72_0_66",
+      "family": "breadth",
+      "description": "Long leader when 66%+ of assets are positive over 72.",
+      "signal_asset_rule": "leader_asset_72",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "breadth_positive_72",
+          "op": ">=",
+          "value": 0.66
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 72,
+      "rank_score": 0.66
+    },
+    {
+      "hypothesis_id": "breadth_positive_72_0_8",
+      "family": "breadth",
+      "description": "Long leader when 80%+ of assets are positive over 72.",
+      "signal_asset_rule": "leader_asset_72",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "breadth_positive_72",
+          "op": ">=",
+          "value": 0.8
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 72,
+      "rank_score": 0.8
+    },
+    {
+      "hypothesis_id": "breadth_positive_72_1_0",
+      "family": "breadth",
+      "description": "Long leader when 100%+ of assets are positive over 72.",
+      "signal_asset_rule": "leader_asset_72",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "breadth_positive_72",
+          "op": ">=",
+          "value": 1.0
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 72,
+      "rank_score": 1.0
+    },
+    {
+      "hypothesis_id": "breadth_dispersion_breakout_72",
+      "family": "breadth",
+      "description": "Long leader when cross-sectional spread is elevated over 72.",
+      "signal_asset_rule": "leader_asset_72",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "spread_return_72",
+          "op": ">",
+          "value": 0.59725206
+        },
+        {
+          "source": "market",
+          "feature": "breadth_positive_72",
+          "op": ">=",
+          "value": 0.5
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 72,
+      "rank_score": 0.75
+    },
+    {
+      "hypothesis_id": "breadth_positive_288_0_5",
+      "family": "breadth",
+      "description": "Long leader when 50%+ of assets are positive over 288.",
+      "signal_asset_rule": "leader_asset_288",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "breadth_positive_288",
+          "op": ">=",
+          "value": 0.5
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 288,
+      "rank_score": 0.5
+    },
+    {
+      "hypothesis_id": "breadth_positive_288_0_66",
+      "family": "breadth",
+      "description": "Long leader when 66%+ of assets are positive over 288.",
+      "signal_asset_rule": "leader_asset_288",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "breadth_positive_288",
+          "op": ">=",
+          "value": 0.66
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 288,
+      "rank_score": 0.66
+    },
+    {
+      "hypothesis_id": "breadth_positive_288_0_8",
+      "family": "breadth",
+      "description": "Long leader when 80%+ of assets are positive over 288.",
+      "signal_asset_rule": "leader_asset_288",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "breadth_positive_288",
+          "op": ">=",
+          "value": 0.8
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 288,
+      "rank_score": 0.8
+    },
+    {
+      "hypothesis_id": "breadth_positive_288_1_0",
+      "family": "breadth",
+      "description": "Long leader when 100%+ of assets are positive over 288.",
+      "signal_asset_rule": "leader_asset_288",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "breadth_positive_288",
+          "op": ">=",
+          "value": 1.0
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 288,
+      "rank_score": 1.0
+    },
+    {
+      "hypothesis_id": "breadth_dispersion_breakout_288",
+      "family": "breadth",
+      "description": "Long leader when cross-sectional spread is elevated over 288.",
+      "signal_asset_rule": "leader_asset_288",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "spread_return_288",
+          "op": ">",
+          "value": 4.21572345
+        },
+        {
+          "source": "market",
+          "feature": "breadth_positive_288",
+          "op": ">=",
+          "value": 0.5
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 288,
+      "rank_score": 0.75
+    },
+    {
+      "hypothesis_id": "leader_persistence_24_3",
+      "family": "leadership",
+      "description": "Long leader when leadership persists for at least 3 bars over 24.",
+      "signal_asset_rule": "leader_asset_24",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "leader_persistence_24",
+          "op": ">=",
+          "value": 3
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 24,
+      "rank_score": 0.7
+    },
+    {
+      "hypothesis_id": "leader_persistence_24_8",
+      "family": "leadership",
+      "description": "Long leader when leadership persists for at least 8 bars over 24.",
+      "signal_asset_rule": "leader_asset_24",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "leader_persistence_24",
+          "op": ">=",
+          "value": 8
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 24,
+      "rank_score": 0.8
+    },
+    {
+      "hypothesis_id": "leadership_rotation_breakout_24",
+      "family": "leadership",
+      "description": "Long new leader after leadership rotation with elevated spread over 24.",
+      "signal_asset_rule": "leader_asset_24",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "leader_changed_24",
+          "op": "==",
+          "value": 1
+        },
+        {
+          "source": "market",
+          "feature": "leader_laggard_spread_24",
+          "op": ">",
+          "value": 0.30776666
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 24,
+      "rank_score": 0.75
+    },
+    {
+      "hypothesis_id": "leader_persistence_72_3",
+      "family": "leadership",
+      "description": "Long leader when leadership persists for at least 3 bars over 72.",
+      "signal_asset_rule": "leader_asset_72",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "leader_persistence_72",
+          "op": ">=",
+          "value": 3
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 72,
+      "rank_score": 0.7
+    },
+    {
+      "hypothesis_id": "leader_persistence_72_8",
+      "family": "leadership",
+      "description": "Long leader when leadership persists for at least 8 bars over 72.",
+      "signal_asset_rule": "leader_asset_72",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "leader_persistence_72",
+          "op": ">=",
+          "value": 8
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 72,
+      "rank_score": 0.8
+    },
+    {
+      "hypothesis_id": "leadership_rotation_breakout_72",
+      "family": "leadership",
+      "description": "Long new leader after leadership rotation with elevated spread over 72.",
+      "signal_asset_rule": "leader_asset_72",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "leader_changed_72",
+          "op": "==",
+          "value": 1
+        },
+        {
+          "source": "market",
+          "feature": "leader_laggard_spread_72",
+          "op": ">",
+          "value": 0.59725206
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 72,
+      "rank_score": 0.75
+    },
+    {
+      "hypothesis_id": "leader_persistence_288_3",
+      "family": "leadership",
+      "description": "Long leader when leadership persists for at least 3 bars over 288.",
+      "signal_asset_rule": "leader_asset_288",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "leader_persistence_288",
+          "op": ">=",
+          "value": 3
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 288,
+      "rank_score": 0.7
+    },
+    {
+      "hypothesis_id": "leader_persistence_288_8",
+      "family": "leadership",
+      "description": "Long leader when leadership persists for at least 8 bars over 288.",
+      "signal_asset_rule": "leader_asset_288",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "leader_persistence_288",
+          "op": ">=",
+          "value": 8
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 288,
+      "rank_score": 0.8
+    },
+    {
+      "hypothesis_id": "leadership_rotation_breakout_288",
+      "family": "leadership",
+      "description": "Long new leader after leadership rotation with elevated spread over 288.",
+      "signal_asset_rule": "leader_asset_288",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "leader_changed_288",
+          "op": "==",
+          "value": 1
+        },
+        {
+          "source": "market",
+          "feature": "leader_laggard_spread_288",
+          "op": ">",
+          "value": 4.21572345
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 288,
+      "rank_score": 0.75
+    },
+    {
+      "hypothesis_id": "topology_high_density_leader_72",
+      "family": "topology",
+      "description": "Long 72-period leader when correlation graph density is high.",
+      "signal_asset_rule": "leader_asset_72",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "graph_density",
+          "op": ">",
+          "value": 1.0
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 72,
+      "rank_score": 0.7
+    },
+    {
+      "hypothesis_id": "topology_low_density_leader_72",
+      "family": "topology",
+      "description": "Long 72-period leader when correlation graph density is low.",
+      "signal_asset_rule": "leader_asset_72",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "graph_density",
+          "op": "<",
+          "value": 0.66666667
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 72,
+      "rank_score": 0.6
+    },
+    {
+      "hypothesis_id": "topology_high_correlation_leader_288",
+      "family": "topology",
+      "description": "Long 288-period leader when average absolute correlation is high.",
+      "signal_asset_rule": "leader_asset_288",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "avg_abs_corr",
+          "op": ">",
+          "value": 0.83144717
+        }
+      ],
+      "direction": "LONG",
+      "hold_period": 288,
+      "rank_score": 0.65
+    }
+  ],
+  "summary": "Alpha Hypothesis Generator produced 36 candidate rule(s)."
+}
