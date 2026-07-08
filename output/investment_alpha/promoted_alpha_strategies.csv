@@ -1,2 +1,10 @@
 hypothesis_id,alpha_confidence,confidence_label,trade_count,asset_concentration,alpha_score,non_overlap_avg_return,non_overlap_profit_factor
-topology_low_density_leader_72,0.710976,promising_alpha_candidate,633,0.663507,5.893153,0.60674584,7.223237
+topology_low_density_leader_72,0.810976,strong_alpha_candidate,633,0.663507,5.893153,0.60674584,7.223237
+leader_persistence_288_8,0.785643,promising_alpha_candidate,1540,0.570779,4.13712,1.23231271,8.9952
+leader_persistence_288_3,0.786797,promising_alpha_candidate,1643,0.552039,2.847485,1.31240653,9.887405
+leader_persistence_72_8,0.796182,promising_alpha_candidate,1564,0.434783,2.76081,0.33580992,4.452907
+breadth_positive_288_0_5,0.773727,promising_alpha_candidate,1281,0.690086,2.73787,1.78536725,11.64378
+breadth_positive_288_0_66,0.773727,promising_alpha_candidate,1281,0.690086,2.73787,1.78536725,11.64378
+leader_persistence_72_3,0.789901,promising_alpha_candidate,1887,0.423423,2.579702,0.32521952,4.171057
+breadth_positive_24_0_8,0.796642,promising_alpha_candidate,773,0.5511,1.938854,0.19508403,4.530163
+breadth_positive_24_1_0,0.796642,promising_alpha_candidate,773,0.5511,1.938854,0.19508403,4.530163
