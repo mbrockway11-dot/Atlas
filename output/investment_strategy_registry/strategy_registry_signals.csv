@@ -1,0 +1,9 @@
+source,strategy_id,strategy_family,asset,timestamp,action,direction,confidence,target_exposure,rank,notes
+sigil_v32,ENGINE_A_PULLBACK_CONTINUATION,intraday_execution,SOL,2024-12-31 23:45:00+00:00,NO_ACTION,FLAT,0.0,0.0,,No valid Engine A setup on the latest bar.
+sigil_v32,ENGINE_B_FAILED_OPENING_EXPANSION,intraday_execution,SOL,2024-12-31 23:45:00+00:00,NO_ACTION,FLAT,0.0,0.0,,No valid Engine B setup on the latest bar.
+atlas_alpha,alpha_portfolio_construction,portfolio_allocation,BTC-USD,,ALLOCATE,LONG,0.0,0.364444,1.0,Allocated by cross-sectional alpha score with max-asset cap.
+atlas_alpha,alpha_portfolio_construction,portfolio_allocation,ETH-USD,,ALLOCATE,LONG,0.0,0.311111,2.0,Allocated by cross-sectional alpha score with max-asset cap.
+atlas_alpha,alpha_portfolio_construction,portfolio_allocation,SOL-USD,,ALLOCATE,LONG,0.0,0.124444,3.0,Allocated by cross-sectional alpha score with max-asset cap.
+atlas_alpha,cross_sectional_alpha_ranker,cross_sectional_ranking,BTC-USD,2026-03-31,WATCH,LONG,0.6833333333333332,0.0,1.0,highest_conviction
+atlas_alpha,cross_sectional_alpha_ranker,cross_sectional_ranking,ETH-USD,2026-03-31,WATCH,LONG,0.5833333333333334,0.0,2.0,portfolio_candidate
+atlas_alpha,cross_sectional_alpha_ranker,cross_sectional_ranking,SOL-USD,2026-03-31,WATCH,LONG,0.2333333333333333,0.0,3.0,portfolio_candidate
