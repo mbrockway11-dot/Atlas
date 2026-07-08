@@ -1,0 +1,148 @@
+{
+  "success": true,
+  "summary": "Decision Engine selected LONG with confidence 0.923258 and target exposure 0.738606.",
+  "evidence": {
+    "long_evidence": 0.73,
+    "short_evidence": 0.0,
+    "flat_evidence": 0.07
+  },
+  "conflict": {
+    "decision_bias": "LONG",
+    "conflict_score": 0.0,
+    "net_evidence": 0.73,
+    "evidence_confidence": 0.9125
+  },
+  "risk_adjusted_decision": {
+    "final_direction": "LONG",
+    "final_confidence": 0.923258,
+    "target_net_exposure": 0.738606,
+    "target_cash_weight": 0.261394,
+    "risk_label": "high_conviction_risk"
+  },
+  "market_direction": {
+    "market_direction": "LONG",
+    "direction_confidence": 0.939394,
+    "target_net_exposure": 0.8,
+    "target_cash_weight": 0.2,
+    "exposure_label": "aggressive_long"
+  },
+  "evidence_rows": [
+    {
+      "source": "sigil_v32",
+      "strategy_id": "ENGINE_A_PULLBACK_CONTINUATION",
+      "strategy_family": "intraday_execution",
+      "asset": "SOL-USD",
+      "direction": "FLAT",
+      "raw_direction": "FLAT",
+      "action": "NO_ACTION",
+      "weight": 0.35,
+      "strength": 0.035,
+      "confidence": 0.0,
+      "target_exposure": 0.0,
+      "notes": "No valid Engine A setup on the latest bar."
+    },
+    {
+      "source": "sigil_v32",
+      "strategy_id": "ENGINE_B_FAILED_OPENING_EXPANSION",
+      "strategy_family": "intraday_execution",
+      "asset": "SOL-USD",
+      "direction": "FLAT",
+      "raw_direction": "FLAT",
+      "action": "NO_ACTION",
+      "weight": 0.35,
+      "strength": 0.035,
+      "confidence": 0.0,
+      "target_exposure": 0.0,
+      "notes": "No valid Engine B setup on the latest bar."
+    },
+    {
+      "source": "atlas_alpha",
+      "strategy_id": "alpha_portfolio_construction",
+      "strategy_family": "portfolio_allocation",
+      "asset": "BTC-USD",
+      "direction": "LONG",
+      "raw_direction": "LONG",
+      "action": "ALLOCATE",
+      "weight": 0.35,
+      "strength": 0.127555,
+      "confidence": 0.0,
+      "target_exposure": 0.364444,
+      "notes": "Allocated by cross-sectional alpha score with max-asset cap."
+    },
+    {
+      "source": "atlas_alpha",
+      "strategy_id": "alpha_portfolio_construction",
+      "strategy_family": "portfolio_allocation",
+      "asset": "ETH-USD",
+      "direction": "LONG",
+      "raw_direction": "LONG",
+      "action": "ALLOCATE",
+      "weight": 0.35,
+      "strength": 0.108889,
+      "confidence": 0.0,
+      "target_exposure": 0.311111,
+      "notes": "Allocated by cross-sectional alpha score with max-asset cap."
+    },
+    {
+      "source": "atlas_alpha",
+      "strategy_id": "alpha_portfolio_construction",
+      "strategy_family": "portfolio_allocation",
+      "asset": "SOL-USD",
+      "direction": "LONG",
+      "raw_direction": "LONG",
+      "action": "ALLOCATE",
+      "weight": 0.35,
+      "strength": 0.043555,
+      "confidence": 0.0,
+      "target_exposure": 0.124444,
+      "notes": "Allocated by cross-sectional alpha score with max-asset cap."
+    },
+    {
+      "source": "atlas_alpha",
+      "strategy_id": "cross_sectional_alpha_ranker",
+      "strategy_family": "cross_sectional_ranking",
+      "asset": "BTC-USD",
+      "direction": "LONG",
+      "raw_direction": "LONG",
+      "action": "WATCH",
+      "weight": 0.3,
+      "strength": 0.205,
+      "confidence": 0.6833333333333332,
+      "target_exposure": 0.0,
+      "notes": "highest_conviction"
+    },
+    {
+      "source": "atlas_alpha",
+      "strategy_id": "cross_sectional_alpha_ranker",
+      "strategy_family": "cross_sectional_ranking",
+      "asset": "ETH-USD",
+      "direction": "LONG",
+      "raw_direction": "LONG",
+      "action": "WATCH",
+      "weight": 0.3,
+      "strength": 0.175,
+      "confidence": 0.5833333333333334,
+      "target_exposure": 0.0,
+      "notes": "portfolio_candidate"
+    },
+    {
+      "source": "atlas_alpha",
+      "strategy_id": "cross_sectional_alpha_ranker",
+      "strategy_family": "cross_sectional_ranking",
+      "asset": "SOL-USD",
+      "direction": "LONG",
+      "raw_direction": "LONG",
+      "action": "WATCH",
+      "weight": 0.3,
+      "strength": 0.07,
+      "confidence": 0.2333333333333333,
+      "target_exposure": 0.0,
+      "notes": "portfolio_candidate"
+    }
+  ],
+  "outputs": {
+    "json": "output\\investment_decision\\decision_engine_report.json",
+    "markdown": "output\\investment_decision\\decision_engine_report.md",
+    "evidence_csv": "output\\investment_decision\\decision_evidence.csv"
+  }
+}
