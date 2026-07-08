@@ -9,6 +9,8 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
+from atlas.services.investment_runbook_service import append_runbook_history
+
 
 OUT_DIR = Path("output/investment_runbook")
 REPORT_JSON = OUT_DIR / "daily_investment_runbook.json"
@@ -111,6 +113,7 @@ def main() -> None:
 
     REPORT_JSON.write_text(json.dumps(report, indent=2, ensure_ascii=False, default=str), encoding="utf-8")
     REPORT_MD.write_text(build_markdown(report), encoding="utf-8")
+    append_runbook_history(report)
 
     print(report["success"])
     print(report["summary"])
