@@ -1,0 +1,5 @@
+asset,target_weight,alpha_score,rank,rank_label,ensemble_confidence,reason
+BTC-USD,0.364444,0.68333333,1.0,highest_conviction,0.0,Allocated by cross-sectional alpha score with max-asset cap.
+ETH-USD,0.311111,0.58333333,2.0,portfolio_candidate,0.0,Allocated by cross-sectional alpha score with max-asset cap.
+SOL-USD,0.124444,0.23333333,3.0,portfolio_candidate,0.0,Allocated by cross-sectional alpha score with max-asset cap.
+CASH,0.2,0.0,,cash_buffer,0.0,Residual cash buffer and risk reserve.
