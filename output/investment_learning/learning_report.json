@@ -1,29 +1,30 @@
 {
   "success": true,
-  "summary": "Learning Engine evaluated 2 scorecard row(s). Regime: insufficient_history.",
+  "summary": "Learning Engine evaluated 2 scorecard row(s). Regime: improving.",
   "scorecard": [
     {
       "asset": "BTC-USD",
-      "paper_trade_count": 1,
-      "total_cost_drag": 0.00044797,
+      "paper_trade_count": 2,
+      "total_cost_drag": 0.00089594,
       "avg_cost_drag": 0.00044797,
-      "score": 0.955203
+      "score": 0.910406
     },
     {
       "asset": "ETH-USD",
-      "paper_trade_count": 1,
-      "total_cost_drag": 0.00038241,
+      "paper_trade_count": 2,
+      "total_cost_drag": 0.00076482,
       "avg_cost_drag": 0.00038241,
-      "score": 0.961759
+      "score": 0.923518
     }
   ],
   "learning_regime": {
-    "learning_regime": "insufficient_history",
-    "trend": "unknown",
-    "confidence": 0.0
+    "learning_regime": "improving",
+    "trend": "up",
+    "equity_change_pct": 0.08289,
+    "confidence": 0.828905
   },
   "recommendations": [
-    "Accumulate more paper-trading history before changing strategy weights."
+    "Maintain current risk settings; do not increase leverage until live safety governor exists."
   ],
   "outputs": {
     "json": "output\\investment_learning\\learning_report.json",

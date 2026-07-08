@@ -1,16 +1,17 @@
 {
   "success": true,
-  "summary": "Performance Engine marked 2 risky position(s). Current equity: 92268.76. PnL: -7731.24.",
+  "summary": "Performance Engine marked 2 risky position(s). Current equity: 99916.96. PnL: -83.04.",
   "positions": {
     "position_count": 2,
     "risky_weight": 0.41436,
-    "cash_weight": 0.508328
+    "cash_weight": 0.508328,
+    "reserved_cash_weight": 0.076482
   },
   "pnl": {
     "initial_equity": 100000.0,
-    "current_equity": 92268.76,
-    "pnl": -7731.24,
-    "pnl_pct": -0.077312
+    "current_equity": 99916.96,
+    "pnl": -83.04,
+    "pnl_pct": -0.00083
   },
   "benchmark": {
     "benchmark": "equal_weight_BTC_ETH_SOL",
@@ -23,7 +24,7 @@
       "side": "LONG",
       "weight": 0.223536,
       "value": 22353.6,
-      "portfolio_share": 0.242266,
+      "portfolio_share": 0.223722,
       "cost_drag": 0.00044797
     },
     {
@@ -31,27 +32,36 @@
       "side": "LONG",
       "weight": 0.190824,
       "value": 19082.36,
-      "portfolio_share": 0.206813,
+      "portfolio_share": 0.190982,
       "cost_drag": 0.00038241
+    },
+    {
+      "asset": "RESERVED_CASH",
+      "side": "CASH",
+      "weight": 0.076482,
+      "value": 7648.2,
+      "portfolio_share": 0.076546,
+      "cost_drag": 0.0
     },
     {
       "asset": "CASH",
       "side": "CASH",
       "weight": 0.508328,
       "value": 50832.8,
-      "portfolio_share": 0.550921,
+      "portfolio_share": 0.50875,
       "cost_drag": 0.0
     }
   ],
   "snapshot": {
-    "timestamp": "2026-07-08T22:16:30.458325+00:00",
+    "timestamp": "2026-07-08T22:40:28.576411+00:00",
     "position_count": 2,
     "risky_weight": 0.41436,
     "cash_weight": 0.508328,
+    "reserved_cash_weight": 0.076482,
     "initial_equity": 100000.0,
-    "current_equity": 92268.76,
-    "pnl": -7731.24,
-    "pnl_pct": -0.077312
+    "current_equity": 99916.96,
+    "pnl": -83.04,
+    "pnl_pct": -0.00083
   },
   "outputs": {
     "json": "output\\investment_performance\\performance_report.json",

@@ -1,11 +1,11 @@
 {
   "success": true,
   "summary": {
-    "portfolio_rows": 3,
-    "ledger_rows": 2,
-    "risky_weight": 0.41436,
+    "portfolio_rows": 4,
+    "ledger_rows": 4,
+    "risky_weight": 0.490842,
     "cash_weight": 0.508328,
-    "paper_equity": 92268.76
+    "paper_equity": 99916.96
   },
   "portfolio": [
     {
@@ -13,21 +13,32 @@
       "paper_weight": 0.223536,
       "paper_value": 22353.6,
       "side": "LONG",
-      "cost_drag": 0.00044797
+      "cost_drag": 0.00044797,
+      "status": "OPEN_PAPER_POSITION"
     },
     {
       "asset": "ETH-USD",
       "paper_weight": 0.190824,
       "paper_value": 19082.36,
       "side": "LONG",
-      "cost_drag": 0.00038241
+      "cost_drag": 0.00038241,
+      "status": "OPEN_PAPER_POSITION"
+    },
+    {
+      "asset": "RESERVED_CASH",
+      "paper_weight": 0.076482,
+      "paper_value": 7648.2,
+      "side": "CASH",
+      "cost_drag": 0.0,
+      "status": "PENDING_EXECUTION_RESERVE"
     },
     {
       "asset": "CASH",
       "paper_weight": 0.508328,
       "paper_value": 50832.8,
       "side": "CASH",
-      "cost_drag": 0.0
+      "cost_drag": 0.0,
+      "status": "AVAILABLE_CASH"
     }
   ],
   "latest_ledger_rows": [
@@ -54,9 +65,33 @@
       "total_cost_drag": 0.00038241,
       "status": "PAPER_FILLED",
       "reason": "No execution adapter signal for asset."
+    },
+    {
+      "timestamp": "2026-07-08T22:40:27.623975+00:00",
+      "asset": "BTC-USD",
+      "side": "LONG",
+      "order_action": "BUY",
+      "paper_weight": 0.223984,
+      "fee_drag": 0.00017919,
+      "slippage_drag": 0.00026878,
+      "total_cost_drag": 0.00044797,
+      "status": "PAPER_FILLED",
+      "reason": "No execution adapter signal for asset."
+    },
+    {
+      "timestamp": "2026-07-08T22:40:27.623975+00:00",
+      "asset": "ETH-USD",
+      "side": "LONG",
+      "order_action": "BUY",
+      "paper_weight": 0.191206,
+      "fee_drag": 0.00015296,
+      "slippage_drag": 0.00022945,
+      "total_cost_drag": 0.00038241,
+      "status": "PAPER_FILLED",
+      "reason": "No execution adapter signal for asset."
     }
   ],
-  "text_summary": "Paper Trading portfolio built with risky weight 0.41436 and cash weight 0.508328.",
+  "text_summary": "Paper Trading portfolio built with risky weight 0.490842 and cash weight 0.508328.",
   "outputs": {
     "ledger_csv": "output\\investment_paper_trading\\paper_trade_ledger.csv",
     "portfolio_csv": "output\\investment_paper_trading\\paper_portfolio.csv",

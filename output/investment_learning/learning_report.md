@@ -1,17 +1,18 @@
 # Investment Learning Report
 
-Learning Engine evaluated 2 scorecard row(s). Regime: insufficient_history.
+Learning Engine evaluated 2 scorecard row(s). Regime: improving.
 
 ## Learning Regime
 
 ```json
 {
-  "learning_regime": "insufficient_history",
-  "trend": "unknown",
-  "confidence": 0.0
+  "learning_regime": "improving",
+  "trend": "up",
+  "equity_change_pct": 0.08289,
+  "confidence": 0.828905
 }
 ```
 
 ## Recommendations
 
-- Accumulate more paper-trading history before changing strategy weights.
+- Maintain current risk settings; do not increase leverage until live safety governor exists.

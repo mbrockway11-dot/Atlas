@@ -1,2 +1,3 @@
-timestamp,position_count,risky_weight,cash_weight,initial_equity,current_equity,pnl,pnl_pct
-2026-07-08T22:16:30.458325+00:00,2,0.41436,0.508328,100000.0,92268.76,-7731.24,-0.077312
+timestamp,position_count,risky_weight,cash_weight,initial_equity,current_equity,pnl,pnl_pct,reserved_cash_weight
+2026-07-08T22:16:30.458325+00:00,2,0.41436,0.508328,100000.0,92268.76,-7731.24,-0.077312,
+2026-07-08T22:40:28.576411+00:00,2,0.41436,0.508328,100000.0,99916.96,-83.04,-0.00083,0.076482

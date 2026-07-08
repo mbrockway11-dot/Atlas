@@ -1,2 +1,3 @@
 ended,success,step_count,direction,confidence,target_exposure,cash_weight,risk_label,filled_weight,waiting_weight,cost_drag,warning_count
 2026-07-08T14:40:26,True,14,LONG,0.819455,0.491673,0.508327,moderate_risk,0.41519,0.076482,0.00083038,1
+2026-07-08T15:40:29,True,17,LONG,0.819455,0.491673,0.508327,moderate_risk,0.41519,0.076482,0.00083038,1

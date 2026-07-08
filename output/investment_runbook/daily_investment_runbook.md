@@ -1,6 +1,6 @@
 # Daily Investment Runbook
 
-Daily Investment Runbook completed 14 step(s). Decision: LONG confidence=0.819455 target_exposure=0.491673. Simulated filled weight=0.41519 cash=0.508328 cost_drag=0.00083038.
+Daily Investment Runbook completed 17 step(s). Decision: LONG confidence=0.819455 target_exposure=0.491673. Simulated filled weight=0.41519 cash=0.508328 cost_drag=0.00083038.
 
 ## Final Snapshot
 
@@ -347,4 +347,51 @@ Summary: {'filled_weight': 0.41519, 'cash_weight': 0.508328, 'waiting_weight': 0
 {'asset': 'SOL-USD', 'side': 'LONG', 'order_action': 'WAIT', 'execution_gate': 'WAIT', 'planned_weight': 0.076482, 'simulated_fill_weight': 0.0, 'fill_status': 'WAITING_FOR_CONFIRMATION', 'fee_drag': 0.0, 'slippage_drag': 0.0, 'total_cost_drag': 0.0, 'reason': 'Execution engines are idle; wait for structure confirmation.'}
 {'asset': 'CASH', 'side': 'CASH', 'order_action': 'NO_ORDER', 'execution_gate': 'OPEN', 'planned_weight': 0.508328, 'simulated_fill_weight': 0.508328, 'fill_status': 'NO_FILL', 'fee_drag': 0.0, 'slippage_drag': 0.0, 'total_cost_drag': 0.0, 'reason': 'Cash row.'}
 Outputs: {'fills_csv': 'output\\investment_execution_simulator\\simulated_fills.csv', 'json': 'output\\investment_execution_simulator\\execution_simulator_report.json', 'markdown': 'output\\investment_execution_simulator\\execution_simulator_report.md'}
+```
+
+### paper_trading
+
+- Success: `True`
+- Return code: `0`
+
+```text
+True
+Paper Trading portfolio built with risky weight 0.490842 and cash weight 0.508328.
+Summary: {'portfolio_rows': 4, 'ledger_rows': 4, 'risky_weight': 0.490842, 'cash_weight': 0.508328, 'paper_equity': 99916.96}
+{'asset': 'BTC-USD', 'paper_weight': 0.223536, 'paper_value': 22353.6, 'side': 'LONG', 'cost_drag': 0.00044797, 'status': 'OPEN_PAPER_POSITION'}
+{'asset': 'ETH-USD', 'paper_weight': 0.190824, 'paper_value': 19082.36, 'side': 'LONG', 'cost_drag': 0.00038241, 'status': 'OPEN_PAPER_POSITION'}
+{'asset': 'RESERVED_CASH', 'paper_weight': 0.076482, 'paper_value': 7648.2, 'side': 'CASH', 'cost_drag': 0.0, 'status': 'PENDING_EXECUTION_RESERVE'}
+{'asset': 'CASH', 'paper_weight': 0.508328, 'paper_value': 50832.8, 'side': 'CASH', 'cost_drag': 0.0, 'status': 'AVAILABLE_CASH'}
+Outputs: {'ledger_csv': 'output\\investment_paper_trading\\paper_trade_ledger.csv', 'portfolio_csv': 'output\\investment_paper_trading\\paper_portfolio.csv', 'json': 'output\\investment_paper_trading\\paper_trading_report.json', 'markdown': 'output\\investment_paper_trading\\paper_trading_report.md'}
+```
+
+### performance
+
+- Success: `True`
+- Return code: `0`
+
+```text
+True
+Performance Engine marked 2 risky position(s). Current equity: 99916.96. PnL: -83.04.
+PnL: {'initial_equity': 100000.0, 'current_equity': 99916.96, 'pnl': -83.04, 'pnl_pct': -0.00083}
+Positions: {'position_count': 2, 'risky_weight': 0.41436, 'cash_weight': 0.508328, 'reserved_cash_weight': 0.076482}
+{'asset': 'BTC-USD', 'side': 'LONG', 'weight': 0.223536, 'value': 22353.6, 'portfolio_share': 0.223722, 'cost_drag': 0.00044797}
+{'asset': 'ETH-USD', 'side': 'LONG', 'weight': 0.190824, 'value': 19082.36, 'portfolio_share': 0.190982, 'cost_drag': 0.00038241}
+{'asset': 'RESERVED_CASH', 'side': 'CASH', 'weight': 0.076482, 'value': 7648.2, 'portfolio_share': 0.076546, 'cost_drag': 0.0}
+{'asset': 'CASH', 'side': 'CASH', 'weight': 0.508328, 'value': 50832.8, 'portfolio_share': 0.50875, 'cost_drag': 0.0}
+Outputs: {'json': 'output\\investment_performance\\performance_report.json', 'markdown': 'output\\investment_performance\\performance_report.md', 'snapshots_csv': 'output\\investment_performance\\performance_snapshots.csv', 'attribution_csv': 'output\\investment_performance\\performance_attribution.csv'}
+```
+
+### learning
+
+- Success: `True`
+- Return code: `0`
+
+```text
+True
+Learning Engine evaluated 2 scorecard row(s). Regime: improving.
+Regime: {'learning_regime': 'improving', 'trend': 'up', 'equity_change_pct': 0.08289, 'confidence': 0.828905}
+Recommendations:
+- Maintain current risk settings; do not increase leverage until live safety governor exists.
+Outputs: {'json': 'output\\investment_learning\\learning_report.json', 'markdown': 'output\\investment_learning\\learning_report.md', 'scorecard_csv': 'output\\investment_learning\\strategy_scorecard.csv'}
 ```

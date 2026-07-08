@@ -32,6 +32,9 @@ STEPS = [
     ("decision_engine", ["scripts/build_decision_engine.py"]),
     ("execution_planner", ["scripts/build_execution_planner.py"]),
     ("execution_simulator", ["scripts/simulate_execution_plan.py"]),
+    ("paper_trading", ["scripts/run_paper_trading.py"]),
+    ("performance", ["scripts/update_portfolio_performance.py"]),
+    ("learning", ["scripts/update_strategy_learning.py"]),
 ]
 
 
