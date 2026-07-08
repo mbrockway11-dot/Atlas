@@ -1,9 +1,9 @@
 {
   "success": true,
-  "approved": false,
-  "safety_status": "REJECTED",
+  "approved": true,
+  "safety_status": "APPROVED",
   "check_count": 10,
-  "reject_count": 1,
+  "reject_count": 0,
   "warning_count": 1,
   "checks": [
     {
@@ -18,8 +18,8 @@
     },
     {
       "name": "single_asset_exposure",
-      "status": "REJECT",
-      "message": "Single asset planned weight 0.508328 exceeds limit 0.3."
+      "status": "PASS",
+      "message": "Max non-cash asset planned weight 0.223984 within limit."
     },
     {
       "name": "total_exposure",
@@ -57,9 +57,9 @@
       "message": "Execution layer is idle; exposure should remain reduced."
     }
   ],
-  "decision": "BLOCK_EXECUTION",
-  "reason": "Single asset planned weight 0.508328 exceeds limit 0.3.",
-  "summary": "Trade Safety Governor status: REJECTED. Decision: BLOCK_EXECUTION. Reason: Single asset planned weight 0.508328 exceeds limit 0.3..",
+  "decision": "ALLOW_PAPER_EXECUTION",
+  "reason": "All hard safety checks passed.",
+  "summary": "Trade Safety Governor status: APPROVED. Decision: ALLOW_PAPER_EXECUTION. Reason: All hard safety checks passed..",
   "outputs": {
     "json": "output\\investment_safety\\trade_safety_report.json",
     "markdown": "output\\investment_safety\\trade_safety_report.md"

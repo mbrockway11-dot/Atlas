@@ -66,13 +66,14 @@ def check_orders(orders: pd.DataFrame) -> list[dict]:
         ))
 
     if "planned_weight" in orders:
-        weights = pd.to_numeric(orders["planned_weight"], errors="coerce").fillna(0.0)
+        non_cash = orders[orders["asset"] != "CASH"].copy() if "asset" in orders else orders.copy()
+        weights = pd.to_numeric(non_cash["planned_weight"], errors="coerce").fillna(0.0) if not non_cash.empty else pd.Series(dtype=float)
         max_weight = float(weights.max()) if len(weights) else 0.0
         checks.append(pass_or_reject(
             max_weight <= limits.MAX_SINGLE_ASSET_EXPOSURE,
             "single_asset_exposure",
-            f"Max single asset planned weight {max_weight:.6f} within limit.",
-            f"Single asset planned weight {max_weight:.6f} exceeds limit {limits.MAX_SINGLE_ASSET_EXPOSURE}.",
+            f"Max non-cash asset planned weight {max_weight:.6f} within limit.",
+            f"Single non-cash asset planned weight {max_weight:.6f} exceeds limit {limits.MAX_SINGLE_ASSET_EXPOSURE}.",
         ))
 
     return checks

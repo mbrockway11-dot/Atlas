@@ -1,1 +1,3 @@
-
+asset,side,action,weight,broker,status
+BTC-USD,LONG,BUY,0.223984,paper,APPROVED_FOR_PAPER
+ETH-USD,LONG,BUY,0.191206,paper,APPROVED_FOR_PAPER
