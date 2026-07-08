@@ -1,0 +1,75 @@
+{
+  "success": true,
+  "summary": {
+    "filled_weight": 0.41519,
+    "cash_weight": 0.508328,
+    "waiting_weight": 0.076482,
+    "total_cost_drag": 0.00083038,
+    "filled_count": 2,
+    "waiting_count": 1,
+    "warning_count": 1,
+    "warnings": [
+      "0.076482 planned weight is waiting for confirmation."
+    ]
+  },
+  "fills": [
+    {
+      "asset": "BTC-USD",
+      "side": "LONG",
+      "order_action": "BUY",
+      "execution_gate": "OPEN",
+      "planned_weight": 0.223984,
+      "simulated_fill_weight": 0.223984,
+      "fill_status": "FILLED_SIMULATED",
+      "fee_drag": 0.00017919,
+      "slippage_drag": 0.00026878,
+      "total_cost_drag": 0.00044797,
+      "reason": "No execution adapter signal for asset."
+    },
+    {
+      "asset": "ETH-USD",
+      "side": "LONG",
+      "order_action": "BUY",
+      "execution_gate": "OPEN",
+      "planned_weight": 0.191206,
+      "simulated_fill_weight": 0.191206,
+      "fill_status": "FILLED_SIMULATED",
+      "fee_drag": 0.00015296,
+      "slippage_drag": 0.00022945,
+      "total_cost_drag": 0.00038241,
+      "reason": "No execution adapter signal for asset."
+    },
+    {
+      "asset": "SOL-USD",
+      "side": "LONG",
+      "order_action": "WAIT",
+      "execution_gate": "WAIT",
+      "planned_weight": 0.076482,
+      "simulated_fill_weight": 0.0,
+      "fill_status": "WAITING_FOR_CONFIRMATION",
+      "fee_drag": 0.0,
+      "slippage_drag": 0.0,
+      "total_cost_drag": 0.0,
+      "reason": "Execution engines are idle; wait for structure confirmation."
+    },
+    {
+      "asset": "CASH",
+      "side": "CASH",
+      "order_action": "NO_ORDER",
+      "execution_gate": "OPEN",
+      "planned_weight": 0.508328,
+      "simulated_fill_weight": 0.508328,
+      "fill_status": "NO_FILL",
+      "fee_drag": 0.0,
+      "slippage_drag": 0.0,
+      "total_cost_drag": 0.0,
+      "reason": "Cash row."
+    }
+  ],
+  "text_summary": "Execution Simulator filled 2 order(s), waiting on 1, with estimated cost drag 0.00083038.",
+  "outputs": {
+    "fills_csv": "output\\investment_execution_simulator\\simulated_fills.csv",
+    "json": "output\\investment_execution_simulator\\execution_simulator_report.json",
+    "markdown": "output\\investment_execution_simulator\\execution_simulator_report.md"
+  }
+}

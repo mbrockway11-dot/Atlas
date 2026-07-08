@@ -1,0 +1,5 @@
+asset,side,order_action,execution_gate,planned_weight,simulated_fill_weight,fill_status,fee_drag,slippage_drag,total_cost_drag,reason
+BTC-USD,LONG,BUY,OPEN,0.223984,0.223984,FILLED_SIMULATED,0.00017919,0.00026878,0.00044797,No execution adapter signal for asset.
+ETH-USD,LONG,BUY,OPEN,0.191206,0.191206,FILLED_SIMULATED,0.00015296,0.00022945,0.00038241,No execution adapter signal for asset.
+SOL-USD,LONG,WAIT,WAIT,0.076482,0.0,WAITING_FOR_CONFIRMATION,0.0,0.0,0.0,Execution engines are idle; wait for structure confirmation.
+CASH,CASH,NO_ORDER,OPEN,0.508328,0.508328,NO_FILL,0.0,0.0,0.0,Cash row.
