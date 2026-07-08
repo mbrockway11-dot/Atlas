@@ -1,0 +1,33 @@
+{
+  "success": true,
+  "summary": "Learning Engine evaluated 2 scorecard row(s). Regime: insufficient_history.",
+  "scorecard": [
+    {
+      "asset": "BTC-USD",
+      "paper_trade_count": 1,
+      "total_cost_drag": 0.00044797,
+      "avg_cost_drag": 0.00044797,
+      "score": 0.955203
+    },
+    {
+      "asset": "ETH-USD",
+      "paper_trade_count": 1,
+      "total_cost_drag": 0.00038241,
+      "avg_cost_drag": 0.00038241,
+      "score": 0.961759
+    }
+  ],
+  "learning_regime": {
+    "learning_regime": "insufficient_history",
+    "trend": "unknown",
+    "confidence": 0.0
+  },
+  "recommendations": [
+    "Accumulate more paper-trading history before changing strategy weights."
+  ],
+  "outputs": {
+    "json": "output\\investment_learning\\learning_report.json",
+    "markdown": "output\\investment_learning\\learning_report.md",
+    "scorecard_csv": "output\\investment_learning\\strategy_scorecard.csv"
+  }
+}
