@@ -1,0 +1,3 @@
+timestamp,asset,side,order_action,paper_weight,fee_drag,slippage_drag,total_cost_drag,status,reason
+2026-07-08T22:03:21.468030+00:00,BTC-USD,LONG,BUY,0.223984,0.00017919,0.00026878,0.00044797,PAPER_FILLED,No execution adapter signal for asset.
+2026-07-08T22:03:21.468030+00:00,ETH-USD,LONG,BUY,0.191206,0.00015296,0.00022945,0.00038241,PAPER_FILLED,No execution adapter signal for asset.
