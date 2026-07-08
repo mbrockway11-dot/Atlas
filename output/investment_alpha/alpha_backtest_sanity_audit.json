@@ -1,0 +1,1818 @@
+{
+  "success": true,
+  "trades_path": "output\\investment_alpha\\alpha_backtest_trades.csv",
+  "rankings_path": "output\\investment_alpha\\alpha_rankings.csv",
+  "trade_rows": 33416,
+  "ranking_rows": 36,
+  "duplicate_trades": 0,
+  "overall": {
+    "count": 33416,
+    "win_rate": 0.600341,
+    "mean": 0.70623415,
+    "median": 0.10080634,
+    "std": 2.59774167,
+    "min": -0.8972573,
+    "max": 46.54075418,
+    "p01": -0.85789371,
+    "p05": -0.75881309,
+    "p95": 3.21649449,
+    "p99": 11.56744176,
+    "gt_100pct_count": 6506,
+    "gt_500pct_count": 1101,
+    "lt_minus_80pct_count": 1105
+  },
+  "non_overlapping_overall": {
+    "count": 2137,
+    "win_rate": 0.547964,
+    "mean": 0.15039832,
+    "median": 0.02383795,
+    "std": 0.54969138,
+    "min": -0.89403426,
+    "max": 6.83071756,
+    "p01": -0.58596819,
+    "p05": -0.33488285,
+    "p95": 1.04287589,
+    "p99": 2.2169421,
+    "gt_100pct_count": 119,
+    "gt_500pct_count": 4,
+    "lt_minus_80pct_count": 10
+  },
+  "by_hypothesis": [
+    {
+      "hypothesis_id": "momentum_top_rank_288_q90",
+      "summary": {
+        "count": 465,
+        "win_rate": 0.554839,
+        "mean": 2.52234656,
+        "median": 0.26688097,
+        "std": 6.36062632,
+        "min": -0.87432117,
+        "max": 46.54075418,
+        "p01": -0.86210082,
+        "p05": -0.84206463,
+        "p95": 12.45602616,
+        "p99": 31.94269779,
+        "gt_100pct_count": 196,
+        "gt_500pct_count": 63,
+        "lt_minus_80pct_count": 68
+      },
+      "asset_counts": {
+        "SOL-USD": 438,
+        "ETH-USD": 27
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 43,
+        "win_rate": 0.511628,
+        "mean": 2.88294428,
+        "median": 0.14032452,
+        "std": 8.11325575,
+        "min": -0.85644456,
+        "max": 46.54075418,
+        "p01": -0.85580553,
+        "p05": -0.82193669,
+        "p95": 11.14385282,
+        "p99": 36.22546969,
+        "gt_100pct_count": 16,
+        "gt_500pct_count": 6,
+        "lt_minus_80pct_count": 6
+      }
+    },
+    {
+      "hypothesis_id": "breadth_dispersion_breakout_288",
+      "summary": {
+        "count": 499,
+        "win_rate": 0.527054,
+        "mean": 2.06298463,
+        "median": 0.06585338,
+        "std": 5.70655,
+        "min": -0.87432117,
+        "max": 40.52157704,
+        "p01": -0.86196781,
+        "p05": -0.84021788,
+        "p95": 12.24306802,
+        "p99": 27.53218467,
+        "gt_100pct_count": 167,
+        "gt_500pct_count": 61,
+        "lt_minus_80pct_count": 68
+      },
+      "asset_counts": {
+        "SOL-USD": 499
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 44,
+        "win_rate": 0.545455,
+        "mean": 2.55062397,
+        "median": 0.10916104,
+        "std": 7.3574843,
+        "min": -0.85558538,
+        "max": 40.52157704,
+        "p01": -0.85354992,
+        "p05": -0.83510899,
+        "p95": 12.24875168,
+        "p99": 32.72089423,
+        "gt_100pct_count": 14,
+        "gt_500pct_count": 6,
+        "lt_minus_80pct_count": 7
+      }
+    },
+    {
+      "hypothesis_id": "breadth_positive_288_0_8",
+      "summary": {
+        "count": 983,
+        "win_rate": 0.685656,
+        "mean": 2.00766686,
+        "median": 0.5534458,
+        "std": 4.68531341,
+        "min": -0.89198904,
+        "max": 46.54075418,
+        "p01": -0.86645881,
+        "p05": -0.83660068,
+        "p95": 9.874153,
+        "p99": 26.53065501,
+        "gt_100pct_count": 423,
+        "gt_500pct_count": 130,
+        "lt_minus_80pct_count": 71
+      },
+      "asset_counts": {
+        "SOL-USD": 802,
+        "ETH-USD": 108,
+        "BTC-USD": 73
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 94,
+        "win_rate": 0.648936,
+        "mean": 2.14921472,
+        "median": 0.52904836,
+        "std": 5.75003574,
+        "min": -0.8902004,
+        "max": 46.54075418,
+        "p01": -0.87290813,
+        "p05": -0.82553548,
+        "p95": 8.74736931,
+        "p99": 23.69976711,
+        "gt_100pct_count": 38,
+        "gt_500pct_count": 13,
+        "lt_minus_80pct_count": 7
+      }
+    },
+    {
+      "hypothesis_id": "breadth_positive_288_1_0",
+      "summary": {
+        "count": 983,
+        "win_rate": 0.685656,
+        "mean": 2.00766686,
+        "median": 0.5534458,
+        "std": 4.68531341,
+        "min": -0.89198904,
+        "max": 46.54075418,
+        "p01": -0.86645881,
+        "p05": -0.83660068,
+        "p95": 9.874153,
+        "p99": 26.53065501,
+        "gt_100pct_count": 423,
+        "gt_500pct_count": 130,
+        "lt_minus_80pct_count": 71
+      },
+      "asset_counts": {
+        "SOL-USD": 802,
+        "ETH-USD": 108,
+        "BTC-USD": 73
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 94,
+        "win_rate": 0.648936,
+        "mean": 2.14921472,
+        "median": 0.52904836,
+        "std": 5.75003574,
+        "min": -0.8902004,
+        "max": 46.54075418,
+        "p01": -0.87290813,
+        "p05": -0.82553548,
+        "p95": 8.74736931,
+        "p99": 23.69976711,
+        "gt_100pct_count": 38,
+        "gt_500pct_count": 13,
+        "lt_minus_80pct_count": 7
+      }
+    },
+    {
+      "hypothesis_id": "leadership_rotation_breakout_72",
+      "summary": {
+        "count": 4,
+        "win_rate": 1.0,
+        "mean": 1.92550633,
+        "median": 1.82943586,
+        "std": 1.66039655,
+        "min": 0.30168203,
+        "max": 3.74147156,
+        "p01": 0.31521928,
+        "p05": 0.36936831,
+        "p95": 3.616143,
+        "p99": 3.71640584,
+        "gt_100pct_count": 2,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      },
+      "asset_counts": {
+        "ETH-USD": 2,
+        "SOL-USD": 2
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 4,
+        "win_rate": 1.0,
+        "mean": 1.92550633,
+        "median": 1.82943586,
+        "std": 1.66039655,
+        "min": 0.30168203,
+        "max": 3.74147156,
+        "p01": 0.31521928,
+        "p05": 0.36936831,
+        "p95": 3.616143,
+        "p99": 3.71640584,
+        "gt_100pct_count": 2,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      }
+    },
+    {
+      "hypothesis_id": "momentum_top_rank_288_q75",
+      "summary": {
+        "count": 809,
+        "win_rate": 0.599506,
+        "mean": 1.88068833,
+        "median": 0.32428743,
+        "std": 5.05960322,
+        "min": -0.8972573,
+        "max": 46.54075418,
+        "p01": -0.87426838,
+        "p05": -0.854499,
+        "p95": 11.15323681,
+        "p99": 27.10456292,
+        "gt_100pct_count": 316,
+        "gt_500pct_count": 93,
+        "lt_minus_80pct_count": 110
+      },
+      "asset_counts": {
+        "SOL-USD": 724,
+        "ETH-USD": 84,
+        "BTC-USD": 1
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 74,
+        "win_rate": 0.608108,
+        "mean": 2.20442813,
+        "median": 0.4455649,
+        "std": 6.38496288,
+        "min": -0.88239532,
+        "max": 46.54075418,
+        "p01": -0.87601944,
+        "p05": -0.85545559,
+        "p95": 10.93381811,
+        "p99": 28.61180734,
+        "gt_100pct_count": 29,
+        "gt_500pct_count": 10,
+        "lt_minus_80pct_count": 11
+      }
+    },
+    {
+      "hypothesis_id": "breadth_positive_288_0_5",
+      "summary": {
+        "count": 1281,
+        "win_rate": 0.654957,
+        "mean": 1.60210373,
+        "median": 0.34887528,
+        "std": 4.1892952,
+        "min": -0.8972573,
+        "max": 46.54075418,
+        "p01": -0.87170653,
+        "p05": -0.84893261,
+        "p95": 6.98323655,
+        "p99": 22.40845634,
+        "gt_100pct_count": 515,
+        "gt_500pct_count": 130,
+        "lt_minus_80pct_count": 122
+      },
+      "asset_counts": {
+        "SOL-USD": 884,
+        "BTC-USD": 253,
+        "ETH-USD": 144
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 117,
+        "win_rate": 0.641026,
+        "mean": 1.78536725,
+        "median": 0.32679941,
+        "std": 5.21459558,
+        "min": -0.87210638,
+        "max": 46.54075418,
+        "p01": -0.86561111,
+        "p05": -0.84360719,
+        "p95": 6.98544978,
+        "p99": 20.24870983,
+        "gt_100pct_count": 45,
+        "gt_500pct_count": 13,
+        "lt_minus_80pct_count": 12
+      }
+    },
+    {
+      "hypothesis_id": "breadth_positive_288_0_66",
+      "summary": {
+        "count": 1281,
+        "win_rate": 0.654957,
+        "mean": 1.60210373,
+        "median": 0.34887528,
+        "std": 4.1892952,
+        "min": -0.8972573,
+        "max": 46.54075418,
+        "p01": -0.87170653,
+        "p05": -0.84893261,
+        "p95": 6.98323655,
+        "p99": 22.40845634,
+        "gt_100pct_count": 515,
+        "gt_500pct_count": 130,
+        "lt_minus_80pct_count": 122
+      },
+      "asset_counts": {
+        "SOL-USD": 884,
+        "BTC-USD": 253,
+        "ETH-USD": 144
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 117,
+        "win_rate": 0.641026,
+        "mean": 1.78536725,
+        "median": 0.32679941,
+        "std": 5.21459558,
+        "min": -0.87210638,
+        "max": 46.54075418,
+        "p01": -0.86561111,
+        "p05": -0.84360719,
+        "p95": 6.98544978,
+        "p99": 20.24870983,
+        "gt_100pct_count": 45,
+        "gt_500pct_count": 13,
+        "lt_minus_80pct_count": 12
+      }
+    },
+    {
+      "hypothesis_id": "momentum_top_rank_288_q50",
+      "summary": {
+        "count": 1265,
+        "win_rate": 0.61502,
+        "mean": 1.54489779,
+        "median": 0.22159383,
+        "std": 4.23333667,
+        "min": -0.8972573,
+        "max": 46.54075418,
+        "p01": -0.8717865,
+        "p05": -0.8526936,
+        "p95": 7.03976405,
+        "p99": 22.43085804,
+        "gt_100pct_count": 476,
+        "gt_500pct_count": 130,
+        "lt_minus_80pct_count": 140
+      },
+      "asset_counts": {
+        "SOL-USD": 911,
+        "BTC-USD": 213,
+        "ETH-USD": 141
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 116,
+        "win_rate": 0.62931,
+        "mean": 1.74666448,
+        "median": 0.24194536,
+        "std": 5.24841925,
+        "min": -0.8902004,
+        "max": 46.54075418,
+        "p01": -0.87135714,
+        "p05": -0.84785079,
+        "p95": 7.0237254,
+        "p99": 20.35695003,
+        "gt_100pct_count": 43,
+        "gt_500pct_count": 13,
+        "lt_minus_80pct_count": 12
+      }
+    },
+    {
+      "hypothesis_id": "leader_persistence_288_3",
+      "summary": {
+        "count": 1643,
+        "win_rate": 0.686549,
+        "mean": 1.20282013,
+        "median": 0.28328322,
+        "std": 3.43295679,
+        "min": -0.8972573,
+        "max": 36.84813127,
+        "p01": -0.86775935,
+        "p05": -0.84363914,
+        "p95": 6.49777303,
+        "p99": 17.74216188,
+        "gt_100pct_count": 505,
+        "gt_500pct_count": 122,
+        "lt_minus_80pct_count": 140
+      },
+      "asset_counts": {
+        "SOL-USD": 907,
+        "BTC-USD": 452,
+        "ETH-USD": 284
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 147,
+        "win_rate": 0.707483,
+        "mean": 1.31240653,
+        "median": 0.28879187,
+        "std": 3.86111753,
+        "min": -0.88910251,
+        "max": 33.20009644,
+        "p01": -0.86556088,
+        "p05": -0.83916681,
+        "p95": 6.13188305,
+        "p99": 17.75889666,
+        "gt_100pct_count": 46,
+        "gt_500pct_count": 12,
+        "lt_minus_80pct_count": 14
+      }
+    },
+    {
+      "hypothesis_id": "leader_persistence_288_8",
+      "summary": {
+        "count": 1540,
+        "win_rate": 0.676623,
+        "mean": 1.09262675,
+        "median": 0.27206468,
+        "std": 3.00215612,
+        "min": -0.8972573,
+        "max": 27.45738499,
+        "p01": -0.8687821,
+        "p05": -0.84784609,
+        "p95": 6.50332857,
+        "p99": 12.68050607,
+        "gt_100pct_count": 473,
+        "gt_500pct_count": 107,
+        "lt_minus_80pct_count": 140
+      },
+      "asset_counts": {
+        "SOL-USD": 879,
+        "BTC-USD": 407,
+        "ETH-USD": 254
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 136,
+        "win_rate": 0.691176,
+        "mean": 1.23231271,
+        "median": 0.27055276,
+        "std": 3.43449108,
+        "min": -0.8694301,
+        "max": 27.14028379,
+        "p01": -0.86510792,
+        "p05": -0.83610153,
+        "p95": 6.2898275,
+        "p99": 16.43728267,
+        "gt_100pct_count": 43,
+        "gt_500pct_count": 11,
+        "lt_minus_80pct_count": 11
+      }
+    },
+    {
+      "hypothesis_id": "topology_low_density_leader_72",
+      "summary": {
+        "count": 633,
+        "win_rate": 0.71406,
+        "mean": 0.59543661,
+        "median": 0.43922732,
+        "std": 0.94337678,
+        "min": -0.6210063,
+        "max": 4.51286557,
+        "p01": -0.58345314,
+        "p05": -0.48357797,
+        "p95": 2.31854359,
+        "p99": 3.96636418,
+        "gt_100pct_count": 157,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      },
+      "asset_counts": {
+        "SOL-USD": 420,
+        "BTC-USD": 123,
+        "ETH-USD": 90
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 224,
+        "win_rate": 0.714286,
+        "mean": 0.60674584,
+        "median": 0.43690368,
+        "std": 0.96703104,
+        "min": -0.60272562,
+        "max": 4.11704293,
+        "p01": -0.58833809,
+        "p05": -0.50050568,
+        "p95": 2.56641179,
+        "p99": 3.91235068,
+        "gt_100pct_count": 51,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      }
+    },
+    {
+      "hypothesis_id": "breadth_dispersion_breakout_72",
+      "summary": {
+        "count": 539,
+        "win_rate": 0.688312,
+        "mean": 0.57517605,
+        "median": 0.42641687,
+        "std": 0.91212905,
+        "min": -0.6210063,
+        "max": 4.51286557,
+        "p01": -0.57039485,
+        "p05": -0.46842337,
+        "p95": 2.21257032,
+        "p99": 4.01238389,
+        "gt_100pct_count": 143,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      },
+      "asset_counts": {
+        "SOL-USD": 407,
+        "ETH-USD": 72,
+        "BTC-USD": 60
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 193,
+        "win_rate": 0.683938,
+        "mean": 0.59054397,
+        "median": 0.42341803,
+        "std": 0.91129042,
+        "min": -0.597942,
+        "max": 4.11704293,
+        "p01": -0.56383138,
+        "p05": -0.46267874,
+        "p95": 2.22637268,
+        "p99": 3.76503266,
+        "gt_100pct_count": 54,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      }
+    },
+    {
+      "hypothesis_id": "momentum_top_rank_72_q90",
+      "summary": {
+        "count": 482,
+        "win_rate": 0.665975,
+        "mean": 0.49523579,
+        "median": 0.35950884,
+        "std": 0.89370474,
+        "min": -0.6210063,
+        "max": 4.51286557,
+        "p01": -0.57615273,
+        "p05": -0.47175097,
+        "p95": 2.2483382,
+        "p99": 4.04023906,
+        "gt_100pct_count": 97,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      },
+      "asset_counts": {
+        "SOL-USD": 412,
+        "ETH-USD": 49,
+        "BTC-USD": 21
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 176,
+        "win_rate": 0.647727,
+        "mean": 0.50941244,
+        "median": 0.33081011,
+        "std": 0.88971216,
+        "min": -0.597942,
+        "max": 4.11704293,
+        "p01": -0.58535414,
+        "p05": -0.46399807,
+        "p95": 2.28936571,
+        "p99": 3.8151,
+        "gt_100pct_count": 39,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      }
+    },
+    {
+      "hypothesis_id": "momentum_top_rank_72_q75",
+      "summary": {
+        "count": 871,
+        "win_rate": 0.61194,
+        "mean": 0.43058575,
+        "median": 0.22394951,
+        "std": 0.82318923,
+        "min": -0.64978076,
+        "max": 4.51286557,
+        "p01": -0.58080495,
+        "p05": -0.45499717,
+        "p95": 2.02748487,
+        "p99": 3.70058049,
+        "gt_100pct_count": 153,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      },
+      "asset_counts": {
+        "SOL-USD": 574,
+        "ETH-USD": 196,
+        "BTC-USD": 101
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 310,
+        "win_rate": 0.6,
+        "mean": 0.43469049,
+        "median": 0.21050419,
+        "std": 0.83351854,
+        "min": -0.64978076,
+        "max": 4.11704293,
+        "p01": -0.58125777,
+        "p05": -0.46295074,
+        "p95": 2.09956753,
+        "p99": 3.49809037,
+        "gt_100pct_count": 54,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      }
+    },
+    {
+      "hypothesis_id": "momentum_top_rank_72_q50",
+      "summary": {
+        "count": 1344,
+        "win_rate": 0.572917,
+        "mean": 0.37929796,
+        "median": 0.08888538,
+        "std": 0.85956618,
+        "min": -0.69268408,
+        "max": 4.80183044,
+        "p01": -0.60864132,
+        "p05": -0.46930968,
+        "p95": 2.07372099,
+        "p99": 3.72605123,
+        "gt_100pct_count": 221,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      },
+      "asset_counts": {
+        "SOL-USD": 775,
+        "ETH-USD": 310,
+        "BTC-USD": 259
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 490,
+        "win_rate": 0.567347,
+        "mean": 0.37945142,
+        "median": 0.09158115,
+        "std": 0.87535633,
+        "min": -0.69268408,
+        "max": 4.42286952,
+        "p01": -0.60697114,
+        "p05": -0.48296918,
+        "p95": 2.16204492,
+        "p99": 3.74905232,
+        "gt_100pct_count": 78,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      }
+    },
+    {
+      "hypothesis_id": "breadth_positive_72_0_66",
+      "summary": {
+        "count": 1277,
+        "win_rate": 0.570869,
+        "mean": 0.3542796,
+        "median": 0.08539195,
+        "std": 0.8277188,
+        "min": -0.69268408,
+        "max": 4.51286557,
+        "p01": -0.61394637,
+        "p05": -0.47019613,
+        "p95": 2.04311238,
+        "p99": 3.61396414,
+        "gt_100pct_count": 193,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      },
+      "asset_counts": {
+        "SOL-USD": 743,
+        "ETH-USD": 291,
+        "BTC-USD": 243
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 475,
+        "win_rate": 0.562105,
+        "mean": 0.34891834,
+        "median": 0.0877775,
+        "std": 0.83790327,
+        "min": -0.69268408,
+        "max": 4.11704293,
+        "p01": -0.61301155,
+        "p05": -0.49215048,
+        "p95": 2.11356246,
+        "p99": 3.59125887,
+        "gt_100pct_count": 69,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      }
+    },
+    {
+      "hypothesis_id": "breadth_positive_72_0_5",
+      "summary": {
+        "count": 1293,
+        "win_rate": 0.573086,
+        "mean": 0.35152689,
+        "median": 0.08568239,
+        "std": 0.82314704,
+        "min": -0.69268408,
+        "max": 4.51286557,
+        "p01": -0.61246007,
+        "p05": -0.46974882,
+        "p95": 2.03652149,
+        "p99": 3.59941854,
+        "gt_100pct_count": 193,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      },
+      "asset_counts": {
+        "SOL-USD": 743,
+        "ETH-USD": 294,
+        "BTC-USD": 256
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 481,
+        "win_rate": 0.565489,
+        "mean": 0.34682982,
+        "median": 0.0877775,
+        "std": 0.83317842,
+        "min": -0.69268408,
+        "max": 4.11704293,
+        "p01": -0.61236332,
+        "p05": -0.49098966,
+        "p95": 2.1078688,
+        "p99": 3.57907947,
+        "gt_100pct_count": 69,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      }
+    },
+    {
+      "hypothesis_id": "breadth_positive_72_0_8",
+      "summary": {
+        "count": 963,
+        "win_rate": 0.553479,
+        "mean": 0.3381266,
+        "median": 0.06810408,
+        "std": 0.8456556,
+        "min": -0.69268408,
+        "max": 4.51286557,
+        "p01": -0.63182704,
+        "p05": -0.47303083,
+        "p95": 2.084396,
+        "p99": 3.7192376,
+        "gt_100pct_count": 120,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      },
+      "asset_counts": {
+        "SOL-USD": 616,
+        "ETH-USD": 233,
+        "BTC-USD": 114
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 365,
+        "win_rate": 0.550685,
+        "mean": 0.33502806,
+        "median": 0.06706516,
+        "std": 0.84337297,
+        "min": -0.68704699,
+        "max": 4.11704293,
+        "p01": -0.63026768,
+        "p05": -0.47521278,
+        "p95": 2.10417934,
+        "p99": 3.61155789,
+        "gt_100pct_count": 45,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      }
+    },
+    {
+      "hypothesis_id": "breadth_positive_72_1_0",
+      "summary": {
+        "count": 963,
+        "win_rate": 0.553479,
+        "mean": 0.3381266,
+        "median": 0.06810408,
+        "std": 0.8456556,
+        "min": -0.69268408,
+        "max": 4.51286557,
+        "p01": -0.63182704,
+        "p05": -0.47303083,
+        "p95": 2.084396,
+        "p99": 3.7192376,
+        "gt_100pct_count": 120,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      },
+      "asset_counts": {
+        "SOL-USD": 616,
+        "ETH-USD": 233,
+        "BTC-USD": 114
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 365,
+        "win_rate": 0.550685,
+        "mean": 0.33502806,
+        "median": 0.06706516,
+        "std": 0.84337297,
+        "min": -0.68704699,
+        "max": 4.11704293,
+        "p01": -0.63026768,
+        "p05": -0.47521278,
+        "p95": 2.10417934,
+        "p99": 3.61155789,
+        "gt_100pct_count": 45,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      }
+    },
+    {
+      "hypothesis_id": "leader_persistence_72_3",
+      "summary": {
+        "count": 1887,
+        "win_rate": 0.54902,
+        "mean": 0.32845432,
+        "median": 0.06732441,
+        "std": 0.83528513,
+        "min": -0.69268408,
+        "max": 5.10398235,
+        "p01": -0.61094878,
+        "p05": -0.42862459,
+        "p95": 2.01327033,
+        "p99": 4.03911967,
+        "gt_100pct_count": 243,
+        "gt_500pct_count": 3,
+        "lt_minus_80pct_count": 0
+      },
+      "asset_counts": {
+        "SOL-USD": 799,
+        "BTC-USD": 636,
+        "ETH-USD": 452
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 656,
+        "win_rate": 0.547256,
+        "mean": 0.32521952,
+        "median": 0.06028692,
+        "std": 0.84701745,
+        "min": -0.65743227,
+        "max": 5.10398235,
+        "p01": -0.61092716,
+        "p05": -0.41159488,
+        "p95": 1.94548965,
+        "p99": 4.08733953,
+        "gt_100pct_count": 85,
+        "gt_500pct_count": 1,
+        "lt_minus_80pct_count": 0
+      }
+    },
+    {
+      "hypothesis_id": "leader_persistence_72_8",
+      "summary": {
+        "count": 1564,
+        "win_rate": 0.563299,
+        "mean": 0.32822797,
+        "median": 0.08349122,
+        "std": 0.79361271,
+        "min": -0.65616552,
+        "max": 5.10398235,
+        "p01": -0.60585716,
+        "p05": -0.40738792,
+        "p95": 1.93566294,
+        "p99": 3.83546058,
+        "gt_100pct_count": 206,
+        "gt_500pct_count": 2,
+        "lt_minus_80pct_count": 0
+      },
+      "asset_counts": {
+        "SOL-USD": 680,
+        "BTC-USD": 521,
+        "ETH-USD": 363
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 541,
+        "win_rate": 0.563771,
+        "mean": 0.33580992,
+        "median": 0.07920626,
+        "std": 0.81608332,
+        "min": -0.65566769,
+        "max": 5.07301549,
+        "p01": -0.60081217,
+        "p05": -0.40799127,
+        "p95": 1.97736227,
+        "p99": 3.91998842,
+        "gt_100pct_count": 73,
+        "gt_500pct_count": 1,
+        "lt_minus_80pct_count": 0
+      }
+    },
+    {
+      "hypothesis_id": "breadth_dispersion_breakout_24",
+      "summary": {
+        "count": 489,
+        "win_rate": 0.619632,
+        "mean": 0.29140065,
+        "median": 0.11056451,
+        "std": 0.56605055,
+        "min": -0.58356319,
+        "max": 3.05772129,
+        "p01": -0.52558457,
+        "p05": -0.30273855,
+        "p95": 1.36136719,
+        "p99": 2.49691979,
+        "gt_100pct_count": 56,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      },
+      "asset_counts": {
+        "SOL-USD": 329,
+        "ETH-USD": 93,
+        "BTC-USD": 67
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 489,
+        "win_rate": 0.619632,
+        "mean": 0.29140065,
+        "median": 0.11056451,
+        "std": 0.56605055,
+        "min": -0.58356319,
+        "max": 3.05772129,
+        "p01": -0.52558457,
+        "p05": -0.30273855,
+        "p95": 1.36136719,
+        "p99": 2.49691979,
+        "gt_100pct_count": 56,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      }
+    },
+    {
+      "hypothesis_id": "momentum_top_rank_24_q90",
+      "summary": {
+        "count": 499,
+        "win_rate": 0.581162,
+        "mean": 0.25858268,
+        "median": 0.06476467,
+        "std": 0.57697187,
+        "min": -0.58356319,
+        "max": 3.05772129,
+        "p01": -0.52536006,
+        "p05": -0.28243617,
+        "p95": 1.37836359,
+        "p99": 2.55545939,
+        "gt_100pct_count": 57,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      },
+      "asset_counts": {
+        "SOL-USD": 354,
+        "ETH-USD": 121,
+        "BTC-USD": 24
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 499,
+        "win_rate": 0.581162,
+        "mean": 0.25858268,
+        "median": 0.06476467,
+        "std": 0.57697187,
+        "min": -0.58356319,
+        "max": 3.05772129,
+        "p01": -0.52536006,
+        "p05": -0.28243617,
+        "p95": 1.37836359,
+        "p99": 2.55545939,
+        "gt_100pct_count": 57,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      }
+    },
+    {
+      "hypothesis_id": "momentum_top_rank_24_q75",
+      "summary": {
+        "count": 966,
+        "win_rate": 0.599379,
+        "mean": 0.21540491,
+        "median": 0.07143862,
+        "std": 0.51316056,
+        "min": -0.58356319,
+        "max": 3.30193358,
+        "p01": -0.43466483,
+        "p05": -0.26041759,
+        "p95": 1.25565296,
+        "p99": 2.43132493,
+        "gt_100pct_count": 76,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      },
+      "asset_counts": {
+        "SOL-USD": 545,
+        "ETH-USD": 291,
+        "BTC-USD": 130
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 966,
+        "win_rate": 0.599379,
+        "mean": 0.21540491,
+        "median": 0.07143862,
+        "std": 0.51316056,
+        "min": -0.58356319,
+        "max": 3.30193358,
+        "p01": -0.43466483,
+        "p05": -0.26041759,
+        "p95": 1.25565296,
+        "p99": 2.43132493,
+        "gt_100pct_count": 76,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      }
+    },
+    {
+      "hypothesis_id": "breadth_positive_24_0_8",
+      "summary": {
+        "count": 773,
+        "win_rate": 0.600259,
+        "mean": 0.19508403,
+        "median": 0.06175504,
+        "std": 0.4778882,
+        "min": -0.58356319,
+        "max": 3.30193358,
+        "p01": -0.45118904,
+        "p05": -0.25489645,
+        "p95": 1.1433421,
+        "p99": 2.09851254,
+        "gt_100pct_count": 52,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      },
+      "asset_counts": {
+        "SOL-USD": 426,
+        "ETH-USD": 251,
+        "BTC-USD": 96
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 773,
+        "win_rate": 0.600259,
+        "mean": 0.19508403,
+        "median": 0.06175504,
+        "std": 0.4778882,
+        "min": -0.58356319,
+        "max": 3.30193358,
+        "p01": -0.45118904,
+        "p05": -0.25489645,
+        "p95": 1.1433421,
+        "p99": 2.09851254,
+        "gt_100pct_count": 52,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      }
+    },
+    {
+      "hypothesis_id": "breadth_positive_24_1_0",
+      "summary": {
+        "count": 773,
+        "win_rate": 0.600259,
+        "mean": 0.19508403,
+        "median": 0.06175504,
+        "std": 0.4778882,
+        "min": -0.58356319,
+        "max": 3.30193358,
+        "p01": -0.45118904,
+        "p05": -0.25489645,
+        "p95": 1.1433421,
+        "p99": 2.09851254,
+        "gt_100pct_count": 52,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      },
+      "asset_counts": {
+        "SOL-USD": 426,
+        "ETH-USD": 251,
+        "BTC-USD": 96
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 773,
+        "win_rate": 0.600259,
+        "mean": 0.19508403,
+        "median": 0.06175504,
+        "std": 0.4778882,
+        "min": -0.58356319,
+        "max": 3.30193358,
+        "p01": -0.45118904,
+        "p05": -0.25489645,
+        "p95": 1.1433421,
+        "p99": 2.09851254,
+        "gt_100pct_count": 52,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      }
+    },
+    {
+      "hypothesis_id": "leadership_rotation_breakout_24",
+      "summary": {
+        "count": 17,
+        "win_rate": 0.529412,
+        "mean": 0.17309346,
+        "median": 0.03046275,
+        "std": 0.51995221,
+        "min": -0.35514805,
+        "max": 1.65925162,
+        "p01": -0.35479195,
+        "p05": -0.35336752,
+        "p95": 1.04300632,
+        "p99": 1.53600256,
+        "gt_100pct_count": 1,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      },
+      "asset_counts": {
+        "BTC-USD": 7,
+        "ETH-USD": 6,
+        "SOL-USD": 4
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 17,
+        "win_rate": 0.529412,
+        "mean": 0.17309346,
+        "median": 0.03046275,
+        "std": 0.51995221,
+        "min": -0.35514805,
+        "max": 1.65925162,
+        "p01": -0.35479195,
+        "p05": -0.35336752,
+        "p95": 1.04300632,
+        "p99": 1.53600256,
+        "gt_100pct_count": 1,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      }
+    },
+    {
+      "hypothesis_id": "breadth_positive_24_0_66",
+      "summary": {
+        "count": 1229,
+        "win_rate": 0.581774,
+        "mean": 0.16999515,
+        "median": 0.0483497,
+        "std": 0.45858596,
+        "min": -0.58356319,
+        "max": 3.30193358,
+        "p01": -0.40972124,
+        "p05": -0.27290497,
+        "p95": 1.04238935,
+        "p99": 2.00921991,
+        "gt_100pct_count": 71,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      },
+      "asset_counts": {
+        "SOL-USD": 627,
+        "ETH-USD": 367,
+        "BTC-USD": 235
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 1229,
+        "win_rate": 0.581774,
+        "mean": 0.16999515,
+        "median": 0.0483497,
+        "std": 0.45858596,
+        "min": -0.58356319,
+        "max": 3.30193358,
+        "p01": -0.40972124,
+        "p05": -0.27290497,
+        "p95": 1.04238935,
+        "p99": 2.00921991,
+        "gt_100pct_count": 71,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      }
+    },
+    {
+      "hypothesis_id": "breadth_positive_24_0_5",
+      "summary": {
+        "count": 1239,
+        "win_rate": 0.577078,
+        "mean": 0.16523842,
+        "median": 0.04657066,
+        "std": 0.45977621,
+        "min": -0.58356319,
+        "max": 3.30193358,
+        "p01": -0.43334815,
+        "p05": -0.29005713,
+        "p95": 1.04212252,
+        "p99": 2.00737343,
+        "gt_100pct_count": 71,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      },
+      "asset_counts": {
+        "SOL-USD": 627,
+        "ETH-USD": 377,
+        "BTC-USD": 235
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 1239,
+        "win_rate": 0.577078,
+        "mean": 0.16523842,
+        "median": 0.04657066,
+        "std": 0.45977621,
+        "min": -0.58356319,
+        "max": 3.30193358,
+        "p01": -0.43334815,
+        "p05": -0.29005713,
+        "p95": 1.04212252,
+        "p99": 2.00737343,
+        "gt_100pct_count": 71,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      }
+    },
+    {
+      "hypothesis_id": "momentum_top_rank_24_q50",
+      "summary": {
+        "count": 1455,
+        "win_rate": 0.565636,
+        "mean": 0.15017769,
+        "median": 0.039166,
+        "std": 0.44793902,
+        "min": -0.58356319,
+        "max": 3.30193358,
+        "p01": -0.44457845,
+        "p05": -0.28587328,
+        "p95": 1.0252303,
+        "p99": 2.03047521,
+        "gt_100pct_count": 78,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      },
+      "asset_counts": {
+        "SOL-USD": 727,
+        "ETH-USD": 411,
+        "BTC-USD": 317
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 1455,
+        "win_rate": 0.565636,
+        "mean": 0.15017769,
+        "median": 0.039166,
+        "std": 0.44793902,
+        "min": -0.58356319,
+        "max": 3.30193358,
+        "p01": -0.44457845,
+        "p05": -0.28587328,
+        "p95": 1.0252303,
+        "p99": 2.03047521,
+        "gt_100pct_count": 78,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      }
+    },
+    {
+      "hypothesis_id": "leader_persistence_24_8",
+      "summary": {
+        "count": 1252,
+        "win_rate": 0.532748,
+        "mean": 0.11230451,
+        "median": 0.01309896,
+        "std": 0.42910034,
+        "min": -0.58356319,
+        "max": 3.30193358,
+        "p01": -0.46556296,
+        "p05": -0.30526607,
+        "p95": 0.96331178,
+        "p99": 1.91107088,
+        "gt_100pct_count": 61,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      },
+      "asset_counts": {
+        "SOL-USD": 510,
+        "BTC-USD": 434,
+        "ETH-USD": 308
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 1252,
+        "win_rate": 0.532748,
+        "mean": 0.11230451,
+        "median": 0.01309896,
+        "std": 0.42910034,
+        "min": -0.58356319,
+        "max": 3.30193358,
+        "p01": -0.46556296,
+        "p05": -0.30526607,
+        "p95": 0.96331178,
+        "p99": 1.91107088,
+        "gt_100pct_count": 61,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      }
+    },
+    {
+      "hypothesis_id": "leader_persistence_24_3",
+      "summary": {
+        "count": 1807,
+        "win_rate": 0.541782,
+        "mean": 0.10574193,
+        "median": 0.01697669,
+        "std": 0.40073709,
+        "min": -0.58356319,
+        "max": 3.30193358,
+        "p01": -0.43730859,
+        "p05": -0.28063763,
+        "p95": 0.90957382,
+        "p99": 1.79572068,
+        "gt_100pct_count": 74,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      },
+      "asset_counts": {
+        "SOL-USD": 689,
+        "BTC-USD": 652,
+        "ETH-USD": 466
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 1807,
+        "win_rate": 0.541782,
+        "mean": 0.10574193,
+        "median": 0.01697669,
+        "std": 0.40073709,
+        "min": -0.58356319,
+        "max": 3.30193358,
+        "p01": -0.43730859,
+        "p05": -0.28063763,
+        "p95": 0.90957382,
+        "p99": 1.79572068,
+        "gt_100pct_count": 74,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 0
+      }
+    },
+    {
+      "hypothesis_id": "topology_high_correlation_leader_288",
+      "summary": {
+        "count": 348,
+        "win_rate": 0.485632,
+        "mean": -0.13383913,
+        "median": -0.06563266,
+        "std": 0.50461953,
+        "min": -0.89198904,
+        "max": 0.87624338,
+        "p01": -0.8851368,
+        "p05": -0.85998528,
+        "p95": 0.58387838,
+        "p99": 0.66414629,
+        "gt_100pct_count": 0,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 53
+      },
+      "asset_counts": {
+        "BTC-USD": 139,
+        "SOL-USD": 110,
+        "ETH-USD": 99
+      },
+      "duplicate_trades": 0,
+      "non_overlapping_summary": {
+        "count": 39,
+        "win_rate": 0.589744,
+        "mean": -0.04926305,
+        "median": 0.0822683,
+        "std": 0.50968194,
+        "min": -0.87278694,
+        "max": 0.87624338,
+        "p01": -0.86520535,
+        "p05": -0.85257284,
+        "p95": 0.59831897,
+        "p99": 0.78895909,
+        "gt_100pct_count": 0,
+        "gt_500pct_count": 0,
+        "lt_minus_80pct_count": 5
+      }
+    }
+  ],
+  "extreme_trades": {
+    "top": [
+      {
+        "hypothesis_id": "breadth_positive_288_0_66",
+        "family": "breadth",
+        "date": "2021-02-01",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": 46.54075417501187
+      },
+      {
+        "hypothesis_id": "momentum_top_rank_288_q50",
+        "family": "momentum",
+        "date": "2021-02-01",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": 46.54075417501187
+      },
+      {
+        "hypothesis_id": "breadth_positive_288_1_0",
+        "family": "breadth",
+        "date": "2021-02-01",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": 46.54075417501187
+      },
+      {
+        "hypothesis_id": "momentum_top_rank_288_q75",
+        "family": "momentum",
+        "date": "2021-02-01",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": 46.54075417501187
+      },
+      {
+        "hypothesis_id": "breadth_positive_288_0_5",
+        "family": "breadth",
+        "date": "2021-02-01",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": 46.54075417501187
+      },
+      {
+        "hypothesis_id": "momentum_top_rank_288_q90",
+        "family": "momentum",
+        "date": "2021-02-01",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": 46.54075417501187
+      },
+      {
+        "hypothesis_id": "breadth_positive_288_0_8",
+        "family": "breadth",
+        "date": "2021-02-01",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": 46.54075417501187
+      },
+      {
+        "hypothesis_id": "breadth_dispersion_breakout_288",
+        "family": "breadth",
+        "date": "2021-02-02",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": 40.52157704088029
+      },
+      {
+        "hypothesis_id": "momentum_top_rank_288_q90",
+        "family": "momentum",
+        "date": "2021-02-02",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": 40.52157704088029
+      },
+      {
+        "hypothesis_id": "breadth_positive_288_0_5",
+        "family": "breadth",
+        "date": "2021-02-02",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": 40.52157704088029
+      },
+      {
+        "hypothesis_id": "breadth_positive_288_0_8",
+        "family": "breadth",
+        "date": "2021-02-02",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": 40.52157704088029
+      },
+      {
+        "hypothesis_id": "breadth_positive_288_1_0",
+        "family": "breadth",
+        "date": "2021-02-02",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": 40.52157704088029
+      },
+      {
+        "hypothesis_id": "breadth_positive_288_0_66",
+        "family": "breadth",
+        "date": "2021-02-02",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": 40.52157704088029
+      },
+      {
+        "hypothesis_id": "momentum_top_rank_288_q75",
+        "family": "momentum",
+        "date": "2021-02-02",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": 40.52157704088029
+      },
+      {
+        "hypothesis_id": "momentum_top_rank_288_q50",
+        "family": "momentum",
+        "date": "2021-02-02",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": 40.52157704088029
+      },
+      {
+        "hypothesis_id": "momentum_top_rank_288_q75",
+        "family": "momentum",
+        "date": "2021-02-06",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": 36.848131267561534
+      },
+      {
+        "hypothesis_id": "breadth_positive_288_0_66",
+        "family": "breadth",
+        "date": "2021-02-06",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": 36.848131267561534
+      },
+      {
+        "hypothesis_id": "breadth_dispersion_breakout_288",
+        "family": "breadth",
+        "date": "2021-02-06",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": 36.848131267561534
+      },
+      {
+        "hypothesis_id": "momentum_top_rank_288_q50",
+        "family": "momentum",
+        "date": "2021-02-06",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": 36.848131267561534
+      },
+      {
+        "hypothesis_id": "momentum_top_rank_288_q90",
+        "family": "momentum",
+        "date": "2021-02-06",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": 36.848131267561534
+      }
+    ],
+    "worst": [
+      {
+        "hypothesis_id": "leader_persistence_288_3",
+        "family": "leadership",
+        "date": "2022-02-06",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": -0.8972572997180492
+      },
+      {
+        "hypothesis_id": "momentum_top_rank_288_q50",
+        "family": "momentum",
+        "date": "2022-02-06",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": -0.8972572997180492
+      },
+      {
+        "hypothesis_id": "momentum_top_rank_288_q75",
+        "family": "momentum",
+        "date": "2022-02-06",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": -0.8972572997180492
+      },
+      {
+        "hypothesis_id": "breadth_positive_288_0_66",
+        "family": "breadth",
+        "date": "2022-02-06",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": -0.8972572997180492
+      },
+      {
+        "hypothesis_id": "breadth_positive_288_0_5",
+        "family": "breadth",
+        "date": "2022-02-06",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": -0.8972572997180492
+      },
+      {
+        "hypothesis_id": "leader_persistence_288_8",
+        "family": "leadership",
+        "date": "2022-02-06",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": -0.8972572997180492
+      },
+      {
+        "hypothesis_id": "leader_persistence_288_3",
+        "family": "leadership",
+        "date": "2022-02-07",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": -0.8940342604921839
+      },
+      {
+        "hypothesis_id": "breadth_positive_288_0_5",
+        "family": "breadth",
+        "date": "2022-02-07",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": -0.8940342604921839
+      },
+      {
+        "hypothesis_id": "leader_persistence_288_8",
+        "family": "leadership",
+        "date": "2022-02-07",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": -0.8940342604921839
+      },
+      {
+        "hypothesis_id": "breadth_positive_288_0_66",
+        "family": "breadth",
+        "date": "2022-02-07",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": -0.8940342604921839
+      },
+      {
+        "hypothesis_id": "momentum_top_rank_288_q75",
+        "family": "momentum",
+        "date": "2022-02-07",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": -0.8940342604921839
+      },
+      {
+        "hypothesis_id": "momentum_top_rank_288_q50",
+        "family": "momentum",
+        "date": "2022-02-07",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": -0.8940342604921839
+      },
+      {
+        "hypothesis_id": "leader_persistence_288_3",
+        "family": "leadership",
+        "date": "2022-02-05",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": -0.8924192596852941
+      },
+      {
+        "hypothesis_id": "breadth_positive_288_0_66",
+        "family": "breadth",
+        "date": "2022-02-05",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": -0.8924192596852941
+      },
+      {
+        "hypothesis_id": "breadth_positive_288_0_5",
+        "family": "breadth",
+        "date": "2022-02-05",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": -0.8924192596852941
+      },
+      {
+        "hypothesis_id": "momentum_top_rank_288_q50",
+        "family": "momentum",
+        "date": "2022-02-05",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": -0.8924192596852941
+      },
+      {
+        "hypothesis_id": "momentum_top_rank_288_q75",
+        "family": "momentum",
+        "date": "2022-02-05",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": -0.8924192596852941
+      },
+      {
+        "hypothesis_id": "leader_persistence_288_8",
+        "family": "leadership",
+        "date": "2022-02-05",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": -0.8924192596852941
+      },
+      {
+        "hypothesis_id": "topology_high_correlation_leader_288",
+        "family": "topology",
+        "date": "2022-03-19",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": -0.8919890436500573
+      },
+      {
+        "hypothesis_id": "momentum_top_rank_288_q75",
+        "family": "momentum",
+        "date": "2022-03-19",
+        "asset": "SOL-USD",
+        "direction": "LONG",
+        "hold_period": 288,
+        "return": -0.8919890436500573
+      }
+    ]
+  },
+  "summary": "Alpha sanity audit scanned 33416 trade row(s) across 34 hypothesis/hypotheses.",
+  "warnings": [
+    "Extreme positive return above 1000% detected. Verify return scale and data integrity.",
+    "momentum_top_rank_288_q90: non-overlapping trade count is very small versus raw count.",
+    "momentum_top_rank_288_q90: performance sample is highly concentrated in SOL-USD.",
+    "breadth_dispersion_breakout_288: non-overlapping trade count is very small versus raw count.",
+    "breadth_dispersion_breakout_288: performance sample is highly concentrated in SOL-USD.",
+    "breadth_positive_288_0_8: non-overlapping trade count is very small versus raw count.",
+    "breadth_positive_288_0_8: performance sample is highly concentrated in SOL-USD.",
+    "breadth_positive_288_1_0: non-overlapping trade count is very small versus raw count.",
+    "breadth_positive_288_1_0: performance sample is highly concentrated in SOL-USD.",
+    "momentum_top_rank_288_q75: non-overlapping trade count is very small versus raw count.",
+    "momentum_top_rank_288_q75: performance sample is highly concentrated in SOL-USD.",
+    "breadth_positive_288_0_5: non-overlapping trade count is very small versus raw count.",
+    "breadth_positive_288_0_66: non-overlapping trade count is very small versus raw count.",
+    "momentum_top_rank_288_q50: non-overlapping trade count is very small versus raw count.",
+    "leader_persistence_288_3: non-overlapping trade count is very small versus raw count.",
+    "leader_persistence_288_8: non-overlapping trade count is very small versus raw count.",
+    "momentum_top_rank_72_q90: performance sample is highly concentrated in SOL-USD."
+  ]
+}

@@ -1,0 +1,2 @@
+hypothesis_id,alpha_confidence,confidence_label,trade_count,asset_concentration,alpha_score,non_overlap_avg_return,non_overlap_profit_factor
+topology_low_density_leader_72,0.710976,promising_alpha_candidate,633,0.663507,5.893153,0.60674584,7.223237

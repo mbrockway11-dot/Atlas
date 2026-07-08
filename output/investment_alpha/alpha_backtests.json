@@ -1,0 +1,2571 @@
+{
+  "success": true,
+  "hypothesis_count": 36,
+  "result_count": 36,
+  "min_trades": 5,
+  "ranked_results": [
+    {
+      "hypothesis_id": "topology_low_density_leader_72",
+      "family": "topology",
+      "description": "Long 72-period leader when correlation graph density is low.",
+      "signal_asset_rule": "leader_asset_72",
+      "hold_period": 72,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "graph_density",
+          "op": "<",
+          "value": 0.66666667
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 633,
+        "win_rate": 0.71406,
+        "avg_return": 0.59543661,
+        "median_return": 0.43922732,
+        "std_return": 0.94337678,
+        "min_return": -0.6210063,
+        "max_return": 4.51286557,
+        "gross_profit": 437.97926935,
+        "gross_loss": 61.06789698,
+        "profit_factor": 7.172005,
+        "sharpe_like": 15.880062,
+        "sortino_like": 96.82851,
+        "final_equity": 2.5801352979763855e+83,
+        "total_return": 2.5801352979763855e+83,
+        "max_drawdown": -1.0,
+        "recovery_factor": 2.5801352979763855e+83,
+        "expectancy": 0.59543661
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 224,
+        "win_rate": 0.714286,
+        "avg_return": 0.60674584,
+        "median_return": 0.43690368,
+        "std_return": 0.96703104,
+        "min_return": -0.60272562,
+        "max_return": 4.11704293,
+        "gross_profit": 157.75035464,
+        "gross_loss": 21.83928691,
+        "profit_factor": 7.223237,
+        "sharpe_like": 9.390536,
+        "sortino_like": 55.581647,
+        "final_equity": 4.468510344726137e+29,
+        "total_return": 4.468510344726137e+29,
+        "max_drawdown": -0.99999828,
+        "recovery_factor": 4.468518012997959e+29,
+        "expectancy": 0.60674584
+      },
+      "asset_counts": {
+        "SOL-USD": 420,
+        "BTC-USD": 123,
+        "ETH-USD": 90
+      },
+      "asset_concentration": 0.663507,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": 5.893153,
+      "passed_diversified_ranking": true
+    },
+    {
+      "hypothesis_id": "leader_persistence_288_8",
+      "family": "leadership",
+      "description": "Long leader when leadership persists for at least 8 bars over 288.",
+      "signal_asset_rule": "leader_asset_288",
+      "hold_period": 288,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "leader_persistence_288",
+          "op": ">=",
+          "value": 8
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 1540,
+        "win_rate": 0.676623,
+        "avg_return": 1.09262675,
+        "median_return": 0.27206468,
+        "std_return": 3.00215612,
+        "min_return": -0.8972573,
+        "max_return": 27.45738499,
+        "gross_profit": 1938.84630031,
+        "gross_loss": 256.20110466,
+        "profit_factor": 7.567673,
+        "sharpe_like": 14.282325,
+        "sortino_like": 132.3601,
+        "final_equity": 2.3121589035354367e+120,
+        "total_return": 2.3121589035354367e+120,
+        "max_drawdown": -1.0,
+        "recovery_factor": 2.3121589035354367e+120,
+        "expectancy": 1.09262675
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 136,
+        "win_rate": 0.691176,
+        "avg_return": 1.23231271,
+        "median_return": 0.27055276,
+        "std_return": 3.43449108,
+        "min_return": -0.8694301,
+        "max_return": 27.14028379,
+        "gross_profit": 188.55642199,
+        "gross_loss": 20.96189373,
+        "profit_factor": 8.9952,
+        "sharpe_like": 4.18435,
+        "sortino_like": 43.370571,
+        "final_equity": 28584171037146.676,
+        "total_return": 28584171037145.676,
+        "max_drawdown": -1.0,
+        "recovery_factor": 28584171037145.68,
+        "expectancy": 1.23231271
+      },
+      "asset_counts": {
+        "SOL-USD": 879,
+        "BTC-USD": 407,
+        "ETH-USD": 254
+      },
+      "asset_concentration": 0.570779,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": 4.13712,
+      "passed_diversified_ranking": true
+    },
+    {
+      "hypothesis_id": "momentum_top_rank_72_q75",
+      "family": "momentum",
+      "description": "Long strongest-ranked asset when 72-period return is above q75 threshold.",
+      "signal_asset_rule": "asset_with_min_rank_return_72",
+      "hold_period": 72,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "asset",
+          "feature": "rank_return_72",
+          "op": "<=",
+          "value": 1
+        },
+        {
+          "source": "asset",
+          "feature": "return_72",
+          "op": ">",
+          "value": 0.39571633
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 871,
+        "win_rate": 0.61194,
+        "avg_return": 0.43058575,
+        "median_return": 0.22394951,
+        "std_return": 0.82318923,
+        "min_return": -0.64978076,
+        "max_return": 4.51286557,
+        "gross_profit": 454.75159608,
+        "gross_loss": 79.71140497,
+        "profit_factor": 5.704975,
+        "sharpe_like": 15.437219,
+        "sortino_like": 79.089835,
+        "final_equity": 1.2638086242276396e+83,
+        "total_return": 1.2638086242276396e+83,
+        "max_drawdown": -1.0,
+        "recovery_factor": 1.2638086242276415e+83,
+        "expectancy": 0.43058575
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 310,
+        "win_rate": 0.6,
+        "avg_return": 0.43469049,
+        "median_return": 0.21050419,
+        "std_return": 0.83351854,
+        "min_return": -0.64978076,
+        "max_return": 4.11704293,
+        "gross_profit": 163.75258671,
+        "gross_loss": 28.99853582,
+        "profit_factor": 5.646926,
+        "sharpe_like": 9.182178,
+        "sortino_like": 45.378387,
+        "final_equity": 2.348770289088131e+29,
+        "total_return": 2.348770289088131e+29,
+        "max_drawdown": -0.99999496,
+        "recovery_factor": 2.3487821165609603e+29,
+        "expectancy": 0.43469049
+      },
+      "asset_counts": {
+        "SOL-USD": 574,
+        "ETH-USD": 196,
+        "BTC-USD": 101
+      },
+      "asset_concentration": 0.659013,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": 4.06169,
+      "passed_diversified_ranking": true
+    },
+    {
+      "hypothesis_id": "momentum_top_rank_72_q50",
+      "family": "momentum",
+      "description": "Long strongest-ranked asset when 72-period return is above q50 threshold.",
+      "signal_asset_rule": "asset_with_min_rank_return_72",
+      "hold_period": 72,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "asset",
+          "feature": "rank_return_72",
+          "op": "<=",
+          "value": 1
+        },
+        {
+          "source": "asset",
+          "feature": "return_72",
+          "op": ">",
+          "value": 0.07009224
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 1344,
+        "win_rate": 0.572917,
+        "avg_return": 0.37929796,
+        "median_return": 0.08888538,
+        "std_return": 0.85956618,
+        "min_return": -0.69268408,
+        "max_return": 4.80183044,
+        "gross_profit": 651.24980319,
+        "gross_loss": 141.47334423,
+        "profit_factor": 4.603339,
+        "sharpe_like": 16.177106,
+        "sortino_like": 82.257898,
+        "final_equity": 1.403457114703245e+98,
+        "total_return": 1.403457114703245e+98,
+        "max_drawdown": -1.0,
+        "recovery_factor": 1.403457114703245e+98,
+        "expectancy": 0.37929796
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 490,
+        "win_rate": 0.567347,
+        "avg_return": 0.37945142,
+        "median_return": 0.09158115,
+        "std_return": 0.87535633,
+        "min_return": -0.69268408,
+        "max_return": 4.42286952,
+        "gross_profit": 237.59809614,
+        "gross_loss": 51.66690207,
+        "profit_factor": 4.598652,
+        "sharpe_like": 9.595538,
+        "sortino_like": 48.498093,
+        "final_equity": 1.3831465227133227e+35,
+        "total_return": 1.3831465227133227e+35,
+        "max_drawdown": -0.99999992,
+        "recovery_factor": 1.3831466391173848e+35,
+        "expectancy": 0.37945142
+      },
+      "asset_counts": {
+        "SOL-USD": 775,
+        "ETH-USD": 310,
+        "BTC-USD": 259
+      },
+      "asset_concentration": 0.576637,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": 3.35111,
+      "passed_diversified_ranking": true
+    },
+    {
+      "hypothesis_id": "breadth_positive_72_0_66",
+      "family": "breadth",
+      "description": "Long leader when 66%+ of assets are positive over 72.",
+      "signal_asset_rule": "leader_asset_72",
+      "hold_period": 72,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "breadth_positive_72",
+          "op": ">=",
+          "value": 0.66
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 1277,
+        "win_rate": 0.570869,
+        "avg_return": 0.3542796,
+        "median_return": 0.08539195,
+        "std_return": 0.8277188,
+        "min_return": -0.69268408,
+        "max_return": 4.51286557,
+        "gross_profit": 588.20271424,
+        "gross_loss": 135.78766921,
+        "profit_factor": 4.331783,
+        "sharpe_like": 15.295327,
+        "sortino_like": 74.208961,
+        "final_equity": 1.98825870629594e+86,
+        "total_return": 1.98825870629594e+86,
+        "max_drawdown": -1.0,
+        "recovery_factor": 1.98825870629594e+86,
+        "expectancy": 0.3542796
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 475,
+        "win_rate": 0.562105,
+        "avg_return": 0.34891834,
+        "median_return": 0.0877775,
+        "std_return": 0.83790327,
+        "min_return": -0.69268408,
+        "max_return": 4.11704293,
+        "gross_profit": 216.97741093,
+        "gross_loss": 51.24119784,
+        "profit_factor": 4.234433,
+        "sharpe_like": 9.075629,
+        "sortino_like": 43.487504,
+        "final_equity": 5.364110617558244e+30,
+        "total_return": 5.364110617558244e+30,
+        "max_drawdown": -0.99999987,
+        "recovery_factor": 5.364111296294039e+30,
+        "expectancy": 0.34891834
+      },
+      "asset_counts": {
+        "SOL-USD": 743,
+        "ETH-USD": 291,
+        "BTC-USD": 243
+      },
+      "asset_concentration": 0.581832,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": 3.070836,
+      "passed_diversified_ranking": true
+    },
+    {
+      "hypothesis_id": "breadth_positive_72_0_5",
+      "family": "breadth",
+      "description": "Long leader when 50%+ of assets are positive over 72.",
+      "signal_asset_rule": "leader_asset_72",
+      "hold_period": 72,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "breadth_positive_72",
+          "op": ">=",
+          "value": 0.5
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 1293,
+        "win_rate": 0.573086,
+        "avg_return": 0.35152689,
+        "median_return": 0.08568239,
+        "std_return": 0.82314704,
+        "min_return": -0.69268408,
+        "max_return": 4.51286557,
+        "gross_profit": 590.50891299,
+        "gross_loss": 135.98463891,
+        "profit_factor": 4.342468,
+        "sharpe_like": 15.356081,
+        "sortino_like": 73.992501,
+        "final_equity": 1.2303905022599052e+87,
+        "total_return": 1.2303905022599052e+87,
+        "max_drawdown": -1.0,
+        "recovery_factor": 1.2303905022599052e+87,
+        "expectancy": 0.35152689
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 481,
+        "win_rate": 0.565489,
+        "avg_return": 0.34682982,
+        "median_return": 0.0877775,
+        "std_return": 0.83317842,
+        "min_return": -0.69268408,
+        "max_return": 4.11704293,
+        "gross_profit": 218.14597427,
+        "gross_loss": 51.32083177,
+        "profit_factor": 4.250632,
+        "sharpe_like": 9.129583,
+        "sortino_like": 43.509334,
+        "final_equity": 1.3341427257085372e+31,
+        "total_return": 1.3341427257085372e+31,
+        "max_drawdown": -0.99999987,
+        "recovery_factor": 1.334142894521317e+31,
+        "expectancy": 0.34682982
+      },
+      "asset_counts": {
+        "SOL-USD": 743,
+        "ETH-USD": 294,
+        "BTC-USD": 256
+      },
+      "asset_concentration": 0.574633,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": 3.061974,
+      "passed_diversified_ranking": true
+    },
+    {
+      "hypothesis_id": "breadth_dispersion_breakout_24",
+      "family": "breadth",
+      "description": "Long leader when cross-sectional spread is elevated over 24.",
+      "signal_asset_rule": "leader_asset_24",
+      "hold_period": 24,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "spread_return_24",
+          "op": ">",
+          "value": 0.30776666
+        },
+        {
+          "source": "market",
+          "feature": "breadth_positive_24",
+          "op": ">=",
+          "value": 0.5
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 489,
+        "win_rate": 0.619632,
+        "avg_return": 0.29140065,
+        "median_return": 0.11056451,
+        "std_return": 0.56605055,
+        "min_return": -0.58356319,
+        "max_return": 3.05772129,
+        "gross_profit": 174.02176016,
+        "gross_loss": 31.52683999,
+        "profit_factor": 5.519797,
+        "sharpe_like": 11.383865,
+        "sortino_like": 49.514031,
+        "final_equity": 1.1129221029791054e+37,
+        "total_return": 1.1129221029791054e+37,
+        "max_drawdown": -0.99988643,
+        "recovery_factor": 1.1130485127858055e+37,
+        "expectancy": 0.29140065
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 489,
+        "win_rate": 0.619632,
+        "avg_return": 0.29140065,
+        "median_return": 0.11056451,
+        "std_return": 0.56605055,
+        "min_return": -0.58356319,
+        "max_return": 3.05772129,
+        "gross_profit": 174.02176016,
+        "gross_loss": 31.52683999,
+        "profit_factor": 5.519797,
+        "sharpe_like": 11.383865,
+        "sortino_like": 49.514031,
+        "final_equity": 1.1129221029791038e+37,
+        "total_return": 1.1129221029791038e+37,
+        "max_drawdown": -0.99975049,
+        "recovery_factor": 1.1131998610382466e+37,
+        "expectancy": 0.29140065
+      },
+      "asset_counts": {
+        "SOL-USD": 329,
+        "ETH-USD": 93,
+        "BTC-USD": 67
+      },
+      "asset_concentration": 0.672802,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": 3.009334,
+      "passed_diversified_ranking": true
+    },
+    {
+      "hypothesis_id": "breadth_positive_72_0_8",
+      "family": "breadth",
+      "description": "Long leader when 80%+ of assets are positive over 72.",
+      "signal_asset_rule": "leader_asset_72",
+      "hold_period": 72,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "breadth_positive_72",
+          "op": ">=",
+          "value": 0.8
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 963,
+        "win_rate": 0.553479,
+        "avg_return": 0.3381266,
+        "median_return": 0.06810408,
+        "std_return": 0.8456556,
+        "min_return": -0.69268408,
+        "max_return": 4.51286557,
+        "gross_profit": 430.40989125,
+        "gross_loss": 104.79397863,
+        "profit_factor": 4.107201,
+        "sharpe_like": 12.407919,
+        "sortino_like": 60.992078,
+        "final_equity": 9.60365358774588e+58,
+        "total_return": 9.60365358774588e+58,
+        "max_drawdown": -1.0,
+        "recovery_factor": 9.60365358774588e+58,
+        "expectancy": 0.3381266
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 365,
+        "win_rate": 0.550685,
+        "avg_return": 0.33502806,
+        "median_return": 0.06706516,
+        "std_return": 0.84337297,
+        "min_return": -0.68704699,
+        "max_return": 4.11704293,
+        "gross_profit": 161.36046294,
+        "gross_loss": 39.07521931,
+        "profit_factor": 4.129483,
+        "sharpe_like": 7.589409,
+        "sortino_like": 37.073435,
+        "final_equity": 1.3893139716427649e+22,
+        "total_return": 1.3893139716427649e+22,
+        "max_drawdown": -0.9999903,
+        "recovery_factor": 1.3893274535930314e+22,
+        "expectancy": 0.33502806
+      },
+      "asset_counts": {
+        "SOL-USD": 616,
+        "ETH-USD": 233,
+        "BTC-USD": 114
+      },
+      "asset_concentration": 0.639668,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": 2.856166,
+      "passed_diversified_ranking": true
+    },
+    {
+      "hypothesis_id": "breadth_positive_72_1_0",
+      "family": "breadth",
+      "description": "Long leader when 100%+ of assets are positive over 72.",
+      "signal_asset_rule": "leader_asset_72",
+      "hold_period": 72,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "breadth_positive_72",
+          "op": ">=",
+          "value": 1.0
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 963,
+        "win_rate": 0.553479,
+        "avg_return": 0.3381266,
+        "median_return": 0.06810408,
+        "std_return": 0.8456556,
+        "min_return": -0.69268408,
+        "max_return": 4.51286557,
+        "gross_profit": 430.40989125,
+        "gross_loss": 104.79397863,
+        "profit_factor": 4.107201,
+        "sharpe_like": 12.407919,
+        "sortino_like": 60.992078,
+        "final_equity": 9.60365358774588e+58,
+        "total_return": 9.60365358774588e+58,
+        "max_drawdown": -1.0,
+        "recovery_factor": 9.60365358774588e+58,
+        "expectancy": 0.3381266
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 365,
+        "win_rate": 0.550685,
+        "avg_return": 0.33502806,
+        "median_return": 0.06706516,
+        "std_return": 0.84337297,
+        "min_return": -0.68704699,
+        "max_return": 4.11704293,
+        "gross_profit": 161.36046294,
+        "gross_loss": 39.07521931,
+        "profit_factor": 4.129483,
+        "sharpe_like": 7.589409,
+        "sortino_like": 37.073435,
+        "final_equity": 1.3893139716427649e+22,
+        "total_return": 1.3893139716427649e+22,
+        "max_drawdown": -0.9999903,
+        "recovery_factor": 1.3893274535930314e+22,
+        "expectancy": 0.33502806
+      },
+      "asset_counts": {
+        "SOL-USD": 616,
+        "ETH-USD": 233,
+        "BTC-USD": 114
+      },
+      "asset_concentration": 0.639668,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": 2.856166,
+      "passed_diversified_ranking": true
+    },
+    {
+      "hypothesis_id": "leader_persistence_288_3",
+      "family": "leadership",
+      "description": "Long leader when leadership persists for at least 3 bars over 288.",
+      "signal_asset_rule": "leader_asset_288",
+      "hold_period": 288,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "leader_persistence_288",
+          "op": ">=",
+          "value": 3
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 1643,
+        "win_rate": 0.686549,
+        "avg_return": 1.20282013,
+        "median_return": 0.28328322,
+        "std_return": 3.43295679,
+        "min_return": -0.8972573,
+        "max_return": 36.84813127,
+        "gross_profit": 2235.24187708,
+        "gross_loss": 259.00840175,
+        "profit_factor": 8.629998,
+        "sharpe_like": 14.202053,
+        "sortino_like": 149.751858,
+        "final_equity": 4.297624088753423e+152,
+        "total_return": 4.297624088753423e+152,
+        "max_drawdown": -1.0,
+        "recovery_factor": 4.297624088753423e+152,
+        "expectancy": 1.20282013
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 147,
+        "win_rate": 0.707483,
+        "avg_return": 1.31240653,
+        "median_return": 0.28879187,
+        "std_return": 3.86111753,
+        "min_return": -0.88910251,
+        "max_return": 33.20009644,
+        "gross_profit": 214.63130682,
+        "gross_loss": 21.70754631,
+        "profit_factor": 9.887405,
+        "sharpe_like": 4.121108,
+        "sortino_like": 47.765584,
+        "final_equity": 3357482092596174.0,
+        "total_return": 3357482092596173.0,
+        "max_drawdown": -1.0,
+        "recovery_factor": 3357482092596173.0,
+        "expectancy": 1.31240653
+      },
+      "asset_counts": {
+        "SOL-USD": 907,
+        "BTC-USD": 452,
+        "ETH-USD": 284
+      },
+      "asset_concentration": 0.552039,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": 2.847485,
+      "passed_diversified_ranking": true
+    },
+    {
+      "hypothesis_id": "leader_persistence_72_8",
+      "family": "leadership",
+      "description": "Long leader when leadership persists for at least 8 bars over 72.",
+      "signal_asset_rule": "leader_asset_72",
+      "hold_period": 72,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "leader_persistence_72",
+          "op": ">=",
+          "value": 8
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 1564,
+        "win_rate": 0.563299,
+        "avg_return": 0.32822797,
+        "median_return": 0.08349122,
+        "std_return": 0.79361271,
+        "min_return": -0.65616552,
+        "max_return": 5.10398235,
+        "gross_profit": 665.6321669,
+        "gross_loss": 152.28361427,
+        "profit_factor": 4.371003,
+        "sharpe_like": 16.356311,
+        "sortino_like": 85.057493,
+        "final_equity": 1.837528773039523e+103,
+        "total_return": 1.837528773039523e+103,
+        "max_drawdown": -1.0,
+        "recovery_factor": 1.837528773039523e+103,
+        "expectancy": 0.32822797
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 541,
+        "win_rate": 0.563771,
+        "avg_return": 0.33580992,
+        "median_return": 0.07920626,
+        "std_return": 0.81608332,
+        "min_return": -0.65566769,
+        "max_return": 5.07301549,
+        "gross_profit": 234.2877235,
+        "gross_loss": 52.61455533,
+        "profit_factor": 4.452907,
+        "sharpe_like": 9.571007,
+        "sortino_like": 51.649569,
+        "final_equity": 1.8922763354658966e+36,
+        "total_return": 1.8922763354658966e+36,
+        "max_drawdown": -0.9999994,
+        "recovery_factor": 1.8922774748680767e+36,
+        "expectancy": 0.33580992
+      },
+      "asset_counts": {
+        "SOL-USD": 680,
+        "BTC-USD": 521,
+        "ETH-USD": 363
+      },
+      "asset_concentration": 0.434783,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": 2.76081,
+      "passed_diversified_ranking": true
+    },
+    {
+      "hypothesis_id": "breadth_positive_288_0_5",
+      "family": "breadth",
+      "description": "Long leader when 50%+ of assets are positive over 288.",
+      "signal_asset_rule": "leader_asset_288",
+      "hold_period": 288,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "breadth_positive_288",
+          "op": ">=",
+          "value": 0.5
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 1281,
+        "win_rate": 0.654957,
+        "avg_return": 1.60210373,
+        "median_return": 0.34887528,
+        "std_return": 4.1892952,
+        "min_return": -0.8972573,
+        "max_return": 46.54075418,
+        "gross_profit": 2277.91017741,
+        "gross_loss": 225.61530547,
+        "profit_factor": 10.096435,
+        "sharpe_like": 13.687503,
+        "sortino_like": 174.000616,
+        "final_equity": 4.331188204933824e+154,
+        "total_return": 4.331188204933824e+154,
+        "max_drawdown": -1.0,
+        "recovery_factor": 4.331188204933824e+154,
+        "expectancy": 1.60210373
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 117,
+        "win_rate": 0.641026,
+        "avg_return": 1.78536725,
+        "median_return": 0.32679941,
+        "std_return": 5.21459558,
+        "min_return": -0.87210638,
+        "max_return": 46.54075418,
+        "gross_profit": 228.51332422,
+        "gross_loss": 19.62535642,
+        "profit_factor": 11.64378,
+        "sharpe_like": 3.703394,
+        "sortino_like": 56.027867,
+        "final_equity": 3067821277554490.0,
+        "total_return": 3067821277554489.0,
+        "max_drawdown": -1.0,
+        "recovery_factor": 3067821277554494.0,
+        "expectancy": 1.78536725
+      },
+      "asset_counts": {
+        "SOL-USD": 884,
+        "BTC-USD": 253,
+        "ETH-USD": 144
+      },
+      "asset_concentration": 0.690086,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": 2.73787,
+      "passed_diversified_ranking": true
+    },
+    {
+      "hypothesis_id": "breadth_positive_288_0_66",
+      "family": "breadth",
+      "description": "Long leader when 66%+ of assets are positive over 288.",
+      "signal_asset_rule": "leader_asset_288",
+      "hold_period": 288,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "breadth_positive_288",
+          "op": ">=",
+          "value": 0.66
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 1281,
+        "win_rate": 0.654957,
+        "avg_return": 1.60210373,
+        "median_return": 0.34887528,
+        "std_return": 4.1892952,
+        "min_return": -0.8972573,
+        "max_return": 46.54075418,
+        "gross_profit": 2277.91017741,
+        "gross_loss": 225.61530547,
+        "profit_factor": 10.096435,
+        "sharpe_like": 13.687503,
+        "sortino_like": 174.000616,
+        "final_equity": 4.331188204933824e+154,
+        "total_return": 4.331188204933824e+154,
+        "max_drawdown": -1.0,
+        "recovery_factor": 4.331188204933824e+154,
+        "expectancy": 1.60210373
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 117,
+        "win_rate": 0.641026,
+        "avg_return": 1.78536725,
+        "median_return": 0.32679941,
+        "std_return": 5.21459558,
+        "min_return": -0.87210638,
+        "max_return": 46.54075418,
+        "gross_profit": 228.51332422,
+        "gross_loss": 19.62535642,
+        "profit_factor": 11.64378,
+        "sharpe_like": 3.703394,
+        "sortino_like": 56.027867,
+        "final_equity": 3067821277554490.0,
+        "total_return": 3067821277554489.0,
+        "max_drawdown": -1.0,
+        "recovery_factor": 3067821277554494.0,
+        "expectancy": 1.78536725
+      },
+      "asset_counts": {
+        "SOL-USD": 884,
+        "BTC-USD": 253,
+        "ETH-USD": 144
+      },
+      "asset_concentration": 0.690086,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": 2.73787,
+      "passed_diversified_ranking": true
+    },
+    {
+      "hypothesis_id": "momentum_top_rank_24_q90",
+      "family": "momentum",
+      "description": "Long strongest-ranked asset when 24-period return is above q90 threshold.",
+      "signal_asset_rule": "asset_with_min_rank_return_24",
+      "hold_period": 24,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "asset",
+          "feature": "rank_return_24",
+          "op": "<=",
+          "value": 1
+        },
+        {
+          "source": "asset",
+          "feature": "return_24",
+          "op": ">",
+          "value": 0.37735754
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 499,
+        "win_rate": 0.581162,
+        "avg_return": 0.25858268,
+        "median_return": 0.06476467,
+        "std_return": 0.57697187,
+        "min_return": -0.58356319,
+        "max_return": 3.05772129,
+        "gross_profit": 161.88172654,
+        "gross_loss": 32.84897098,
+        "profit_factor": 4.928061,
+        "sharpe_like": 10.011406,
+        "sortino_like": 46.564044,
+        "final_equity": 7.8852013019618595e+31,
+        "total_return": 7.8852013019618595e+31,
+        "max_drawdown": -0.99991817,
+        "recovery_factor": 7.8858466240842105e+31,
+        "expectancy": 0.25858268
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 499,
+        "win_rate": 0.581162,
+        "avg_return": 0.25858268,
+        "median_return": 0.06476467,
+        "std_return": 0.57697187,
+        "min_return": -0.58356319,
+        "max_return": 3.05772129,
+        "gross_profit": 161.88172654,
+        "gross_loss": 32.84897098,
+        "profit_factor": 4.928061,
+        "sharpe_like": 10.011406,
+        "sortino_like": 46.564044,
+        "final_equity": 7.8852013019618595e+31,
+        "total_return": 7.8852013019618595e+31,
+        "max_drawdown": -0.99991817,
+        "recovery_factor": 7.8858466240842105e+31,
+        "expectancy": 0.25858268
+      },
+      "asset_counts": {
+        "SOL-USD": 354,
+        "ETH-USD": 121,
+        "BTC-USD": 24
+      },
+      "asset_concentration": 0.709419,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": 2.600498,
+      "passed_diversified_ranking": true
+    },
+    {
+      "hypothesis_id": "leader_persistence_72_3",
+      "family": "leadership",
+      "description": "Long leader when leadership persists for at least 3 bars over 72.",
+      "signal_asset_rule": "leader_asset_72",
+      "hold_period": 72,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "leader_persistence_72",
+          "op": ">=",
+          "value": 3
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 1887,
+        "win_rate": 0.54902,
+        "avg_return": 0.32845432,
+        "median_return": 0.06732441,
+        "std_return": 0.83528513,
+        "min_return": -0.69268408,
+        "max_return": 5.10398235,
+        "gross_profit": 810.73686039,
+        "gross_loss": 190.9435544,
+        "profit_factor": 4.24595,
+        "sharpe_like": 17.081507,
+        "sortino_like": 90.935677,
+        "final_equity": 2.3166925046266906e+117,
+        "total_return": 2.3166925046266906e+117,
+        "max_drawdown": -1.0,
+        "recovery_factor": 2.3166925046266906e+117,
+        "expectancy": 0.32845432
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 656,
+        "win_rate": 0.547256,
+        "avg_return": 0.32521952,
+        "median_return": 0.06028692,
+        "std_return": 0.84701745,
+        "min_return": -0.65743227,
+        "max_return": 5.10398235,
+        "gross_profit": 280.62251453,
+        "gross_loss": 67.27850662,
+        "profit_factor": 4.171057,
+        "sharpe_like": 9.834135,
+        "sortino_like": 53.035257,
+        "final_equity": 3.224683348423849e+39,
+        "total_return": 3.224683348423849e+39,
+        "max_drawdown": -0.99999999,
+        "recovery_factor": 3.224683388957876e+39,
+        "expectancy": 0.32521952
+      },
+      "asset_counts": {
+        "SOL-USD": 799,
+        "BTC-USD": 636,
+        "ETH-USD": 452
+      },
+      "asset_concentration": 0.423423,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": 2.579702,
+      "passed_diversified_ranking": true
+    },
+    {
+      "hypothesis_id": "momentum_top_rank_288_q50",
+      "family": "momentum",
+      "description": "Long strongest-ranked asset when 288-period return is above q50 threshold.",
+      "signal_asset_rule": "asset_with_min_rank_return_288",
+      "hold_period": 288,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "asset",
+          "feature": "rank_return_288",
+          "op": "<=",
+          "value": 1
+        },
+        {
+          "source": "asset",
+          "feature": "return_288",
+          "op": ">",
+          "value": 0.40586234
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 1265,
+        "win_rate": 0.61502,
+        "avg_return": 1.54489779,
+        "median_return": 0.22159383,
+        "std_return": 4.23333667,
+        "min_return": -0.8972573,
+        "max_return": 46.54075418,
+        "gross_profit": 2205.61915894,
+        "gross_loss": 251.32345798,
+        "profit_factor": 8.776018,
+        "sharpe_like": 12.979627,
+        "sortino_like": 169.65761,
+        "final_equity": 4.643847036676135e+113,
+        "total_return": 4.643847036676135e+113,
+        "max_drawdown": -1.0,
+        "recovery_factor": 4.643847036676135e+113,
+        "expectancy": 1.54489779
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 116,
+        "win_rate": 0.62931,
+        "avg_return": 1.74666448,
+        "median_return": 0.24194536,
+        "std_return": 5.24841925,
+        "min_return": -0.8902004,
+        "max_return": 46.54075418,
+        "gross_profit": 223.71295161,
+        "gross_loss": 21.09987166,
+        "profit_factor": 10.602574,
+        "sharpe_like": 3.584346,
+        "sortino_like": 56.099465,
+        "final_equity": 9816745968239.28,
+        "total_return": 9816745968238.28,
+        "max_drawdown": -1.0,
+        "recovery_factor": 9816745968238.281,
+        "expectancy": 1.74666448
+      },
+      "asset_counts": {
+        "SOL-USD": 911,
+        "BTC-USD": 213,
+        "ETH-USD": 141
+      },
+      "asset_concentration": 0.720158,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": 2.316572,
+      "passed_diversified_ranking": true
+    },
+    {
+      "hypothesis_id": "momentum_top_rank_24_q75",
+      "family": "momentum",
+      "description": "Long strongest-ranked asset when 24-period return is above q75 threshold.",
+      "signal_asset_rule": "asset_with_min_rank_return_24",
+      "hold_period": 24,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "asset",
+          "feature": "rank_return_24",
+          "op": "<=",
+          "value": 1
+        },
+        {
+          "source": "asset",
+          "feature": "return_24",
+          "op": ">",
+          "value": 0.16576223
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 966,
+        "win_rate": 0.599379,
+        "avg_return": 0.21540491,
+        "median_return": 0.07143862,
+        "std_return": 0.51316056,
+        "min_return": -0.58356319,
+        "max_return": 3.30193358,
+        "gross_profit": 264.87509688,
+        "gross_loss": 56.79395188,
+        "profit_factor": 4.663791,
+        "sharpe_like": 13.046406,
+        "sortino_like": 59.277847,
+        "final_equity": 7.834578087605058e+53,
+        "total_return": 7.834578087605058e+53,
+        "max_drawdown": -0.99997457,
+        "recovery_factor": 7.834777311920615e+53,
+        "expectancy": 0.21540491
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 966,
+        "win_rate": 0.599379,
+        "avg_return": 0.21540491,
+        "median_return": 0.07143862,
+        "std_return": 0.51316056,
+        "min_return": -0.58356319,
+        "max_return": 3.30193358,
+        "gross_profit": 264.87509688,
+        "gross_loss": 56.79395188,
+        "profit_factor": 4.663791,
+        "sharpe_like": 13.046406,
+        "sortino_like": 59.277847,
+        "final_equity": 7.834578087605058e+53,
+        "total_return": 7.834578087605058e+53,
+        "max_drawdown": -0.99997457,
+        "recovery_factor": 7.834777311920615e+53,
+        "expectancy": 0.21540491
+      },
+      "asset_counts": {
+        "SOL-USD": 545,
+        "ETH-USD": 291,
+        "BTC-USD": 130
+      },
+      "asset_concentration": 0.564182,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": 2.157424,
+      "passed_diversified_ranking": true
+    },
+    {
+      "hypothesis_id": "breadth_positive_24_0_8",
+      "family": "breadth",
+      "description": "Long leader when 80%+ of assets are positive over 24.",
+      "signal_asset_rule": "leader_asset_24",
+      "hold_period": 24,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "breadth_positive_24",
+          "op": ">=",
+          "value": 0.8
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 773,
+        "win_rate": 0.600259,
+        "avg_return": 0.19508403,
+        "median_return": 0.06175504,
+        "std_return": 0.4778882,
+        "min_return": -0.58356319,
+        "max_return": 3.30193358,
+        "gross_profit": 193.51751281,
+        "gross_loss": 42.71755678,
+        "profit_factor": 4.530163,
+        "sharpe_like": 11.34972,
+        "sortino_like": 46.967731,
+        "final_equity": 4.9476938241208347e+39,
+        "total_return": 4.9476938241208347e+39,
+        "max_drawdown": -0.99964748,
+        "recovery_factor": 4.9494386181818137e+39,
+        "expectancy": 0.19508403
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 773,
+        "win_rate": 0.600259,
+        "avg_return": 0.19508403,
+        "median_return": 0.06175504,
+        "std_return": 0.4778882,
+        "min_return": -0.58356319,
+        "max_return": 3.30193358,
+        "gross_profit": 193.51751281,
+        "gross_loss": 42.71755678,
+        "profit_factor": 4.530163,
+        "sharpe_like": 11.34972,
+        "sortino_like": 46.967731,
+        "final_equity": 4.947693824120829e+39,
+        "total_return": 4.947693824120829e+39,
+        "max_drawdown": -0.99963797,
+        "recovery_factor": 4.9494856862364563e+39,
+        "expectancy": 0.19508403
+      },
+      "asset_counts": {
+        "SOL-USD": 426,
+        "ETH-USD": 251,
+        "BTC-USD": 96
+      },
+      "asset_concentration": 0.5511,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": 1.938854,
+      "passed_diversified_ranking": true
+    },
+    {
+      "hypothesis_id": "breadth_positive_24_1_0",
+      "family": "breadth",
+      "description": "Long leader when 100%+ of assets are positive over 24.",
+      "signal_asset_rule": "leader_asset_24",
+      "hold_period": 24,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "breadth_positive_24",
+          "op": ">=",
+          "value": 1.0
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 773,
+        "win_rate": 0.600259,
+        "avg_return": 0.19508403,
+        "median_return": 0.06175504,
+        "std_return": 0.4778882,
+        "min_return": -0.58356319,
+        "max_return": 3.30193358,
+        "gross_profit": 193.51751281,
+        "gross_loss": 42.71755678,
+        "profit_factor": 4.530163,
+        "sharpe_like": 11.34972,
+        "sortino_like": 46.967731,
+        "final_equity": 4.9476938241208347e+39,
+        "total_return": 4.9476938241208347e+39,
+        "max_drawdown": -0.99964748,
+        "recovery_factor": 4.9494386181818137e+39,
+        "expectancy": 0.19508403
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 773,
+        "win_rate": 0.600259,
+        "avg_return": 0.19508403,
+        "median_return": 0.06175504,
+        "std_return": 0.4778882,
+        "min_return": -0.58356319,
+        "max_return": 3.30193358,
+        "gross_profit": 193.51751281,
+        "gross_loss": 42.71755678,
+        "profit_factor": 4.530163,
+        "sharpe_like": 11.34972,
+        "sortino_like": 46.967731,
+        "final_equity": 4.947693824120829e+39,
+        "total_return": 4.947693824120829e+39,
+        "max_drawdown": -0.99963797,
+        "recovery_factor": 4.9494856862364563e+39,
+        "expectancy": 0.19508403
+      },
+      "asset_counts": {
+        "SOL-USD": 426,
+        "ETH-USD": 251,
+        "BTC-USD": 96
+      },
+      "asset_concentration": 0.5511,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": 1.938854,
+      "passed_diversified_ranking": true
+    },
+    {
+      "hypothesis_id": "breadth_positive_24_0_66",
+      "family": "breadth",
+      "description": "Long leader when 66%+ of assets are positive over 24.",
+      "signal_asset_rule": "leader_asset_24",
+      "hold_period": 24,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "breadth_positive_24",
+          "op": ">=",
+          "value": 0.66
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 1229,
+        "win_rate": 0.581774,
+        "avg_return": 0.16999515,
+        "median_return": 0.0483497,
+        "std_return": 0.45858596,
+        "min_return": -0.58356319,
+        "max_return": 3.30193358,
+        "gross_profit": 281.45244887,
+        "gross_loss": 72.52841449,
+        "profit_factor": 3.880582,
+        "sharpe_like": 12.995462,
+        "sortino_like": 52.67548,
+        "final_equity": 3.2554434039800026e+53,
+        "total_return": 3.2554434039800026e+53,
+        "max_drawdown": -0.9999966,
+        "recovery_factor": 3.255454468045765e+53,
+        "expectancy": 0.16999515
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 1229,
+        "win_rate": 0.581774,
+        "avg_return": 0.16999515,
+        "median_return": 0.0483497,
+        "std_return": 0.45858596,
+        "min_return": -0.58356319,
+        "max_return": 3.30193358,
+        "gross_profit": 281.45244887,
+        "gross_loss": 72.52841449,
+        "profit_factor": 3.880582,
+        "sharpe_like": 12.995462,
+        "sortino_like": 52.67548,
+        "final_equity": 3.255443403979992e+53,
+        "total_return": 3.255443403979992e+53,
+        "max_drawdown": -0.99999986,
+        "recovery_factor": 3.255443854374052e+53,
+        "expectancy": 0.16999515
+      },
+      "asset_counts": {
+        "SOL-USD": 627,
+        "ETH-USD": 367,
+        "BTC-USD": 235
+      },
+      "asset_concentration": 0.510171,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": 1.569537,
+      "passed_diversified_ranking": true
+    },
+    {
+      "hypothesis_id": "breadth_positive_24_0_5",
+      "family": "breadth",
+      "description": "Long leader when 50%+ of assets are positive over 24.",
+      "signal_asset_rule": "leader_asset_24",
+      "hold_period": 24,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "breadth_positive_24",
+          "op": ">=",
+          "value": 0.5
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 1239,
+        "win_rate": 0.577078,
+        "avg_return": 0.16523842,
+        "median_return": 0.04657066,
+        "std_return": 0.45977621,
+        "min_return": -0.58356319,
+        "max_return": 3.30193358,
+        "gross_profit": 281.45244887,
+        "gross_loss": 76.72204853,
+        "profit_factor": 3.668469,
+        "sharpe_like": 12.650281,
+        "sortino_like": 49.107398,
+        "final_equity": 1.3952450219667235e+51,
+        "total_return": 1.3952450219667235e+51,
+        "max_drawdown": -0.99999792,
+        "recovery_factor": 1.3952479309438986e+51,
+        "expectancy": 0.16523842
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 1239,
+        "win_rate": 0.577078,
+        "avg_return": 0.16523842,
+        "median_return": 0.04657066,
+        "std_return": 0.45977621,
+        "min_return": -0.58356319,
+        "max_return": 3.30193358,
+        "gross_profit": 281.45244887,
+        "gross_loss": 76.72204853,
+        "profit_factor": 3.668469,
+        "sharpe_like": 12.650281,
+        "sortino_like": 49.107398,
+        "final_equity": 1.3952450219667227e+51,
+        "total_return": 1.3952450219667227e+51,
+        "max_drawdown": -0.99999986,
+        "recovery_factor": 1.3952452150003565e+51,
+        "expectancy": 0.16523842
+      },
+      "asset_counts": {
+        "SOL-USD": 627,
+        "ETH-USD": 377,
+        "BTC-USD": 235
+      },
+      "asset_concentration": 0.506053,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": 1.47794,
+      "passed_diversified_ranking": true
+    },
+    {
+      "hypothesis_id": "momentum_top_rank_24_q50",
+      "family": "momentum",
+      "description": "Long strongest-ranked asset when 24-period return is above q50 threshold.",
+      "signal_asset_rule": "asset_with_min_rank_return_24",
+      "hold_period": 24,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "asset",
+          "feature": "rank_return_24",
+          "op": "<=",
+          "value": 1
+        },
+        {
+          "source": "asset",
+          "feature": "return_24",
+          "op": ">",
+          "value": 0.01105646
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 1455,
+        "win_rate": 0.565636,
+        "avg_return": 0.15017769,
+        "median_return": 0.039166,
+        "std_return": 0.44793902,
+        "min_return": -0.58356319,
+        "max_return": 3.30193358,
+        "gross_profit": 308.51396894,
+        "gross_loss": 90.00542696,
+        "profit_factor": 3.427726,
+        "sharpe_like": 12.788453,
+        "sortino_like": 48.882505,
+        "final_equity": 2.2650503305753825e+53,
+        "total_return": 2.2650503305753825e+53,
+        "max_drawdown": -0.99999992,
+        "recovery_factor": 2.265050514964396e+53,
+        "expectancy": 0.15017769
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 1455,
+        "win_rate": 0.565636,
+        "avg_return": 0.15017769,
+        "median_return": 0.039166,
+        "std_return": 0.44793902,
+        "min_return": -0.58356319,
+        "max_return": 3.30193358,
+        "gross_profit": 308.51396894,
+        "gross_loss": 90.00542696,
+        "profit_factor": 3.427726,
+        "sharpe_like": 12.788453,
+        "sortino_like": 48.882505,
+        "final_equity": 2.2650503305753825e+53,
+        "total_return": 2.2650503305753825e+53,
+        "max_drawdown": -0.99999992,
+        "recovery_factor": 2.265050514964396e+53,
+        "expectancy": 0.15017769
+      },
+      "asset_counts": {
+        "SOL-USD": 727,
+        "ETH-USD": 411,
+        "BTC-USD": 317
+      },
+      "asset_concentration": 0.499656,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": 1.27254,
+      "passed_diversified_ranking": true
+    },
+    {
+      "hypothesis_id": "leader_persistence_24_8",
+      "family": "leadership",
+      "description": "Long leader when leadership persists for at least 8 bars over 24.",
+      "signal_asset_rule": "leader_asset_24",
+      "hold_period": 24,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "leader_persistence_24",
+          "op": ">=",
+          "value": 8
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 1252,
+        "win_rate": 0.532748,
+        "avg_return": 0.11230451,
+        "median_return": 0.01309896,
+        "std_return": 0.42910034,
+        "min_return": -0.58356319,
+        "max_return": 3.30193358,
+        "gross_profit": 227.07687048,
+        "gross_loss": 86.47161984,
+        "profit_factor": 2.626028,
+        "sharpe_like": 9.26063,
+        "sortino_like": 32.503012,
+        "final_equity": 4.613294316724081e+28,
+        "total_return": 4.613294316724081e+28,
+        "max_drawdown": -1.0,
+        "recovery_factor": 4.613294316733769e+28,
+        "expectancy": 0.11230451
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 1252,
+        "win_rate": 0.532748,
+        "avg_return": 0.11230451,
+        "median_return": 0.01309896,
+        "std_return": 0.42910034,
+        "min_return": -0.58356319,
+        "max_return": 3.30193358,
+        "gross_profit": 227.07687048,
+        "gross_loss": 86.47161984,
+        "profit_factor": 2.626028,
+        "sharpe_like": 9.26063,
+        "sortino_like": 32.503012,
+        "final_equity": 4.613294316724083e+28,
+        "total_return": 4.613294316724083e+28,
+        "max_drawdown": -1.0,
+        "recovery_factor": 4.613294316727732e+28,
+        "expectancy": 0.11230451
+      },
+      "asset_counts": {
+        "SOL-USD": 510,
+        "BTC-USD": 434,
+        "ETH-USD": 308
+      },
+      "asset_concentration": 0.407348,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": 0.769811,
+      "passed_diversified_ranking": true
+    },
+    {
+      "hypothesis_id": "leader_persistence_24_3",
+      "family": "leadership",
+      "description": "Long leader when leadership persists for at least 3 bars over 24.",
+      "signal_asset_rule": "leader_asset_24",
+      "hold_period": 24,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "leader_persistence_24",
+          "op": ">=",
+          "value": 3
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 1807,
+        "win_rate": 0.541782,
+        "avg_return": 0.10574193,
+        "median_return": 0.01697669,
+        "std_return": 0.40073709,
+        "min_return": -0.58356319,
+        "max_return": 3.30193358,
+        "gross_profit": 306.95368938,
+        "gross_loss": 115.8780179,
+        "profit_factor": 2.648938,
+        "sharpe_like": 11.216743,
+        "sortino_like": 39.502117,
+        "final_equity": 7.521948426798039e+41,
+        "total_return": 7.521948426798039e+41,
+        "max_drawdown": -1.0,
+        "recovery_factor": 7.521948426798044e+41,
+        "expectancy": 0.10574193
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 1807,
+        "win_rate": 0.541782,
+        "avg_return": 0.10574193,
+        "median_return": 0.01697669,
+        "std_return": 0.40073709,
+        "min_return": -0.58356319,
+        "max_return": 3.30193358,
+        "gross_profit": 306.95368938,
+        "gross_loss": 115.8780179,
+        "profit_factor": 2.648938,
+        "sharpe_like": 11.216743,
+        "sortino_like": 39.502117,
+        "final_equity": 7.521948426798053e+41,
+        "total_return": 7.521948426798053e+41,
+        "max_drawdown": -1.0,
+        "recovery_factor": 7.521948427770453e+41,
+        "expectancy": 0.10574193
+      },
+      "asset_counts": {
+        "SOL-USD": 689,
+        "BTC-USD": 652,
+        "ETH-USD": 466
+      },
+      "asset_concentration": 0.381295,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": 0.737341,
+      "passed_diversified_ranking": true
+    },
+    {
+      "hypothesis_id": "topology_high_correlation_leader_288",
+      "family": "topology",
+      "description": "Long 288-period leader when average absolute correlation is high.",
+      "signal_asset_rule": "leader_asset_288",
+      "hold_period": 288,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "avg_abs_corr",
+          "op": ">",
+          "value": 0.83144717
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 348,
+        "win_rate": 0.485632,
+        "avg_return": -0.13383913,
+        "median_return": -0.06563266,
+        "std_return": 0.50461953,
+        "min_return": -0.89198904,
+        "max_return": 0.87624338,
+        "gross_profit": 55.67226164,
+        "gross_loss": 102.24827898,
+        "profit_factor": 0.544481,
+        "sharpe_like": -4.947761,
+        "sortino_like": -9.375265,
+        "final_equity": 0.0,
+        "total_return": -1.0,
+        "max_drawdown": -1.0,
+        "recovery_factor": -1.0,
+        "expectancy": -0.13383913
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 39,
+        "win_rate": 0.589744,
+        "avg_return": -0.04926305,
+        "median_return": 0.0822683,
+        "std_return": 0.50968194,
+        "min_return": -0.87278694,
+        "max_return": 0.87624338,
+        "gross_profit": 7.49239661,
+        "gross_loss": 9.4136557,
+        "profit_factor": 0.795907,
+        "sharpe_like": -0.603607,
+        "sortino_like": -1.218675,
+        "final_equity": 1.302e-05,
+        "total_return": -0.99998698,
+        "max_drawdown": -0.99999977,
+        "recovery_factor": -0.999987,
+        "expectancy": -0.04926305
+      },
+      "asset_counts": {
+        "BTC-USD": 139,
+        "SOL-USD": 110,
+        "ETH-USD": 99
+      },
+      "asset_concentration": 0.399425,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": -250.04926305,
+      "passed_diversified_ranking": false
+    },
+    {
+      "hypothesis_id": "breadth_dispersion_breakout_72",
+      "family": "breadth",
+      "description": "Long leader when cross-sectional spread is elevated over 72.",
+      "signal_asset_rule": "leader_asset_72",
+      "hold_period": 72,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "spread_return_72",
+          "op": ">",
+          "value": 0.59725206
+        },
+        {
+          "source": "market",
+          "feature": "breadth_positive_72",
+          "op": ">=",
+          "value": 0.5
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 539,
+        "win_rate": 0.688312,
+        "avg_return": 0.57517605,
+        "median_return": 0.42641687,
+        "std_return": 0.91212905,
+        "min_return": -0.6210063,
+        "max_return": 4.51286557,
+        "gross_profit": 363.20494878,
+        "gross_loss": 53.18505519,
+        "profit_factor": 6.829079,
+        "sharpe_like": 14.639926,
+        "sortino_like": 92.434936,
+        "final_equity": 2.5182620427055498e+69,
+        "total_return": 2.5182620427055498e+69,
+        "max_drawdown": -1.0,
+        "recovery_factor": 2.5182620427055662e+69,
+        "expectancy": 0.57517605
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 193,
+        "win_rate": 0.683938,
+        "avg_return": 0.59054397,
+        "median_return": 0.42341803,
+        "std_return": 0.91129042,
+        "min_return": -0.597942,
+        "max_return": 4.11704293,
+        "gross_profit": 132.60916341,
+        "gross_loss": 18.63417814,
+        "profit_factor": 7.116448,
+        "sharpe_like": 9.002727,
+        "sortino_like": 54.851128,
+        "final_equity": 4.709778677292126e+25,
+        "total_return": 4.709778677292126e+25,
+        "max_drawdown": -0.99998839,
+        "recovery_factor": 4.709833358515189e+25,
+        "expectancy": 0.59054397
+      },
+      "asset_counts": {
+        "SOL-USD": 407,
+        "ETH-USD": 72,
+        "BTC-USD": 60
+      },
+      "asset_concentration": 0.755102,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": -500.005102,
+      "passed_diversified_ranking": false
+    },
+    {
+      "hypothesis_id": "breadth_positive_288_0_8",
+      "family": "breadth",
+      "description": "Long leader when 80%+ of assets are positive over 288.",
+      "signal_asset_rule": "leader_asset_288",
+      "hold_period": 288,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "breadth_positive_288",
+          "op": ">=",
+          "value": 0.8
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 983,
+        "win_rate": 0.685656,
+        "avg_return": 2.00766686,
+        "median_return": 0.5534458,
+        "std_return": 4.68531341,
+        "min_return": -0.89198904,
+        "max_return": 46.54075418,
+        "gross_profit": 2129.02107613,
+        "gross_loss": 155.48455757,
+        "profit_factor": 13.692814,
+        "sharpe_like": 13.434755,
+        "sortino_like": 191.413822,
+        "final_equity": 6.0502755891698286e+171,
+        "total_return": 6.0502755891698286e+171,
+        "max_drawdown": -1.0,
+        "recovery_factor": 6.0502755891698286e+171,
+        "expectancy": 2.00766686
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 94,
+        "win_rate": 0.648936,
+        "avg_return": 2.14921472,
+        "median_return": 0.52904836,
+        "std_return": 5.75003574,
+        "min_return": -0.8902004,
+        "max_return": 46.54075418,
+        "gross_profit": 216.45455259,
+        "gross_loss": 14.42836912,
+        "profit_factor": 15.002011,
+        "sharpe_like": 3.623875,
+        "sortino_like": 59.012094,
+        "final_equity": 2.272482962805182e+16,
+        "total_return": 2.272482962805182e+16,
+        "max_drawdown": -1.0,
+        "recovery_factor": 2.272482962828894e+16,
+        "expectancy": 2.14921472
+      },
+      "asset_counts": {
+        "SOL-USD": 802,
+        "ETH-USD": 108,
+        "BTC-USD": 73
+      },
+      "asset_concentration": 0.81587,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": -500.06587,
+      "passed_diversified_ranking": false
+    },
+    {
+      "hypothesis_id": "breadth_positive_288_1_0",
+      "family": "breadth",
+      "description": "Long leader when 100%+ of assets are positive over 288.",
+      "signal_asset_rule": "leader_asset_288",
+      "hold_period": 288,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "breadth_positive_288",
+          "op": ">=",
+          "value": 1.0
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 983,
+        "win_rate": 0.685656,
+        "avg_return": 2.00766686,
+        "median_return": 0.5534458,
+        "std_return": 4.68531341,
+        "min_return": -0.89198904,
+        "max_return": 46.54075418,
+        "gross_profit": 2129.02107613,
+        "gross_loss": 155.48455757,
+        "profit_factor": 13.692814,
+        "sharpe_like": 13.434755,
+        "sortino_like": 191.413822,
+        "final_equity": 6.0502755891698286e+171,
+        "total_return": 6.0502755891698286e+171,
+        "max_drawdown": -1.0,
+        "recovery_factor": 6.0502755891698286e+171,
+        "expectancy": 2.00766686
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 94,
+        "win_rate": 0.648936,
+        "avg_return": 2.14921472,
+        "median_return": 0.52904836,
+        "std_return": 5.75003574,
+        "min_return": -0.8902004,
+        "max_return": 46.54075418,
+        "gross_profit": 216.45455259,
+        "gross_loss": 14.42836912,
+        "profit_factor": 15.002011,
+        "sharpe_like": 3.623875,
+        "sortino_like": 59.012094,
+        "final_equity": 2.272482962805182e+16,
+        "total_return": 2.272482962805182e+16,
+        "max_drawdown": -1.0,
+        "recovery_factor": 2.272482962828894e+16,
+        "expectancy": 2.14921472
+      },
+      "asset_counts": {
+        "SOL-USD": 802,
+        "ETH-USD": 108,
+        "BTC-USD": 73
+      },
+      "asset_concentration": 0.81587,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": -500.06587,
+      "passed_diversified_ranking": false
+    },
+    {
+      "hypothesis_id": "momentum_top_rank_72_q90",
+      "family": "momentum",
+      "description": "Long strongest-ranked asset when 72-period return is above q90 threshold.",
+      "signal_asset_rule": "asset_with_min_rank_return_72",
+      "hold_period": 72,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "asset",
+          "feature": "rank_return_72",
+          "op": "<=",
+          "value": 1
+        },
+        {
+          "source": "asset",
+          "feature": "return_72",
+          "op": ">",
+          "value": 0.84247967
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 482,
+        "win_rate": 0.665975,
+        "avg_return": 0.49523579,
+        "median_return": 0.35950884,
+        "std_return": 0.89370474,
+        "min_return": -0.6210063,
+        "max_return": 4.51286557,
+        "gross_profit": 287.06714768,
+        "gross_loss": 48.36349898,
+        "profit_factor": 5.935616,
+        "sharpe_like": 12.165823,
+        "sortino_like": 68.397324,
+        "final_equity": 1.0485663992436283e+52,
+        "total_return": 1.0485663992436283e+52,
+        "max_drawdown": -1.0,
+        "recovery_factor": 1.0485663992436429e+52,
+        "expectancy": 0.49523579
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 176,
+        "win_rate": 0.647727,
+        "avg_return": 0.50941244,
+        "median_return": 0.33081011,
+        "std_return": 0.88971216,
+        "min_return": -0.597942,
+        "max_return": 4.11704293,
+        "gross_profit": 106.90227903,
+        "gross_loss": 17.24568899,
+        "profit_factor": 6.198783,
+        "sharpe_like": 7.59585,
+        "sortino_like": 41.283984,
+        "final_equity": 5.634306449872421e+19,
+        "total_return": 5.634306449872421e+19,
+        "max_drawdown": -0.99996806,
+        "recovery_factor": 5.634486428779256e+19,
+        "expectancy": 0.50941244
+      },
+      "asset_counts": {
+        "SOL-USD": 412,
+        "ETH-USD": 49,
+        "BTC-USD": 21
+      },
+      "asset_concentration": 0.854772,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": -500.104772,
+      "passed_diversified_ranking": false
+    },
+    {
+      "hypothesis_id": "momentum_top_rank_288_q75",
+      "family": "momentum",
+      "description": "Long strongest-ranked asset when 288-period return is above q75 threshold.",
+      "signal_asset_rule": "asset_with_min_rank_return_288",
+      "hold_period": 288,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "asset",
+          "feature": "rank_return_288",
+          "op": "<=",
+          "value": 1
+        },
+        {
+          "source": "asset",
+          "feature": "return_288",
+          "op": ">",
+          "value": 1.40348587
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 809,
+        "win_rate": 0.599506,
+        "avg_return": 1.88068833,
+        "median_return": 0.32428743,
+        "std_return": 5.05960322,
+        "min_return": -0.8972573,
+        "max_return": 46.54075418,
+        "gross_profit": 1716.93106656,
+        "gross_loss": 195.45420966,
+        "profit_factor": 8.784314,
+        "sharpe_like": 10.572425,
+        "sortino_like": 175.532751,
+        "final_equity": 1.4531250808391087e+60,
+        "total_return": 1.4531250808391087e+60,
+        "max_drawdown": -1.0,
+        "recovery_factor": 1.4531250808391087e+60,
+        "expectancy": 1.88068833
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 74,
+        "win_rate": 0.608108,
+        "avg_return": 2.20442813,
+        "median_return": 0.4455649,
+        "std_return": 6.38496288,
+        "min_return": -0.88239532,
+        "max_return": 46.54075418,
+        "gross_profit": 180.73055695,
+        "gross_loss": 17.60287527,
+        "profit_factor": 10.267104,
+        "sharpe_like": 2.969979,
+        "sortino_like": 60.50041,
+        "final_equity": 5849588.90712151,
+        "total_return": 5849587.90712151,
+        "max_drawdown": -1.0,
+        "recovery_factor": 5849587.907122,
+        "expectancy": 2.20442813
+      },
+      "asset_counts": {
+        "SOL-USD": 724,
+        "ETH-USD": 84,
+        "BTC-USD": 1
+      },
+      "asset_concentration": 0.894932,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": -500.144932,
+      "passed_diversified_ranking": false
+    },
+    {
+      "hypothesis_id": "momentum_top_rank_288_q90",
+      "family": "momentum",
+      "description": "Long strongest-ranked asset when 288-period return is above q90 threshold.",
+      "signal_asset_rule": "asset_with_min_rank_return_288",
+      "hold_period": 288,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "asset",
+          "feature": "rank_return_288",
+          "op": "<=",
+          "value": 1
+        },
+        {
+          "source": "asset",
+          "feature": "return_288",
+          "op": ">",
+          "value": 6.20529955
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 465,
+        "win_rate": 0.554839,
+        "avg_return": 2.52234656,
+        "median_return": 0.26688097,
+        "std_return": 6.36062632,
+        "min_return": -0.87432117,
+        "max_return": 46.54075418,
+        "gross_profit": 1297.25711745,
+        "gross_loss": 124.36596867,
+        "profit_factor": 10.430965,
+        "sharpe_like": 8.551284,
+        "sortino_like": 182.681708,
+        "final_equity": 1.9016009260506706e+41,
+        "total_return": 1.9016009260506706e+41,
+        "max_drawdown": -1.0,
+        "recovery_factor": 1.9016009260506706e+41,
+        "expectancy": 2.52234656
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 43,
+        "win_rate": 0.511628,
+        "avg_return": 2.88294428,
+        "median_return": 0.14032452,
+        "std_return": 8.11325575,
+        "min_return": -0.85644456,
+        "max_return": 46.54075418,
+        "gross_profit": 134.86067342,
+        "gross_loss": 10.8940693,
+        "profit_factor": 12.379274,
+        "sharpe_like": 2.330104,
+        "sortino_like": 55.933096,
+        "final_equity": 29601.41926479,
+        "total_return": 29600.41926479,
+        "max_drawdown": -1.0,
+        "recovery_factor": 29600.419335,
+        "expectancy": 2.88294428
+      },
+      "asset_counts": {
+        "SOL-USD": 438,
+        "ETH-USD": 27
+      },
+      "asset_concentration": 0.941935,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": -500.191935,
+      "passed_diversified_ranking": false
+    },
+    {
+      "hypothesis_id": "breadth_dispersion_breakout_288",
+      "family": "breadth",
+      "description": "Long leader when cross-sectional spread is elevated over 288.",
+      "signal_asset_rule": "leader_asset_288",
+      "hold_period": 288,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "spread_return_288",
+          "op": ">",
+          "value": 4.21572345
+        },
+        {
+          "source": "market",
+          "feature": "breadth_positive_288",
+          "op": ">=",
+          "value": 0.5
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 499,
+        "win_rate": 0.527054,
+        "avg_return": 2.06298463,
+        "median_return": 0.06585338,
+        "std_return": 5.70655,
+        "min_return": -0.87432117,
+        "max_return": 40.52157704,
+        "gross_profit": 1160.06023816,
+        "gross_loss": 130.63090977,
+        "profit_factor": 8.880442,
+        "sharpe_like": 8.07556,
+        "sortino_like": 145.235626,
+        "final_equity": 7.572034361907252e+22,
+        "total_return": 7.572034361907252e+22,
+        "max_drawdown": -1.0,
+        "recovery_factor": 7.572034361907252e+22,
+        "expectancy": 2.06298463
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 44,
+        "win_rate": 0.545455,
+        "avg_return": 2.55062397,
+        "median_return": 0.10916104,
+        "std_return": 7.3574843,
+        "min_return": -0.85558538,
+        "max_return": 40.52157704,
+        "gross_profit": 123.17920086,
+        "gross_loss": 10.95174621,
+        "profit_factor": 11.247448,
+        "sharpe_like": 2.299553,
+        "sortino_like": 50.776276,
+        "final_equity": 1156.04190088,
+        "total_return": 1155.04190088,
+        "max_drawdown": -1.0,
+        "recovery_factor": 1155.041903,
+        "expectancy": 2.55062397
+      },
+      "asset_counts": {
+        "SOL-USD": 499
+      },
+      "asset_concentration": 1.0,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": -500.25,
+      "passed_diversified_ranking": false
+    },
+    {
+      "hypothesis_id": "leadership_rotation_breakout_24",
+      "family": "leadership",
+      "description": "Long new leader after leadership rotation with elevated spread over 24.",
+      "signal_asset_rule": "leader_asset_24",
+      "hold_period": 24,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "leader_changed_24",
+          "op": "==",
+          "value": 1
+        },
+        {
+          "source": "market",
+          "feature": "leader_laggard_spread_24",
+          "op": ">",
+          "value": 0.30776666
+        }
+      ],
+      "passed_min_trades": true,
+      "metrics": {
+        "trade_count": 17,
+        "win_rate": 0.529412,
+        "avg_return": 0.17309346,
+        "median_return": 0.03046275,
+        "std_return": 0.51995221,
+        "min_return": -0.35514805,
+        "max_return": 1.65925162,
+        "gross_profit": 4.52999291,
+        "gross_loss": 1.58740409,
+        "profit_factor": 2.853711,
+        "sharpe_like": 1.372593,
+        "sortino_like": 4.996722,
+        "final_equity": 4.0432292,
+        "total_return": 3.0432292,
+        "max_drawdown": -0.84282704,
+        "recovery_factor": 3.61074,
+        "expectancy": 0.17309346
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 17,
+        "win_rate": 0.529412,
+        "avg_return": 0.17309346,
+        "median_return": 0.03046275,
+        "std_return": 0.51995221,
+        "min_return": -0.35514805,
+        "max_return": 1.65925162,
+        "gross_profit": 4.52999291,
+        "gross_loss": 1.58740409,
+        "profit_factor": 2.853711,
+        "sharpe_like": 1.372593,
+        "sortino_like": 4.996722,
+        "final_equity": 4.0432292,
+        "total_return": 3.0432292,
+        "max_drawdown": -0.70266524,
+        "recovery_factor": 4.33098,
+        "expectancy": 0.17309346
+      },
+      "asset_counts": {
+        "BTC-USD": 7,
+        "ETH-USD": 6,
+        "SOL-USD": 4
+      },
+      "asset_concentration": 0.411765,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": -999.0,
+      "passed_diversified_ranking": false
+    },
+    {
+      "hypothesis_id": "leadership_rotation_breakout_72",
+      "family": "leadership",
+      "description": "Long new leader after leadership rotation with elevated spread over 72.",
+      "signal_asset_rule": "leader_asset_72",
+      "hold_period": 72,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "leader_changed_72",
+          "op": "==",
+          "value": 1
+        },
+        {
+          "source": "market",
+          "feature": "leader_laggard_spread_72",
+          "op": ">",
+          "value": 0.59725206
+        }
+      ],
+      "passed_min_trades": false,
+      "metrics": {
+        "trade_count": 4,
+        "win_rate": 1.0,
+        "avg_return": 1.92550633,
+        "median_return": 1.82943586,
+        "std_return": 1.66039655,
+        "min_return": 0.30168203,
+        "max_return": 3.74147156,
+        "gross_profit": 7.70202531,
+        "gross_loss": 0.0,
+        "profit_factor": null,
+        "sharpe_like": 2.319333,
+        "sortino_like": null,
+        "final_equity": 42.25786566,
+        "total_return": 41.25786566,
+        "max_drawdown": 0.0,
+        "recovery_factor": null,
+        "expectancy": 1.92550633
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 4,
+        "win_rate": 1.0,
+        "avg_return": 1.92550633,
+        "median_return": 1.82943586,
+        "std_return": 1.66039655,
+        "min_return": 0.30168203,
+        "max_return": 3.74147156,
+        "gross_profit": 7.70202531,
+        "gross_loss": 0.0,
+        "profit_factor": null,
+        "sharpe_like": 2.319333,
+        "sortino_like": null,
+        "final_equity": 42.25786566,
+        "total_return": 41.25786566,
+        "max_drawdown": 0.0,
+        "recovery_factor": null,
+        "expectancy": 1.92550633
+      },
+      "asset_counts": {
+        "ETH-USD": 2,
+        "SOL-USD": 2
+      },
+      "asset_concentration": 0.5,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": -999.0,
+      "passed_diversified_ranking": false
+    },
+    {
+      "hypothesis_id": "leadership_rotation_breakout_288",
+      "family": "leadership",
+      "description": "Long new leader after leadership rotation with elevated spread over 288.",
+      "signal_asset_rule": "leader_asset_288",
+      "hold_period": 288,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "leader_changed_288",
+          "op": "==",
+          "value": 1
+        },
+        {
+          "source": "market",
+          "feature": "leader_laggard_spread_288",
+          "op": ">",
+          "value": 4.21572345
+        }
+      ],
+      "passed_min_trades": false,
+      "metrics": {
+        "trade_count": 0,
+        "win_rate": null,
+        "avg_return": null,
+        "median_return": null,
+        "std_return": null,
+        "min_return": null,
+        "max_return": null,
+        "gross_profit": null,
+        "gross_loss": null,
+        "profit_factor": null,
+        "sharpe_like": null,
+        "sortino_like": null,
+        "final_equity": null,
+        "total_return": null,
+        "max_drawdown": null,
+        "recovery_factor": null,
+        "expectancy": null
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 0,
+        "win_rate": null,
+        "avg_return": null,
+        "median_return": null,
+        "std_return": null,
+        "min_return": null,
+        "max_return": null,
+        "gross_profit": null,
+        "gross_loss": null,
+        "profit_factor": null,
+        "sharpe_like": null,
+        "sortino_like": null,
+        "final_equity": null,
+        "total_return": null,
+        "max_drawdown": null,
+        "recovery_factor": null,
+        "expectancy": null
+      },
+      "asset_counts": {},
+      "asset_concentration": 0.0,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": -999.0,
+      "passed_diversified_ranking": false
+    },
+    {
+      "hypothesis_id": "topology_high_density_leader_72",
+      "family": "topology",
+      "description": "Long 72-period leader when correlation graph density is high.",
+      "signal_asset_rule": "leader_asset_72",
+      "hold_period": 72,
+      "direction": "LONG",
+      "conditions": [
+        {
+          "source": "market",
+          "feature": "graph_density",
+          "op": ">",
+          "value": 1.0
+        }
+      ],
+      "passed_min_trades": false,
+      "metrics": {
+        "trade_count": 0,
+        "win_rate": null,
+        "avg_return": null,
+        "median_return": null,
+        "std_return": null,
+        "min_return": null,
+        "max_return": null,
+        "gross_profit": null,
+        "gross_loss": null,
+        "profit_factor": null,
+        "sharpe_like": null,
+        "sortino_like": null,
+        "final_equity": null,
+        "total_return": null,
+        "max_drawdown": null,
+        "recovery_factor": null,
+        "expectancy": null
+      },
+      "non_overlapping_metrics": {
+        "trade_count": 0,
+        "win_rate": null,
+        "avg_return": null,
+        "median_return": null,
+        "std_return": null,
+        "min_return": null,
+        "max_return": null,
+        "gross_profit": null,
+        "gross_loss": null,
+        "profit_factor": null,
+        "sharpe_like": null,
+        "sortino_like": null,
+        "final_equity": null,
+        "total_return": null,
+        "max_drawdown": null,
+        "recovery_factor": null,
+        "expectancy": null
+      },
+      "asset_counts": {},
+      "asset_concentration": 0.0,
+      "ranking_version": "diversified_v1_2",
+      "ranking_constraints": {
+        "min_non_overlap_trades": 30,
+        "max_asset_concentration": 0.75,
+        "requires_positive_non_overlap_avg": true
+      },
+      "alpha_score": -999.0,
+      "passed_diversified_ranking": false
+    }
+  ],
+  "summary": "Alpha Backtesting Engine evaluated 36 hypothesis/hypotheses. Top hypothesis: topology_low_density_leader_72."
+}

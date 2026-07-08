@@ -1,0 +1,166 @@
+[
+  {
+    "success": true,
+    "hypothesis_id": "topology_low_density_leader_72",
+    "metrics": {
+      "hypothesis_id": "topology_low_density_leader_72",
+      "family": "topology",
+      "alpha_score": 5.893153,
+      "passed_min_trades": true,
+      "description": "Long 72-period leader when correlation graph density is low.",
+      "signal_asset_rule": "leader_asset_72",
+      "hold_period": 72,
+      "direction": "LONG",
+      "raw_trade_count": 633,
+      "raw_win_rate": 0.71406,
+      "raw_avg_return": 0.59543661,
+      "raw_median_return": 0.43922732,
+      "raw_std_return": 0.94337678,
+      "raw_min_return": -0.6210063,
+      "raw_max_return": 4.51286557,
+      "raw_gross_profit": 437.97926935,
+      "raw_gross_loss": 61.06789698,
+      "raw_profit_factor": 7.172005,
+      "raw_sharpe_like": 15.880062,
+      "raw_sortino_like": 96.82851,
+      "raw_final_equity": 2.580135297976385e+83,
+      "raw_total_return": 2.580135297976385e+83,
+      "raw_max_drawdown": -1.0,
+      "raw_recovery_factor": 2.580135297976385e+83,
+      "raw_expectancy": 0.59543661,
+      "non_overlap_trade_count": 224,
+      "non_overlap_win_rate": 0.714286,
+      "non_overlap_avg_return": 0.60674584,
+      "non_overlap_median_return": 0.43690368,
+      "non_overlap_std_return": 0.96703104,
+      "non_overlap_min_return": -0.60272562,
+      "non_overlap_max_return": 4.11704293,
+      "non_overlap_gross_profit": 157.75035464,
+      "non_overlap_gross_loss": 21.83928691,
+      "non_overlap_profit_factor": 7.223237,
+      "non_overlap_sharpe_like": 9.390536,
+      "non_overlap_sortino_like": 55.581647,
+      "non_overlap_final_equity": 4.468510344726137e+29,
+      "non_overlap_total_return": 4.468510344726137e+29,
+      "non_overlap_max_drawdown": -0.99999828,
+      "non_overlap_recovery_factor": 4.468518012997959e+29,
+      "non_overlap_expectancy": 0.60674584,
+      "asset_concentration": 0.663507
+    },
+    "validation": {
+      "rolling": {
+        "success": true,
+        "window_days": 180,
+        "window_count": 6,
+        "positive_window_count": 4,
+        "stability_score": 0.666667,
+        "windows": [
+          {
+            "start": "2020-04-16 00:00:00",
+            "end": "2020-10-13 00:00:00",
+            "trade_count": 173,
+            "win_rate": 0.583815,
+            "avg_return": 0.30413655,
+            "median_return": 0.12843734
+          },
+          {
+            "start": "2020-10-13 00:00:00",
+            "end": "2021-04-11 00:00:00",
+            "trade_count": 180,
+            "win_rate": 0.961111,
+            "avg_return": 1.36148751,
+            "median_return": 1.12467626
+          },
+          {
+            "start": "2021-04-11 00:00:00",
+            "end": "2021-10-08 00:00:00",
+            "trade_count": 116,
+            "win_rate": 0.715517,
+            "avg_return": 0.4182402,
+            "median_return": 0.22989124
+          },
+          {
+            "start": "2021-10-08 00:00:00",
+            "end": "2022-04-06 00:00:00",
+            "trade_count": 65,
+            "win_rate": 0.184615,
+            "avg_return": -0.266692,
+            "median_return": -0.32745271
+          },
+          {
+            "start": "2023-09-28 00:00:00",
+            "end": "2024-03-26 00:00:00",
+            "trade_count": 88,
+            "win_rate": 0.920455,
+            "avg_return": 0.57268402,
+            "median_return": 0.59719416
+          },
+          {
+            "start": "2024-09-22 00:00:00",
+            "end": "2025-03-21 00:00:00",
+            "trade_count": 11,
+            "win_rate": 0.181818,
+            "avg_return": -0.21355272,
+            "median_return": -0.1911468
+          }
+        ]
+      },
+      "regime": {
+        "success": true,
+        "regimes": {},
+        "regime_score": 0.5,
+        "note": "No regime labels on trade rows; neutral regime score assigned."
+      },
+      "outliers": {
+        "success": true,
+        "base_mean": 0.59543661,
+        "tests": {
+          "remove_top_1pct": {
+            "cutoff": 3.96636418,
+            "remaining_count": 626,
+            "trimmed_mean": 0.55569744,
+            "mean_retention_ratio": 0.93326
+          },
+          "remove_top_5pct": {
+            "cutoff": 2.31854359,
+            "remaining_count": 601,
+            "trimmed_mean": 0.44825246,
+            "mean_retention_ratio": 0.752813
+          },
+          "remove_top_10pct": {
+            "cutoff": 1.80299269,
+            "remaining_count": 569,
+            "trimmed_mean": 0.35953067,
+            "mean_retention_ratio": 0.60381
+          }
+        },
+        "outlier_score": 0.763295
+      },
+      "robustness": {
+        "success": true,
+        "trade_count": 633,
+        "asset_counts": {
+          "SOL-USD": 420,
+          "BTC-USD": 123,
+          "ETH-USD": 90
+        },
+        "asset_concentration": 0.663507,
+        "sample_score": 1.0,
+        "concentration_score": 0.672986,
+        "robustness_score": 0.861058
+      }
+    },
+    "confidence": {
+      "success": true,
+      "alpha_confidence": 0.710976,
+      "confidence_label": "promising_alpha_candidate",
+      "components": {
+        "rolling_stability": 0.666667,
+        "regime_score": 0.5,
+        "outlier_score": 0.763295,
+        "robustness_score": 0.861058
+      }
+    },
+    "promoted": true
+  }
+]
