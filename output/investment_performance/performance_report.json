@@ -1,0 +1,62 @@
+{
+  "success": true,
+  "summary": "Performance Engine marked 2 risky position(s). Current equity: 92268.76. PnL: -7731.24.",
+  "positions": {
+    "position_count": 2,
+    "risky_weight": 0.41436,
+    "cash_weight": 0.508328
+  },
+  "pnl": {
+    "initial_equity": 100000.0,
+    "current_equity": 92268.76,
+    "pnl": -7731.24,
+    "pnl_pct": -0.077312
+  },
+  "benchmark": {
+    "benchmark": "equal_weight_BTC_ETH_SOL",
+    "status": "placeholder",
+    "note": "Benchmark return tracking will be enabled once historical portfolio snapshots are accumulated."
+  },
+  "attribution": [
+    {
+      "asset": "BTC-USD",
+      "side": "LONG",
+      "weight": 0.223536,
+      "value": 22353.6,
+      "portfolio_share": 0.242266,
+      "cost_drag": 0.00044797
+    },
+    {
+      "asset": "ETH-USD",
+      "side": "LONG",
+      "weight": 0.190824,
+      "value": 19082.36,
+      "portfolio_share": 0.206813,
+      "cost_drag": 0.00038241
+    },
+    {
+      "asset": "CASH",
+      "side": "CASH",
+      "weight": 0.508328,
+      "value": 50832.8,
+      "portfolio_share": 0.550921,
+      "cost_drag": 0.0
+    }
+  ],
+  "snapshot": {
+    "timestamp": "2026-07-08T22:16:30.458325+00:00",
+    "position_count": 2,
+    "risky_weight": 0.41436,
+    "cash_weight": 0.508328,
+    "initial_equity": 100000.0,
+    "current_equity": 92268.76,
+    "pnl": -7731.24,
+    "pnl_pct": -0.077312
+  },
+  "outputs": {
+    "json": "output\\investment_performance\\performance_report.json",
+    "markdown": "output\\investment_performance\\performance_report.md",
+    "snapshots_csv": "output\\investment_performance\\performance_snapshots.csv",
+    "attribution_csv": "output\\investment_performance\\performance_attribution.csv"
+  }
+}
