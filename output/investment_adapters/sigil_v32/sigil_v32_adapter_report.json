@@ -1,0 +1,42 @@
+{
+  "success": true,
+  "sigil_root": "C:\\Projects\\sigil-engine-git",
+  "engine_state_rows": 2,
+  "combined_decision_rows": 1,
+  "snapshot_rows": 1,
+  "strategy_signal_count": 2,
+  "signals": [
+    {
+      "source": "sigil_v32",
+      "engine": "ENGINE_A_PULLBACK_CONTINUATION",
+      "asset": "SOL",
+      "timestamp": "2024-12-31 23:45:00+00:00",
+      "signal_state": "IDLE",
+      "action": "NO_ACTION",
+      "direction": "FLAT",
+      "target_exposure": 0.0,
+      "entry_ready": false,
+      "setup_active": false,
+      "notes": "No valid Engine A setup on the latest bar."
+    },
+    {
+      "source": "sigil_v32",
+      "engine": "ENGINE_B_FAILED_OPENING_EXPANSION",
+      "asset": "SOL",
+      "timestamp": "2024-12-31 23:45:00+00:00",
+      "signal_state": "IDLE",
+      "action": "NO_ACTION",
+      "direction": "FLAT",
+      "target_exposure": 0.0,
+      "entry_ready": false,
+      "setup_active": false,
+      "notes": "No valid Engine B setup on the latest bar."
+    }
+  ],
+  "summary": "Sigil V32 adapter translated 2 engine state row(s) from C:\\Projects\\sigil-engine-git.",
+  "outputs": {
+    "signals_csv": "output\\investment_adapters\\sigil_v32\\sigil_v32_strategy_signals.csv",
+    "json": "output\\investment_adapters\\sigil_v32\\sigil_v32_adapter_report.json",
+    "markdown": "output\\investment_adapters\\sigil_v32\\sigil_v32_adapter_report.md"
+  }
+}
