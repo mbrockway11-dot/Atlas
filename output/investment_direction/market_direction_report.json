@@ -1,0 +1,29 @@
+{
+  "success": true,
+  "summary": "Market Direction Engine classified market as LONG with confidence 0.939394.",
+  "vote": {
+    "success": true,
+    "direction": "LONG",
+    "confidence": 0.939394,
+    "long_score": 1.549999,
+    "short_score": 0.0,
+    "flat_score": 0.1,
+    "total_score": 1.649999,
+    "long_count": 6,
+    "short_count": 0,
+    "flat_count": 2
+  },
+  "exposure": {
+    "market_direction": "LONG",
+    "direction_confidence": 0.939394,
+    "target_net_exposure": 0.8,
+    "target_cash_weight": 0.2,
+    "exposure_label": "aggressive_long"
+  },
+  "signal_count": 8,
+  "outputs": {
+    "json": "output\\investment_direction\\market_direction_report.json",
+    "markdown": "output\\investment_direction\\market_direction_report.md",
+    "input_signals_csv": "output\\investment_direction\\market_direction_input_signals.csv"
+  }
+}
