@@ -1,0 +1,105 @@
+{
+  "success": true,
+  "summary": "Execution Planner built 4 planned position row(s) and 4 order intent row(s).",
+  "decision": {
+    "final_direction": "LONG",
+    "final_confidence": 0.923258,
+    "target_net_exposure": 0.738606,
+    "target_cash_weight": 0.261394,
+    "risk_label": "high_conviction_risk"
+  },
+  "plan": [
+    {
+      "asset": "BTC-USD",
+      "planned_weight": 0.336476,
+      "side": "LONG",
+      "action": "BUY_OR_HOLD",
+      "priority": 1,
+      "alpha_score": 0.68333333,
+      "rank_label": "highest_conviction",
+      "reason": "Scaled portfolio allocation to Decision Engine target exposure 0.738606.",
+      "execution_gate": "OPEN",
+      "gate_reason": "No execution adapter signal for asset."
+    },
+    {
+      "asset": "ETH-USD",
+      "planned_weight": 0.287236,
+      "side": "LONG",
+      "action": "BUY_OR_HOLD",
+      "priority": 2,
+      "alpha_score": 0.58333333,
+      "rank_label": "portfolio_candidate",
+      "reason": "Scaled portfolio allocation to Decision Engine target exposure 0.738606.",
+      "execution_gate": "OPEN",
+      "gate_reason": "No execution adapter signal for asset."
+    },
+    {
+      "asset": "SOL-USD",
+      "planned_weight": 0.114894,
+      "side": "LONG",
+      "action": "BUY_OR_HOLD",
+      "priority": 3,
+      "alpha_score": 0.23333333,
+      "rank_label": "portfolio_candidate",
+      "reason": "Scaled portfolio allocation to Decision Engine target exposure 0.738606.",
+      "execution_gate": "WAIT",
+      "gate_reason": "Execution engines are idle; wait for structure confirmation."
+    },
+    {
+      "asset": "CASH",
+      "planned_weight": 0.261394,
+      "side": "CASH",
+      "action": "HOLD_CASH",
+      "priority": 999,
+      "alpha_score": 0.0,
+      "rank_label": "cash_reserve",
+      "reason": "Residual cash after risk-adjusted execution sizing.",
+      "execution_gate": "OPEN",
+      "gate_reason": "Cash row."
+    }
+  ],
+  "orders": [
+    {
+      "asset": "BTC-USD",
+      "side": "LONG",
+      "planned_weight": 0.336476,
+      "order_action": "BUY",
+      "execution_gate": "OPEN",
+      "priority": 1,
+      "reason": "No execution adapter signal for asset."
+    },
+    {
+      "asset": "ETH-USD",
+      "side": "LONG",
+      "planned_weight": 0.287236,
+      "order_action": "BUY",
+      "execution_gate": "OPEN",
+      "priority": 2,
+      "reason": "No execution adapter signal for asset."
+    },
+    {
+      "asset": "SOL-USD",
+      "side": "LONG",
+      "planned_weight": 0.114894,
+      "order_action": "WAIT",
+      "execution_gate": "WAIT",
+      "priority": 3,
+      "reason": "Execution engines are idle; wait for structure confirmation."
+    },
+    {
+      "asset": "CASH",
+      "side": "CASH",
+      "planned_weight": 0.261394,
+      "order_action": "NO_ORDER",
+      "execution_gate": "OPEN",
+      "priority": 999,
+      "reason": "Cash row."
+    }
+  ],
+  "outputs": {
+    "plan_csv": "output\\investment_execution\\execution_plan.csv",
+    "orders_csv": "output\\investment_execution\\execution_order_intents.csv",
+    "json": "output\\investment_execution\\execution_planner_report.json",
+    "markdown": "output\\investment_execution\\execution_planner_report.md"
+  }
+}
