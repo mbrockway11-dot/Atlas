@@ -1,6 +1,6 @@
 # Portfolio State Report
 
-Portfolio State updated from paper_broker_v2. Equity=100000.0, risky=0.41519, cash=0.58481, reserved=0.0, direction=LONG.
+Portfolio State updated from mark_to_market_v2. Equity=100000.0, risky=0.41519, cash=0.58481, reserved=0.0, direction=LONG.
 
 ## Equity
 
@@ -9,7 +9,11 @@ Portfolio State updated from paper_broker_v2. Equity=100000.0, risky=0.41519, ca
   "current_equity": 100000.0,
   "initial_equity": 100000.0,
   "pnl": 0.0,
-  "pnl_pct": 0.0
+  "pnl_pct": 0.0,
+  "drawdown": 0.0,
+  "cash": 58481.0,
+  "market_value": 41519.0,
+  "rolling_high": 100000.0
 }
 ```
 

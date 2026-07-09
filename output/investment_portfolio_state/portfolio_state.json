@@ -1,16 +1,20 @@
 {
   "success": true,
-  "summary": "Portfolio State updated from paper_broker_v2. Equity=100000.0, risky=0.41519, cash=0.58481, reserved=0.0, direction=LONG.",
+  "summary": "Portfolio State updated from mark_to_market_v2. Equity=100000.0, risky=0.41519, cash=0.58481, reserved=0.0, direction=LONG.",
   "state": {
     "success": true,
-    "timestamp": "2026-07-09T07:17:03.154581+00:00",
+    "timestamp": "2026-07-09T08:16:33.408898+00:00",
     "mode": "paper",
-    "state_source": "paper_broker_v2",
+    "state_source": "mark_to_market_v2",
     "equity": {
       "current_equity": 100000.0,
       "initial_equity": 100000.0,
       "pnl": 0.0,
-      "pnl_pct": 0.0
+      "pnl_pct": 0.0,
+      "drawdown": 0.0,
+      "cash": 58481.0,
+      "market_value": 41519.0,
+      "rolling_high": 100000.0
     },
     "exposure": {
       "risky_weight": 0.41519,
@@ -32,7 +36,13 @@
         "paper_value": 22398.4,
         "side": "LONG",
         "cost_drag": 0.0,
-        "status": "OPEN_FROM_PAPER_BROKER_FILL"
+        "status": "OPEN_FROM_MARK_TO_MARKET",
+        "quantity": 0.3309802793376643,
+        "avg_entry_price": 67672.9140625,
+        "current_price": 67672.9140625,
+        "cost_basis": 22398.4,
+        "unrealized_pnl": 0.0,
+        "unrealized_pnl_pct": 0.0
       },
       {
         "asset": "ETH-USD",
@@ -40,7 +50,13 @@
         "paper_value": 19120.6,
         "side": "LONG",
         "cost_drag": 0.0,
-        "status": "OPEN_FROM_PAPER_BROKER_FILL"
+        "status": "OPEN_FROM_MARK_TO_MARKET",
+        "quantity": 9.257533890990432,
+        "avg_entry_price": 2065.40966796875,
+        "current_price": 2065.40966796875,
+        "cost_basis": 19120.6,
+        "unrealized_pnl": 0.0,
+        "unrealized_pnl_pct": 0.0
       },
       {
         "asset": "CASH",
@@ -48,7 +64,13 @@
         "paper_value": 58481.0,
         "side": "CASH",
         "cost_drag": 0.0,
-        "status": "AVAILABLE_CASH"
+        "status": "AVAILABLE_CASH_FROM_MTM",
+        "quantity": NaN,
+        "avg_entry_price": NaN,
+        "current_price": NaN,
+        "cost_basis": NaN,
+        "unrealized_pnl": NaN,
+        "unrealized_pnl_pct": NaN
       }
     ],
     "pending_orders": [
