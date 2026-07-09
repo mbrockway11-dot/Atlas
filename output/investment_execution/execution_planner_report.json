@@ -1,67 +1,16 @@
 {
   "success": true,
-  "version": "execution_planner_v2",
-  "summary": "Execution Planner v2 built 2 rebalance-driven planned order row(s). Open=2, blocked=0.",
-  "source": "rebalance_orders",
-  "plan_rows": 2,
-  "open_count": 2,
-  "blocked_count": 0,
-  "planned_positions": [
-    {
-      "asset": "BTC-USD",
-      "side": "LONG",
-      "planned_weight": 0.153647,
-      "signed_delta": 0.153647,
-      "order_action": "BUY",
-      "execution_gate": "OPEN",
-      "priority": 1,
-      "source": "rebalance_engine_v3",
-      "order_type": "REBALANCE_INTENT",
-      "risk_label": "low_risk",
-      "reason": "Optimize current MTM portfolio toward risk-adjusted target portfolio."
-    },
-    {
-      "asset": "ETH-USD",
-      "side": "LONG",
-      "planned_weight": 0.131163,
-      "signed_delta": 0.131163,
-      "order_action": "BUY",
-      "execution_gate": "OPEN",
-      "priority": 2,
-      "source": "rebalance_engine_v3",
-      "order_type": "REBALANCE_INTENT",
-      "risk_label": "low_risk",
-      "reason": "Optimize current MTM portfolio toward risk-adjusted target portfolio."
-    }
-  ],
-  "order_intents": [
-    {
-      "asset": "BTC-USD",
-      "side": "LONG",
-      "planned_weight": 0.153647,
-      "signed_delta": 0.153647,
-      "order_action": "BUY",
-      "execution_gate": "OPEN",
-      "priority": 1,
-      "source": "rebalance_engine_v3",
-      "order_type": "REBALANCE_INTENT",
-      "risk_label": "low_risk",
-      "reason": "Optimize current MTM portfolio toward risk-adjusted target portfolio."
-    },
-    {
-      "asset": "ETH-USD",
-      "side": "LONG",
-      "planned_weight": 0.131163,
-      "signed_delta": 0.131163,
-      "order_action": "BUY",
-      "execution_gate": "OPEN",
-      "priority": 2,
-      "source": "rebalance_engine_v3",
-      "order_type": "REBALANCE_INTENT",
-      "risk_label": "low_risk",
-      "reason": "Optimize current MTM portfolio toward risk-adjusted target portfolio."
-    }
-  ],
+  "version": "execution_planner_v3",
+  "planner_status": "NO_REBALANCE_NEEDED",
+  "summary": "Execution Planner v3 found no rebalance orders. Portfolio already matches target allocation.",
+  "text_summary": "Execution Planner v3 found no rebalance orders. Portfolio already matches target allocation.",
+  "counts": {
+    "open_orders": 0,
+    "blocked_orders": 0,
+    "total_orders": 0
+  },
+  "rebalance_turnover": 0,
+  "planned_orders": [],
   "outputs": {
     "plan_csv": "output\\investment_execution\\execution_plan.csv",
     "orders_csv": "output\\investment_execution\\execution_order_intents.csv",

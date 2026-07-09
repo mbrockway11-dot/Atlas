@@ -1,3 +1,1 @@
-asset,side,planned_weight,signed_delta,order_action,execution_gate,priority,source,order_type,risk_label,reason
-BTC-USD,LONG,0.153647,0.153647,BUY,OPEN,1,rebalance_engine_v3,REBALANCE_INTENT,low_risk,Optimize current MTM portfolio toward risk-adjusted target portfolio.
-ETH-USD,LONG,0.131163,0.131163,BUY,OPEN,2,rebalance_engine_v3,REBALANCE_INTENT,low_risk,Optimize current MTM portfolio toward risk-adjusted target portfolio.
+asset,side,planned_weight,signed_delta,order_action,execution_gate,priority,source,order_type,reason

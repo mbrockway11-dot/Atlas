@@ -1,8 +1,9 @@
-# Execution Planner v2 Report
+# Execution Planner v3 Report
 
-Execution Planner v2 built 2 rebalance-driven planned order row(s). Open=2, blocked=0.
+Execution Planner v3 found no rebalance orders. Portfolio already matches target allocation.
 
-## Order Intents
+Planner status: `NO_REBALANCE_NEEDED`
 
-- `BTC-USD` action=`BUY` weight=`0.153647` gate=`OPEN`
-- `ETH-USD` action=`BUY` weight=`0.131163` gate=`OPEN`
+## Planned Orders
+
+No rebalance needed. No execution order intents generated.
