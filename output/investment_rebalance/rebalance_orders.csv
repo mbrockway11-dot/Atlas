@@ -1,0 +1,2 @@
+asset,rebalance_action,weight_delta,signed_delta,current_weight,target_weight,reason
+SOL-USD,BUY,0.076482,0.076482,0.0,0.076482,Rebalance current portfolio toward risk-adjusted target portfolio.
