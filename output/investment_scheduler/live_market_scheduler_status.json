@@ -1,0 +1,11 @@
+{
+  "run_id": 1,
+  "started": "2026-07-09T03:28:46.704362+00:00",
+  "ended": "2026-07-09T03:30:11.563507+00:00",
+  "success": true,
+  "returncode": 0,
+  "command": "C:\\Projects\\Atlas\\.venv\\Scripts\\python.exe scripts/daily_investment_runbook.py",
+  "mode": "paper_only",
+  "stdout_tail": "RUNNING market_features...\nOK\nRUNNING alpha_hypotheses...\nOK\nRUNNING alpha_backtests...\nOK\nRUNNING alpha_validation...\nOK\nRUNNING alpha_ensemble...\nOK\nRUNNING cross_sectional_ranker...\nOK\nRUNNING alpha_portfolio...\nOK\nRUNNING sigil_v32_adapter...\nOK\nRUNNING strategy_registry...\nOK\nRUNNING adaptive_weighting...\nOK\nRUNNING market_direction...\nOK\nRUNNING decision_engine...\nOK\nRUNNING execution_planner...\nOK\nRUNNING execution_simulator...\nOK\nRUNNING paper_trading...\nOK\nRUNNING performance...\nOK\nRUNNING learning...\nOK\nRUNNING trade_safety...\nOK\nRUNNING broker_interface...\nOK\nTrue\nDaily Investment Runbook completed 19 step(s). Decision: LONG confidence=0.819455 target_exposure=0.491673. Simulated filled weight=0.41519 cash=0.508328 cost_drag=0.00083038.\nJSON: output\\investment_runbook\\daily_investment_runbook.json\nMarkdown: output\\investment_runbook\\daily_investment_runbook.md\n",
+  "stderr_tail": ""
+}
