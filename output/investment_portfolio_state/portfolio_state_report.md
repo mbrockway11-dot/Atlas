@@ -1,15 +1,15 @@
 # Portfolio State Report
 
-Portfolio State updated. Equity=99916.96, risky=0.41436, cash=0.508328, reserved=0.076482, direction=LONG.
+Portfolio State updated from paper_broker_v2. Equity=100000.0, risky=0.83038, cash=0.16962, reserved=0.0, direction=LONG.
 
 ## Equity
 
 ```json
 {
-  "current_equity": 99916.96,
+  "current_equity": 100000.0,
   "initial_equity": 100000.0,
-  "pnl": -83.04,
-  "pnl_pct": -0.00083
+  "pnl": 0.0,
+  "pnl_pct": 0.0
 }
 ```
 
@@ -17,17 +17,16 @@ Portfolio State updated. Equity=99916.96, risky=0.41436, cash=0.508328, reserved
 
 ```json
 {
-  "risky_weight": 0.41436,
-  "cash_weight": 0.508328,
-  "reserved_cash_weight": 0.076482,
-  "gross_exposure": 0.41436,
-  "net_exposure": 0.41436
+  "risky_weight": 0.83038,
+  "cash_weight": 0.16962,
+  "reserved_cash_weight": 0.0,
+  "gross_exposure": 0.83038,
+  "net_exposure": 0.83038
 }
 ```
 
 ## Holdings
 
-- `BTC-USD` side=`LONG` weight=`0.223536` value=`22353.6`
-- `ETH-USD` side=`LONG` weight=`0.190824` value=`19082.36`
-- `RESERVED_CASH` side=`CASH` weight=`0.076482` value=`7648.2`
-- `CASH` side=`CASH` weight=`0.508328` value=`50832.8`
+- `BTC-USD` side=`LONG` weight=`0.447968` value=`44796.8`
+- `ETH-USD` side=`LONG` weight=`0.382412` value=`38241.2`
+- `CASH` side=`CASH` weight=`0.16962` value=`16962.0`

@@ -1,22 +1,23 @@
 {
   "success": true,
-  "summary": "Portfolio State updated. Equity=99916.96, risky=0.41436, cash=0.508328, reserved=0.076482, direction=LONG.",
+  "summary": "Portfolio State updated from paper_broker_v2. Equity=100000.0, risky=0.83038, cash=0.16962, reserved=0.0, direction=LONG.",
   "state": {
     "success": true,
-    "timestamp": "2026-07-09T03:47:59.522931+00:00",
+    "timestamp": "2026-07-09T07:00:49.924790+00:00",
     "mode": "paper",
+    "state_source": "paper_broker_v2",
     "equity": {
-      "current_equity": 99916.96,
+      "current_equity": 100000.0,
       "initial_equity": 100000.0,
-      "pnl": -83.04,
-      "pnl_pct": -0.00083
+      "pnl": 0.0,
+      "pnl_pct": 0.0
     },
     "exposure": {
-      "risky_weight": 0.41436,
-      "cash_weight": 0.508328,
-      "reserved_cash_weight": 0.076482,
-      "gross_exposure": 0.41436,
-      "net_exposure": 0.41436
+      "risky_weight": 0.83038,
+      "cash_weight": 0.16962,
+      "reserved_cash_weight": 0.0,
+      "gross_exposure": 0.83038,
+      "net_exposure": 0.83038
     },
     "decision": {
       "direction": "LONG",
@@ -27,32 +28,24 @@
     "holdings": [
       {
         "asset": "BTC-USD",
-        "paper_weight": 0.223536,
-        "paper_value": 22353.6,
+        "paper_weight": 0.447968,
+        "paper_value": 44796.8,
         "side": "LONG",
-        "cost_drag": 0.00044797,
-        "status": "OPEN_PAPER_POSITION"
+        "cost_drag": 0.0,
+        "status": "OPEN_FROM_PAPER_BROKER_FILL"
       },
       {
         "asset": "ETH-USD",
-        "paper_weight": 0.190824,
-        "paper_value": 19082.36,
+        "paper_weight": 0.382412,
+        "paper_value": 38241.2,
         "side": "LONG",
-        "cost_drag": 0.00038241,
-        "status": "OPEN_PAPER_POSITION"
-      },
-      {
-        "asset": "RESERVED_CASH",
-        "paper_weight": 0.076482,
-        "paper_value": 7648.2,
-        "side": "CASH",
         "cost_drag": 0.0,
-        "status": "PENDING_EXECUTION_RESERVE"
+        "status": "OPEN_FROM_PAPER_BROKER_FILL"
       },
       {
         "asset": "CASH",
-        "paper_weight": 0.508328,
-        "paper_value": 50832.8,
+        "paper_weight": 0.16962,
+        "paper_value": 16962.0,
         "side": "CASH",
         "cost_drag": 0.0,
         "status": "AVAILABLE_CASH"
@@ -78,107 +71,75 @@
     ],
     "ledger_tail": [
       {
-        "timestamp": "2026-07-08T22:03:21.468030+00:00",
+        "filled_at": "2026-07-09T06:29:26.516121+00:00",
+        "execution_batch_id": "e3b77cf9-3aa1-482b-b561-24af70dad67f",
+        "idempotency_key": "e3b77cf9-3aa1-482b-b561-24af70dad67f:BTC-USD:LONG:BUY:0.223984",
         "asset": "BTC-USD",
         "side": "LONG",
-        "order_action": "BUY",
-        "paper_weight": 0.223984,
-        "fee_drag": 0.00017919,
-        "slippage_drag": 0.00026878,
-        "total_cost_drag": 0.00044797,
-        "status": "PAPER_FILLED",
-        "reason": "No execution adapter signal for asset."
+        "action": "BUY",
+        "requested_weight": 0.223984,
+        "filled_weight": 0.223984,
+        "fill_status": "PAPER_FILLED",
+        "broker": "paper",
+        "route": "paper_execution_route",
+        "risk_label": "low_risk",
+        "safety_approved": true,
+        "notes": "Paper Broker v2 idempotent simulated fill."
       },
       {
-        "timestamp": "2026-07-08T22:03:21.468030+00:00",
+        "filled_at": "2026-07-09T06:29:26.516121+00:00",
+        "execution_batch_id": "e3b77cf9-3aa1-482b-b561-24af70dad67f",
+        "idempotency_key": "e3b77cf9-3aa1-482b-b561-24af70dad67f:ETH-USD:LONG:BUY:0.191206",
         "asset": "ETH-USD",
         "side": "LONG",
-        "order_action": "BUY",
-        "paper_weight": 0.191206,
-        "fee_drag": 0.00015296,
-        "slippage_drag": 0.00022945,
-        "total_cost_drag": 0.00038241,
-        "status": "PAPER_FILLED",
-        "reason": "No execution adapter signal for asset."
+        "action": "BUY",
+        "requested_weight": 0.191206,
+        "filled_weight": 0.191206,
+        "fill_status": "PAPER_FILLED",
+        "broker": "paper",
+        "route": "paper_execution_route",
+        "risk_label": "low_risk",
+        "safety_approved": true,
+        "notes": "Paper Broker v2 idempotent simulated fill."
       },
       {
-        "timestamp": "2026-07-08T22:40:27.623975+00:00",
+        "filled_at": "2026-07-09T06:30:05.312940+00:00",
+        "execution_batch_id": "747bb34f-c94d-49d5-847c-15a44f44433a",
+        "idempotency_key": "747bb34f-c94d-49d5-847c-15a44f44433a:BTC-USD:LONG:BUY:0.223984",
         "asset": "BTC-USD",
         "side": "LONG",
-        "order_action": "BUY",
-        "paper_weight": 0.223984,
-        "fee_drag": 0.00017919,
-        "slippage_drag": 0.00026878,
-        "total_cost_drag": 0.00044797,
-        "status": "PAPER_FILLED",
-        "reason": "No execution adapter signal for asset."
+        "action": "BUY",
+        "requested_weight": 0.223984,
+        "filled_weight": 0.223984,
+        "fill_status": "PAPER_FILLED",
+        "broker": "paper",
+        "route": "paper_execution_route",
+        "risk_label": "low_risk",
+        "safety_approved": true,
+        "notes": "Paper Broker v2 idempotent simulated fill."
       },
       {
-        "timestamp": "2026-07-08T22:40:27.623975+00:00",
+        "filled_at": "2026-07-09T06:30:05.312940+00:00",
+        "execution_batch_id": "747bb34f-c94d-49d5-847c-15a44f44433a",
+        "idempotency_key": "747bb34f-c94d-49d5-847c-15a44f44433a:ETH-USD:LONG:BUY:0.191206",
         "asset": "ETH-USD",
         "side": "LONG",
-        "order_action": "BUY",
-        "paper_weight": 0.191206,
-        "fee_drag": 0.00015296,
-        "slippage_drag": 0.00022945,
-        "total_cost_drag": 0.00038241,
-        "status": "PAPER_FILLED",
-        "reason": "No execution adapter signal for asset."
-      },
-      {
-        "timestamp": "2026-07-09T03:20:43.971119+00:00",
-        "asset": "BTC-USD",
-        "side": "LONG",
-        "order_action": "BUY",
-        "paper_weight": 0.223984,
-        "fee_drag": 0.00017919,
-        "slippage_drag": 0.00026878,
-        "total_cost_drag": 0.00044797,
-        "status": "PAPER_FILLED",
-        "reason": "No execution adapter signal for asset."
-      },
-      {
-        "timestamp": "2026-07-09T03:20:43.971119+00:00",
-        "asset": "ETH-USD",
-        "side": "LONG",
-        "order_action": "BUY",
-        "paper_weight": 0.191206,
-        "fee_drag": 0.00015296,
-        "slippage_drag": 0.00022945,
-        "total_cost_drag": 0.00038241,
-        "status": "PAPER_FILLED",
-        "reason": "No execution adapter signal for asset."
-      },
-      {
-        "timestamp": "2026-07-09T03:30:06.677857+00:00",
-        "asset": "BTC-USD",
-        "side": "LONG",
-        "order_action": "BUY",
-        "paper_weight": 0.223984,
-        "fee_drag": 0.00017919,
-        "slippage_drag": 0.00026878,
-        "total_cost_drag": 0.00044797,
-        "status": "PAPER_FILLED",
-        "reason": "No execution adapter signal for asset."
-      },
-      {
-        "timestamp": "2026-07-09T03:30:06.677857+00:00",
-        "asset": "ETH-USD",
-        "side": "LONG",
-        "order_action": "BUY",
-        "paper_weight": 0.191206,
-        "fee_drag": 0.00015296,
-        "slippage_drag": 0.00022945,
-        "total_cost_drag": 0.00038241,
-        "status": "PAPER_FILLED",
-        "reason": "No execution adapter signal for asset."
+        "action": "BUY",
+        "requested_weight": 0.191206,
+        "filled_weight": 0.191206,
+        "fill_status": "PAPER_FILLED",
+        "broker": "paper",
+        "route": "paper_execution_route",
+        "risk_label": "low_risk",
+        "safety_approved": true,
+        "notes": "Paper Broker v2 idempotent simulated fill."
       }
     ],
     "counts": {
-      "holding_count": 4,
+      "holding_count": 3,
       "risky_position_count": 2,
       "pending_order_count": 2,
-      "ledger_row_count": 8
+      "ledger_row_count": 4
     }
   },
   "outputs": {

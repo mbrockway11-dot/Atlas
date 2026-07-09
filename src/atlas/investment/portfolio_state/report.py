@@ -49,7 +49,7 @@ def build_summary(state: dict[str, Any]) -> str:
     decision = state.get("decision", {}) or {}
 
     return (
-        f"Portfolio State updated. Equity={equity.get('current_equity')}, "
+        f"Portfolio State updated from {state.get('state_source')}. Equity={equity.get('current_equity')}, "
         f"risky={exposure.get('risky_weight')}, cash={exposure.get('cash_weight')}, "
         f"reserved={exposure.get('reserved_cash_weight')}, direction={decision.get('direction')}."
     )
