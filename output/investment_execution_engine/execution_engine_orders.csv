@@ -1,0 +1,3 @@
+execution_batch_id,idempotency_key,asset,side,action,weight,broker,source_status,execution_status,execution_mode,route,route_status,safety_approved,risk_label,live_trading_enabled,guard_reason
+e3b77cf9-3aa1-482b-b561-24af70dad67f,e3b77cf9-3aa1-482b-b561-24af70dad67f:BTC-USD:LONG:BUY:0.223984,BTC-USD,LONG,BUY,0.223984,paper,APPROVED_FOR_PAPER,APPROVED_FOR_EXECUTION,paper,paper_execution_route,ROUTED,True,low_risk,False,Passed execution guards.
+e3b77cf9-3aa1-482b-b561-24af70dad67f,e3b77cf9-3aa1-482b-b561-24af70dad67f:ETH-USD:LONG:BUY:0.191206,ETH-USD,LONG,BUY,0.191206,paper,APPROVED_FOR_PAPER,APPROVED_FOR_EXECUTION,paper,paper_execution_route,ROUTED,True,low_risk,False,Passed execution guards.

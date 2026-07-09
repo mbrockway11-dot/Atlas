@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "summary": "Execution Engine prepared 2 approved order(s) and 0 blocked order(s) in paper mode.",
+  "batch": {
+    "execution_batch_id": "e3b77cf9-3aa1-482b-b561-24af70dad67f",
+    "mode": "paper",
+    "created_at": "2026-07-09T06:17:18.051182+00:00",
+    "live_trading_enabled": false
+  },
+  "mode": "paper",
+  "approved_count": 2,
+  "blocked_count": 0,
+  "orders": [
+    {
+      "execution_batch_id": "e3b77cf9-3aa1-482b-b561-24af70dad67f",
+      "idempotency_key": "e3b77cf9-3aa1-482b-b561-24af70dad67f:BTC-USD:LONG:BUY:0.223984",
+      "asset": "BTC-USD",
+      "side": "LONG",
+      "action": "BUY",
+      "weight": 0.223984,
+      "broker": "paper",
+      "source_status": "APPROVED_FOR_PAPER",
+      "execution_status": "APPROVED_FOR_EXECUTION",
+      "execution_mode": "paper",
+      "route": "paper_execution_route",
+      "route_status": "ROUTED",
+      "safety_approved": true,
+      "risk_label": "low_risk",
+      "live_trading_enabled": false,
+      "guard_reason": "Passed execution guards."
+    },
+    {
+      "execution_batch_id": "e3b77cf9-3aa1-482b-b561-24af70dad67f",
+      "idempotency_key": "e3b77cf9-3aa1-482b-b561-24af70dad67f:ETH-USD:LONG:BUY:0.191206",
+      "asset": "ETH-USD",
+      "side": "LONG",
+      "action": "BUY",
+      "weight": 0.191206,
+      "broker": "paper",
+      "source_status": "APPROVED_FOR_PAPER",
+      "execution_status": "APPROVED_FOR_EXECUTION",
+      "execution_mode": "paper",
+      "route": "paper_execution_route",
+      "route_status": "ROUTED",
+      "safety_approved": true,
+      "risk_label": "low_risk",
+      "live_trading_enabled": false,
+      "guard_reason": "Passed execution guards."
+    }
+  ],
+  "outputs": {
+    "json": "output\\investment_execution_engine\\execution_engine_report.json",
+    "markdown": "output\\investment_execution_engine\\execution_engine_report.md",
+    "orders_csv": "output\\investment_execution_engine\\execution_engine_orders.csv"
+  }
+}
