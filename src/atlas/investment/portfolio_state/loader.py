@@ -19,9 +19,12 @@ DECISION_REPORT = Path("output/investment_decision/decision_engine_report.json")
 
 def load_csv(path: str | Path) -> pd.DataFrame:
     p = Path(path)
-    if not p.exists():
+    if not p.exists() or p.stat().st_size == 0:
         return pd.DataFrame()
-    return pd.read_csv(p)
+    try:
+        return pd.read_csv(p)
+    except pd.errors.EmptyDataError:
+        return pd.DataFrame()
 
 
 def load_json(path: str | Path) -> dict:

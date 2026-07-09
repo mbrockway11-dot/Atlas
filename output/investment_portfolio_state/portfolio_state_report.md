@@ -1,6 +1,6 @@
 # Portfolio State Report
 
-Portfolio State updated from mark_to_market_v2. Equity=100000.0, risky=0.41519, cash=0.58481, reserved=0.0, direction=LONG.
+Portfolio State updated from mark_to_market_v2. Equity=100000.0, risky=0.7, cash=0.3, reserved=0.0, direction=LONG.
 
 ## Equity
 
@@ -11,8 +11,8 @@ Portfolio State updated from mark_to_market_v2. Equity=100000.0, risky=0.41519, 
   "pnl": 0.0,
   "pnl_pct": 0.0,
   "drawdown": 0.0,
-  "cash": 58481.0,
-  "market_value": 41519.0,
+  "cash": 30000.0,
+  "market_value": 70000.0,
   "rolling_high": 100000.0
 }
 ```
@@ -21,16 +21,16 @@ Portfolio State updated from mark_to_market_v2. Equity=100000.0, risky=0.41519, 
 
 ```json
 {
-  "risky_weight": 0.41519,
-  "cash_weight": 0.58481,
+  "risky_weight": 0.7,
+  "cash_weight": 0.3,
   "reserved_cash_weight": 0.0,
-  "gross_exposure": 0.41519,
-  "net_exposure": 0.41519
+  "gross_exposure": 0.7,
+  "net_exposure": 0.7
 }
 ```
 
 ## Holdings
 
-- `BTC-USD` side=`LONG` weight=`0.223984` value=`22398.4`
-- `ETH-USD` side=`LONG` weight=`0.191206` value=`19120.6`
-- `CASH` side=`CASH` weight=`0.58481` value=`58481.0`
+- `BTC-USD` side=`LONG` weight=`0.377631` value=`37763.1`
+- `ETH-USD` side=`LONG` weight=`0.322369` value=`32236.9`
+- `CASH` side=`CASH` weight=`0.3` value=`30000.0`

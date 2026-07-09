@@ -1,10 +1,10 @@
 {
   "success": false,
-  "run_id": "7c71d9af-9255-4cc4-ab36-9abcf56dc7d6",
+  "run_id": "63db5d2a-40a1-468b-b7b5-b538c6b839d0",
   "mode": "paper",
-  "started_at": "2026-07-09T12:49:46.636006+00:00",
-  "ended_at": "2026-07-09T12:50:17.804243+00:00",
-  "node_count": 15,
+  "started_at": "2026-07-09T13:02:04.582697+00:00",
+  "ended_at": "2026-07-09T13:02:41.287019+00:00",
+  "node_count": 28,
   "results": [
     {
       "name": "market_features",
@@ -106,9 +106,100 @@
     },
     {
       "name": "portfolio_state",
-      "success": false,
+      "success": true,
       "output_key": "portfolio_state",
-      "error": "Traceback (most recent call last):\n  File \"C:\\Projects\\Atlas\\scripts\\update_portfolio_state.py\", line 21, in <module>\n    main()\n    ~~~~^^\n  File \"C:\\Projects\\Atlas\\scripts\\update_portfolio_state.py\", line 10, in main\n    report = build_portfolio_state_report()\n  File \"C:\\Projects\\Atlas\\src\\atlas\\investment\\portfolio_state\\report.py\", line 25, in build_portfolio_state_report\n    state = build_portfolio_state(load_portfolio_state_inputs())\n                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"C:\\Projects\\Atlas\\src\\atlas\\investment\\portfolio_state\\loader.py\", line 43, in load_portfolio_state_inputs\n    \"broker_orders\": load_csv(BROKER_ORDERS),\n                     ~~~~~~~~^^^^^^^^^^^^^^^\n  File \"C:\\Projects\\Atlas\\src\\atlas\\investment\\portfolio_state\\loader.py\", line 24, in load_csv\n    return pd.read_csv(p)\n           ~~~~~~~~~~~^^^\n  File \"C:\\Projects\\Atlas\\.venv\\Lib\\site-packages\\pandas\\io\\parsers\\readers.py\", line 873, in read_csv\n    return _read(filepath_or_buffer, kwds)\n  File \"C:\\Projects\\Atlas\\.venv\\Lib\\site-packages\\pandas\\io\\parsers\\readers.py\", line 300, in _read\n    parser = TextFileReader(filepath_or_buffer, **kwds)\n  File \"C:\\Projects\\Atlas\\.venv\\Lib\\site-packages\\pandas\\io\\parsers\\readers.py\", line 1645, in __init__\n    self._engine = self._make_engine(f, self.engine)\n                   ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^\n  File \"C:\\Projects\\Atlas\\.venv\\Lib\\site-packages\\pandas\\io\\parsers\\readers.py\", line 1922, in _make_engine\n    return mapping[engine](f, **self.options)\n           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Projects\\Atlas\\.venv\\Lib\\site-packages\\pandas\\io\\parsers\\c_parser_wrapper.py\", line 95, in __init__\n    self._reader = parsers.TextReader(src, **kwds)\n                   ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\n  File \"pandas/_libs/parsers.pyx\", line 575, in pandas._libs.parsers.TextReader.__cinit__\npandas.errors.EmptyDataError: No columns to parse from file",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "execution_simulator",
+      "success": true,
+      "output_key": "execution_simulator",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "portfolio_lifecycle",
+      "success": true,
+      "output_key": "portfolio_lifecycle",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "paper_trading",
+      "success": true,
+      "output_key": "paper_trading",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "performance",
+      "success": true,
+      "output_key": "performance",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "learning",
+      "success": true,
+      "output_key": "learning",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "position_manager",
+      "success": true,
+      "output_key": "position_manager",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "trade_safety",
+      "success": true,
+      "output_key": "trade_safety",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "action_engine",
+      "success": true,
+      "output_key": "action_engine",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "broker_interface",
+      "success": true,
+      "output_key": "broker_interface",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "rebalance_engine",
+      "success": true,
+      "output_key": "rebalance_engine",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "risk_engine",
+      "success": true,
+      "output_key": "risk_engine",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "execution_engine",
+      "success": true,
+      "output_key": "execution_engine",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "paper_broker",
+      "success": false,
+      "output_key": "paper_broker",
+      "error": "Traceback (most recent call last):\n  File \"C:\\Projects\\Atlas\\scripts\\update_paper_broker.py\", line 22, in <module>\n    main()\n    ~~~~^^\n  File \"C:\\Projects\\Atlas\\scripts\\update_paper_broker.py\", line 10, in main\n    report = build_paper_broker_report()\n  File \"C:\\Projects\\Atlas\\src\\atlas\\investment\\paper_broker\\report.py\", line 26, in build_paper_broker_report\n    orders = load_execution_orders()\n  File \"C:\\Projects\\Atlas\\src\\atlas\\investment\\paper_broker\\loader.py\", line 18, in load_execution_orders\n    return pd.read_csv(EXECUTION_ORDERS)\n           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n  File \"C:\\Projects\\Atlas\\.venv\\Lib\\site-packages\\pandas\\io\\parsers\\readers.py\", line 873, in read_csv\n    return _read(filepath_or_buffer, kwds)\n  File \"C:\\Projects\\Atlas\\.venv\\Lib\\site-packages\\pandas\\io\\parsers\\readers.py\", line 300, in _read\n    parser = TextFileReader(filepath_or_buffer, **kwds)\n  File \"C:\\Projects\\Atlas\\.venv\\Lib\\site-packages\\pandas\\io\\parsers\\readers.py\", line 1645, in __init__\n    self._engine = self._make_engine(f, self.engine)\n                   ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^\n  File \"C:\\Projects\\Atlas\\.venv\\Lib\\site-packages\\pandas\\io\\parsers\\readers.py\", line 1922, in _make_engine\n    return mapping[engine](f, **self.options)\n           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Projects\\Atlas\\.venv\\Lib\\site-packages\\pandas\\io\\parsers\\c_parser_wrapper.py\", line 95, in __init__\n    self._reader = parsers.TextReader(src, **kwds)\n                   ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\n  File \"pandas/_libs/parsers.pyx\", line 575, in pandas._libs.parsers.TextReader.__cinit__\npandas.errors.EmptyDataError: No columns to parse from file",
       "warnings": []
     }
   ],
@@ -126,27 +217,40 @@
     "strategy_registry",
     "market_direction",
     "decision_engine",
-    "execution_planner"
+    "execution_planner",
+    "portfolio_state",
+    "execution_simulator",
+    "portfolio_lifecycle",
+    "paper_trading",
+    "performance",
+    "learning",
+    "position_manager",
+    "trade_safety",
+    "action_engine",
+    "broker_interface",
+    "rebalance_engine",
+    "risk_engine",
+    "execution_engine"
   ],
-  "event_count": 32,
+  "event_count": 58,
   "events": [
     {
       "name": "pipeline_started",
-      "timestamp": "2026-07-09T12:49:46.636196+00:00",
+      "timestamp": "2026-07-09T13:02:04.582903+00:00",
       "payload": {
         "node_count": 28
       }
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T12:49:46.636620+00:00",
+      "timestamp": "2026-07-09T13:02:04.583454+00:00",
       "payload": {
         "node": "market_features"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T12:50:04.214029+00:00",
+      "timestamp": "2026-07-09T13:02:19.812245+00:00",
       "payload": {
         "node": "market_features",
         "success": true,
@@ -156,14 +260,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T12:50:04.214485+00:00",
+      "timestamp": "2026-07-09T13:02:19.812691+00:00",
       "payload": {
         "node": "sigil_v32_adapter"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T12:50:04.795631+00:00",
+      "timestamp": "2026-07-09T13:02:20.403838+00:00",
       "payload": {
         "node": "sigil_v32_adapter",
         "success": true,
@@ -173,14 +277,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T12:50:04.796062+00:00",
+      "timestamp": "2026-07-09T13:02:20.404273+00:00",
       "payload": {
         "node": "alpha_hypotheses"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T12:50:05.472627+00:00",
+      "timestamp": "2026-07-09T13:02:21.090908+00:00",
       "payload": {
         "node": "alpha_hypotheses",
         "success": true,
@@ -190,14 +294,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T12:50:05.473115+00:00",
+      "timestamp": "2026-07-09T13:02:21.091400+00:00",
       "payload": {
         "node": "mark_to_market"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T12:50:06.092152+00:00",
+      "timestamp": "2026-07-09T13:02:21.735660+00:00",
       "payload": {
         "node": "mark_to_market",
         "success": true,
@@ -207,14 +311,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T12:50:06.092554+00:00",
+      "timestamp": "2026-07-09T13:02:21.736059+00:00",
       "payload": {
         "node": "alpha_backtests"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T12:50:08.360394+00:00",
+      "timestamp": "2026-07-09T13:02:24.013588+00:00",
       "payload": {
         "node": "alpha_backtests",
         "success": true,
@@ -224,14 +328,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T12:50:08.361075+00:00",
+      "timestamp": "2026-07-09T13:02:24.013989+00:00",
       "payload": {
         "node": "alpha_validation"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T12:50:09.502085+00:00",
+      "timestamp": "2026-07-09T13:02:25.164157+00:00",
       "payload": {
         "node": "alpha_validation",
         "success": true,
@@ -241,14 +345,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T12:50:09.502524+00:00",
+      "timestamp": "2026-07-09T13:02:25.164938+00:00",
       "payload": {
         "node": "adaptive_weighting"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T12:50:10.101013+00:00",
+      "timestamp": "2026-07-09T13:02:25.764117+00:00",
       "payload": {
         "node": "adaptive_weighting",
         "success": true,
@@ -258,14 +362,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T12:50:10.101413+00:00",
+      "timestamp": "2026-07-09T13:02:25.764539+00:00",
       "payload": {
         "node": "alpha_ensemble"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T12:50:13.424838+00:00",
+      "timestamp": "2026-07-09T13:02:29.017631+00:00",
       "payload": {
         "node": "alpha_ensemble",
         "success": true,
@@ -275,14 +379,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T12:50:13.425258+00:00",
+      "timestamp": "2026-07-09T13:02:29.018030+00:00",
       "payload": {
         "node": "cross_sectional_ranker"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T12:50:14.302204+00:00",
+      "timestamp": "2026-07-09T13:02:29.892001+00:00",
       "payload": {
         "node": "cross_sectional_ranker",
         "success": true,
@@ -292,14 +396,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T12:50:14.302654+00:00",
+      "timestamp": "2026-07-09T13:02:29.892460+00:00",
       "payload": {
         "node": "alpha_portfolio"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T12:50:14.882860+00:00",
+      "timestamp": "2026-07-09T13:02:30.465202+00:00",
       "payload": {
         "node": "alpha_portfolio",
         "success": true,
@@ -309,14 +413,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T12:50:14.883609+00:00",
+      "timestamp": "2026-07-09T13:02:30.465676+00:00",
       "payload": {
         "node": "strategy_registry"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T12:50:15.483758+00:00",
+      "timestamp": "2026-07-09T13:02:31.041739+00:00",
       "payload": {
         "node": "strategy_registry",
         "success": true,
@@ -326,14 +430,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T12:50:15.484424+00:00",
+      "timestamp": "2026-07-09T13:02:31.042165+00:00",
       "payload": {
         "node": "market_direction"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T12:50:16.044563+00:00",
+      "timestamp": "2026-07-09T13:02:31.631267+00:00",
       "payload": {
         "node": "market_direction",
         "success": true,
@@ -343,14 +447,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T12:50:16.045014+00:00",
+      "timestamp": "2026-07-09T13:02:31.631970+00:00",
       "payload": {
         "node": "decision_engine"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T12:50:16.643426+00:00",
+      "timestamp": "2026-07-09T13:02:32.205672+00:00",
       "payload": {
         "node": "decision_engine",
         "success": true,
@@ -360,14 +464,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T12:50:16.643905+00:00",
+      "timestamp": "2026-07-09T13:02:32.206148+00:00",
       "payload": {
         "node": "execution_planner"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T12:50:17.199540+00:00",
+      "timestamp": "2026-07-09T13:02:32.796560+00:00",
       "payload": {
         "node": "execution_planner",
         "success": true,
@@ -377,24 +481,245 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T12:50:17.199959+00:00",
+      "timestamp": "2026-07-09T13:02:32.796989+00:00",
       "payload": {
         "node": "portfolio_state"
       }
     },
     {
-      "name": "node_failed",
-      "timestamp": "2026-07-09T12:50:17.803498+00:00",
+      "name": "node_completed",
+      "timestamp": "2026-07-09T13:02:33.424584+00:00",
       "payload": {
         "node": "portfolio_state",
-        "success": false,
+        "success": true,
         "output_key": "portfolio_state",
-        "error": "Traceback (most recent call last):\n  File \"C:\\Projects\\Atlas\\scripts\\update_portfolio_state.py\", line 21, in <module>\n    main()\n    ~~~~^^\n  File \"C:\\Projects\\Atlas\\scripts\\update_portfolio_state.py\", line 10, in main\n    report = build_portfolio_state_report()\n  File \"C:\\Projects\\Atlas\\src\\atlas\\investment\\portfolio_state\\report.py\", line 25, in build_portfolio_state_report\n    state = build_portfolio_state(load_portfolio_state_inputs())\n                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\n  File \"C:\\Projects\\Atlas\\src\\atlas\\investment\\portfolio_state\\loader.py\", line 43, in load_portfolio_state_inputs\n    \"broker_orders\": load_csv(BROKER_ORDERS),\n                     ~~~~~~~~^^^^^^^^^^^^^^^\n  File \"C:\\Projects\\Atlas\\src\\atlas\\investment\\portfolio_state\\loader.py\", line 24, in load_csv\n    return pd.read_csv(p)\n           ~~~~~~~~~~~^^^\n  File \"C:\\Projects\\Atlas\\.venv\\Lib\\site-packages\\pandas\\io\\parsers\\readers.py\", line 873, in read_csv\n    return _read(filepath_or_buffer, kwds)\n  File \"C:\\Projects\\Atlas\\.venv\\Lib\\site-packages\\pandas\\io\\parsers\\readers.py\", line 300, in _read\n    parser = TextFileReader(filepath_or_buffer, **kwds)\n  File \"C:\\Projects\\Atlas\\.venv\\Lib\\site-packages\\pandas\\io\\parsers\\readers.py\", line 1645, in __init__\n    self._engine = self._make_engine(f, self.engine)\n                   ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^\n  File \"C:\\Projects\\Atlas\\.venv\\Lib\\site-packages\\pandas\\io\\parsers\\readers.py\", line 1922, in _make_engine\n    return mapping[engine](f, **self.options)\n           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Projects\\Atlas\\.venv\\Lib\\site-packages\\pandas\\io\\parsers\\c_parser_wrapper.py\", line 95, in __init__\n    self._reader = parsers.TextReader(src, **kwds)\n                   ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\n  File \"pandas/_libs/parsers.pyx\", line 575, in pandas._libs.parsers.TextReader.__cinit__\npandas.errors.EmptyDataError: No columns to parse from file"
+        "error": null
+      }
+    },
+    {
+      "name": "node_started",
+      "timestamp": "2026-07-09T13:02:33.425213+00:00",
+      "payload": {
+        "node": "execution_simulator"
+      }
+    },
+    {
+      "name": "node_completed",
+      "timestamp": "2026-07-09T13:02:33.989502+00:00",
+      "payload": {
+        "node": "execution_simulator",
+        "success": true,
+        "output_key": "execution_simulator",
+        "error": null
+      }
+    },
+    {
+      "name": "node_started",
+      "timestamp": "2026-07-09T13:02:33.990012+00:00",
+      "payload": {
+        "node": "portfolio_lifecycle"
+      }
+    },
+    {
+      "name": "node_completed",
+      "timestamp": "2026-07-09T13:02:34.583483+00:00",
+      "payload": {
+        "node": "portfolio_lifecycle",
+        "success": true,
+        "output_key": "portfolio_lifecycle",
+        "error": null
+      }
+    },
+    {
+      "name": "node_started",
+      "timestamp": "2026-07-09T13:02:34.583888+00:00",
+      "payload": {
+        "node": "paper_trading"
+      }
+    },
+    {
+      "name": "node_completed",
+      "timestamp": "2026-07-09T13:02:35.166217+00:00",
+      "payload": {
+        "node": "paper_trading",
+        "success": true,
+        "output_key": "paper_trading",
+        "error": null
+      }
+    },
+    {
+      "name": "node_started",
+      "timestamp": "2026-07-09T13:02:35.166653+00:00",
+      "payload": {
+        "node": "performance"
+      }
+    },
+    {
+      "name": "node_completed",
+      "timestamp": "2026-07-09T13:02:35.772203+00:00",
+      "payload": {
+        "node": "performance",
+        "success": true,
+        "output_key": "performance",
+        "error": null
+      }
+    },
+    {
+      "name": "node_started",
+      "timestamp": "2026-07-09T13:02:35.772643+00:00",
+      "payload": {
+        "node": "learning"
+      }
+    },
+    {
+      "name": "node_completed",
+      "timestamp": "2026-07-09T13:02:36.380021+00:00",
+      "payload": {
+        "node": "learning",
+        "success": true,
+        "output_key": "learning",
+        "error": null
+      }
+    },
+    {
+      "name": "node_started",
+      "timestamp": "2026-07-09T13:02:36.380463+00:00",
+      "payload": {
+        "node": "position_manager"
+      }
+    },
+    {
+      "name": "node_completed",
+      "timestamp": "2026-07-09T13:02:37.026226+00:00",
+      "payload": {
+        "node": "position_manager",
+        "success": true,
+        "output_key": "position_manager",
+        "error": null
+      }
+    },
+    {
+      "name": "node_started",
+      "timestamp": "2026-07-09T13:02:37.026673+00:00",
+      "payload": {
+        "node": "trade_safety"
+      }
+    },
+    {
+      "name": "node_completed",
+      "timestamp": "2026-07-09T13:02:37.636661+00:00",
+      "payload": {
+        "node": "trade_safety",
+        "success": true,
+        "output_key": "trade_safety",
+        "error": null
+      }
+    },
+    {
+      "name": "node_started",
+      "timestamp": "2026-07-09T13:02:37.637084+00:00",
+      "payload": {
+        "node": "action_engine"
+      }
+    },
+    {
+      "name": "node_completed",
+      "timestamp": "2026-07-09T13:02:38.268268+00:00",
+      "payload": {
+        "node": "action_engine",
+        "success": true,
+        "output_key": "action_engine",
+        "error": null
+      }
+    },
+    {
+      "name": "node_started",
+      "timestamp": "2026-07-09T13:02:38.268734+00:00",
+      "payload": {
+        "node": "broker_interface"
+      }
+    },
+    {
+      "name": "node_completed",
+      "timestamp": "2026-07-09T13:02:38.846988+00:00",
+      "payload": {
+        "node": "broker_interface",
+        "success": true,
+        "output_key": "broker_interface",
+        "error": null
+      }
+    },
+    {
+      "name": "node_started",
+      "timestamp": "2026-07-09T13:02:38.847415+00:00",
+      "payload": {
+        "node": "rebalance_engine"
+      }
+    },
+    {
+      "name": "node_completed",
+      "timestamp": "2026-07-09T13:02:39.414716+00:00",
+      "payload": {
+        "node": "rebalance_engine",
+        "success": true,
+        "output_key": "rebalance_engine",
+        "error": null
+      }
+    },
+    {
+      "name": "node_started",
+      "timestamp": "2026-07-09T13:02:39.415721+00:00",
+      "payload": {
+        "node": "risk_engine"
+      }
+    },
+    {
+      "name": "node_completed",
+      "timestamp": "2026-07-09T13:02:39.998976+00:00",
+      "payload": {
+        "node": "risk_engine",
+        "success": true,
+        "output_key": "risk_engine",
+        "error": null
+      }
+    },
+    {
+      "name": "node_started",
+      "timestamp": "2026-07-09T13:02:39.999539+00:00",
+      "payload": {
+        "node": "execution_engine"
+      }
+    },
+    {
+      "name": "node_completed",
+      "timestamp": "2026-07-09T13:02:40.646687+00:00",
+      "payload": {
+        "node": "execution_engine",
+        "success": true,
+        "output_key": "execution_engine",
+        "error": null
+      }
+    },
+    {
+      "name": "node_started",
+      "timestamp": "2026-07-09T13:02:40.647133+00:00",
+      "payload": {
+        "node": "paper_broker"
+      }
+    },
+    {
+      "name": "node_failed",
+      "timestamp": "2026-07-09T13:02:41.286212+00:00",
+      "payload": {
+        "node": "paper_broker",
+        "success": false,
+        "output_key": "paper_broker",
+        "error": "Traceback (most recent call last):\n  File \"C:\\Projects\\Atlas\\scripts\\update_paper_broker.py\", line 22, in <module>\n    main()\n    ~~~~^^\n  File \"C:\\Projects\\Atlas\\scripts\\update_paper_broker.py\", line 10, in main\n    report = build_paper_broker_report()\n  File \"C:\\Projects\\Atlas\\src\\atlas\\investment\\paper_broker\\report.py\", line 26, in build_paper_broker_report\n    orders = load_execution_orders()\n  File \"C:\\Projects\\Atlas\\src\\atlas\\investment\\paper_broker\\loader.py\", line 18, in load_execution_orders\n    return pd.read_csv(EXECUTION_ORDERS)\n           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^\n  File \"C:\\Projects\\Atlas\\.venv\\Lib\\site-packages\\pandas\\io\\parsers\\readers.py\", line 873, in read_csv\n    return _read(filepath_or_buffer, kwds)\n  File \"C:\\Projects\\Atlas\\.venv\\Lib\\site-packages\\pandas\\io\\parsers\\readers.py\", line 300, in _read\n    parser = TextFileReader(filepath_or_buffer, **kwds)\n  File \"C:\\Projects\\Atlas\\.venv\\Lib\\site-packages\\pandas\\io\\parsers\\readers.py\", line 1645, in __init__\n    self._engine = self._make_engine(f, self.engine)\n                   ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^\n  File \"C:\\Projects\\Atlas\\.venv\\Lib\\site-packages\\pandas\\io\\parsers\\readers.py\", line 1922, in _make_engine\n    return mapping[engine](f, **self.options)\n           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Projects\\Atlas\\.venv\\Lib\\site-packages\\pandas\\io\\parsers\\c_parser_wrapper.py\", line 95, in __init__\n    self._reader = parsers.TextReader(src, **kwds)\n                   ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^\n  File \"pandas/_libs/parsers.pyx\", line 575, in pandas._libs.parsers.TextReader.__cinit__\npandas.errors.EmptyDataError: No columns to parse from file"
       }
     },
     {
       "name": "pipeline_completed",
-      "timestamp": "2026-07-09T12:50:17.803945+00:00",
+      "timestamp": "2026-07-09T13:02:41.286714+00:00",
       "payload": {
         "success": false
       }
@@ -404,7 +729,7 @@
     {
       "node": "market_features",
       "status": "PENDING",
-      "queue_id": "219b65d9-f5ec-4372-b52e-daaefd04abde",
+      "queue_id": "d5d6b4b1-69fb-4bc5-94d2-b60218123f1f",
       "metadata": {
         "requires": [],
         "provides": [
@@ -415,7 +740,7 @@
     {
       "node": "sigil_v32_adapter",
       "status": "PENDING",
-      "queue_id": "6db61850-da06-407e-a6ce-6435c60df2cb",
+      "queue_id": "2bde58ea-de3b-43fe-9398-46d3ac060cf5",
       "metadata": {
         "requires": [],
         "provides": [
@@ -426,7 +751,7 @@
     {
       "node": "alpha_hypotheses",
       "status": "PENDING",
-      "queue_id": "eb57992f-cad0-4a70-8684-9eb73ed3b40a",
+      "queue_id": "6c8b544c-1a4a-4582-8692-0910046032ec",
       "metadata": {
         "requires": [
           "market_features"
@@ -439,7 +764,7 @@
     {
       "node": "mark_to_market",
       "status": "PENDING",
-      "queue_id": "5aa99d6f-ffab-401a-991e-9fc5358f207e",
+      "queue_id": "7369dcf6-a162-471a-bdc5-5681bf5cbebc",
       "metadata": {
         "requires": [
           "market_features"
@@ -452,7 +777,7 @@
     {
       "node": "alpha_backtests",
       "status": "PENDING",
-      "queue_id": "675cbd81-505d-4a9b-9728-49f23075fd4a",
+      "queue_id": "94c69d90-852c-4c8b-a140-af1e50ee4842",
       "metadata": {
         "requires": [
           "alpha_hypotheses"
@@ -465,7 +790,7 @@
     {
       "node": "alpha_validation",
       "status": "PENDING",
-      "queue_id": "648b8339-9bbb-4c9b-b15a-e5ca09c5351a",
+      "queue_id": "3ad4e3e8-a29f-4414-9bec-1546d2c9f04f",
       "metadata": {
         "requires": [
           "alpha_backtests"
@@ -478,7 +803,7 @@
     {
       "node": "adaptive_weighting",
       "status": "PENDING",
-      "queue_id": "56ef88ef-c887-485f-a8e4-075a1a98296a",
+      "queue_id": "62dc96fc-8169-4daf-8547-16f15c574b99",
       "metadata": {
         "requires": [
           "alpha_validation",
@@ -492,7 +817,7 @@
     {
       "node": "alpha_ensemble",
       "status": "PENDING",
-      "queue_id": "a4521756-b38e-4488-844a-cbae636d0752",
+      "queue_id": "801ceff3-aa73-47dd-901e-c3005a4a0a5e",
       "metadata": {
         "requires": [
           "alpha_validation"
@@ -505,7 +830,7 @@
     {
       "node": "cross_sectional_ranker",
       "status": "PENDING",
-      "queue_id": "7bc2f3d3-deb7-47a5-8715-c716b90d4ba7",
+      "queue_id": "feb0a8b5-66b7-45b6-be48-0b524343f564",
       "metadata": {
         "requires": [
           "alpha_ensemble"
@@ -518,7 +843,7 @@
     {
       "node": "alpha_portfolio",
       "status": "PENDING",
-      "queue_id": "d90fe2a3-2a05-483e-b829-1751e1f1d539",
+      "queue_id": "d96b386e-7c86-43fb-be48-63456e2b12ae",
       "metadata": {
         "requires": [
           "cross_sectional_ranker"
@@ -531,7 +856,7 @@
     {
       "node": "strategy_registry",
       "status": "PENDING",
-      "queue_id": "0fcb13a6-9aa3-4270-859c-3b6063cb361e",
+      "queue_id": "c127d0a6-ae51-49b7-b742-cd87e65ed395",
       "metadata": {
         "requires": [
           "alpha_portfolio",
@@ -545,7 +870,7 @@
     {
       "node": "market_direction",
       "status": "PENDING",
-      "queue_id": "a345f989-ed20-4b9b-8305-9f8d5add1ff7",
+      "queue_id": "86ce1790-9013-4087-9e5c-53412c3844e9",
       "metadata": {
         "requires": [
           "strategy_registry"
@@ -558,7 +883,7 @@
     {
       "node": "decision_engine",
       "status": "PENDING",
-      "queue_id": "b2e24c24-2900-4e3b-a949-f579a01adb2d",
+      "queue_id": "63e67611-6747-447d-8bfb-14ef79a411b3",
       "metadata": {
         "requires": [
           "market_direction",
@@ -573,7 +898,7 @@
     {
       "node": "execution_planner",
       "status": "PENDING",
-      "queue_id": "c4b7d714-66ee-403b-96f0-d56d4f124969",
+      "queue_id": "961d629a-918a-4d01-8de9-88a5c9597316",
       "metadata": {
         "requires": [
           "decision_engine",
@@ -588,7 +913,7 @@
     {
       "node": "portfolio_state",
       "status": "PENDING",
-      "queue_id": "a9b4ca96-89be-4c11-be7f-51a69fcc5511",
+      "queue_id": "4fd826d3-f1f5-4b93-921c-d87ca42bc09a",
       "metadata": {
         "requires": [
           "mark_to_market",
@@ -596,6 +921,196 @@
         ],
         "provides": [
           "portfolio_state"
+        ]
+      }
+    },
+    {
+      "node": "execution_simulator",
+      "status": "PENDING",
+      "queue_id": "5b8b101c-5f50-4f19-990c-e88f90c6ed39",
+      "metadata": {
+        "requires": [
+          "execution_planner"
+        ],
+        "provides": [
+          "execution_simulator"
+        ]
+      }
+    },
+    {
+      "node": "portfolio_lifecycle",
+      "status": "PENDING",
+      "queue_id": "59808a43-caff-46e6-abfb-b9d50b60d88c",
+      "metadata": {
+        "requires": [
+          "portfolio_state"
+        ],
+        "provides": [
+          "portfolio_lifecycle"
+        ]
+      }
+    },
+    {
+      "node": "paper_trading",
+      "status": "PENDING",
+      "queue_id": "c0f22aa8-671e-4274-b4fa-35cdad2aa1f7",
+      "metadata": {
+        "requires": [
+          "execution_simulator"
+        ],
+        "provides": [
+          "paper_trading"
+        ]
+      }
+    },
+    {
+      "node": "performance",
+      "status": "PENDING",
+      "queue_id": "ac8215fb-7e29-4b6f-b0a8-d7dbadbac47d",
+      "metadata": {
+        "requires": [
+          "paper_trading"
+        ],
+        "provides": [
+          "performance"
+        ]
+      }
+    },
+    {
+      "node": "learning",
+      "status": "PENDING",
+      "queue_id": "a27624ad-a52c-42b4-ac84-662d46e9e940",
+      "metadata": {
+        "requires": [
+          "performance"
+        ],
+        "provides": [
+          "learning"
+        ]
+      }
+    },
+    {
+      "node": "position_manager",
+      "status": "PENDING",
+      "queue_id": "c989651f-49ad-4af3-861c-496781f4de28",
+      "metadata": {
+        "requires": [
+          "portfolio_lifecycle",
+          "portfolio_state",
+          "decision_engine",
+          "learning"
+        ],
+        "provides": [
+          "position_manager"
+        ]
+      }
+    },
+    {
+      "node": "trade_safety",
+      "status": "PENDING",
+      "queue_id": "7f1b0b09-5165-416c-879d-b389c60de5a6",
+      "metadata": {
+        "requires": [
+          "execution_simulator",
+          "performance",
+          "learning",
+          "decision_engine"
+        ],
+        "provides": [
+          "trade_safety"
+        ]
+      }
+    },
+    {
+      "node": "action_engine",
+      "status": "PENDING",
+      "queue_id": "85ac263b-64e1-484f-abb6-b1f2452b62cf",
+      "metadata": {
+        "requires": [
+          "portfolio_lifecycle",
+          "position_manager",
+          "portfolio_state",
+          "decision_engine",
+          "learning",
+          "performance"
+        ],
+        "provides": [
+          "action_engine"
+        ]
+      }
+    },
+    {
+      "node": "broker_interface",
+      "status": "PENDING",
+      "queue_id": "9ba1afc8-25ac-4a88-846f-73bfebe5cf66",
+      "metadata": {
+        "requires": [
+          "trade_safety",
+          "execution_planner"
+        ],
+        "provides": [
+          "broker_interface"
+        ]
+      }
+    },
+    {
+      "node": "rebalance_engine",
+      "status": "PENDING",
+      "queue_id": "303c736b-203e-4f08-a199-74ef65c37227",
+      "metadata": {
+        "requires": [
+          "portfolio_state",
+          "position_manager",
+          "decision_engine",
+          "alpha_portfolio"
+        ],
+        "provides": [
+          "rebalance_engine"
+        ]
+      }
+    },
+    {
+      "node": "risk_engine",
+      "status": "PENDING",
+      "queue_id": "4b8cf749-b352-40a5-87df-ce096766c589",
+      "metadata": {
+        "requires": [
+          "portfolio_state",
+          "performance",
+          "learning",
+          "action_engine",
+          "rebalance_engine"
+        ],
+        "provides": [
+          "risk_engine"
+        ]
+      }
+    },
+    {
+      "node": "execution_engine",
+      "status": "PENDING",
+      "queue_id": "bf761b81-87a4-4140-b8af-d52a536dc04d",
+      "metadata": {
+        "requires": [
+          "broker_interface",
+          "trade_safety",
+          "risk_engine"
+        ],
+        "provides": [
+          "execution_engine"
+        ]
+      }
+    },
+    {
+      "node": "paper_broker",
+      "status": "PENDING",
+      "queue_id": "88ba39ae-c1d5-42e4-a198-a223a3f2ab24",
+      "metadata": {
+        "requires": [
+          "execution_engine"
+        ],
+        "provides": [
+          "paper_broker"
         ]
       }
     }

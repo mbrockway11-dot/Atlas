@@ -1,9 +1,9 @@
 # Atlas Core Report
 
 - Success: `False`
-- Run ID: `7c71d9af-9255-4cc4-ab36-9abcf56dc7d6`
+- Run ID: `63db5d2a-40a1-468b-b7b5-b538c6b839d0`
 - Mode: `paper`
-- Nodes executed: `15`
+- Nodes executed: `28`
 
 ## Nodes
 
@@ -21,4 +21,17 @@
 - `market_direction` success=`True` output=`market_direction`
 - `decision_engine` success=`True` output=`decision_engine`
 - `execution_planner` success=`True` output=`execution_planner`
-- `portfolio_state` success=`False` output=`portfolio_state`
+- `portfolio_state` success=`True` output=`portfolio_state`
+- `execution_simulator` success=`True` output=`execution_simulator`
+- `portfolio_lifecycle` success=`True` output=`portfolio_lifecycle`
+- `paper_trading` success=`True` output=`paper_trading`
+- `performance` success=`True` output=`performance`
+- `learning` success=`True` output=`learning`
+- `position_manager` success=`True` output=`position_manager`
+- `trade_safety` success=`True` output=`trade_safety`
+- `action_engine` success=`True` output=`action_engine`
+- `broker_interface` success=`True` output=`broker_interface`
+- `rebalance_engine` success=`True` output=`rebalance_engine`
+- `risk_engine` success=`True` output=`risk_engine`
+- `execution_engine` success=`True` output=`execution_engine`
+- `paper_broker` success=`False` output=`paper_broker`
