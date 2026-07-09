@@ -1,9 +1,9 @@
 {
   "success": true,
-  "summary": "Portfolio State updated from paper_broker_v2. Equity=100000.0, risky=0.83038, cash=0.16962, reserved=0.0, direction=LONG.",
+  "summary": "Portfolio State updated from paper_broker_v2. Equity=100000.0, risky=0.41519, cash=0.58481, reserved=0.0, direction=LONG.",
   "state": {
     "success": true,
-    "timestamp": "2026-07-09T07:00:49.924790+00:00",
+    "timestamp": "2026-07-09T07:17:03.154581+00:00",
     "mode": "paper",
     "state_source": "paper_broker_v2",
     "equity": {
@@ -13,11 +13,11 @@
       "pnl_pct": 0.0
     },
     "exposure": {
-      "risky_weight": 0.83038,
-      "cash_weight": 0.16962,
+      "risky_weight": 0.41519,
+      "cash_weight": 0.58481,
       "reserved_cash_weight": 0.0,
-      "gross_exposure": 0.83038,
-      "net_exposure": 0.83038
+      "gross_exposure": 0.41519,
+      "net_exposure": 0.41519
     },
     "decision": {
       "direction": "LONG",
@@ -28,24 +28,24 @@
     "holdings": [
       {
         "asset": "BTC-USD",
-        "paper_weight": 0.447968,
-        "paper_value": 44796.8,
+        "paper_weight": 0.223984,
+        "paper_value": 22398.4,
         "side": "LONG",
         "cost_drag": 0.0,
         "status": "OPEN_FROM_PAPER_BROKER_FILL"
       },
       {
         "asset": "ETH-USD",
-        "paper_weight": 0.382412,
-        "paper_value": 38241.2,
+        "paper_weight": 0.191206,
+        "paper_value": 19120.6,
         "side": "LONG",
         "cost_drag": 0.0,
         "status": "OPEN_FROM_PAPER_BROKER_FILL"
       },
       {
         "asset": "CASH",
-        "paper_weight": 0.16962,
-        "paper_value": 16962.0,
+        "paper_weight": 0.58481,
+        "paper_value": 58481.0,
         "side": "CASH",
         "cost_drag": 0.0,
         "status": "AVAILABLE_CASH"
@@ -71,9 +71,10 @@
     ],
     "ledger_tail": [
       {
-        "filled_at": "2026-07-09T06:29:26.516121+00:00",
-        "execution_batch_id": "e3b77cf9-3aa1-482b-b561-24af70dad67f",
-        "idempotency_key": "e3b77cf9-3aa1-482b-b561-24af70dad67f:BTC-USD:LONG:BUY:0.223984",
+        "filled_at": "2026-07-09T07:17:00.080611+00:00",
+        "execution_batch_id": "b3d68a27-b1f6-4aca-a5c2-d01928c416c3",
+        "idempotency_key": "b3d68a27-b1f6-4aca-a5c2-d01928c416c3:BTC-USD:LONG:BUY:0.223984",
+        "target_key": "BTC-USD:LONG:BUY:0.223984",
         "asset": "BTC-USD",
         "side": "LONG",
         "action": "BUY",
@@ -82,14 +83,15 @@
         "fill_status": "PAPER_FILLED",
         "broker": "paper",
         "route": "paper_execution_route",
-        "risk_label": "low_risk",
+        "risk_label": "moderate_risk",
         "safety_approved": true,
-        "notes": "Paper Broker v2 idempotent simulated fill."
+        "notes": "Paper Broker v2 target-idempotent simulated fill."
       },
       {
-        "filled_at": "2026-07-09T06:29:26.516121+00:00",
-        "execution_batch_id": "e3b77cf9-3aa1-482b-b561-24af70dad67f",
-        "idempotency_key": "e3b77cf9-3aa1-482b-b561-24af70dad67f:ETH-USD:LONG:BUY:0.191206",
+        "filled_at": "2026-07-09T07:17:00.080611+00:00",
+        "execution_batch_id": "b3d68a27-b1f6-4aca-a5c2-d01928c416c3",
+        "idempotency_key": "b3d68a27-b1f6-4aca-a5c2-d01928c416c3:ETH-USD:LONG:BUY:0.191206",
+        "target_key": "ETH-USD:LONG:BUY:0.191206",
         "asset": "ETH-USD",
         "side": "LONG",
         "action": "BUY",
@@ -98,48 +100,16 @@
         "fill_status": "PAPER_FILLED",
         "broker": "paper",
         "route": "paper_execution_route",
-        "risk_label": "low_risk",
+        "risk_label": "moderate_risk",
         "safety_approved": true,
-        "notes": "Paper Broker v2 idempotent simulated fill."
-      },
-      {
-        "filled_at": "2026-07-09T06:30:05.312940+00:00",
-        "execution_batch_id": "747bb34f-c94d-49d5-847c-15a44f44433a",
-        "idempotency_key": "747bb34f-c94d-49d5-847c-15a44f44433a:BTC-USD:LONG:BUY:0.223984",
-        "asset": "BTC-USD",
-        "side": "LONG",
-        "action": "BUY",
-        "requested_weight": 0.223984,
-        "filled_weight": 0.223984,
-        "fill_status": "PAPER_FILLED",
-        "broker": "paper",
-        "route": "paper_execution_route",
-        "risk_label": "low_risk",
-        "safety_approved": true,
-        "notes": "Paper Broker v2 idempotent simulated fill."
-      },
-      {
-        "filled_at": "2026-07-09T06:30:05.312940+00:00",
-        "execution_batch_id": "747bb34f-c94d-49d5-847c-15a44f44433a",
-        "idempotency_key": "747bb34f-c94d-49d5-847c-15a44f44433a:ETH-USD:LONG:BUY:0.191206",
-        "asset": "ETH-USD",
-        "side": "LONG",
-        "action": "BUY",
-        "requested_weight": 0.191206,
-        "filled_weight": 0.191206,
-        "fill_status": "PAPER_FILLED",
-        "broker": "paper",
-        "route": "paper_execution_route",
-        "risk_label": "low_risk",
-        "safety_approved": true,
-        "notes": "Paper Broker v2 idempotent simulated fill."
+        "notes": "Paper Broker v2 target-idempotent simulated fill."
       }
     ],
     "counts": {
       "holding_count": 3,
       "risky_position_count": 2,
       "pending_order_count": 2,
-      "ledger_row_count": 4
+      "ledger_row_count": 2
     }
   },
   "outputs": {
