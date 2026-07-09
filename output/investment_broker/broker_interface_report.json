@@ -1,28 +1,11 @@
 {
   "success": true,
-  "safety_status": "APPROVED",
-  "approved": true,
+  "safety_status": "REJECTED",
+  "approved": false,
   "broker": "paper",
-  "order_count": 2,
-  "orders": [
-    {
-      "asset": "BTC-USD",
-      "side": "LONG",
-      "action": "BUY",
-      "weight": 0.223984,
-      "broker": "paper",
-      "status": "APPROVED_FOR_PAPER"
-    },
-    {
-      "asset": "ETH-USD",
-      "side": "LONG",
-      "action": "BUY",
-      "weight": 0.191206,
-      "broker": "paper",
-      "status": "APPROVED_FOR_PAPER"
-    }
-  ],
-  "summary": "Broker Interface prepared 2 paper broker order(s). Safety status: APPROVED.",
+  "order_count": 0,
+  "orders": [],
+  "summary": "Broker Interface prepared 0 paper broker order(s). Safety status: REJECTED.",
   "outputs": {
     "json": "output\\investment_broker\\broker_interface_report.json",
     "markdown": "output\\investment_broker\\broker_interface_report.md",
