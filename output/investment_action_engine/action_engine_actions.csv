@@ -1,3 +1,3 @@
-position_id,asset,side,state,final_action,final_confidence,scores
-paper::BTC-USD::LONG,BTC-USD,LONG,OPEN,HOLD,0.817708,"{'REDUCE': 0.0, 'EXIT_REVIEW': 0.0, 'SCALE_IN': 0.0, 'TRAILING_STOP_PENDING': 0.175, 'HOLD': 0.785}"
-paper::ETH-USD::LONG,ETH-USD,LONG,OPEN,HOLD,0.817708,"{'REDUCE': 0.0, 'EXIT_REVIEW': 0.0, 'SCALE_IN': 0.0, 'TRAILING_STOP_PENDING': 0.175, 'HOLD': 0.785}"
+position_id,asset,side,state,manager_action,portfolio_action,requested_weight_delta,priority,risk_label,reason,source,action_status,execution_instruction
+paper::BTC-USD::LONG,BTC-USD,LONG,ACTIVE,HOLD,HOLD_POSITION,0.0,9,low_risk,No position management trigger fired.,position_manager_v3,HOLD,Hold position.
+paper::ETH-USD::LONG,ETH-USD,LONG,ACTIVE,HOLD,HOLD_POSITION,0.0,9,low_risk,No position management trigger fired.,position_manager_v3,HOLD,Hold position.

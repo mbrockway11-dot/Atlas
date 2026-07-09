@@ -1,8 +1,8 @@
-# Action Engine Report
+# Action Engine v3 Report
 
-Action Engine evaluated 2 open position(s).
+Action Engine v3 translated 2 manager action(s) into 0 actionable portfolio request(s).
 
 ## Actions
 
-- `BTC-USD` action=`HOLD` confidence=`0.817708`
-- `ETH-USD` action=`HOLD` confidence=`0.817708`
+- `BTC-USD` manager=`HOLD` portfolio=`HOLD_POSITION` status=`HOLD`
+- `ETH-USD` manager=`HOLD` portfolio=`HOLD_POSITION` status=`HOLD`

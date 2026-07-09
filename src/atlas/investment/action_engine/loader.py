@@ -1,5 +1,5 @@
 
-"""Action Engine loaders."""
+"""Action Engine v3 loaders."""
 
 from __future__ import annotations
 
@@ -8,19 +8,11 @@ from pathlib import Path
 import pandas as pd
 
 
-LIFECYCLE_CSV = Path("output/investment_lifecycle/position_lifecycle.csv")
 POSITION_MANAGER_JSON = Path("output/investment_position_manager/position_manager_report.json")
-PORTFOLIO_STATE_JSON = Path("output/investment_portfolio_state/portfolio_state.json")
-DECISION_JSON = Path("output/investment_decision/decision_engine_report.json")
-LEARNING_JSON = Path("output/investment_learning/learning_report.json")
-PERFORMANCE_JSON = Path("output/investment_performance/performance_report.json")
-
-
-def load_csv(path: str | Path) -> pd.DataFrame:
-    p = Path(path)
-    if not p.exists():
-        return pd.DataFrame()
-    return pd.read_csv(p)
+POSITION_MANAGER_ACTIONS = Path("output/investment_position_manager/position_manager_actions.csv")
+LIFECYCLE_CSV = Path("output/investment_lifecycle/position_lifecycle.csv")
+PORTFOLIO_STATE = Path("output/investment_portfolio_state/portfolio_state.json")
+RISK_REPORT = Path("output/investment_risk/risk_engine_report.json")
 
 
 def load_json(path: str | Path) -> dict:
@@ -33,12 +25,18 @@ def load_json(path: str | Path) -> dict:
         return {}
 
 
+def load_csv(path: str | Path) -> pd.DataFrame:
+    p = Path(path)
+    if not p.exists():
+        return pd.DataFrame()
+    return pd.read_csv(p)
+
+
 def load_action_engine_inputs() -> dict:
     return {
-        "lifecycle": load_csv(LIFECYCLE_CSV),
         "position_manager": load_json(POSITION_MANAGER_JSON),
-        "portfolio_state": load_json(PORTFOLIO_STATE_JSON),
-        "decision": load_json(DECISION_JSON),
-        "learning": load_json(LEARNING_JSON),
-        "performance": load_json(PERFORMANCE_JSON),
+        "position_manager_actions": load_csv(POSITION_MANAGER_ACTIONS),
+        "lifecycle": load_csv(LIFECYCLE_CSV),
+        "portfolio_state": load_json(PORTFOLIO_STATE),
+        "risk": load_json(RISK_REPORT),
     }

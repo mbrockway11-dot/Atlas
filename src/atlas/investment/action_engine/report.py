@@ -1,5 +1,5 @@
 
-"""Action Engine report/export."""
+"""Action Engine v3 report/export."""
 
 from __future__ import annotations
 
@@ -9,88 +9,52 @@ from typing import Any
 
 import pandas as pd
 
-from atlas.investment.action_engine.exposure_action import exposure_vote
-from atlas.investment.action_engine.learning_action import learning_vote
 from atlas.investment.action_engine.loader import load_action_engine_inputs
-from atlas.investment.action_engine.performance_action import performance_vote
-from atlas.investment.action_engine.position_manager_action import position_manager_votes
-from atlas.investment.action_engine.signal_action import decision_alignment_vote
-from atlas.investment.action_engine.voting import aggregate_votes
+from atlas.investment.action_engine.policy import apply_action_policy
+from atlas.investment.action_engine.translator import translate_manager_action
 
 
 OUT_DIR = Path("output/investment_action_engine")
 REPORT_JSON = OUT_DIR / "action_engine_report.json"
 REPORT_MD = OUT_DIR / "action_engine_report.md"
 ACTIONS_CSV = OUT_DIR / "action_engine_actions.csv"
-VOTES_CSV = OUT_DIR / "action_engine_votes.csv"
+REQUESTS_CSV = OUT_DIR / "portfolio_action_requests.csv"
 
 
 def build_action_engine_report() -> dict[str, Any]:
     inputs = load_action_engine_inputs()
-
-    lifecycle = inputs["lifecycle"]
-    decision = inputs["decision"]
-    learning = inputs["learning"]
-    performance = inputs["performance"]
-    portfolio_state = inputs["portfolio_state"]
-    position_manager = inputs["position_manager"]
-
-    if lifecycle.empty:
-        report = {
-            "success": False,
-            "summary": "No lifecycle positions found.",
-            "actions": [],
-            "votes": [],
-        }
-        write_outputs(report)
-        return report
-
-    open_positions = lifecycle[lifecycle["state"] == "OPEN"].copy()
+    pm_actions = inputs["position_manager_actions"]
+    risk = inputs["risk"]
 
     actions = []
-    all_votes = []
 
-    for _, row in open_positions.iterrows():
-        position = row.to_dict()
-        pid = position.get("position_id")
+    if not pm_actions.empty:
+        for _, row in pm_actions.iterrows():
+            translated = translate_manager_action(row.to_dict(), risk)
+            actions.append(apply_action_policy(translated))
 
-        votes = []
-        votes.append(decision_alignment_vote(position, decision))
-        votes.append(learning_vote(position, learning))
-        votes.append(performance_vote(position, performance))
-        votes.append(exposure_vote(position, portfolio_state))
-        votes.extend(position_manager_votes(position, position_manager))
+    actionable = [a for a in actions if a.get("action_status") == "ACTIONABLE"]
 
-        result = aggregate_votes(pid, votes)
-
-        action_row = {
-            "position_id": pid,
-            "asset": position.get("asset"),
-            "side": position.get("side"),
-            "state": position.get("state"),
-            "final_action": result["final_action"],
-            "final_confidence": result["final_confidence"],
-            "scores": result["scores"],
-        }
-
-        actions.append(action_row)
-
-        for v in votes:
-            vote_row = dict(v)
-            vote_row["position_id"] = pid
-            vote_row["asset"] = position.get("asset")
-            all_votes.append(vote_row)
+    counts = (
+        pd.Series([a.get("portfolio_action") for a in actions]).value_counts().to_dict()
+        if actions else {}
+    )
 
     report = {
         "success": True,
-        "summary": f"Action Engine evaluated {len(actions)} open position(s).",
+        "version": "action_engine_v3",
+        "summary": (
+            f"Action Engine v3 translated {len(actions)} manager action(s) "
+            f"into {len(actionable)} actionable portfolio request(s)."
+        ),
+        "action_counts": counts,
         "actions": actions,
-        "votes": all_votes,
+        "portfolio_action_requests": actionable,
         "outputs": {
             "json": str(REPORT_JSON),
             "markdown": str(REPORT_MD),
             "actions_csv": str(ACTIONS_CSV),
-            "votes_csv": str(VOTES_CSV),
+            "requests_csv": str(REQUESTS_CSV),
         },
     }
 
@@ -102,7 +66,7 @@ def write_outputs(report: dict[str, Any]) -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
     pd.DataFrame(report.get("actions", [])).to_csv(ACTIONS_CSV, index=False)
-    pd.DataFrame(report.get("votes", [])).to_csv(VOTES_CSV, index=False)
+    pd.DataFrame(report.get("portfolio_action_requests", [])).to_csv(REQUESTS_CSV, index=False)
 
     REPORT_JSON.write_text(json.dumps(report, indent=2, ensure_ascii=False, default=str), encoding="utf-8")
     REPORT_MD.write_text(build_markdown(report), encoding="utf-8")
@@ -110,7 +74,7 @@ def write_outputs(report: dict[str, Any]) -> None:
 
 def build_markdown(report: dict[str, Any]) -> str:
     lines = [
-        "# Action Engine Report",
+        "# Action Engine v3 Report",
         "",
         report.get("summary", ""),
         "",
@@ -120,8 +84,8 @@ def build_markdown(report: dict[str, Any]) -> str:
 
     for row in report.get("actions", []):
         lines.append(
-            f"- `{row.get('asset')}` action=`{row.get('final_action')}` "
-            f"confidence=`{row.get('final_confidence')}`"
+            f"- `{row.get('asset')}` manager=`{row.get('manager_action')}` "
+            f"portfolio=`{row.get('portfolio_action')}` status=`{row.get('action_status')}`"
         )
 
     return "\n".join(lines) + "\n"

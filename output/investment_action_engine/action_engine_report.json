@@ -1,156 +1,47 @@
 {
   "success": true,
-  "summary": "Action Engine evaluated 2 open position(s).",
+  "version": "action_engine_v3",
+  "summary": "Action Engine v3 translated 2 manager action(s) into 0 actionable portfolio request(s).",
+  "action_counts": {
+    "HOLD_POSITION": 2
+  },
   "actions": [
     {
       "position_id": "paper::BTC-USD::LONG",
       "asset": "BTC-USD",
       "side": "LONG",
-      "state": "OPEN",
-      "final_action": "HOLD",
-      "final_confidence": 0.817708,
-      "scores": {
-        "REDUCE": 0.0,
-        "EXIT_REVIEW": 0.0,
-        "SCALE_IN": 0.0,
-        "TRAILING_STOP_PENDING": 0.175,
-        "HOLD": 0.785
-      }
+      "state": "ACTIVE",
+      "manager_action": "HOLD",
+      "portfolio_action": "HOLD_POSITION",
+      "requested_weight_delta": 0.0,
+      "priority": 9,
+      "risk_label": "low_risk",
+      "reason": "No position management trigger fired.",
+      "source": "position_manager_v3",
+      "action_status": "HOLD",
+      "execution_instruction": "Hold position."
     },
     {
       "position_id": "paper::ETH-USD::LONG",
       "asset": "ETH-USD",
       "side": "LONG",
-      "state": "OPEN",
-      "final_action": "HOLD",
-      "final_confidence": 0.817708,
-      "scores": {
-        "REDUCE": 0.0,
-        "EXIT_REVIEW": 0.0,
-        "SCALE_IN": 0.0,
-        "TRAILING_STOP_PENDING": 0.175,
-        "HOLD": 0.785
-      }
+      "state": "ACTIVE",
+      "manager_action": "HOLD",
+      "portfolio_action": "HOLD_POSITION",
+      "requested_weight_delta": 0.0,
+      "priority": 9,
+      "risk_label": "low_risk",
+      "reason": "No position management trigger fired.",
+      "source": "position_manager_v3",
+      "action_status": "HOLD",
+      "execution_instruction": "Hold position."
     }
   ],
-  "votes": [
-    {
-      "source": "decision_alignment",
-      "action": "HOLD",
-      "confidence": 0.7,
-      "reason": "Position aligns with current long decision.",
-      "position_id": "paper::BTC-USD::LONG",
-      "asset": "BTC-USD"
-    },
-    {
-      "source": "learning",
-      "action": "HOLD",
-      "confidence": 0.7,
-      "reason": "Learning regime is improving.",
-      "position_id": "paper::BTC-USD::LONG",
-      "asset": "BTC-USD"
-    },
-    {
-      "source": "performance",
-      "action": "HOLD",
-      "confidence": 0.6,
-      "reason": "Paper PnL is within normal range.",
-      "position_id": "paper::BTC-USD::LONG",
-      "asset": "BTC-USD"
-    },
-    {
-      "source": "exposure",
-      "action": "HOLD",
-      "confidence": 0.6,
-      "reason": "Risky exposure is within operating band.",
-      "position_id": "paper::BTC-USD::LONG",
-      "asset": "BTC-USD"
-    },
-    {
-      "source": "position_manager",
-      "action": "HOLD",
-      "confidence": 0.7,
-      "reason": "Portfolio exposure is within target band.",
-      "position_id": "paper::BTC-USD::LONG",
-      "asset": "BTC-USD"
-    },
-    {
-      "source": "position_manager",
-      "action": "HOLD",
-      "confidence": 0.7,
-      "reason": "No exit condition triggered.",
-      "position_id": "paper::BTC-USD::LONG",
-      "asset": "BTC-USD"
-    },
-    {
-      "source": "position_manager",
-      "action": "TRAILING_STOP_PENDING",
-      "confidence": 0.7,
-      "reason": "Trailing stop calculation will activate after price/cost-basis tracking is added.",
-      "position_id": "paper::BTC-USD::LONG",
-      "asset": "BTC-USD"
-    },
-    {
-      "source": "decision_alignment",
-      "action": "HOLD",
-      "confidence": 0.7,
-      "reason": "Position aligns with current long decision.",
-      "position_id": "paper::ETH-USD::LONG",
-      "asset": "ETH-USD"
-    },
-    {
-      "source": "learning",
-      "action": "HOLD",
-      "confidence": 0.7,
-      "reason": "Learning regime is improving.",
-      "position_id": "paper::ETH-USD::LONG",
-      "asset": "ETH-USD"
-    },
-    {
-      "source": "performance",
-      "action": "HOLD",
-      "confidence": 0.6,
-      "reason": "Paper PnL is within normal range.",
-      "position_id": "paper::ETH-USD::LONG",
-      "asset": "ETH-USD"
-    },
-    {
-      "source": "exposure",
-      "action": "HOLD",
-      "confidence": 0.6,
-      "reason": "Risky exposure is within operating band.",
-      "position_id": "paper::ETH-USD::LONG",
-      "asset": "ETH-USD"
-    },
-    {
-      "source": "position_manager",
-      "action": "HOLD",
-      "confidence": 0.7,
-      "reason": "Portfolio exposure is within target band.",
-      "position_id": "paper::ETH-USD::LONG",
-      "asset": "ETH-USD"
-    },
-    {
-      "source": "position_manager",
-      "action": "HOLD",
-      "confidence": 0.7,
-      "reason": "No exit condition triggered.",
-      "position_id": "paper::ETH-USD::LONG",
-      "asset": "ETH-USD"
-    },
-    {
-      "source": "position_manager",
-      "action": "TRAILING_STOP_PENDING",
-      "confidence": 0.7,
-      "reason": "Trailing stop calculation will activate after price/cost-basis tracking is added.",
-      "position_id": "paper::ETH-USD::LONG",
-      "asset": "ETH-USD"
-    }
-  ],
+  "portfolio_action_requests": [],
   "outputs": {
     "json": "output\\investment_action_engine\\action_engine_report.json",
     "markdown": "output\\investment_action_engine\\action_engine_report.md",
     "actions_csv": "output\\investment_action_engine\\action_engine_actions.csv",
-    "votes_csv": "output\\investment_action_engine\\action_engine_votes.csv"
+    "requests_csv": "output\\investment_action_engine\\portfolio_action_requests.csv"
   }
 }

@@ -1,5 +1,5 @@
 
-"""Update Action Engine."""
+"""Update Action Engine v3."""
 
 from __future__ import annotations
 
@@ -11,11 +11,12 @@ def main() -> None:
 
     print(report["success"])
     print(report["summary"])
+    print("Action counts:", report.get("action_counts"))
 
     for row in report.get("actions", []):
         print(row)
 
-    print("Outputs:", report.get("outputs"))
+    print("Outputs:", report["outputs"])
 
 
 if __name__ == "__main__":
