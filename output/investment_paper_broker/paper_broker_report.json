@@ -4,7 +4,7 @@
   "input_order_count": 2,
   "new_order_count": 0,
   "new_fill_count": 0,
-  "total_fill_count": 2,
+  "total_fill_count": 4,
   "new_fills": [],
   "outputs": {
     "fills_csv": "output\\investment_paper_broker\\paper_broker_fills.csv",

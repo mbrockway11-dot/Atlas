@@ -48,11 +48,19 @@ def filter_new_orders(orders: pd.DataFrame, existing_fills: pd.DataFrame) -> pd.
 
     existing_batch_keys = set()
     if "idempotency_key" in existing.columns:
-        existing_batch_keys = set(existing["idempotency_key"].astype(str).tolist())
+        existing_batch_keys |= set(existing["idempotency_key"].astype(str).tolist())
+    if "stable_order_key" in existing.columns:
+        existing_batch_keys |= set(existing["stable_order_key"].astype(str).tolist())
 
     existing_target_keys = set()
     if "target_key" in existing.columns:
         existing_target_keys = set(existing["target_key"].astype(str).tolist())
+
+    if "idempotency_key" not in orders.columns:
+        if "stable_order_key" in orders.columns:
+            orders["idempotency_key"] = orders["stable_order_key"]
+        else:
+            orders["idempotency_key"] = orders["target_key"]
 
     return orders[
         ~orders["idempotency_key"].astype(str).isin(existing_batch_keys)

@@ -20,7 +20,7 @@ def simulate_paper_broker_fills(orders: pd.DataFrame) -> pd.DataFrame:
     for _, row in orders.iterrows():
         status = str(row.get("execution_status") or "").upper()
 
-        if status != "APPROVED_FOR_EXECUTION":
+        if status not in {"APPROVED_FOR_EXECUTION", "EXECUTED_SIMULATED"}:
             continue
 
         weight = float(row.get("weight") or 0.0)
@@ -31,8 +31,9 @@ def simulate_paper_broker_fills(orders: pd.DataFrame) -> pd.DataFrame:
         rows.append({
             "filled_at": now,
             "execution_batch_id": row.get("execution_batch_id"),
-            "idempotency_key": row.get("idempotency_key"),
-            "target_key": row.get("target_key") or target_key(asset, side, action, weight),
+            "idempotency_key": row.get("idempotency_key") or row.get("stable_order_key"),
+            "stable_order_key": row.get("stable_order_key"),
+            "target_key": row.get("target_key") or row.get("stable_order_key") or target_key(asset, side, action, weight),
             "asset": asset,
             "side": side,
             "action": action,
