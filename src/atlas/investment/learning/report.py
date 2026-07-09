@@ -1,5 +1,5 @@
 
-"""Investment Learning v2 report/export."""
+"""Learning Engine v3 report/export."""
 
 from __future__ import annotations
 
@@ -9,16 +9,13 @@ from typing import Any
 
 import pandas as pd
 
-from atlas.investment.learning.adaptive_calibration import build_calibration_recommendations
-from atlas.investment.learning.regime_detector import detect_learning_regime
-from atlas.investment.learning.strategy_scorecard import build_strategy_scorecard
-from atlas.investment.learning.trade_outcomes import (
-    load_equity_curve,
-    load_performance_attribution,
-    load_performance_snapshots,
-    load_trade_outcomes,
-    load_unrealized_positions,
+from atlas.investment.learning.adaptive_calibration import (
+    aggregate_learning_confidence,
+    build_adaptive_recommendations,
 )
+from atlas.investment.learning.loader import load_learning_inputs
+from atlas.investment.learning.regime_detector import detect_learning_regime
+from atlas.investment.learning.strategy_scorecard import build_asset_scorecard
 
 
 OUT_DIR = Path("output/investment_learning")
@@ -29,33 +26,24 @@ REGIME_CSV = OUT_DIR / "learning_regime_history.csv"
 
 
 def build_learning_report() -> dict[str, Any]:
-    snapshots = load_performance_snapshots()
-    attribution = load_performance_attribution()
-    equity_curve = load_equity_curve()
-    unrealized = load_unrealized_positions()
-    ledger = load_trade_outcomes()
+    inputs = load_learning_inputs()
 
-    scorecard = build_strategy_scorecard(attribution if not attribution.empty else unrealized, ledger)
-    regime = detect_learning_regime(equity_curve, snapshots)
-    recommendations = build_calibration_recommendations(scorecard, regime)
+    regime = detect_learning_regime(inputs["performance"], inputs["equity_curve"])
+    scorecard = build_asset_scorecard(inputs["attribution"], inputs["broker_fills"])
+    confidence = aggregate_learning_confidence(regime, scorecard)
+    recommendations = build_adaptive_recommendations(regime, scorecard, inputs["risk"])
 
     report = {
         "success": True,
-        "version": "learning_v2",
+        "version": "learning_engine_v3",
         "summary": (
-            f"Learning v2 evaluated {len(scorecard)} scorecard row(s) "
-            f"from MTM/Performance v3. Regime: {regime.get('learning_regime')}."
+            f"Learning Engine v3 evaluated {len(scorecard)} asset scorecard row(s). "
+            f"Regime: {regime.get('learning_regime')}. Confidence={confidence}."
         ),
-        "scorecard": scorecard,
         "learning_regime": regime,
+        "learning_confidence": confidence,
+        "scorecard": scorecard,
         "recommendations": recommendations,
-        "inputs": {
-            "performance_snapshots": int(len(snapshots)),
-            "equity_curve_rows": int(len(equity_curve)),
-            "attribution_rows": int(len(attribution)),
-            "unrealized_rows": int(len(unrealized)),
-            "ledger_rows": int(len(ledger)),
-        },
         "outputs": {
             "json": str(REPORT_JSON),
             "markdown": str(REPORT_MD),
@@ -73,13 +61,20 @@ def write_outputs(report: dict[str, Any]) -> None:
 
     pd.DataFrame(report.get("scorecard", [])).to_csv(SCORECARD_CSV, index=False)
 
-    regime_row = pd.DataFrame([report.get("learning_regime", {})])
-    if REGIME_CSV.exists():
-        old = pd.read_csv(REGIME_CSV)
-        regime_hist = pd.concat([old, regime_row], ignore_index=True)
-    else:
-        regime_hist = regime_row
-    regime_hist.to_csv(REGIME_CSV, index=False)
+    regime_row = {
+        **report.get("learning_regime", {}),
+        "learning_confidence": report.get("learning_confidence"),
+    }
+
+    old = pd.DataFrame()
+    if REGIME_CSV.exists() and REGIME_CSV.stat().st_size > 0:
+        try:
+            old = pd.read_csv(REGIME_CSV)
+        except Exception:
+            old = pd.DataFrame()
+
+    history = pd.concat([old, pd.DataFrame([regime_row])], ignore_index=True) if not old.empty else pd.DataFrame([regime_row])
+    history.to_csv(REGIME_CSV, index=False)
 
     REPORT_JSON.write_text(json.dumps(report, indent=2, ensure_ascii=False, default=str), encoding="utf-8")
     REPORT_MD.write_text(build_markdown(report), encoding="utf-8")
@@ -87,15 +82,18 @@ def write_outputs(report: dict[str, Any]) -> None:
 
 def build_markdown(report: dict[str, Any]) -> str:
     lines = [
-        "# Investment Learning v2 Report",
+        "# Learning Engine v3 Report",
         "",
         report.get("summary", ""),
         "",
-        "## Learning Regime",
+        "## Recommendations",
         "",
-        "```json",
-        json.dumps(report.get("learning_regime", {}), indent=2),
-        "```",
+    ]
+
+    for rec in report.get("recommendations", []):
+        lines.append(f"- {rec}")
+
+    lines += [
         "",
         "## Scorecard",
         "",
@@ -103,12 +101,7 @@ def build_markdown(report: dict[str, Any]) -> str:
 
     for row in report.get("scorecard", []):
         lines.append(
-            f"- `{row.get('asset')}` score=`{row.get('score')}` status=`{row.get('status')}`"
+            f"- `{row.get('asset')}` confidence=`{row.get('asset_confidence')}` recommendation=`{row.get('recommendation')}`"
         )
-
-    lines.extend(["", "## Recommendations", ""])
-
-    for rec in report.get("recommendations", []):
-        lines.append(f"- {rec}")
 
     return "\n".join(lines) + "\n"

@@ -1,48 +1,64 @@
 
-"""Learning v2 strategy/asset scorecard."""
+"""Learning Engine v3 scorecards."""
 
 from __future__ import annotations
 
 import pandas as pd
 
 
-def build_strategy_scorecard(attribution: pd.DataFrame, ledger: pd.DataFrame) -> list[dict]:
-    if attribution.empty:
-        return []
-
-    df = attribution.copy()
-
+def build_asset_scorecard(attribution: pd.DataFrame, fills: pd.DataFrame) -> list[dict]:
     rows = []
 
-    for asset, group in df.groupby("asset"):
-        pnl = pd.to_numeric(group.get("unrealized_pnl", 0.0), errors="coerce").fillna(0.0)
-        pnl_pct = pd.to_numeric(group.get("unrealized_pnl_pct", 0.0), errors="coerce").fillna(0.0)
+    assets = set()
 
-        trade_count = 0
-        if ledger is not None and not ledger.empty and "asset" in ledger.columns:
-            trade_count = int((ledger["asset"] == asset).sum())
+    if attribution is not None and not attribution.empty and "asset" in attribution.columns:
+        assets |= set(attribution["asset"].astype(str).tolist())
 
-        avg_pnl = float(pnl.mean()) if len(pnl) else 0.0
-        avg_pnl_pct = float(pnl_pct.mean()) if len(pnl_pct) else 0.0
+    if fills is not None and not fills.empty and "asset" in fills.columns:
+        assets |= set(fills["asset"].astype(str).tolist())
 
-        raw_score = 0.50 + avg_pnl_pct
-        score = max(0.0, min(1.0, raw_score))
+    for asset in sorted(a for a in assets if a and a != "nan"):
+        attr = attribution[attribution["asset"].astype(str) == asset] if attribution is not None and not attribution.empty and "asset" in attribution.columns else pd.DataFrame()
+        f = fills[fills["asset"].astype(str) == asset] if fills is not None and not fills.empty and "asset" in fills.columns else pd.DataFrame()
+
+        market_value = safe_float(attr["market_value"].sum()) if not attr.empty and "market_value" in attr.columns else 0.0
+        pnl = safe_float(attr["unrealized_pnl"].sum()) if not attr.empty and "unrealized_pnl" in attr.columns else 0.0
+        trade_count = int(len(f))
+
+        score = 0.50
+        if market_value > 0:
+            score += 0.10
+        if pnl > 0:
+            score += 0.20
+        elif pnl < 0:
+            score -= 0.20
+        if trade_count > 0:
+            score += 0.05
+
+        score = max(0.0, min(1.0, score))
 
         rows.append({
             "asset": asset,
-            "paper_trade_count": trade_count,
-            "avg_unrealized_pnl": round(avg_pnl, 6),
-            "avg_unrealized_pnl_pct": round(avg_pnl_pct, 6),
-            "score": round(score, 6),
-            "status": label_score(score),
+            "trade_count": trade_count,
+            "market_value": round(market_value, 2),
+            "unrealized_pnl": round(pnl, 2),
+            "asset_confidence": round(score, 6),
+            "recommendation": recommendation_from_score(score),
         })
 
     return rows
 
 
-def label_score(score: float) -> str:
-    if score >= 0.65:
-        return "outperforming"
+def recommendation_from_score(score: float) -> str:
+    if score >= 0.75:
+        return "promote"
     if score <= 0.35:
-        return "underperforming"
-    return "neutral"
+        return "reduce"
+    return "maintain"
+
+
+def safe_float(value) -> float:
+    try:
+        return float(value)
+    except Exception:
+        return 0.0

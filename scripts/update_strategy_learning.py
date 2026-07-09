@@ -1,5 +1,5 @@
 
-"""Update strategy learning."""
+"""Update Learning Engine v3."""
 
 from __future__ import annotations
 
@@ -13,6 +13,7 @@ def main() -> None:
     print(report["summary"])
     print("Regime:", report["learning_regime"])
     print("Recommendations:")
+
     for rec in report.get("recommendations", []):
         print("-", rec)
 

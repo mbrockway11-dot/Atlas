@@ -1,25 +1,12 @@
-# Investment Learning v2 Report
+# Learning Engine v3 Report
 
-Learning v2 evaluated 2 scorecard row(s) from MTM/Performance v3. Regime: flat.
-
-## Learning Regime
-
-```json
-{
-  "learning_regime": "flat",
-  "trend": "flat",
-  "equity_change_pct": 0.0,
-  "recent_volatility": 0.0,
-  "confidence": 0.05,
-  "source": "mtm_equity_curve"
-}
-```
-
-## Scorecard
-
-- `BTC-USD` score=`0.5` status=`neutral`
-- `ETH-USD` score=`0.5` status=`neutral`
+Learning Engine v3 evaluated 2 asset scorecard row(s). Regime: flat. Confidence=0.41.
 
 ## Recommendations
 
-- Maintain current exposure while monitoring MTM equity curve for directional evidence.
+- Maintain current exposure while monitoring equity curve and attribution.
+
+## Scorecard
+
+- `BTC-USD` confidence=`0.65` recommendation=`maintain`
+- `ETH-USD` confidence=`0.65` recommendation=`maintain`
