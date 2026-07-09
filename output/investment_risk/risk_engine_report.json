@@ -1,77 +1,98 @@
 {
   "success": true,
-  "summary": "Risk Engine v2 classified portfolio as low_risk with score 0.028783.",
+  "version": "risk_engine_v3",
+  "summary": "Risk Engine v3 classified MTM portfolio as low_risk with score 0.018.",
   "aggregate": {
-    "aggregate_risk_score": 0.028783,
+    "aggregate_risk_score": 0.018,
     "risk_label": "low_risk",
     "risk_breakdown": {
       "exposure": {
         "score": 0.0,
-        "weight": 0.25,
+        "weight": 0.22,
         "weighted_score": 0.0
       },
       "concentration": {
         "score": 0.0,
-        "weight": 0.2,
+        "weight": 0.16,
         "weighted_score": 0.0
       },
       "drawdown": {
-        "score": 0.1,
-        "weight": 0.2,
-        "weighted_score": 0.02
+        "score": 0.0,
+        "weight": 0.22,
+        "weighted_score": 0.0
+      },
+      "mtm_position": {
+        "score": 0.0,
+        "weight": 0.14,
+        "weighted_score": 0.0
       },
       "learning": {
-        "score": 0.058555,
-        "weight": 0.15,
-        "weighted_score": 0.008783
+        "score": 0.15,
+        "weight": 0.12,
+        "weighted_score": 0.018
       },
       "action": {
         "score": 0.0,
-        "weight": 0.1,
+        "weight": 0.07,
         "weighted_score": 0.0
       },
       "rebalance": {
         "score": 0.0,
-        "weight": 0.1,
+        "weight": 0.07,
         "weighted_score": 0.0
       }
     },
     "warnings": [
-      "Paper PnL is slightly negative."
+      "Learning regime is flat."
     ],
-    "warning_count": 1
+    "warning_count": 1,
+    "source": "risk_engine_v3_mtm"
   },
   "risk_blocks": [
     {
       "risk_type": "exposure",
       "risk_score": 0.0,
-      "risky_weight": 0.41436,
-      "cash_weight": 0.508328,
-      "reserved_cash_weight": 0.076482,
-      "gross_exposure": 0.41436,
+      "risky_weight": 0.41519,
+      "cash_weight": 0.58481,
+      "reserved_cash_weight": 0.0,
+      "gross_exposure": 0.41519,
+      "drawdown": 0.0,
+      "source": "portfolio_state_v3_mtm",
       "warnings": []
     },
     {
       "risk_type": "concentration",
       "risk_score": 0.0,
-      "max_position_weight": 0.223536,
+      "max_position_weight": 0.223984,
       "asset_count": 2,
+      "source": "mtm_positions",
       "warnings": []
     },
     {
       "risk_type": "drawdown",
-      "risk_score": 0.1,
-      "pnl_pct": -0.00083,
-      "warnings": [
-        "Paper PnL is slightly negative."
-      ]
+      "risk_score": 0.0,
+      "pnl_pct": 0.0,
+      "drawdown": 0.0,
+      "equity_curve_rows": 8,
+      "source": "performance_v3_mtm",
+      "warnings": []
+    },
+    {
+      "risk_type": "mtm_position",
+      "risk_score": 0.0,
+      "worst_unrealized_pnl_pct": 0.0,
+      "weighted_loss_pressure": 0.0,
+      "position_count": 2,
+      "warnings": []
     },
     {
       "risk_type": "learning",
-      "risk_score": 0.058555,
-      "learning_regime": "improving",
-      "learning_confidence": 0.828905,
-      "warnings": []
+      "risk_score": 0.15,
+      "learning_regime": "flat",
+      "learning_confidence": 0.05,
+      "warnings": [
+        "Learning regime is flat."
+      ]
     },
     {
       "risk_type": "action",

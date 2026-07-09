@@ -1,5 +1,5 @@
 
-"""Risk Engine v2 report/export."""
+"""Risk Engine v3 report/export."""
 
 from __future__ import annotations
 
@@ -15,6 +15,7 @@ from atlas.investment.risk_engine.drawdown import drawdown_risk
 from atlas.investment.risk_engine.exposure import exposure_risk
 from atlas.investment.risk_engine.learning_risk import learning_risk
 from atlas.investment.risk_engine.loader import load_risk_inputs
+from atlas.investment.risk_engine.mtm_risk import mtm_position_risk
 from atlas.investment.risk_engine.scoring import aggregate_risk
 
 
@@ -28,9 +29,10 @@ def build_risk_engine_report() -> dict[str, Any]:
     inputs = load_risk_inputs()
 
     blocks = [
-        exposure_risk(inputs["portfolio_state"]),
-        concentration_risk(inputs["portfolio_state"]),
-        drawdown_risk(inputs["performance"]),
+        exposure_risk(inputs["portfolio_state"], inputs["mtm_report"]),
+        concentration_risk(inputs["portfolio_state"], inputs["mtm_positions"]),
+        drawdown_risk(inputs["performance"], inputs["mtm_report"], inputs["mtm_equity_curve"]),
+        mtm_position_risk(inputs["mtm_positions"]),
         learning_risk(inputs["learning"]),
         action_risk(inputs["action_engine"]),
         rebalance_risk(inputs["rebalance"]),
@@ -40,8 +42,9 @@ def build_risk_engine_report() -> dict[str, Any]:
 
     report = {
         "success": True,
+        "version": "risk_engine_v3",
         "summary": (
-            f"Risk Engine v2 classified portfolio as {aggregate['risk_label']} "
+            f"Risk Engine v3 classified MTM portfolio as {aggregate['risk_label']} "
             f"with score {aggregate['aggregate_risk_score']}."
         ),
         "aggregate": aggregate,
@@ -67,7 +70,7 @@ def write_outputs(report: dict[str, Any]) -> None:
 
 def build_markdown(report: dict[str, Any]) -> str:
     lines = [
-        "# Risk Engine v2 Report",
+        "# Risk Engine v3 Report",
         "",
         report.get("summary", ""),
         "",

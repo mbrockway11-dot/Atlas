@@ -1,23 +1,23 @@
 
-"""Risk Engine aggregate scoring."""
+"""Risk Engine v3 aggregate scoring."""
 
 from __future__ import annotations
 
 
 RISK_WEIGHTS = {
-    "exposure": 0.25,
-    "concentration": 0.20,
-    "drawdown": 0.20,
-    "learning": 0.15,
-    "action": 0.10,
-    "rebalance": 0.10,
+    "exposure": 0.22,
+    "concentration": 0.16,
+    "drawdown": 0.22,
+    "mtm_position": 0.14,
+    "learning": 0.12,
+    "action": 0.07,
+    "rebalance": 0.07,
 }
 
 
 def aggregate_risk(risk_blocks: list[dict]) -> dict:
     total = 0.0
     warnings = []
-
     by_type = {}
 
     for block in risk_blocks:
@@ -25,11 +25,13 @@ def aggregate_risk(risk_blocks: list[dict]) -> dict:
         score = float(block.get("risk_score") or 0.0)
         weight = RISK_WEIGHTS.get(risk_type, 0.05)
 
-        total += score * weight
+        weighted = score * weight
+        total += weighted
+
         by_type[risk_type] = {
             "score": round(score, 6),
             "weight": weight,
-            "weighted_score": round(score * weight, 6),
+            "weighted_score": round(weighted, 6),
         }
 
         warnings.extend(block.get("warnings", []) or [])
@@ -42,6 +44,7 @@ def aggregate_risk(risk_blocks: list[dict]) -> dict:
         "risk_breakdown": by_type,
         "warnings": warnings,
         "warning_count": len(warnings),
+        "source": "risk_engine_v3_mtm",
     }
 
 

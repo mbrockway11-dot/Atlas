@@ -1,7 +1,8 @@
-risk_type,risk_score,risky_weight,cash_weight,reserved_cash_weight,gross_exposure,warnings,max_position_weight,asset_count,pnl_pct,learning_regime,learning_confidence,exit_review_count,reduce_count,scale_in_count,turnover,order_count
-exposure,0.0,0.41436,0.508328,0.076482,0.41436,[],,,,,,,,,,
-concentration,0.0,,,,,[],0.223536,2.0,,,,,,,,
-drawdown,0.1,,,,,['Paper PnL is slightly negative.'],,,-0.00083,,,,,,,
-learning,0.058555,,,,,[],,,,improving,0.828905,,,,,
-action,0.0,,,,,[],,,,,,0.0,0.0,0.0,,
-rebalance,0.0,,,,,[],,,,,,,,,0.076482,1.0
+risk_type,risk_score,risky_weight,cash_weight,reserved_cash_weight,gross_exposure,drawdown,source,warnings,max_position_weight,asset_count,pnl_pct,equity_curve_rows,worst_unrealized_pnl_pct,weighted_loss_pressure,position_count,learning_regime,learning_confidence,exit_review_count,reduce_count,scale_in_count,turnover,order_count
+exposure,0.0,0.41519,0.58481,0.0,0.41519,0.0,portfolio_state_v3_mtm,[],,,,,,,,,,,,,,
+concentration,0.0,,,,,,mtm_positions,[],0.223984,2.0,,,,,,,,,,,,
+drawdown,0.0,,,,,0.0,performance_v3_mtm,[],,,0.0,8.0,,,,,,,,,,
+mtm_position,0.0,,,,,,,[],,,,,0.0,0.0,2.0,,,,,,,
+learning,0.15,,,,,,,['Learning regime is flat.'],,,,,,,,flat,0.05,,,,,
+action,0.0,,,,,,,[],,,,,,,,,,0.0,0.0,0.0,,
+rebalance,0.0,,,,,,,[],,,,,,,,,,,,,0.076482,1.0
