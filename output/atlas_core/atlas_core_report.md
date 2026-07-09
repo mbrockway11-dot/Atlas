@@ -1,13 +1,31 @@
 # Atlas Core Report
 
 - Success: `True`
-- Run ID: `5cc559fc-c942-4389-9812-b47d13744a6d`
+- Run ID: `52a5d86b-7173-4a66-bc2f-e05640e6e5e6`
 - Mode: `paper`
-- Nodes executed: `4`
+- Nodes executed: `22`
 
 ## Nodes
 
-- `daily_investment_runbook` success=`True` output=`daily_runbook`
+- `market_features` success=`True` output=`market_features`
+- `sigil_v32_adapter` success=`True` output=`sigil_v32_adapter`
+- `alpha_hypotheses` success=`True` output=`alpha_hypotheses`
+- `alpha_backtests` success=`True` output=`alpha_backtests`
+- `alpha_validation` success=`True` output=`alpha_validation`
+- `adaptive_weighting` success=`True` output=`adaptive_weighting`
+- `alpha_ensemble` success=`True` output=`alpha_ensemble`
+- `cross_sectional_ranker` success=`True` output=`cross_sectional_ranker`
+- `alpha_portfolio` success=`True` output=`alpha_portfolio`
+- `strategy_registry` success=`True` output=`strategy_registry`
+- `market_direction` success=`True` output=`market_direction`
+- `decision_engine` success=`True` output=`decision_engine`
+- `execution_planner` success=`True` output=`execution_planner`
+- `execution_simulator` success=`True` output=`execution_simulator`
+- `paper_trading` success=`True` output=`paper_trading`
+- `performance` success=`True` output=`performance`
+- `learning` success=`True` output=`learning`
+- `trade_safety` success=`True` output=`trade_safety`
+- `broker_interface` success=`True` output=`broker_interface`
 - `portfolio_state` success=`True` output=`portfolio_state`
 - `portfolio_lifecycle` success=`True` output=`portfolio_lifecycle`
 - `position_manager` success=`True` output=`position_manager`

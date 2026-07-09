@@ -1,15 +1,141 @@
 {
   "success": true,
-  "run_id": "5cc559fc-c942-4389-9812-b47d13744a6d",
+  "run_id": "52a5d86b-7173-4a66-bc2f-e05640e6e5e6",
   "mode": "paper",
-  "started_at": "2026-07-09T04:38:03.683698+00:00",
-  "ended_at": "2026-07-09T04:38:53.059324+00:00",
-  "node_count": 4,
+  "started_at": "2026-07-09T04:49:03.825024+00:00",
+  "ended_at": "2026-07-09T04:49:56.885115+00:00",
+  "node_count": 22,
   "results": [
     {
-      "name": "daily_investment_runbook",
+      "name": "market_features",
       "success": true,
-      "output_key": "daily_runbook",
+      "output_key": "market_features",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "sigil_v32_adapter",
+      "success": true,
+      "output_key": "sigil_v32_adapter",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "alpha_hypotheses",
+      "success": true,
+      "output_key": "alpha_hypotheses",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "alpha_backtests",
+      "success": true,
+      "output_key": "alpha_backtests",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "alpha_validation",
+      "success": true,
+      "output_key": "alpha_validation",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "adaptive_weighting",
+      "success": true,
+      "output_key": "adaptive_weighting",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "alpha_ensemble",
+      "success": true,
+      "output_key": "alpha_ensemble",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "cross_sectional_ranker",
+      "success": true,
+      "output_key": "cross_sectional_ranker",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "alpha_portfolio",
+      "success": true,
+      "output_key": "alpha_portfolio",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "strategy_registry",
+      "success": true,
+      "output_key": "strategy_registry",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "market_direction",
+      "success": true,
+      "output_key": "market_direction",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "decision_engine",
+      "success": true,
+      "output_key": "decision_engine",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "execution_planner",
+      "success": true,
+      "output_key": "execution_planner",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "execution_simulator",
+      "success": true,
+      "output_key": "execution_simulator",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "paper_trading",
+      "success": true,
+      "output_key": "paper_trading",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "performance",
+      "success": true,
+      "output_key": "performance",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "learning",
+      "success": true,
+      "output_key": "learning",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "trade_safety",
+      "success": true,
+      "output_key": "trade_safety",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "broker_interface",
+      "success": true,
+      "output_key": "broker_interface",
       "error": null,
       "warnings": []
     },
@@ -36,7 +162,25 @@
     }
   ],
   "state_keys": [
-    "daily_runbook",
+    "market_features",
+    "sigil_v32_adapter",
+    "alpha_hypotheses",
+    "alpha_backtests",
+    "alpha_validation",
+    "adaptive_weighting",
+    "alpha_ensemble",
+    "cross_sectional_ranker",
+    "alpha_portfolio",
+    "strategy_registry",
+    "market_direction",
+    "decision_engine",
+    "execution_planner",
+    "execution_simulator",
+    "paper_trading",
+    "performance",
+    "learning",
+    "trade_safety",
+    "broker_interface",
     "portfolio_state",
     "portfolio_lifecycle",
     "position_manager"
