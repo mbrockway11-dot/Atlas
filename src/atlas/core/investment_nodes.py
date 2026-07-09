@@ -134,15 +134,21 @@ def build_investment_core_nodes() -> list[ScriptNode]:
             provides=["paper_broker"],
         ),
         ScriptNode(
+            name="mark_to_market",
+            command=["scripts/update_mark_to_market.py"],
+            requires=["market_features"],
+            provides=["mark_to_market"],
+        ),
+        ScriptNode(
             name="portfolio_state",
             command=["scripts/update_portfolio_state.py"],
-            requires=["broker_interface", "performance", "decision_engine"],
+            requires=["mark_to_market", "decision_engine"],
             provides=["portfolio_state"],
         ),
         ScriptNode(
             name="portfolio_lifecycle",
             command=["scripts/update_portfolio_lifecycle.py"],
-            requires=["portfolio_state", "broker_interface"],
+            requires=["portfolio_state"],
             provides=["portfolio_lifecycle"],
         ),
         ScriptNode(

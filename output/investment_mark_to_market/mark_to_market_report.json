@@ -1,0 +1,56 @@
+{
+  "success": true,
+  "version": "mark_to_market_v2",
+  "summary": "Mark-to-Market v2 valued 2 open position(s). Equity=100000.0, PnL=0.0, drawdown=0.0.",
+  "latest_prices": {
+    "ETH-USD": 2065.40966796875,
+    "BTC-USD": 67672.9140625,
+    "SOL-USD": 83.3587875366211
+  },
+  "equity_snapshot": {
+    "timestamp": "2026-07-09T08:00:31.983789+00:00",
+    "equity": 100000.0,
+    "cash": 58481.0,
+    "market_value": 41519.0,
+    "pnl": 0.0,
+    "pnl_pct": 0.0,
+    "rolling_high": 100000.0,
+    "drawdown": 0.0
+  },
+  "positions": [
+    {
+      "asset": "BTC-USD",
+      "side": "LONG",
+      "quantity": 0.3309802793376643,
+      "cost_basis": 22398.399999999998,
+      "weight": 0.223984,
+      "current_price": 67672.9140625,
+      "avg_entry_price": 67672.9140625,
+      "market_value": 22398.399999999998,
+      "portfolio_weight": 0.223984,
+      "unrealized_pnl": 0.0,
+      "unrealized_pnl_pct": 0.0
+    },
+    {
+      "asset": "ETH-USD",
+      "side": "LONG",
+      "quantity": 9.257533890990432,
+      "cost_basis": 19120.6,
+      "weight": 0.191206,
+      "current_price": 2065.40966796875,
+      "avg_entry_price": 2065.40966796875,
+      "market_value": 19120.6,
+      "portfolio_weight": 0.191206,
+      "unrealized_pnl": 0.0,
+      "unrealized_pnl_pct": 0.0
+    }
+  ],
+  "outputs": {
+    "json": "output\\investment_mark_to_market\\mark_to_market_report.json",
+    "markdown": "output\\investment_mark_to_market\\mark_to_market_report.md",
+    "positions_csv": "output\\investment_mark_to_market\\positions.csv",
+    "unrealized_csv": "output\\investment_mark_to_market\\unrealized_pnl.csv",
+    "realized_csv": "output\\investment_mark_to_market\\realized_pnl.csv",
+    "equity_curve_csv": "output\\investment_mark_to_market\\equity_curve.csv"
+  }
+}
