@@ -1,0 +1,44 @@
+{
+  "success": true,
+  "run_id": "5cc559fc-c942-4389-9812-b47d13744a6d",
+  "mode": "paper",
+  "started_at": "2026-07-09T04:38:03.683698+00:00",
+  "ended_at": "2026-07-09T04:38:53.059324+00:00",
+  "node_count": 4,
+  "results": [
+    {
+      "name": "daily_investment_runbook",
+      "success": true,
+      "output_key": "daily_runbook",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "portfolio_state",
+      "success": true,
+      "output_key": "portfolio_state",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "portfolio_lifecycle",
+      "success": true,
+      "output_key": "portfolio_lifecycle",
+      "error": null,
+      "warnings": []
+    },
+    {
+      "name": "position_manager",
+      "success": true,
+      "output_key": "position_manager",
+      "error": null,
+      "warnings": []
+    }
+  ],
+  "state_keys": [
+    "daily_runbook",
+    "portfolio_state",
+    "portfolio_lifecycle",
+    "position_manager"
+  ]
+}
