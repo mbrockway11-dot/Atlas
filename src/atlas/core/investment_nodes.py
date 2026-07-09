@@ -128,6 +128,12 @@ def build_investment_core_nodes() -> list[ScriptNode]:
             provides=["execution_engine"],
         ),
         ScriptNode(
+            name="paper_broker",
+            command=["scripts/update_paper_broker.py"],
+            requires=["execution_engine"],
+            provides=["paper_broker"],
+        ),
+        ScriptNode(
             name="portfolio_state",
             command=["scripts/update_portfolio_state.py"],
             requires=["broker_interface", "performance", "decision_engine"],
