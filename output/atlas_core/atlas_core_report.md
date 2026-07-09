@@ -1,9 +1,9 @@
 # Atlas Core Report
 
 - Success: `False`
-- Run ID: `bfbd8c26-4c35-4cc8-90d1-5b3cda5c8167`
+- Run ID: `43a42b82-f2d2-4086-8296-c505d0eb75f5`
 - Mode: `paper`
-- Nodes executed: `18`
+- Nodes executed: `24`
 
 ## Nodes
 
@@ -24,4 +24,10 @@
 - `portfolio_state` success=`True` output=`portfolio_state`
 - `execution_simulator` success=`True` output=`execution_simulator`
 - `portfolio_lifecycle` success=`True` output=`portfolio_lifecycle`
-- `paper_trading` success=`False` output=`paper_trading`
+- `paper_trading` success=`True` output=`paper_trading`
+- `performance` success=`True` output=`performance`
+- `learning` success=`True` output=`learning`
+- `position_manager` success=`True` output=`position_manager`
+- `trade_safety` success=`True` output=`trade_safety`
+- `action_engine` success=`True` output=`action_engine`
+- `broker_interface` success=`False` output=`broker_interface`

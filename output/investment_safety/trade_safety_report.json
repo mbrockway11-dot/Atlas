@@ -1,78 +1,18 @@
 {
   "success": true,
-  "approved": true,
-  "status": "APPROVED_WITH_WARNINGS",
-  "safety_status": "APPROVED_WITH_WARNINGS",
-  "decision": "ALLOW_PAPER_EXECUTION",
-  "reason": "All hard safety checks passed with warnings.",
+  "approved": false,
+  "status": "REJECTED",
+  "safety_status": "REJECTED",
+  "decision": "BLOCK_EXECUTION",
+  "reason": "No broker orders available.",
   "checks": [
     {
-      "name": "order_count",
-      "status": "PASS",
-      "message": "Actionable order count 0 <= 5."
-    },
-    {
-      "name": "shorts_disabled",
-      "status": "PASS",
-      "message": "No short orders present."
-    },
-    {
-      "name": "single_asset_exposure",
-      "status": "PASS",
-      "message": "Max non-cash asset planned weight 0.223984 within limit."
-    },
-    {
-      "name": "total_exposure",
-      "status": "PASS",
-      "message": "Filled exposure 0.000000 within limit."
-    },
-    {
-      "name": "waiting_weight",
-      "status": "PASS",
-      "message": "Waiting weight 0.000000 within limit."
-    },
-    {
-      "name": "cost_drag",
-      "status": "PASS",
-      "message": "Cost drag 0.00000000 within limit."
-    },
-    {
-      "name": "paper_drawdown",
-      "status": "PASS",
-      "message": "Paper PnL acceptable: 0.000000."
-    },
-    {
-      "name": "learning_regime",
-      "status": "PASS",
-      "message": "Learning regime acceptable: flat."
-    },
-    {
-      "name": "execution_confirmation",
-      "status": "WARN",
-      "message": "Execution layer is idle; exposure should remain reduced."
-    },
-    {
-      "name": "risk_engine_score",
-      "status": "PASS",
-      "message": "Risk Engine acceptable: score=0.018000, label=low_risk."
-    },
-    {
-      "name": "mtm_gross_exposure",
-      "status": "PASS",
-      "message": "MTM gross exposure 0.415190 within limit."
-    },
-    {
-      "name": "mtm_cash_reserve",
-      "status": "PASS",
-      "message": "MTM cash reserve 0.584810 above minimum."
-    },
-    {
-      "name": "mtm_drawdown",
-      "status": "PASS",
-      "message": "MTM drawdown 0.000000 within limit."
+      "name": "orders_available",
+      "status": "REJECT",
+      "message": "No broker orders available."
     }
   ],
-  "summary": "Trade Safety Governor status: APPROVED_WITH_WARNINGS. Decision: ALLOW_PAPER_EXECUTION. Reason: All hard safety checks passed with warnings..",
+  "summary": "Trade Safety Governor status: REJECTED. Decision: BLOCK_EXECUTION. Reason: No broker orders available..",
   "outputs": {
     "json": "output\\investment_safety\\trade_safety_report.json",
     "markdown": "output\\investment_safety\\trade_safety_report.md"
