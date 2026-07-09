@@ -1,15 +1,14 @@
 {
   "success": true,
   "approved": true,
-  "safety_status": "APPROVED",
-  "check_count": 11,
-  "reject_count": 0,
-  "warning_count": 1,
+  "status": "APPROVED",
+  "decision": "ALLOW_PAPER_EXECUTION",
+  "reason": "All hard safety checks passed with warnings.",
   "checks": [
     {
       "name": "order_count",
       "status": "PASS",
-      "message": "Actionable order count 2 <= 5."
+      "message": "Actionable order count 0 <= 5."
     },
     {
       "name": "shorts_disabled",
@@ -24,32 +23,27 @@
     {
       "name": "total_exposure",
       "status": "PASS",
-      "message": "Filled exposure 0.415190 within limit."
-    },
-    {
-      "name": "cash_reserve",
-      "status": "PASS",
-      "message": "Cash reserve 0.508328 above minimum."
+      "message": "Filled exposure 0.000000 within limit."
     },
     {
       "name": "waiting_weight",
       "status": "PASS",
-      "message": "Waiting weight 0.076482 within limit."
+      "message": "Waiting weight 0.000000 within limit."
     },
     {
       "name": "cost_drag",
       "status": "PASS",
-      "message": "Cost drag 0.00083038 within limit."
+      "message": "Cost drag 0.00000000 within limit."
     },
     {
       "name": "paper_drawdown",
       "status": "PASS",
-      "message": "Paper PnL acceptable: -0.000830."
+      "message": "Paper PnL acceptable: 0.000000."
     },
     {
       "name": "learning_regime",
       "status": "PASS",
-      "message": "Learning regime acceptable: improving."
+      "message": "Learning regime acceptable: flat."
     },
     {
       "name": "execution_confirmation",
@@ -57,14 +51,27 @@
       "message": "Execution layer is idle; exposure should remain reduced."
     },
     {
-      "name": "risk_engine",
+      "name": "risk_engine_score",
       "status": "PASS",
-      "message": "Risk Engine acceptable: score=0.028783, label=low_risk."
+      "message": "Risk Engine acceptable: score=0.018000, label=low_risk."
+    },
+    {
+      "name": "mtm_gross_exposure",
+      "status": "PASS",
+      "message": "MTM gross exposure 0.415190 within limit."
+    },
+    {
+      "name": "mtm_cash_reserve",
+      "status": "PASS",
+      "message": "MTM cash reserve 0.584810 above minimum."
+    },
+    {
+      "name": "mtm_drawdown",
+      "status": "PASS",
+      "message": "MTM drawdown 0.000000 within limit."
     }
   ],
-  "decision": "ALLOW_PAPER_EXECUTION",
-  "reason": "All hard safety checks passed.",
-  "summary": "Trade Safety Governor status: APPROVED. Decision: ALLOW_PAPER_EXECUTION. Reason: All hard safety checks passed..",
+  "summary": "Trade Safety Governor status: None. Decision: ALLOW_PAPER_EXECUTION. Reason: All hard safety checks passed with warnings..",
   "outputs": {
     "json": "output\\investment_safety\\trade_safety_report.json",
     "markdown": "output\\investment_safety\\trade_safety_report.md"

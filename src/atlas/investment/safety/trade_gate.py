@@ -1,5 +1,8 @@
 
-"""Trade safety gate."""
+"""Trade Safety Governor v3.
+
+Consumes Risk Engine v3 MTM-aware risk output and hard-gates execution.
+"""
 
 from __future__ import annotations
 
@@ -8,63 +11,59 @@ import pandas as pd
 from atlas.investment.safety import limits
 
 
-def evaluate_trade_safety(inputs: dict) -> dict:
+MAX_MTM_RISK_SCORE = 0.45
+MAX_MTM_DRAWDOWN = -0.10
+MAX_MTM_GROSS_EXPOSURE = 0.85
+MIN_MTM_CASH_WEIGHT = 0.15
+
+
+def build_trade_safety_checks(inputs: dict) -> list[dict]:
     orders = inputs.get("orders")
-    simulation = inputs.get("simulation", {}) or {}
+    simulator = inputs.get("simulator", {}) or {}
     performance = inputs.get("performance", {}) or {}
     learning = inputs.get("learning", {}) or {}
     decision = inputs.get("decision", {}) or {}
     risk = inputs.get("risk", {}) or {}
 
-    if orders is None or orders.empty:
-        return reject("No execution orders available.")
-
     checks = []
 
+    if orders is None or orders.empty:
+        checks.append({
+            "name": "orders_available",
+            "status": "REJECT",
+            "message": "No broker orders available.",
+        })
+        return checks
+
     checks.extend(check_orders(orders))
-    checks.extend(check_simulation(simulation))
+    checks.extend(check_simulator(simulator))
     checks.extend(check_performance(performance))
     checks.extend(check_learning(learning))
     checks.extend(check_decision(decision))
     checks.extend(check_risk_engine(risk))
 
-    rejected = [c for c in checks if c["status"] == "REJECT"]
-    warnings = [c for c in checks if c["status"] == "WARN"]
-
-    approved = not rejected
-
-    return {
-        "success": True,
-        "approved": approved,
-        "safety_status": "APPROVED" if approved else "REJECTED",
-        "check_count": len(checks),
-        "reject_count": len(rejected),
-        "warning_count": len(warnings),
-        "checks": checks,
-        "decision": "ALLOW_PAPER_EXECUTION" if approved else "BLOCK_EXECUTION",
-        "reason": "All hard safety checks passed." if approved else rejected[0]["message"],
-    }
+    return checks
 
 
 def check_orders(orders: pd.DataFrame) -> list[dict]:
     checks = []
 
-    actionable = orders[orders["order_action"].isin(["BUY", "SELL_SHORT"])] if "order_action" in orders else pd.DataFrame()
+    actionable = orders[orders["action"].isin(["BUY", "SELL"])] if "action" in orders else pd.DataFrame()
 
     checks.append(pass_or_reject(
         len(actionable) <= limits.MAX_ORDER_COUNT,
         "order_count",
         f"Actionable order count {len(actionable)} <= {limits.MAX_ORDER_COUNT}.",
-        f"Too many actionable orders: {len(actionable)}.",
+        f"Actionable order count {len(actionable)} exceeds {limits.MAX_ORDER_COUNT}.",
     ))
 
-    if not limits.ALLOW_SHORTS and not actionable.empty:
-        shorts = actionable[actionable["order_action"] == "SELL_SHORT"]
+    if "side" in orders:
+        has_short = bool((orders["side"].astype(str).str.upper() == "SHORT").any())
         checks.append(pass_or_reject(
-            shorts.empty,
+            not has_short,
             "shorts_disabled",
             "No short orders present.",
-            "Short orders present while shorts are disabled.",
+            "Short orders are disabled.",
         ))
 
     if "planned_weight" in orders:
@@ -81,70 +80,55 @@ def check_orders(orders: pd.DataFrame) -> list[dict]:
     return checks
 
 
-def check_simulation(simulation: dict) -> list[dict]:
-    summary = simulation.get("summary", {}) or {}
-    checks = []
+def check_simulator(simulator: dict) -> list[dict]:
+    summary = simulator.get("summary", {}) or {}
 
     filled = float(summary.get("filled_weight") or 0.0)
-    cash = float(summary.get("cash_weight") or 0.0)
     waiting = float(summary.get("waiting_weight") or 0.0)
     cost = float(summary.get("total_cost_drag") or 0.0)
 
-    checks.append(pass_or_reject(
-        filled <= limits.MAX_TOTAL_EXPOSURE,
-        "total_exposure",
-        f"Filled exposure {filled:.6f} within limit.",
-        f"Filled exposure {filled:.6f} exceeds limit {limits.MAX_TOTAL_EXPOSURE}.",
-    ))
-
-    checks.append(pass_or_reject(
-        cash >= limits.MIN_CASH_WEIGHT,
-        "cash_reserve",
-        f"Cash reserve {cash:.6f} above minimum.",
-        f"Cash reserve {cash:.6f} below minimum {limits.MIN_CASH_WEIGHT}.",
-    ))
-
-    checks.append(pass_or_reject(
-        waiting <= limits.MAX_WAITING_WEIGHT,
-        "waiting_weight",
-        f"Waiting weight {waiting:.6f} within limit.",
-        f"Waiting weight {waiting:.6f} exceeds limit {limits.MAX_WAITING_WEIGHT}.",
-    ))
-
-    checks.append(pass_or_reject(
-        cost <= limits.MAX_COST_DRAG,
-        "cost_drag",
-        f"Cost drag {cost:.8f} within limit.",
-        f"Cost drag {cost:.8f} exceeds limit {limits.MAX_COST_DRAG}.",
-    ))
-
-    return checks
+    return [
+        pass_or_reject(
+            filled <= limits.MAX_TOTAL_EXPOSURE,
+            "total_exposure",
+            f"Filled exposure {filled:.6f} within limit.",
+            f"Filled exposure {filled:.6f} exceeds limit {limits.MAX_TOTAL_EXPOSURE}.",
+        ),
+        pass_or_reject(
+            waiting <= limits.MAX_WAITING_WEIGHT,
+            "waiting_weight",
+            f"Waiting weight {waiting:.6f} within limit.",
+            f"Waiting weight {waiting:.6f} exceeds limit {limits.MAX_WAITING_WEIGHT}.",
+        ),
+        pass_or_reject(
+            cost <= limits.MAX_COST_DRAG,
+            "cost_drag",
+            f"Cost drag {cost:.8f} within limit.",
+            f"Cost drag {cost:.8f} exceeds limit {limits.MAX_COST_DRAG}.",
+        ),
+    ]
 
 
 def check_performance(performance: dict) -> list[dict]:
     pnl = performance.get("pnl", {}) or {}
     pnl_pct = float(pnl.get("pnl_pct") or 0.0)
 
-    # Warning only for now because early paper trading may have sparse history.
-    if pnl_pct < -0.05:
-        return [{
-            "name": "paper_drawdown",
-            "status": "WARN",
-            "message": f"Paper PnL is below -5%: {pnl_pct:.6f}.",
-        }]
+    max_drawdown = getattr(limits, "MAX_PAPER_DRAWDOWN", -0.10)
 
-    return [{
-        "name": "paper_drawdown",
-        "status": "PASS",
-        "message": f"Paper PnL acceptable: {pnl_pct:.6f}.",
-    }]
+    return [
+        pass_or_reject(
+            pnl_pct >= max_drawdown,
+            "paper_drawdown",
+            f"Paper PnL acceptable: {pnl_pct:.6f}.",
+            f"Paper PnL below allowed drawdown: {pnl_pct:.6f}.",
+        )
+    ]
 
 
 def check_learning(learning: dict) -> list[dict]:
-    regime = learning.get("learning_regime", {}) or {}
-    state = regime.get("learning_regime")
+    regime = (learning.get("learning_regime", {}) or {}).get("learning_regime")
 
-    if state == "deteriorating":
+    if regime == "deteriorating":
         return [{
             "name": "learning_regime",
             "status": "WARN",
@@ -154,13 +138,13 @@ def check_learning(learning: dict) -> list[dict]:
     return [{
         "name": "learning_regime",
         "status": "PASS",
-        "message": f"Learning regime acceptable: {state}.",
+        "message": f"Learning regime acceptable: {regime}.",
     }]
 
 
 def check_decision(decision: dict) -> list[dict]:
-    risk = decision.get("risk_adjusted_decision", {}) or {}
-    confirmation = risk.get("confirmation_adjustment", {}) or {}
+    adjusted = decision.get("risk_adjusted_decision", {}) or {}
+    confirmation = adjusted.get("confirmation_adjustment", {}) or {}
 
     if confirmation.get("status") == "execution_idle":
         return [{
@@ -172,42 +156,62 @@ def check_decision(decision: dict) -> list[dict]:
     return [{
         "name": "execution_confirmation",
         "status": "PASS",
-        "message": f"Execution confirmation status: {confirmation.get('status')}.",
+        "message": "Execution confirmation acceptable.",
     }]
-
 
 
 def check_risk_engine(risk: dict) -> list[dict]:
     aggregate = risk.get("aggregate", {}) or {}
+    blocks = risk.get("risk_blocks", []) or []
+
     score = float(aggregate.get("aggregate_risk_score") or 0.0)
     label = str(aggregate.get("risk_label") or "unknown")
 
-    if score >= 0.70 or label == "critical_risk":
-        return [{
-            "name": "risk_engine",
-            "status": "REJECT",
-            "message": f"Risk Engine critical risk: score={score:.6f}, label={label}.",
-        }]
+    checks = []
 
-    if score >= 0.45 or label == "high_risk":
-        return [{
-            "name": "risk_engine",
-            "status": "REJECT",
-            "message": f"Risk Engine high risk: score={score:.6f}, label={label}.",
-        }]
+    checks.append(pass_or_reject(
+        score < MAX_MTM_RISK_SCORE and label not in {"high_risk", "critical_risk"},
+        "risk_engine_score",
+        f"Risk Engine acceptable: score={score:.6f}, label={label}.",
+        f"Risk Engine blocks execution: score={score:.6f}, label={label}.",
+    ))
 
-    if score >= 0.25 or label == "moderate_risk":
-        return [{
-            "name": "risk_engine",
-            "status": "WARN",
-            "message": f"Risk Engine moderate risk: score={score:.6f}, label={label}.",
-        }]
+    exposure_block = find_block(blocks, "exposure")
+    drawdown_block = find_block(blocks, "drawdown")
 
-    return [{
-        "name": "risk_engine",
-        "status": "PASS",
-        "message": f"Risk Engine acceptable: score={score:.6f}, label={label}.",
-    }]
+    gross = float(exposure_block.get("gross_exposure") or 0.0)
+    cash = float(exposure_block.get("cash_weight") or 0.0)
+    drawdown = float(drawdown_block.get("drawdown") or 0.0)
+
+    checks.append(pass_or_reject(
+        gross <= MAX_MTM_GROSS_EXPOSURE,
+        "mtm_gross_exposure",
+        f"MTM gross exposure {gross:.6f} within limit.",
+        f"MTM gross exposure {gross:.6f} exceeds limit {MAX_MTM_GROSS_EXPOSURE}.",
+    ))
+
+    checks.append(pass_or_reject(
+        cash >= MIN_MTM_CASH_WEIGHT,
+        "mtm_cash_reserve",
+        f"MTM cash reserve {cash:.6f} above minimum.",
+        f"MTM cash reserve {cash:.6f} below minimum {MIN_MTM_CASH_WEIGHT}.",
+    ))
+
+    checks.append(pass_or_reject(
+        drawdown >= MAX_MTM_DRAWDOWN,
+        "mtm_drawdown",
+        f"MTM drawdown {drawdown:.6f} within limit.",
+        f"MTM drawdown {drawdown:.6f} below limit {MAX_MTM_DRAWDOWN}.",
+    ))
+
+    return checks
+
+
+def find_block(blocks: list[dict], risk_type: str) -> dict:
+    for block in blocks:
+        if block.get("risk_type") == risk_type:
+            return block
+    return {}
 
 
 def pass_or_reject(condition: bool, name: str, pass_message: str, reject_message: str) -> dict:
@@ -218,15 +222,28 @@ def pass_or_reject(condition: bool, name: str, pass_message: str, reject_message
     }
 
 
-def reject(message: str) -> dict:
+
+def evaluate_trade_safety(inputs: dict) -> dict:
+    checks = build_trade_safety_checks(inputs)
+
+    has_reject = any(c.get("status") == "REJECT" for c in checks)
+    has_warn = any(c.get("status") == "WARN" for c in checks)
+
+    status = "REJECTED" if has_reject else "APPROVED"
+    decision = "BLOCK_EXECUTION" if has_reject else "ALLOW_PAPER_EXECUTION"
+
+    if has_reject:
+        reason = next((c.get("message") for c in checks if c.get("status") == "REJECT"), "Rejected by safety checks.")
+    elif has_warn:
+        reason = "All hard safety checks passed with warnings."
+    else:
+        reason = "All hard safety checks passed."
+
     return {
-        "success": False,
-        "approved": False,
-        "safety_status": "REJECTED",
-        "check_count": 0,
-        "reject_count": 1,
-        "warning_count": 0,
-        "checks": [],
-        "decision": "BLOCK_EXECUTION",
-        "reason": message,
+        "success": True,
+        "approved": not has_reject,
+        "status": status,
+        "decision": decision,
+        "reason": reason,
+        "checks": checks,
     }
