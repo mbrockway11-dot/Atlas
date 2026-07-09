@@ -30,6 +30,10 @@ def build_strategy_registry_report() -> dict[str, Any]:
             f"Strategy Registry v3 updated {len(state.get('strategies', []))} strategy row(s). "
             f"Counts: {state.get('counts', {})}."
         ),
+        "text_summary": (
+            f"Strategy Registry v3 updated {len(state.get('strategies', []))} strategy row(s). "
+            f"Counts: {state.get('counts', {})}."
+        ),
         "state": state,
         "strategies": state.get("strategies", []),
         "outputs": {

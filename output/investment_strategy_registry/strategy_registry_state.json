@@ -1,7 +1,7 @@
 {
   "version": "strategy_registry_v3",
   "source": "learning_engine_v3",
-  "updated_at": "2026-07-09T15:38:26.956728+00:00",
+  "updated_at": "2026-07-09T15:48:14.131016+00:00",
   "learning_regime": "flat",
   "learning_confidence": 0.41,
   "performance_snapshot": {
@@ -20,11 +20,11 @@
       "learning_confidence": 0.41,
       "learning_regime": "flat",
       "weight_multiplier": 1.0,
-      "age_runs": 2,
+      "age_runs": 4,
       "promote_count": 0,
       "reduce_count": 0,
       "review_retire_count": 0,
-      "updated_at": "2026-07-09T15:38:26.956578+00:00"
+      "updated_at": "2026-07-09T15:48:14.130849+00:00"
     },
     {
       "strategy_id": "asset::ETH-USD",
@@ -36,11 +36,11 @@
       "learning_confidence": 0.41,
       "learning_regime": "flat",
       "weight_multiplier": 1.0,
-      "age_runs": 2,
+      "age_runs": 4,
       "promote_count": 0,
       "reduce_count": 0,
       "review_retire_count": 0,
-      "updated_at": "2026-07-09T15:38:26.956715+00:00"
+      "updated_at": "2026-07-09T15:48:14.131000+00:00"
     }
   ],
   "counts": {
