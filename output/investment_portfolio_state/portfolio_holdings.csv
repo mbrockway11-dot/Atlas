@@ -1,4 +1,4 @@
-asset,paper_weight,paper_value,side,cost_drag,status,quantity,avg_entry_price,current_price,cost_basis,unrealized_pnl,unrealized_pnl_pct
-BTC-USD,0.377631,37763.1,LONG,0.0,OPEN_FROM_MARK_TO_MARKET,0.5580238493221011,67672.9140625,67672.9140625,37763.1,0.0,0.0
-ETH-USD,0.322369,32236.9,LONG,0.0,OPEN_FROM_MARK_TO_MARKET,15.607993174401926,2065.40966796875,2065.40966796875,32236.9,0.0,0.0
-CASH,0.3,30000.0,CASH,0.0,AVAILABLE_CASH_FROM_MTM,,,,,,
+asset,side,weight,value,quantity,current_price,avg_entry_price,unrealized_pnl,unrealized_pnl_pct,source
+BTC-USD,LONG,0.377631,37763.1,0.5580238493221011,67672.9140625,67672.9140625,0.0,0.0,mark_to_market_v3
+ETH-USD,LONG,0.322369,32236.9,15.607993174401928,2065.40966796875,2065.40966796875,0.0,0.0,mark_to_market_v3
+CASH,CASH,0.3,30000.0,,,,,,broker_cash_ledger
