@@ -1,2 +1,2 @@
-timestamp,portfolio_equity,portfolio_pnl_pct,benchmark,benchmark_status
-2026-07-09T08:29:27.674536+00:00,100000.0,0.0,equal_weight_BTC_ETH_SOL,placeholder_until_historical_price_index
+benchmark,portfolio_return,benchmark_return,excess_return
+cash,0.0,0.0,0.0

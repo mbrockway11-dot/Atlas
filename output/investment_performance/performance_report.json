@@ -1,45 +1,56 @@
 {
   "success": true,
-  "version": "performance_v3",
-  "summary": "Performance v3 read MTM equity=100000.0 PnL=0.0 drawdown=0.0.",
+  "version": "performance_engine_v3",
+  "summary": "Performance Engine v3 read broker/MTM state. Equity=100000.0, PnL=0.0, Sharpe=0.0, MaxDD=0.0.",
   "pnl": {
     "initial_equity": 100000.0,
     "current_equity": 100000.0,
     "pnl": 0.0,
     "pnl_pct": 0.0,
     "drawdown": 0.0,
-    "source": "mark_to_market_v2"
+    "source": "mark_to_market_v3"
   },
-  "positions": {
-    "position_count": 2,
-    "risky_weight": 0.41519,
-    "cash_weight": 0.58481,
-    "reserved_cash_weight": 0.0
+  "equity_metrics": {
+    "start_equity": 100000.0,
+    "current_equity": 100000.0,
+    "pnl": 0.0,
+    "pnl_pct": 0.0,
+    "return_observations": 29,
+    "mean_return": 0.0,
+    "volatility": 0.0,
+    "sharpe": 0.0,
+    "sortino": 0.0,
+    "max_drawdown": 0.0,
+    "calmar": 0.0
   },
-  "benchmark": {
-    "benchmark": "equal_weight_BTC_ETH_SOL",
-    "status": "tracking_placeholder",
-    "portfolio_pnl_pct": 0.0,
-    "rows": [
-      {
-        "timestamp": "2026-07-09T08:29:27.674536+00:00",
-        "portfolio_equity": 100000.0,
-        "portfolio_pnl_pct": 0.0,
-        "benchmark": "equal_weight_BTC_ETH_SOL",
-        "benchmark_status": "placeholder_until_historical_price_index"
-      }
-    ],
-    "note": "Benchmark series will become active once indexed BTC/ETH/SOL baseline tracking is added."
+  "trade_metrics": {
+    "trade_count": 4,
+    "buy_count": 4,
+    "sell_count": 0,
+    "total_filled_weight": 0.7,
+    "total_notional": 0.0,
+    "avg_fill_weight": 0.175
   },
-  "attribution": [
+  "cost_metrics": {
+    "fee_drag": 0.0,
+    "slippage_drag": 0.0,
+    "total_cost_drag": 0.0,
+    "cost_observations": 4
+  },
+  "exposure": {
+    "current_equity": 100000.0,
+    "cash": 30000.0,
+    "market_value": 70000.0,
+    "cash_weight": 0.3,
+    "risky_weight": 0.7,
+    "position_count": 2
+  },
+  "positions": [
     {
       "asset": "BTC-USD",
       "side": "LONG",
-      "quantity": 0.3309802793376643,
-      "avg_entry_price": 67672.9140625,
-      "current_price": 67672.9140625,
-      "market_value": 22398.4,
-      "portfolio_share": 0.539473,
+      "market_value": 37763.1,
+      "portfolio_weight": 0.377631,
       "unrealized_pnl": 0.0,
       "unrealized_pnl_pct": 0.0,
       "contribution_to_pnl": 0.0
@@ -47,28 +58,13 @@
     {
       "asset": "ETH-USD",
       "side": "LONG",
-      "quantity": 9.257533890990432,
-      "avg_entry_price": 2065.40966796875,
-      "current_price": 2065.40966796875,
-      "market_value": 19120.6,
-      "portfolio_share": 0.460527,
+      "market_value": 32236.9,
+      "portfolio_weight": 0.322369,
       "unrealized_pnl": 0.0,
       "unrealized_pnl_pct": 0.0,
       "contribution_to_pnl": 0.0
     }
   ],
-  "snapshot": {
-    "timestamp": "2026-07-09T08:29:48.435316+00:00",
-    "source": "performance_v3_mtm",
-    "current_equity": 100000.0,
-    "pnl": 0.0,
-    "pnl_pct": 0.0,
-    "drawdown": 0.0,
-    "risky_weight": 0.41519,
-    "cash_weight": 0.58481,
-    "reserved_cash_weight": 0.0,
-    "position_count": 2
-  },
   "outputs": {
     "json": "output\\investment_performance\\performance_report.json",
     "markdown": "output\\investment_performance\\performance_report.md",

@@ -1,3 +1,3 @@
-asset,side,quantity,avg_entry_price,current_price,market_value,portfolio_share,unrealized_pnl,unrealized_pnl_pct,contribution_to_pnl
-BTC-USD,LONG,0.3309802793376643,67672.9140625,67672.9140625,22398.4,0.539473,0.0,0.0,0.0
-ETH-USD,LONG,9.257533890990432,2065.40966796875,2065.40966796875,19120.6,0.460527,0.0,0.0,0.0
+asset,side,market_value,portfolio_weight,unrealized_pnl,unrealized_pnl_pct,contribution_to_pnl
+BTC-USD,LONG,37763.1,0.377631,0.0,0.0,0.0
+ETH-USD,LONG,32236.9,0.322369,0.0,0.0,0.0
