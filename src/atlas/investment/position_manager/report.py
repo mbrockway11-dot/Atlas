@@ -1,5 +1,5 @@
 
-"""Position Manager report/export."""
+"""Position Manager v3 report/export."""
 
 from __future__ import annotations
 
@@ -9,12 +9,8 @@ from typing import Any
 
 import pandas as pd
 
-from atlas.investment.position_manager.entries import evaluate_entries
-from atlas.investment.position_manager.exits import evaluate_exits
 from atlas.investment.position_manager.loader import load_position_manager_inputs
-from atlas.investment.position_manager.rebalance import evaluate_rebalance
-from atlas.investment.position_manager.scaling import evaluate_scaling
-from atlas.investment.position_manager.trailing_stop import evaluate_trailing_stops
+from atlas.investment.position_manager.rules import evaluate_position
 
 
 OUT_DIR = Path("output/investment_position_manager")
@@ -25,31 +21,34 @@ ACTIONS_CSV = OUT_DIR / "position_manager_actions.csv"
 
 def build_position_manager_report() -> dict[str, Any]:
     inputs = load_position_manager_inputs()
-
     lifecycle = inputs["lifecycle"]
-    portfolio_state = inputs["portfolio_state"]
-    decision = inputs["decision"]
+    risk = inputs["risk"]
     learning = inputs["learning"]
 
-    entry_actions = evaluate_entries(lifecycle, decision)
-    scaling_actions = evaluate_scaling(lifecycle, portfolio_state)
-    exit_actions = evaluate_exits(lifecycle, decision, learning)
-    trailing_actions = evaluate_trailing_stops(lifecycle)
-    rebalance = evaluate_rebalance(lifecycle, portfolio_state)
+    actions = []
 
-    actions = entry_actions + scaling_actions + exit_actions + trailing_actions
+    if not lifecycle.empty:
+        active = lifecycle[lifecycle["asset"] != "CASH"].copy()
+
+        for _, row in active.iterrows():
+            position = row.to_dict()
+            position_id = position.get("position_id")
+
+            for action in evaluate_position(position, risk, learning):
+                action["position_id"] = position_id
+                action["side"] = position.get("side")
+                action["state"] = position.get("state")
+                action["unrealized_pnl_pct"] = position.get("unrealized_pnl_pct")
+                action["holding_age_hours"] = position.get("holding_age_hours")
+                actions.append(action)
+
+    counts = pd.Series([a["manager_action"] for a in actions]).value_counts().to_dict() if actions else {}
 
     report = {
         "success": True,
-        "summary": (
-            f"Position Manager produced {len(actions)} position action(s). "
-            f"Rebalance action: {rebalance.get('manager_action')}."
-        ),
-        "rebalance": rebalance,
-        "entry_actions": entry_actions,
-        "scaling_actions": scaling_actions,
-        "exit_actions": exit_actions,
-        "trailing_actions": trailing_actions,
+        "version": "position_manager_v3",
+        "summary": f"Position Manager v3 produced {len(actions)} action row(s).",
+        "action_counts": counts,
         "actions": actions,
         "outputs": {
             "json": str(REPORT_JSON),
@@ -72,15 +71,9 @@ def write_outputs(report: dict[str, Any]) -> None:
 
 def build_markdown(report: dict[str, Any]) -> str:
     lines = [
-        "# Position Manager Report",
+        "# Position Manager v3 Report",
         "",
         report.get("summary", ""),
-        "",
-        "## Rebalance",
-        "",
-        "```json",
-        json.dumps(report.get("rebalance", {}), indent=2),
-        "```",
         "",
         "## Actions",
         "",
@@ -88,8 +81,7 @@ def build_markdown(report: dict[str, Any]) -> str:
 
     for row in report.get("actions", []):
         lines.append(
-            f"- `{row.get('asset')}` action=`{row.get('manager_action')}` "
-            f"state=`{row.get('current_state')}` reason=`{row.get('reason')}`"
+            f"- `{row.get('asset')}` action=`{row.get('manager_action')}` reason=`{row.get('reason')}`"
         )
 
     return "\n".join(lines) + "\n"

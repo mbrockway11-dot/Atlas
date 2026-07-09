@@ -1,9 +1,3 @@
-position_id,asset,side,current_state,manager_action,confidence,reason
-broker::BTC-USD::LONG::BUY,BTC-USD,LONG,APPROVED,QUEUE_ENTRY,0.819455,Decision confidence supports entry.
-broker::ETH-USD::LONG::BUY,ETH-USD,LONG,APPROVED,QUEUE_ENTRY,0.819455,Decision confidence supports entry.
-paper::BTC-USD::LONG,BTC-USD,LONG,OPEN,HOLD_SIZE,,Portfolio exposure is within target band.
-paper::ETH-USD::LONG,ETH-USD,LONG,OPEN,HOLD_SIZE,,Portfolio exposure is within target band.
-paper::BTC-USD::LONG,BTC-USD,LONG,OPEN,HOLD,,No exit condition triggered.
-paper::ETH-USD::LONG,ETH-USD,LONG,OPEN,HOLD,,No exit condition triggered.
-paper::BTC-USD::LONG,BTC-USD,,,TRAILING_STOP_PENDING,,Trailing stop calculation will activate after price/cost-basis tracking is added.
-paper::ETH-USD::LONG,ETH-USD,,,TRAILING_STOP_PENDING,,Trailing stop calculation will activate after price/cost-basis tracking is added.
+asset,manager_action,reason,priority,position_id,side,state,unrealized_pnl_pct,holding_age_hours
+BTC-USD,HOLD,No position management trigger fired.,9,paper::BTC-USD::LONG,LONG,ACTIVE,0.0,3.2004
+ETH-USD,HOLD,No position management trigger fired.,9,paper::ETH-USD::LONG,LONG,ACTIVE,0.0,3.2004

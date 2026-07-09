@@ -229,7 +229,13 @@ def evaluate_trade_safety(inputs: dict) -> dict:
     has_reject = any(c.get("status") == "REJECT" for c in checks)
     has_warn = any(c.get("status") == "WARN" for c in checks)
 
-    status = "REJECTED" if has_reject else "APPROVED"
+    if has_reject:
+        status = "REJECTED"
+    elif has_warn:
+        status = "APPROVED_WITH_WARNINGS"
+    else:
+        status = "APPROVED"
+
     decision = "BLOCK_EXECUTION" if has_reject else "ALLOW_PAPER_EXECUTION"
 
     if has_reject:

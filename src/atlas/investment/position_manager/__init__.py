@@ -1,5 +1,5 @@
 
-"""Position Manager."""
+"""Position Manager v3."""
 
 from atlas.investment.position_manager.report import build_position_manager_report
 

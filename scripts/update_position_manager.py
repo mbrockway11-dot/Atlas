@@ -1,5 +1,5 @@
 
-"""Update Position Manager."""
+"""Update Position Manager v3."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ def main() -> None:
 
     print(report["success"])
     print(report["summary"])
-    print("Rebalance:", report["rebalance"])
+    print("Action counts:", report.get("action_counts"))
 
     for row in report.get("actions", []):
         print(row)
