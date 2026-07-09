@@ -1,0 +1,15 @@
+
+"""Lifecycle state constants."""
+
+from __future__ import annotations
+
+
+PROPOSED = "PROPOSED"
+APPROVED = "APPROVED"
+QUEUED = "QUEUED"
+PAPER_FILLED = "PAPER_FILLED"
+OPEN = "OPEN"
+RESERVED = "RESERVED"
+CASH = "CASH"
+CLOSED = "CLOSED"
+CANCELLED = "CANCELLED"

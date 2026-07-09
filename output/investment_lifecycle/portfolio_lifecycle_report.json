@@ -1,0 +1,99 @@
+{
+  "success": true,
+  "summary": "Portfolio Lifecycle updated 6 lifecycle row(s). Open=2, approved=2, reserved=1.",
+  "lifecycle_summary": {
+    "position_count": 6,
+    "state_counts": {
+      "OPEN": 2,
+      "APPROVED": 2,
+      "RESERVED": 1,
+      "CASH": 1
+    },
+    "open_positions": 2,
+    "approved_orders": 2,
+    "reserved_positions": 1
+  },
+  "actions": [
+    "2 approved broker order(s) awaiting paper/live fill handling.",
+    "1 reserved cash position(s) waiting for execution confirmation."
+  ],
+  "positions": [
+    {
+      "position_id": "paper::BTC-USD::LONG",
+      "asset": "BTC-USD",
+      "side": "LONG",
+      "state": "OPEN",
+      "weight": 0.223536,
+      "value": 22353.6,
+      "opened_at": "2026-07-09T03:58:42.825821+00:00",
+      "updated_at": "2026-07-09T03:58:42.825821+00:00",
+      "source": "paper_portfolio",
+      "reason": "OPEN_PAPER_POSITION"
+    },
+    {
+      "position_id": "paper::ETH-USD::LONG",
+      "asset": "ETH-USD",
+      "side": "LONG",
+      "state": "OPEN",
+      "weight": 0.190824,
+      "value": 19082.36,
+      "opened_at": "2026-07-09T03:58:42.825821+00:00",
+      "updated_at": "2026-07-09T03:58:42.825821+00:00",
+      "source": "paper_portfolio",
+      "reason": "OPEN_PAPER_POSITION"
+    },
+    {
+      "position_id": "paper::RESERVED_CASH::CASH",
+      "asset": "RESERVED_CASH",
+      "side": "CASH",
+      "state": "RESERVED",
+      "weight": 0.076482,
+      "value": 7648.2,
+      "opened_at": "2026-07-09T03:58:42.825821+00:00",
+      "updated_at": "2026-07-09T03:58:42.825821+00:00",
+      "source": "paper_portfolio",
+      "reason": "PENDING_EXECUTION_RESERVE"
+    },
+    {
+      "position_id": "paper::CASH::CASH",
+      "asset": "CASH",
+      "side": "CASH",
+      "state": "CASH",
+      "weight": 0.508328,
+      "value": 50832.8,
+      "opened_at": "2026-07-09T03:58:42.825821+00:00",
+      "updated_at": "2026-07-09T03:58:42.825821+00:00",
+      "source": "paper_portfolio",
+      "reason": "AVAILABLE_CASH"
+    },
+    {
+      "position_id": "broker::BTC-USD::LONG::BUY",
+      "asset": "BTC-USD",
+      "side": "LONG",
+      "state": "APPROVED",
+      "weight": 0.223984,
+      "value": NaN,
+      "opened_at": "2026-07-09T03:58:42.825821+00:00",
+      "updated_at": "2026-07-09T03:58:42.825821+00:00",
+      "source": "broker_interface",
+      "reason": "APPROVED_FOR_PAPER"
+    },
+    {
+      "position_id": "broker::ETH-USD::LONG::BUY",
+      "asset": "ETH-USD",
+      "side": "LONG",
+      "state": "APPROVED",
+      "weight": 0.191206,
+      "value": NaN,
+      "opened_at": "2026-07-09T03:58:42.825821+00:00",
+      "updated_at": "2026-07-09T03:58:42.825821+00:00",
+      "source": "broker_interface",
+      "reason": "APPROVED_FOR_PAPER"
+    }
+  ],
+  "outputs": {
+    "csv": "output\\investment_lifecycle\\position_lifecycle.csv",
+    "json": "output\\investment_lifecycle\\portfolio_lifecycle_report.json",
+    "markdown": "output\\investment_lifecycle\\portfolio_lifecycle_report.md"
+  }
+}
