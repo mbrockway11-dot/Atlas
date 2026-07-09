@@ -1,5 +1,5 @@
 
-"""Portfolio Lifecycle report/export."""
+"""Portfolio Lifecycle v2 report/export."""
 
 from __future__ import annotations
 
@@ -9,13 +9,8 @@ from typing import Any
 
 import pandas as pd
 
-from atlas.investment.lifecycle.loader import (
-    load_broker_orders,
-    load_lifecycle,
-    load_portfolio_holdings,
-)
-from atlas.investment.lifecycle.position_manager import lifecycle_actions, summarize_lifecycle
-from atlas.investment.lifecycle.transition import build_lifecycle_rows
+from atlas.investment.lifecycle.loader import load_lifecycle_inputs
+from atlas.investment.lifecycle.position_manager import build_lifecycle_rows
 
 
 OUT_DIR = Path("output/investment_lifecycle")
@@ -25,25 +20,28 @@ REPORT_MD = OUT_DIR / "portfolio_lifecycle_report.md"
 
 
 def build_portfolio_lifecycle_report() -> dict[str, Any]:
-    holdings = load_portfolio_holdings()
-    broker_orders = load_broker_orders()
-    existing = load_lifecycle()
+    inputs = load_lifecycle_inputs()
+    rows = build_lifecycle_rows(inputs)
 
-    lifecycle = build_lifecycle_rows(holdings, broker_orders, existing)
-
-    summary = summarize_lifecycle(lifecycle)
-    actions = lifecycle_actions(lifecycle)
+    df = pd.DataFrame(rows)
+    state_counts = df["state"].value_counts().to_dict() if not df.empty and "state" in df.columns else {}
 
     report = {
         "success": True,
+        "version": "portfolio_lifecycle_v2",
         "summary": (
-            f"Portfolio Lifecycle updated {summary['position_count']} lifecycle row(s). "
-            f"Open={summary['open_positions']}, approved={summary['approved_orders']}, "
-            f"reserved={summary['reserved_positions']}."
+            f"Portfolio Lifecycle v2 updated {len(rows)} lifecycle row(s). "
+            f"States: {state_counts}."
         ),
-        "lifecycle_summary": summary,
-        "actions": actions,
-        "positions": lifecycle.to_dict("records"),
+        "position_count": int(len(rows)),
+        "state_counts": state_counts,
+        "lifecycle_summary": {
+            "position_count": int(len(rows)),
+            "state_counts": state_counts,
+            "active_positions": int(state_counts.get("ACTIVE", 0)),
+            "cash_positions": int(state_counts.get("CASH", 0)),
+        },
+        "positions": rows,
         "outputs": {
             "csv": str(LIFECYCLE_CSV),
             "json": str(REPORT_JSON),
@@ -51,41 +49,32 @@ def build_portfolio_lifecycle_report() -> dict[str, Any]:
         },
     }
 
-    write_outputs(report, lifecycle)
+    write_outputs(report, df)
     return report
 
 
-def write_outputs(report: dict[str, Any], lifecycle: pd.DataFrame) -> None:
+def write_outputs(report: dict[str, Any], df: pd.DataFrame) -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    lifecycle.to_csv(LIFECYCLE_CSV, index=False)
+    df.to_csv(LIFECYCLE_CSV, index=False)
     REPORT_JSON.write_text(json.dumps(report, indent=2, ensure_ascii=False, default=str), encoding="utf-8")
     REPORT_MD.write_text(build_markdown(report), encoding="utf-8")
 
 
 def build_markdown(report: dict[str, Any]) -> str:
     lines = [
-        "# Portfolio Lifecycle Report",
+        "# Portfolio Lifecycle v2 Report",
         "",
         report.get("summary", ""),
         "",
-        "## Actions",
+        "## Positions",
         "",
     ]
 
-    for action in report.get("actions", []):
-        lines.append(f"- {action}")
-
-    lines.extend([
-        "",
-        "## Positions",
-        "",
-    ])
-
     for row in report.get("positions", []):
         lines.append(
-            f"- `{row.get('asset')}` side=`{row.get('side')}` "
-            f"state=`{row.get('state')}` weight=`{row.get('weight')}`"
+            f"- `{row.get('asset')}` state=`{row.get('state')}` "
+            f"reason=`{row.get('transition_reason')}`"
         )
 
-    return "\n".join(lines) + "\n"
+    return "\\n".join(lines) + "\\n"

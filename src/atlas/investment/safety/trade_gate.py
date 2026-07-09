@@ -243,6 +243,7 @@ def evaluate_trade_safety(inputs: dict) -> dict:
         "success": True,
         "approved": not has_reject,
         "status": status,
+        "safety_status": status,
         "decision": decision,
         "reason": reason,
         "checks": checks,

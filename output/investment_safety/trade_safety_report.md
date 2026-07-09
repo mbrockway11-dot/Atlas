@@ -1,6 +1,6 @@
 # Trade Safety Governor Report
 
-Trade Safety Governor status: None. Decision: ALLOW_PAPER_EXECUTION. Reason: All hard safety checks passed with warnings..
+Trade Safety Governor status: APPROVED. Decision: ALLOW_PAPER_EXECUTION. Reason: All hard safety checks passed with warnings..
 
 ## Checks
 

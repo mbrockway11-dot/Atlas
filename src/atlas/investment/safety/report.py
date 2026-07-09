@@ -43,6 +43,12 @@ def build_trade_safety_report() -> dict[str, Any]:
         "markdown": str(REPORT_MD),
     }
 
+    if not report.get("status") and report.get("safety_status"):
+        report["status"] = report["safety_status"]
+
+    if not report.get("safety_status") and report.get("status"):
+        report["safety_status"] = report["status"]
+
     write_outputs(report)
     return report
 

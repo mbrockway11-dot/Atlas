@@ -2,6 +2,7 @@
   "success": true,
   "approved": true,
   "status": "APPROVED",
+  "safety_status": "APPROVED",
   "decision": "ALLOW_PAPER_EXECUTION",
   "reason": "All hard safety checks passed with warnings.",
   "checks": [
@@ -71,7 +72,7 @@
       "message": "MTM drawdown 0.000000 within limit."
     }
   ],
-  "summary": "Trade Safety Governor status: None. Decision: ALLOW_PAPER_EXECUTION. Reason: All hard safety checks passed with warnings..",
+  "summary": "Trade Safety Governor status: APPROVED. Decision: ALLOW_PAPER_EXECUTION. Reason: All hard safety checks passed with warnings..",
   "outputs": {
     "json": "output\\investment_safety\\trade_safety_report.json",
     "markdown": "output\\investment_safety\\trade_safety_report.md"

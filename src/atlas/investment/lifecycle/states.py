@@ -1,15 +1,10 @@
 
-"""Lifecycle state constants."""
+"""Portfolio Lifecycle v2 state labels."""
 
-from __future__ import annotations
-
-
-PROPOSED = "PROPOSED"
-APPROVED = "APPROVED"
-QUEUED = "QUEUED"
-PAPER_FILLED = "PAPER_FILLED"
 OPEN = "OPEN"
-RESERVED = "RESERVED"
-CASH = "CASH"
+ACTIVE = "ACTIVE"
+WATCH = "WATCH"
+REDUCE_REQUESTED = "REDUCE_REQUESTED"
+EXIT_REQUESTED = "EXIT_REQUESTED"
 CLOSED = "CLOSED"
-CANCELLED = "CANCELLED"
+CASH = "CASH"
