@@ -1,19 +1,8 @@
-# Execution Engine Report
+# Execution Engine v3 Report
 
-Execution Engine prepared 2 approved order(s) and 0 blocked order(s) in paper mode.
-
-## Batch
-
-```json
-{
-  "execution_batch_id": "e3b77cf9-3aa1-482b-b561-24af70dad67f",
-  "mode": "paper",
-  "created_at": "2026-07-09T06:17:18.051182+00:00",
-  "live_trading_enabled": false
-}
-```
+Execution Engine v3 processed 2 order(s): executed=0, duplicates=2, rejected=0.
 
 ## Orders
 
-- `BTC-USD` action=`BUY` weight=`0.223984` route=`paper_execution_route` status=`APPROVED_FOR_EXECUTION`
-- `ETH-USD` action=`BUY` weight=`0.191206` route=`paper_execution_route` status=`APPROVED_FOR_EXECUTION`
+- `BTC-USD` action=`BUY` requested=`0.153647` filled=`0.0` status=`DUPLICATE_TARGET`
+- `ETH-USD` action=`BUY` requested=`0.131163` filled=`0.0` status=`DUPLICATE_TARGET`
