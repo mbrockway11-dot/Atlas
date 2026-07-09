@@ -1,105 +1,65 @@
 {
   "success": true,
-  "summary": "Execution Planner built 4 planned position row(s) and 4 order intent row(s).",
-  "decision": {
-    "final_direction": "LONG",
-    "final_confidence": 0.819455,
-    "target_net_exposure": 0.491673,
-    "target_cash_weight": 0.508327,
-    "risk_label": "moderate_risk",
-    "confirmation_adjustment": {
-      "status": "execution_idle",
-      "confidence_multiplier": 0.85,
-      "exposure_multiplier": 0.75,
-      "reason": "Intraday execution engines are idle; reduce confidence and exposure."
-    }
-  },
-  "plan": [
+  "version": "execution_planner_v2",
+  "summary": "Execution Planner v2 built 2 rebalance-driven planned order row(s). Open=2, blocked=0.",
+  "source": "rebalance_orders",
+  "plan_rows": 2,
+  "open_count": 2,
+  "blocked_count": 0,
+  "planned_positions": [
     {
       "asset": "BTC-USD",
-      "planned_weight": 0.223984,
       "side": "LONG",
-      "action": "BUY_OR_HOLD",
-      "priority": 1,
-      "alpha_score": 0.68333333,
-      "rank_label": "highest_conviction",
-      "reason": "Scaled portfolio allocation to Decision Engine target exposure 0.491673.",
+      "planned_weight": 0.153647,
+      "signed_delta": 0.153647,
+      "order_action": "BUY",
       "execution_gate": "OPEN",
-      "gate_reason": "No execution adapter signal for asset."
+      "priority": 1,
+      "source": "rebalance_engine_v3",
+      "order_type": "REBALANCE_INTENT",
+      "risk_label": "low_risk",
+      "reason": "Optimize current MTM portfolio toward risk-adjusted target portfolio."
     },
     {
       "asset": "ETH-USD",
-      "planned_weight": 0.191206,
       "side": "LONG",
-      "action": "BUY_OR_HOLD",
+      "planned_weight": 0.131163,
+      "signed_delta": 0.131163,
+      "order_action": "BUY",
+      "execution_gate": "OPEN",
       "priority": 2,
-      "alpha_score": 0.58333333,
-      "rank_label": "portfolio_candidate",
-      "reason": "Scaled portfolio allocation to Decision Engine target exposure 0.491673.",
-      "execution_gate": "OPEN",
-      "gate_reason": "No execution adapter signal for asset."
-    },
-    {
-      "asset": "SOL-USD",
-      "planned_weight": 0.076482,
-      "side": "LONG",
-      "action": "BUY_OR_HOLD",
-      "priority": 3,
-      "alpha_score": 0.23333333,
-      "rank_label": "portfolio_candidate",
-      "reason": "Scaled portfolio allocation to Decision Engine target exposure 0.491673.",
-      "execution_gate": "WAIT",
-      "gate_reason": "Execution engines are idle; wait for structure confirmation."
-    },
-    {
-      "asset": "CASH",
-      "planned_weight": 0.508328,
-      "side": "CASH",
-      "action": "HOLD_CASH",
-      "priority": 999,
-      "alpha_score": 0.0,
-      "rank_label": "cash_reserve",
-      "reason": "Residual cash after risk-adjusted execution sizing.",
-      "execution_gate": "OPEN",
-      "gate_reason": "Cash row."
+      "source": "rebalance_engine_v3",
+      "order_type": "REBALANCE_INTENT",
+      "risk_label": "low_risk",
+      "reason": "Optimize current MTM portfolio toward risk-adjusted target portfolio."
     }
   ],
-  "orders": [
+  "order_intents": [
     {
       "asset": "BTC-USD",
       "side": "LONG",
-      "planned_weight": 0.223984,
+      "planned_weight": 0.153647,
+      "signed_delta": 0.153647,
       "order_action": "BUY",
       "execution_gate": "OPEN",
       "priority": 1,
-      "reason": "No execution adapter signal for asset."
+      "source": "rebalance_engine_v3",
+      "order_type": "REBALANCE_INTENT",
+      "risk_label": "low_risk",
+      "reason": "Optimize current MTM portfolio toward risk-adjusted target portfolio."
     },
     {
       "asset": "ETH-USD",
       "side": "LONG",
-      "planned_weight": 0.191206,
+      "planned_weight": 0.131163,
+      "signed_delta": 0.131163,
       "order_action": "BUY",
       "execution_gate": "OPEN",
       "priority": 2,
-      "reason": "No execution adapter signal for asset."
-    },
-    {
-      "asset": "SOL-USD",
-      "side": "LONG",
-      "planned_weight": 0.076482,
-      "order_action": "WAIT",
-      "execution_gate": "WAIT",
-      "priority": 3,
-      "reason": "Execution engines are idle; wait for structure confirmation."
-    },
-    {
-      "asset": "CASH",
-      "side": "CASH",
-      "planned_weight": 0.508328,
-      "order_action": "NO_ORDER",
-      "execution_gate": "OPEN",
-      "priority": 999,
-      "reason": "Cash row."
+      "source": "rebalance_engine_v3",
+      "order_type": "REBALANCE_INTENT",
+      "risk_label": "low_risk",
+      "reason": "Optimize current MTM portfolio toward risk-adjusted target portfolio."
     }
   ],
   "outputs": {

@@ -1,9 +1,9 @@
 {
   "success": true,
-  "run_id": "cd7a3e38-7741-478c-8177-0a002203245a",
+  "run_id": "ea515930-93b1-41bc-806e-81335063e11a",
   "mode": "paper",
-  "started_at": "2026-07-09T11:00:06.643861+00:00",
-  "ended_at": "2026-07-09T11:00:42.887761+00:00",
+  "started_at": "2026-07-09T11:14:24.966548+00:00",
+  "ended_at": "2026-07-09T11:15:01.248331+00:00",
   "node_count": 28,
   "results": [
     {
@@ -237,21 +237,21 @@
   "events": [
     {
       "name": "pipeline_started",
-      "timestamp": "2026-07-09T11:00:06.644056+00:00",
+      "timestamp": "2026-07-09T11:14:24.966761+00:00",
       "payload": {
         "node_count": 28
       }
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:06.644519+00:00",
+      "timestamp": "2026-07-09T11:14:24.967177+00:00",
       "payload": {
         "node": "market_features"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:21.476750+00:00",
+      "timestamp": "2026-07-09T11:14:39.663548+00:00",
       "payload": {
         "node": "market_features",
         "success": true,
@@ -261,14 +261,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:21.477207+00:00",
+      "timestamp": "2026-07-09T11:14:39.664048+00:00",
       "payload": {
         "node": "sigil_v32_adapter"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:22.061295+00:00",
+      "timestamp": "2026-07-09T11:14:40.261826+00:00",
       "payload": {
         "node": "sigil_v32_adapter",
         "success": true,
@@ -278,14 +278,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:22.061814+00:00",
+      "timestamp": "2026-07-09T11:14:40.262279+00:00",
       "payload": {
         "node": "alpha_hypotheses"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:22.743880+00:00",
+      "timestamp": "2026-07-09T11:14:40.983083+00:00",
       "payload": {
         "node": "alpha_hypotheses",
         "success": true,
@@ -295,14 +295,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:22.744315+00:00",
+      "timestamp": "2026-07-09T11:14:40.984551+00:00",
       "payload": {
         "node": "mark_to_market"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:23.381767+00:00",
+      "timestamp": "2026-07-09T11:14:41.634129+00:00",
       "payload": {
         "node": "mark_to_market",
         "success": true,
@@ -312,14 +312,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:23.382211+00:00",
+      "timestamp": "2026-07-09T11:14:41.634868+00:00",
       "payload": {
         "node": "alpha_backtests"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:25.664314+00:00",
+      "timestamp": "2026-07-09T11:14:43.930137+00:00",
       "payload": {
         "node": "alpha_backtests",
         "success": true,
@@ -329,14 +329,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:25.664833+00:00",
+      "timestamp": "2026-07-09T11:14:43.930553+00:00",
       "payload": {
         "node": "alpha_validation"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:26.796057+00:00",
+      "timestamp": "2026-07-09T11:14:45.051947+00:00",
       "payload": {
         "node": "alpha_validation",
         "success": true,
@@ -346,14 +346,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:26.796517+00:00",
+      "timestamp": "2026-07-09T11:14:45.053185+00:00",
       "payload": {
         "node": "adaptive_weighting"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:27.395800+00:00",
+      "timestamp": "2026-07-09T11:14:45.661346+00:00",
       "payload": {
         "node": "adaptive_weighting",
         "success": true,
@@ -363,14 +363,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:27.396211+00:00",
+      "timestamp": "2026-07-09T11:14:45.661747+00:00",
       "payload": {
         "node": "alpha_ensemble"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:30.686161+00:00",
+      "timestamp": "2026-07-09T11:14:48.938048+00:00",
       "payload": {
         "node": "alpha_ensemble",
         "success": true,
@@ -380,14 +380,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:30.686564+00:00",
+      "timestamp": "2026-07-09T11:14:48.938549+00:00",
       "payload": {
         "node": "cross_sectional_ranker"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:31.580323+00:00",
+      "timestamp": "2026-07-09T11:14:49.814779+00:00",
       "payload": {
         "node": "cross_sectional_ranker",
         "success": true,
@@ -397,14 +397,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:31.580766+00:00",
+      "timestamp": "2026-07-09T11:14:49.815195+00:00",
       "payload": {
         "node": "alpha_portfolio"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:32.157820+00:00",
+      "timestamp": "2026-07-09T11:14:50.396553+00:00",
       "payload": {
         "node": "alpha_portfolio",
         "success": true,
@@ -414,14 +414,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:32.158254+00:00",
+      "timestamp": "2026-07-09T11:14:50.396978+00:00",
       "payload": {
         "node": "strategy_registry"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:32.736652+00:00",
+      "timestamp": "2026-07-09T11:14:50.983009+00:00",
       "payload": {
         "node": "strategy_registry",
         "success": true,
@@ -431,14 +431,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:32.737082+00:00",
+      "timestamp": "2026-07-09T11:14:50.983471+00:00",
       "payload": {
         "node": "market_direction"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:33.321003+00:00",
+      "timestamp": "2026-07-09T11:14:51.561270+00:00",
       "payload": {
         "node": "market_direction",
         "success": true,
@@ -448,14 +448,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:33.321836+00:00",
+      "timestamp": "2026-07-09T11:14:51.561696+00:00",
       "payload": {
         "node": "decision_engine"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:33.908144+00:00",
+      "timestamp": "2026-07-09T11:14:52.131287+00:00",
       "payload": {
         "node": "decision_engine",
         "success": true,
@@ -465,14 +465,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:33.908637+00:00",
+      "timestamp": "2026-07-09T11:14:52.131769+00:00",
       "payload": {
         "node": "execution_planner"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:34.484830+00:00",
+      "timestamp": "2026-07-09T11:14:52.701979+00:00",
       "payload": {
         "node": "execution_planner",
         "success": true,
@@ -482,14 +482,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:34.485237+00:00",
+      "timestamp": "2026-07-09T11:14:52.702705+00:00",
       "payload": {
         "node": "portfolio_state"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:35.098627+00:00",
+      "timestamp": "2026-07-09T11:14:53.338767+00:00",
       "payload": {
         "node": "portfolio_state",
         "success": true,
@@ -499,14 +499,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:35.099033+00:00",
+      "timestamp": "2026-07-09T11:14:53.339263+00:00",
       "payload": {
         "node": "execution_simulator"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:35.682887+00:00",
+      "timestamp": "2026-07-09T11:14:53.930601+00:00",
       "payload": {
         "node": "execution_simulator",
         "success": true,
@@ -516,14 +516,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:35.683342+00:00",
+      "timestamp": "2026-07-09T11:14:53.931241+00:00",
       "payload": {
         "node": "portfolio_lifecycle"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:36.303597+00:00",
+      "timestamp": "2026-07-09T11:14:54.547027+00:00",
       "payload": {
         "node": "portfolio_lifecycle",
         "success": true,
@@ -533,14 +533,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:36.304091+00:00",
+      "timestamp": "2026-07-09T11:14:54.547431+00:00",
       "payload": {
         "node": "paper_trading"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:36.919017+00:00",
+      "timestamp": "2026-07-09T11:14:55.154554+00:00",
       "payload": {
         "node": "paper_trading",
         "success": true,
@@ -550,14 +550,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:36.919464+00:00",
+      "timestamp": "2026-07-09T11:14:55.154986+00:00",
       "payload": {
         "node": "performance"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:37.510271+00:00",
+      "timestamp": "2026-07-09T11:14:55.761885+00:00",
       "payload": {
         "node": "performance",
         "success": true,
@@ -567,14 +567,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:37.510827+00:00",
+      "timestamp": "2026-07-09T11:14:55.762290+00:00",
       "payload": {
         "node": "learning"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:38.124458+00:00",
+      "timestamp": "2026-07-09T11:14:56.383095+00:00",
       "payload": {
         "node": "learning",
         "success": true,
@@ -584,14 +584,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:38.124873+00:00",
+      "timestamp": "2026-07-09T11:14:56.383493+00:00",
       "payload": {
         "node": "position_manager"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:38.747737+00:00",
+      "timestamp": "2026-07-09T11:14:57.002446+00:00",
       "payload": {
         "node": "position_manager",
         "success": true,
@@ -601,14 +601,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:38.748197+00:00",
+      "timestamp": "2026-07-09T11:14:57.003329+00:00",
       "payload": {
         "node": "trade_safety"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:39.351410+00:00",
+      "timestamp": "2026-07-09T11:14:57.630929+00:00",
       "payload": {
         "node": "trade_safety",
         "success": true,
@@ -618,14 +618,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:39.351931+00:00",
+      "timestamp": "2026-07-09T11:14:57.631348+00:00",
       "payload": {
         "node": "action_engine"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:39.958570+00:00",
+      "timestamp": "2026-07-09T11:14:58.245705+00:00",
       "payload": {
         "node": "action_engine",
         "success": true,
@@ -635,14 +635,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:39.958969+00:00",
+      "timestamp": "2026-07-09T11:14:58.246127+00:00",
       "payload": {
         "node": "broker_interface"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:40.516644+00:00",
+      "timestamp": "2026-07-09T11:14:58.847598+00:00",
       "payload": {
         "node": "broker_interface",
         "success": true,
@@ -652,14 +652,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:40.517075+00:00",
+      "timestamp": "2026-07-09T11:14:58.848000+00:00",
       "payload": {
         "node": "rebalance_engine"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:41.100778+00:00",
+      "timestamp": "2026-07-09T11:14:59.422972+00:00",
       "payload": {
         "node": "rebalance_engine",
         "success": true,
@@ -669,14 +669,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:41.101212+00:00",
+      "timestamp": "2026-07-09T11:14:59.423633+00:00",
       "payload": {
         "node": "risk_engine"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:41.680805+00:00",
+      "timestamp": "2026-07-09T11:15:00.003796+00:00",
       "payload": {
         "node": "risk_engine",
         "success": true,
@@ -686,14 +686,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:41.681231+00:00",
+      "timestamp": "2026-07-09T11:15:00.004219+00:00",
       "payload": {
         "node": "execution_engine"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:42.295979+00:00",
+      "timestamp": "2026-07-09T11:15:00.639486+00:00",
       "payload": {
         "node": "execution_engine",
         "success": true,
@@ -703,14 +703,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-09T11:00:42.296383+00:00",
+      "timestamp": "2026-07-09T11:15:00.640017+00:00",
       "payload": {
         "node": "paper_broker"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-09T11:00:42.887062+00:00",
+      "timestamp": "2026-07-09T11:15:01.247527+00:00",
       "payload": {
         "node": "paper_broker",
         "success": true,
@@ -720,7 +720,7 @@
     },
     {
       "name": "pipeline_completed",
-      "timestamp": "2026-07-09T11:00:42.887480+00:00",
+      "timestamp": "2026-07-09T11:15:01.247962+00:00",
       "payload": {
         "success": true
       }
@@ -730,7 +730,7 @@
     {
       "node": "market_features",
       "status": "PENDING",
-      "queue_id": "22083889-990e-48ee-b023-61a3f6031688",
+      "queue_id": "7b1623cc-813a-4e2b-81fa-3f4c6b817b2e",
       "metadata": {
         "requires": [],
         "provides": [
@@ -741,7 +741,7 @@
     {
       "node": "sigil_v32_adapter",
       "status": "PENDING",
-      "queue_id": "b7ec82a0-c70e-42a9-a5d8-95dd4efd6fe6",
+      "queue_id": "5e1f16ee-ff5a-4465-8c2d-958773924aca",
       "metadata": {
         "requires": [],
         "provides": [
@@ -752,7 +752,7 @@
     {
       "node": "alpha_hypotheses",
       "status": "PENDING",
-      "queue_id": "57164182-cc0d-4889-a12b-2023de2fb919",
+      "queue_id": "fba3ef71-eccd-46f8-b230-4778c2f77373",
       "metadata": {
         "requires": [
           "market_features"
@@ -765,7 +765,7 @@
     {
       "node": "mark_to_market",
       "status": "PENDING",
-      "queue_id": "a4ce3fee-3423-440f-85b2-0b60c7bcfdbf",
+      "queue_id": "aab3e7db-6d34-49e6-b80b-d2044fafb759",
       "metadata": {
         "requires": [
           "market_features"
@@ -778,7 +778,7 @@
     {
       "node": "alpha_backtests",
       "status": "PENDING",
-      "queue_id": "c3a47af9-d416-4585-883e-077309b25614",
+      "queue_id": "7d73c728-f036-44d7-850e-773669eda87b",
       "metadata": {
         "requires": [
           "alpha_hypotheses"
@@ -791,7 +791,7 @@
     {
       "node": "alpha_validation",
       "status": "PENDING",
-      "queue_id": "7f983cb2-02d3-4f7e-a39d-9963528b4d04",
+      "queue_id": "9ed8d6e2-6d60-4333-8962-b6a605ea6401",
       "metadata": {
         "requires": [
           "alpha_backtests"
@@ -804,7 +804,7 @@
     {
       "node": "adaptive_weighting",
       "status": "PENDING",
-      "queue_id": "300c609b-652b-4717-af8b-6de57b2b7bb7",
+      "queue_id": "6e39dd6a-826d-4d96-a8f3-38302d2e359d",
       "metadata": {
         "requires": [
           "alpha_validation",
@@ -818,7 +818,7 @@
     {
       "node": "alpha_ensemble",
       "status": "PENDING",
-      "queue_id": "2628fd6d-e803-4eda-aa86-6beb06fe99f1",
+      "queue_id": "ad62d2e6-fbf1-494b-8965-158feac7d090",
       "metadata": {
         "requires": [
           "alpha_validation"
@@ -831,7 +831,7 @@
     {
       "node": "cross_sectional_ranker",
       "status": "PENDING",
-      "queue_id": "68093a0e-a492-4713-9727-9ad6463a0bfd",
+      "queue_id": "3b29e6a7-6933-47a5-a1b3-a9704eedb4a3",
       "metadata": {
         "requires": [
           "alpha_ensemble"
@@ -844,7 +844,7 @@
     {
       "node": "alpha_portfolio",
       "status": "PENDING",
-      "queue_id": "466eb482-2ff3-49a5-8f7c-7ca5fc17dd7a",
+      "queue_id": "34f8fda3-7659-4354-ad60-d550f89dd203",
       "metadata": {
         "requires": [
           "cross_sectional_ranker"
@@ -857,7 +857,7 @@
     {
       "node": "strategy_registry",
       "status": "PENDING",
-      "queue_id": "319bb05b-60f1-4fbc-b87c-ef6fe90a2182",
+      "queue_id": "4f9beccc-4365-4074-8e91-d6e51ba7e035",
       "metadata": {
         "requires": [
           "alpha_portfolio",
@@ -871,7 +871,7 @@
     {
       "node": "market_direction",
       "status": "PENDING",
-      "queue_id": "96199b8c-947a-435a-8477-cecf1176fa43",
+      "queue_id": "5d4893d2-b216-40d6-9382-d0771c4c3b3f",
       "metadata": {
         "requires": [
           "strategy_registry"
@@ -884,7 +884,7 @@
     {
       "node": "decision_engine",
       "status": "PENDING",
-      "queue_id": "14cb580a-9ff3-4047-838f-c2e928c33532",
+      "queue_id": "3b5d76e1-d940-4122-8e5a-79d9ef9c5986",
       "metadata": {
         "requires": [
           "market_direction",
@@ -899,7 +899,7 @@
     {
       "node": "execution_planner",
       "status": "PENDING",
-      "queue_id": "984c81b8-f503-4efc-b721-8db709cdc8fb",
+      "queue_id": "804f2c3e-76e2-4b60-aba9-46bb4b25d6f6",
       "metadata": {
         "requires": [
           "decision_engine",
@@ -914,7 +914,7 @@
     {
       "node": "portfolio_state",
       "status": "PENDING",
-      "queue_id": "235e62d1-87e4-418c-9e4c-bfaf4fefa3a9",
+      "queue_id": "110a918a-d1e9-4690-abe1-67100e008204",
       "metadata": {
         "requires": [
           "mark_to_market",
@@ -928,7 +928,7 @@
     {
       "node": "execution_simulator",
       "status": "PENDING",
-      "queue_id": "788b8bbe-5d83-417e-9d06-7fb7bd05d540",
+      "queue_id": "b38b24c0-5a25-4fcd-9916-72d87cce16ce",
       "metadata": {
         "requires": [
           "execution_planner"
@@ -941,7 +941,7 @@
     {
       "node": "portfolio_lifecycle",
       "status": "PENDING",
-      "queue_id": "807f031b-95a4-483a-b419-7932ed27501f",
+      "queue_id": "145ad420-d98a-4131-a726-0cc25ddc0fd2",
       "metadata": {
         "requires": [
           "portfolio_state"
@@ -954,7 +954,7 @@
     {
       "node": "paper_trading",
       "status": "PENDING",
-      "queue_id": "0be9e249-3592-46a9-bac3-fa05fb61c786",
+      "queue_id": "6fa33747-a7eb-4b7e-9f94-06fb48b0a023",
       "metadata": {
         "requires": [
           "execution_simulator"
@@ -967,7 +967,7 @@
     {
       "node": "performance",
       "status": "PENDING",
-      "queue_id": "3122d2d0-d466-42d5-b3a3-fafa5d963b79",
+      "queue_id": "407ab451-16f4-406a-ab8e-193d23de93a8",
       "metadata": {
         "requires": [
           "paper_trading"
@@ -980,7 +980,7 @@
     {
       "node": "learning",
       "status": "PENDING",
-      "queue_id": "d08058e0-b16b-4543-a9de-ac58c08f5ed6",
+      "queue_id": "ce3468b9-cf25-4059-8261-1af3e9ae97c6",
       "metadata": {
         "requires": [
           "performance"
@@ -993,7 +993,7 @@
     {
       "node": "position_manager",
       "status": "PENDING",
-      "queue_id": "bb93ed8d-b9c7-4c73-82f8-9e68c0d62be5",
+      "queue_id": "55687f73-10c9-4a43-97bb-efeb917718df",
       "metadata": {
         "requires": [
           "portfolio_lifecycle",
@@ -1009,7 +1009,7 @@
     {
       "node": "trade_safety",
       "status": "PENDING",
-      "queue_id": "edb0b604-f018-4118-90dc-9ab6eed0806e",
+      "queue_id": "15cdf27f-381f-4400-8466-9f236dd8277d",
       "metadata": {
         "requires": [
           "execution_simulator",
@@ -1025,7 +1025,7 @@
     {
       "node": "action_engine",
       "status": "PENDING",
-      "queue_id": "a584dd6e-2e88-409f-b6b6-c91492b2fd1b",
+      "queue_id": "8f1f040c-7303-4709-b662-283c1eafe7f3",
       "metadata": {
         "requires": [
           "portfolio_lifecycle",
@@ -1043,7 +1043,7 @@
     {
       "node": "broker_interface",
       "status": "PENDING",
-      "queue_id": "83e83608-945c-4656-aa92-261ae292f87d",
+      "queue_id": "0b5186af-c72a-474b-8666-924fd717cd45",
       "metadata": {
         "requires": [
           "trade_safety",
@@ -1057,7 +1057,7 @@
     {
       "node": "rebalance_engine",
       "status": "PENDING",
-      "queue_id": "4eee7d53-45ba-4ed1-92ad-75850227e38b",
+      "queue_id": "fa4ad634-d6f1-4b2e-aa4d-f17526f668f0",
       "metadata": {
         "requires": [
           "portfolio_state",
@@ -1073,7 +1073,7 @@
     {
       "node": "risk_engine",
       "status": "PENDING",
-      "queue_id": "66d777d0-a029-4c2b-a0f0-13a4b2bc994c",
+      "queue_id": "06c45ae1-adda-42bb-a3bc-391ccb493320",
       "metadata": {
         "requires": [
           "portfolio_state",
@@ -1090,7 +1090,7 @@
     {
       "node": "execution_engine",
       "status": "PENDING",
-      "queue_id": "86a26d77-f34b-4a31-8f41-e608a134b5c4",
+      "queue_id": "63ef04bf-d482-4d9a-b746-39cf751b4cf0",
       "metadata": {
         "requires": [
           "broker_interface",
@@ -1105,7 +1105,7 @@
     {
       "node": "paper_broker",
       "status": "PENDING",
-      "queue_id": "827680a7-0e28-4a66-a70c-a44dbd03e03b",
+      "queue_id": "5ad1e3ec-1a6b-4602-b602-0e6b17636ef3",
       "metadata": {
         "requires": [
           "execution_engine"

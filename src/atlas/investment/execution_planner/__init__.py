@@ -1,5 +1,5 @@
 
-"""Execution Planner."""
+"""Execution Planner v2."""
 
 from atlas.investment.execution_planner.report import build_execution_planner_report
 

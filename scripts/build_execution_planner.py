@@ -1,5 +1,5 @@
 
-"""Build Execution Planner."""
+"""Build Execution Planner v2."""
 
 from __future__ import annotations
 
@@ -11,9 +11,8 @@ def main() -> None:
 
     print(report["success"])
     print(report["summary"])
-    print("Decision:", report["decision"])
 
-    for row in report.get("orders", []):
+    for row in report.get("order_intents", []):
         print(row)
 
     print("Outputs:", report["outputs"])

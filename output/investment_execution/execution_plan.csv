@@ -1,5 +1,3 @@
-asset,planned_weight,side,action,priority,alpha_score,rank_label,reason,execution_gate,gate_reason
-BTC-USD,0.223984,LONG,BUY_OR_HOLD,1,0.68333333,highest_conviction,Scaled portfolio allocation to Decision Engine target exposure 0.491673.,OPEN,No execution adapter signal for asset.
-ETH-USD,0.191206,LONG,BUY_OR_HOLD,2,0.58333333,portfolio_candidate,Scaled portfolio allocation to Decision Engine target exposure 0.491673.,OPEN,No execution adapter signal for asset.
-SOL-USD,0.076482,LONG,BUY_OR_HOLD,3,0.23333333,portfolio_candidate,Scaled portfolio allocation to Decision Engine target exposure 0.491673.,WAIT,Execution engines are idle; wait for structure confirmation.
-CASH,0.508328,CASH,HOLD_CASH,999,0.0,cash_reserve,Residual cash after risk-adjusted execution sizing.,OPEN,Cash row.
+asset,side,planned_weight,signed_delta,order_action,execution_gate,priority,source,order_type,risk_label,reason
+BTC-USD,LONG,0.153647,0.153647,BUY,OPEN,1,rebalance_engine_v3,REBALANCE_INTENT,low_risk,Optimize current MTM portfolio toward risk-adjusted target portfolio.
+ETH-USD,LONG,0.131163,0.131163,BUY,OPEN,2,rebalance_engine_v3,REBALANCE_INTENT,low_risk,Optimize current MTM portfolio toward risk-adjusted target portfolio.

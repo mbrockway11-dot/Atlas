@@ -1,5 +1,5 @@
 
-"""Execution Planner loaders."""
+"""Execution Planner v2 loaders."""
 
 from __future__ import annotations
 
@@ -7,24 +7,39 @@ import json
 from pathlib import Path
 import pandas as pd
 
-DECISION_JSON = Path("output/investment_decision/decision_engine_report.json")
-PORTFOLIO_CSV = Path("output/investment_alpha/alpha_portfolio_latest.csv")
-REGISTRY_CSV = Path("output/investment_strategy_registry/strategy_registry_signals.csv")
+
+REBALANCE_ORDERS = Path("output/investment_rebalance/rebalance_orders.csv")
+REBALANCE_REPORT = Path("output/investment_rebalance/rebalance_report.json")
+DECISION_REPORT = Path("output/investment_decision/decision_engine_report.json")
+RISK_REPORT = Path("output/investment_risk/risk_engine_report.json")
+PORTFOLIO_STATE = Path("output/investment_portfolio_state/portfolio_state.json")
 
 
-def load_decision() -> dict:
-    if not DECISION_JSON.exists():
+def load_json(path: str | Path) -> dict:
+    p = Path(path)
+    if not p.exists():
         return {}
-    return json.loads(DECISION_JSON.read_text(encoding="utf-8"))
+    try:
+        return json.loads(p.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
 
 
-def load_portfolio() -> pd.DataFrame:
-    if not PORTFOLIO_CSV.exists():
+def load_csv(path: str | Path) -> pd.DataFrame:
+    p = Path(path)
+    if not p.exists() or p.stat().st_size == 0:
         return pd.DataFrame()
-    return pd.read_csv(PORTFOLIO_CSV)
-
-
-def load_registry() -> pd.DataFrame:
-    if not REGISTRY_CSV.exists():
+    try:
+        return pd.read_csv(p)
+    except pd.errors.EmptyDataError:
         return pd.DataFrame()
-    return pd.read_csv(REGISTRY_CSV)
+
+
+def load_execution_planner_inputs() -> dict:
+    return {
+        "rebalance_orders": load_csv(REBALANCE_ORDERS),
+        "rebalance": load_json(REBALANCE_REPORT),
+        "decision": load_json(DECISION_REPORT),
+        "risk": load_json(RISK_REPORT),
+        "portfolio_state": load_json(PORTFOLIO_STATE),
+    }
