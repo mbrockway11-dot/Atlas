@@ -1,18 +1,25 @@
-# Investment Learning Report
+# Investment Learning v2 Report
 
-Learning Engine evaluated 2 scorecard row(s). Regime: improving.
+Learning v2 evaluated 2 scorecard row(s) from MTM/Performance v3. Regime: flat.
 
 ## Learning Regime
 
 ```json
 {
-  "learning_regime": "improving",
-  "trend": "up",
-  "equity_change_pct": 0.08289,
-  "confidence": 0.828905
+  "learning_regime": "flat",
+  "trend": "flat",
+  "equity_change_pct": 0.0,
+  "recent_volatility": 0.0,
+  "confidence": 0.05,
+  "source": "mtm_equity_curve"
 }
 ```
 
+## Scorecard
+
+- `BTC-USD` score=`0.5` status=`neutral`
+- `ETH-USD` score=`0.5` status=`neutral`
+
 ## Recommendations
 
-- Maintain current risk settings; do not increase leverage until live safety governor exists.
+- Maintain current exposure while monitoring MTM equity curve for directional evidence.

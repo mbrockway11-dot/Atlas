@@ -1,34 +1,47 @@
 {
   "success": true,
-  "summary": "Learning Engine evaluated 2 scorecard row(s). Regime: improving.",
+  "version": "learning_v2",
+  "summary": "Learning v2 evaluated 2 scorecard row(s) from MTM/Performance v3. Regime: flat.",
   "scorecard": [
     {
       "asset": "BTC-USD",
-      "paper_trade_count": 2,
-      "total_cost_drag": 0.00089594,
-      "avg_cost_drag": 0.00044797,
-      "score": 0.910406
+      "paper_trade_count": 1,
+      "avg_unrealized_pnl": 0.0,
+      "avg_unrealized_pnl_pct": 0.0,
+      "score": 0.5,
+      "status": "neutral"
     },
     {
       "asset": "ETH-USD",
-      "paper_trade_count": 2,
-      "total_cost_drag": 0.00076482,
-      "avg_cost_drag": 0.00038241,
-      "score": 0.923518
+      "paper_trade_count": 1,
+      "avg_unrealized_pnl": 0.0,
+      "avg_unrealized_pnl_pct": 0.0,
+      "score": 0.5,
+      "status": "neutral"
     }
   ],
   "learning_regime": {
-    "learning_regime": "improving",
-    "trend": "up",
-    "equity_change_pct": 0.08289,
-    "confidence": 0.828905
+    "learning_regime": "flat",
+    "trend": "flat",
+    "equity_change_pct": 0.0,
+    "recent_volatility": 0.0,
+    "confidence": 0.05,
+    "source": "mtm_equity_curve"
   },
   "recommendations": [
-    "Maintain current risk settings; do not increase leverage until live safety governor exists."
+    "Maintain current exposure while monitoring MTM equity curve for directional evidence."
   ],
+  "inputs": {
+    "performance_snapshots": 20,
+    "equity_curve_rows": 7,
+    "attribution_rows": 2,
+    "unrealized_rows": 2,
+    "ledger_rows": 2
+  },
   "outputs": {
     "json": "output\\investment_learning\\learning_report.json",
     "markdown": "output\\investment_learning\\learning_report.md",
-    "scorecard_csv": "output\\investment_learning\\strategy_scorecard.csv"
+    "scorecard_csv": "output\\investment_learning\\strategy_scorecard.csv",
+    "regime_csv": "output\\investment_learning\\learning_regime_history.csv"
   }
 }

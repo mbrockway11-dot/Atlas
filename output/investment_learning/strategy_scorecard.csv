@@ -1,3 +1,3 @@
-asset,paper_trade_count,total_cost_drag,avg_cost_drag,score
-BTC-USD,2,0.00089594,0.00044797,0.910406
-ETH-USD,2,0.00076482,0.00038241,0.923518
+asset,paper_trade_count,avg_unrealized_pnl,avg_unrealized_pnl_pct,score,status
+BTC-USD,1,0.0,0.0,0.5,neutral
+ETH-USD,1,0.0,0.0,0.5,neutral
