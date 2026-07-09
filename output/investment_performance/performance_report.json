@@ -1,69 +1,79 @@
 {
   "success": true,
-  "version": "performance_v2",
-  "summary": "Performance v2 marked 2 risky position(s) from Portfolio State v2. Current equity: 100000.0. PnL: 0.0.",
+  "version": "performance_v3",
+  "summary": "Performance v3 read MTM equity=100000.0 PnL=0.0 drawdown=0.0.",
+  "pnl": {
+    "initial_equity": 100000.0,
+    "current_equity": 100000.0,
+    "pnl": 0.0,
+    "pnl_pct": 0.0,
+    "drawdown": 0.0,
+    "source": "mark_to_market_v2"
+  },
   "positions": {
     "position_count": 2,
     "risky_weight": 0.41519,
     "cash_weight": 0.58481,
     "reserved_cash_weight": 0.0
   },
-  "pnl": {
-    "initial_equity": 100000.0,
-    "current_equity": 100000.0,
-    "pnl": 0.0,
-    "pnl_pct": 0.0,
-    "source": "portfolio_state_v2"
-  },
   "benchmark": {
     "benchmark": "equal_weight_BTC_ETH_SOL",
-    "status": "tracking_pending_price_history",
+    "status": "tracking_placeholder",
     "portfolio_pnl_pct": 0.0,
-    "note": "Benchmark v2 placeholder until broker-fill mark-to-market price history is enabled."
+    "rows": [
+      {
+        "timestamp": "2026-07-09T08:29:27.674536+00:00",
+        "portfolio_equity": 100000.0,
+        "portfolio_pnl_pct": 0.0,
+        "benchmark": "equal_weight_BTC_ETH_SOL",
+        "benchmark_status": "placeholder_until_historical_price_index"
+      }
+    ],
+    "note": "Benchmark series will become active once indexed BTC/ETH/SOL baseline tracking is added."
   },
   "attribution": [
     {
       "asset": "BTC-USD",
       "side": "LONG",
-      "weight": 0.223984,
-      "value": 22398.4,
-      "portfolio_share": 0.223984,
-      "cost_drag": 0.0
+      "quantity": 0.3309802793376643,
+      "avg_entry_price": 67672.9140625,
+      "current_price": 67672.9140625,
+      "market_value": 22398.4,
+      "portfolio_share": 0.539473,
+      "unrealized_pnl": 0.0,
+      "unrealized_pnl_pct": 0.0,
+      "contribution_to_pnl": 0.0
     },
     {
       "asset": "ETH-USD",
       "side": "LONG",
-      "weight": 0.191206,
-      "value": 19120.6,
-      "portfolio_share": 0.191206,
-      "cost_drag": 0.0
-    },
-    {
-      "asset": "CASH",
-      "side": "CASH",
-      "weight": 0.58481,
-      "value": 58481.0,
-      "portfolio_share": 0.58481,
-      "cost_drag": 0.0
+      "quantity": 9.257533890990432,
+      "avg_entry_price": 2065.40966796875,
+      "current_price": 2065.40966796875,
+      "market_value": 19120.6,
+      "portfolio_share": 0.460527,
+      "unrealized_pnl": 0.0,
+      "unrealized_pnl_pct": 0.0,
+      "contribution_to_pnl": 0.0
     }
   ],
   "snapshot": {
-    "timestamp": "2026-07-09T07:34:56.358277+00:00",
-    "source": "portfolio_state_v2",
-    "broker_fill_count": 2,
-    "position_count": 2,
+    "timestamp": "2026-07-09T08:29:48.435316+00:00",
+    "source": "performance_v3_mtm",
+    "current_equity": 100000.0,
+    "pnl": 0.0,
+    "pnl_pct": 0.0,
+    "drawdown": 0.0,
     "risky_weight": 0.41519,
     "cash_weight": 0.58481,
     "reserved_cash_weight": 0.0,
-    "initial_equity": 100000.0,
-    "current_equity": 100000.0,
-    "pnl": 0.0,
-    "pnl_pct": 0.0
+    "position_count": 2
   },
   "outputs": {
     "json": "output\\investment_performance\\performance_report.json",
     "markdown": "output\\investment_performance\\performance_report.md",
     "snapshots_csv": "output\\investment_performance\\performance_snapshots.csv",
-    "attribution_csv": "output\\investment_performance\\performance_attribution.csv"
+    "attribution_csv": "output\\investment_performance\\performance_attribution.csv",
+    "benchmark_csv": "output\\investment_performance\\benchmark_tracking.csv"
   }
 }
