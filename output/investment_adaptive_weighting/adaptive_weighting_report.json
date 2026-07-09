@@ -1,0 +1,60 @@
+{
+  "success": true,
+  "version": "adaptive_weighting_v3",
+  "summary": "Adaptive Weighting v3 produced 4 adaptive weight row(s). Regime multiplier=1.0.",
+  "base_weights": {
+    "BTC-USD": 0.377631,
+    "ETH-USD": 0.322369,
+    "SOL-USD": 0.0
+  },
+  "registry_multipliers": {
+    "BTC-USD": 1.075,
+    "ETH-USD": 1.075
+  },
+  "regime_multiplier": 1.0,
+  "adaptive_weights": {
+    "BTC-USD": 0.377631,
+    "ETH-USD": 0.322369,
+    "SOL-USD": 0.0,
+    "CASH": 0.3
+  },
+  "rows": [
+    {
+      "asset": "BTC-USD",
+      "base_weight": 0.377631,
+      "registry_multiplier": 1.075,
+      "regime_multiplier": 1.0,
+      "adaptive_weight": 0.377631,
+      "source": "adaptive_weighting_v3"
+    },
+    {
+      "asset": "ETH-USD",
+      "base_weight": 0.322369,
+      "registry_multiplier": 1.075,
+      "regime_multiplier": 1.0,
+      "adaptive_weight": 0.322369,
+      "source": "adaptive_weighting_v3"
+    },
+    {
+      "asset": "SOL-USD",
+      "base_weight": 0.0,
+      "registry_multiplier": 1.0,
+      "regime_multiplier": 1.0,
+      "adaptive_weight": 0.0,
+      "source": "adaptive_weighting_v3"
+    },
+    {
+      "asset": "CASH",
+      "base_weight": 0.0,
+      "registry_multiplier": 1.0,
+      "regime_multiplier": 1.0,
+      "adaptive_weight": 0.3,
+      "source": "adaptive_weighting_v3"
+    }
+  ],
+  "outputs": {
+    "json": "output\\investment_adaptive_weighting\\adaptive_weighting_report.json",
+    "markdown": "output\\investment_adaptive_weighting\\adaptive_weighting_report.md",
+    "weights_csv": "output\\investment_adaptive_weighting\\adaptive_weights.csv"
+  }
+}
