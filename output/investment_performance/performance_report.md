@@ -1,15 +1,16 @@
-# Investment Performance Report
+# Investment Performance v2 Report
 
-Performance Engine marked 2 risky position(s). Current equity: 99916.96. PnL: -83.04.
+Performance v2 marked 2 risky position(s) from Portfolio State v2. Current equity: 100000.0. PnL: 0.0.
 
 ## PnL
 
 ```json
 {
   "initial_equity": 100000.0,
-  "current_equity": 99916.96,
-  "pnl": -83.04,
-  "pnl_pct": -0.00083
+  "current_equity": 100000.0,
+  "pnl": 0.0,
+  "pnl_pct": 0.0,
+  "source": "portfolio_state_v2"
 }
 ```
 
@@ -18,15 +19,14 @@ Performance Engine marked 2 risky position(s). Current equity: 99916.96. PnL: -8
 ```json
 {
   "position_count": 2,
-  "risky_weight": 0.41436,
-  "cash_weight": 0.508328,
-  "reserved_cash_weight": 0.076482
+  "risky_weight": 0.41519,
+  "cash_weight": 0.58481,
+  "reserved_cash_weight": 0.0
 }
 ```
 
 ## Attribution
 
-- `BTC-USD` side=`LONG` weight=`0.223536` value=`22353.6`
-- `ETH-USD` side=`LONG` weight=`0.190824` value=`19082.36`
-- `RESERVED_CASH` side=`CASH` weight=`0.076482` value=`7648.2`
-- `CASH` side=`CASH` weight=`0.508328` value=`50832.8`
+- `BTC-USD` side=`LONG` weight=`0.223984` value=`22398.4`
+- `ETH-USD` side=`LONG` weight=`0.191206` value=`19120.6`
+- `CASH` side=`CASH` weight=`0.58481` value=`58481.0`

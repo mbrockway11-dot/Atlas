@@ -1,5 +1,5 @@
 
-"""Investment Performance report/export."""
+"""Investment Performance v2 report/export."""
 
 from __future__ import annotations
 
@@ -12,9 +12,13 @@ import pandas as pd
 
 from atlas.investment.performance.attribution import asset_attribution
 from atlas.investment.performance.benchmark import benchmark_snapshot
-from atlas.investment.performance.pnl import calculate_pnl
-from atlas.investment.performance.portfolio_mark_to_market import mark_portfolio_to_market
-from atlas.investment.performance.position_tracker import load_paper_portfolio, summarize_positions
+from atlas.investment.performance.pnl import calculate_pnl_from_state
+from atlas.investment.performance.position_tracker import (
+    holdings_from_state,
+    load_broker_fills,
+    load_portfolio_state,
+    summarize_positions,
+)
 
 
 OUT_DIR = Path("output/investment_performance")
@@ -25,25 +29,29 @@ ATTRIBUTION_CSV = OUT_DIR / "performance_attribution.csv"
 
 
 def build_performance_report() -> dict[str, Any]:
-    portfolio = load_paper_portfolio()
-    marked = mark_portfolio_to_market(portfolio)
+    state_report = load_portfolio_state()
+    holdings = holdings_from_state(state_report)
+    fills = load_broker_fills()
 
-    positions = summarize_positions(marked)
-    pnl = calculate_pnl(marked)
-    attribution = asset_attribution(marked)
-    benchmark = benchmark_snapshot()
+    positions = summarize_positions(holdings)
+    pnl = calculate_pnl_from_state(state_report)
+    attribution = asset_attribution(holdings) if not holdings.empty else []
+    benchmark = benchmark_snapshot(pnl)
 
     snapshot = {
         "timestamp": datetime.now(UTC).isoformat(),
+        "source": "portfolio_state_v2",
+        "broker_fill_count": int(len(fills)),
         **positions,
         **pnl,
     }
 
     report = {
         "success": True,
+        "version": "performance_v2",
         "summary": (
-            f"Performance Engine marked {positions['position_count']} risky position(s). "
-            f"Current equity: {pnl['current_equity']}. PnL: {pnl['pnl']}."
+            f"Performance v2 marked {positions['position_count']} risky position(s) "
+            f"from Portfolio State v2. Current equity: {pnl['current_equity']}. PnL: {pnl['pnl']}."
         ),
         "positions": positions,
         "pnl": pnl,
@@ -81,7 +89,7 @@ def write_outputs(report: dict[str, Any]) -> None:
 
 def build_markdown(report: dict[str, Any]) -> str:
     lines = [
-        "# Investment Performance Report",
+        "# Investment Performance v2 Report",
         "",
         report.get("summary", ""),
         "",

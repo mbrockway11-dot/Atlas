@@ -1,67 +1,64 @@
 {
   "success": true,
-  "summary": "Performance Engine marked 2 risky position(s). Current equity: 99916.96. PnL: -83.04.",
+  "version": "performance_v2",
+  "summary": "Performance v2 marked 2 risky position(s) from Portfolio State v2. Current equity: 100000.0. PnL: 0.0.",
   "positions": {
     "position_count": 2,
-    "risky_weight": 0.41436,
-    "cash_weight": 0.508328,
-    "reserved_cash_weight": 0.076482
+    "risky_weight": 0.41519,
+    "cash_weight": 0.58481,
+    "reserved_cash_weight": 0.0
   },
   "pnl": {
     "initial_equity": 100000.0,
-    "current_equity": 99916.96,
-    "pnl": -83.04,
-    "pnl_pct": -0.00083
+    "current_equity": 100000.0,
+    "pnl": 0.0,
+    "pnl_pct": 0.0,
+    "source": "portfolio_state_v2"
   },
   "benchmark": {
     "benchmark": "equal_weight_BTC_ETH_SOL",
-    "status": "placeholder",
-    "note": "Benchmark return tracking will be enabled once historical portfolio snapshots are accumulated."
+    "status": "tracking_pending_price_history",
+    "portfolio_pnl_pct": 0.0,
+    "note": "Benchmark v2 placeholder until broker-fill mark-to-market price history is enabled."
   },
   "attribution": [
     {
       "asset": "BTC-USD",
       "side": "LONG",
-      "weight": 0.223536,
-      "value": 22353.6,
-      "portfolio_share": 0.223722,
-      "cost_drag": 0.00044797
+      "weight": 0.223984,
+      "value": 22398.4,
+      "portfolio_share": 0.223984,
+      "cost_drag": 0.0
     },
     {
       "asset": "ETH-USD",
       "side": "LONG",
-      "weight": 0.190824,
-      "value": 19082.36,
-      "portfolio_share": 0.190982,
-      "cost_drag": 0.00038241
-    },
-    {
-      "asset": "RESERVED_CASH",
-      "side": "CASH",
-      "weight": 0.076482,
-      "value": 7648.2,
-      "portfolio_share": 0.076546,
+      "weight": 0.191206,
+      "value": 19120.6,
+      "portfolio_share": 0.191206,
       "cost_drag": 0.0
     },
     {
       "asset": "CASH",
       "side": "CASH",
-      "weight": 0.508328,
-      "value": 50832.8,
-      "portfolio_share": 0.50875,
+      "weight": 0.58481,
+      "value": 58481.0,
+      "portfolio_share": 0.58481,
       "cost_drag": 0.0
     }
   ],
   "snapshot": {
-    "timestamp": "2026-07-08T22:40:28.576411+00:00",
+    "timestamp": "2026-07-09T07:34:56.358277+00:00",
+    "source": "portfolio_state_v2",
+    "broker_fill_count": 2,
     "position_count": 2,
-    "risky_weight": 0.41436,
-    "cash_weight": 0.508328,
-    "reserved_cash_weight": 0.076482,
+    "risky_weight": 0.41519,
+    "cash_weight": 0.58481,
+    "reserved_cash_weight": 0.0,
     "initial_equity": 100000.0,
-    "current_equity": 99916.96,
-    "pnl": -83.04,
-    "pnl_pct": -0.00083
+    "current_equity": 100000.0,
+    "pnl": 0.0,
+    "pnl_pct": 0.0
   },
   "outputs": {
     "json": "output\\investment_performance\\performance_report.json",
