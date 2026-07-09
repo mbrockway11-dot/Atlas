@@ -2,7 +2,7 @@
   "success": true,
   "approved": true,
   "safety_status": "APPROVED",
-  "check_count": 10,
+  "check_count": 11,
   "reject_count": 0,
   "warning_count": 1,
   "checks": [
@@ -55,6 +55,11 @@
       "name": "execution_confirmation",
       "status": "WARN",
       "message": "Execution layer is idle; exposure should remain reduced."
+    },
+    {
+      "name": "risk_engine",
+      "status": "PASS",
+      "message": "Risk Engine acceptable: score=0.028783, label=low_risk."
     }
   ],
   "decision": "ALLOW_PAPER_EXECUTION",

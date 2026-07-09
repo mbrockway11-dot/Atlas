@@ -14,3 +14,4 @@ Trade Safety Governor status: APPROVED. Decision: ALLOW_PAPER_EXECUTION. Reason:
 - `PASS` `paper_drawdown` ? Paper PnL acceptable: -0.000830.
 - `PASS` `learning_regime` ? Learning regime acceptable: improving.
 - `WARN` `execution_confirmation` ? Execution layer is idle; exposure should remain reduced.
+- `PASS` `risk_engine` ? Risk Engine acceptable: score=0.028783, label=low_risk.

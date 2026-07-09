@@ -14,6 +14,7 @@ SIMULATOR_REPORT = Path("output/investment_execution_simulator/execution_simulat
 PERFORMANCE_REPORT = Path("output/investment_performance/performance_report.json")
 LEARNING_REPORT = Path("output/investment_learning/learning_report.json")
 DECISION_REPORT = Path("output/investment_decision/decision_engine_report.json")
+RISK_REPORT = Path("output/investment_risk/risk_engine_report.json")
 
 
 def load_csv(path: str | Path) -> pd.DataFrame:
@@ -40,4 +41,5 @@ def load_inputs() -> dict:
         "performance": load_json(PERFORMANCE_REPORT),
         "learning": load_json(LEARNING_REPORT),
         "decision": load_json(DECISION_REPORT),
+        "risk": load_json(RISK_REPORT),
     }

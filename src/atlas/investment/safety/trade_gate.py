@@ -14,6 +14,7 @@ def evaluate_trade_safety(inputs: dict) -> dict:
     performance = inputs.get("performance", {}) or {}
     learning = inputs.get("learning", {}) or {}
     decision = inputs.get("decision", {}) or {}
+    risk = inputs.get("risk", {}) or {}
 
     if orders is None or orders.empty:
         return reject("No execution orders available.")
@@ -25,6 +26,7 @@ def evaluate_trade_safety(inputs: dict) -> dict:
     checks.extend(check_performance(performance))
     checks.extend(check_learning(learning))
     checks.extend(check_decision(decision))
+    checks.extend(check_risk_engine(risk))
 
     rejected = [c for c in checks if c["status"] == "REJECT"]
     warnings = [c for c in checks if c["status"] == "WARN"]
@@ -171,6 +173,40 @@ def check_decision(decision: dict) -> list[dict]:
         "name": "execution_confirmation",
         "status": "PASS",
         "message": f"Execution confirmation status: {confirmation.get('status')}.",
+    }]
+
+
+
+def check_risk_engine(risk: dict) -> list[dict]:
+    aggregate = risk.get("aggregate", {}) or {}
+    score = float(aggregate.get("aggregate_risk_score") or 0.0)
+    label = str(aggregate.get("risk_label") or "unknown")
+
+    if score >= 0.70 or label == "critical_risk":
+        return [{
+            "name": "risk_engine",
+            "status": "REJECT",
+            "message": f"Risk Engine critical risk: score={score:.6f}, label={label}.",
+        }]
+
+    if score >= 0.45 or label == "high_risk":
+        return [{
+            "name": "risk_engine",
+            "status": "REJECT",
+            "message": f"Risk Engine high risk: score={score:.6f}, label={label}.",
+        }]
+
+    if score >= 0.25 or label == "moderate_risk":
+        return [{
+            "name": "risk_engine",
+            "status": "WARN",
+            "message": f"Risk Engine moderate risk: score={score:.6f}, label={label}.",
+        }]
+
+    return [{
+        "name": "risk_engine",
+        "status": "PASS",
+        "message": f"Risk Engine acceptable: score={score:.6f}, label={label}.",
     }]
 
 
