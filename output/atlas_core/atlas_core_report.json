@@ -1,10 +1,10 @@
 {
   "success": true,
-  "run_id": "7557b5ad-d7fe-498e-a87f-ef9008d0ca38",
+  "run_id": "ca2c4872-2fe8-4b35-aa68-2152bf5df2d7",
   "mode": "paper",
-  "started_at": "2026-07-09T05:03:22.455936+00:00",
-  "ended_at": "2026-07-09T05:04:09.961252+00:00",
-  "node_count": 23,
+  "started_at": "2026-07-09T05:24:03.084779+00:00",
+  "ended_at": "2026-07-09T05:24:34.914009+00:00",
+  "node_count": 24,
   "results": [
     {
       "name": "market_features",
@@ -161,6 +161,13 @@
       "warnings": []
     },
     {
+      "name": "action_engine",
+      "success": true,
+      "output_key": "action_engine",
+      "error": null,
+      "warnings": []
+    },
+    {
       "name": "rebalance_engine",
       "success": true,
       "output_key": "rebalance_engine",
@@ -191,6 +198,7 @@
     "portfolio_state",
     "portfolio_lifecycle",
     "position_manager",
+    "action_engine",
     "rebalance_engine"
   ]
 }

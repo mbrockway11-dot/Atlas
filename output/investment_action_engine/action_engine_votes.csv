@@ -1,0 +1,15 @@
+source,action,confidence,reason,position_id,asset
+decision_alignment,HOLD,0.7,Position aligns with current long decision.,paper::BTC-USD::LONG,BTC-USD
+learning,HOLD,0.7,Learning regime is improving.,paper::BTC-USD::LONG,BTC-USD
+performance,HOLD,0.6,Paper PnL is within normal range.,paper::BTC-USD::LONG,BTC-USD
+exposure,HOLD,0.6,Risky exposure is within operating band.,paper::BTC-USD::LONG,BTC-USD
+position_manager,HOLD,0.7,Portfolio exposure is within target band.,paper::BTC-USD::LONG,BTC-USD
+position_manager,HOLD,0.7,No exit condition triggered.,paper::BTC-USD::LONG,BTC-USD
+position_manager,TRAILING_STOP_PENDING,0.7,Trailing stop calculation will activate after price/cost-basis tracking is added.,paper::BTC-USD::LONG,BTC-USD
+decision_alignment,HOLD,0.7,Position aligns with current long decision.,paper::ETH-USD::LONG,ETH-USD
+learning,HOLD,0.7,Learning regime is improving.,paper::ETH-USD::LONG,ETH-USD
+performance,HOLD,0.6,Paper PnL is within normal range.,paper::ETH-USD::LONG,ETH-USD
+exposure,HOLD,0.6,Risky exposure is within operating band.,paper::ETH-USD::LONG,ETH-USD
+position_manager,HOLD,0.7,Portfolio exposure is within target band.,paper::ETH-USD::LONG,ETH-USD
+position_manager,HOLD,0.7,No exit condition triggered.,paper::ETH-USD::LONG,ETH-USD
+position_manager,TRAILING_STOP_PENDING,0.7,Trailing stop calculation will activate after price/cost-basis tracking is added.,paper::ETH-USD::LONG,ETH-USD

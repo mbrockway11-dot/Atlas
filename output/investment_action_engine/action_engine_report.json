@@ -1,0 +1,156 @@
+{
+  "success": true,
+  "summary": "Action Engine evaluated 2 open position(s).",
+  "actions": [
+    {
+      "position_id": "paper::BTC-USD::LONG",
+      "asset": "BTC-USD",
+      "side": "LONG",
+      "state": "OPEN",
+      "final_action": "HOLD",
+      "final_confidence": 0.817708,
+      "scores": {
+        "REDUCE": 0.0,
+        "EXIT_REVIEW": 0.0,
+        "SCALE_IN": 0.0,
+        "TRAILING_STOP_PENDING": 0.175,
+        "HOLD": 0.785
+      }
+    },
+    {
+      "position_id": "paper::ETH-USD::LONG",
+      "asset": "ETH-USD",
+      "side": "LONG",
+      "state": "OPEN",
+      "final_action": "HOLD",
+      "final_confidence": 0.817708,
+      "scores": {
+        "REDUCE": 0.0,
+        "EXIT_REVIEW": 0.0,
+        "SCALE_IN": 0.0,
+        "TRAILING_STOP_PENDING": 0.175,
+        "HOLD": 0.785
+      }
+    }
+  ],
+  "votes": [
+    {
+      "source": "decision_alignment",
+      "action": "HOLD",
+      "confidence": 0.7,
+      "reason": "Position aligns with current long decision.",
+      "position_id": "paper::BTC-USD::LONG",
+      "asset": "BTC-USD"
+    },
+    {
+      "source": "learning",
+      "action": "HOLD",
+      "confidence": 0.7,
+      "reason": "Learning regime is improving.",
+      "position_id": "paper::BTC-USD::LONG",
+      "asset": "BTC-USD"
+    },
+    {
+      "source": "performance",
+      "action": "HOLD",
+      "confidence": 0.6,
+      "reason": "Paper PnL is within normal range.",
+      "position_id": "paper::BTC-USD::LONG",
+      "asset": "BTC-USD"
+    },
+    {
+      "source": "exposure",
+      "action": "HOLD",
+      "confidence": 0.6,
+      "reason": "Risky exposure is within operating band.",
+      "position_id": "paper::BTC-USD::LONG",
+      "asset": "BTC-USD"
+    },
+    {
+      "source": "position_manager",
+      "action": "HOLD",
+      "confidence": 0.7,
+      "reason": "Portfolio exposure is within target band.",
+      "position_id": "paper::BTC-USD::LONG",
+      "asset": "BTC-USD"
+    },
+    {
+      "source": "position_manager",
+      "action": "HOLD",
+      "confidence": 0.7,
+      "reason": "No exit condition triggered.",
+      "position_id": "paper::BTC-USD::LONG",
+      "asset": "BTC-USD"
+    },
+    {
+      "source": "position_manager",
+      "action": "TRAILING_STOP_PENDING",
+      "confidence": 0.7,
+      "reason": "Trailing stop calculation will activate after price/cost-basis tracking is added.",
+      "position_id": "paper::BTC-USD::LONG",
+      "asset": "BTC-USD"
+    },
+    {
+      "source": "decision_alignment",
+      "action": "HOLD",
+      "confidence": 0.7,
+      "reason": "Position aligns with current long decision.",
+      "position_id": "paper::ETH-USD::LONG",
+      "asset": "ETH-USD"
+    },
+    {
+      "source": "learning",
+      "action": "HOLD",
+      "confidence": 0.7,
+      "reason": "Learning regime is improving.",
+      "position_id": "paper::ETH-USD::LONG",
+      "asset": "ETH-USD"
+    },
+    {
+      "source": "performance",
+      "action": "HOLD",
+      "confidence": 0.6,
+      "reason": "Paper PnL is within normal range.",
+      "position_id": "paper::ETH-USD::LONG",
+      "asset": "ETH-USD"
+    },
+    {
+      "source": "exposure",
+      "action": "HOLD",
+      "confidence": 0.6,
+      "reason": "Risky exposure is within operating band.",
+      "position_id": "paper::ETH-USD::LONG",
+      "asset": "ETH-USD"
+    },
+    {
+      "source": "position_manager",
+      "action": "HOLD",
+      "confidence": 0.7,
+      "reason": "Portfolio exposure is within target band.",
+      "position_id": "paper::ETH-USD::LONG",
+      "asset": "ETH-USD"
+    },
+    {
+      "source": "position_manager",
+      "action": "HOLD",
+      "confidence": 0.7,
+      "reason": "No exit condition triggered.",
+      "position_id": "paper::ETH-USD::LONG",
+      "asset": "ETH-USD"
+    },
+    {
+      "source": "position_manager",
+      "action": "TRAILING_STOP_PENDING",
+      "confidence": 0.7,
+      "reason": "Trailing stop calculation will activate after price/cost-basis tracking is added.",
+      "position_id": "paper::ETH-USD::LONG",
+      "asset": "ETH-USD"
+    }
+  ],
+  "outputs": {
+    "json": "output\\investment_action_engine\\action_engine_report.json",
+    "markdown": "output\\investment_action_engine\\action_engine_report.md",
+    "actions_csv": "output\\investment_action_engine\\action_engine_actions.csv",
+    "votes_csv": "output\\investment_action_engine\\action_engine_votes.csv"
+  }
+}

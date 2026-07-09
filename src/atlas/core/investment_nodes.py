@@ -145,4 +145,10 @@ def build_investment_core_nodes() -> list[ScriptNode]:
             requires=["portfolio_state", "position_manager", "decision_engine", "alpha_portfolio"],
             provides=["rebalance_engine"],
         ),
+        ScriptNode(
+            name="action_engine",
+            command=["scripts/update_action_engine.py"],
+            requires=["portfolio_lifecycle", "position_manager", "portfolio_state", "decision_engine", "learning", "performance"],
+            provides=["action_engine"],
+        ),
     ]
