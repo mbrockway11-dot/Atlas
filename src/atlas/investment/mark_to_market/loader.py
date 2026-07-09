@@ -1,30 +1,40 @@
 
-"""Mark-to-Market v2 loaders."""
+"""Mark-to-Market v3 loaders."""
 
 from __future__ import annotations
 
 from pathlib import Path
 import pandas as pd
 
-
-PAPER_BROKER_FILLS = Path("output/investment_paper_broker/paper_broker_fills.csv")
-MARKET_FEATURES = Path("output/investment_alpha/market_asset_features.csv")
-EQUITY_CURVE = Path("output/investment_mark_to_market/equity_curve.csv")
+from atlas.common.io import safe_read_csv
 
 
-def load_fills() -> pd.DataFrame:
-    if not PAPER_BROKER_FILLS.exists():
-        return pd.DataFrame()
-    return pd.read_csv(PAPER_BROKER_FILLS)
+BROKER_POSITIONS = Path("output/investment_paper_broker/paper_broker_positions.csv")
+BROKER_FILLS = Path("output/investment_paper_broker/paper_broker_fills.csv")
+CASH_LEDGER = Path("output/investment_paper_broker/paper_broker_cash_ledger.csv")
+PRICE_DATA = Path("output/price_data.csv")
 
 
-def load_market_features() -> pd.DataFrame:
-    if not MARKET_FEATURES.exists():
-        return pd.DataFrame()
-    return pd.read_csv(MARKET_FEATURES)
+def load_broker_positions() -> pd.DataFrame:
+    return safe_read_csv(BROKER_POSITIONS)
 
 
-def load_equity_curve() -> pd.DataFrame:
-    if not EQUITY_CURVE.exists():
-        return pd.DataFrame()
-    return pd.read_csv(EQUITY_CURVE)
+def load_broker_fills() -> pd.DataFrame:
+    return safe_read_csv(BROKER_FILLS)
+
+
+def load_cash_ledger() -> pd.DataFrame:
+    return safe_read_csv(CASH_LEDGER)
+
+
+def load_price_data() -> pd.DataFrame:
+    return safe_read_csv(PRICE_DATA)
+
+
+def load_mark_to_market_inputs() -> dict:
+    return {
+        "broker_positions": load_broker_positions(),
+        "broker_fills": load_broker_fills(),
+        "cash_ledger": load_cash_ledger(),
+        "price_data": load_price_data(),
+    }
