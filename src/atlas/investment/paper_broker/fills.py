@@ -1,50 +1,65 @@
 
-"""Paper Broker fill simulation."""
+"""Paper Broker v3 fill normalization."""
 
 from __future__ import annotations
 
 from datetime import datetime, UTC
-
 import pandas as pd
 
-from atlas.investment.paper_broker.idempotency import target_key
+
+INITIAL_EQUITY = 100000.0
 
 
-def simulate_paper_broker_fills(orders: pd.DataFrame) -> pd.DataFrame:
-    if orders.empty:
-        return pd.DataFrame()
+def normalize_execution_fills(new_fills: pd.DataFrame) -> list[dict]:
+    if new_fills.empty:
+        return []
 
-    now = datetime.now(UTC).isoformat()
     rows = []
 
-    for _, row in orders.iterrows():
-        status = str(row.get("execution_status") or "").upper()
+    for _, row in new_fills.iterrows():
+        fill_status = str(row.get("fill_status") or "").upper()
+        execution_status = str(row.get("execution_status") or "").upper()
 
-        if status not in {"APPROVED_FOR_EXECUTION", "EXECUTED_SIMULATED"}:
+        if fill_status not in {"FILLED_SIMULATED", "PAPER_FILLED"} and execution_status not in {"EXECUTED_SIMULATED"}:
             continue
 
-        weight = float(row.get("weight") or 0.0)
         asset = str(row.get("asset"))
-        side = str(row.get("side"))
-        action = str(row.get("action"))
+        side = str(row.get("side") or "LONG")
+        action = str(row.get("action") or row.get("order_action") or "BUY").upper()
+        filled_weight = float(row.get("filled_weight") or row.get("requested_weight") or 0.0)
+
+        if filled_weight <= 0:
+            continue
+
+        stable_key = row.get("stable_order_key") or row.get("idempotency_key")
 
         rows.append({
-            "filled_at": now,
+            "broker_fill_id": f"paper::{stable_key}",
+            "filled_at": row.get("fill_timestamp") or datetime.now(UTC).isoformat(),
             "execution_batch_id": row.get("execution_batch_id"),
-            "idempotency_key": row.get("idempotency_key") or row.get("stable_order_key"),
-            "stable_order_key": row.get("stable_order_key"),
-            "target_key": row.get("target_key") or row.get("stable_order_key") or target_key(asset, side, action, weight),
+            "execution_id": row.get("execution_id"),
+            "stable_order_key": stable_key,
+            "idempotency_key": stable_key,
             "asset": asset,
             "side": side,
             "action": action,
-            "requested_weight": weight,
-            "filled_weight": weight,
+            "requested_weight": row.get("requested_weight"),
+            "filled_weight": round(filled_weight, 6),
+            "notional_value": round(INITIAL_EQUITY * filled_weight, 2),
             "fill_status": "PAPER_FILLED",
-            "broker": "paper",
-            "route": row.get("route"),
+            "broker": "paper_broker_v3",
+            "route": row.get("broker_route") or "paper",
             "risk_label": row.get("risk_label"),
-            "safety_approved": row.get("safety_approved"),
-            "notes": "Paper Broker v2 target-idempotent simulated fill.",
+            "safety_status": row.get("safety_status"),
+            "fee_drag": row.get("fee_drag", 0.0),
+            "slippage_drag": row.get("slippage_drag", 0.0),
+            "total_cost_drag": row.get("total_cost_drag", 0.0),
+            "notes": "Paper Broker v3 consumed Execution Engine v3 fill.",
         })
 
-    return pd.DataFrame(rows)
+    return rows
+
+
+# Backward compatibility
+def build_paper_fills(new_orders: pd.DataFrame) -> list[dict]:
+    return normalize_execution_fills(new_orders)

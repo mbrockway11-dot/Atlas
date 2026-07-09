@@ -1,0 +1,3 @@
+asset,side,net_weight,notional_value,status,source
+BTC-USD,LONG,0.377631,37763.1,OPEN,paper_broker_v3
+ETH-USD,LONG,0.322369,32236.9,OPEN,paper_broker_v3

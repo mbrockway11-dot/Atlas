@@ -1,14 +1,36 @@
 {
   "success": true,
-  "summary": "Paper Broker v2 processed 0 new order(s) and created 0 new fill(s).",
-  "input_order_count": 0,
-  "new_order_count": 0,
+  "version": "paper_broker_v3",
+  "summary": "Paper Broker v3 consumed 0 execution fill row(s), created 0 new broker fill(s), positions=2, cash=30000.0.",
+  "execution_fill_rows": 0,
   "new_fill_count": 0,
-  "total_fill_count": 4,
+  "ledger_rows": 4,
+  "position_count": 2,
+  "cash": 30000.0,
+  "positions": [
+    {
+      "asset": "BTC-USD",
+      "side": "LONG",
+      "net_weight": 0.377631,
+      "notional_value": 37763.1,
+      "status": "OPEN",
+      "source": "paper_broker_v3"
+    },
+    {
+      "asset": "ETH-USD",
+      "side": "LONG",
+      "net_weight": 0.322369,
+      "notional_value": 32236.9,
+      "status": "OPEN",
+      "source": "paper_broker_v3"
+    }
+  ],
   "new_fills": [],
   "outputs": {
     "fills_csv": "output\\investment_paper_broker\\paper_broker_fills.csv",
     "ledger_csv": "output\\investment_paper_broker\\paper_broker_ledger.csv",
+    "positions_csv": "output\\investment_paper_broker\\paper_broker_positions.csv",
+    "cash_ledger_csv": "output\\investment_paper_broker\\paper_broker_cash_ledger.csv",
     "json": "output\\investment_paper_broker\\paper_broker_report.json",
     "markdown": "output\\investment_paper_broker\\paper_broker_report.md"
   }

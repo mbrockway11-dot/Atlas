@@ -1,11 +1,8 @@
-# Paper Broker v2 Report
+# Paper Broker v3 Report
 
-Paper Broker v2 processed 0 new order(s) and created 0 new fill(s).
+Paper Broker v3 consumed 0 execution fill row(s), created 0 new broker fill(s), positions=2, cash=30000.0.
 
-- Input orders: `0`
-- New orders: `0`
-- New fills: `0`
-- Total fills: `4`
+## Positions
 
-## New Fills
-
+- `BTC-USD` weight=`0.377631` status=`OPEN`
+- `ETH-USD` weight=`0.322369` status=`OPEN`
