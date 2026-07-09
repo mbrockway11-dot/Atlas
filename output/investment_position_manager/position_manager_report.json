@@ -1,0 +1,150 @@
+{
+  "success": true,
+  "summary": "Position Manager produced 8 position action(s). Rebalance action: BALANCED.",
+  "rebalance": {
+    "manager_action": "BALANCED",
+    "reason": "Portfolio allocation is within operating band.",
+    "risky_weight": 0.41436,
+    "reserved_cash_weight": 0.076482,
+    "cash_weight": 0.508328
+  },
+  "entry_actions": [
+    {
+      "position_id": "broker::BTC-USD::LONG::BUY",
+      "asset": "BTC-USD",
+      "side": "LONG",
+      "current_state": "APPROVED",
+      "manager_action": "QUEUE_ENTRY",
+      "confidence": 0.819455,
+      "reason": "Decision confidence supports entry."
+    },
+    {
+      "position_id": "broker::ETH-USD::LONG::BUY",
+      "asset": "ETH-USD",
+      "side": "LONG",
+      "current_state": "APPROVED",
+      "manager_action": "QUEUE_ENTRY",
+      "confidence": 0.819455,
+      "reason": "Decision confidence supports entry."
+    }
+  ],
+  "scaling_actions": [
+    {
+      "position_id": "paper::BTC-USD::LONG",
+      "asset": "BTC-USD",
+      "side": "LONG",
+      "current_state": "OPEN",
+      "manager_action": "HOLD_SIZE",
+      "reason": "Portfolio exposure is within target band."
+    },
+    {
+      "position_id": "paper::ETH-USD::LONG",
+      "asset": "ETH-USD",
+      "side": "LONG",
+      "current_state": "OPEN",
+      "manager_action": "HOLD_SIZE",
+      "reason": "Portfolio exposure is within target band."
+    }
+  ],
+  "exit_actions": [
+    {
+      "position_id": "paper::BTC-USD::LONG",
+      "asset": "BTC-USD",
+      "side": "LONG",
+      "current_state": "OPEN",
+      "manager_action": "HOLD",
+      "reason": "No exit condition triggered."
+    },
+    {
+      "position_id": "paper::ETH-USD::LONG",
+      "asset": "ETH-USD",
+      "side": "LONG",
+      "current_state": "OPEN",
+      "manager_action": "HOLD",
+      "reason": "No exit condition triggered."
+    }
+  ],
+  "trailing_actions": [
+    {
+      "position_id": "paper::BTC-USD::LONG",
+      "asset": "BTC-USD",
+      "manager_action": "TRAILING_STOP_PENDING",
+      "reason": "Trailing stop calculation will activate after price/cost-basis tracking is added."
+    },
+    {
+      "position_id": "paper::ETH-USD::LONG",
+      "asset": "ETH-USD",
+      "manager_action": "TRAILING_STOP_PENDING",
+      "reason": "Trailing stop calculation will activate after price/cost-basis tracking is added."
+    }
+  ],
+  "actions": [
+    {
+      "position_id": "broker::BTC-USD::LONG::BUY",
+      "asset": "BTC-USD",
+      "side": "LONG",
+      "current_state": "APPROVED",
+      "manager_action": "QUEUE_ENTRY",
+      "confidence": 0.819455,
+      "reason": "Decision confidence supports entry."
+    },
+    {
+      "position_id": "broker::ETH-USD::LONG::BUY",
+      "asset": "ETH-USD",
+      "side": "LONG",
+      "current_state": "APPROVED",
+      "manager_action": "QUEUE_ENTRY",
+      "confidence": 0.819455,
+      "reason": "Decision confidence supports entry."
+    },
+    {
+      "position_id": "paper::BTC-USD::LONG",
+      "asset": "BTC-USD",
+      "side": "LONG",
+      "current_state": "OPEN",
+      "manager_action": "HOLD_SIZE",
+      "reason": "Portfolio exposure is within target band."
+    },
+    {
+      "position_id": "paper::ETH-USD::LONG",
+      "asset": "ETH-USD",
+      "side": "LONG",
+      "current_state": "OPEN",
+      "manager_action": "HOLD_SIZE",
+      "reason": "Portfolio exposure is within target band."
+    },
+    {
+      "position_id": "paper::BTC-USD::LONG",
+      "asset": "BTC-USD",
+      "side": "LONG",
+      "current_state": "OPEN",
+      "manager_action": "HOLD",
+      "reason": "No exit condition triggered."
+    },
+    {
+      "position_id": "paper::ETH-USD::LONG",
+      "asset": "ETH-USD",
+      "side": "LONG",
+      "current_state": "OPEN",
+      "manager_action": "HOLD",
+      "reason": "No exit condition triggered."
+    },
+    {
+      "position_id": "paper::BTC-USD::LONG",
+      "asset": "BTC-USD",
+      "manager_action": "TRAILING_STOP_PENDING",
+      "reason": "Trailing stop calculation will activate after price/cost-basis tracking is added."
+    },
+    {
+      "position_id": "paper::ETH-USD::LONG",
+      "asset": "ETH-USD",
+      "manager_action": "TRAILING_STOP_PENDING",
+      "reason": "Trailing stop calculation will activate after price/cost-basis tracking is added."
+    }
+  ],
+  "outputs": {
+    "json": "output\\investment_position_manager\\position_manager_report.json",
+    "markdown": "output\\investment_position_manager\\position_manager_report.md",
+    "actions_csv": "output\\investment_position_manager\\position_manager_actions.csv"
+  }
+}
