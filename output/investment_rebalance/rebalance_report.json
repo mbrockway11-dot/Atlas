@@ -1,63 +1,67 @@
 {
   "success": true,
-  "summary": "Rebalancing Engine generated 1 rebalance order(s) with controlled turnover 0.076482.",
-  "total_turnover": 0.076482,
-  "order_count": 1,
+  "version": "rebalance_engine_v3",
+  "summary": "Rebalance Engine v3 optimized 2 asset(s), generated 2 order intent(s), turnover=0.28481.",
+  "current_weights": {
+    "BTC-USD": 0.223984,
+    "ETH-USD": 0.191206
+  },
+  "raw_target_weights": {
+    "BTC-USD": 0.223984,
+    "ETH-USD": 0.191206
+  },
+  "action_adjusted_targets": {
+    "BTC-USD": 0.223984,
+    "ETH-USD": 0.191206
+  },
+  "optimized_targets": {
+    "BTC-USD": 0.377631,
+    "ETH-USD": 0.322369
+  },
+  "total_turnover": 0.28481,
+  "order_count": 2,
   "rebalance_table": [
     {
       "asset": "BTC-USD",
-      "current_weight": 0.223536,
-      "target_weight": 0.223984,
-      "delta_weight": 0.0004479999999999762,
-      "abs_delta": 0.0004479999999999762,
-      "trade_required": false,
-      "controlled_delta_weight": 0.0,
-      "turnover_scale": 1.0,
-      "turnover_limited": false
-    },
-    {
-      "asset": "CASH",
-      "current_weight": 0.58481,
-      "target_weight": 0.508328,
-      "delta_weight": -0.07648200000000005,
-      "abs_delta": 0.07648200000000005,
-      "trade_required": true,
-      "controlled_delta_weight": -0.07648200000000005,
-      "turnover_scale": 1.0,
-      "turnover_limited": false
+      "current_weight": 0.223984,
+      "target_weight": 0.377631,
+      "signed_delta": 0.153647,
+      "abs_delta": 0.153647,
+      "rebalance_action": "BUY",
+      "reason": "Optimize current MTM portfolio toward risk-adjusted target portfolio."
     },
     {
       "asset": "ETH-USD",
-      "current_weight": 0.190824,
-      "target_weight": 0.191206,
-      "delta_weight": 0.00038199999999999346,
-      "abs_delta": 0.00038199999999999346,
-      "trade_required": false,
-      "controlled_delta_weight": 0.0,
-      "turnover_scale": 1.0,
-      "turnover_limited": false
-    },
-    {
-      "asset": "SOL-USD",
-      "current_weight": 0.0,
-      "target_weight": 0.076482,
-      "delta_weight": 0.076482,
-      "abs_delta": 0.076482,
-      "trade_required": true,
-      "controlled_delta_weight": 0.076482,
-      "turnover_scale": 1.0,
-      "turnover_limited": false
+      "current_weight": 0.191206,
+      "target_weight": 0.322369,
+      "signed_delta": 0.131163,
+      "abs_delta": 0.131163,
+      "rebalance_action": "BUY",
+      "reason": "Optimize current MTM portfolio toward risk-adjusted target portfolio."
     }
   ],
   "orders": [
     {
-      "asset": "SOL-USD",
-      "rebalance_action": "BUY",
-      "weight_delta": 0.076482,
-      "signed_delta": 0.076482,
-      "current_weight": 0.0,
-      "target_weight": 0.076482,
-      "reason": "Rebalance current portfolio toward risk-adjusted target portfolio."
+      "asset": "BTC-USD",
+      "action": "BUY",
+      "side": "LONG",
+      "weight_delta": 0.153647,
+      "signed_delta": 0.153647,
+      "current_weight": 0.223984,
+      "target_weight": 0.377631,
+      "order_type": "REBALANCE_INTENT",
+      "reason": "Optimize current MTM portfolio toward risk-adjusted target portfolio."
+    },
+    {
+      "asset": "ETH-USD",
+      "action": "BUY",
+      "side": "LONG",
+      "weight_delta": 0.131163,
+      "signed_delta": 0.131163,
+      "current_weight": 0.191206,
+      "target_weight": 0.322369,
+      "order_type": "REBALANCE_INTENT",
+      "reason": "Optimize current MTM portfolio toward risk-adjusted target portfolio."
     }
   ],
   "outputs": {

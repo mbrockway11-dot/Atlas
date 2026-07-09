@@ -1,10 +1,8 @@
-# Rebalancing Engine Report
+# Rebalance Engine v3 Report
 
-Rebalancing Engine generated 1 rebalance order(s) with controlled turnover 0.076482.
+Rebalance Engine v3 optimized 2 asset(s), generated 2 order intent(s), turnover=0.28481.
 
-- Total turnover: `0.076482`
-- Order count: `1`
+## Rebalance Table
 
-## Orders
-
-- `SOL-USD` action=`BUY` delta=`0.076482`
+- `BTC-USD` action=`BUY` current=`0.223984` target=`0.377631` delta=`0.153647`
+- `ETH-USD` action=`BUY` current=`0.191206` target=`0.322369` delta=`0.131163`

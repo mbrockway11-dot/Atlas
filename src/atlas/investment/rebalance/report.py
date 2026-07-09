@@ -1,5 +1,5 @@
 
-"""Rebalancing Engine report/export."""
+"""Rebalance Engine v3 report/export."""
 
 from __future__ import annotations
 
@@ -9,62 +9,65 @@ from typing import Any
 
 import pandas as pd
 
+from atlas.investment.rebalance.action_overlay import apply_action_requests
 from atlas.investment.rebalance.loader import load_rebalance_inputs
-from atlas.investment.rebalance.optimizer import (
-    current_weights_from_state,
-    optimize_rebalance,
-    target_weights_from_alpha,
-)
+from atlas.investment.rebalance.optimizer import optimize_targets
 from atlas.investment.rebalance.order_generation import generate_rebalance_orders
-from atlas.investment.rebalance.turnover import apply_turnover_controls
+from atlas.investment.rebalance.targets import current_weights, target_weights
+from atlas.investment.rebalance.turnover import build_rebalance_table, total_turnover
 
 
 OUT_DIR = Path("output/investment_rebalance")
 REPORT_JSON = OUT_DIR / "rebalance_report.json"
 REPORT_MD = OUT_DIR / "rebalance_report.md"
-REBALANCE_CSV = OUT_DIR / "rebalance_table.csv"
+TABLE_CSV = OUT_DIR / "rebalance_table.csv"
 ORDERS_CSV = OUT_DIR / "rebalance_orders.csv"
 
 
 def build_rebalance_report() -> dict[str, Any]:
     inputs = load_rebalance_inputs()
 
-    current = current_weights_from_state(inputs["portfolio_state"])
-    target = target_weights_from_alpha(inputs["target_portfolio"], inputs["decision"])
+    current = current_weights(inputs["mtm_positions"])
+    raw_target = target_weights(inputs["target_portfolio"], current)
+    action_adjusted = apply_action_requests(raw_target, current, inputs["action_requests"])
+    optimized = optimize_targets(current, action_adjusted, inputs["risk"])
 
-    rebalance = optimize_rebalance(current, target)
-    controlled = apply_turnover_controls(rebalance)
-    orders = generate_rebalance_orders(controlled)
-
-    total_turnover = float(controlled.loc[controlled["asset"] != "CASH", "controlled_delta_weight"].abs().sum()) if not controlled.empty else 0.0
+    table = build_rebalance_table(current, optimized)
+    turnover = total_turnover(table)
+    orders = generate_rebalance_orders(table)
 
     report = {
         "success": True,
+        "version": "rebalance_engine_v3",
         "summary": (
-            f"Rebalancing Engine generated {len(orders)} rebalance order(s) "
-            f"with controlled turnover {round(total_turnover, 6)}."
+            f"Rebalance Engine v3 optimized {len(table)} asset(s), "
+            f"generated {len(orders)} order intent(s), turnover={turnover}."
         ),
-        "total_turnover": round(total_turnover, 6),
-        "order_count": int(len(orders)),
-        "rebalance_table": controlled.to_dict("records"),
-        "orders": orders.to_dict("records"),
+        "current_weights": current,
+        "raw_target_weights": raw_target,
+        "action_adjusted_targets": action_adjusted,
+        "optimized_targets": optimized,
+        "total_turnover": turnover,
+        "order_count": len(orders),
+        "rebalance_table": table,
+        "orders": orders,
         "outputs": {
             "json": str(REPORT_JSON),
             "markdown": str(REPORT_MD),
-            "rebalance_csv": str(REBALANCE_CSV),
+            "rebalance_csv": str(TABLE_CSV),
             "orders_csv": str(ORDERS_CSV),
         },
     }
 
-    write_outputs(report, controlled, orders)
+    write_outputs(report)
     return report
 
 
-def write_outputs(report: dict[str, Any], rebalance: pd.DataFrame, orders: pd.DataFrame) -> None:
+def write_outputs(report: dict[str, Any]) -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    rebalance.to_csv(REBALANCE_CSV, index=False)
-    orders.to_csv(ORDERS_CSV, index=False)
+    pd.DataFrame(report.get("rebalance_table", [])).to_csv(TABLE_CSV, index=False)
+    pd.DataFrame(report.get("orders", [])).to_csv(ORDERS_CSV, index=False)
 
     REPORT_JSON.write_text(json.dumps(report, indent=2, ensure_ascii=False, default=str), encoding="utf-8")
     REPORT_MD.write_text(build_markdown(report), encoding="utf-8")
@@ -72,21 +75,19 @@ def write_outputs(report: dict[str, Any], rebalance: pd.DataFrame, orders: pd.Da
 
 def build_markdown(report: dict[str, Any]) -> str:
     lines = [
-        "# Rebalancing Engine Report",
+        "# Rebalance Engine v3 Report",
         "",
         report.get("summary", ""),
         "",
-        f"- Total turnover: `{report.get('total_turnover')}`",
-        f"- Order count: `{report.get('order_count')}`",
-        "",
-        "## Orders",
+        "## Rebalance Table",
         "",
     ]
 
-    for row in report.get("orders", []):
+    for row in report.get("rebalance_table", []):
         lines.append(
             f"- `{row.get('asset')}` action=`{row.get('rebalance_action')}` "
-            f"delta=`{row.get('weight_delta')}`"
+            f"current=`{row.get('current_weight')}` target=`{row.get('target_weight')}` "
+            f"delta=`{row.get('signed_delta')}`"
         )
 
     return "\n".join(lines) + "\n"

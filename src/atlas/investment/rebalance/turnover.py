@@ -1,37 +1,40 @@
 
-"""Rebalancing turnover controls."""
+"""Turnover calculations."""
 
 from __future__ import annotations
 
-import pandas as pd
+
+MIN_DELTA = 0.005
 
 
-MIN_TRADE_DELTA = 0.01
-MAX_TOTAL_TURNOVER = 0.25
+def build_rebalance_table(current: dict[str, float], optimized: dict[str, float]) -> list[dict]:
+    assets = sorted(set(current) | set(optimized))
+    rows = []
+
+    for asset in assets:
+        cw = float(current.get(asset, 0.0))
+        tw = float(optimized.get(asset, 0.0))
+        delta = round(tw - cw, 6)
+
+        if abs(delta) < MIN_DELTA:
+            action = "HOLD"
+        elif delta > 0:
+            action = "BUY"
+        else:
+            action = "SELL"
+
+        rows.append({
+            "asset": asset,
+            "current_weight": round(cw, 6),
+            "target_weight": round(tw, 6),
+            "signed_delta": delta,
+            "abs_delta": round(abs(delta), 6),
+            "rebalance_action": action,
+            "reason": "Optimize current MTM portfolio toward risk-adjusted target portfolio.",
+        })
+
+    return rows
 
 
-def apply_turnover_controls(rebalance: pd.DataFrame) -> pd.DataFrame:
-    if rebalance.empty:
-        return rebalance
-
-    out = rebalance.copy()
-    out["abs_delta"] = out["delta_weight"].abs()
-    out["trade_required"] = out["abs_delta"] >= MIN_TRADE_DELTA
-
-    total_turnover = float(out.loc[out["asset"] != "CASH", "abs_delta"].sum())
-
-    if total_turnover > MAX_TOTAL_TURNOVER:
-        scale = MAX_TOTAL_TURNOVER / total_turnover
-    else:
-        scale = 1.0
-
-    out["controlled_delta_weight"] = out["delta_weight"]
-
-    mask = (out["asset"] != "CASH") & out["trade_required"]
-    out.loc[mask, "controlled_delta_weight"] = out.loc[mask, "delta_weight"] * scale
-    out.loc[~out["trade_required"], "controlled_delta_weight"] = 0.0
-
-    out["turnover_scale"] = scale
-    out["turnover_limited"] = total_turnover > MAX_TOTAL_TURNOVER
-
-    return out
+def total_turnover(rows: list[dict]) -> float:
+    return round(sum(float(r.get("abs_delta") or 0.0) for r in rows if r.get("rebalance_action") != "HOLD"), 6)

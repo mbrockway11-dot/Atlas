@@ -1,72 +1,38 @@
 
-"""Rebalancing optimizer."""
+"""Rebalance Engine v3 optimizer."""
 
 from __future__ import annotations
 
-import pandas as pd
+
+MAX_GROSS_EXPOSURE_BY_RISK = {
+    "minimal_risk": 0.80,
+    "low_risk": 0.70,
+    "moderate_risk": 0.50,
+    "high_risk": 0.25,
+    "critical_risk": 0.0,
+}
 
 
-def current_weights_from_state(portfolio_state: dict) -> pd.DataFrame:
-    state = portfolio_state.get("state", {}) or {}
-    holdings = state.get("holdings", []) or []
+def optimize_targets(
+    current: dict[str, float],
+    target: dict[str, float],
+    risk: dict,
+) -> dict[str, float]:
+    risk_label = (risk.get("aggregate", {}) or {}).get("risk_label", "low_risk")
+    max_gross = MAX_GROSS_EXPOSURE_BY_RISK.get(risk_label, 0.50)
 
-    if not holdings:
-        return pd.DataFrame(columns=["asset", "current_weight"])
+    positive_target = {k: max(0.0, float(v)) for k, v in target.items()}
+    target_sum = sum(positive_target.values())
 
-    rows = []
+    if target_sum <= 0 or max_gross <= 0:
+        return {asset: 0.0 for asset in set(current) | set(target)}
 
-    for row in holdings:
-        asset = row.get("asset")
-        if asset == "RESERVED_CASH":
-            asset = "CASH"
+    scaled = {
+        asset: round((weight / target_sum) * max_gross, 6)
+        for asset, weight in positive_target.items()
+    }
 
-        rows.append({
-            "asset": asset,
-            "current_weight": float(row.get("paper_weight") or 0.0),
-        })
+    for asset in current:
+        scaled.setdefault(asset, 0.0)
 
-    df = pd.DataFrame(rows)
-    return df.groupby("asset", as_index=False)["current_weight"].sum()
-
-
-def target_weights_from_alpha(target_portfolio: pd.DataFrame, decision: dict) -> pd.DataFrame:
-    if target_portfolio.empty:
-        return pd.DataFrame(columns=["asset", "target_weight"])
-
-    risk = decision.get("risk_adjusted_decision", {}) or {}
-    target_exposure = abs(float(risk.get("target_net_exposure") or 0.0))
-
-    df = target_portfolio.copy()
-
-    if "target_weight" not in df.columns:
-        return pd.DataFrame(columns=["asset", "target_weight"])
-
-    df["target_weight"] = pd.to_numeric(df["target_weight"], errors="coerce").fillna(0.0)
-
-    risky = df[df["asset"] != "CASH"].copy()
-
-    risky_sum = float(risky["target_weight"].sum()) if not risky.empty else 0.0
-
-    rows = []
-
-    if risky_sum > 0:
-        for _, row in risky.iterrows():
-            rows.append({
-                "asset": row.get("asset"),
-                "target_weight": round(float(row["target_weight"]) / risky_sum * target_exposure, 6),
-            })
-
-    cash_weight = max(0.0, 1.0 - sum(r["target_weight"] for r in rows))
-    rows.append({
-        "asset": "CASH",
-        "target_weight": round(float(cash_weight), 6),
-    })
-
-    return pd.DataFrame(rows)
-
-
-def optimize_rebalance(current: pd.DataFrame, target: pd.DataFrame) -> pd.DataFrame:
-    merged = pd.merge(current, target, on="asset", how="outer").fillna(0.0)
-    merged["delta_weight"] = merged["target_weight"] - merged["current_weight"]
-
-    return merged.sort_values("asset").reset_index(drop=True)
+    return scaled

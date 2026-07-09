@@ -1,18 +1,19 @@
 
-"""Rebalancing Engine loaders."""
+"""Rebalance Engine v3 loaders."""
 
 from __future__ import annotations
 
 import json
 from pathlib import Path
-
 import pandas as pd
 
 
-PORTFOLIO_STATE_JSON = Path("output/investment_portfolio_state/portfolio_state.json")
-ALPHA_PORTFOLIO_CSV = Path("output/investment_alpha/alpha_portfolio_latest.csv")
-POSITION_MANAGER_JSON = Path("output/investment_position_manager/position_manager_report.json")
-DECISION_JSON = Path("output/investment_decision/decision_engine_report.json")
+MTM_POSITIONS = Path("output/investment_mark_to_market/positions.csv")
+PORTFOLIO_STATE = Path("output/investment_portfolio_state/portfolio_state.json")
+TARGET_PORTFOLIO = Path("output/investment_alpha/alpha_portfolio.csv")
+ACTION_REQUESTS = Path("output/investment_action_engine/portfolio_action_requests.csv")
+ACTION_REPORT = Path("output/investment_action_engine/action_engine_report.json")
+RISK_REPORT = Path("output/investment_risk/risk_engine_report.json")
 
 
 def load_json(path: str | Path) -> dict:
@@ -27,15 +28,20 @@ def load_json(path: str | Path) -> dict:
 
 def load_csv(path: str | Path) -> pd.DataFrame:
     p = Path(path)
-    if not p.exists():
+    if not p.exists() or p.stat().st_size == 0:
         return pd.DataFrame()
-    return pd.read_csv(p)
+    try:
+        return pd.read_csv(p)
+    except pd.errors.EmptyDataError:
+        return pd.DataFrame()
 
 
 def load_rebalance_inputs() -> dict:
     return {
-        "portfolio_state": load_json(PORTFOLIO_STATE_JSON),
-        "target_portfolio": load_csv(ALPHA_PORTFOLIO_CSV),
-        "position_manager": load_json(POSITION_MANAGER_JSON),
-        "decision": load_json(DECISION_JSON),
+        "mtm_positions": load_csv(MTM_POSITIONS),
+        "portfolio_state": load_json(PORTFOLIO_STATE),
+        "target_portfolio": load_csv(TARGET_PORTFOLIO),
+        "action_requests": load_csv(ACTION_REQUESTS),
+        "action_report": load_json(ACTION_REPORT),
+        "risk": load_json(RISK_REPORT),
     }

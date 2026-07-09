@@ -1,43 +1,28 @@
 
-"""Rebalance order generation."""
+"""Generate rebalance order intents."""
 
 from __future__ import annotations
 
-import pandas as pd
 
+def generate_rebalance_orders(rows: list[dict]) -> list[dict]:
+    orders = []
 
-def generate_rebalance_orders(rebalance: pd.DataFrame) -> pd.DataFrame:
-    if rebalance.empty:
-        return pd.DataFrame()
+    for row in rows:
+        action = row.get("rebalance_action")
 
-    rows = []
-
-    for _, row in rebalance.iterrows():
-        asset = row.get("asset")
-
-        if asset == "CASH":
+        if action == "HOLD":
             continue
 
-        delta = float(row.get("controlled_delta_weight") or 0.0)
-
-        if abs(delta) <= 0:
-            action = "NO_ORDER"
-        elif delta > 0:
-            action = "BUY"
-        else:
-            action = "SELL"
-
-        if action == "NO_ORDER":
-            continue
-
-        rows.append({
-            "asset": asset,
-            "rebalance_action": action,
-            "weight_delta": round(abs(delta), 6),
-            "signed_delta": round(delta, 6),
+        orders.append({
+            "asset": row.get("asset"),
+            "action": action,
+            "side": "LONG",
+            "weight_delta": row.get("abs_delta"),
+            "signed_delta": row.get("signed_delta"),
             "current_weight": row.get("current_weight"),
             "target_weight": row.get("target_weight"),
-            "reason": "Rebalance current portfolio toward risk-adjusted target portfolio.",
+            "order_type": "REBALANCE_INTENT",
+            "reason": row.get("reason"),
         })
 
-    return pd.DataFrame(rows)
+    return orders

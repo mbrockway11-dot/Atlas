@@ -1,5 +1,5 @@
 
-"""Rebalancing Engine."""
+"""Rebalance Engine v3."""
 
 from atlas.investment.rebalance.report import build_rebalance_report
 
