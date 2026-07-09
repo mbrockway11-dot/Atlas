@@ -1,0 +1,2 @@
+timestamp,success,mode,current_equity,pnl,pnl_pct,risky_weight,cash_weight,reserved_cash_weight,gross_exposure,net_exposure,direction,confidence,target_net_exposure,risk_label,risky_position_count,pending_order_count
+2026-07-09T03:47:59.522931+00:00,True,paper,99916.96,-83.04,-0.00083,0.41436,0.508328,0.076482,0.41436,0.41436,LONG,0.819455,0.491673,moderate_risk,2,2

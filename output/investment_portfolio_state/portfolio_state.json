@@ -1,0 +1,190 @@
+{
+  "success": true,
+  "summary": "Portfolio State updated. Equity=99916.96, risky=0.41436, cash=0.508328, reserved=0.076482, direction=LONG.",
+  "state": {
+    "success": true,
+    "timestamp": "2026-07-09T03:47:59.522931+00:00",
+    "mode": "paper",
+    "equity": {
+      "current_equity": 99916.96,
+      "initial_equity": 100000.0,
+      "pnl": -83.04,
+      "pnl_pct": -0.00083
+    },
+    "exposure": {
+      "risky_weight": 0.41436,
+      "cash_weight": 0.508328,
+      "reserved_cash_weight": 0.076482,
+      "gross_exposure": 0.41436,
+      "net_exposure": 0.41436
+    },
+    "decision": {
+      "direction": "LONG",
+      "confidence": 0.819455,
+      "target_net_exposure": 0.491673,
+      "risk_label": "moderate_risk"
+    },
+    "holdings": [
+      {
+        "asset": "BTC-USD",
+        "paper_weight": 0.223536,
+        "paper_value": 22353.6,
+        "side": "LONG",
+        "cost_drag": 0.00044797,
+        "status": "OPEN_PAPER_POSITION"
+      },
+      {
+        "asset": "ETH-USD",
+        "paper_weight": 0.190824,
+        "paper_value": 19082.36,
+        "side": "LONG",
+        "cost_drag": 0.00038241,
+        "status": "OPEN_PAPER_POSITION"
+      },
+      {
+        "asset": "RESERVED_CASH",
+        "paper_weight": 0.076482,
+        "paper_value": 7648.2,
+        "side": "CASH",
+        "cost_drag": 0.0,
+        "status": "PENDING_EXECUTION_RESERVE"
+      },
+      {
+        "asset": "CASH",
+        "paper_weight": 0.508328,
+        "paper_value": 50832.8,
+        "side": "CASH",
+        "cost_drag": 0.0,
+        "status": "AVAILABLE_CASH"
+      }
+    ],
+    "pending_orders": [
+      {
+        "asset": "BTC-USD",
+        "side": "LONG",
+        "action": "BUY",
+        "weight": 0.223984,
+        "broker": "paper",
+        "status": "APPROVED_FOR_PAPER"
+      },
+      {
+        "asset": "ETH-USD",
+        "side": "LONG",
+        "action": "BUY",
+        "weight": 0.191206,
+        "broker": "paper",
+        "status": "APPROVED_FOR_PAPER"
+      }
+    ],
+    "ledger_tail": [
+      {
+        "timestamp": "2026-07-08T22:03:21.468030+00:00",
+        "asset": "BTC-USD",
+        "side": "LONG",
+        "order_action": "BUY",
+        "paper_weight": 0.223984,
+        "fee_drag": 0.00017919,
+        "slippage_drag": 0.00026878,
+        "total_cost_drag": 0.00044797,
+        "status": "PAPER_FILLED",
+        "reason": "No execution adapter signal for asset."
+      },
+      {
+        "timestamp": "2026-07-08T22:03:21.468030+00:00",
+        "asset": "ETH-USD",
+        "side": "LONG",
+        "order_action": "BUY",
+        "paper_weight": 0.191206,
+        "fee_drag": 0.00015296,
+        "slippage_drag": 0.00022945,
+        "total_cost_drag": 0.00038241,
+        "status": "PAPER_FILLED",
+        "reason": "No execution adapter signal for asset."
+      },
+      {
+        "timestamp": "2026-07-08T22:40:27.623975+00:00",
+        "asset": "BTC-USD",
+        "side": "LONG",
+        "order_action": "BUY",
+        "paper_weight": 0.223984,
+        "fee_drag": 0.00017919,
+        "slippage_drag": 0.00026878,
+        "total_cost_drag": 0.00044797,
+        "status": "PAPER_FILLED",
+        "reason": "No execution adapter signal for asset."
+      },
+      {
+        "timestamp": "2026-07-08T22:40:27.623975+00:00",
+        "asset": "ETH-USD",
+        "side": "LONG",
+        "order_action": "BUY",
+        "paper_weight": 0.191206,
+        "fee_drag": 0.00015296,
+        "slippage_drag": 0.00022945,
+        "total_cost_drag": 0.00038241,
+        "status": "PAPER_FILLED",
+        "reason": "No execution adapter signal for asset."
+      },
+      {
+        "timestamp": "2026-07-09T03:20:43.971119+00:00",
+        "asset": "BTC-USD",
+        "side": "LONG",
+        "order_action": "BUY",
+        "paper_weight": 0.223984,
+        "fee_drag": 0.00017919,
+        "slippage_drag": 0.00026878,
+        "total_cost_drag": 0.00044797,
+        "status": "PAPER_FILLED",
+        "reason": "No execution adapter signal for asset."
+      },
+      {
+        "timestamp": "2026-07-09T03:20:43.971119+00:00",
+        "asset": "ETH-USD",
+        "side": "LONG",
+        "order_action": "BUY",
+        "paper_weight": 0.191206,
+        "fee_drag": 0.00015296,
+        "slippage_drag": 0.00022945,
+        "total_cost_drag": 0.00038241,
+        "status": "PAPER_FILLED",
+        "reason": "No execution adapter signal for asset."
+      },
+      {
+        "timestamp": "2026-07-09T03:30:06.677857+00:00",
+        "asset": "BTC-USD",
+        "side": "LONG",
+        "order_action": "BUY",
+        "paper_weight": 0.223984,
+        "fee_drag": 0.00017919,
+        "slippage_drag": 0.00026878,
+        "total_cost_drag": 0.00044797,
+        "status": "PAPER_FILLED",
+        "reason": "No execution adapter signal for asset."
+      },
+      {
+        "timestamp": "2026-07-09T03:30:06.677857+00:00",
+        "asset": "ETH-USD",
+        "side": "LONG",
+        "order_action": "BUY",
+        "paper_weight": 0.191206,
+        "fee_drag": 0.00015296,
+        "slippage_drag": 0.00022945,
+        "total_cost_drag": 0.00038241,
+        "status": "PAPER_FILLED",
+        "reason": "No execution adapter signal for asset."
+      }
+    ],
+    "counts": {
+      "holding_count": 4,
+      "risky_position_count": 2,
+      "pending_order_count": 2,
+      "ledger_row_count": 8
+    }
+  },
+  "outputs": {
+    "json": "output\\investment_portfolio_state\\portfolio_state.json",
+    "markdown": "output\\investment_portfolio_state\\portfolio_state_report.md",
+    "holdings_csv": "output\\investment_portfolio_state\\portfolio_holdings.csv",
+    "pending_orders_csv": "output\\investment_portfolio_state\\portfolio_pending_orders.csv"
+  }
+}
