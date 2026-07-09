@@ -1,137 +1,94 @@
 {
   "success": true,
-  "signals": [
-    {
-      "source": "sigil_v32",
-      "strategy_id": "ENGINE_A_PULLBACK_CONTINUATION",
-      "strategy_family": "intraday_execution",
-      "asset": "SOL-USD",
-      "timestamp": "2024-12-31 23:45:00+00:00",
-      "action": "NO_ACTION",
-      "direction": "FLAT",
-      "confidence": 0.0,
-      "target_exposure": 0.0,
-      "rank": null,
-      "notes": "No valid Engine A setup on the latest bar."
+  "version": "strategy_registry_v3",
+  "summary": "Strategy Registry v3 updated 2 strategy row(s). Counts: {'MAINTAIN': 2}.",
+  "state": {
+    "version": "strategy_registry_v3",
+    "source": "learning_engine_v3",
+    "updated_at": "2026-07-09T15:38:26.956728+00:00",
+    "learning_regime": "flat",
+    "learning_confidence": 0.41,
+    "performance_snapshot": {
+      "pnl_pct": 0.0,
+      "sharpe": 0.0,
+      "max_drawdown": 0.0
     },
+    "strategies": [
+      {
+        "strategy_id": "asset::BTC-USD",
+        "strategy_type": "asset_allocation",
+        "asset": "BTC-USD",
+        "status": "MAINTAIN",
+        "recommendation": "maintain",
+        "asset_confidence": 0.65,
+        "learning_confidence": 0.41,
+        "learning_regime": "flat",
+        "weight_multiplier": 1.0,
+        "age_runs": 2,
+        "promote_count": 0,
+        "reduce_count": 0,
+        "review_retire_count": 0,
+        "updated_at": "2026-07-09T15:38:26.956578+00:00"
+      },
+      {
+        "strategy_id": "asset::ETH-USD",
+        "strategy_type": "asset_allocation",
+        "asset": "ETH-USD",
+        "status": "MAINTAIN",
+        "recommendation": "maintain",
+        "asset_confidence": 0.65,
+        "learning_confidence": 0.41,
+        "learning_regime": "flat",
+        "weight_multiplier": 1.0,
+        "age_runs": 2,
+        "promote_count": 0,
+        "reduce_count": 0,
+        "review_retire_count": 0,
+        "updated_at": "2026-07-09T15:38:26.956715+00:00"
+      }
+    ],
+    "counts": {
+      "MAINTAIN": 2
+    }
+  },
+  "strategies": [
     {
-      "source": "sigil_v32",
-      "strategy_id": "ENGINE_B_FAILED_OPENING_EXPANSION",
-      "strategy_family": "intraday_execution",
-      "asset": "SOL-USD",
-      "timestamp": "2024-12-31 23:45:00+00:00",
-      "action": "NO_ACTION",
-      "direction": "FLAT",
-      "confidence": 0.0,
-      "target_exposure": 0.0,
-      "rank": null,
-      "notes": "No valid Engine B setup on the latest bar."
-    },
-    {
-      "source": "atlas_alpha",
-      "strategy_id": "alpha_portfolio_construction",
-      "strategy_family": "portfolio_allocation",
+      "strategy_id": "asset::BTC-USD",
+      "strategy_type": "asset_allocation",
       "asset": "BTC-USD",
-      "timestamp": null,
-      "action": "ALLOCATE",
-      "direction": "LONG",
-      "confidence": 0.0,
-      "target_exposure": 0.364444,
-      "rank": 1.0,
-      "notes": "Allocated by cross-sectional alpha score with max-asset cap."
+      "status": "MAINTAIN",
+      "recommendation": "maintain",
+      "asset_confidence": 0.65,
+      "learning_confidence": 0.41,
+      "learning_regime": "flat",
+      "weight_multiplier": 1.0,
+      "age_runs": 2,
+      "promote_count": 0,
+      "reduce_count": 0,
+      "review_retire_count": 0,
+      "updated_at": "2026-07-09T15:38:26.956578+00:00"
     },
     {
-      "source": "atlas_alpha",
-      "strategy_id": "alpha_portfolio_construction",
-      "strategy_family": "portfolio_allocation",
+      "strategy_id": "asset::ETH-USD",
+      "strategy_type": "asset_allocation",
       "asset": "ETH-USD",
-      "timestamp": null,
-      "action": "ALLOCATE",
-      "direction": "LONG",
-      "confidence": 0.0,
-      "target_exposure": 0.311111,
-      "rank": 2.0,
-      "notes": "Allocated by cross-sectional alpha score with max-asset cap."
-    },
-    {
-      "source": "atlas_alpha",
-      "strategy_id": "alpha_portfolio_construction",
-      "strategy_family": "portfolio_allocation",
-      "asset": "SOL-USD",
-      "timestamp": null,
-      "action": "ALLOCATE",
-      "direction": "LONG",
-      "confidence": 0.0,
-      "target_exposure": 0.124444,
-      "rank": 3.0,
-      "notes": "Allocated by cross-sectional alpha score with max-asset cap."
-    },
-    {
-      "source": "atlas_alpha",
-      "strategy_id": "cross_sectional_alpha_ranker",
-      "strategy_family": "cross_sectional_ranking",
-      "asset": "BTC-USD",
-      "timestamp": "2026-03-31",
-      "action": "WATCH",
-      "direction": "LONG",
-      "confidence": 0.6833333333333332,
-      "target_exposure": 0.0,
-      "rank": 1.0,
-      "notes": "highest_conviction"
-    },
-    {
-      "source": "atlas_alpha",
-      "strategy_id": "cross_sectional_alpha_ranker",
-      "strategy_family": "cross_sectional_ranking",
-      "asset": "ETH-USD",
-      "timestamp": "2026-03-31",
-      "action": "WATCH",
-      "direction": "LONG",
-      "confidence": 0.5833333333333334,
-      "target_exposure": 0.0,
-      "rank": 2.0,
-      "notes": "portfolio_candidate"
-    },
-    {
-      "source": "atlas_alpha",
-      "strategy_id": "cross_sectional_alpha_ranker",
-      "strategy_family": "cross_sectional_ranking",
-      "asset": "SOL-USD",
-      "timestamp": "2026-03-31",
-      "action": "WATCH",
-      "direction": "LONG",
-      "confidence": 0.2333333333333333,
-      "target_exposure": 0.0,
-      "rank": 3.0,
-      "notes": "portfolio_candidate"
+      "status": "MAINTAIN",
+      "recommendation": "maintain",
+      "asset_confidence": 0.65,
+      "learning_confidence": 0.41,
+      "learning_regime": "flat",
+      "weight_multiplier": 1.0,
+      "age_runs": 2,
+      "promote_count": 0,
+      "reduce_count": 0,
+      "review_retire_count": 0,
+      "updated_at": "2026-07-09T15:38:26.956715+00:00"
     }
   ],
-  "summary": {
-    "signal_count": 8,
-    "source_counts": {
-      "atlas_alpha": 6,
-      "sigil_v32": 2
-    },
-    "family_counts": {
-      "portfolio_allocation": 3,
-      "cross_sectional_ranking": 3,
-      "intraday_execution": 2
-    },
-    "action_counts": {
-      "ALLOCATE": 3,
-      "WATCH": 3,
-      "NO_ACTION": 2
-    },
-    "asset_counts": {
-      "SOL-USD": 4,
-      "BTC-USD": 2,
-      "ETH-USD": 2
-    },
-    "unique_assets": [
-      "BTC-USD",
-      "ETH-USD",
-      "SOL-USD"
-    ]
-  },
-  "text_summary": "Strategy Registry collected 8 signal row(s) from 2 source(s)."
+  "outputs": {
+    "json": "output\\investment_strategy_registry\\strategy_registry_report.json",
+    "markdown": "output\\investment_strategy_registry\\strategy_registry_report.md",
+    "state_json": "output\\investment_strategy_registry\\strategy_registry_state.json",
+    "registry_csv": "output\\investment_strategy_registry\\strategy_registry.csv"
+  }
 }

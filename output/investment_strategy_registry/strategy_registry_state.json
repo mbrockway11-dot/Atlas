@@ -1,0 +1,49 @@
+{
+  "version": "strategy_registry_v3",
+  "source": "learning_engine_v3",
+  "updated_at": "2026-07-09T15:38:26.956728+00:00",
+  "learning_regime": "flat",
+  "learning_confidence": 0.41,
+  "performance_snapshot": {
+    "pnl_pct": 0.0,
+    "sharpe": 0.0,
+    "max_drawdown": 0.0
+  },
+  "strategies": [
+    {
+      "strategy_id": "asset::BTC-USD",
+      "strategy_type": "asset_allocation",
+      "asset": "BTC-USD",
+      "status": "MAINTAIN",
+      "recommendation": "maintain",
+      "asset_confidence": 0.65,
+      "learning_confidence": 0.41,
+      "learning_regime": "flat",
+      "weight_multiplier": 1.0,
+      "age_runs": 2,
+      "promote_count": 0,
+      "reduce_count": 0,
+      "review_retire_count": 0,
+      "updated_at": "2026-07-09T15:38:26.956578+00:00"
+    },
+    {
+      "strategy_id": "asset::ETH-USD",
+      "strategy_type": "asset_allocation",
+      "asset": "ETH-USD",
+      "status": "MAINTAIN",
+      "recommendation": "maintain",
+      "asset_confidence": 0.65,
+      "learning_confidence": 0.41,
+      "learning_regime": "flat",
+      "weight_multiplier": 1.0,
+      "age_runs": 2,
+      "promote_count": 0,
+      "reduce_count": 0,
+      "review_retire_count": 0,
+      "updated_at": "2026-07-09T15:38:26.956715+00:00"
+    }
+  ],
+  "counts": {
+    "MAINTAIN": 2
+  }
+}
