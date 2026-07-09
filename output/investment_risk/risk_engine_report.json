@@ -1,0 +1,97 @@
+{
+  "success": true,
+  "summary": "Risk Engine v2 classified portfolio as low_risk with score 0.028783.",
+  "aggregate": {
+    "aggregate_risk_score": 0.028783,
+    "risk_label": "low_risk",
+    "risk_breakdown": {
+      "exposure": {
+        "score": 0.0,
+        "weight": 0.25,
+        "weighted_score": 0.0
+      },
+      "concentration": {
+        "score": 0.0,
+        "weight": 0.2,
+        "weighted_score": 0.0
+      },
+      "drawdown": {
+        "score": 0.1,
+        "weight": 0.2,
+        "weighted_score": 0.02
+      },
+      "learning": {
+        "score": 0.058555,
+        "weight": 0.15,
+        "weighted_score": 0.008783
+      },
+      "action": {
+        "score": 0.0,
+        "weight": 0.1,
+        "weighted_score": 0.0
+      },
+      "rebalance": {
+        "score": 0.0,
+        "weight": 0.1,
+        "weighted_score": 0.0
+      }
+    },
+    "warnings": [
+      "Paper PnL is slightly negative."
+    ],
+    "warning_count": 1
+  },
+  "risk_blocks": [
+    {
+      "risk_type": "exposure",
+      "risk_score": 0.0,
+      "risky_weight": 0.41436,
+      "cash_weight": 0.508328,
+      "reserved_cash_weight": 0.076482,
+      "gross_exposure": 0.41436,
+      "warnings": []
+    },
+    {
+      "risk_type": "concentration",
+      "risk_score": 0.0,
+      "max_position_weight": 0.223536,
+      "asset_count": 2,
+      "warnings": []
+    },
+    {
+      "risk_type": "drawdown",
+      "risk_score": 0.1,
+      "pnl_pct": -0.00083,
+      "warnings": [
+        "Paper PnL is slightly negative."
+      ]
+    },
+    {
+      "risk_type": "learning",
+      "risk_score": 0.058555,
+      "learning_regime": "improving",
+      "learning_confidence": 0.828905,
+      "warnings": []
+    },
+    {
+      "risk_type": "action",
+      "risk_score": 0.0,
+      "exit_review_count": 0,
+      "reduce_count": 0,
+      "scale_in_count": 0,
+      "warnings": []
+    },
+    {
+      "risk_type": "rebalance",
+      "risk_score": 0.0,
+      "turnover": 0.076482,
+      "order_count": 1,
+      "warnings": []
+    }
+  ],
+  "outputs": {
+    "json": "output\\investment_risk\\risk_engine_report.json",
+    "markdown": "output\\investment_risk\\risk_engine_report.md",
+    "blocks_csv": "output\\investment_risk\\risk_blocks.csv"
+  }
+}

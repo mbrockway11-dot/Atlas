@@ -1,0 +1,7 @@
+risk_type,risk_score,risky_weight,cash_weight,reserved_cash_weight,gross_exposure,warnings,max_position_weight,asset_count,pnl_pct,learning_regime,learning_confidence,exit_review_count,reduce_count,scale_in_count,turnover,order_count
+exposure,0.0,0.41436,0.508328,0.076482,0.41436,[],,,,,,,,,,
+concentration,0.0,,,,,[],0.223536,2.0,,,,,,,,
+drawdown,0.1,,,,,['Paper PnL is slightly negative.'],,,-0.00083,,,,,,,
+learning,0.058555,,,,,[],,,,improving,0.828905,,,,,
+action,0.0,,,,,[],,,,,,0.0,0.0,0.0,,
+rebalance,0.0,,,,,[],,,,,,,,,0.076482,1.0

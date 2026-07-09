@@ -1,9 +1,9 @@
 # Atlas Core Report
 
 - Success: `True`
-- Run ID: `ca2c4872-2fe8-4b35-aa68-2152bf5df2d7`
+- Run ID: `937981a0-3568-41b6-bbf1-8a6b8e31285b`
 - Mode: `paper`
-- Nodes executed: `24`
+- Nodes executed: `25`
 
 ## Nodes
 
@@ -31,3 +31,4 @@
 - `position_manager` success=`True` output=`position_manager`
 - `action_engine` success=`True` output=`action_engine`
 - `rebalance_engine` success=`True` output=`rebalance_engine`
+- `risk_engine` success=`True` output=`risk_engine`

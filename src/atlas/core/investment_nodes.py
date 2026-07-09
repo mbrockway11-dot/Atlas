@@ -151,4 +151,10 @@ def build_investment_core_nodes() -> list[ScriptNode]:
             requires=["portfolio_lifecycle", "position_manager", "portfolio_state", "decision_engine", "learning", "performance"],
             provides=["action_engine"],
         ),
+        ScriptNode(
+            name="risk_engine",
+            command=["scripts/update_risk_engine.py"],
+            requires=["portfolio_state", "performance", "learning", "action_engine", "rebalance_engine"],
+            provides=["risk_engine"],
+        ),
     ]
