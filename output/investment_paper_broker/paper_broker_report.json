@@ -1,7 +1,7 @@
 {
   "success": true,
   "summary": "Paper Broker v2 processed 0 new order(s) and created 0 new fill(s).",
-  "input_order_count": 2,
+  "input_order_count": 0,
   "new_order_count": 0,
   "new_fill_count": 0,
   "total_fill_count": 4,
