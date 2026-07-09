@@ -1,69 +1,63 @@
 {
   "success": true,
-  "version": "rebalance_engine_v3",
-  "summary": "Rebalance Engine v3 optimized 2 asset(s), generated 2 order intent(s), turnover=0.28481.",
+  "version": "rebalance_engine_v4",
+  "summary": "Rebalance Engine v4 compared Portfolio State v4 to Alpha Portfolio v3, generated 0 order intent(s), turnover=0.",
+  "text_summary": "Rebalance Engine v4 compared Portfolio State v4 to Alpha Portfolio v3, generated 0 order intent(s), turnover=0.",
+  "turnover": 0,
   "current_weights": {
-    "BTC-USD": 0.223984,
-    "ETH-USD": 0.191206
-  },
-  "raw_target_weights": {
-    "BTC-USD": 0.223984,
-    "ETH-USD": 0.191206
-  },
-  "action_adjusted_targets": {
-    "BTC-USD": 0.223984,
-    "ETH-USD": 0.191206
-  },
-  "optimized_targets": {
     "BTC-USD": 0.377631,
-    "ETH-USD": 0.322369
+    "ETH-USD": 0.322369,
+    "CASH": 0.3
   },
-  "total_turnover": 0.28481,
-  "order_count": 2,
-  "rebalance_table": [
+  "target_weights": {
+    "BTC-USD": 0.377631,
+    "ETH-USD": 0.322369,
+    "SOL-USD": 0.0,
+    "CASH": 0.3
+  },
+  "rows": [
     {
       "asset": "BTC-USD",
-      "current_weight": 0.223984,
+      "current_weight": 0.377631,
       "target_weight": 0.377631,
-      "signed_delta": 0.153647,
-      "abs_delta": 0.153647,
-      "rebalance_action": "BUY",
-      "reason": "Optimize current MTM portfolio toward risk-adjusted target portfolio."
+      "signed_delta": 0.0,
+      "abs_delta": 0.0,
+      "rebalance_action": "HOLD",
+      "reason": "Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets.",
+      "source": "rebalance_engine_v4"
+    },
+    {
+      "asset": "CASH",
+      "current_weight": 0.3,
+      "target_weight": 0.3,
+      "signed_delta": 0.0,
+      "abs_delta": 0.0,
+      "rebalance_action": "CASH_ADJUST",
+      "reason": "Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets.",
+      "source": "rebalance_engine_v4"
     },
     {
       "asset": "ETH-USD",
-      "current_weight": 0.191206,
+      "current_weight": 0.322369,
       "target_weight": 0.322369,
-      "signed_delta": 0.131163,
-      "abs_delta": 0.131163,
-      "rebalance_action": "BUY",
-      "reason": "Optimize current MTM portfolio toward risk-adjusted target portfolio."
-    }
-  ],
-  "orders": [
-    {
-      "asset": "BTC-USD",
-      "action": "BUY",
-      "side": "LONG",
-      "weight_delta": 0.153647,
-      "signed_delta": 0.153647,
-      "current_weight": 0.223984,
-      "target_weight": 0.377631,
-      "order_type": "REBALANCE_INTENT",
-      "reason": "Optimize current MTM portfolio toward risk-adjusted target portfolio."
+      "signed_delta": 0.0,
+      "abs_delta": 0.0,
+      "rebalance_action": "HOLD",
+      "reason": "Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets.",
+      "source": "rebalance_engine_v4"
     },
     {
-      "asset": "ETH-USD",
-      "action": "BUY",
-      "side": "LONG",
-      "weight_delta": 0.131163,
-      "signed_delta": 0.131163,
-      "current_weight": 0.191206,
-      "target_weight": 0.322369,
-      "order_type": "REBALANCE_INTENT",
-      "reason": "Optimize current MTM portfolio toward risk-adjusted target portfolio."
+      "asset": "SOL-USD",
+      "current_weight": 0.0,
+      "target_weight": 0.0,
+      "signed_delta": 0.0,
+      "abs_delta": 0.0,
+      "rebalance_action": "HOLD",
+      "reason": "Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets.",
+      "source": "rebalance_engine_v4"
     }
   ],
+  "orders": [],
   "outputs": {
     "json": "output\\investment_rebalance\\rebalance_report.json",
     "markdown": "output\\investment_rebalance\\rebalance_report.md",

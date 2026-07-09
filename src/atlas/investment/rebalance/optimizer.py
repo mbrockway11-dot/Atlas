@@ -1,38 +1,40 @@
 
-"""Rebalance Engine v3 optimizer."""
+"""Rebalance Engine v4 optimizer."""
 
 from __future__ import annotations
 
 
-MAX_GROSS_EXPOSURE_BY_RISK = {
-    "minimal_risk": 0.80,
-    "low_risk": 0.70,
-    "moderate_risk": 0.50,
-    "high_risk": 0.25,
-    "critical_risk": 0.0,
-}
+MIN_DELTA = 0.0005
 
 
-def optimize_targets(
-    current: dict[str, float],
-    target: dict[str, float],
-    risk: dict,
-) -> dict[str, float]:
-    risk_label = (risk.get("aggregate", {}) or {}).get("risk_label", "low_risk")
-    max_gross = MAX_GROSS_EXPOSURE_BY_RISK.get(risk_label, 0.50)
+def optimize_rebalance(current: dict[str, float], target: dict[str, float]) -> list[dict]:
+    assets = sorted(set(current) | set(target))
+    rows = []
 
-    positive_target = {k: max(0.0, float(v)) for k, v in target.items()}
-    target_sum = sum(positive_target.values())
+    for asset in assets:
+        current_weight = round(float(current.get(asset, 0.0)), 6)
+        target_weight = round(float(target.get(asset, 0.0)), 6)
+        signed_delta = round(target_weight - current_weight, 6)
+        abs_delta = round(abs(signed_delta), 6)
 
-    if target_sum <= 0 or max_gross <= 0:
-        return {asset: 0.0 for asset in set(current) | set(target)}
+        if asset == "CASH":
+            action = "CASH_ADJUST"
+        elif abs_delta < MIN_DELTA:
+            action = "HOLD"
+        elif signed_delta > 0:
+            action = "BUY"
+        else:
+            action = "SELL"
 
-    scaled = {
-        asset: round((weight / target_sum) * max_gross, 6)
-        for asset, weight in positive_target.items()
-    }
+        rows.append({
+            "asset": asset,
+            "current_weight": current_weight,
+            "target_weight": target_weight,
+            "signed_delta": signed_delta,
+            "abs_delta": abs_delta,
+            "rebalance_action": action,
+            "reason": "Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets.",
+            "source": "rebalance_engine_v4",
+        })
 
-    for asset in current:
-        scaled.setdefault(asset, 0.0)
-
-    return scaled
+    return rows

@@ -1,3 +1,1 @@
-asset,action,side,weight_delta,signed_delta,current_weight,target_weight,order_type,reason
-BTC-USD,BUY,LONG,0.153647,0.153647,0.223984,0.377631,REBALANCE_INTENT,Optimize current MTM portfolio toward risk-adjusted target portfolio.
-ETH-USD,BUY,LONG,0.131163,0.131163,0.191206,0.322369,REBALANCE_INTENT,Optimize current MTM portfolio toward risk-adjusted target portfolio.
+

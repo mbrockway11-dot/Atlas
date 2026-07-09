@@ -1,58 +1,56 @@
 
-"""Target portfolio construction for Rebalance Engine v3."""
+"""Rebalance Engine v4 target/current extraction."""
 
 from __future__ import annotations
 
 import pandas as pd
 
 
-DEFAULT_ASSETS = ["BTC-USD", "ETH-USD", "SOL-USD"]
-
-
-def current_weights(mtm_positions: pd.DataFrame) -> dict[str, float]:
-    if mtm_positions.empty:
-        return {}
-
-    weights = {}
-
-    for _, row in mtm_positions.iterrows():
-        asset = str(row.get("asset"))
-        weight = float(row.get("portfolio_weight") or 0.0)
-        weights[asset] = weight
-
-    return weights
-
-
-def target_weights(target_portfolio: pd.DataFrame, fallback_current: dict[str, float]) -> dict[str, float]:
-    if target_portfolio.empty:
-        return dict(fallback_current)
-
-    asset_col = "asset" if "asset" in target_portfolio.columns else None
+def extract_target_weights(alpha_portfolio: pd.DataFrame) -> dict[str, float]:
+    if alpha_portfolio is None or alpha_portfolio.empty:
+        return {"CASH": 1.0}
 
     weight_col = None
     for candidate in ["target_weight", "paper_weight", "weight", "allocation", "target_exposure"]:
-        if candidate in target_portfolio.columns:
+        if candidate in alpha_portfolio.columns:
             weight_col = candidate
             break
 
-    if not asset_col or not weight_col:
-        return dict(fallback_current)
+    if not weight_col or "asset" not in alpha_portfolio.columns:
+        return {"CASH": 1.0}
 
-    out = {}
+    targets = {}
 
-    for _, row in target_portfolio.iterrows():
-        asset = str(row.get(asset_col))
-        weight = float(row.get(weight_col) or 0.0)
-        if asset != "CASH":
-            out[asset] = weight
+    for _, row in alpha_portfolio.iterrows():
+        asset = str(row.get("asset"))
+        targets[asset] = max(0.0, round(float(row.get(weight_col) or 0.0), 6))
 
-    return normalize_risky(out)
+    total = sum(targets.values())
+
+    if total > 1.000001:
+        targets = {k: round(v / total, 6) for k, v in targets.items()}
+
+    if "CASH" not in targets:
+        risky = sum(v for k, v in targets.items() if k != "CASH")
+        targets["CASH"] = round(max(0.0, 1.0 - risky), 6)
+
+    return targets
 
 
-def normalize_risky(weights: dict[str, float]) -> dict[str, float]:
-    total = sum(max(0.0, float(v)) for v in weights.values())
+def extract_current_weights(holdings: pd.DataFrame, portfolio_state: dict) -> dict[str, float]:
+    if holdings is not None and not holdings.empty and "asset" in holdings.columns:
+        weight_col = "weight" if "weight" in holdings.columns else None
 
-    if total <= 0:
-        return {}
+        if weight_col:
+            current = {}
+            for _, row in holdings.iterrows():
+                current[str(row.get("asset"))] = round(float(row.get(weight_col) or 0.0), 6)
+            return current
 
-    return {k: round(max(0.0, float(v)) / total, 6) for k, v in weights.items()}
+    state = (portfolio_state.get("state", {}) or {})
+    exposure = state.get("exposure", {}) or {}
+
+    return {
+        "RISKY": round(float(exposure.get("risky_weight") or 0.0), 6),
+        "CASH": round(float(exposure.get("cash_weight") or 1.0), 6),
+    }

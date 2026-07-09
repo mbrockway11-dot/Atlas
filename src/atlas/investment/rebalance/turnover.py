@@ -1,40 +1,32 @@
 
-"""Turnover calculations."""
+"""Rebalance Engine v4 turnover controls."""
 
 from __future__ import annotations
 
 
-MIN_DELTA = 0.005
+MAX_TURNOVER = 0.35
 
 
-def build_rebalance_table(current: dict[str, float], optimized: dict[str, float]) -> list[dict]:
-    assets = sorted(set(current) | set(optimized))
-    rows = []
+def controlled_turnover(rows: list[dict]) -> tuple[list[dict], float]:
+    risky_rows = [r for r in rows if r.get("asset") != "CASH" and r.get("rebalance_action") in {"BUY", "SELL"}]
+    turnover = round(sum(float(r.get("abs_delta") or 0.0) for r in risky_rows), 6)
 
-    for asset in assets:
-        cw = float(current.get(asset, 0.0))
-        tw = float(optimized.get(asset, 0.0))
-        delta = round(tw - cw, 6)
+    if turnover <= MAX_TURNOVER or turnover == 0:
+        return rows, turnover
 
-        if abs(delta) < MIN_DELTA:
-            action = "HOLD"
-        elif delta > 0:
-            action = "BUY"
-        else:
-            action = "SELL"
+    scale = MAX_TURNOVER / turnover
+    adjusted = []
 
-        rows.append({
-            "asset": asset,
-            "current_weight": round(cw, 6),
-            "target_weight": round(tw, 6),
-            "signed_delta": delta,
-            "abs_delta": round(abs(delta), 6),
-            "rebalance_action": action,
-            "reason": "Optimize current MTM portfolio toward risk-adjusted target portfolio.",
-        })
+    for row in rows:
+        row = dict(row)
 
-    return rows
+        if row.get("asset") != "CASH" and row.get("rebalance_action") in {"BUY", "SELL"}:
+            row["signed_delta"] = round(float(row["signed_delta"]) * scale, 6)
+            row["abs_delta"] = round(abs(float(row["signed_delta"])), 6)
+            row["target_weight"] = round(float(row["current_weight"]) + float(row["signed_delta"]), 6)
+            row["reason"] += " Turnover scaled to v4 cap."
 
+        adjusted.append(row)
 
-def total_turnover(rows: list[dict]) -> float:
-    return round(sum(float(r.get("abs_delta") or 0.0) for r in rows if r.get("rebalance_action") != "HOLD"), 6)
+    new_turnover = round(sum(float(r.get("abs_delta") or 0.0) for r in adjusted if r.get("asset") != "CASH" and r.get("rebalance_action") in {"BUY", "SELL"}), 6)
+    return adjusted, new_turnover

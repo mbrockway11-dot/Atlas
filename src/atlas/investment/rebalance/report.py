@@ -1,5 +1,5 @@
 
-"""Rebalance Engine v3 report/export."""
+"""Rebalance Engine v4 report/export."""
 
 from __future__ import annotations
 
@@ -9,12 +9,11 @@ from typing import Any
 
 import pandas as pd
 
-from atlas.investment.rebalance.action_overlay import apply_action_requests
 from atlas.investment.rebalance.loader import load_rebalance_inputs
-from atlas.investment.rebalance.optimizer import optimize_targets
 from atlas.investment.rebalance.order_generation import generate_rebalance_orders
-from atlas.investment.rebalance.targets import current_weights, target_weights
-from atlas.investment.rebalance.turnover import build_rebalance_table, total_turnover
+from atlas.investment.rebalance.optimizer import optimize_rebalance
+from atlas.investment.rebalance.targets import extract_current_weights, extract_target_weights
+from atlas.investment.rebalance.turnover import controlled_turnover
 
 
 OUT_DIR = Path("output/investment_rebalance")
@@ -27,29 +26,28 @@ ORDERS_CSV = OUT_DIR / "rebalance_orders.csv"
 def build_rebalance_report() -> dict[str, Any]:
     inputs = load_rebalance_inputs()
 
-    current = current_weights(inputs["mtm_positions"])
-    raw_target = target_weights(inputs["target_portfolio"], current)
-    action_adjusted = apply_action_requests(raw_target, current, inputs["action_requests"])
-    optimized = optimize_targets(current, action_adjusted, inputs["risk"])
+    targets = extract_target_weights(inputs["alpha_portfolio"])
+    current = extract_current_weights(inputs["portfolio_holdings"], inputs["portfolio_state"])
 
-    table = build_rebalance_table(current, optimized)
-    turnover = total_turnover(table)
-    orders = generate_rebalance_orders(table)
+    raw_rows = optimize_rebalance(current, targets)
+    rows, turnover = controlled_turnover(raw_rows)
+    orders = generate_rebalance_orders(rows)
 
     report = {
         "success": True,
-        "version": "rebalance_engine_v3",
+        "version": "rebalance_engine_v4",
         "summary": (
-            f"Rebalance Engine v3 optimized {len(table)} asset(s), "
+            f"Rebalance Engine v4 compared Portfolio State v4 to Alpha Portfolio v3, "
             f"generated {len(orders)} order intent(s), turnover={turnover}."
         ),
+        "text_summary": (
+            f"Rebalance Engine v4 compared Portfolio State v4 to Alpha Portfolio v3, "
+            f"generated {len(orders)} order intent(s), turnover={turnover}."
+        ),
+        "turnover": turnover,
         "current_weights": current,
-        "raw_target_weights": raw_target,
-        "action_adjusted_targets": action_adjusted,
-        "optimized_targets": optimized,
-        "total_turnover": turnover,
-        "order_count": len(orders),
-        "rebalance_table": table,
+        "target_weights": targets,
+        "rows": rows,
         "orders": orders,
         "outputs": {
             "json": str(REPORT_JSON),
@@ -66,7 +64,7 @@ def build_rebalance_report() -> dict[str, Any]:
 def write_outputs(report: dict[str, Any]) -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    pd.DataFrame(report.get("rebalance_table", [])).to_csv(TABLE_CSV, index=False)
+    pd.DataFrame(report.get("rows", [])).to_csv(TABLE_CSV, index=False)
     pd.DataFrame(report.get("orders", [])).to_csv(ORDERS_CSV, index=False)
 
     REPORT_JSON.write_text(json.dumps(report, indent=2, ensure_ascii=False, default=str), encoding="utf-8")
@@ -75,19 +73,26 @@ def write_outputs(report: dict[str, Any]) -> None:
 
 def build_markdown(report: dict[str, Any]) -> str:
     lines = [
-        "# Rebalance Engine v3 Report",
+        "# Rebalance Engine v4 Report",
         "",
         report.get("summary", ""),
         "",
-        "## Rebalance Table",
+        "## Rebalance Rows",
         "",
     ]
 
-    for row in report.get("rebalance_table", []):
+    for row in report.get("rows", []):
         lines.append(
-            f"- `{row.get('asset')}` action=`{row.get('rebalance_action')}` "
-            f"current=`{row.get('current_weight')}` target=`{row.get('target_weight')}` "
-            f"delta=`{row.get('signed_delta')}`"
+            f"- `{row.get('asset')}` current=`{row.get('current_weight')}` "
+            f"target=`{row.get('target_weight')}` delta=`{row.get('signed_delta')}` "
+            f"action=`{row.get('rebalance_action')}`"
+        )
+
+    lines += ["", "## Orders", ""]
+
+    for row in report.get("orders", []):
+        lines.append(
+            f"- `{row.get('asset')}` {row.get('action')} delta=`{row.get('weight_delta')}`"
         )
 
     return "\n".join(lines) + "\n"

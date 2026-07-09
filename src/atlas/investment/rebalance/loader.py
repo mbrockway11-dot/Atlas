@@ -1,47 +1,25 @@
 
-"""Rebalance Engine v3 loaders."""
+"""Rebalance Engine v4 loaders."""
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
-import pandas as pd
+
+from atlas.common.io import safe_read_csv, safe_read_json
 
 
-MTM_POSITIONS = Path("output/investment_mark_to_market/positions.csv")
+ALPHA_PORTFOLIO = Path("output/investment_alpha/alpha_portfolio.csv")
 PORTFOLIO_STATE = Path("output/investment_portfolio_state/portfolio_state.json")
-TARGET_PORTFOLIO = Path("output/investment_alpha/alpha_portfolio.csv")
-ACTION_REQUESTS = Path("output/investment_action_engine/portfolio_action_requests.csv")
-ACTION_REPORT = Path("output/investment_action_engine/action_engine_report.json")
+PORTFOLIO_HOLDINGS = Path("output/investment_portfolio_state/portfolio_holdings.csv")
 RISK_REPORT = Path("output/investment_risk/risk_engine_report.json")
-
-
-def load_json(path: str | Path) -> dict:
-    p = Path(path)
-    if not p.exists():
-        return {}
-    try:
-        return json.loads(p.read_text(encoding="utf-8"))
-    except Exception:
-        return {}
-
-
-def load_csv(path: str | Path) -> pd.DataFrame:
-    p = Path(path)
-    if not p.exists() or p.stat().st_size == 0:
-        return pd.DataFrame()
-    try:
-        return pd.read_csv(p)
-    except pd.errors.EmptyDataError:
-        return pd.DataFrame()
+LEARNING_REPORT = Path("output/investment_learning/learning_report.json")
 
 
 def load_rebalance_inputs() -> dict:
     return {
-        "mtm_positions": load_csv(MTM_POSITIONS),
-        "portfolio_state": load_json(PORTFOLIO_STATE),
-        "target_portfolio": load_csv(TARGET_PORTFOLIO),
-        "action_requests": load_csv(ACTION_REQUESTS),
-        "action_report": load_json(ACTION_REPORT),
-        "risk": load_json(RISK_REPORT),
+        "alpha_portfolio": safe_read_csv(ALPHA_PORTFOLIO),
+        "portfolio_state": safe_read_json(PORTFOLIO_STATE),
+        "portfolio_holdings": safe_read_csv(PORTFOLIO_HOLDINGS),
+        "risk": safe_read_json(RISK_REPORT),
+        "learning": safe_read_json(LEARNING_REPORT),
     }
