@@ -1,9 +1,9 @@
 # Atlas Core Report
 
 - Success: `False`
-- Run ID: `8c80167f-2415-4d91-8539-c98e728dc38c`
+- Run ID: `bfbd8c26-4c35-4cc8-90d1-5b3cda5c8167`
 - Mode: `paper`
-- Nodes executed: `16`
+- Nodes executed: `18`
 
 ## Nodes
 
@@ -22,4 +22,6 @@
 - `decision_engine` success=`True` output=`decision_engine`
 - `execution_planner` success=`True` output=`execution_planner`
 - `portfolio_state` success=`True` output=`portfolio_state`
-- `execution_simulator` success=`False` output=`execution_simulator`
+- `execution_simulator` success=`True` output=`execution_simulator`
+- `portfolio_lifecycle` success=`True` output=`portfolio_lifecycle`
+- `paper_trading` success=`False` output=`paper_trading`
