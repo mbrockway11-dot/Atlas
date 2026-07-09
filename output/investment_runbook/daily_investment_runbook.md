@@ -1,6 +1,6 @@
 # Daily Investment Runbook
 
-Daily Investment Runbook completed 17 step(s). Decision: LONG confidence=0.819455 target_exposure=0.491673. Simulated filled weight=0.41519 cash=0.508328 cost_drag=0.00083038.
+Daily Investment Runbook completed 19 step(s). Decision: LONG confidence=0.819455 target_exposure=0.491673. Simulated filled weight=0.41519 cash=0.508328 cost_drag=0.00083038.
 
 ## Final Snapshot
 
@@ -357,7 +357,7 @@ Outputs: {'fills_csv': 'output\\investment_execution_simulator\\simulated_fills.
 ```text
 True
 Paper Trading portfolio built with risky weight 0.490842 and cash weight 0.508328.
-Summary: {'portfolio_rows': 4, 'ledger_rows': 4, 'risky_weight': 0.490842, 'cash_weight': 0.508328, 'paper_equity': 99916.96}
+Summary: {'portfolio_rows': 4, 'ledger_rows': 6, 'risky_weight': 0.490842, 'cash_weight': 0.508328, 'paper_equity': 99916.96}
 {'asset': 'BTC-USD', 'paper_weight': 0.223536, 'paper_value': 22353.6, 'side': 'LONG', 'cost_drag': 0.00044797, 'status': 'OPEN_PAPER_POSITION'}
 {'asset': 'ETH-USD', 'paper_weight': 0.190824, 'paper_value': 19082.36, 'side': 'LONG', 'cost_drag': 0.00038241, 'status': 'OPEN_PAPER_POSITION'}
 {'asset': 'RESERVED_CASH', 'paper_weight': 0.076482, 'paper_value': 7648.2, 'side': 'CASH', 'cost_drag': 0.0, 'status': 'PENDING_EXECUTION_RESERVE'}
@@ -394,4 +394,38 @@ Regime: {'learning_regime': 'improving', 'trend': 'up', 'equity_change_pct': 0.0
 Recommendations:
 - Maintain current risk settings; do not increase leverage until live safety governor exists.
 Outputs: {'json': 'output\\investment_learning\\learning_report.json', 'markdown': 'output\\investment_learning\\learning_report.md', 'scorecard_csv': 'output\\investment_learning\\strategy_scorecard.csv'}
+```
+
+### trade_safety
+
+- Success: `True`
+- Return code: `0`
+
+```text
+True
+Trade Safety Governor status: APPROVED. Decision: ALLOW_PAPER_EXECUTION. Reason: All hard safety checks passed..
+{'name': 'order_count', 'status': 'PASS', 'message': 'Actionable order count 2 <= 5.'}
+{'name': 'shorts_disabled', 'status': 'PASS', 'message': 'No short orders present.'}
+{'name': 'single_asset_exposure', 'status': 'PASS', 'message': 'Max non-cash asset planned weight 0.223984 within limit.'}
+{'name': 'total_exposure', 'status': 'PASS', 'message': 'Filled exposure 0.415190 within limit.'}
+{'name': 'cash_reserve', 'status': 'PASS', 'message': 'Cash reserve 0.508328 above minimum.'}
+{'name': 'waiting_weight', 'status': 'PASS', 'message': 'Waiting weight 0.076482 within limit.'}
+{'name': 'cost_drag', 'status': 'PASS', 'message': 'Cost drag 0.00083038 within limit.'}
+{'name': 'paper_drawdown', 'status': 'PASS', 'message': 'Paper PnL acceptable: -0.000830.'}
+{'name': 'learning_regime', 'status': 'PASS', 'message': 'Learning regime acceptable: improving.'}
+{'name': 'execution_confirmation', 'status': 'WARN', 'message': 'Execution layer is idle; exposure should remain reduced.'}
+Outputs: {'json': 'output\\investment_safety\\trade_safety_report.json', 'markdown': 'output\\investment_safety\\trade_safety_report.md'}
+```
+
+### broker_interface
+
+- Success: `True`
+- Return code: `0`
+
+```text
+True
+Broker Interface prepared 2 paper broker order(s). Safety status: APPROVED.
+{'asset': 'BTC-USD', 'side': 'LONG', 'action': 'BUY', 'weight': 0.223984, 'broker': 'paper', 'status': 'APPROVED_FOR_PAPER'}
+{'asset': 'ETH-USD', 'side': 'LONG', 'action': 'BUY', 'weight': 0.191206, 'broker': 'paper', 'status': 'APPROVED_FOR_PAPER'}
+Outputs: {'json': 'output\\investment_broker\\broker_interface_report.json', 'markdown': 'output\\investment_broker\\broker_interface_report.md', 'orders_csv': 'output\\investment_broker\\broker_orders.csv'}
 ```

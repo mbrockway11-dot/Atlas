@@ -35,6 +35,8 @@ STEPS = [
     ("paper_trading", ["scripts/run_paper_trading.py"]),
     ("performance", ["scripts/update_portfolio_performance.py"]),
     ("learning", ["scripts/update_strategy_learning.py"]),
+    ("trade_safety", ["scripts/build_trade_safety_report.py"]),
+    ("broker_interface", ["scripts/build_broker_interface.py"]),
 ]
 
 
