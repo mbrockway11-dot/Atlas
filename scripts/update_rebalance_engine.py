@@ -1,5 +1,5 @@
 
-"""Update Rebalancing Engine."""
+"""Update Rebalance Engine v3."""
 
 from __future__ import annotations
 
@@ -11,8 +11,12 @@ def main() -> None:
 
     print(report["success"])
     print(report["summary"])
-    print("Turnover:", report["total_turnover"])
+    print("Turnover:", report.get("total_turnover"))
 
+    for row in report.get("rebalance_table", []):
+        print(row)
+
+    print("Orders:")
     for row in report.get("orders", []):
         print(row)
 
