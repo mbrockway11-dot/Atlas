@@ -1,0 +1,93 @@
+{
+  "version": "market_universe_v1",
+  "provider": "yfinance",
+  "interval": "1d",
+  "period": "2y",
+  "required_core_assets": [
+    "BTC-USD",
+    "ETH-USD",
+    "SOL-USD"
+  ],
+  "whitelist": [
+    {
+      "asset": "BTC-USD",
+      "tier": "CORE",
+      "sector": "reserve",
+      "enabled": true
+    },
+    {
+      "asset": "ETH-USD",
+      "tier": "CORE",
+      "sector": "smart_contract",
+      "enabled": true
+    },
+    {
+      "asset": "SOL-USD",
+      "tier": "CORE",
+      "sector": "layer_1_high_beta",
+      "enabled": true
+    },
+    {
+      "asset": "BNB-USD",
+      "tier": "EXPANDED",
+      "sector": "exchange_ecosystem",
+      "enabled": true
+    },
+    {
+      "asset": "XRP-USD",
+      "tier": "EXPANDED",
+      "sector": "payments",
+      "enabled": true
+    },
+    {
+      "asset": "LINK-USD",
+      "tier": "EXPANDED",
+      "sector": "oracle",
+      "enabled": true
+    },
+    {
+      "asset": "AVAX-USD",
+      "tier": "EXPANDED",
+      "sector": "layer_1",
+      "enabled": true
+    },
+    {
+      "asset": "SUI-USD",
+      "tier": "EXPANDED",
+      "sector": "emerging_layer_1",
+      "enabled": true
+    },
+    {
+      "asset": "AAVE-USD",
+      "tier": "EXPANDED",
+      "sector": "defi_lending",
+      "enabled": true
+    },
+    {
+      "asset": "HYPE-USD",
+      "tier": "OPTIONAL",
+      "sector": "derivatives_ecosystem",
+      "enabled": true
+    },
+    {
+      "asset": "DOGE-USD",
+      "tier": "EXPANDED",
+      "sector": "retail_sentiment",
+      "enabled": true
+    },
+    {
+      "asset": "ADA-USD",
+      "tier": "EXPANDED",
+      "sector": "layer_1",
+      "enabled": true
+    }
+  ],
+  "liquidity_gates": {
+    "minimum_observations": 120,
+    "minimum_price": 0.01,
+    "minimum_median_daily_dollar_volume": 5000000.0,
+    "minimum_average_daily_dollar_volume": 10000000.0,
+    "maximum_stale_days": 5,
+    "maximum_missing_close_ratio": 0.02
+  }
+}

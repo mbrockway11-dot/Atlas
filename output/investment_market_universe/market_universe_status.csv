@@ -1,0 +1,13 @@
+asset,tier,sector,required_core,enabled,approved,status,observation_count,latest_timestamp,stale_days,latest_close,missing_close_ratio,average_daily_dollar_volume,median_daily_dollar_volume,failure_reasons,source
+BTC-USD,CORE,reserve,True,True,True,APPROVED,730,2026-07-10T00:00:00+00:00,0.0,63867.5390625,0.0,46965912968.34,41978620816.5,,market_universe_v1
+ETH-USD,CORE,smart_contract,True,True,True,APPROVED,730,2026-07-10T00:00:00+00:00,0.0,1771.8699951171875,0.0,24691132971.8,20859505755.0,,market_universe_v1
+SOL-USD,CORE,layer_1_high_beta,True,True,True,APPROVED,730,2026-07-10T00:00:00+00:00,0.0,78.86000061035156,0.0,4728479830.2,3921859530.5,,market_universe_v1
+BNB-USD,EXPANDED,exchange_ecosystem,False,True,True,APPROVED,730,2026-07-10T00:00:00+00:00,0.0,574.6599731445312,0.0,2154397524.6,1856300972.5,,market_universe_v1
+XRP-USD,EXPANDED,payments,False,True,True,APPROVED,730,2026-07-10T00:00:00+00:00,0.0,1.1058000326156616,0.0,4648943451.42,3288556817.0,,market_universe_v1
+LINK-USD,EXPANDED,oracle,False,True,True,APPROVED,730,2026-07-10T00:00:00+00:00,0.0,7.872000217437744,0.0,646967319.12,509688131.0,,market_universe_v1
+AVAX-USD,EXPANDED,layer_1,False,True,True,APPROVED,730,2026-07-10T00:00:00+00:00,0.0,6.78000020980835,0.0,476536261.82,351934199.0,,market_universe_v1
+SUI-USD,EXPANDED,emerging_layer_1,False,True,False,REJECTED,0,,,0.0,1.0,0.0,0.0,fetch_error:empty_download|insufficient_observations|price_below_minimum|median_dollar_volume_below_minimum|average_dollar_volume_below_minimum|stale_market_data|excessive_missing_close_data,market_universe_v1
+AAVE-USD,EXPANDED,defi_lending,False,True,True,APPROVED,730,2026-07-10T00:00:00+00:00,0.0,92.76000213623047,0.0,375247816.83,323514535.0,,market_universe_v1
+HYPE-USD,OPTIONAL,derivatives_ecosystem,False,True,False,REJECTED,49,2024-08-27T00:00:00+00:00,682.0,4.999999873689376e-06,0.0,1117.35,621.0,insufficient_observations|price_below_minimum|median_dollar_volume_below_minimum|average_dollar_volume_below_minimum|stale_market_data,market_universe_v1
+DOGE-USD,EXPANDED,retail_sentiment,False,True,True,APPROVED,730,2026-07-10T00:00:00+00:00,0.0,0.07388000190258026,0.0,2261267313.64,1437329483.5,,market_universe_v1
+ADA-USD,EXPANDED,layer_1,False,True,True,APPROVED,730,2026-07-10T00:00:00+00:00,0.0,0.16769999265670776,0.0,952006705.23,664524448.5,,market_universe_v1
