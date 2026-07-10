@@ -1,2 +1,3 @@
 generated_at,overall_confidence,confidence_label,health_label,current_equity,pnl_pct,drawdown,risky_weight,cash_weight,learning_regime,risk_label,rebalance_order_count
 2026-07-10T02:54:50.396282+00:00,0.61485,MODERATE,HEALTHY_WITH_WARNINGS,100000.0,0.0,0.0,0.7,0.3,insufficient_history,low_risk,2
+2026-07-10T03:12:42.686467+00:00,0.6413,MODERATE,HEALTHY_WITH_WARNINGS,100000.0,0.0,0.0,0.7,0.3,flat,low_risk,2

@@ -1,11 +1,11 @@
 {
   "success": true,
   "version": "investment_intelligence_v1",
-  "generated_at": "2026-07-10T02:54:50.396282+00:00",
-  "summary": "Investment Intelligence v1 assessed portfolio confidence as MODERATE (0.615), system health as HEALTHY_WITH_WARNINGS, and explained 2 asset(s) and 2 trade action(s).",
-  "text_summary": "Investment Intelligence v1 assessed portfolio confidence as MODERATE (0.615), system health as HEALTHY_WITH_WARNINGS, and explained 2 asset(s) and 2 trade action(s).",
+  "generated_at": "2026-07-10T03:12:42.686467+00:00",
+  "summary": "Investment Intelligence v1 assessed portfolio confidence as MODERATE (0.641), system health as HEALTHY_WITH_WARNINGS, and explained 2 asset(s) and 2 trade action(s).",
+  "text_summary": "Investment Intelligence v1 assessed portfolio confidence as MODERATE (0.641), system health as HEALTHY_WITH_WARNINGS, and explained 2 asset(s) and 2 trade action(s).",
   "confidence": {
-    "overall_confidence": 0.61485,
+    "overall_confidence": 0.6413,
     "confidence_label": "MODERATE",
     "components": {
       "ensemble": {
@@ -13,7 +13,7 @@
         "weight": 0.25
       },
       "learning": {
-        "score": 0.29,
+        "score": 0.41,
         "weight": 0.2
       },
       "accounting": {
@@ -21,7 +21,7 @@
         "weight": 0.2
       },
       "risk": {
-        "score": 0.864,
+        "score": 0.887,
         "weight": 0.15
       },
       "execution": {
@@ -29,12 +29,11 @@
         "weight": 0.1
       },
       "data": {
-        "score": 0.06,
+        "score": 0.05,
         "weight": 0.1
       }
     },
     "limitations": [
-      "Learning confidence is constrained by insufficient broker-authoritative MTM history.",
       "Alpha Ensemble currently has limited independent signal-source diversity."
     ],
     "source": "investment_intelligence_v1"
@@ -95,12 +94,12 @@
     "drawdown": 0.0,
     "risky_weight": 0.7,
     "cash_weight": 0.3,
-    "learning_regime": "insufficient_history",
+    "learning_regime": "flat",
     "risk_label": "low_risk",
-    "overall_confidence": 0.61485,
+    "overall_confidence": 0.6413,
     "confidence_label": "MODERATE",
     "rebalance_order_count": 2,
-    "explanation": "The portfolio is 70.00% invested with 30.00% held in cash. The learning regime is insufficient_history. Overall confidence is MODERATE at 0.615. 2 rebalance order(s) are required to move the portfolio toward adaptive targets."
+    "explanation": "The portfolio is 70.00% invested with 30.00% held in cash. The learning regime is flat. Overall confidence is MODERATE at 0.641. 2 rebalance order(s) are required to move the portfolio toward adaptive targets."
   },
   "asset_explanations": [
     {
@@ -233,7 +232,7 @@
       "source_key": "execution_engine",
       "success": true,
       "version": "execution_engine_v3",
-      "summary": "Execution Engine v3 processed 2 order(s): executed=2, duplicates=0, rejected=0."
+      "summary": "Execution Engine v3 processed 2 order(s): executed=0, duplicates=2, rejected=0."
     },
     {
       "sequence": 11,
@@ -241,7 +240,7 @@
       "source_key": "paper_broker",
       "success": true,
       "version": "paper_broker_v3",
-      "summary": "Paper Broker v3 consumed 2 execution fill row(s), created 2 new broker fill(s), positions=2, cash=117465.0."
+      "summary": "Paper Broker v3 consumed 0 execution fill row(s), created 0 new broker fill(s), positions=2, cash=117465.0."
     },
     {
       "sequence": 12,
@@ -281,7 +280,7 @@
       "source_key": "learning",
       "success": true,
       "version": "learning_engine_v3",
-      "summary": "Learning Engine v3 evaluated 2 asset scorecard row(s). Regime: insufficient_history. Confidence=0.29."
+      "summary": "Learning Engine v3 evaluated 2 asset scorecard row(s). Regime: flat. Confidence=0.41."
     },
     {
       "sequence": 17,
@@ -293,13 +292,13 @@
     }
   ],
   "changes_since_prior": {
-    "has_prior_report": false,
+    "has_prior_report": true,
     "changes": [
-      "This is the first Investment Intelligence snapshot."
+      "Overall confidence changed by +0.0265."
     ]
   },
   "recommendations": [
-    "Continue paper observations before promoting strategy weights or enabling live capital."
+    "Maintain current controls and continue monitoring."
   ],
   "outputs": {
     "json": "output\\investment_intelligence\\investment_intelligence_report.json",

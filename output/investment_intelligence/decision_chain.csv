@@ -8,11 +8,11 @@ sequence,layer,source_key,success,version,summary
 7,Rebalance Engine v4,rebalance,True,rebalance_engine_v4,"Rebalance Engine v4 compared Portfolio State v4 to Alpha Portfolio v3, generated 2 order intent(s), turnover=0.175."
 8,Execution Planner,execution_planner,True,execution_planner_v3,Execution Planner v3 built 2 planned order row(s) from Rebalance Engine v4.
 9,Safety Governor,safety,True,,Trade Safety Governor status: APPROVED_WITH_WARNINGS. Decision: ALLOW_PAPER_EXECUTION. Reason: All hard safety checks passed with warnings..
-10,Execution Engine,execution_engine,True,execution_engine_v3,"Execution Engine v3 processed 2 order(s): executed=2, duplicates=0, rejected=0."
-11,Paper Broker,paper_broker,True,paper_broker_v3,"Paper Broker v3 consumed 2 execution fill row(s), created 2 new broker fill(s), positions=2, cash=117465.0."
+10,Execution Engine,execution_engine,True,execution_engine_v3,"Execution Engine v3 processed 2 order(s): executed=0, duplicates=2, rejected=0."
+11,Paper Broker,paper_broker,True,paper_broker_v3,"Paper Broker v3 consumed 0 execution fill row(s), created 0 new broker fill(s), positions=2, cash=117465.0."
 12,Broker Ledger v4.1,broker_ledger,True,broker_ledger_v4_1,"Broker Ledger v4.1 loaded the authoritative Paper Broker snapshot. Cash=30000.0, market_value=70000.0, equity=100000.0, balanced=True."
 13,Mark-to-Market v4,mark_to_market,True,mark_to_market_v4,"Mark-to-Market v4 valued 2 Broker Ledger position(s). Equity=100000.0, PnL=0.0, drawdown=0.0."
 14,Portfolio State,portfolio_state,True,portfolio_state_v4,"Portfolio State v4 updated from MTM v4. Equity=100000.0, risky=0.7, cash=0.3, direction=LONG."
 15,Performance,performance,True,performance_engine_v3,"Performance Engine v3 read broker/MTM state. Equity=100000.0, PnL=0.0, Sharpe=0.0, MaxDD=0.0."
-16,Learning,learning,True,learning_engine_v3,Learning Engine v3 evaluated 2 asset scorecard row(s). Regime: insufficient_history. Confidence=0.29.
+16,Learning,learning,True,learning_engine_v3,Learning Engine v3 evaluated 2 asset scorecard row(s). Regime: flat. Confidence=0.41.
 17,Strategy Registry,strategy_registry,True,strategy_registry_v3,Strategy Registry v3 updated 2 strategy row(s). Counts: {'MAINTAIN': 2}.

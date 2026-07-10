@@ -1,25 +1,25 @@
 # Atlas Investment Intelligence v1
 
-Investment Intelligence v1 assessed portfolio confidence as MODERATE (0.615), system health as HEALTHY_WITH_WARNINGS, and explained 2 asset(s) and 2 trade action(s).
+Investment Intelligence v1 assessed portfolio confidence as MODERATE (0.641), system health as HEALTHY_WITH_WARNINGS, and explained 2 asset(s) and 2 trade action(s).
 
 ## Executive Assessment
 
-- Overall confidence: `0.61485`
+- Overall confidence: `0.6413`
 - Confidence label: `MODERATE`
 - System health: `HEALTHY_WITH_WARNINGS`
 - Equity: `100000.0`
 - Risky exposure: `0.7`
 - Cash exposure: `0.3`
-- Learning regime: `insufficient_history`
+- Learning regime: `flat`
 - Risk label: `low_risk`
 
 ## Portfolio Explanation
 
-The portfolio is 70.00% invested with 30.00% held in cash. The learning regime is insufficient_history. Overall confidence is MODERATE at 0.615. 2 rebalance order(s) are required to move the portfolio toward adaptive targets.
+The portfolio is 70.00% invested with 30.00% held in cash. The learning regime is flat. Overall confidence is MODERATE at 0.641. 2 rebalance order(s) are required to move the portfolio toward adaptive targets.
 
 ## Recommendations
 
-- Continue paper observations before promoting strategy weights or enabling live capital.
+- Maintain current controls and continue monitoring.
 
 ## Health Checks
 
@@ -59,4 +59,4 @@ ETH-USD has an ensemble conviction score of 0.585 and registry status MAINTAIN. 
 
 ## Changes Since Prior Run
 
-- This is the first Investment Intelligence snapshot.
+- Overall confidence changed by +0.0265.

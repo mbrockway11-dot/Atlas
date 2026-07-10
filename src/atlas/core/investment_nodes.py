@@ -175,4 +175,18 @@ def build_investment_core_nodes() -> list[ScriptNode]:
             requires=["portfolio_state", "performance", "learning", "action_engine", "rebalance_engine"],
             provides=["risk_engine"],
         ),
+        ScriptNode(
+            name="investment_intelligence",
+            command=["scripts/update_investment_intelligence.py"],
+            requires=[
+                "paper_broker",
+                "mark_to_market",
+                "portfolio_state",
+                "performance",
+                "learning",
+                "rebalance_engine",
+                "risk_engine",
+            ],
+            provides=["investment_intelligence"],
+        ),
     ]
