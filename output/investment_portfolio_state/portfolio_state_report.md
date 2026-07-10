@@ -1,6 +1,6 @@
 # Portfolio State v4 Report
 
-Portfolio State v4 updated from MTM v3. Equity=100000.0, risky=0.7, cash=0.3, direction=LONG.
+Portfolio State v4 updated from MTM v4. Equity=100000.0, risky=0.7, cash=0.3, direction=LONG.
 
 ## Equity
 
@@ -31,6 +31,6 @@ Portfolio State v4 updated from MTM v3. Equity=100000.0, risky=0.7, cash=0.3, di
 
 ## Holdings
 
-- `BTC-USD` weight=`0.377631` value=`37763.1`
-- `ETH-USD` weight=`0.322369` value=`32236.9`
+- `BTC-USD` weight=`0.350055` value=`35005.5`
+- `ETH-USD` weight=`0.349945` value=`34994.5`
 - `CASH` weight=`0.3` value=`30000.0`

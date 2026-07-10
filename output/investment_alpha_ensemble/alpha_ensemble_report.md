@@ -4,8 +4,8 @@ Alpha Ensemble v4 combined 2 signal row(s), scored 2 asset(s), produced 3 alloca
 
 ## Scores
 
-- `BTC-USD` score=`0.65` action=`PROMOTE_LONG`
-- `ETH-USD` score=`0.65` action=`PROMOTE_LONG`
+- `BTC-USD` score=`0.585` action=`MAINTAIN`
+- `ETH-USD` score=`0.585` action=`MAINTAIN`
 
 ## Allocation Hints
 

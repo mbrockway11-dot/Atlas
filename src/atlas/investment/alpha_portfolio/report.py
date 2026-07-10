@@ -27,12 +27,12 @@ def build_alpha_portfolio_report() -> dict[str, Any]:
         "version": "alpha_portfolio_v3",
         "summary": (
             f"Alpha Portfolio v3 built {len(result.get('rows', []))} target allocation row(s) "
-            f"from Adaptive Weighting v3. Risky={result['summary']['risky_weight']}, "
+            f"from Adaptive Weighting v4. Risky={result['summary']['risky_weight']}, "
             f"cash={result['summary']['cash_weight']}."
         ),
         "text_summary": (
             f"Alpha Portfolio v3 built {len(result.get('rows', []))} target allocation row(s) "
-            f"from Adaptive Weighting v3. Risky={result['summary']['risky_weight']}, "
+            f"from Adaptive Weighting v4. Risky={result['summary']['risky_weight']}, "
             f"cash={result['summary']['cash_weight']}."
         ),
         "portfolio_summary": result["summary"],

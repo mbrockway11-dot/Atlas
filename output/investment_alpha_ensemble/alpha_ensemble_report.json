@@ -24,39 +24,39 @@
   "scores": [
     {
       "asset": "BTC-USD",
-      "ensemble_score": 0.65,
-      "conviction": 0.65,
+      "ensemble_score": 0.585,
+      "conviction": 0.585,
       "source_count": 1,
-      "regime_multiplier": 1.0,
+      "regime_multiplier": 0.9,
       "performance_multiplier": 1.0,
-      "ensemble_action": "PROMOTE_LONG",
+      "ensemble_action": "MAINTAIN",
       "source": "alpha_ensemble_v4"
     },
     {
       "asset": "ETH-USD",
-      "ensemble_score": 0.65,
-      "conviction": 0.65,
+      "ensemble_score": 0.585,
+      "conviction": 0.585,
       "source_count": 1,
-      "regime_multiplier": 1.0,
+      "regime_multiplier": 0.9,
       "performance_multiplier": 1.0,
-      "ensemble_action": "PROMOTE_LONG",
+      "ensemble_action": "MAINTAIN",
       "source": "alpha_ensemble_v4"
     }
   ],
   "allocations": [
     {
       "asset": "BTC-USD",
-      "ensemble_score": 0.65,
+      "ensemble_score": 0.585,
       "ensemble_target_weight": 0.35,
-      "ensemble_action": "PROMOTE_LONG",
+      "ensemble_action": "MAINTAIN",
       "source_count": 1,
       "source": "alpha_ensemble_v4"
     },
     {
       "asset": "ETH-USD",
-      "ensemble_score": 0.65,
+      "ensemble_score": 0.585,
       "ensemble_target_weight": 0.35,
-      "ensemble_action": "PROMOTE_LONG",
+      "ensemble_action": "MAINTAIN",
       "source_count": 1,
       "source": "alpha_ensemble_v4"
     },

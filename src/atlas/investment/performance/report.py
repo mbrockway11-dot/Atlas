@@ -47,7 +47,7 @@ def build_performance_report() -> dict[str, Any]:
             "pnl": equity["pnl"],
             "pnl_pct": equity["pnl_pct"],
             "drawdown": equity["max_drawdown"],
-            "source": "mark_to_market_v3",
+            "source": "mark_to_market_v4",
         },
         "equity_metrics": equity,
         "trade_metrics": trades,

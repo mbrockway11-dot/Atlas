@@ -30,7 +30,7 @@ def build_portfolio_state(inputs: dict) -> dict:
 
     return {
         "version": "portfolio_state_v4",
-        "source": "mark_to_market_v3_broker_state",
+        "source": "mark_to_market_v4_broker_state",
         "equity": {
             "current_equity": round(equity, 2),
             "initial_equity": INITIAL_EQUITY,
@@ -74,7 +74,7 @@ def build_holdings(mtm_positions: pd.DataFrame, cash: float, equity: float) -> l
                 "avg_entry_price": row.get("avg_entry_price"),
                 "unrealized_pnl": row.get("unrealized_pnl"),
                 "unrealized_pnl_pct": row.get("unrealized_pnl_pct"),
-                "source": "mark_to_market_v3",
+                "source": "mark_to_market_v4",
             })
 
     holdings.append({

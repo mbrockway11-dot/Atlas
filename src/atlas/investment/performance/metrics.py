@@ -47,9 +47,9 @@ def equity_metrics(equity_curve: pd.DataFrame) -> dict:
         "return_observations": int(len(returns)),
         "mean_return": round(mean_return, 8),
         "volatility": round(volatility, 8),
-        "sharpe": round(sharpe, 6),
+        "sharpe": round(finite_number(sharpe), 6),
         "sortino": round(sortino, 6),
-        "max_drawdown": round(max_drawdown, 6),
+        "max_drawdown": round(finite_number(max_drawdown), 6),
         "calmar": round(calmar, 6),
     }
 
@@ -127,3 +127,14 @@ def cost_metrics(fills: pd.DataFrame) -> dict:
         "total_cost_drag": round(float(total), 8),
         "cost_observations": int(len(df)),
     }
+
+
+
+def finite_number(value, default: float = 0.0) -> float:
+    """Return a finite float or a safe default."""
+    try:
+        result = float(value)
+    except (TypeError, ValueError):
+        return default
+
+    return result if math.isfinite(result) else default

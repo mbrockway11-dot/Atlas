@@ -1,10 +1,10 @@
 {
   "success": true,
   "version": "portfolio_state_v4",
-  "summary": "Portfolio State v4 updated from MTM v3. Equity=100000.0, risky=0.7, cash=0.3, direction=LONG.",
+  "summary": "Portfolio State v4 updated from MTM v4. Equity=100000.0, risky=0.7, cash=0.3, direction=LONG.",
   "state": {
     "version": "portfolio_state_v4",
-    "source": "mark_to_market_v3_broker_state",
+    "source": "mark_to_market_v4_broker_state",
     "equity": {
       "current_equity": 100000.0,
       "initial_equity": 100000.0,
@@ -26,26 +26,26 @@
       {
         "asset": "BTC-USD",
         "side": "LONG",
-        "weight": 0.377631,
-        "value": 37763.1,
-        "quantity": 0.5580238493221011,
+        "weight": 0.350055,
+        "value": 35005.5,
+        "quantity": 0.5172749021516987,
         "current_price": 67672.9140625,
         "avg_entry_price": 67672.9140625,
         "unrealized_pnl": 0.0,
         "unrealized_pnl_pct": 0.0,
-        "source": "mark_to_market_v3"
+        "source": "mark_to_market_v4"
       },
       {
         "asset": "ETH-USD",
         "side": "LONG",
-        "weight": 0.322369,
-        "value": 32236.9,
-        "quantity": 15.607993174401928,
+        "weight": 0.349945,
+        "value": 34994.5,
+        "quantity": 16.943127817550952,
         "current_price": 2065.40966796875,
         "avg_entry_price": 2065.40966796875,
         "unrealized_pnl": 0.0,
         "unrealized_pnl_pct": 0.0,
-        "source": "mark_to_market_v3"
+        "source": "mark_to_market_v4"
       },
       {
         "asset": "CASH",
@@ -59,7 +59,7 @@
       "holding_count": 3,
       "risky_position_count": 2,
       "pending_order_count": 0,
-      "ledger_row_count": 4
+      "ledger_row_count": 8
     },
     "direction": "LONG"
   },

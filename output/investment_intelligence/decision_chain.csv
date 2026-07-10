@@ -1,0 +1,18 @@
+sequence,layer,source_key,success,version,summary
+1,Market Features,market_features,,,
+2,Alpha Hypotheses,alpha_hypotheses,,,
+3,Alpha Validation,alpha_validation,True,,Promoted 9 alpha strategy/strategies. Rejected 16.
+4,Alpha Ensemble v4,alpha_ensemble,True,alpha_ensemble_v4,"Alpha Ensemble v4 combined 2 signal row(s), scored 2 asset(s), produced 3 allocation hint(s)."
+5,Adaptive Weighting v4,adaptive_weighting,True,adaptive_weighting_v4,Adaptive Weighting v4 consumed Alpha Ensemble v4 hints and produced 3 adaptive weight row(s). Regime multiplier=0.75.
+6,Alpha Portfolio,alpha_portfolio,True,,Alpha Portfolio constructed 4 row(s). Risk label: aggressive.
+7,Rebalance Engine v4,rebalance,True,rebalance_engine_v4,"Rebalance Engine v4 compared Portfolio State v4 to Alpha Portfolio v3, generated 2 order intent(s), turnover=0.175."
+8,Execution Planner,execution_planner,True,execution_planner_v3,Execution Planner v3 built 2 planned order row(s) from Rebalance Engine v4.
+9,Safety Governor,safety,True,,Trade Safety Governor status: APPROVED_WITH_WARNINGS. Decision: ALLOW_PAPER_EXECUTION. Reason: All hard safety checks passed with warnings..
+10,Execution Engine,execution_engine,True,execution_engine_v3,"Execution Engine v3 processed 2 order(s): executed=2, duplicates=0, rejected=0."
+11,Paper Broker,paper_broker,True,paper_broker_v3,"Paper Broker v3 consumed 2 execution fill row(s), created 2 new broker fill(s), positions=2, cash=117465.0."
+12,Broker Ledger v4.1,broker_ledger,True,broker_ledger_v4_1,"Broker Ledger v4.1 loaded the authoritative Paper Broker snapshot. Cash=30000.0, market_value=70000.0, equity=100000.0, balanced=True."
+13,Mark-to-Market v4,mark_to_market,True,mark_to_market_v4,"Mark-to-Market v4 valued 2 Broker Ledger position(s). Equity=100000.0, PnL=0.0, drawdown=0.0."
+14,Portfolio State,portfolio_state,True,portfolio_state_v4,"Portfolio State v4 updated from MTM v4. Equity=100000.0, risky=0.7, cash=0.3, direction=LONG."
+15,Performance,performance,True,performance_engine_v3,"Performance Engine v3 read broker/MTM state. Equity=100000.0, PnL=0.0, Sharpe=0.0, MaxDD=0.0."
+16,Learning,learning,True,learning_engine_v3,Learning Engine v3 evaluated 2 asset scorecard row(s). Regime: insufficient_history. Confidence=0.29.
+17,Strategy Registry,strategy_registry,True,strategy_registry_v3,Strategy Registry v3 updated 2 strategy row(s). Counts: {'MAINTAIN': 2}.

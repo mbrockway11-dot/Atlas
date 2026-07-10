@@ -1,8 +1,8 @@
 {
   "success": true,
   "version": "adaptive_weighting_v4",
-  "summary": "Adaptive Weighting v4 consumed Alpha Ensemble v4 hints and produced 3 adaptive weight row(s). Regime multiplier=1.0.",
-  "text_summary": "Adaptive Weighting v4 consumed Alpha Ensemble v4 hints and produced 3 adaptive weight row(s). Regime multiplier=1.0.",
+  "summary": "Adaptive Weighting v4 consumed Alpha Ensemble v4 hints and produced 3 adaptive weight row(s). Regime multiplier=0.75.",
+  "text_summary": "Adaptive Weighting v4 consumed Alpha Ensemble v4 hints and produced 3 adaptive weight row(s). Regime multiplier=0.75.",
   "base_weights": {
     "BTC-USD": 0.35,
     "ETH-USD": 0.35,
@@ -12,35 +12,36 @@
     "BTC-USD": 1.075,
     "ETH-USD": 1.075
   },
-  "regime_multiplier": 1.0,
+  "regime_multiplier": 0.75,
+  "effective_max_gross": 0.525,
   "adaptive_weights": {
-    "BTC-USD": 0.35,
-    "ETH-USD": 0.35,
-    "CASH": 0.3
+    "BTC-USD": 0.2625,
+    "ETH-USD": 0.2625,
+    "CASH": 0.475
   },
   "rows": [
     {
       "asset": "BTC-USD",
       "base_weight": 0.35,
       "registry_multiplier": 1.075,
-      "regime_multiplier": 1.0,
-      "adaptive_weight": 0.35,
+      "regime_multiplier": 0.75,
+      "adaptive_weight": 0.2625,
       "source": "adaptive_weighting_v4_alpha_ensemble"
     },
     {
       "asset": "ETH-USD",
       "base_weight": 0.35,
       "registry_multiplier": 1.075,
-      "regime_multiplier": 1.0,
-      "adaptive_weight": 0.35,
+      "regime_multiplier": 0.75,
+      "adaptive_weight": 0.2625,
       "source": "adaptive_weighting_v4_alpha_ensemble"
     },
     {
       "asset": "CASH",
       "base_weight": 0.3,
       "registry_multiplier": 1.0,
-      "regime_multiplier": 1.0,
-      "adaptive_weight": 0.3,
+      "regime_multiplier": 0.75,
+      "adaptive_weight": 0.475,
       "source": "adaptive_weighting_v4_alpha_ensemble"
     }
   ],

@@ -1,76 +1,127 @@
 
-"""Mark-to-Market v3 valuation."""
+"""Mark-to-Market v4 valuation.
+
+Cash and open positions come exclusively from Broker Ledger v4.1.
+"""
 
 from __future__ import annotations
 
 import pandas as pd
 
 
-INITIAL_EQUITY = 100000.0
+DEFAULT_INITIAL_EQUITY = 100000.0
 
 
-def value_positions(broker_positions: pd.DataFrame, broker_fills: pd.DataFrame, prices: dict[str, float]) -> pd.DataFrame:
-    if broker_positions.empty:
-        return pd.DataFrame(columns=[
-            "asset", "side", "quantity", "cost_basis", "weight", "current_price",
-            "avg_entry_price", "market_value", "portfolio_weight",
-            "unrealized_pnl", "unrealized_pnl_pct"
-        ])
+def value_ledger_positions(
+    ledger_positions: pd.DataFrame,
+    prices: dict[str, float],
+    ledger_equity: float,
+) -> pd.DataFrame:
+    columns = [
+        "asset",
+        "side",
+        "quantity",
+        "cost_basis",
+        "weight",
+        "current_price",
+        "avg_entry_price",
+        "market_value",
+        "portfolio_weight",
+        "unrealized_pnl",
+        "unrealized_pnl_pct",
+        "source",
+    ]
+
+    if ledger_positions is None or ledger_positions.empty:
+        return pd.DataFrame(columns=columns)
 
     rows = []
 
-    for _, row in broker_positions.iterrows():
-        asset = str(row.get("asset"))
-        side = str(row.get("side") or "LONG")
-        net_weight = float(row.get("net_weight") or 0.0)
-        cost_basis = float(row.get("notional_value") or (INITIAL_EQUITY * net_weight))
-        current_price = float(prices.get(asset, 1.0))
+    for _, row in ledger_positions.iterrows():
+        status = str(row.get("status") or "OPEN").upper()
 
-        avg_entry_price = average_entry_price(asset, broker_fills, current_price)
-        quantity = cost_basis / avg_entry_price if avg_entry_price else 0.0
+        if status == "CLOSED":
+            continue
+
+        asset = str(row.get("asset") or "").strip()
+
+        if not asset or asset.upper() == "CASH":
+            continue
+
+        side = str(row.get("side") or "LONG").upper()
+        weight = number(row.get("net_weight"))
+        cost_basis = number(row.get("market_value"))
+        current_price = number(prices.get(asset))
+
+        if current_price <= 0:
+            current_price = 1.0
+
+        # Broker Ledger v4.1 currently stores authoritative position
+        # notional rather than units. Seed quantity from that snapshot.
+        quantity = cost_basis / current_price if current_price else 0.0
+        avg_entry_price = (
+            cost_basis / quantity
+            if quantity
+            else current_price
+        )
+
         market_value = quantity * current_price
 
-        unrealized = market_value - cost_basis
-        unrealized_pct = unrealized / cost_basis if cost_basis else 0.0
+        if side == "SHORT":
+            unrealized_pnl = cost_basis - market_value
+        else:
+            unrealized_pnl = market_value - cost_basis
+
+        unrealized_pnl_pct = (
+            unrealized_pnl / cost_basis
+            if cost_basis
+            else 0.0
+        )
+
+        portfolio_weight = (
+            market_value / ledger_equity
+            if ledger_equity
+            else 0.0
+        )
 
         rows.append({
             "asset": asset,
             "side": side,
             "quantity": quantity,
             "cost_basis": cost_basis,
-            "weight": net_weight,
+            "weight": weight,
             "current_price": current_price,
             "avg_entry_price": avg_entry_price,
             "market_value": market_value,
-            "portfolio_weight": market_value / INITIAL_EQUITY if INITIAL_EQUITY else 0.0,
-            "unrealized_pnl": unrealized,
-            "unrealized_pnl_pct": unrealized_pct,
+            "portfolio_weight": portfolio_weight,
+            "unrealized_pnl": unrealized_pnl,
+            "unrealized_pnl_pct": unrealized_pnl_pct,
+            "source": "broker_ledger_v4_1",
         })
 
-    return pd.DataFrame(rows)
+    return pd.DataFrame(rows, columns=columns)
 
 
-def average_entry_price(asset: str, fills: pd.DataFrame, fallback_price: float) -> float:
-    if fills.empty or "asset" not in fills.columns:
-        return fallback_price
-
-    df = fills[fills["asset"].astype(str) == asset].copy()
-
-    if df.empty:
-        return fallback_price
-
-    # Broker v3 currently stores notional/weight but not explicit execution price.
-    # Until Paper Broker v4 stores prices, use current price as neutral entry basis.
-    return fallback_price
+def ledger_cash(ledger_report: dict) -> float:
+    return round(
+        number(ledger_report.get("cash")),
+        2,
+    )
 
 
-def cash_value(cash_ledger: pd.DataFrame, positions: pd.DataFrame) -> float:
-    if not cash_ledger.empty and "cash_delta" in cash_ledger.columns:
-        delta = pd.to_numeric(cash_ledger["cash_delta"], errors="coerce").fillna(0.0).sum()
-        return round(INITIAL_EQUITY + float(delta), 2)
+def ledger_equity(ledger_report: dict) -> float:
+    equity = number(ledger_report.get("equity"))
 
-    market_value = 0.0
-    if not positions.empty and "market_value" in positions.columns:
-        market_value = pd.to_numeric(positions["market_value"], errors="coerce").fillna(0.0).sum()
+    if equity > 0:
+        return equity
 
-    return round(INITIAL_EQUITY - float(market_value), 2)
+    return DEFAULT_INITIAL_EQUITY
+
+
+def number(value) -> float:
+    try:
+        if value is None or pd.isna(value):
+            return 0.0
+        return float(value)
+    except (TypeError, ValueError):
+        return 0.0

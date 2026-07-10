@@ -118,7 +118,18 @@ def build_adaptive_weights(inputs: dict) -> dict:
 
         adjusted[asset] = float(weight) * float(multipliers.get(asset, 1.0)) * regime_mult
 
-    final = normalize_with_cash(adjusted, max_gross=0.70)
+    # Regime confidence changes total portfolio exposure rather than
+    # disappearing during normalization. A 0.75 multiplier therefore
+    # reduces maximum risky exposure from 70% to 52.5%.
+    effective_max_gross = max(
+        0.0,
+        min(0.70, 0.70 * float(regime_mult)),
+    )
+
+    final = normalize_with_cash(
+        adjusted,
+        max_gross=effective_max_gross,
+    )
 
     rows = []
 
@@ -136,6 +147,7 @@ def build_adaptive_weights(inputs: dict) -> dict:
         "base_weights": base,
         "registry_multipliers": multipliers,
         "regime_multiplier": round(regime_mult, 6),
+        "effective_max_gross": round(effective_max_gross, 6),
         "adaptive_weights": final,
         "rows": rows,
         "source": "alpha_ensemble_v4",

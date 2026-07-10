@@ -27,7 +27,7 @@ def build_portfolio_state_report() -> dict[str, Any]:
         "success": True,
         "version": "portfolio_state_v4",
         "summary": (
-            f"Portfolio State v4 updated from MTM v3. "
+            f"Portfolio State v4 updated from MTM v4. "
             f"Equity={state['equity']['current_equity']}, "
             f"risky={state['exposure']['risky_weight']}, "
             f"cash={state['exposure']['cash_weight']}, "

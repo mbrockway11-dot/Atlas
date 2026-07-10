@@ -23,7 +23,7 @@ def build_alpha_portfolio(inputs: dict) -> dict:
                 "weight": round(target_weight, 6),
                 "allocation": round(target_weight, 6),
                 "target_exposure": round(target_weight, 6),
-                "source": "adaptive_weighting_v3",
+                "source": "adaptive_weighting_v4",
                 "base_weight": round(float(row.get("base_weight") or 0.0), 6),
                 "registry_multiplier": round(float(row.get("registry_multiplier") or 1.0), 6),
                 "regime_multiplier": round(float(row.get("regime_multiplier") or 1.0), 6),
@@ -42,6 +42,6 @@ def build_alpha_portfolio(inputs: dict) -> dict:
             "risky_weight": round(risky, 6),
             "cash_weight": round(cash, 6),
             "gross_exposure": round(risky, 6),
-            "source": "adaptive_weighting_v3",
+            "source": "adaptive_weighting_v4",
         },
     }

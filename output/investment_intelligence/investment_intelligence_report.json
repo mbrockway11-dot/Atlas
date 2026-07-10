@@ -1,0 +1,313 @@
+{
+  "success": true,
+  "version": "investment_intelligence_v1",
+  "generated_at": "2026-07-10T02:54:50.396282+00:00",
+  "summary": "Investment Intelligence v1 assessed portfolio confidence as MODERATE (0.615), system health as HEALTHY_WITH_WARNINGS, and explained 2 asset(s) and 2 trade action(s).",
+  "text_summary": "Investment Intelligence v1 assessed portfolio confidence as MODERATE (0.615), system health as HEALTHY_WITH_WARNINGS, and explained 2 asset(s) and 2 trade action(s).",
+  "confidence": {
+    "overall_confidence": 0.61485,
+    "confidence_label": "MODERATE",
+    "components": {
+      "ensemble": {
+        "score": 0.585,
+        "weight": 0.25
+      },
+      "learning": {
+        "score": 0.29,
+        "weight": 0.2
+      },
+      "accounting": {
+        "score": 1.0,
+        "weight": 0.2
+      },
+      "risk": {
+        "score": 0.864,
+        "weight": 0.15
+      },
+      "execution": {
+        "score": 0.75,
+        "weight": 0.1
+      },
+      "data": {
+        "score": 0.06,
+        "weight": 0.1
+      }
+    },
+    "limitations": [
+      "Learning confidence is constrained by insufficient broker-authoritative MTM history.",
+      "Alpha Ensemble currently has limited independent signal-source diversity."
+    ],
+    "source": "investment_intelligence_v1"
+  },
+  "health": {
+    "health_label": "HEALTHY_WITH_WARNINGS",
+    "check_count": 8,
+    "pass_count": 7,
+    "warning_count": 1,
+    "failure_count": 0,
+    "healthy": true
+  },
+  "health_checks": [
+    {
+      "name": "accounting_reconciliation",
+      "status": "PASS",
+      "message": "Broker Ledger is mathematically reconciled."
+    },
+    {
+      "name": "mark_to_market",
+      "status": "PASS",
+      "message": "Mark-to-Market v4 is healthy."
+    },
+    {
+      "name": "portfolio_state",
+      "status": "PASS",
+      "message": "Portfolio State is available."
+    },
+    {
+      "name": "performance",
+      "status": "PASS",
+      "message": "Performance Engine is healthy."
+    },
+    {
+      "name": "learning",
+      "status": "PASS",
+      "message": "Learning Engine is healthy."
+    },
+    {
+      "name": "risk",
+      "status": "PASS",
+      "message": "Risk Engine is healthy."
+    },
+    {
+      "name": "trade_safety",
+      "status": "WARN",
+      "message": "Safety Governor approved with warnings."
+    },
+    {
+      "name": "atlas_core",
+      "status": "PASS",
+      "message": "Atlas Core completed successfully."
+    }
+  ],
+  "portfolio_explanation": {
+    "current_equity": 100000.0,
+    "pnl_pct": 0.0,
+    "drawdown": 0.0,
+    "risky_weight": 0.7,
+    "cash_weight": 0.3,
+    "learning_regime": "insufficient_history",
+    "risk_label": "low_risk",
+    "overall_confidence": 0.61485,
+    "confidence_label": "MODERATE",
+    "rebalance_order_count": 2,
+    "explanation": "The portfolio is 70.00% invested with 30.00% held in cash. The learning regime is insufficient_history. Overall confidence is MODERATE at 0.615. 2 rebalance order(s) are required to move the portfolio toward adaptive targets."
+  },
+  "asset_explanations": [
+    {
+      "asset": "BTC-USD",
+      "ensemble_score": 0.585,
+      "ensemble_action": "MAINTAIN",
+      "source_count": 1,
+      "current_weight": 0.350055,
+      "target_weight": 0.2625,
+      "weight_delta": -0.087555,
+      "unrealized_pnl": 0.0,
+      "unrealized_pnl_pct": 0.0,
+      "registry_status": "MAINTAIN",
+      "asset_confidence": 0.65,
+      "explanation": "BTC-USD has an ensemble conviction score of 0.585 and registry status MAINTAIN. Reduce exposure by approximately 8.76%."
+    },
+    {
+      "asset": "ETH-USD",
+      "ensemble_score": 0.585,
+      "ensemble_action": "MAINTAIN",
+      "source_count": 1,
+      "current_weight": 0.349945,
+      "target_weight": 0.2625,
+      "weight_delta": -0.087445,
+      "unrealized_pnl": 0.0,
+      "unrealized_pnl_pct": 0.0,
+      "registry_status": "MAINTAIN",
+      "asset_confidence": 0.65,
+      "explanation": "ETH-USD has an ensemble conviction score of 0.585 and registry status MAINTAIN. Reduce exposure by approximately 8.74%."
+    }
+  ],
+  "trade_explanations": [
+    {
+      "asset": "BTC-USD",
+      "action": "SELL",
+      "current_weight": 0.350055,
+      "target_weight": 0.2625,
+      "signed_delta": -0.087555,
+      "priority": 1,
+      "reason": "Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets.",
+      "explanation": "SELL BTC-USD because its current portfolio weight is 35.0055% and its adaptive target is 26.2500%. Required change: -8.7555%."
+    },
+    {
+      "asset": "ETH-USD",
+      "action": "SELL",
+      "current_weight": 0.349945,
+      "target_weight": 0.2625,
+      "signed_delta": -0.087445,
+      "priority": 2,
+      "reason": "Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets.",
+      "explanation": "SELL ETH-USD because its current portfolio weight is 34.9945% and its adaptive target is 26.2500%. Required change: -8.7445%."
+    }
+  ],
+  "decision_chain": [
+    {
+      "sequence": 1,
+      "layer": "Market Features",
+      "source_key": "market_features",
+      "success": null,
+      "version": null,
+      "summary": ""
+    },
+    {
+      "sequence": 2,
+      "layer": "Alpha Hypotheses",
+      "source_key": "alpha_hypotheses",
+      "success": null,
+      "version": null,
+      "summary": ""
+    },
+    {
+      "sequence": 3,
+      "layer": "Alpha Validation",
+      "source_key": "alpha_validation",
+      "success": true,
+      "version": null,
+      "summary": "Promoted 9 alpha strategy/strategies. Rejected 16."
+    },
+    {
+      "sequence": 4,
+      "layer": "Alpha Ensemble v4",
+      "source_key": "alpha_ensemble",
+      "success": true,
+      "version": "alpha_ensemble_v4",
+      "summary": "Alpha Ensemble v4 combined 2 signal row(s), scored 2 asset(s), produced 3 allocation hint(s)."
+    },
+    {
+      "sequence": 5,
+      "layer": "Adaptive Weighting v4",
+      "source_key": "adaptive_weighting",
+      "success": true,
+      "version": "adaptive_weighting_v4",
+      "summary": "Adaptive Weighting v4 consumed Alpha Ensemble v4 hints and produced 3 adaptive weight row(s). Regime multiplier=0.75."
+    },
+    {
+      "sequence": 6,
+      "layer": "Alpha Portfolio",
+      "source_key": "alpha_portfolio",
+      "success": true,
+      "version": null,
+      "summary": "Alpha Portfolio constructed 4 row(s). Risk label: aggressive."
+    },
+    {
+      "sequence": 7,
+      "layer": "Rebalance Engine v4",
+      "source_key": "rebalance",
+      "success": true,
+      "version": "rebalance_engine_v4",
+      "summary": "Rebalance Engine v4 compared Portfolio State v4 to Alpha Portfolio v3, generated 2 order intent(s), turnover=0.175."
+    },
+    {
+      "sequence": 8,
+      "layer": "Execution Planner",
+      "source_key": "execution_planner",
+      "success": true,
+      "version": "execution_planner_v3",
+      "summary": "Execution Planner v3 built 2 planned order row(s) from Rebalance Engine v4."
+    },
+    {
+      "sequence": 9,
+      "layer": "Safety Governor",
+      "source_key": "safety",
+      "success": true,
+      "version": null,
+      "summary": "Trade Safety Governor status: APPROVED_WITH_WARNINGS. Decision: ALLOW_PAPER_EXECUTION. Reason: All hard safety checks passed with warnings.."
+    },
+    {
+      "sequence": 10,
+      "layer": "Execution Engine",
+      "source_key": "execution_engine",
+      "success": true,
+      "version": "execution_engine_v3",
+      "summary": "Execution Engine v3 processed 2 order(s): executed=2, duplicates=0, rejected=0."
+    },
+    {
+      "sequence": 11,
+      "layer": "Paper Broker",
+      "source_key": "paper_broker",
+      "success": true,
+      "version": "paper_broker_v3",
+      "summary": "Paper Broker v3 consumed 2 execution fill row(s), created 2 new broker fill(s), positions=2, cash=117465.0."
+    },
+    {
+      "sequence": 12,
+      "layer": "Broker Ledger v4.1",
+      "source_key": "broker_ledger",
+      "success": true,
+      "version": "broker_ledger_v4_1",
+      "summary": "Broker Ledger v4.1 loaded the authoritative Paper Broker snapshot. Cash=30000.0, market_value=70000.0, equity=100000.0, balanced=True."
+    },
+    {
+      "sequence": 13,
+      "layer": "Mark-to-Market v4",
+      "source_key": "mark_to_market",
+      "success": true,
+      "version": "mark_to_market_v4",
+      "summary": "Mark-to-Market v4 valued 2 Broker Ledger position(s). Equity=100000.0, PnL=0.0, drawdown=0.0."
+    },
+    {
+      "sequence": 14,
+      "layer": "Portfolio State",
+      "source_key": "portfolio_state",
+      "success": true,
+      "version": "portfolio_state_v4",
+      "summary": "Portfolio State v4 updated from MTM v4. Equity=100000.0, risky=0.7, cash=0.3, direction=LONG."
+    },
+    {
+      "sequence": 15,
+      "layer": "Performance",
+      "source_key": "performance",
+      "success": true,
+      "version": "performance_engine_v3",
+      "summary": "Performance Engine v3 read broker/MTM state. Equity=100000.0, PnL=0.0, Sharpe=0.0, MaxDD=0.0."
+    },
+    {
+      "sequence": 16,
+      "layer": "Learning",
+      "source_key": "learning",
+      "success": true,
+      "version": "learning_engine_v3",
+      "summary": "Learning Engine v3 evaluated 2 asset scorecard row(s). Regime: insufficient_history. Confidence=0.29."
+    },
+    {
+      "sequence": 17,
+      "layer": "Strategy Registry",
+      "source_key": "strategy_registry",
+      "success": true,
+      "version": "strategy_registry_v3",
+      "summary": "Strategy Registry v3 updated 2 strategy row(s). Counts: {'MAINTAIN': 2}."
+    }
+  ],
+  "changes_since_prior": {
+    "has_prior_report": false,
+    "changes": [
+      "This is the first Investment Intelligence snapshot."
+    ]
+  },
+  "recommendations": [
+    "Continue paper observations before promoting strategy weights or enabling live capital."
+  ],
+  "outputs": {
+    "json": "output\\investment_intelligence\\investment_intelligence_report.json",
+    "markdown": "output\\investment_intelligence\\investment_intelligence_report.md",
+    "assets_csv": "output\\investment_intelligence\\asset_explanations.csv",
+    "trades_csv": "output\\investment_intelligence\\trade_explanations.csv",
+    "health_csv": "output\\investment_intelligence\\portfolio_health.csv",
+    "decision_chain_csv": "output\\investment_intelligence\\decision_chain.csv",
+    "history_csv": "output\\investment_intelligence\\intelligence_history.csv"
+  }
+}

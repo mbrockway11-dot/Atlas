@@ -1,4 +1,4 @@
 asset,base_weight,registry_multiplier,regime_multiplier,adaptive_weight,source
-BTC-USD,0.35,1.075,1.0,0.35,adaptive_weighting_v4_alpha_ensemble
-ETH-USD,0.35,1.075,1.0,0.35,adaptive_weighting_v4_alpha_ensemble
-CASH,0.3,1.0,1.0,0.3,adaptive_weighting_v4_alpha_ensemble
+BTC-USD,0.35,1.075,0.75,0.2625,adaptive_weighting_v4_alpha_ensemble
+ETH-USD,0.35,1.075,0.75,0.2625,adaptive_weighting_v4_alpha_ensemble
+CASH,0.3,1.0,0.75,0.475,adaptive_weighting_v4_alpha_ensemble
