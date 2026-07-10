@@ -5,10 +5,10 @@ sequence,layer,source_key,success,version,summary
 4,Alpha Ensemble v4,alpha_ensemble,True,alpha_ensemble_v4,"Alpha Ensemble v4 combined 2 signal row(s), scored 2 asset(s), produced 3 allocation hint(s)."
 5,Adaptive Weighting v4,adaptive_weighting,True,adaptive_weighting_v4,Adaptive Weighting v4 consumed Alpha Ensemble v4 hints and produced 3 adaptive weight row(s). Regime multiplier=1.0.
 6,Alpha Portfolio,alpha_portfolio,True,,Alpha Portfolio constructed 3 row(s). Risk label: aggressive.
-7,Rebalance Engine v4,rebalance,True,rebalance_engine_v4,"Rebalance Engine v4 compared Portfolio State v4 to Alpha Portfolio v3, generated 2 order intent(s), turnover=0.175."
-8,Execution Planner,execution_planner,True,execution_planner_v3,Execution Planner v3 built 2 planned order row(s) from Rebalance Engine v4.
-9,Safety Governor,safety,True,,Trade Safety Governor status: APPROVED_WITH_WARNINGS. Decision: ALLOW_PAPER_EXECUTION. Reason: All hard safety checks passed with warnings..
-10,Execution Engine,execution_engine,True,execution_engine_v3,"Execution Engine v3 processed 2 order(s): executed=0, duplicates=2, rejected=0."
+7,Rebalance Engine v4,rebalance,True,rebalance_engine_v4,"Rebalance Engine v4 compared Portfolio State v4 to Alpha Portfolio v3, generated 0 order intent(s), turnover=0."
+8,Execution Planner,execution_planner,True,execution_planner_v3,Execution Planner v3 found no rebalance orders. Portfolio already matches target allocation.
+9,Safety Governor,safety,True,,Trade Safety Governor status: REJECTED. Decision: BLOCK_EXECUTION. Reason: No broker orders available..
+10,Execution Engine,execution_engine,True,execution_engine_v3,"Execution Engine v3 processed 0 order(s): executed=0, duplicates=0, rejected=0."
 11,Paper Broker,paper_broker,True,paper_broker_v3,"Paper Broker v3 consumed 0 execution fill row(s), created 0 new broker fill(s), positions=2, cash=117465.0."
 12,Broker Ledger v4.1,broker_ledger,True,broker_ledger_v4_1,"Broker Ledger v4.1 loaded the authoritative Paper Broker snapshot. Cash=30000.0, market_value=70000.0, equity=100000.0, balanced=True."
 13,Mark-to-Market v4,mark_to_market,True,mark_to_market_v4,"Mark-to-Market v4 valued 2 Broker Ledger position(s). Equity=100000.0, PnL=0.0, drawdown=0.0."

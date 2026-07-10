@@ -147,43 +147,9 @@
       },
       "regime": {
         "success": true,
-        "regimes": {
-          "trend_regime": {
-            "bear": {
-              "count": 72,
-              "win_rate": 0.347222,
-              "avg_return": -0.06630284,
-              "median_return": -0.04944417
-            },
-            "bull": {
-              "count": 655,
-              "win_rate": 0.667176,
-              "avg_return": 0.52467047,
-              "median_return": 0.33108114
-            },
-            "sideways": {
-              "count": 144,
-              "win_rate": 0.493056,
-              "avg_return": 0.25107525,
-              "median_return": -0.00701844
-            }
-          },
-          "volatility_regime": {
-            "high_volatility": {
-              "count": 755,
-              "win_rate": 0.646358,
-              "avg_return": 0.46662282,
-              "median_return": 0.28956361
-            },
-            "low_volatility": {
-              "count": 116,
-              "win_rate": 0.387931,
-              "avg_return": 0.19603413,
-              "median_return": -0.04477838
-            }
-          }
-        },
-        "regime_score": 0.8
+        "regimes": {},
+        "regime_score": 0.5,
+        "note": "No regime labels on trade rows; neutral regime score assigned."
       },
       "outliers": {
         "success": true,
@@ -226,11 +192,11 @@
     },
     "confidence": {
       "success": true,
-      "alpha_confidence": 0.745307,
-      "confidence_label": "promising_alpha_candidate",
+      "alpha_confidence": 0.685307,
+      "confidence_label": "experimental_alpha_candidate",
       "components": {
         "rolling_stability": 0.636364,
-        "regime_score": 0.8,
+        "regime_score": 0.5,
         "outlier_score": 0.707666,
         "robustness_score": 0.842882
       }
@@ -241,7 +207,7 @@
       "non_overlap_trades": true,
       "asset_concentration": true,
       "positive_expectancy": true,
-      "regime_positive": true
+      "regime_positive": false
     },
     "promoted": false
   },
@@ -401,43 +367,9 @@
       },
       "regime": {
         "success": true,
-        "regimes": {
-          "trend_regime": {
-            "bear": {
-              "count": 101,
-              "win_rate": 0.277228,
-              "avg_return": -0.08876346,
-              "median_return": -0.06830378
-            },
-            "bull": {
-              "count": 1017,
-              "win_rate": 0.608653,
-              "avg_return": 0.44460437,
-              "median_return": 0.1584492
-            },
-            "sideways": {
-              "count": 226,
-              "win_rate": 0.544248,
-              "avg_return": 0.29459702,
-              "median_return": 0.10372648
-            }
-          },
-          "volatility_regime": {
-            "high_volatility": {
-              "count": 904,
-              "win_rate": 0.636062,
-              "avg_return": 0.49060663,
-              "median_return": 0.24673641
-            },
-            "low_volatility": {
-              "count": 440,
-              "win_rate": 0.443182,
-              "avg_return": 0.15060924,
-              "median_return": -0.03791216
-            }
-          }
-        },
-        "regime_score": 0.8
+        "regimes": {},
+        "regime_score": 0.5,
+        "note": "No regime labels on trade rows; neutral regime score assigned."
       },
       "outliers": {
         "success": true,
@@ -480,11 +412,11 @@
     },
     "confidence": {
       "success": true,
-      "alpha_confidence": 0.701407,
-      "confidence_label": "promising_alpha_candidate",
+      "alpha_confidence": 0.641406,
+      "confidence_label": "experimental_alpha_candidate",
       "components": {
         "rolling_stability": 0.5,
-        "regime_score": 0.8,
+        "regime_score": 0.5,
         "outlier_score": 0.642635,
         "robustness_score": 0.876265
       }
@@ -495,1253 +427,7 @@
       "non_overlap_trades": true,
       "asset_concentration": true,
       "positive_expectancy": true,
-      "regime_positive": true
-    },
-    "promoted": false
-  },
-  {
-    "success": true,
-    "hypothesis_id": "breadth_positive_72_0_66",
-    "metrics": {
-      "hypothesis_id": "breadth_positive_72_0_66",
-      "family": "breadth",
-      "alpha_score": 3.070836,
-      "passed_min_trades": true,
-      "description": "Long leader when 66%+ of assets are positive over 72.",
-      "signal_asset_rule": "leader_asset_72",
-      "hold_period": 72,
-      "direction": "LONG",
-      "raw_trade_count": 1277,
-      "raw_win_rate": 0.570869,
-      "raw_avg_return": 0.3542796,
-      "raw_median_return": 0.08539195,
-      "raw_std_return": 0.8277188,
-      "raw_min_return": -0.69268408,
-      "raw_max_return": 4.51286557,
-      "raw_gross_profit": 588.20271424,
-      "raw_gross_loss": 135.78766921,
-      "raw_profit_factor": 4.331783,
-      "raw_sharpe_like": 15.295327,
-      "raw_sortino_like": 74.208961,
-      "raw_final_equity": 1.9882587062959399e+86,
-      "raw_total_return": 1.9882587062959399e+86,
-      "raw_max_drawdown": -1.0,
-      "raw_recovery_factor": 1.9882587062959399e+86,
-      "raw_expectancy": 0.3542796,
-      "non_overlap_trade_count": 475,
-      "non_overlap_win_rate": 0.562105,
-      "non_overlap_avg_return": 0.34891834,
-      "non_overlap_median_return": 0.0877775,
-      "non_overlap_std_return": 0.83790327,
-      "non_overlap_min_return": -0.69268408,
-      "non_overlap_max_return": 4.11704293,
-      "non_overlap_gross_profit": 216.97741093,
-      "non_overlap_gross_loss": 51.24119784,
-      "non_overlap_profit_factor": 4.234433,
-      "non_overlap_sharpe_like": 9.075629,
-      "non_overlap_sortino_like": 43.487504,
-      "non_overlap_final_equity": 5.364110617558244e+30,
-      "non_overlap_total_return": 5.364110617558244e+30,
-      "non_overlap_max_drawdown": -0.99999987,
-      "non_overlap_recovery_factor": 5.364111296294039e+30,
-      "non_overlap_expectancy": 0.34891834,
-      "asset_concentration": 0.581832
-    },
-    "validation": {
-      "rolling": {
-        "success": true,
-        "window_days": 180,
-        "window_count": 11,
-        "positive_window_count": 7,
-        "stability_score": 0.636364,
-        "windows": [
-          {
-            "start": "2020-05-19 00:00:00",
-            "end": "2020-11-15 00:00:00",
-            "trade_count": 161,
-            "win_rate": 0.565217,
-            "avg_return": 0.39888881,
-            "median_return": 0.28404578
-          },
-          {
-            "start": "2020-11-15 00:00:00",
-            "end": "2021-05-14 00:00:00",
-            "trade_count": 180,
-            "win_rate": 0.866667,
-            "avg_return": 1.12099628,
-            "median_return": 0.95763059
-          },
-          {
-            "start": "2021-05-14 00:00:00",
-            "end": "2021-11-10 00:00:00",
-            "trade_count": 141,
-            "win_rate": 0.780142,
-            "avg_return": 0.72974572,
-            "median_return": 0.32212512
-          },
-          {
-            "start": "2021-11-10 00:00:00",
-            "end": "2022-05-09 00:00:00",
-            "trade_count": 68,
-            "win_rate": 0.0,
-            "avg_return": -0.4906352,
-            "median_return": -0.52079579
-          },
-          {
-            "start": "2022-05-09 00:00:00",
-            "end": "2022-11-05 00:00:00",
-            "trade_count": 19,
-            "win_rate": 0.052632,
-            "avg_return": -0.22035116,
-            "median_return": -0.28611546
-          },
-          {
-            "start": "2022-11-05 00:00:00",
-            "end": "2023-05-04 00:00:00",
-            "trade_count": 108,
-            "win_rate": 0.435185,
-            "avg_return": -0.01463894,
-            "median_return": -0.0097517
-          },
-          {
-            "start": "2023-05-04 00:00:00",
-            "end": "2023-10-31 00:00:00",
-            "trade_count": 88,
-            "win_rate": 0.602273,
-            "avg_return": 0.37671623,
-            "median_return": 0.07091207
-          },
-          {
-            "start": "2023-10-31 00:00:00",
-            "end": "2024-04-28 00:00:00",
-            "trade_count": 180,
-            "win_rate": 0.688889,
-            "avg_return": 0.41295531,
-            "median_return": 0.42844049
-          },
-          {
-            "start": "2024-04-28 00:00:00",
-            "end": "2024-10-25 00:00:00",
-            "trade_count": 71,
-            "win_rate": 0.478873,
-            "avg_return": 0.00908485,
-            "median_return": -0.05428945
-          },
-          {
-            "start": "2024-10-25 00:00:00",
-            "end": "2025-04-23 00:00:00",
-            "trade_count": 97,
-            "win_rate": 0.257732,
-            "avg_return": -0.07078105,
-            "median_return": -0.11477589
-          },
-          {
-            "start": "2025-04-23 00:00:00",
-            "end": "2025-10-20 00:00:00",
-            "trade_count": 164,
-            "win_rate": 0.536585,
-            "avg_return": 0.13042131,
-            "median_return": 0.05371523
-          }
-        ]
-      },
-      "regime": {
-        "success": true,
-        "regimes": {
-          "trend_regime": {
-            "bear": {
-              "count": 86,
-              "win_rate": 0.325581,
-              "avg_return": -0.06649511,
-              "median_return": -0.05160171
-            },
-            "bull": {
-              "count": 972,
-              "win_rate": 0.597737,
-              "avg_return": 0.40444696,
-              "median_return": 0.13531714
-            },
-            "sideways": {
-              "count": 219,
-              "win_rate": 0.547945,
-              "avg_return": 0.2968547,
-              "median_return": 0.10343579
-            }
-          },
-          "volatility_regime": {
-            "high_volatility": {
-              "count": 853,
-              "win_rate": 0.63306,
-              "avg_return": 0.4551704,
-              "median_return": 0.24051651
-            },
-            "low_volatility": {
-              "count": 424,
-              "win_rate": 0.445755,
-              "avg_return": 0.15130825,
-              "median_return": -0.03973318
-            }
-          }
-        },
-        "regime_score": 0.8
-      },
-      "outliers": {
-        "success": true,
-        "base_mean": 0.3542796,
-        "tests": {
-          "remove_top_1pct": {
-            "cutoff": 3.61396414,
-            "remaining_count": 1264,
-            "trimmed_mean": 0.31679057,
-            "mean_retention_ratio": 0.894182
-          },
-          "remove_top_5pct": {
-            "cutoff": 2.04311238,
-            "remaining_count": 1213,
-            "trimmed_mean": 0.21773819,
-            "mean_retention_ratio": 0.614594
-          },
-          "remove_top_10pct": {
-            "cutoff": 1.34504042,
-            "remaining_count": 1149,
-            "trimmed_mean": 0.13656308,
-            "mean_retention_ratio": 0.385467
-          }
-        },
-        "outlier_score": 0.631415
-      },
-      "robustness": {
-        "success": true,
-        "trade_count": 1277,
-        "asset_counts": {
-          "SOL-USD": 743,
-          "ETH-USD": 291,
-          "BTC-USD": 243
-        },
-        "asset_concentration": 0.581832,
-        "sample_score": 1.0,
-        "concentration_score": 0.836335,
-        "robustness_score": 0.873258
-      }
-    },
-    "confidence": {
-      "success": true,
-      "alpha_confidence": 0.73917,
-      "confidence_label": "promising_alpha_candidate",
-      "components": {
-        "rolling_stability": 0.636364,
-        "regime_score": 0.8,
-        "outlier_score": 0.631415,
-        "robustness_score": 0.873258
-      }
-    },
-    "promotion_checks": {
-      "confidence": false,
-      "rolling_stability": false,
-      "non_overlap_trades": true,
-      "asset_concentration": true,
-      "positive_expectancy": true,
-      "regime_positive": true
-    },
-    "promoted": false
-  },
-  {
-    "success": true,
-    "hypothesis_id": "breadth_positive_72_0_5",
-    "metrics": {
-      "hypothesis_id": "breadth_positive_72_0_5",
-      "family": "breadth",
-      "alpha_score": 3.061974,
-      "passed_min_trades": true,
-      "description": "Long leader when 50%+ of assets are positive over 72.",
-      "signal_asset_rule": "leader_asset_72",
-      "hold_period": 72,
-      "direction": "LONG",
-      "raw_trade_count": 1293,
-      "raw_win_rate": 0.573086,
-      "raw_avg_return": 0.35152689,
-      "raw_median_return": 0.08568239,
-      "raw_std_return": 0.82314704,
-      "raw_min_return": -0.69268408,
-      "raw_max_return": 4.51286557,
-      "raw_gross_profit": 590.50891299,
-      "raw_gross_loss": 135.98463891,
-      "raw_profit_factor": 4.342468,
-      "raw_sharpe_like": 15.356081,
-      "raw_sortino_like": 73.992501,
-      "raw_final_equity": 1.2303905022599052e+87,
-      "raw_total_return": 1.2303905022599052e+87,
-      "raw_max_drawdown": -1.0,
-      "raw_recovery_factor": 1.2303905022599052e+87,
-      "raw_expectancy": 0.35152689,
-      "non_overlap_trade_count": 481,
-      "non_overlap_win_rate": 0.565489,
-      "non_overlap_avg_return": 0.34682982,
-      "non_overlap_median_return": 0.0877775,
-      "non_overlap_std_return": 0.83317842,
-      "non_overlap_min_return": -0.69268408,
-      "non_overlap_max_return": 4.11704293,
-      "non_overlap_gross_profit": 218.14597427,
-      "non_overlap_gross_loss": 51.32083177,
-      "non_overlap_profit_factor": 4.250632,
-      "non_overlap_sharpe_like": 9.129583,
-      "non_overlap_sortino_like": 43.509334,
-      "non_overlap_final_equity": 1.3341427257085372e+31,
-      "non_overlap_total_return": 1.3341427257085372e+31,
-      "non_overlap_max_drawdown": -0.99999987,
-      "non_overlap_recovery_factor": 1.334142894521317e+31,
-      "non_overlap_expectancy": 0.34682982,
-      "asset_concentration": 0.574633
-    },
-    "validation": {
-      "rolling": {
-        "success": true,
-        "window_days": 180,
-        "window_count": 12,
-        "positive_window_count": 7,
-        "stability_score": 0.583333,
-        "windows": [
-          {
-            "start": "2020-03-13 00:00:00",
-            "end": "2020-09-09 00:00:00",
-            "trade_count": 128,
-            "win_rate": 0.710938,
-            "avg_return": 0.50426074,
-            "median_return": 0.38519056
-          },
-          {
-            "start": "2020-09-09 00:00:00",
-            "end": "2021-03-08 00:00:00",
-            "trade_count": 162,
-            "win_rate": 0.771605,
-            "avg_return": 1.05895066,
-            "median_return": 0.9635363
-          },
-          {
-            "start": "2021-03-08 00:00:00",
-            "end": "2021-09-04 00:00:00",
-            "trade_count": 141,
-            "win_rate": 0.77305,
-            "avg_return": 0.91265027,
-            "median_return": 0.72742462
-          },
-          {
-            "start": "2021-09-04 00:00:00",
-            "end": "2022-03-03 00:00:00",
-            "trade_count": 113,
-            "win_rate": 0.389381,
-            "avg_return": -0.12596968,
-            "median_return": -0.26865162
-          },
-          {
-            "start": "2022-03-03 00:00:00",
-            "end": "2022-08-30 00:00:00",
-            "trade_count": 34,
-            "win_rate": 0.029412,
-            "avg_return": -0.44545215,
-            "median_return": -0.58085128
-          },
-          {
-            "start": "2022-08-30 00:00:00",
-            "end": "2023-02-26 00:00:00",
-            "trade_count": 48,
-            "win_rate": 0.3125,
-            "avg_return": -0.07411186,
-            "median_return": -0.06353692
-          },
-          {
-            "start": "2023-02-26 00:00:00",
-            "end": "2023-08-25 00:00:00",
-            "trade_count": 140,
-            "win_rate": 0.5,
-            "avg_return": 0.02679612,
-            "median_return": 0.00069705
-          },
-          {
-            "start": "2023-08-25 00:00:00",
-            "end": "2024-02-21 00:00:00",
-            "trade_count": 128,
-            "win_rate": 1.0,
-            "avg_return": 0.83815996,
-            "median_return": 0.72583227
-          },
-          {
-            "start": "2024-02-21 00:00:00",
-            "end": "2024-08-19 00:00:00",
-            "trade_count": 120,
-            "win_rate": 0.225,
-            "avg_return": -0.08856559,
-            "median_return": -0.12600472
-          },
-          {
-            "start": "2024-08-19 00:00:00",
-            "end": "2025-02-15 00:00:00",
-            "trade_count": 115,
-            "win_rate": 0.373913,
-            "avg_return": 0.00769885,
-            "median_return": -0.08831285
-          },
-          {
-            "start": "2025-02-15 00:00:00",
-            "end": "2025-08-14 00:00:00",
-            "trade_count": 99,
-            "win_rate": 0.888889,
-            "avg_return": 0.40651088,
-            "median_return": 0.40094219
-          },
-          {
-            "start": "2025-08-14 00:00:00",
-            "end": "2026-02-10 00:00:00",
-            "trade_count": 65,
-            "win_rate": 0.0,
-            "avg_return": -0.29008434,
-            "median_return": -0.30553739
-          }
-        ]
-      },
-      "regime": {
-        "success": true,
-        "regimes": {
-          "trend_regime": {
-            "bear": {
-              "count": 86,
-              "win_rate": 0.325581,
-              "avg_return": -0.06649511,
-              "median_return": -0.05160171
-            },
-            "bull": {
-              "count": 972,
-              "win_rate": 0.597737,
-              "avg_return": 0.40444696,
-              "median_return": 0.13531714
-            },
-            "sideways": {
-              "count": 235,
-              "win_rate": 0.561702,
-              "avg_return": 0.28561876,
-              "median_return": 0.10343579
-            }
-          },
-          "volatility_regime": {
-            "high_volatility": {
-              "count": 855,
-              "win_rate": 0.633918,
-              "avg_return": 0.45486323,
-              "median_return": 0.24051651
-            },
-            "low_volatility": {
-              "count": 438,
-              "win_rate": 0.454338,
-              "avg_return": 0.1498087,
-              "median_return": -0.03461228
-            }
-          }
-        },
-        "regime_score": 0.8
-      },
-      "outliers": {
-        "success": true,
-        "base_mean": 0.35152689,
-        "tests": {
-          "remove_top_1pct": {
-            "cutoff": 3.59941854,
-            "remaining_count": 1280,
-            "trimmed_mean": 0.31447852,
-            "mean_retention_ratio": 0.894607
-          },
-          "remove_top_5pct": {
-            "cutoff": 2.03652149,
-            "remaining_count": 1228,
-            "trimmed_mean": 0.21513558,
-            "mean_retention_ratio": 0.612003
-          },
-          "remove_top_10pct": {
-            "cutoff": 1.32138603,
-            "remaining_count": 1163,
-            "trimmed_mean": 0.13445223,
-            "mean_retention_ratio": 0.382481
-          }
-        },
-        "outlier_score": 0.629697
-      },
-      "robustness": {
-        "success": true,
-        "trade_count": 1293,
-        "asset_counts": {
-          "SOL-USD": 743,
-          "ETH-USD": 294,
-          "BTC-USD": 256
-        },
-        "asset_concentration": 0.574633,
-        "sample_score": 1.0,
-        "concentration_score": 0.850735,
-        "robustness_score": 0.877301
-      }
-    },
-    "confidence": {
-      "success": true,
-      "alpha_confidence": 0.72413,
-      "confidence_label": "promising_alpha_candidate",
-      "components": {
-        "rolling_stability": 0.583333,
-        "regime_score": 0.8,
-        "outlier_score": 0.629697,
-        "robustness_score": 0.877301
-      }
-    },
-    "promotion_checks": {
-      "confidence": false,
-      "rolling_stability": false,
-      "non_overlap_trades": true,
-      "asset_concentration": true,
-      "positive_expectancy": true,
-      "regime_positive": true
-    },
-    "promoted": false
-  },
-  {
-    "success": true,
-    "hypothesis_id": "breadth_dispersion_breakout_24",
-    "metrics": {
-      "hypothesis_id": "breadth_dispersion_breakout_24",
-      "family": "breadth",
-      "alpha_score": 3.009334,
-      "passed_min_trades": true,
-      "description": "Long leader when cross-sectional spread is elevated over 24.",
-      "signal_asset_rule": "leader_asset_24",
-      "hold_period": 24,
-      "direction": "LONG",
-      "raw_trade_count": 489,
-      "raw_win_rate": 0.619632,
-      "raw_avg_return": 0.29140065,
-      "raw_median_return": 0.11056451,
-      "raw_std_return": 0.56605055,
-      "raw_min_return": -0.58356319,
-      "raw_max_return": 3.05772129,
-      "raw_gross_profit": 174.02176016,
-      "raw_gross_loss": 31.52683999,
-      "raw_profit_factor": 5.519797,
-      "raw_sharpe_like": 11.383865,
-      "raw_sortino_like": 49.514031,
-      "raw_final_equity": 1.1129221029791054e+37,
-      "raw_total_return": 1.1129221029791054e+37,
-      "raw_max_drawdown": -0.99988643,
-      "raw_recovery_factor": 1.1130485127858057e+37,
-      "raw_expectancy": 0.29140065,
-      "non_overlap_trade_count": 489,
-      "non_overlap_win_rate": 0.619632,
-      "non_overlap_avg_return": 0.29140065,
-      "non_overlap_median_return": 0.11056451,
-      "non_overlap_std_return": 0.56605055,
-      "non_overlap_min_return": -0.58356319,
-      "non_overlap_max_return": 3.05772129,
-      "non_overlap_gross_profit": 174.02176016,
-      "non_overlap_gross_loss": 31.52683999,
-      "non_overlap_profit_factor": 5.519797,
-      "non_overlap_sharpe_like": 11.383865,
-      "non_overlap_sortino_like": 49.514031,
-      "non_overlap_final_equity": 1.1129221029791038e+37,
-      "non_overlap_total_return": 1.1129221029791038e+37,
-      "non_overlap_max_drawdown": -0.99975049,
-      "non_overlap_recovery_factor": 1.1131998610382466e+37,
-      "non_overlap_expectancy": 0.29140065,
-      "asset_concentration": 0.672802
-    },
-    "validation": {
-      "rolling": {
-        "success": true,
-        "window_days": 180,
-        "window_count": 12,
-        "positive_window_count": 6,
-        "stability_score": 0.5,
-        "windows": [
-          {
-            "start": "2020-02-12 00:00:00",
-            "end": "2020-08-10 00:00:00",
-            "trade_count": 56,
-            "win_rate": 0.678571,
-            "avg_return": 0.37101031,
-            "median_return": 0.10030593
-          },
-          {
-            "start": "2020-08-10 00:00:00",
-            "end": "2021-02-06 00:00:00",
-            "trade_count": 112,
-            "win_rate": 0.857143,
-            "avg_return": 0.54327642,
-            "median_return": 0.33126759
-          },
-          {
-            "start": "2021-02-06 00:00:00",
-            "end": "2021-08-05 00:00:00",
-            "trade_count": 93,
-            "win_rate": 0.688172,
-            "avg_return": 0.30900388,
-            "median_return": 0.3445953
-          },
-          {
-            "start": "2021-08-05 00:00:00",
-            "end": "2022-02-01 00:00:00",
-            "trade_count": 52,
-            "win_rate": 0.480769,
-            "avg_return": 0.38086426,
-            "median_return": -0.00802596
-          },
-          {
-            "start": "2022-02-01 00:00:00",
-            "end": "2022-07-31 00:00:00",
-            "trade_count": 12,
-            "win_rate": 0.25,
-            "avg_return": -0.11549142,
-            "median_return": -0.15334312
-          },
-          {
-            "start": "2022-07-31 00:00:00",
-            "end": "2023-01-27 00:00:00",
-            "trade_count": 20,
-            "win_rate": 0.25,
-            "avg_return": -0.05016141,
-            "median_return": -0.08190248
-          },
-          {
-            "start": "2023-01-27 00:00:00",
-            "end": "2023-07-26 00:00:00",
-            "trade_count": 23,
-            "win_rate": 0.304348,
-            "avg_return": -0.02403125,
-            "median_return": -0.02602268
-          },
-          {
-            "start": "2023-07-26 00:00:00",
-            "end": "2024-01-22 00:00:00",
-            "trade_count": 58,
-            "win_rate": 0.775862,
-            "avg_return": 0.32067126,
-            "median_return": 0.30715466
-          },
-          {
-            "start": "2024-01-22 00:00:00",
-            "end": "2024-07-20 00:00:00",
-            "trade_count": 18,
-            "win_rate": 0.0,
-            "avg_return": -0.18675127,
-            "median_return": -0.20489304
-          },
-          {
-            "start": "2024-07-20 00:00:00",
-            "end": "2025-01-16 00:00:00",
-            "trade_count": 5,
-            "win_rate": 0.0,
-            "avg_return": -0.16515426,
-            "median_return": -0.19261541
-          },
-          {
-            "start": "2025-01-16 00:00:00",
-            "end": "2025-07-15 00:00:00",
-            "trade_count": 20,
-            "win_rate": 0.2,
-            "avg_return": -0.11331317,
-            "median_return": -0.08587997
-          },
-          {
-            "start": "2025-07-15 00:00:00",
-            "end": "2026-01-11 00:00:00",
-            "trade_count": 20,
-            "win_rate": 0.8,
-            "avg_return": 0.1562775,
-            "median_return": 0.18764587
-          }
-        ]
-      },
-      "regime": {
-        "success": true,
-        "regimes": {
-          "trend_regime": {
-            "bear": {
-              "count": 32,
-              "win_rate": 0.3125,
-              "avg_return": -0.02885776,
-              "median_return": -0.04101523
-            },
-            "bull": {
-              "count": 371,
-              "win_rate": 0.657682,
-              "avg_return": 0.33724257,
-              "median_return": 0.22407137
-            },
-            "sideways": {
-              "count": 86,
-              "win_rate": 0.569767,
-              "avg_return": 0.21280671,
-              "median_return": 0.03609035
-            }
-          },
-          "volatility_regime": {
-            "high_volatility": {
-              "count": 383,
-              "win_rate": 0.694517,
-              "avg_return": 0.36582022,
-              "median_return": 0.25300435
-            },
-            "low_volatility": {
-              "count": 106,
-              "win_rate": 0.349057,
-              "avg_return": 0.02250732,
-              "median_return": -0.0469533
-            }
-          }
-        },
-        "regime_score": 0.8
-      },
-      "outliers": {
-        "success": true,
-        "base_mean": 0.29140065,
-        "tests": {
-          "remove_top_1pct": {
-            "cutoff": 2.49691979,
-            "remaining_count": 484,
-            "trimmed_mean": 0.26622525,
-            "mean_retention_ratio": 0.913606
-          },
-          "remove_top_5pct": {
-            "cutoff": 1.36136719,
-            "remaining_count": 464,
-            "trimmed_mean": 0.20558032,
-            "mean_retention_ratio": 0.70549
-          },
-          "remove_top_10pct": {
-            "cutoff": 1.04181041,
-            "remaining_count": 440,
-            "trimmed_mean": 0.15232781,
-            "mean_retention_ratio": 0.522744
-          }
-        },
-        "outlier_score": 0.713946
-      },
-      "robustness": {
-        "success": true,
-        "trade_count": 489,
-        "asset_counts": {
-          "SOL-USD": 329,
-          "ETH-USD": 93,
-          "BTC-USD": 67
-        },
-        "asset_concentration": 0.672802,
-        "sample_score": 1.0,
-        "concentration_score": 0.654397,
-        "robustness_score": 0.837526
-      }
-    },
-    "confidence": {
-      "success": true,
-      "alpha_confidence": 0.704047,
-      "confidence_label": "promising_alpha_candidate",
-      "components": {
-        "rolling_stability": 0.5,
-        "regime_score": 0.8,
-        "outlier_score": 0.713946,
-        "robustness_score": 0.837526
-      }
-    },
-    "promotion_checks": {
-      "confidence": false,
-      "rolling_stability": false,
-      "non_overlap_trades": true,
-      "asset_concentration": true,
-      "positive_expectancy": true,
-      "regime_positive": true
-    },
-    "promoted": false
-  },
-  {
-    "success": true,
-    "hypothesis_id": "breadth_positive_72_0_8",
-    "metrics": {
-      "hypothesis_id": "breadth_positive_72_0_8",
-      "family": "breadth",
-      "alpha_score": 2.856166,
-      "passed_min_trades": true,
-      "description": "Long leader when 80%+ of assets are positive over 72.",
-      "signal_asset_rule": "leader_asset_72",
-      "hold_period": 72,
-      "direction": "LONG",
-      "raw_trade_count": 963,
-      "raw_win_rate": 0.553479,
-      "raw_avg_return": 0.3381266,
-      "raw_median_return": 0.06810408,
-      "raw_std_return": 0.8456556,
-      "raw_min_return": -0.69268408,
-      "raw_max_return": 4.51286557,
-      "raw_gross_profit": 430.40989125,
-      "raw_gross_loss": 104.79397863,
-      "raw_profit_factor": 4.107201,
-      "raw_sharpe_like": 12.407919,
-      "raw_sortino_like": 60.992078,
-      "raw_final_equity": 9.603653587745881e+58,
-      "raw_total_return": 9.603653587745881e+58,
-      "raw_max_drawdown": -1.0,
-      "raw_recovery_factor": 9.603653587745881e+58,
-      "raw_expectancy": 0.3381266,
-      "non_overlap_trade_count": 365,
-      "non_overlap_win_rate": 0.550685,
-      "non_overlap_avg_return": 0.33502806,
-      "non_overlap_median_return": 0.06706516,
-      "non_overlap_std_return": 0.84337297,
-      "non_overlap_min_return": -0.68704699,
-      "non_overlap_max_return": 4.11704293,
-      "non_overlap_gross_profit": 161.36046294,
-      "non_overlap_gross_loss": 39.07521931,
-      "non_overlap_profit_factor": 4.129483,
-      "non_overlap_sharpe_like": 7.589409,
-      "non_overlap_sortino_like": 37.073435,
-      "non_overlap_final_equity": 1.3893139716427649e+22,
-      "non_overlap_total_return": 1.3893139716427649e+22,
-      "non_overlap_max_drawdown": -0.9999903,
-      "non_overlap_recovery_factor": 1.3893274535930314e+22,
-      "non_overlap_expectancy": 0.33502806,
-      "asset_concentration": 0.639668
-    },
-    "validation": {
-      "rolling": {
-        "success": true,
-        "window_days": 180,
-        "window_count": 11,
-        "positive_window_count": 6,
-        "stability_score": 0.545455,
-        "windows": [
-          {
-            "start": "2020-05-19 00:00:00",
-            "end": "2020-11-15 00:00:00",
-            "trade_count": 135,
-            "win_rate": 0.518519,
-            "avg_return": 0.2800467,
-            "median_return": 0.1360637
-          },
-          {
-            "start": "2020-11-15 00:00:00",
-            "end": "2021-05-14 00:00:00",
-            "trade_count": 129,
-            "win_rate": 0.829457,
-            "avg_return": 1.09347393,
-            "median_return": 0.69657135
-          },
-          {
-            "start": "2021-05-14 00:00:00",
-            "end": "2021-11-10 00:00:00",
-            "trade_count": 100,
-            "win_rate": 0.77,
-            "avg_return": 0.79254738,
-            "median_return": 0.28498424
-          },
-          {
-            "start": "2021-11-10 00:00:00",
-            "end": "2022-05-09 00:00:00",
-            "trade_count": 47,
-            "win_rate": 0.0,
-            "avg_return": -0.49473077,
-            "median_return": -0.55855429
-          },
-          {
-            "start": "2022-05-09 00:00:00",
-            "end": "2022-11-05 00:00:00",
-            "trade_count": 6,
-            "win_rate": 0.0,
-            "avg_return": -0.31777531,
-            "median_return": -0.32250623
-          },
-          {
-            "start": "2022-11-05 00:00:00",
-            "end": "2023-05-04 00:00:00",
-            "trade_count": 81,
-            "win_rate": 0.45679,
-            "avg_return": -0.02148222,
-            "median_return": -0.0088278
-          },
-          {
-            "start": "2023-05-04 00:00:00",
-            "end": "2023-10-31 00:00:00",
-            "trade_count": 37,
-            "win_rate": 0.351351,
-            "avg_return": 0.16416554,
-            "median_return": -0.04741595
-          },
-          {
-            "start": "2023-10-31 00:00:00",
-            "end": "2024-04-28 00:00:00",
-            "trade_count": 180,
-            "win_rate": 0.688889,
-            "avg_return": 0.41295531,
-            "median_return": 0.42844049
-          },
-          {
-            "start": "2024-04-28 00:00:00",
-            "end": "2024-10-25 00:00:00",
-            "trade_count": 29,
-            "win_rate": 0.448276,
-            "avg_return": -0.01380714,
-            "median_return": -0.05428945
-          },
-          {
-            "start": "2024-10-25 00:00:00",
-            "end": "2025-04-23 00:00:00",
-            "trade_count": 85,
-            "win_rate": 0.188235,
-            "avg_return": -0.10039602,
-            "median_return": -0.12645141
-          },
-          {
-            "start": "2025-04-23 00:00:00",
-            "end": "2025-10-20 00:00:00",
-            "trade_count": 134,
-            "win_rate": 0.567164,
-            "avg_return": 0.17107298,
-            "median_return": 0.10311955
-          }
-        ]
-      },
-      "regime": {
-        "success": true,
-        "regimes": {
-          "trend_regime": {
-            "bear": {
-              "count": 69,
-              "win_rate": 0.347826,
-              "avg_return": -0.05917364,
-              "median_return": -0.04812083
-            },
-            "bull": {
-              "count": 710,
-              "win_rate": 0.577465,
-              "avg_return": 0.39306928,
-              "median_return": 0.12126842
-            },
-            "sideways": {
-              "count": 184,
-              "win_rate": 0.538043,
-              "avg_return": 0.27510709,
-              "median_return": 0.10632515
-            }
-          },
-          "volatility_regime": {
-            "high_volatility": {
-              "count": 647,
-              "win_rate": 0.613601,
-              "avg_return": 0.40943167,
-              "median_return": 0.21093656
-            },
-            "low_volatility": {
-              "count": 316,
-              "win_rate": 0.43038,
-              "avg_return": 0.19213171,
-              "median_return": -0.04703298
-            }
-          }
-        },
-        "regime_score": 0.8
-      },
-      "outliers": {
-        "success": true,
-        "base_mean": 0.3381266,
-        "tests": {
-          "remove_top_1pct": {
-            "cutoff": 3.7192376,
-            "remaining_count": 953,
-            "trimmed_mean": 0.29913053,
-            "mean_retention_ratio": 0.88467
-          },
-          "remove_top_5pct": {
-            "cutoff": 2.084396,
-            "remaining_count": 914,
-            "trimmed_mean": 0.1897688,
-            "mean_retention_ratio": 0.561236
-          },
-          "remove_top_10pct": {
-            "cutoff": 1.20718893,
-            "remaining_count": 866,
-            "trimmed_mean": 0.10945428,
-            "mean_retention_ratio": 0.323708
-          }
-        },
-        "outlier_score": 0.589871
-      },
-      "robustness": {
-        "success": true,
-        "trade_count": 963,
-        "asset_counts": {
-          "SOL-USD": 616,
-          "ETH-USD": 233,
-          "BTC-USD": 114
-        },
-        "asset_concentration": 0.639668,
-        "sample_score": 1.0,
-        "concentration_score": 0.720665,
-        "robustness_score": 0.840862
-      }
-    },
-    "confidence": {
-      "success": true,
-      "alpha_confidence": 0.693869,
-      "confidence_label": "experimental_alpha_candidate",
-      "components": {
-        "rolling_stability": 0.545455,
-        "regime_score": 0.8,
-        "outlier_score": 0.589871,
-        "robustness_score": 0.840862
-      }
-    },
-    "promotion_checks": {
-      "confidence": false,
-      "rolling_stability": false,
-      "non_overlap_trades": true,
-      "asset_concentration": true,
-      "positive_expectancy": true,
-      "regime_positive": true
-    },
-    "promoted": false
-  },
-  {
-    "success": true,
-    "hypothesis_id": "breadth_positive_72_1_0",
-    "metrics": {
-      "hypothesis_id": "breadth_positive_72_1_0",
-      "family": "breadth",
-      "alpha_score": 2.856166,
-      "passed_min_trades": true,
-      "description": "Long leader when 100%+ of assets are positive over 72.",
-      "signal_asset_rule": "leader_asset_72",
-      "hold_period": 72,
-      "direction": "LONG",
-      "raw_trade_count": 963,
-      "raw_win_rate": 0.553479,
-      "raw_avg_return": 0.3381266,
-      "raw_median_return": 0.06810408,
-      "raw_std_return": 0.8456556,
-      "raw_min_return": -0.69268408,
-      "raw_max_return": 4.51286557,
-      "raw_gross_profit": 430.40989125,
-      "raw_gross_loss": 104.79397863,
-      "raw_profit_factor": 4.107201,
-      "raw_sharpe_like": 12.407919,
-      "raw_sortino_like": 60.992078,
-      "raw_final_equity": 9.603653587745881e+58,
-      "raw_total_return": 9.603653587745881e+58,
-      "raw_max_drawdown": -1.0,
-      "raw_recovery_factor": 9.603653587745881e+58,
-      "raw_expectancy": 0.3381266,
-      "non_overlap_trade_count": 365,
-      "non_overlap_win_rate": 0.550685,
-      "non_overlap_avg_return": 0.33502806,
-      "non_overlap_median_return": 0.06706516,
-      "non_overlap_std_return": 0.84337297,
-      "non_overlap_min_return": -0.68704699,
-      "non_overlap_max_return": 4.11704293,
-      "non_overlap_gross_profit": 161.36046294,
-      "non_overlap_gross_loss": 39.07521931,
-      "non_overlap_profit_factor": 4.129483,
-      "non_overlap_sharpe_like": 7.589409,
-      "non_overlap_sortino_like": 37.073435,
-      "non_overlap_final_equity": 1.3893139716427649e+22,
-      "non_overlap_total_return": 1.3893139716427649e+22,
-      "non_overlap_max_drawdown": -0.9999903,
-      "non_overlap_recovery_factor": 1.3893274535930314e+22,
-      "non_overlap_expectancy": 0.33502806,
-      "asset_concentration": 0.639668
-    },
-    "validation": {
-      "rolling": {
-        "success": true,
-        "window_days": 180,
-        "window_count": 11,
-        "positive_window_count": 6,
-        "stability_score": 0.545455,
-        "windows": [
-          {
-            "start": "2020-05-19 00:00:00",
-            "end": "2020-11-15 00:00:00",
-            "trade_count": 135,
-            "win_rate": 0.518519,
-            "avg_return": 0.2800467,
-            "median_return": 0.1360637
-          },
-          {
-            "start": "2020-11-15 00:00:00",
-            "end": "2021-05-14 00:00:00",
-            "trade_count": 129,
-            "win_rate": 0.829457,
-            "avg_return": 1.09347393,
-            "median_return": 0.69657135
-          },
-          {
-            "start": "2021-05-14 00:00:00",
-            "end": "2021-11-10 00:00:00",
-            "trade_count": 100,
-            "win_rate": 0.77,
-            "avg_return": 0.79254738,
-            "median_return": 0.28498424
-          },
-          {
-            "start": "2021-11-10 00:00:00",
-            "end": "2022-05-09 00:00:00",
-            "trade_count": 47,
-            "win_rate": 0.0,
-            "avg_return": -0.49473077,
-            "median_return": -0.55855429
-          },
-          {
-            "start": "2022-05-09 00:00:00",
-            "end": "2022-11-05 00:00:00",
-            "trade_count": 6,
-            "win_rate": 0.0,
-            "avg_return": -0.31777531,
-            "median_return": -0.32250623
-          },
-          {
-            "start": "2022-11-05 00:00:00",
-            "end": "2023-05-04 00:00:00",
-            "trade_count": 81,
-            "win_rate": 0.45679,
-            "avg_return": -0.02148222,
-            "median_return": -0.0088278
-          },
-          {
-            "start": "2023-05-04 00:00:00",
-            "end": "2023-10-31 00:00:00",
-            "trade_count": 37,
-            "win_rate": 0.351351,
-            "avg_return": 0.16416554,
-            "median_return": -0.04741595
-          },
-          {
-            "start": "2023-10-31 00:00:00",
-            "end": "2024-04-28 00:00:00",
-            "trade_count": 180,
-            "win_rate": 0.688889,
-            "avg_return": 0.41295531,
-            "median_return": 0.42844049
-          },
-          {
-            "start": "2024-04-28 00:00:00",
-            "end": "2024-10-25 00:00:00",
-            "trade_count": 29,
-            "win_rate": 0.448276,
-            "avg_return": -0.01380714,
-            "median_return": -0.05428945
-          },
-          {
-            "start": "2024-10-25 00:00:00",
-            "end": "2025-04-23 00:00:00",
-            "trade_count": 85,
-            "win_rate": 0.188235,
-            "avg_return": -0.10039602,
-            "median_return": -0.12645141
-          },
-          {
-            "start": "2025-04-23 00:00:00",
-            "end": "2025-10-20 00:00:00",
-            "trade_count": 134,
-            "win_rate": 0.567164,
-            "avg_return": 0.17107298,
-            "median_return": 0.10311955
-          }
-        ]
-      },
-      "regime": {
-        "success": true,
-        "regimes": {
-          "trend_regime": {
-            "bear": {
-              "count": 69,
-              "win_rate": 0.347826,
-              "avg_return": -0.05917364,
-              "median_return": -0.04812083
-            },
-            "bull": {
-              "count": 710,
-              "win_rate": 0.577465,
-              "avg_return": 0.39306928,
-              "median_return": 0.12126842
-            },
-            "sideways": {
-              "count": 184,
-              "win_rate": 0.538043,
-              "avg_return": 0.27510709,
-              "median_return": 0.10632515
-            }
-          },
-          "volatility_regime": {
-            "high_volatility": {
-              "count": 647,
-              "win_rate": 0.613601,
-              "avg_return": 0.40943167,
-              "median_return": 0.21093656
-            },
-            "low_volatility": {
-              "count": 316,
-              "win_rate": 0.43038,
-              "avg_return": 0.19213171,
-              "median_return": -0.04703298
-            }
-          }
-        },
-        "regime_score": 0.8
-      },
-      "outliers": {
-        "success": true,
-        "base_mean": 0.3381266,
-        "tests": {
-          "remove_top_1pct": {
-            "cutoff": 3.7192376,
-            "remaining_count": 953,
-            "trimmed_mean": 0.29913053,
-            "mean_retention_ratio": 0.88467
-          },
-          "remove_top_5pct": {
-            "cutoff": 2.084396,
-            "remaining_count": 914,
-            "trimmed_mean": 0.1897688,
-            "mean_retention_ratio": 0.561236
-          },
-          "remove_top_10pct": {
-            "cutoff": 1.20718893,
-            "remaining_count": 866,
-            "trimmed_mean": 0.10945428,
-            "mean_retention_ratio": 0.323708
-          }
-        },
-        "outlier_score": 0.589871
-      },
-      "robustness": {
-        "success": true,
-        "trade_count": 963,
-        "asset_counts": {
-          "SOL-USD": 616,
-          "ETH-USD": 233,
-          "BTC-USD": 114
-        },
-        "asset_concentration": 0.639668,
-        "sample_score": 1.0,
-        "concentration_score": 0.720665,
-        "robustness_score": 0.840862
-      }
-    },
-    "confidence": {
-      "success": true,
-      "alpha_confidence": 0.693869,
-      "confidence_label": "experimental_alpha_candidate",
-      "components": {
-        "rolling_stability": 0.545455,
-        "regime_score": 0.8,
-        "outlier_score": 0.589871,
-        "robustness_score": 0.840862
-      }
-    },
-    "promotion_checks": {
-      "confidence": false,
-      "rolling_stability": false,
-      "non_overlap_trades": true,
-      "asset_concentration": true,
-      "positive_expectancy": true,
-      "regime_positive": true
+      "regime_positive": false
     },
     "promoted": false
   },
@@ -1901,43 +587,9 @@
       },
       "regime": {
         "success": true,
-        "regimes": {
-          "trend_regime": {
-            "bear": {
-              "count": 39,
-              "win_rate": 0.282051,
-              "avg_return": -0.01895149,
-              "median_return": -0.04201203
-            },
-            "bull": {
-              "count": 368,
-              "win_rate": 0.608696,
-              "avg_return": 0.3013489,
-              "median_return": 0.09792791
-            },
-            "sideways": {
-              "count": 92,
-              "win_rate": 0.597826,
-              "avg_return": 0.20516814,
-              "median_return": 0.04822903
-            }
-          },
-          "volatility_regime": {
-            "high_volatility": {
-              "count": 367,
-              "win_rate": 0.632153,
-              "avg_return": 0.32339232,
-              "median_return": 0.13336676
-            },
-            "low_volatility": {
-              "count": 132,
-              "win_rate": 0.439394,
-              "avg_return": 0.07839223,
-              "median_return": -0.01511037
-            }
-          }
-        },
-        "regime_score": 0.8
+        "regimes": {},
+        "regime_score": 0.5,
+        "note": "No regime labels on trade rows; neutral regime score assigned."
       },
       "outliers": {
         "success": true,
@@ -1980,11 +632,11 @@
     },
     "confidence": {
       "success": true,
-      "alpha_confidence": 0.710203,
-      "confidence_label": "promising_alpha_candidate",
+      "alpha_confidence": 0.650203,
+      "confidence_label": "experimental_alpha_candidate",
       "components": {
         "rolling_stability": 0.583333,
-        "regime_score": 0.8,
+        "regime_score": 0.5,
         "outlier_score": 0.658731,
         "robustness_score": 0.811523
       }
@@ -1995,7 +647,7 @@
       "non_overlap_trades": true,
       "asset_concentration": false,
       "positive_expectancy": true,
-      "regime_positive": true
+      "regime_positive": false
     },
     "promoted": false
   },
@@ -2139,43 +791,9 @@
       },
       "regime": {
         "success": true,
-        "regimes": {
-          "trend_regime": {
-            "bear": {
-              "count": 25,
-              "win_rate": 0.0,
-              "avg_return": -0.63456333,
-              "median_return": -0.60601864
-            },
-            "bull": {
-              "count": 1179,
-              "win_rate": 0.65564,
-              "avg_return": 1.69299645,
-              "median_return": 0.32679941
-            },
-            "sideways": {
-              "count": 61,
-              "win_rate": 0.081967,
-              "avg_return": -0.42431188,
-              "median_return": -0.35375584
-            }
-          },
-          "volatility_regime": {
-            "high_volatility": {
-              "count": 675,
-              "win_rate": 0.694815,
-              "avg_return": 2.56995993,
-              "median_return": 1.10844493
-            },
-            "low_volatility": {
-              "count": 590,
-              "win_rate": 0.523729,
-              "avg_return": 0.3721572,
-              "median_return": 0.01927658
-            }
-          }
-        },
-        "regime_score": 0.6
+        "regimes": {},
+        "regime_score": 0.5,
+        "note": "No regime labels on trade rows; neutral regime score assigned."
       },
       "outliers": {
         "success": true,
@@ -2218,11 +836,11 @@
     },
     "confidence": {
       "success": true,
-      "alpha_confidence": 0.682108,
+      "alpha_confidence": 0.662108,
       "confidence_label": "experimental_alpha_candidate",
       "components": {
         "rolling_stability": 0.7,
-        "regime_score": 0.6,
+        "regime_score": 0.5,
         "outlier_score": 0.541152,
         "robustness_score": 0.812925
       }
@@ -2401,43 +1019,9 @@
       },
       "regime": {
         "success": true,
-        "regimes": {
-          "trend_regime": {
-            "bear": {
-              "count": 85,
-              "win_rate": 0.411765,
-              "avg_return": 0.00835601,
-              "median_return": -0.03619833
-            },
-            "bull": {
-              "count": 688,
-              "win_rate": 0.59593,
-              "avg_return": 0.21971801,
-              "median_return": 0.08097404
-            },
-            "sideways": {
-              "count": 193,
-              "win_rate": 0.694301,
-              "avg_return": 0.29121707,
-              "median_return": 0.09550671
-            }
-          },
-          "volatility_regime": {
-            "high_volatility": {
-              "count": 615,
-              "win_rate": 0.663415,
-              "avg_return": 0.28576727,
-              "median_return": 0.12630046
-            },
-            "low_volatility": {
-              "count": 351,
-              "win_rate": 0.487179,
-              "avg_return": 0.09212044,
-              "median_return": -0.00785758
-            }
-          }
-        },
-        "regime_score": 1.0
+        "regimes": {},
+        "regime_score": 0.5,
+        "note": "No regime labels on trade rows; neutral regime score assigned."
       },
       "outliers": {
         "success": true,
@@ -2480,546 +1064,22 @@
     },
     "confidence": {
       "success": true,
-      "alpha_confidence": 0.774119,
-      "confidence_label": "promising_alpha_candidate",
+      "alpha_confidence": 0.674119,
+      "confidence_label": "experimental_alpha_candidate",
       "components": {
         "rolling_stability": 0.615385,
-        "regime_score": 1.0,
+        "regime_score": 0.5,
         "outlier_score": 0.615842,
         "robustness_score": 0.887785
       }
     },
     "promotion_checks": {
-      "confidence": true,
+      "confidence": false,
       "rolling_stability": false,
       "non_overlap_trades": true,
       "asset_concentration": true,
       "positive_expectancy": true,
-      "regime_positive": true
-    },
-    "promoted": false
-  },
-  {
-    "success": true,
-    "hypothesis_id": "breadth_positive_24_0_66",
-    "metrics": {
-      "hypothesis_id": "breadth_positive_24_0_66",
-      "family": "breadth",
-      "alpha_score": 1.569537,
-      "passed_min_trades": true,
-      "description": "Long leader when 66%+ of assets are positive over 24.",
-      "signal_asset_rule": "leader_asset_24",
-      "hold_period": 24,
-      "direction": "LONG",
-      "raw_trade_count": 1229,
-      "raw_win_rate": 0.581774,
-      "raw_avg_return": 0.16999515,
-      "raw_median_return": 0.0483497,
-      "raw_std_return": 0.45858596,
-      "raw_min_return": -0.58356319,
-      "raw_max_return": 3.30193358,
-      "raw_gross_profit": 281.45244887,
-      "raw_gross_loss": 72.52841449,
-      "raw_profit_factor": 3.880582,
-      "raw_sharpe_like": 12.995462,
-      "raw_sortino_like": 52.67548,
-      "raw_final_equity": 3.255443403980002e+53,
-      "raw_total_return": 3.255443403980002e+53,
-      "raw_max_drawdown": -0.9999966,
-      "raw_recovery_factor": 3.255454468045765e+53,
-      "raw_expectancy": 0.16999515,
-      "non_overlap_trade_count": 1229,
-      "non_overlap_win_rate": 0.581774,
-      "non_overlap_avg_return": 0.16999515,
-      "non_overlap_median_return": 0.0483497,
-      "non_overlap_std_return": 0.45858596,
-      "non_overlap_min_return": -0.58356319,
-      "non_overlap_max_return": 3.30193358,
-      "non_overlap_gross_profit": 281.45244887,
-      "non_overlap_gross_loss": 72.52841449,
-      "non_overlap_profit_factor": 3.880582,
-      "non_overlap_sharpe_like": 12.995462,
-      "non_overlap_sortino_like": 52.67548,
-      "non_overlap_final_equity": 3.255443403979992e+53,
-      "non_overlap_total_return": 3.255443403979992e+53,
-      "non_overlap_max_drawdown": -0.99999986,
-      "non_overlap_recovery_factor": 3.255443854374052e+53,
-      "non_overlap_expectancy": 0.16999515,
-      "asset_concentration": 0.510171
-    },
-    "validation": {
-      "rolling": {
-        "success": true,
-        "window_days": 180,
-        "window_count": 13,
-        "positive_window_count": 8,
-        "stability_score": 0.615385,
-        "windows": [
-          {
-            "start": "2020-01-25 00:00:00",
-            "end": "2020-07-23 00:00:00",
-            "trade_count": 117,
-            "win_rate": 0.709402,
-            "avg_return": 0.23144483,
-            "median_return": 0.0536289
-          },
-          {
-            "start": "2020-07-23 00:00:00",
-            "end": "2021-01-19 00:00:00",
-            "trade_count": 144,
-            "win_rate": 0.840278,
-            "avg_return": 0.35712636,
-            "median_return": 0.2435173
-          },
-          {
-            "start": "2021-01-19 00:00:00",
-            "end": "2021-07-18 00:00:00",
-            "trade_count": 125,
-            "win_rate": 0.752,
-            "avg_return": 0.51982712,
-            "median_return": 0.43696542
-          },
-          {
-            "start": "2021-07-18 00:00:00",
-            "end": "2022-01-14 00:00:00",
-            "trade_count": 101,
-            "win_rate": 0.594059,
-            "avg_return": 0.28084078,
-            "median_return": 0.07188683
-          },
-          {
-            "start": "2022-01-14 00:00:00",
-            "end": "2022-07-13 00:00:00",
-            "trade_count": 46,
-            "win_rate": 0.326087,
-            "avg_return": -0.084378,
-            "median_return": -0.08929807
-          },
-          {
-            "start": "2022-07-13 00:00:00",
-            "end": "2023-01-09 00:00:00",
-            "trade_count": 72,
-            "win_rate": 0.305556,
-            "avg_return": -0.00900129,
-            "median_return": -0.04344151
-          },
-          {
-            "start": "2023-01-09 00:00:00",
-            "end": "2023-07-08 00:00:00",
-            "trade_count": 111,
-            "win_rate": 0.441441,
-            "avg_return": 0.01552558,
-            "median_return": -0.01185115
-          },
-          {
-            "start": "2023-07-08 00:00:00",
-            "end": "2024-01-04 00:00:00",
-            "trade_count": 113,
-            "win_rate": 0.778761,
-            "avg_return": 0.3501573,
-            "median_return": 0.33761196
-          },
-          {
-            "start": "2024-01-04 00:00:00",
-            "end": "2024-07-02 00:00:00",
-            "trade_count": 100,
-            "win_rate": 0.37,
-            "avg_return": -0.0111933,
-            "median_return": -0.06365834
-          },
-          {
-            "start": "2024-07-02 00:00:00",
-            "end": "2024-12-29 00:00:00",
-            "trade_count": 118,
-            "win_rate": 0.559322,
-            "avg_return": 0.05552507,
-            "median_return": 0.05234173
-          },
-          {
-            "start": "2024-12-29 00:00:00",
-            "end": "2025-06-27 00:00:00",
-            "trade_count": 75,
-            "win_rate": 0.4,
-            "avg_return": -0.0402245,
-            "median_return": -0.03065128
-          },
-          {
-            "start": "2025-06-27 00:00:00",
-            "end": "2025-12-24 00:00:00",
-            "trade_count": 83,
-            "win_rate": 0.578313,
-            "avg_return": 0.05315669,
-            "median_return": 0.04611221
-          },
-          {
-            "start": "2025-12-24 00:00:00",
-            "end": "2026-06-22 00:00:00",
-            "trade_count": 24,
-            "win_rate": 0.083333,
-            "avg_return": -0.27141441,
-            "median_return": -0.32529864
-          }
-        ]
-      },
-      "regime": {
-        "success": true,
-        "regimes": {
-          "trend_regime": {
-            "bear": {
-              "count": 149,
-              "win_rate": 0.463087,
-              "avg_return": 0.03041054,
-              "median_return": -0.01439737
-            },
-            "bull": {
-              "count": 861,
-              "win_rate": 0.581882,
-              "avg_return": 0.18603625,
-              "median_return": 0.06203843
-            },
-            "sideways": {
-              "count": 219,
-              "win_rate": 0.6621,
-              "avg_return": 0.20189796,
-              "median_return": 0.04843389
-            }
-          },
-          "volatility_regime": {
-            "high_volatility": {
-              "count": 724,
-              "win_rate": 0.657459,
-              "avg_return": 0.24877684,
-              "median_return": 0.09704243
-            },
-            "low_volatility": {
-              "count": 505,
-              "win_rate": 0.473267,
-              "avg_return": 0.05704871,
-              "median_return": -0.01416249
-            }
-          }
-        },
-        "regime_score": 1.0
-      },
-      "outliers": {
-        "success": true,
-        "base_mean": 0.16999515,
-        "tests": {
-          "remove_top_1pct": {
-            "cutoff": 2.00921991,
-            "remaining_count": 1216,
-            "trimmed_mean": 0.14368798,
-            "mean_retention_ratio": 0.845248
-          },
-          "remove_top_5pct": {
-            "cutoff": 1.04238935,
-            "remaining_count": 1167,
-            "trimmed_mean": 0.09308096,
-            "mean_retention_ratio": 0.547551
-          },
-          "remove_top_10pct": {
-            "cutoff": 0.73543524,
-            "remaining_count": 1106,
-            "trimmed_mean": 0.04964075,
-            "mean_retention_ratio": 0.292013
-          }
-        },
-        "outlier_score": 0.561604
-      },
-      "robustness": {
-        "success": true,
-        "trade_count": 1229,
-        "asset_counts": {
-          "SOL-USD": 627,
-          "ETH-USD": 367,
-          "BTC-USD": 235
-        },
-        "asset_concentration": 0.510171,
-        "sample_score": 1.0,
-        "concentration_score": 0.979658,
-        "robustness_score": 0.911269
-      }
-    },
-    "confidence": {
-      "success": true,
-      "alpha_confidence": 0.770317,
-      "confidence_label": "promising_alpha_candidate",
-      "components": {
-        "rolling_stability": 0.615385,
-        "regime_score": 1.0,
-        "outlier_score": 0.561604,
-        "robustness_score": 0.911269
-      }
-    },
-    "promotion_checks": {
-      "confidence": true,
-      "rolling_stability": false,
-      "non_overlap_trades": true,
-      "asset_concentration": true,
-      "positive_expectancy": true,
-      "regime_positive": true
-    },
-    "promoted": false
-  },
-  {
-    "success": true,
-    "hypothesis_id": "breadth_positive_24_0_5",
-    "metrics": {
-      "hypothesis_id": "breadth_positive_24_0_5",
-      "family": "breadth",
-      "alpha_score": 1.47794,
-      "passed_min_trades": true,
-      "description": "Long leader when 50%+ of assets are positive over 24.",
-      "signal_asset_rule": "leader_asset_24",
-      "hold_period": 24,
-      "direction": "LONG",
-      "raw_trade_count": 1239,
-      "raw_win_rate": 0.577078,
-      "raw_avg_return": 0.16523842,
-      "raw_median_return": 0.04657066,
-      "raw_std_return": 0.45977621,
-      "raw_min_return": -0.58356319,
-      "raw_max_return": 3.30193358,
-      "raw_gross_profit": 281.45244887,
-      "raw_gross_loss": 76.72204853,
-      "raw_profit_factor": 3.668469,
-      "raw_sharpe_like": 12.650281,
-      "raw_sortino_like": 49.107398,
-      "raw_final_equity": 1.3952450219667235e+51,
-      "raw_total_return": 1.3952450219667235e+51,
-      "raw_max_drawdown": -0.99999792,
-      "raw_recovery_factor": 1.3952479309438986e+51,
-      "raw_expectancy": 0.16523842,
-      "non_overlap_trade_count": 1239,
-      "non_overlap_win_rate": 0.577078,
-      "non_overlap_avg_return": 0.16523842,
-      "non_overlap_median_return": 0.04657066,
-      "non_overlap_std_return": 0.45977621,
-      "non_overlap_min_return": -0.58356319,
-      "non_overlap_max_return": 3.30193358,
-      "non_overlap_gross_profit": 281.45244887,
-      "non_overlap_gross_loss": 76.72204853,
-      "non_overlap_profit_factor": 3.668469,
-      "non_overlap_sharpe_like": 12.650281,
-      "non_overlap_sortino_like": 49.107398,
-      "non_overlap_final_equity": 1.3952450219667227e+51,
-      "non_overlap_total_return": 1.3952450219667227e+51,
-      "non_overlap_max_drawdown": -0.99999986,
-      "non_overlap_recovery_factor": 1.3952452150003564e+51,
-      "non_overlap_expectancy": 0.16523842,
-      "asset_concentration": 0.506053
-    },
-    "validation": {
-      "rolling": {
-        "success": true,
-        "window_days": 180,
-        "window_count": 13,
-        "positive_window_count": 8,
-        "stability_score": 0.615385,
-        "windows": [
-          {
-            "start": "2020-01-25 00:00:00",
-            "end": "2020-07-23 00:00:00",
-            "trade_count": 127,
-            "win_rate": 0.653543,
-            "avg_return": 0.18020009,
-            "median_return": 0.04465031
-          },
-          {
-            "start": "2020-07-23 00:00:00",
-            "end": "2021-01-19 00:00:00",
-            "trade_count": 144,
-            "win_rate": 0.840278,
-            "avg_return": 0.35712636,
-            "median_return": 0.2435173
-          },
-          {
-            "start": "2021-01-19 00:00:00",
-            "end": "2021-07-18 00:00:00",
-            "trade_count": 125,
-            "win_rate": 0.752,
-            "avg_return": 0.51982712,
-            "median_return": 0.43696542
-          },
-          {
-            "start": "2021-07-18 00:00:00",
-            "end": "2022-01-14 00:00:00",
-            "trade_count": 101,
-            "win_rate": 0.594059,
-            "avg_return": 0.28084078,
-            "median_return": 0.07188683
-          },
-          {
-            "start": "2022-01-14 00:00:00",
-            "end": "2022-07-13 00:00:00",
-            "trade_count": 46,
-            "win_rate": 0.326087,
-            "avg_return": -0.084378,
-            "median_return": -0.08929807
-          },
-          {
-            "start": "2022-07-13 00:00:00",
-            "end": "2023-01-09 00:00:00",
-            "trade_count": 72,
-            "win_rate": 0.305556,
-            "avg_return": -0.00900129,
-            "median_return": -0.04344151
-          },
-          {
-            "start": "2023-01-09 00:00:00",
-            "end": "2023-07-08 00:00:00",
-            "trade_count": 111,
-            "win_rate": 0.441441,
-            "avg_return": 0.01552558,
-            "median_return": -0.01185115
-          },
-          {
-            "start": "2023-07-08 00:00:00",
-            "end": "2024-01-04 00:00:00",
-            "trade_count": 113,
-            "win_rate": 0.778761,
-            "avg_return": 0.3501573,
-            "median_return": 0.33761196
-          },
-          {
-            "start": "2024-01-04 00:00:00",
-            "end": "2024-07-02 00:00:00",
-            "trade_count": 100,
-            "win_rate": 0.37,
-            "avg_return": -0.0111933,
-            "median_return": -0.06365834
-          },
-          {
-            "start": "2024-07-02 00:00:00",
-            "end": "2024-12-29 00:00:00",
-            "trade_count": 118,
-            "win_rate": 0.559322,
-            "avg_return": 0.05552507,
-            "median_return": 0.05234173
-          },
-          {
-            "start": "2024-12-29 00:00:00",
-            "end": "2025-06-27 00:00:00",
-            "trade_count": 75,
-            "win_rate": 0.4,
-            "avg_return": -0.0402245,
-            "median_return": -0.03065128
-          },
-          {
-            "start": "2025-06-27 00:00:00",
-            "end": "2025-12-24 00:00:00",
-            "trade_count": 83,
-            "win_rate": 0.578313,
-            "avg_return": 0.05315669,
-            "median_return": 0.04611221
-          },
-          {
-            "start": "2025-12-24 00:00:00",
-            "end": "2026-06-22 00:00:00",
-            "trade_count": 24,
-            "win_rate": 0.083333,
-            "avg_return": -0.27141441,
-            "median_return": -0.32529864
-          }
-        ]
-      },
-      "regime": {
-        "success": true,
-        "regimes": {
-          "trend_regime": {
-            "bear": {
-              "count": 149,
-              "win_rate": 0.463087,
-              "avg_return": 0.03041054,
-              "median_return": -0.01439737
-            },
-            "bull": {
-              "count": 861,
-              "win_rate": 0.581882,
-              "avg_return": 0.18603625,
-              "median_return": 0.06203843
-            },
-            "sideways": {
-              "count": 229,
-              "win_rate": 0.633188,
-              "avg_return": 0.17476864,
-              "median_return": 0.04411855
-            }
-          },
-          "volatility_regime": {
-            "high_volatility": {
-              "count": 724,
-              "win_rate": 0.657459,
-              "avg_return": 0.24877684,
-              "median_return": 0.09704243
-            },
-            "low_volatility": {
-              "count": 515,
-              "win_rate": 0.464078,
-              "avg_return": 0.04779799,
-              "median_return": -0.01600455
-            }
-          }
-        },
-        "regime_score": 1.0
-      },
-      "outliers": {
-        "success": true,
-        "base_mean": 0.16523842,
-        "tests": {
-          "remove_top_1pct": {
-            "cutoff": 2.00737343,
-            "remaining_count": 1226,
-            "trimmed_mean": 0.13909539,
-            "mean_retention_ratio": 0.841786
-          },
-          "remove_top_5pct": {
-            "cutoff": 1.04212252,
-            "remaining_count": 1177,
-            "trimmed_mean": 0.08872714,
-            "mean_retention_ratio": 0.536964
-          },
-          "remove_top_10pct": {
-            "cutoff": 0.72746647,
-            "remaining_count": 1115,
-            "trimmed_mean": 0.04482019,
-            "mean_retention_ratio": 0.271246
-          }
-        },
-        "outlier_score": 0.549999
-      },
-      "robustness": {
-        "success": true,
-        "trade_count": 1239,
-        "asset_counts": {
-          "SOL-USD": 627,
-          "ETH-USD": 377,
-          "BTC-USD": 235
-        },
-        "asset_concentration": 0.506053,
-        "sample_score": 1.0,
-        "concentration_score": 0.987893,
-        "robustness_score": 0.912389
-      }
-    },
-    "confidence": {
-      "success": true,
-      "alpha_confidence": 0.768332,
-      "confidence_label": "promising_alpha_candidate",
-      "components": {
-        "rolling_stability": 0.615385,
-        "regime_score": 1.0,
-        "outlier_score": 0.549999,
-        "robustness_score": 0.912389
-      }
-    },
-    "promotion_checks": {
-      "confidence": true,
-      "rolling_stability": false,
-      "non_overlap_trades": true,
-      "asset_concentration": true,
-      "positive_expectancy": true,
-      "regime_positive": true
+      "regime_positive": false
     },
     "promoted": false
   },
@@ -3187,43 +1247,9 @@
       },
       "regime": {
         "success": true,
-        "regimes": {
-          "trend_regime": {
-            "bear": {
-              "count": 186,
-              "win_rate": 0.446237,
-              "avg_return": 0.01449151,
-              "median_return": -0.01840714
-            },
-            "bull": {
-              "count": 986,
-              "win_rate": 0.565923,
-              "avg_return": 0.16261783,
-              "median_return": 0.0484177
-            },
-            "sideways": {
-              "count": 283,
-              "win_rate": 0.64311,
-              "avg_return": 0.19601394,
-              "median_return": 0.04752172
-            }
-          },
-          "volatility_regime": {
-            "high_volatility": {
-              "count": 837,
-              "win_rate": 0.646356,
-              "avg_return": 0.22701967,
-              "median_return": 0.0868356
-            },
-            "low_volatility": {
-              "count": 618,
-              "win_rate": 0.456311,
-              "avg_return": 0.04610531,
-              "median_return": -0.01845135
-            }
-          }
-        },
-        "regime_score": 1.0
+        "regimes": {},
+        "regime_score": 0.5,
+        "note": "No regime labels on trade rows; neutral regime score assigned."
       },
       "outliers": {
         "success": true,
@@ -3266,275 +1292,13 @@
     },
     "confidence": {
       "success": true,
-      "alpha_confidence": 0.760747,
-      "confidence_label": "promising_alpha_candidate",
-      "components": {
-        "rolling_stability": 0.615385,
-        "regime_score": 1.0,
-        "outlier_score": 0.510966,
-        "robustness_score": 0.913127
-      }
-    },
-    "promotion_checks": {
-      "confidence": true,
-      "rolling_stability": false,
-      "non_overlap_trades": true,
-      "asset_concentration": true,
-      "positive_expectancy": true,
-      "regime_positive": true
-    },
-    "promoted": false
-  },
-  {
-    "success": true,
-    "hypothesis_id": "leader_persistence_24_8",
-    "metrics": {
-      "hypothesis_id": "leader_persistence_24_8",
-      "family": "leadership",
-      "alpha_score": 0.769811,
-      "passed_min_trades": true,
-      "description": "Long leader when leadership persists for at least 8 bars over 24.",
-      "signal_asset_rule": "leader_asset_24",
-      "hold_period": 24,
-      "direction": "LONG",
-      "raw_trade_count": 1252,
-      "raw_win_rate": 0.532748,
-      "raw_avg_return": 0.11230451,
-      "raw_median_return": 0.01309896,
-      "raw_std_return": 0.42910034,
-      "raw_min_return": -0.58356319,
-      "raw_max_return": 3.30193358,
-      "raw_gross_profit": 227.07687048,
-      "raw_gross_loss": 86.47161984,
-      "raw_profit_factor": 2.626028,
-      "raw_sharpe_like": 9.26063,
-      "raw_sortino_like": 32.503012,
-      "raw_final_equity": 4.613294316724081e+28,
-      "raw_total_return": 4.613294316724081e+28,
-      "raw_max_drawdown": -1.0,
-      "raw_recovery_factor": 4.613294316733769e+28,
-      "raw_expectancy": 0.11230451,
-      "non_overlap_trade_count": 1252,
-      "non_overlap_win_rate": 0.532748,
-      "non_overlap_avg_return": 0.11230451,
-      "non_overlap_median_return": 0.01309896,
-      "non_overlap_std_return": 0.42910034,
-      "non_overlap_min_return": -0.58356319,
-      "non_overlap_max_return": 3.30193358,
-      "non_overlap_gross_profit": 227.07687048,
-      "non_overlap_gross_loss": 86.47161984,
-      "non_overlap_profit_factor": 2.626028,
-      "non_overlap_sharpe_like": 9.26063,
-      "non_overlap_sortino_like": 32.503012,
-      "non_overlap_final_equity": 4.613294316724083e+28,
-      "non_overlap_total_return": 4.613294316724083e+28,
-      "non_overlap_max_drawdown": -1.0,
-      "non_overlap_recovery_factor": 4.613294316727732e+28,
-      "non_overlap_expectancy": 0.11230451,
-      "asset_concentration": 0.407348
-    },
-    "validation": {
-      "rolling": {
-        "success": true,
-        "window_days": 180,
-        "window_count": 13,
-        "positive_window_count": 7,
-        "stability_score": 0.538462,
-        "windows": [
-          {
-            "start": "2020-02-01 00:00:00",
-            "end": "2020-07-30 00:00:00",
-            "trade_count": 137,
-            "win_rate": 0.693431,
-            "avg_return": 0.23549126,
-            "median_return": 0.05668687
-          },
-          {
-            "start": "2020-07-30 00:00:00",
-            "end": "2021-01-26 00:00:00",
-            "trade_count": 98,
-            "win_rate": 0.806122,
-            "avg_return": 0.37681773,
-            "median_return": 0.24096842
-          },
-          {
-            "start": "2021-01-26 00:00:00",
-            "end": "2021-07-25 00:00:00",
-            "trade_count": 106,
-            "win_rate": 0.716981,
-            "avg_return": 0.45881027,
-            "median_return": 0.37398603
-          },
-          {
-            "start": "2021-07-25 00:00:00",
-            "end": "2022-01-21 00:00:00",
-            "trade_count": 94,
-            "win_rate": 0.542553,
-            "avg_return": 0.1253163,
-            "median_return": 0.01948899
-          },
-          {
-            "start": "2022-01-21 00:00:00",
-            "end": "2022-07-20 00:00:00",
-            "trade_count": 123,
-            "win_rate": 0.447154,
-            "avg_return": -0.07660265,
-            "median_return": -0.02446944
-          },
-          {
-            "start": "2022-07-20 00:00:00",
-            "end": "2023-01-16 00:00:00",
-            "trade_count": 90,
-            "win_rate": 0.288889,
-            "avg_return": -0.06097765,
-            "median_return": -0.10133148
-          },
-          {
-            "start": "2023-01-16 00:00:00",
-            "end": "2023-07-15 00:00:00",
-            "trade_count": 82,
-            "win_rate": 0.390244,
-            "avg_return": -0.00320836,
-            "median_return": -0.01312426
-          },
-          {
-            "start": "2023-07-15 00:00:00",
-            "end": "2024-01-11 00:00:00",
-            "trade_count": 122,
-            "win_rate": 0.672131,
-            "avg_return": 0.28057391,
-            "median_return": 0.1210954
-          },
-          {
-            "start": "2024-01-11 00:00:00",
-            "end": "2024-07-09 00:00:00",
-            "trade_count": 77,
-            "win_rate": 0.376623,
-            "avg_return": -0.03875483,
-            "median_return": -0.06477619
-          },
-          {
-            "start": "2024-07-09 00:00:00",
-            "end": "2025-01-05 00:00:00",
-            "trade_count": 64,
-            "win_rate": 0.453125,
-            "avg_return": 0.0169722,
-            "median_return": -0.01931632
-          },
-          {
-            "start": "2025-01-05 00:00:00",
-            "end": "2025-07-04 00:00:00",
-            "trade_count": 111,
-            "win_rate": 0.432432,
-            "avg_return": -0.02031222,
-            "median_return": -0.01076213
-          },
-          {
-            "start": "2025-07-04 00:00:00",
-            "end": "2025-12-31 00:00:00",
-            "trade_count": 112,
-            "win_rate": 0.446429,
-            "avg_return": 0.00294256,
-            "median_return": -0.02345787
-          },
-          {
-            "start": "2025-12-31 00:00:00",
-            "end": "2026-06-29 00:00:00",
-            "trade_count": 36,
-            "win_rate": 0.416667,
-            "avg_return": -0.11757322,
-            "median_return": -0.01191113
-          }
-        ]
-      },
-      "regime": {
-        "success": true,
-        "regimes": {
-          "trend_regime": {
-            "bear": {
-              "count": 257,
-              "win_rate": 0.428016,
-              "avg_return": -0.02972946,
-              "median_return": -0.01957558
-            },
-            "bull": {
-              "count": 736,
-              "win_rate": 0.546196,
-              "avg_return": 0.14721655,
-              "median_return": 0.02285862
-            },
-            "sideways": {
-              "count": 259,
-              "win_rate": 0.598456,
-              "avg_return": 0.15403222,
-              "median_return": 0.03481976
-            }
-          },
-          "volatility_regime": {
-            "high_volatility": {
-              "count": 644,
-              "win_rate": 0.635093,
-              "avg_return": 0.22443153,
-              "median_return": 0.07650526
-            },
-            "low_volatility": {
-              "count": 608,
-              "win_rate": 0.424342,
-              "avg_return": -0.0064616,
-              "median_return": -0.02230179
-            }
-          }
-        },
-        "regime_score": 0.6
-      },
-      "outliers": {
-        "success": true,
-        "base_mean": 0.11230451,
-        "tests": {
-          "remove_top_1pct": {
-            "cutoff": 1.91107088,
-            "remaining_count": 1239,
-            "trimmed_mean": 0.08750988,
-            "mean_retention_ratio": 0.77922
-          },
-          "remove_top_5pct": {
-            "cutoff": 0.96331178,
-            "remaining_count": 1189,
-            "trimmed_mean": 0.03851804,
-            "mean_retention_ratio": 0.342979
-          },
-          "remove_top_10pct": {
-            "cutoff": 0.57224756,
-            "remaining_count": 1126,
-            "trimmed_mean": -0.00288756,
-            "mean_retention_ratio": -0.025712
-          }
-        },
-        "outlier_score": 0.374066
-      },
-      "robustness": {
-        "success": true,
-        "trade_count": 1252,
-        "asset_counts": {
-          "SOL-USD": 510,
-          "BTC-USD": 434,
-          "ETH-USD": 308
-        },
-        "asset_concentration": 0.407348,
-        "sample_score": 1.0,
-        "concentration_score": 1.0,
-        "robustness_score": 0.90655
-      }
-    },
-    "confidence": {
-      "success": true,
-      "alpha_confidence": 0.628317,
+      "alpha_confidence": 0.660747,
       "confidence_label": "experimental_alpha_candidate",
       "components": {
-        "rolling_stability": 0.538462,
-        "regime_score": 0.6,
-        "outlier_score": 0.374066,
-        "robustness_score": 0.90655
+        "rolling_stability": 0.615385,
+        "regime_score": 0.5,
+        "outlier_score": 0.510966,
+        "robustness_score": 0.913127
       }
     },
     "promotion_checks": {
@@ -3549,460 +1313,539 @@
   },
   {
     "success": true,
-    "hypothesis_id": "leader_persistence_24_3",
+    "hypothesis_id": "momentum_top_rank_72_q90",
     "metrics": {
-      "hypothesis_id": "leader_persistence_24_3",
-      "family": "leadership",
-      "alpha_score": 0.737341,
+      "hypothesis_id": "momentum_top_rank_72_q90",
+      "family": "momentum",
+      "alpha_score": -500.104772,
       "passed_min_trades": true,
-      "description": "Long leader when leadership persists for at least 3 bars over 24.",
-      "signal_asset_rule": "leader_asset_24",
-      "hold_period": 24,
+      "description": "Long strongest-ranked asset when 72-period return is above q90 threshold.",
+      "signal_asset_rule": "asset_with_min_rank_return_72",
+      "hold_period": 72,
       "direction": "LONG",
-      "raw_trade_count": 1807,
-      "raw_win_rate": 0.541782,
-      "raw_avg_return": 0.10574193,
-      "raw_median_return": 0.01697669,
-      "raw_std_return": 0.40073709,
-      "raw_min_return": -0.58356319,
-      "raw_max_return": 3.30193358,
-      "raw_gross_profit": 306.95368938,
-      "raw_gross_loss": 115.8780179,
-      "raw_profit_factor": 2.648938,
-      "raw_sharpe_like": 11.216743,
-      "raw_sortino_like": 39.502117,
-      "raw_final_equity": 7.521948426798039e+41,
-      "raw_total_return": 7.521948426798039e+41,
+      "raw_trade_count": 482,
+      "raw_win_rate": 0.665975,
+      "raw_avg_return": 0.49523579,
+      "raw_median_return": 0.35950884,
+      "raw_std_return": 0.89370474,
+      "raw_min_return": -0.6210063,
+      "raw_max_return": 4.51286557,
+      "raw_gross_profit": 287.06714768,
+      "raw_gross_loss": 48.36349898,
+      "raw_profit_factor": 5.935616,
+      "raw_sharpe_like": 12.165823,
+      "raw_sortino_like": 68.397324,
+      "raw_final_equity": 1.0485663992436284e+52,
+      "raw_total_return": 1.0485663992436284e+52,
       "raw_max_drawdown": -1.0,
-      "raw_recovery_factor": 7.521948426798044e+41,
-      "raw_expectancy": 0.10574193,
-      "non_overlap_trade_count": 1807,
-      "non_overlap_win_rate": 0.541782,
-      "non_overlap_avg_return": 0.10574193,
-      "non_overlap_median_return": 0.01697669,
-      "non_overlap_std_return": 0.40073709,
-      "non_overlap_min_return": -0.58356319,
-      "non_overlap_max_return": 3.30193358,
-      "non_overlap_gross_profit": 306.95368938,
-      "non_overlap_gross_loss": 115.8780179,
-      "non_overlap_profit_factor": 2.648938,
-      "non_overlap_sharpe_like": 11.216743,
-      "non_overlap_sortino_like": 39.502117,
-      "non_overlap_final_equity": 7.521948426798053e+41,
-      "non_overlap_total_return": 7.521948426798053e+41,
-      "non_overlap_max_drawdown": -1.0,
-      "non_overlap_recovery_factor": 7.521948427770453e+41,
-      "non_overlap_expectancy": 0.10574193,
-      "asset_concentration": 0.381295
+      "raw_recovery_factor": 1.0485663992436429e+52,
+      "raw_expectancy": 0.49523579,
+      "non_overlap_trade_count": 176,
+      "non_overlap_win_rate": 0.647727,
+      "non_overlap_avg_return": 0.50941244,
+      "non_overlap_median_return": 0.33081011,
+      "non_overlap_std_return": 0.88971216,
+      "non_overlap_min_return": -0.597942,
+      "non_overlap_max_return": 4.11704293,
+      "non_overlap_gross_profit": 106.90227903,
+      "non_overlap_gross_loss": 17.24568899,
+      "non_overlap_profit_factor": 6.198783,
+      "non_overlap_sharpe_like": 7.59585,
+      "non_overlap_sortino_like": 41.283984,
+      "non_overlap_final_equity": 5.634306449872421e+19,
+      "non_overlap_total_return": 5.634306449872421e+19,
+      "non_overlap_max_drawdown": -0.99996806,
+      "non_overlap_recovery_factor": 5.634486428779256e+19,
+      "non_overlap_expectancy": 0.50941244,
+      "asset_concentration": 0.854772
     },
     "validation": {
       "rolling": {
         "success": true,
         "window_days": 180,
-        "window_count": 13,
-        "positive_window_count": 8,
-        "stability_score": 0.615385,
+        "window_count": 9,
+        "positive_window_count": 3,
+        "stability_score": 0.333333,
         "windows": [
           {
-            "start": "2020-01-27 00:00:00",
-            "end": "2020-07-25 00:00:00",
-            "trade_count": 167,
-            "win_rate": 0.700599,
-            "avg_return": 0.23123558,
-            "median_return": 0.07647384
+            "start": "2020-05-23 00:00:00",
+            "end": "2020-11-19 00:00:00",
+            "trade_count": 85,
+            "win_rate": 0.294118,
+            "avg_return": -0.08937956,
+            "median_return": -0.34574833
           },
           {
-            "start": "2020-07-25 00:00:00",
-            "end": "2021-01-21 00:00:00",
-            "trade_count": 142,
-            "win_rate": 0.823944,
-            "avg_return": 0.32074743,
-            "median_return": 0.23045024
+            "start": "2020-11-19 00:00:00",
+            "end": "2021-05-18 00:00:00",
+            "trade_count": 155,
+            "win_rate": 0.819355,
+            "avg_return": 1.03317573,
+            "median_return": 0.74845009
           },
           {
-            "start": "2021-01-21 00:00:00",
-            "end": "2021-07-20 00:00:00",
-            "trade_count": 145,
-            "win_rate": 0.668966,
-            "avg_return": 0.42072152,
-            "median_return": 0.28277358
+            "start": "2021-05-18 00:00:00",
+            "end": "2021-11-14 00:00:00",
+            "trade_count": 110,
+            "win_rate": 0.718182,
+            "avg_return": 0.30377701,
+            "median_return": 0.22590679
           },
           {
-            "start": "2021-07-20 00:00:00",
-            "end": "2022-01-16 00:00:00",
-            "trade_count": 145,
-            "win_rate": 0.496552,
-            "avg_return": 0.15949455,
-            "median_return": -0.00165029
+            "start": "2021-11-14 00:00:00",
+            "end": "2022-05-13 00:00:00",
+            "trade_count": 1,
+            "win_rate": 0.0,
+            "avg_return": -0.59008095,
+            "median_return": -0.59008095
           },
           {
-            "start": "2022-01-16 00:00:00",
-            "end": "2022-07-15 00:00:00",
-            "trade_count": 160,
-            "win_rate": 0.45625,
-            "avg_return": -0.07226484,
-            "median_return": -0.01757209
+            "start": "2022-11-09 00:00:00",
+            "end": "2023-05-08 00:00:00",
+            "trade_count": 14,
+            "win_rate": 0.285714,
+            "avg_return": -0.04148446,
+            "median_return": -0.03619067
           },
           {
-            "start": "2022-07-15 00:00:00",
-            "end": "2023-01-11 00:00:00",
-            "trade_count": 132,
-            "win_rate": 0.348485,
-            "avg_return": -0.01414942,
-            "median_return": -0.06981425
+            "start": "2023-05-08 00:00:00",
+            "end": "2023-11-04 00:00:00",
+            "trade_count": 2,
+            "win_rate": 1.0,
+            "avg_return": 1.29654427,
+            "median_return": 1.29654427
           },
           {
-            "start": "2023-01-11 00:00:00",
-            "end": "2023-07-10 00:00:00",
-            "trade_count": 139,
-            "win_rate": 0.510791,
-            "avg_return": 0.02945344,
-            "median_return": 0.00102938
+            "start": "2023-11-04 00:00:00",
+            "end": "2024-05-02 00:00:00",
+            "trade_count": 102,
+            "win_rate": 0.794118,
+            "avg_return": 0.51747762,
+            "median_return": 0.58470565
           },
           {
-            "start": "2023-07-10 00:00:00",
-            "end": "2024-01-06 00:00:00",
-            "trade_count": 150,
-            "win_rate": 0.673333,
-            "avg_return": 0.24889539,
-            "median_return": 0.08963564
+            "start": "2024-10-29 00:00:00",
+            "end": "2025-04-27 00:00:00",
+            "trade_count": 6,
+            "win_rate": 0.0,
+            "avg_return": -0.13821794,
+            "median_return": -0.16065622
           },
           {
-            "start": "2024-01-06 00:00:00",
-            "end": "2024-07-04 00:00:00",
-            "trade_count": 141,
-            "win_rate": 0.404255,
-            "avg_return": -0.01211087,
-            "median_return": -0.03871232
-          },
-          {
-            "start": "2024-07-04 00:00:00",
-            "end": "2024-12-31 00:00:00",
-            "trade_count": 128,
-            "win_rate": 0.554688,
-            "avg_return": 0.03652525,
-            "median_return": 0.02695193
-          },
-          {
-            "start": "2024-12-31 00:00:00",
-            "end": "2025-06-29 00:00:00",
-            "trade_count": 151,
-            "win_rate": 0.476821,
-            "avg_return": -0.01207937,
-            "median_return": -0.0057293
-          },
-          {
-            "start": "2025-06-29 00:00:00",
-            "end": "2025-12-26 00:00:00",
-            "trade_count": 152,
-            "win_rate": 0.440789,
-            "avg_return": 0.00446024,
-            "median_return": -0.02343954
-          },
-          {
-            "start": "2025-12-26 00:00:00",
-            "end": "2026-06-24 00:00:00",
-            "trade_count": 55,
-            "win_rate": 0.327273,
-            "avg_return": -0.12796262,
-            "median_return": -0.08195531
+            "start": "2025-04-27 00:00:00",
+            "end": "2025-10-24 00:00:00",
+            "trade_count": 7,
+            "win_rate": 0.428571,
+            "avg_return": -0.09034759,
+            "median_return": -0.20891927
           }
         ]
       },
       "regime": {
         "success": true,
-        "regimes": {
-          "trend_regime": {
-            "bear": {
-              "count": 341,
-              "win_rate": 0.475073,
-              "avg_return": -0.00078234,
-              "median_return": -0.0057293
-            },
-            "bull": {
-              "count": 1092,
-              "win_rate": 0.541209,
-              "avg_return": 0.12854999,
-              "median_return": 0.02353842
-            },
-            "sideways": {
-              "count": 374,
-              "win_rate": 0.604278,
-              "avg_return": 0.13627234,
-              "median_return": 0.03488554
-            }
-          },
-          "volatility_regime": {
-            "high_volatility": {
-              "count": 896,
-              "win_rate": 0.639509,
-              "avg_return": 0.20407407,
-              "median_return": 0.07650526
-            },
-            "low_volatility": {
-              "count": 911,
-              "win_rate": 0.445664,
-              "avg_return": 0.00902887,
-              "median_return": -0.01950608
-            }
-          }
-        },
-        "regime_score": 0.8
+        "regimes": {},
+        "regime_score": 0.5,
+        "note": "No regime labels on trade rows; neutral regime score assigned."
       },
       "outliers": {
         "success": true,
-        "base_mean": 0.10574193,
+        "base_mean": 0.49523579,
         "tests": {
           "remove_top_1pct": {
-            "cutoff": 1.79572068,
-            "remaining_count": 1788,
-            "trimmed_mean": 0.08158088,
-            "mean_retention_ratio": 0.771509
+            "cutoff": 4.04023906,
+            "remaining_count": 477,
+            "trimmed_mean": 0.45632858,
+            "mean_retention_ratio": 0.921437
           },
           "remove_top_5pct": {
-            "cutoff": 0.90957382,
-            "remaining_count": 1716,
-            "trimmed_mean": 0.03599235,
-            "mean_retention_ratio": 0.340379
+            "cutoff": 2.2483382,
+            "remaining_count": 457,
+            "trimmed_mean": 0.34511736,
+            "mean_retention_ratio": 0.696875
           },
           "remove_top_10pct": {
-            "cutoff": 0.47575781,
-            "remaining_count": 1626,
-            "trimmed_mean": 0.00074364,
-            "mean_retention_ratio": 0.007033
+            "cutoff": 1.46143065,
+            "remaining_count": 433,
+            "trimmed_mean": 0.26617633,
+            "mean_retention_ratio": 0.537474
           }
         },
-        "outlier_score": 0.372974
+        "outlier_score": 0.718595
       },
       "robustness": {
         "success": true,
-        "trade_count": 1807,
+        "trade_count": 482,
         "asset_counts": {
-          "SOL-USD": 689,
-          "BTC-USD": 652,
-          "ETH-USD": 466
+          "SOL-USD": 412,
+          "ETH-USD": 49,
+          "BTC-USD": 21
         },
-        "asset_concentration": 0.381295,
+        "asset_concentration": 0.854772,
         "sample_score": 1.0,
-        "concentration_score": 1.0,
-        "robustness_score": 0.908356
+        "concentration_score": 0.290456,
+        "robustness_score": 0.755809
       }
     },
     "confidence": {
       "success": true,
-      "alpha_confidence": 0.691717,
-      "confidence_label": "experimental_alpha_candidate",
+      "alpha_confidence": 0.570462,
+      "confidence_label": "reject_alpha_candidate",
       "components": {
-        "rolling_stability": 0.615385,
-        "regime_score": 0.8,
-        "outlier_score": 0.372974,
-        "robustness_score": 0.908356
+        "rolling_stability": 0.333333,
+        "regime_score": 0.5,
+        "outlier_score": 0.718595,
+        "robustness_score": 0.755809
       }
     },
     "promotion_checks": {
       "confidence": false,
       "rolling_stability": false,
       "non_overlap_trades": true,
-      "asset_concentration": true,
+      "asset_concentration": false,
       "positive_expectancy": true,
-      "regime_positive": true
+      "regime_positive": false
     },
     "promoted": false
   },
   {
     "success": true,
-    "hypothesis_id": "topology_high_correlation_leader_288",
+    "hypothesis_id": "momentum_top_rank_288_q75",
     "metrics": {
-      "hypothesis_id": "topology_high_correlation_leader_288",
-      "family": "topology",
-      "alpha_score": -250.04926305,
+      "hypothesis_id": "momentum_top_rank_288_q75",
+      "family": "momentum",
+      "alpha_score": -500.144932,
       "passed_min_trades": true,
-      "description": "Long 288-period leader when average absolute correlation is high.",
-      "signal_asset_rule": "leader_asset_288",
+      "description": "Long strongest-ranked asset when 288-period return is above q75 threshold.",
+      "signal_asset_rule": "asset_with_min_rank_return_288",
       "hold_period": 288,
       "direction": "LONG",
-      "raw_trade_count": 348,
-      "raw_win_rate": 0.485632,
-      "raw_avg_return": -0.13383913,
-      "raw_median_return": -0.06563266,
-      "raw_std_return": 0.50461953,
-      "raw_min_return": -0.89198904,
-      "raw_max_return": 0.87624338,
-      "raw_gross_profit": 55.67226164,
-      "raw_gross_loss": 102.24827898,
-      "raw_profit_factor": 0.544481,
-      "raw_sharpe_like": -4.947761,
-      "raw_sortino_like": -9.375265,
-      "raw_final_equity": 0.0,
-      "raw_total_return": -1.0,
+      "raw_trade_count": 809,
+      "raw_win_rate": 0.599506,
+      "raw_avg_return": 1.88068833,
+      "raw_median_return": 0.32428743,
+      "raw_std_return": 5.05960322,
+      "raw_min_return": -0.8972573,
+      "raw_max_return": 46.54075418,
+      "raw_gross_profit": 1716.93106656,
+      "raw_gross_loss": 195.45420966,
+      "raw_profit_factor": 8.784314,
+      "raw_sharpe_like": 10.572425,
+      "raw_sortino_like": 175.532751,
+      "raw_final_equity": 1.453125080839109e+60,
+      "raw_total_return": 1.453125080839109e+60,
       "raw_max_drawdown": -1.0,
-      "raw_recovery_factor": -1.0,
-      "raw_expectancy": -0.13383913,
-      "non_overlap_trade_count": 39,
-      "non_overlap_win_rate": 0.589744,
-      "non_overlap_avg_return": -0.04926305,
-      "non_overlap_median_return": 0.0822683,
-      "non_overlap_std_return": 0.50968194,
-      "non_overlap_min_return": -0.87278694,
-      "non_overlap_max_return": 0.87624338,
-      "non_overlap_gross_profit": 7.49239661,
-      "non_overlap_gross_loss": 9.4136557,
-      "non_overlap_profit_factor": 0.795907,
-      "non_overlap_sharpe_like": -0.603607,
-      "non_overlap_sortino_like": -1.218675,
-      "non_overlap_final_equity": 1.302e-05,
-      "non_overlap_total_return": -0.99998698,
-      "non_overlap_max_drawdown": -0.99999977,
-      "non_overlap_recovery_factor": -0.999987,
-      "non_overlap_expectancy": -0.04926305,
-      "asset_concentration": 0.399425
+      "raw_recovery_factor": 1.453125080839109e+60,
+      "raw_expectancy": 1.88068833,
+      "non_overlap_trade_count": 74,
+      "non_overlap_win_rate": 0.608108,
+      "non_overlap_avg_return": 2.20442813,
+      "non_overlap_median_return": 0.4455649,
+      "non_overlap_std_return": 6.38496288,
+      "non_overlap_min_return": -0.88239532,
+      "non_overlap_max_return": 46.54075418,
+      "non_overlap_gross_profit": 180.73055695,
+      "non_overlap_gross_loss": 17.60287527,
+      "non_overlap_profit_factor": 10.267104,
+      "non_overlap_sharpe_like": 2.969979,
+      "non_overlap_sortino_like": 60.50041,
+      "non_overlap_final_equity": 5849588.90712151,
+      "non_overlap_total_return": 5849587.90712151,
+      "non_overlap_max_drawdown": -1.0,
+      "non_overlap_recovery_factor": 5849587.907122,
+      "non_overlap_expectancy": 2.20442813,
+      "asset_concentration": 0.894932
+    },
+    "validation": {
+      "rolling": {
+        "success": true,
+        "window_days": 180,
+        "window_count": 7,
+        "positive_window_count": 4,
+        "stability_score": 0.571429,
+        "windows": [
+          {
+            "start": "2020-10-15 00:00:00",
+            "end": "2021-04-13 00:00:00",
+            "trade_count": 156,
+            "win_rate": 1.0,
+            "avg_return": 8.89284589,
+            "median_return": 6.11861007
+          },
+          {
+            "start": "2021-04-13 00:00:00",
+            "end": "2021-10-10 00:00:00",
+            "trade_count": 180,
+            "win_rate": 0.677778,
+            "avg_return": 0.89833811,
+            "median_return": 1.10930286
+          },
+          {
+            "start": "2021-10-10 00:00:00",
+            "end": "2022-04-08 00:00:00",
+            "trade_count": 150,
+            "win_rate": 0.0,
+            "avg_return": -0.82069534,
+            "median_return": -0.82739721
+          },
+          {
+            "start": "2022-04-08 00:00:00",
+            "end": "2022-10-05 00:00:00",
+            "trade_count": 31,
+            "win_rate": 0.0,
+            "avg_return": -0.75619685,
+            "median_return": -0.76328245
+          },
+          {
+            "start": "2023-09-30 00:00:00",
+            "end": "2024-03-28 00:00:00",
+            "trade_count": 130,
+            "win_rate": 0.976923,
+            "avg_return": 0.84819159,
+            "median_return": 0.9497549
+          },
+          {
+            "start": "2024-03-28 00:00:00",
+            "end": "2024-09-24 00:00:00",
+            "trade_count": 156,
+            "win_rate": 0.512821,
+            "avg_return": 0.06251601,
+            "median_return": 0.00586849
+          },
+          {
+            "start": "2024-09-24 00:00:00",
+            "end": "2025-03-23 00:00:00",
+            "trade_count": 6,
+            "win_rate": 0.0,
+            "avg_return": -0.1631603,
+            "median_return": -0.15496347
+          }
+        ]
+      },
+      "regime": {
+        "success": true,
+        "regimes": {},
+        "regime_score": 0.5,
+        "note": "No regime labels on trade rows; neutral regime score assigned."
+      },
+      "outliers": {
+        "success": true,
+        "base_mean": 1.88068833,
+        "tests": {
+          "remove_top_1pct": {
+            "cutoff": 27.10456292,
+            "remaining_count": 800,
+            "trimmed_mean": 1.51805197,
+            "mean_retention_ratio": 0.807179
+          },
+          "remove_top_5pct": {
+            "cutoff": 11.15323681,
+            "remaining_count": 768,
+            "trimmed_mean": 0.93619289,
+            "mean_retention_ratio": 0.497793
+          },
+          "remove_top_10pct": {
+            "cutoff": 6.01820049,
+            "remaining_count": 728,
+            "trimmed_mean": 0.56313965,
+            "mean_retention_ratio": 0.299433
+          }
+        },
+        "outlier_score": 0.534801
+      },
+      "robustness": {
+        "success": true,
+        "trade_count": 809,
+        "asset_counts": {
+          "SOL-USD": 724,
+          "ETH-USD": 84,
+          "BTC-USD": 1
+        },
+        "asset_concentration": 0.894932,
+        "sample_score": 1.0,
+        "concentration_score": 0.210136,
+        "robustness_score": 0.722435
+      }
+    },
+    "confidence": {
+      "success": true,
+      "alpha_confidence": 0.595119,
+      "confidence_label": "reject_alpha_candidate",
+      "components": {
+        "rolling_stability": 0.571429,
+        "regime_score": 0.5,
+        "outlier_score": 0.534801,
+        "robustness_score": 0.722435
+      }
+    },
+    "promotion_checks": {
+      "confidence": false,
+      "rolling_stability": false,
+      "non_overlap_trades": true,
+      "asset_concentration": false,
+      "positive_expectancy": true,
+      "regime_positive": false
+    },
+    "promoted": false
+  },
+  {
+    "success": true,
+    "hypothesis_id": "momentum_top_rank_288_q90",
+    "metrics": {
+      "hypothesis_id": "momentum_top_rank_288_q90",
+      "family": "momentum",
+      "alpha_score": -500.191935,
+      "passed_min_trades": true,
+      "description": "Long strongest-ranked asset when 288-period return is above q90 threshold.",
+      "signal_asset_rule": "asset_with_min_rank_return_288",
+      "hold_period": 288,
+      "direction": "LONG",
+      "raw_trade_count": 465,
+      "raw_win_rate": 0.554839,
+      "raw_avg_return": 2.52234656,
+      "raw_median_return": 0.26688097,
+      "raw_std_return": 6.36062632,
+      "raw_min_return": -0.87432117,
+      "raw_max_return": 46.54075418,
+      "raw_gross_profit": 1297.25711745,
+      "raw_gross_loss": 124.36596867,
+      "raw_profit_factor": 10.430965,
+      "raw_sharpe_like": 8.551284,
+      "raw_sortino_like": 182.681708,
+      "raw_final_equity": 1.9016009260506706e+41,
+      "raw_total_return": 1.9016009260506706e+41,
+      "raw_max_drawdown": -1.0,
+      "raw_recovery_factor": 1.9016009260506706e+41,
+      "raw_expectancy": 2.52234656,
+      "non_overlap_trade_count": 43,
+      "non_overlap_win_rate": 0.511628,
+      "non_overlap_avg_return": 2.88294428,
+      "non_overlap_median_return": 0.14032452,
+      "non_overlap_std_return": 8.11325575,
+      "non_overlap_min_return": -0.85644456,
+      "non_overlap_max_return": 46.54075418,
+      "non_overlap_gross_profit": 134.86067342,
+      "non_overlap_gross_loss": 10.8940693,
+      "non_overlap_profit_factor": 12.379274,
+      "non_overlap_sharpe_like": 2.330104,
+      "non_overlap_sortino_like": 55.933096,
+      "non_overlap_final_equity": 29601.41926479,
+      "non_overlap_total_return": 29600.41926479,
+      "non_overlap_max_drawdown": -1.0,
+      "non_overlap_recovery_factor": 29600.419335,
+      "non_overlap_expectancy": 2.88294428,
+      "asset_concentration": 0.941935
     },
     "validation": {
       "rolling": {
         "success": true,
         "window_days": 180,
         "window_count": 5,
-        "positive_window_count": 3,
-        "stability_score": 0.6,
+        "positive_window_count": 2,
+        "stability_score": 0.4,
         "windows": [
           {
-            "start": "2022-02-12 00:00:00",
-            "end": "2022-08-11 00:00:00",
-            "trade_count": 137,
-            "win_rate": 0.131387,
-            "avg_return": -0.56723298,
-            "median_return": -0.76432677
-          },
-          {
-            "start": "2022-08-11 00:00:00",
-            "end": "2023-02-07 00:00:00",
-            "trade_count": 118,
+            "start": "2021-01-03 00:00:00",
+            "end": "2021-07-02 00:00:00",
+            "trade_count": 178,
             "win_rate": 1.0,
-            "avg_return": 0.35129537,
-            "median_return": 0.31878413
+            "avg_return": 6.90076359,
+            "median_return": 2.61521043
           },
           {
-            "start": "2023-02-07 00:00:00",
-            "end": "2023-08-06 00:00:00",
-            "trade_count": 15,
-            "win_rate": 1.0,
-            "avg_return": 0.34331229,
-            "median_return": 0.35134284
+            "start": "2021-07-02 00:00:00",
+            "end": "2021-12-29 00:00:00",
+            "trade_count": 180,
+            "win_rate": 0.233333,
+            "avg_return": -0.24569539,
+            "median_return": -0.75362067
           },
           {
-            "start": "2024-07-31 00:00:00",
-            "end": "2025-01-27 00:00:00",
-            "trade_count": 4,
-            "win_rate": 1.0,
-            "avg_return": 0.41757788,
-            "median_return": 0.38978143
+            "start": "2021-12-29 00:00:00",
+            "end": "2022-06-27 00:00:00",
+            "trade_count": 18,
+            "win_rate": 0.0,
+            "avg_return": -0.80434864,
+            "median_return": -0.80606802
           },
           {
-            "start": "2025-01-27 00:00:00",
-            "end": "2025-07-26 00:00:00",
-            "trade_count": 74,
-            "win_rate": 0.189189,
-            "avg_return": -0.2315939,
-            "median_return": -0.31187587
+            "start": "2023-12-19 00:00:00",
+            "end": "2024-06-16 00:00:00",
+            "trade_count": 63,
+            "win_rate": 0.539683,
+            "avg_return": 0.09108666,
+            "median_return": 0.0404615
+          },
+          {
+            "start": "2024-06-16 00:00:00",
+            "end": "2024-12-13 00:00:00",
+            "trade_count": 26,
+            "win_rate": 0.153846,
+            "avg_return": -0.09537631,
+            "median_return": -0.11673265
           }
         ]
       },
       "regime": {
         "success": true,
-        "regimes": {
-          "trend_regime": {
-            "bear": {
-              "count": 199,
-              "win_rate": 0.748744,
-              "avg_return": 0.12315707,
-              "median_return": 0.25671527
-            },
-            "bull": {
-              "count": 99,
-              "win_rate": 0.191919,
-              "avg_return": -0.49187271,
-              "median_return": -0.75830187
-            },
-            "sideways": {
-              "count": 50,
-              "win_rate": 0.02,
-              "avg_return": -0.44777751,
-              "median_return": -0.35349831
-            }
-          },
-          "volatility_regime": {
-            "high_volatility": {
-              "count": 190,
-              "win_rate": 0.668421,
-              "avg_return": -0.01091405,
-              "median_return": 0.17210617
-            },
-            "low_volatility": {
-              "count": 158,
-              "win_rate": 0.265823,
-              "avg_return": -0.28166043,
-              "median_return": -0.3660132
-            }
-          }
-        },
-        "regime_score": 0.2
+        "regimes": {},
+        "regime_score": 0.5,
+        "note": "No regime labels on trade rows; neutral regime score assigned."
       },
       "outliers": {
         "success": true,
-        "base_mean": -0.13383913,
+        "base_mean": 2.52234656,
         "tests": {
           "remove_top_1pct": {
-            "cutoff": 0.66414629,
-            "remaining_count": 344,
-            "trimmed_mean": -0.14410819,
-            "mean_retention_ratio": 1.076727
+            "cutoff": 31.94269779,
+            "remaining_count": 460,
+            "trimmed_mean": 2.13756419,
+            "mean_retention_ratio": 0.847451
           },
           "remove_top_5pct": {
-            "cutoff": 0.58387838,
-            "remaining_count": 330,
-            "trimmed_mean": -0.17625581,
-            "mean_retention_ratio": 1.316923
+            "cutoff": 12.45602616,
+            "remaining_count": 441,
+            "trimmed_mean": 1.29565543,
+            "mean_retention_ratio": 0.513671
           },
           "remove_top_10pct": {
-            "cutoff": 0.47924739,
-            "remaining_count": 313,
-            "trimmed_mean": -0.21526923,
-            "mean_retention_ratio": 1.608418
+            "cutoff": 10.61743204,
+            "remaining_count": 418,
+            "trimmed_mean": 0.72877219,
+            "mean_retention_ratio": 0.288926
           }
         },
-        "outlier_score": 1.0
+        "outlier_score": 0.550016
       },
       "robustness": {
         "success": true,
-        "trade_count": 348,
+        "trade_count": 465,
         "asset_counts": {
-          "BTC-USD": 139,
-          "SOL-USD": 110,
-          "ETH-USD": 99
+          "SOL-USD": 438,
+          "ETH-USD": 27
         },
-        "asset_concentration": 0.399425,
+        "asset_concentration": 0.941935,
         "sample_score": 1.0,
-        "concentration_score": 1.0,
-        "robustness_score": 0.697126
+        "concentration_score": 0.116129,
+        "robustness_score": 0.69
       }
     },
     "confidence": {
       "success": true,
-      "alpha_confidence": 0.629138,
-      "confidence_label": "experimental_alpha_candidate",
+      "alpha_confidence": 0.537003,
+      "confidence_label": "reject_alpha_candidate",
       "components": {
-        "rolling_stability": 0.6,
-        "regime_score": 0.2,
-        "outlier_score": 1.0,
-        "robustness_score": 0.697126
+        "rolling_stability": 0.4,
+        "regime_score": 0.5,
+        "outlier_score": 0.550016,
+        "robustness_score": 0.69
       }
     },
     "promotion_checks": {
       "confidence": false,
       "rolling_stability": false,
       "non_overlap_trades": true,
-      "asset_concentration": true,
-      "positive_expectancy": false,
+      "asset_concentration": false,
+      "positive_expectancy": true,
       "regime_positive": false
     },
     "promoted": false

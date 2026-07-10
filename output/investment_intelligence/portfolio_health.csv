@@ -5,5 +5,5 @@ portfolio_state,PASS,Portfolio State is available.
 performance,PASS,Performance Engine is healthy.
 learning,PASS,Learning Engine is healthy.
 risk,PASS,Risk Engine is healthy.
-trade_safety,WARN,Safety Governor approved with warnings.
+trade_safety,WARN,Safety Governor currently blocks execution. Capital remains protected.
 atlas_core,PASS,Atlas Core completed successfully.

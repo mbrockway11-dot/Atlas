@@ -1,3 +1,1 @@
-asset,action,current_weight,target_weight,signed_delta,priority,reason,explanation
-BTC-USD,SELL,0.350055,0.2625,-0.087555,1,Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets.,SELL BTC-USD because its current portfolio weight is 35.0055% and its adaptive target is 26.2500%. Required change: -8.7555%.
-ETH-USD,SELL,0.349945,0.2625,-0.087445,2,Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets.,SELL ETH-USD because its current portfolio weight is 34.9945% and its adaptive target is 26.2500%. Required change: -8.7445%.
+

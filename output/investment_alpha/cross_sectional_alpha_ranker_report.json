@@ -1,33 +1,96 @@
 {
   "success": true,
-  "summary": "Cross-Sectional Alpha Ranker scored 6743 asset-date row(s) across 3 asset(s). Latest date: 2026-03-31 00:00:00.",
-  "row_count": 6743,
-  "asset_count": 3,
-  "latest_date": "2026-03-31 00:00:00",
+  "summary": "Cross-Sectional Alpha Ranker scored 10 asset-date row(s) across 10 asset(s). Latest date: 2026-07-10 00:00:00+00:00.",
+  "row_count": 10,
+  "asset_count": 10,
+  "latest_date": "2026-07-10 00:00:00+00:00",
   "latest_top_assets": [
     {
       "asset": "BTC-USD",
       "final_rank": 1.0,
-      "final_alpha_score": 0.6833333333333332,
-      "raw_alpha_score": 0.6833333333333332,
-      "ensemble_confidence": 0.0,
-      "ensemble_confirmed": false,
+      "final_alpha_score": 0.10562500000000001,
+      "raw_alpha_score": 0.0,
+      "ensemble_confidence": 0.65,
+      "ensemble_confirmed": true,
       "final_rank_label": "highest_conviction"
     },
     {
       "asset": "ETH-USD",
-      "final_rank": 2.0,
-      "final_alpha_score": 0.5833333333333334,
-      "raw_alpha_score": 0.5833333333333334,
+      "final_rank": 1.0,
+      "final_alpha_score": 0.10562500000000001,
+      "raw_alpha_score": 0.0,
+      "ensemble_confidence": 0.65,
+      "ensemble_confirmed": true,
+      "final_rank_label": "highest_conviction"
+    },
+    {
+      "asset": "SOL-USD",
+      "final_rank": 3.0,
+      "final_alpha_score": 0.0,
+      "raw_alpha_score": 0.0,
       "ensemble_confidence": 0.0,
       "ensemble_confirmed": false,
       "final_rank_label": "portfolio_candidate"
     },
     {
-      "asset": "SOL-USD",
+      "asset": "AAVE-USD",
       "final_rank": 3.0,
-      "final_alpha_score": 0.23333333333333334,
-      "raw_alpha_score": 0.23333333333333334,
+      "final_alpha_score": 0.0,
+      "raw_alpha_score": 0.0,
+      "ensemble_confidence": 0.0,
+      "ensemble_confirmed": false,
+      "final_rank_label": "portfolio_candidate"
+    },
+    {
+      "asset": "LINK-USD",
+      "final_rank": 3.0,
+      "final_alpha_score": 0.0,
+      "raw_alpha_score": 0.0,
+      "ensemble_confidence": 0.0,
+      "ensemble_confirmed": false,
+      "final_rank_label": "portfolio_candidate"
+    },
+    {
+      "asset": "BNB-USD",
+      "final_rank": 3.0,
+      "final_alpha_score": 0.0,
+      "raw_alpha_score": 0.0,
+      "ensemble_confidence": 0.0,
+      "ensemble_confirmed": false,
+      "final_rank_label": "portfolio_candidate"
+    },
+    {
+      "asset": "ADA-USD",
+      "final_rank": 3.0,
+      "final_alpha_score": 0.0,
+      "raw_alpha_score": 0.0,
+      "ensemble_confidence": 0.0,
+      "ensemble_confirmed": false,
+      "final_rank_label": "portfolio_candidate"
+    },
+    {
+      "asset": "AVAX-USD",
+      "final_rank": 3.0,
+      "final_alpha_score": 0.0,
+      "raw_alpha_score": 0.0,
+      "ensemble_confidence": 0.0,
+      "ensemble_confirmed": false,
+      "final_rank_label": "portfolio_candidate"
+    },
+    {
+      "asset": "XRP-USD",
+      "final_rank": 3.0,
+      "final_alpha_score": 0.0,
+      "raw_alpha_score": 0.0,
+      "ensemble_confidence": 0.0,
+      "ensemble_confirmed": false,
+      "final_rank_label": "portfolio_candidate"
+    },
+    {
+      "asset": "DOGE-USD",
+      "final_rank": 3.0,
+      "final_alpha_score": 0.0,
+      "raw_alpha_score": 0.0,
       "ensemble_confidence": 0.0,
       "ensemble_confirmed": false,
       "final_rank_label": "portfolio_candidate"

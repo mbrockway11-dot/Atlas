@@ -1,3 +1,1 @@
-asset,action,side,weight_delta,signed_delta,current_weight,target_weight,order_type,priority,source,reason
-BTC-USD,SELL,LONG,0.087555,-0.087555,0.350055,0.2625,REBALANCE_INTENT,1,rebalance_engine_v4,Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets.
-ETH-USD,SELL,LONG,0.087445,-0.087445,0.349945,0.2625,REBALANCE_INTENT,2,rebalance_engine_v4,Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets.
+

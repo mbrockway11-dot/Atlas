@@ -1,41 +1,32 @@
 {
   "success": true,
-  "summary": "Alpha Portfolio constructed 4 row(s). Risk label: aggressive.",
+  "summary": "Alpha Portfolio constructed 3 row(s). Risk label: aggressive.",
   "risk": {
     "success": true,
-    "asset_count": 3,
-    "total_risky_weight": 0.799999,
+    "asset_count": 2,
+    "total_risky_weight": 0.8,
     "cash_weight": 0.2,
-    "max_asset_weight": 0.364444,
-    "diversification_score": 0.531334,
+    "max_asset_weight": 0.4,
+    "diversification_score": 0.34,
     "risk_label": "aggressive"
   },
   "portfolio": [
     {
       "asset": "BTC-USD",
-      "target_weight": 0.364444,
-      "alpha_score": 0.68333333,
+      "target_weight": 0.4,
+      "alpha_score": 0.105625,
       "rank": 1.0,
       "rank_label": "highest_conviction",
-      "ensemble_confidence": 0.0,
+      "ensemble_confidence": 0.65,
       "reason": "Allocated by cross-sectional alpha score with max-asset cap."
     },
     {
       "asset": "ETH-USD",
-      "target_weight": 0.311111,
-      "alpha_score": 0.58333333,
-      "rank": 2.0,
-      "rank_label": "portfolio_candidate",
-      "ensemble_confidence": 0.0,
-      "reason": "Allocated by cross-sectional alpha score with max-asset cap."
-    },
-    {
-      "asset": "SOL-USD",
-      "target_weight": 0.124444,
-      "alpha_score": 0.23333333,
-      "rank": 3.0,
-      "rank_label": "portfolio_candidate",
-      "ensemble_confidence": 0.0,
+      "target_weight": 0.4,
+      "alpha_score": 0.105625,
+      "rank": 1.0,
+      "rank_label": "highest_conviction",
+      "ensemble_confidence": 0.65,
       "reason": "Allocated by cross-sectional alpha score with max-asset cap."
     },
     {

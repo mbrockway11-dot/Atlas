@@ -18,6 +18,9 @@ from atlas.investment.intelligence.market_context import (
 from atlas.investment.intelligence.repository_context import (
     build_repository_context,
 )
+from atlas.investment.intelligence.reconciliation import (
+    build_reconciled_snapshot,
+)
 from atlas.investment.intelligence.report import (
     build_investment_intelligence_report as build_v1,
 )
@@ -121,9 +124,135 @@ def build_investment_intelligence_v2_report() -> dict:
         ),
     }
 
+    reconciliation = build_reconciled_snapshot()
+
     report["version"] = (
-        "investment_intelligence_v2"
+        "investment_intelligence_v2_1"
     )
+    report["reconciliation"] = reconciliation
+
+    # Reconciliation owns all current/target/trade explanations.
+    report["trade_explanations"] = reconciliation.get(
+        "canonical_trades",
+        [],
+    )
+
+    portfolio_explanation = (
+        report.get("portfolio_explanation", {}) or {}
+    )
+    reconciled_portfolio = (
+        reconciliation.get("portfolio", {}) or {}
+    )
+
+    portfolio_explanation["risky_weight"] = (
+        reconciled_portfolio.get(
+            "current_risky_weight",
+            portfolio_explanation.get("risky_weight", 0.0),
+        )
+    )
+    portfolio_explanation["cash_weight"] = (
+        reconciled_portfolio.get(
+            "current_cash_weight",
+            portfolio_explanation.get("cash_weight", 0.0),
+        )
+    )
+    portfolio_explanation["target_risky_weight"] = (
+        reconciled_portfolio.get(
+            "target_risky_weight",
+            0.0,
+        )
+    )
+    portfolio_explanation["target_cash_weight"] = (
+        reconciled_portfolio.get(
+            "target_cash_weight",
+            0.0,
+        )
+    )
+    portfolio_explanation["rebalance_order_count"] = len(
+        report["trade_explanations"]
+    )
+    portfolio_explanation["snapshot_fingerprint"] = (
+        reconciliation.get("snapshot_fingerprint")
+    )
+    portfolio_explanation["state_consistent"] = (
+        reconciliation.get("state_consistent")
+    )
+
+    if report["trade_explanations"]:
+        action_text = (
+            f"{len(report['trade_explanations'])} reconciled "
+            "portfolio action(s) are required."
+        )
+    else:
+        action_text = (
+            "No reconciled portfolio action is required; current "
+            "weights match the latest canonical targets."
+        )
+
+    portfolio_explanation["explanation"] = (
+        f"The reconciled portfolio is "
+        f"{portfolio_explanation['risky_weight']:.2%} invested "
+        f"with {portfolio_explanation['cash_weight']:.2%} in cash. "
+        f"The canonical target is "
+        f"{portfolio_explanation['target_risky_weight']:.2%} risky "
+        f"and {portfolio_explanation['target_cash_weight']:.2%} cash. "
+        f"{action_text}"
+    )
+
+    report["portfolio_explanation"] = portfolio_explanation
+
+    reconciled_by_asset = {
+        row.get("asset"): row
+        for row in reconciliation.get(
+            "asset_reconciliation",
+            [],
+        )
+    }
+
+    for row in report.get("asset_explanations", []):
+        reconciled = reconciled_by_asset.get(
+            row.get("asset")
+        )
+
+        if not reconciled:
+            continue
+
+        row["current_weight"] = reconciled[
+            "current_weight"
+        ]
+        row["target_weight"] = reconciled[
+            "canonical_target_weight"
+        ]
+        row["weight_delta"] = reconciled[
+            "canonical_delta"
+        ]
+        row["target_source"] = (
+            reconciled["canonical_target_source"]
+        )
+        row["snapshot_fingerprint"] = (
+            reconciliation.get("snapshot_fingerprint")
+        )
+
+        delta = row["weight_delta"]
+
+        if abs(delta) <= reconciliation["tolerance"]:
+            allocation_text = (
+                "Current exposure matches the reconciled target."
+            )
+        elif delta > 0:
+            allocation_text = (
+                f"Increase exposure by approximately {delta:.2%}."
+            )
+        else:
+            allocation_text = (
+                f"Reduce exposure by approximately {abs(delta):.2%}."
+            )
+
+        row["explanation"] = (
+            f"{row['asset']} has ensemble conviction "
+            f"{row.get('ensemble_score', 0.0):.3f}. "
+            f"{allocation_text}"
+        )
     report["market_context"] = market_context
     report["repository_context"] = (
         repository_context
@@ -186,12 +315,14 @@ def build_investment_intelligence_v2_report() -> dict:
     ] = round(adjusted, 6)
 
     report["summary"] = (
-        "Investment Intelligence v2 assessed "
+        "Investment Intelligence v2.1 assessed "
         f"{market_context.get('asset_count', 0)} "
         "research asset(s), identified market state "
         f"{market_context.get('market_state')}, "
-        "and measured segmented-data coverage at "
-        f"{coverage:.1%}."
+        f"measured segmented-data coverage at {coverage:.1%}, "
+        f"and reconciled portfolio state with "
+        f"{len(report.get('trade_explanations', []))} "
+        "canonical action(s)."
     )
     report["text_summary"] = report[
         "summary"
@@ -375,7 +506,7 @@ def write_v2_outputs(report: dict) -> None:
     )
 
     lines = [
-        "# Investment Intelligence v2",
+        "# Investment Intelligence v2.1",
         "",
         report.get("summary", ""),
         "",
@@ -403,7 +534,19 @@ def write_v2_outputs(report: dict) -> None:
         ),
         "```",
         "",
-        "## V2 Recommendations",
+        "## Reconciliation",
+        "",
+        "```json",
+        json.dumps(
+            report.get(
+                "reconciliation",
+                {},
+            ),
+            indent=2,
+        ),
+        "```",
+        "",
+        "## V2.1 Recommendations",
         "",
     ]
 
