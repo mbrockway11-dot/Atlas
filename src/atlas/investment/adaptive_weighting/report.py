@@ -1,5 +1,5 @@
 
-"""Adaptive Weighting v3 report/export."""
+"""Adaptive Weighting v4 report/export."""
 
 from __future__ import annotations
 
@@ -24,9 +24,15 @@ def build_adaptive_weighting_report() -> dict[str, Any]:
 
     report = {
         "success": True,
-        "version": "adaptive_weighting_v3",
+        "version": "adaptive_weighting_v4",
         "summary": (
-            f"Adaptive Weighting v3 produced {len(result.get('rows', []))} adaptive weight row(s). "
+            f"Adaptive Weighting v4 consumed Alpha Ensemble v4 hints and produced "
+            f"{len(result.get('rows', []))} adaptive weight row(s). "
+            f"Regime multiplier={result.get('regime_multiplier')}."
+        ),
+        "text_summary": (
+            f"Adaptive Weighting v4 consumed Alpha Ensemble v4 hints and produced "
+            f"{len(result.get('rows', []))} adaptive weight row(s). "
             f"Regime multiplier={result.get('regime_multiplier')}."
         ),
         **result,
@@ -51,7 +57,7 @@ def write_outputs(report: dict[str, Any]) -> None:
 
 def build_markdown(report: dict[str, Any]) -> str:
     lines = [
-        "# Adaptive Weighting v3 Report",
+        "# Adaptive Weighting v4 Report",
         "",
         report.get("summary", ""),
         "",
@@ -62,7 +68,7 @@ def build_markdown(report: dict[str, Any]) -> str:
     for row in report.get("rows", []):
         lines.append(
             f"- `{row.get('asset')}` adaptive_weight=`{row.get('adaptive_weight')}` "
-            f"registry_multiplier=`{row.get('registry_multiplier')}`"
+            f"base=`{row.get('base_weight')}` registry_multiplier=`{row.get('registry_multiplier')}`"
         )
 
     return "\n".join(lines) + "\n"

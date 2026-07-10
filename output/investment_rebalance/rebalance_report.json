@@ -1,28 +1,27 @@
 {
   "success": true,
   "version": "rebalance_engine_v4",
-  "summary": "Rebalance Engine v4 compared Portfolio State v4 to Alpha Portfolio v3, generated 0 order intent(s), turnover=0.",
-  "text_summary": "Rebalance Engine v4 compared Portfolio State v4 to Alpha Portfolio v3, generated 0 order intent(s), turnover=0.",
-  "turnover": 0,
+  "summary": "Rebalance Engine v4 compared Portfolio State v4 to Alpha Portfolio v3, generated 2 order intent(s), turnover=0.055262.",
+  "text_summary": "Rebalance Engine v4 compared Portfolio State v4 to Alpha Portfolio v3, generated 2 order intent(s), turnover=0.055262.",
+  "turnover": 0.055262,
   "current_weights": {
     "BTC-USD": 0.377631,
     "ETH-USD": 0.322369,
     "CASH": 0.3
   },
   "target_weights": {
-    "BTC-USD": 0.377631,
-    "ETH-USD": 0.322369,
-    "SOL-USD": 0.0,
+    "BTC-USD": 0.35,
+    "ETH-USD": 0.35,
     "CASH": 0.3
   },
   "rows": [
     {
       "asset": "BTC-USD",
       "current_weight": 0.377631,
-      "target_weight": 0.377631,
-      "signed_delta": 0.0,
-      "abs_delta": 0.0,
-      "rebalance_action": "HOLD",
+      "target_weight": 0.35,
+      "signed_delta": -0.027631,
+      "abs_delta": 0.027631,
+      "rebalance_action": "SELL",
       "reason": "Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets.",
       "source": "rebalance_engine_v4"
     },
@@ -39,25 +38,42 @@
     {
       "asset": "ETH-USD",
       "current_weight": 0.322369,
-      "target_weight": 0.322369,
-      "signed_delta": 0.0,
-      "abs_delta": 0.0,
-      "rebalance_action": "HOLD",
-      "reason": "Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets.",
-      "source": "rebalance_engine_v4"
-    },
-    {
-      "asset": "SOL-USD",
-      "current_weight": 0.0,
-      "target_weight": 0.0,
-      "signed_delta": 0.0,
-      "abs_delta": 0.0,
-      "rebalance_action": "HOLD",
+      "target_weight": 0.35,
+      "signed_delta": 0.027631,
+      "abs_delta": 0.027631,
+      "rebalance_action": "BUY",
       "reason": "Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets.",
       "source": "rebalance_engine_v4"
     }
   ],
-  "orders": [],
+  "orders": [
+    {
+      "asset": "BTC-USD",
+      "action": "SELL",
+      "side": "LONG",
+      "weight_delta": 0.027631,
+      "signed_delta": -0.027631,
+      "current_weight": 0.377631,
+      "target_weight": 0.35,
+      "order_type": "REBALANCE_INTENT",
+      "priority": 1,
+      "source": "rebalance_engine_v4",
+      "reason": "Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets."
+    },
+    {
+      "asset": "ETH-USD",
+      "action": "BUY",
+      "side": "LONG",
+      "weight_delta": 0.027631,
+      "signed_delta": 0.027631,
+      "current_weight": 0.322369,
+      "target_weight": 0.35,
+      "order_type": "REBALANCE_INTENT",
+      "priority": 2,
+      "source": "rebalance_engine_v4",
+      "reason": "Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets."
+    }
+  ],
   "outputs": {
     "json": "output\\investment_rebalance\\rebalance_report.json",
     "markdown": "output\\investment_rebalance\\rebalance_report.md",

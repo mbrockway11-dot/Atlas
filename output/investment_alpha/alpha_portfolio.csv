@@ -1,5 +1,4 @@
 asset,target_weight,paper_weight,weight,allocation,target_exposure,source,base_weight,registry_multiplier,regime_multiplier
-BTC-USD,0.377631,0.377631,0.377631,0.377631,0.377631,adaptive_weighting_v3,0.377631,1.075,1.0
-ETH-USD,0.322369,0.322369,0.322369,0.322369,0.322369,adaptive_weighting_v3,0.322369,1.075,1.0
-SOL-USD,0.0,0.0,0.0,0.0,0.0,adaptive_weighting_v3,0.0,1.0,1.0
-CASH,0.3,0.3,0.3,0.3,0.3,adaptive_weighting_v3,0.0,1.0,1.0
+BTC-USD,0.35,0.35,0.35,0.35,0.35,adaptive_weighting_v3,0.35,1.075,1.0
+ETH-USD,0.35,0.35,0.35,0.35,0.35,adaptive_weighting_v3,0.35,1.075,1.0
+CASH,0.3,0.3,0.3,0.3,0.3,adaptive_weighting_v3,0.3,1.0,1.0

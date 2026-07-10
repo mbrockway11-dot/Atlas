@@ -1,5 +1,4 @@
 asset,current_weight,target_weight,signed_delta,abs_delta,rebalance_action,reason,source
-BTC-USD,0.377631,0.377631,0.0,0.0,HOLD,Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets.,rebalance_engine_v4
+BTC-USD,0.377631,0.35,-0.027631,0.027631,SELL,Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets.,rebalance_engine_v4
 CASH,0.3,0.3,0.0,0.0,CASH_ADJUST,Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets.,rebalance_engine_v4
-ETH-USD,0.322369,0.322369,0.0,0.0,HOLD,Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets.,rebalance_engine_v4
-SOL-USD,0.0,0.0,0.0,0.0,HOLD,Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets.,rebalance_engine_v4
+ETH-USD,0.322369,0.35,0.027631,0.027631,BUY,Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets.,rebalance_engine_v4
