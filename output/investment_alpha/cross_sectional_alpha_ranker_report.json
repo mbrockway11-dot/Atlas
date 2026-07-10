@@ -6,94 +6,94 @@
   "latest_date": "2026-07-10 00:00:00+00:00",
   "latest_top_assets": [
     {
+      "asset": "SOL-USD",
+      "final_rank": 1.0,
+      "final_alpha_score": 0.0,
+      "raw_alpha_score": 0.0,
+      "ensemble_confidence": 0.734509,
+      "ensemble_confirmed": false,
+      "final_rank_label": "highest_conviction"
+    },
+    {
+      "asset": "AAVE-USD",
+      "final_rank": 1.0,
+      "final_alpha_score": 0.0,
+      "raw_alpha_score": 0.0,
+      "ensemble_confidence": 0.720544,
+      "ensemble_confirmed": false,
+      "final_rank_label": "highest_conviction"
+    },
+    {
       "asset": "BTC-USD",
       "final_rank": 1.0,
-      "final_alpha_score": 0.10562500000000001,
+      "final_alpha_score": 0.0,
       "raw_alpha_score": 0.0,
-      "ensemble_confidence": 0.65,
-      "ensemble_confirmed": true,
+      "ensemble_confidence": 0.882257,
+      "ensemble_confirmed": false,
       "final_rank_label": "highest_conviction"
     },
     {
       "asset": "ETH-USD",
       "final_rank": 1.0,
-      "final_alpha_score": 0.10562500000000001,
+      "final_alpha_score": 0.0,
       "raw_alpha_score": 0.0,
-      "ensemble_confidence": 0.65,
-      "ensemble_confirmed": true,
+      "ensemble_confidence": 0.882521,
+      "ensemble_confirmed": false,
       "final_rank_label": "highest_conviction"
     },
     {
-      "asset": "SOL-USD",
-      "final_rank": 3.0,
-      "final_alpha_score": 0.0,
+      "asset": "DOGE-USD",
+      "final_rank": 5.0,
+      "final_alpha_score": -0.05310336915325,
       "raw_alpha_score": 0.0,
-      "ensemble_confidence": 0.0,
+      "ensemble_confidence": 0.772837,
       "ensemble_confirmed": false,
-      "final_rank_label": "portfolio_candidate"
-    },
-    {
-      "asset": "AAVE-USD",
-      "final_rank": 3.0,
-      "final_alpha_score": 0.0,
-      "raw_alpha_score": 0.0,
-      "ensemble_confidence": 0.0,
-      "ensemble_confirmed": false,
-      "final_rank_label": "portfolio_candidate"
-    },
-    {
-      "asset": "LINK-USD",
-      "final_rank": 3.0,
-      "final_alpha_score": 0.0,
-      "raw_alpha_score": 0.0,
-      "ensemble_confidence": 0.0,
-      "ensemble_confirmed": false,
-      "final_rank_label": "portfolio_candidate"
-    },
-    {
-      "asset": "BNB-USD",
-      "final_rank": 3.0,
-      "final_alpha_score": 0.0,
-      "raw_alpha_score": 0.0,
-      "ensemble_confidence": 0.0,
-      "ensemble_confirmed": false,
-      "final_rank_label": "portfolio_candidate"
+      "final_rank_label": "watchlist"
     },
     {
       "asset": "ADA-USD",
-      "final_rank": 3.0,
-      "final_alpha_score": 0.0,
+      "final_rank": 6.0,
+      "final_alpha_score": -0.0670903380535,
       "raw_alpha_score": 0.0,
-      "ensemble_confidence": 0.0,
+      "ensemble_confidence": 0.778667,
       "ensemble_confirmed": false,
-      "final_rank_label": "portfolio_candidate"
-    },
-    {
-      "asset": "AVAX-USD",
-      "final_rank": 3.0,
-      "final_alpha_score": 0.0,
-      "raw_alpha_score": 0.0,
-      "ensemble_confidence": 0.0,
-      "ensemble_confirmed": false,
-      "final_rank_label": "portfolio_candidate"
+      "final_rank_label": "watchlist"
     },
     {
       "asset": "XRP-USD",
-      "final_rank": 3.0,
-      "final_alpha_score": 0.0,
+      "final_rank": 7.0,
+      "final_alpha_score": -0.067877566804,
       "raw_alpha_score": 0.0,
-      "ensemble_confidence": 0.0,
+      "ensemble_confidence": 0.778408,
       "ensemble_confirmed": false,
-      "final_rank_label": "portfolio_candidate"
+      "final_rank_label": "watchlist"
     },
     {
-      "asset": "DOGE-USD",
-      "final_rank": 3.0,
-      "final_alpha_score": 0.0,
+      "asset": "AVAX-USD",
+      "final_rank": 8.0,
+      "final_alpha_score": -0.068738843637,
       "raw_alpha_score": 0.0,
-      "ensemble_confidence": 0.0,
+      "ensemble_confidence": 0.778042,
       "ensemble_confirmed": false,
-      "final_rank_label": "portfolio_candidate"
+      "final_rank_label": "watchlist"
+    },
+    {
+      "asset": "BNB-USD",
+      "final_rank": 9.0,
+      "final_alpha_score": -0.072836804076,
+      "raw_alpha_score": 0.0,
+      "ensemble_confidence": 0.775074,
+      "ensemble_confirmed": false,
+      "final_rank_label": "watchlist"
+    },
+    {
+      "asset": "LINK-USD",
+      "final_rank": 10.0,
+      "final_alpha_score": -0.07322633418449999,
+      "raw_alpha_score": 0.0,
+      "ensemble_confidence": 0.774681,
+      "ensemble_confirmed": false,
+      "final_rank_label": "watchlist"
     }
   ],
   "outputs": {

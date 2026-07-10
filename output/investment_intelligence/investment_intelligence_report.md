@@ -1,6 +1,6 @@
 # Investment Intelligence v2.1
 
-Investment Intelligence v2.1 assessed 10 research asset(s), identified market state HIGH_DISPERSION_SELECTION, measured segmented-data coverage at 100.0%, and reconciled portfolio state with 0 canonical action(s).
+Investment Intelligence v2.1 assessed 10 research asset(s), identified market state HIGH_DISPERSION_SELECTION, measured segmented-data coverage at 100.0%, and reconciled portfolio state with 4 canonical action(s).
 
 ## Market Context
 
@@ -24,47 +24,47 @@ Investment Intelligence v2.1 assessed 10 research asset(s), identified market st
   },
   "leaders": [
     {
-      "asset": "BTC-USD",
-      "score": 0.105625,
-      "score_field": "final_alpha_score",
-      "rank": 1.0
-    },
-    {
-      "asset": "ETH-USD",
-      "score": 0.105625,
-      "score_field": "final_alpha_score",
-      "rank": 1.0
-    },
-    {
       "asset": "SOL-USD",
       "score": 0.0,
       "score_field": "final_alpha_score",
-      "rank": 3.0
-    }
-  ],
-  "laggards": [
-    {
-      "asset": "SOL-USD",
-      "score": 0.0,
-      "score_field": "final_alpha_score",
-      "rank": 3.0
+      "rank": 1.0
     },
     {
       "asset": "AAVE-USD",
       "score": 0.0,
       "score_field": "final_alpha_score",
-      "rank": 3.0
+      "rank": 1.0
     },
     {
-      "asset": "LINK-USD",
+      "asset": "BTC-USD",
       "score": 0.0,
       "score_field": "final_alpha_score",
-      "rank": 3.0
+      "rank": 1.0
+    }
+  ],
+  "laggards": [
+    {
+      "asset": "LINK-USD",
+      "score": -0.0732263341844999,
+      "score_field": "final_alpha_score",
+      "rank": 10.0
+    },
+    {
+      "asset": "BNB-USD",
+      "score": -0.072836804076,
+      "score_field": "final_alpha_score",
+      "rank": 9.0
+    },
+    {
+      "asset": "AVAX-USD",
+      "score": -0.068738843637,
+      "score_field": "final_alpha_score",
+      "rank": 8.0
     }
   ],
   "rank_concentration": {
-    "top_two_score_share": 1.0,
-    "label": "HIGHLY_CONCENTRATED"
+    "top_two_score_share": 0.0,
+    "label": "UNDIFFERENTIATED"
   },
   "market_state": "HIGH_DISPERSION_SELECTION"
 }
@@ -88,122 +88,266 @@ Investment Intelligence v2.1 assessed 10 research asset(s), identified market st
 ```json
 {
   "version": "investment_intelligence_reconciliation_v2_1",
-  "generated_at": "2026-07-10T07:46:28.205707+00:00",
-  "snapshot_fingerprint": "f2a387911331a666d49ae758b43c4fb99bb5bdd5151b9ea3815eab6905d0f42a",
-  "state_consistent": true,
-  "stale_rebalance_detected": false,
+  "generated_at": "2026-07-10T11:07:54.941865+00:00",
+  "snapshot_fingerprint": "2b747a887c359523128716049fe6208d4aef336764f6da5c5125a2a0c25f791f",
+  "state_consistent": false,
+  "stale_rebalance_detected": true,
   "tolerance": 0.0005,
-  "summary": "Reconciled 2 risky asset(s); generated 0 canonical trade action(s); detected 0 source inconsistency/inconsistencies.",
+  "summary": "Reconciled 4 risky asset(s); generated 4 canonical trade action(s); detected 8 source inconsistency/inconsistencies.",
   "portfolio": {
     "current_risky_weight": 0.7,
-    "target_risky_weight": 0.7,
+    "target_risky_weight": 0.6,
     "current_cash_weight": 0.3,
-    "target_cash_weight": 0.3
+    "target_cash_weight": 0.4
   },
   "asset_reconciliation": [
     {
+      "asset": "BNB-USD",
+      "current_weight": 0.0,
+      "canonical_target_weight": 0.299397,
+      "adaptive_weight": 0.299397,
+      "rebalance_target_weight": 0.080607,
+      "canonical_delta": 0.299397,
+      "rebalance_delta": 0.080607,
+      "rebalance_action": "BUY",
+      "target_matches_adaptive": true,
+      "rebalance_target_current": false,
+      "rebalance_delta_current": false,
+      "canonical_current_source": "mark_to_market_v4",
+      "canonical_target_source": "alpha_portfolio_v3"
+    },
+    {
       "asset": "BTC-USD",
       "current_weight": 0.350055,
-      "canonical_target_weight": 0.35,
-      "adaptive_weight": 0.35,
-      "rebalance_target_weight": null,
-      "canonical_delta": -5.5e-05,
-      "rebalance_delta": null,
-      "rebalance_action": null,
+      "canonical_target_weight": 0.0,
+      "adaptive_weight": null,
+      "rebalance_target_weight": 0.255809,
+      "canonical_delta": -0.350055,
+      "rebalance_delta": -0.094246,
+      "rebalance_action": "SELL",
       "target_matches_adaptive": true,
-      "rebalance_target_current": true,
-      "rebalance_delta_current": true,
+      "rebalance_target_current": false,
+      "rebalance_delta_current": false,
       "canonical_current_source": "portfolio_state_v4",
       "canonical_target_source": "alpha_portfolio_v3"
     },
     {
       "asset": "ETH-USD",
       "current_weight": 0.349945,
-      "canonical_target_weight": 0.35,
-      "adaptive_weight": 0.35,
-      "rebalance_target_weight": null,
-      "canonical_delta": 5.5e-05,
-      "rebalance_delta": null,
-      "rebalance_action": null,
+      "canonical_target_weight": 0.0,
+      "adaptive_weight": null,
+      "rebalance_target_weight": 0.255729,
+      "canonical_delta": -0.349945,
+      "rebalance_delta": -0.094216,
+      "rebalance_action": "SELL",
       "target_matches_adaptive": true,
-      "rebalance_target_current": true,
-      "rebalance_delta_current": true,
+      "rebalance_target_current": false,
+      "rebalance_delta_current": false,
       "canonical_current_source": "portfolio_state_v4",
+      "canonical_target_source": "alpha_portfolio_v3"
+    },
+    {
+      "asset": "LINK-USD",
+      "current_weight": 0.0,
+      "canonical_target_weight": 0.300603,
+      "adaptive_weight": 0.300603,
+      "rebalance_target_weight": 0.080932,
+      "canonical_delta": 0.300603,
+      "rebalance_delta": 0.080932,
+      "rebalance_action": "BUY",
+      "target_matches_adaptive": true,
+      "rebalance_target_current": false,
+      "rebalance_delta_current": false,
+      "canonical_current_source": "mark_to_market_v4",
       "canonical_target_source": "alpha_portfolio_v3"
     }
   ],
-  "canonical_trades": [],
-  "issues": [],
+  "canonical_trades": [
+    {
+      "asset": "BTC-USD",
+      "action": "SELL",
+      "current_weight": 0.350055,
+      "target_weight": 0.0,
+      "signed_delta": -0.350055,
+      "weight_delta": 0.350055,
+      "priority": 1,
+      "reason": "Reconciled current broker/MTM state against the latest Alpha Portfolio target.",
+      "source": "investment_intelligence_v2_1_reconciliation",
+      "authoritative": true,
+      "execution_instruction": false,
+      "explanation": "SELL BTC-USD because the reconciled current weight is 35.0055% and the current canonical target is 0.0000%. Required change: -35.0055%."
+    },
+    {
+      "asset": "ETH-USD",
+      "action": "SELL",
+      "current_weight": 0.349945,
+      "target_weight": 0.0,
+      "signed_delta": -0.349945,
+      "weight_delta": 0.349945,
+      "priority": 2,
+      "reason": "Reconciled current broker/MTM state against the latest Alpha Portfolio target.",
+      "source": "investment_intelligence_v2_1_reconciliation",
+      "authoritative": true,
+      "execution_instruction": false,
+      "explanation": "SELL ETH-USD because the reconciled current weight is 34.9945% and the current canonical target is 0.0000%. Required change: -34.9945%."
+    },
+    {
+      "asset": "LINK-USD",
+      "action": "BUY",
+      "current_weight": 0.0,
+      "target_weight": 0.300603,
+      "signed_delta": 0.300603,
+      "weight_delta": 0.300603,
+      "priority": 3,
+      "reason": "Reconciled current broker/MTM state against the latest Alpha Portfolio target.",
+      "source": "investment_intelligence_v2_1_reconciliation",
+      "authoritative": true,
+      "execution_instruction": false,
+      "explanation": "BUY LINK-USD because the reconciled current weight is 0.0000% and the current canonical target is 30.0603%. Required change: 30.0603%."
+    },
+    {
+      "asset": "BNB-USD",
+      "action": "BUY",
+      "current_weight": 0.0,
+      "target_weight": 0.299397,
+      "signed_delta": 0.299397,
+      "weight_delta": 0.299397,
+      "priority": 4,
+      "reason": "Reconciled current broker/MTM state against the latest Alpha Portfolio target.",
+      "source": "investment_intelligence_v2_1_reconciliation",
+      "authoritative": true,
+      "execution_instruction": false,
+      "explanation": "BUY BNB-USD because the reconciled current weight is 0.0000% and the current canonical target is 29.9397%. Required change: 29.9397%."
+    }
+  ],
+  "issues": [
+    {
+      "asset": "BNB-USD",
+      "issue": "STALE_REBALANCE_TARGET",
+      "canonical_target": 0.299397,
+      "rebalance_target": 0.080607,
+      "difference": 0.21879
+    },
+    {
+      "asset": "BNB-USD",
+      "issue": "STALE_REBALANCE_DELTA",
+      "canonical_delta": 0.299397,
+      "rebalance_delta": 0.080607,
+      "difference": 0.21879
+    },
+    {
+      "asset": "BTC-USD",
+      "issue": "STALE_REBALANCE_TARGET",
+      "canonical_target": 0.0,
+      "rebalance_target": 0.255809,
+      "difference": -0.255809
+    },
+    {
+      "asset": "BTC-USD",
+      "issue": "STALE_REBALANCE_DELTA",
+      "canonical_delta": -0.350055,
+      "rebalance_delta": -0.094246,
+      "difference": -0.255809
+    },
+    {
+      "asset": "ETH-USD",
+      "issue": "STALE_REBALANCE_TARGET",
+      "canonical_target": 0.0,
+      "rebalance_target": 0.255729,
+      "difference": -0.255729
+    },
+    {
+      "asset": "ETH-USD",
+      "issue": "STALE_REBALANCE_DELTA",
+      "canonical_delta": -0.349945,
+      "rebalance_delta": -0.094216,
+      "difference": -0.255729
+    },
+    {
+      "asset": "LINK-USD",
+      "issue": "STALE_REBALANCE_TARGET",
+      "canonical_target": 0.300603,
+      "rebalance_target": 0.080932,
+      "difference": 0.219671
+    },
+    {
+      "asset": "LINK-USD",
+      "issue": "STALE_REBALANCE_DELTA",
+      "canonical_delta": 0.300603,
+      "rebalance_delta": 0.080932,
+      "difference": 0.219671
+    }
+  ],
   "source_manifest": [
     {
       "source": "portfolio_state",
       "path": "output\\investment_portfolio_state\\portfolio_state.json",
       "exists": true,
       "size_bytes": 2143,
-      "modified_at": "2026-07-10T07:46:15.106157+00:00"
+      "modified_at": "2026-07-10T10:25:06.647099+00:00"
     },
     {
       "source": "portfolio_holdings",
       "path": "output\\investment_portfolio_state\\portfolio_holdings.csv",
       "exists": true,
       "size_bytes": 366,
-      "modified_at": "2026-07-10T07:46:15.106157+00:00"
+      "modified_at": "2026-07-10T10:25:06.646139+00:00"
     },
     {
       "source": "mtm_report",
       "path": "output\\investment_mark_to_market\\mark_to_market_report.json",
       "exists": true,
       "size_bytes": 2393,
-      "modified_at": "2026-07-10T07:46:04.102839+00:00"
+      "modified_at": "2026-07-10T10:24:59.325448+00:00"
     },
     {
       "source": "mtm_positions",
       "path": "output\\investment_mark_to_market\\positions.csv",
       "exists": true,
       "size_bytes": 390,
-      "modified_at": "2026-07-10T07:46:04.091384+00:00"
+      "modified_at": "2026-07-10T10:24:59.322711+00:00"
     },
     {
       "source": "alpha_portfolio_report",
       "path": "output\\investment_alpha\\alpha_portfolio_report.json",
       "exists": true,
-      "size_bytes": 1393,
-      "modified_at": "2026-07-10T07:46:10.539523+00:00"
+      "size_bytes": 2347,
+      "modified_at": "2026-07-10T11:07:49.885760+00:00"
     },
     {
       "source": "alpha_portfolio",
       "path": "output\\investment_alpha\\alpha_portfolio.csv",
       "exists": true,
-      "size_bytes": 393,
-      "modified_at": "2026-07-10T07:45:03.395540+00:00"
+      "size_bytes": 446,
+      "modified_at": "2026-07-10T11:07:49.883309+00:00"
     },
     {
       "source": "adaptive_weighting_report",
       "path": "output\\investment_adaptive_weighting\\adaptive_weighting_report.json",
       "exists": true,
-      "size_bytes": 1662,
-      "modified_at": "2026-07-10T07:46:07.768848+00:00"
+      "size_bytes": 2786,
+      "modified_at": "2026-07-10T11:07:13.102741+00:00"
     },
     {
       "source": "adaptive_weights",
       "path": "output\\investment_adaptive_weighting\\adaptive_weights.csv",
       "exists": true,
-      "size_bytes": 271,
-      "modified_at": "2026-07-10T07:46:07.768848+00:00"
+      "size_bytes": 430,
+      "modified_at": "2026-07-10T11:07:13.102741+00:00"
     },
     {
       "source": "rebalance_report",
       "path": "output\\investment_rebalance\\rebalance_report.json",
       "exists": true,
-      "size_bytes": 1901,
-      "modified_at": "2026-07-10T07:46:24.363659+00:00"
+      "size_bytes": 4571,
+      "modified_at": "2026-07-10T11:07:50.895261+00:00"
     },
     {
       "source": "rebalance_orders",
       "path": "output\\investment_rebalance\\rebalance_orders.csv",
       "exists": true,
-      "size_bytes": 2,
-      "modified_at": "2026-07-10T07:46:24.363659+00:00"
+      "size_bytes": 919,
+      "modified_at": "2026-07-10T11:07:50.895261+00:00"
     },
     {
       "source": "broker_ledger_report",
@@ -225,4 +369,4 @@ Investment Intelligence v2.1 assessed 10 research asset(s), identified market st
 
 ## V2.1 Recommendations
 
-- Leadership is concentrated; avoid treating the full universe as equally supported.
+- Continue paper observation across all approved assets and timeframes.

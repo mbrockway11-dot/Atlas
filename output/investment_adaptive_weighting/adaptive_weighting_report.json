@@ -1,51 +1,80 @@
 {
   "success": true,
-  "version": "adaptive_weighting_v4",
-  "summary": "Adaptive Weighting v4 consumed Alpha Ensemble v4 hints and produced 3 adaptive weight row(s). Regime multiplier=0.75.",
-  "text_summary": "Adaptive Weighting v4 consumed Alpha Ensemble v4 hints and produced 3 adaptive weight row(s). Regime multiplier=0.75.",
+  "version": "adaptive_weighting_v5",
+  "generated_at": "2026-07-10T11:07:13.099546+00:00",
+  "summary": "Adaptive Weighting v5 preserved Alpha Ensemble v5.1 regime exposure at 60.0% risky / 40.0% cash and produced 3 adaptive weight row(s).",
+  "text_summary": "Adaptive Weighting v5 preserved Alpha Ensemble v5.1 regime exposure at 60.0% risky / 40.0% cash and produced 3 adaptive weight row(s).",
   "base_weights": {
-    "BTC-USD": 0.35,
-    "ETH-USD": 0.35,
-    "CASH": 0.3
+    "LINK-USD": 0.300603,
+    "BNB-USD": 0.299397,
+    "CASH": 0.4
   },
   "registry_multipliers": {
     "BTC-USD": 1.075,
     "ETH-USD": 1.075
   },
-  "regime_multiplier": 0.75,
-  "effective_max_gross": 0.525,
+  "learning_multiplier": 1.0,
+  "regime_multiplier": 1.0,
+  "ensemble_risky_weight": 0.6,
+  "ensemble_cash_weight": 0.4,
+  "adaptive_risky_weight": 0.6,
+  "adaptive_cash_weight": 0.4,
+  "effective_max_gross": 0.6,
+  "regime_preserved": true,
   "adaptive_weights": {
-    "BTC-USD": 0.2625,
-    "ETH-USD": 0.2625,
-    "CASH": 0.475
+    "LINK-USD": 0.300603,
+    "BNB-USD": 0.299397,
+    "CASH": 0.4
   },
   "rows": [
     {
-      "asset": "BTC-USD",
-      "base_weight": 0.35,
-      "registry_multiplier": 1.075,
-      "regime_multiplier": 0.75,
-      "adaptive_weight": 0.2625,
-      "source": "adaptive_weighting_v4_alpha_ensemble"
+      "asset": "LINK-USD",
+      "base_weight": 0.300603,
+      "registry_multiplier": 1.0,
+      "learning_multiplier": 1.0,
+      "regime_multiplier": 1.0,
+      "adaptive_weight": 0.300603,
+      "ensemble_cash_weight": 0.4,
+      "ensemble_risky_weight": 0.6,
+      "regime_preserved": true,
+      "source": "adaptive_weighting_v5_regime_preservation"
     },
     {
-      "asset": "ETH-USD",
-      "base_weight": 0.35,
-      "registry_multiplier": 1.075,
-      "regime_multiplier": 0.75,
-      "adaptive_weight": 0.2625,
-      "source": "adaptive_weighting_v4_alpha_ensemble"
+      "asset": "BNB-USD",
+      "base_weight": 0.299397,
+      "registry_multiplier": 1.0,
+      "learning_multiplier": 1.0,
+      "regime_multiplier": 1.0,
+      "adaptive_weight": 0.299397,
+      "ensemble_cash_weight": 0.4,
+      "ensemble_risky_weight": 0.6,
+      "regime_preserved": true,
+      "source": "adaptive_weighting_v5_regime_preservation"
     },
     {
       "asset": "CASH",
-      "base_weight": 0.3,
+      "base_weight": 0.4,
       "registry_multiplier": 1.0,
-      "regime_multiplier": 0.75,
-      "adaptive_weight": 0.475,
-      "source": "adaptive_weighting_v4_alpha_ensemble"
+      "learning_multiplier": 1.0,
+      "regime_multiplier": 1.0,
+      "adaptive_weight": 0.4,
+      "ensemble_cash_weight": 0.4,
+      "ensemble_risky_weight": 0.6,
+      "regime_preserved": true,
+      "source": "adaptive_weighting_v5_regime_preservation"
     }
   ],
-  "source": "alpha_ensemble_v4",
+  "issues": [],
+  "source": "alpha_ensemble_v5_1",
+  "contract": {
+    "authoritative_allocation_source": "alpha_ensemble_v5_1",
+    "cash_boundary_preserved": true,
+    "risky_boundary_preserved": true,
+    "registry_modifies_relative_weights_only": true,
+    "learning_modifies_relative_weights_only": true,
+    "portfolio_gross_override_applied": false,
+    "execution_instruction": false
+  },
   "outputs": {
     "json": "output\\investment_adaptive_weighting\\adaptive_weighting_report.json",
     "markdown": "output\\investment_adaptive_weighting\\adaptive_weighting_report.md",

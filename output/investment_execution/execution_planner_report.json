@@ -1,16 +1,65 @@
 {
   "success": true,
   "version": "execution_planner_v3",
-  "planner_status": "NO_REBALANCE_NEEDED",
-  "summary": "Execution Planner v3 found no rebalance orders. Portfolio already matches target allocation.",
-  "text_summary": "Execution Planner v3 found no rebalance orders. Portfolio already matches target allocation.",
+  "planner_status": "ORDERS_READY",
+  "summary": "Execution Planner v3 built 4 planned order row(s) from Rebalance Engine v4.",
+  "text_summary": "Execution Planner v3 built 4 planned order row(s) from Rebalance Engine v4.",
   "counts": {
-    "open_orders": 0,
+    "open_orders": 4,
     "blocked_orders": 0,
-    "total_orders": 0
+    "total_orders": 4
   },
-  "rebalance_turnover": 0,
-  "planned_orders": [],
+  "rebalance_turnover": 0.350001,
+  "planned_orders": [
+    {
+      "asset": "BNB-USD",
+      "side": "LONG",
+      "planned_weight": 0.080607,
+      "signed_delta": 0.080607,
+      "order_action": "BUY",
+      "execution_gate": "OPEN",
+      "priority": 1,
+      "source": "rebalance_engine_v4",
+      "order_type": "REBALANCE_INTENT",
+      "reason": "Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets. Turnover scaled to v4 cap."
+    },
+    {
+      "asset": "BTC-USD",
+      "side": "LONG",
+      "planned_weight": 0.094246,
+      "signed_delta": -0.094246,
+      "order_action": "SELL",
+      "execution_gate": "OPEN",
+      "priority": 2,
+      "source": "rebalance_engine_v4",
+      "order_type": "REBALANCE_INTENT",
+      "reason": "Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets. Turnover scaled to v4 cap."
+    },
+    {
+      "asset": "ETH-USD",
+      "side": "LONG",
+      "planned_weight": 0.094216,
+      "signed_delta": -0.094216,
+      "order_action": "SELL",
+      "execution_gate": "OPEN",
+      "priority": 3,
+      "source": "rebalance_engine_v4",
+      "order_type": "REBALANCE_INTENT",
+      "reason": "Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets. Turnover scaled to v4 cap."
+    },
+    {
+      "asset": "LINK-USD",
+      "side": "LONG",
+      "planned_weight": 0.080932,
+      "signed_delta": 0.080932,
+      "order_action": "BUY",
+      "execution_gate": "OPEN",
+      "priority": 4,
+      "source": "rebalance_engine_v4",
+      "order_type": "REBALANCE_INTENT",
+      "reason": "Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets. Turnover scaled to v4 cap."
+    }
+  ],
   "outputs": {
     "plan_csv": "output\\investment_execution\\execution_plan.csv",
     "orders_csv": "output\\investment_execution\\execution_order_intents.csv",

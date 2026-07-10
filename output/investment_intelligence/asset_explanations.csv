@@ -1,3 +1,11 @@
 asset,ensemble_score,ensemble_action,source_count,current_weight,target_weight,weight_delta,unrealized_pnl,unrealized_pnl_pct,registry_status,asset_confidence,explanation
-BTC-USD,0.65,PROMOTE_LONG,1,0.350055,0.35,-5.5e-05,0.0,0.0,MAINTAIN,0.65,BTC-USD has an ensemble conviction score of 0.650 and registry status MAINTAIN. Current exposure already matches the target.
-ETH-USD,0.65,PROMOTE_LONG,1,0.349945,0.35,5.5e-05,0.0,0.0,MAINTAIN,0.65,ETH-USD has an ensemble conviction score of 0.650 and registry status MAINTAIN. Current exposure already matches the target.
+AAVE-USD,0.520257,WATCH,6,0.0,0.0,0.0,0.0,0.0,UNKNOWN,0.0,AAVE-USD has an ensemble conviction score of 0.520 and registry status UNKNOWN. Current exposure already matches the target.
+ADA-USD,0.480637,WATCH,6,0.0,0.0,0.0,0.0,0.0,UNKNOWN,0.0,ADA-USD has an ensemble conviction score of 0.481 and registry status UNKNOWN. Current exposure already matches the target.
+AVAX-USD,0.489101,WATCH,6,0.0,0.0,0.0,0.0,0.0,UNKNOWN,0.0,AVAX-USD has an ensemble conviction score of 0.489 and registry status UNKNOWN. Current exposure already matches the target.
+BNB-USD,0.510871,WATCH,6,0.0,0.299397,0.299397,0.0,0.0,UNKNOWN,0.0,BNB-USD has an ensemble conviction score of 0.511 and registry status UNKNOWN. Increase exposure by approximately 29.94%.
+BTC-USD,0.432586,ROTATING_OUT,6,0.350055,0.0,-0.350055,0.0,0.0,MAINTAIN,0.65,BTC-USD has an ensemble conviction score of 0.433 and registry status MAINTAIN. Reduce exposure by approximately 35.01%.
+DOGE-USD,0.413201,ROTATING_OUT,6,0.0,0.0,0.0,0.0,0.0,UNKNOWN,0.0,DOGE-USD has an ensemble conviction score of 0.413 and registry status UNKNOWN. Current exposure already matches the target.
+ETH-USD,0.430487,ROTATING_OUT,6,0.349945,0.0,-0.349945,0.0,0.0,MAINTAIN,0.65,ETH-USD has an ensemble conviction score of 0.430 and registry status MAINTAIN. Reduce exposure by approximately 34.99%.
+LINK-USD,0.513002,WATCH,6,0.0,0.300603,0.300603,0.0,0.0,UNKNOWN,0.0,LINK-USD has an ensemble conviction score of 0.513 and registry status UNKNOWN. Increase exposure by approximately 30.06%.
+SOL-USD,0.492465,WATCH,6,0.0,0.0,0.0,0.0,0.0,UNKNOWN,0.0,SOL-USD has an ensemble conviction score of 0.492 and registry status UNKNOWN. Current exposure already matches the target.
+XRP-USD,0.48466,WATCH,6,0.0,0.0,0.0,0.0,0.0,UNKNOWN,0.0,XRP-USD has an ensemble conviction score of 0.485 and registry status UNKNOWN. Current exposure already matches the target.

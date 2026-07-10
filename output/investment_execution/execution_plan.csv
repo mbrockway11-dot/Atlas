@@ -1,1 +1,5 @@
 asset,side,planned_weight,signed_delta,order_action,execution_gate,priority,source,order_type,reason
+BNB-USD,LONG,0.080607,0.080607,BUY,OPEN,1,rebalance_engine_v4,REBALANCE_INTENT,Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets. Turnover scaled to v4 cap.
+BTC-USD,LONG,0.094246,-0.094246,SELL,OPEN,2,rebalance_engine_v4,REBALANCE_INTENT,Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets. Turnover scaled to v4 cap.
+ETH-USD,LONG,0.094216,-0.094216,SELL,OPEN,3,rebalance_engine_v4,REBALANCE_INTENT,Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets. Turnover scaled to v4 cap.
+LINK-USD,LONG,0.080932,0.080932,BUY,OPEN,4,rebalance_engine_v4,REBALANCE_INTENT,Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets. Turnover scaled to v4 cap.

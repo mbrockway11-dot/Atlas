@@ -1,9 +1,12 @@
 # Execution Planner v3 Report
 
-Execution Planner v3 found no rebalance orders. Portfolio already matches target allocation.
+Execution Planner v3 built 4 planned order row(s) from Rebalance Engine v4.
 
-Planner status: `NO_REBALANCE_NEEDED`
+Planner status: `ORDERS_READY`
 
 ## Planned Orders
 
-No rebalance needed. No execution order intents generated.
+- `BNB-USD` BUY weight=`0.080607`
+- `BTC-USD` SELL weight=`0.094246`
+- `ETH-USD` SELL weight=`0.094216`
+- `LINK-USD` BUY weight=`0.080932`

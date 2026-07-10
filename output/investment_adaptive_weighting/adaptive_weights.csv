@@ -1,4 +1,4 @@
-asset,base_weight,registry_multiplier,regime_multiplier,adaptive_weight,source
-BTC-USD,0.35,1.075,0.75,0.2625,adaptive_weighting_v4_alpha_ensemble
-ETH-USD,0.35,1.075,0.75,0.2625,adaptive_weighting_v4_alpha_ensemble
-CASH,0.3,1.0,0.75,0.475,adaptive_weighting_v4_alpha_ensemble
+asset,base_weight,registry_multiplier,learning_multiplier,regime_multiplier,adaptive_weight,ensemble_cash_weight,ensemble_risky_weight,regime_preserved,source
+LINK-USD,0.300603,1.0,1.0,1.0,0.300603,0.4,0.6,True,adaptive_weighting_v5_regime_preservation
+BNB-USD,0.299397,1.0,1.0,1.0,0.299397,0.4,0.6,True,adaptive_weighting_v5_regime_preservation
+CASH,0.4,1.0,1.0,1.0,0.4,0.4,0.6,True,adaptive_weighting_v5_regime_preservation

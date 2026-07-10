@@ -1,9 +1,17 @@
-# Adaptive Weighting v4 Report
+# Adaptive Weighting v5 Report
 
-Adaptive Weighting v4 consumed Alpha Ensemble v4 hints and produced 3 adaptive weight row(s). Regime multiplier=0.75.
+Adaptive Weighting v5 preserved Alpha Ensemble v5.1 regime exposure at 60.0% risky / 40.0% cash and produced 3 adaptive weight row(s).
+
+## Regime Boundary
+
+- Ensemble risky: `0.6`
+- Adaptive risky: `0.6`
+- Ensemble cash: `0.4`
+- Adaptive cash: `0.4`
+- Preserved: `True`
 
 ## Adaptive Weights
 
-- `BTC-USD` adaptive_weight=`0.2625` base=`0.35` registry_multiplier=`1.075`
-- `ETH-USD` adaptive_weight=`0.2625` base=`0.35` registry_multiplier=`1.075`
-- `CASH` adaptive_weight=`0.475` base=`0.3` registry_multiplier=`1.0`
+- `LINK-USD` adaptive_weight=`0.300603` base=`0.300603` registry_multiplier=`1.0`
+- `BNB-USD` adaptive_weight=`0.299397` base=`0.299397` registry_multiplier=`1.0`
+- `CASH` adaptive_weight=`0.4` base=`0.4` registry_multiplier=`1.0`
