@@ -1,69 +1,103 @@
 
-"""Market data loader for Alpha Discovery."""
+"""Market Features v2 input loading."""
 
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any
 
 import pandas as pd
 
-
-DEFAULT_ROOT = Path(r"C:\Users\lyfe1\OneDrive\Desktop\sigil-engine")
-
-
-def load_price_data(root: str | Path = DEFAULT_ROOT) -> pd.DataFrame:
-    """Load investment engine price_data.csv."""
-    path = Path(root) / "output" / "price_data.csv"
-
-    if not path.exists():
-        return pd.DataFrame()
-
-    return pd.read_csv(path)
+from atlas.common.io import safe_read_csv, safe_read_json
 
 
-def normalize_price_data(df: pd.DataFrame) -> pd.DataFrame:
-    """Normalize long-format price data."""
-    if df.empty:
-        return df
+UNIVERSE_DIR = Path("output/investment_market_universe")
 
-    out = df.copy()
+UNIVERSE_REPORT = UNIVERSE_DIR / "market_universe_report.json"
+APPROVED_UNIVERSE = UNIVERSE_DIR / "approved_universe.csv"
+UNIVERSE_PRICES = UNIVERSE_DIR / "market_universe_prices.csv"
 
-    date_col = detect_col(out, ["date", "timestamp", "datetime", "time"])
-    asset_col = detect_col(out, ["asset", "symbol", "ticker"])
 
-    if not date_col or not asset_col:
-        return pd.DataFrame()
+PRICE_COLUMNS = [
+    "timestamp",
+    "asset",
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume",
+    "dollar_volume",
+    "provider",
+    "interval",
+    "fetched_at",
+]
 
-    rename = {
-        date_col: "date",
-        asset_col: "asset",
+
+def load_market_feature_inputs(
+    legacy_root: Path | None = None,
+) -> dict[str, Any]:
+    """Load only Market Universe v1 outputs.
+
+    legacy_root is retained for compatibility with the existing Core script,
+    but Market Features v2 intentionally ignores the old Sigil Engine path.
+    """
+    del legacy_root
+
+    report = safe_read_json(UNIVERSE_REPORT)
+    approved = safe_read_csv(APPROVED_UNIVERSE)
+    prices = safe_read_csv(UNIVERSE_PRICES)
+
+    if prices is None or prices.empty:
+        prices = pd.DataFrame(columns=PRICE_COLUMNS)
+
+    return {
+        "universe_report": report,
+        "approved_universe": approved,
+        "prices": normalize_prices(prices),
     }
 
-    out = out.rename(columns=rename)
-    out["date"] = pd.to_datetime(out["date"], errors="coerce")
 
-    for col in ["open", "high", "low", "close", "volume"]:
-        if col in out.columns:
-            out[col] = pd.to_numeric(out[col], errors="coerce")
+def normalize_prices(prices: pd.DataFrame) -> pd.DataFrame:
+    if prices is None or prices.empty:
+        return pd.DataFrame(columns=PRICE_COLUMNS)
 
-    needed = ["date", "asset", "close"]
-    out = out.dropna(subset=needed)
-    out = out.sort_values(["asset", "date"]).reset_index(drop=True)
+    frame = prices.copy()
 
-    return out
+    for column in PRICE_COLUMNS:
+        if column not in frame.columns:
+            frame[column] = pd.NA
 
+    frame["timestamp"] = pd.to_datetime(
+        frame["timestamp"],
+        errors="coerce",
+        utc=True,
+    )
 
-def detect_col(df: pd.DataFrame, names: list[str]) -> str:
-    """Detect column by preferred names."""
-    lowered = {col.lower(): col for col in df.columns}
+    for column in [
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume",
+        "dollar_volume",
+    ]:
+        frame[column] = pd.to_numeric(
+            frame[column],
+            errors="coerce",
+        )
 
-    for name in names:
-        if name in lowered:
-            return lowered[name]
+    frame["asset"] = frame["asset"].astype(str)
 
-    for col in df.columns:
-        lower = col.lower()
-        if any(name in lower for name in names):
-            return col
+    frame = frame.dropna(
+        subset=["timestamp", "asset", "close"],
+    )
 
-    return ""
+    frame = frame.sort_values(
+        ["asset", "timestamp"],
+        kind="stable",
+    ).drop_duplicates(
+        subset=["asset", "timestamp"],
+        keep="last",
+    )
+
+    return frame.reset_index(drop=True)

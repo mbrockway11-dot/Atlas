@@ -1,10 +1,10 @@
 {
-  "success": true,
-  "run_id": "d60b8844-d6e4-4517-8e56-0d81dda7cea0",
+  "success": false,
+  "run_id": "366e94dc-48fa-484b-86c1-e12b71dc759c",
   "mode": "paper",
-  "started_at": "2026-07-10T04:34:16.463681+00:00",
-  "ended_at": "2026-07-10T04:34:55.108951+00:00",
-  "node_count": 29,
+  "started_at": "2026-07-10T05:06:32.269631+00:00",
+  "ended_at": "2026-07-10T05:06:36.124845+00:00",
+  "node_count": 5,
   "results": [
     {
       "name": "market_features",
@@ -36,177 +36,9 @@
     },
     {
       "name": "alpha_backtests",
-      "success": true,
+      "success": false,
       "output_key": "alpha_backtests",
-      "error": null,
-      "warnings": []
-    },
-    {
-      "name": "alpha_validation",
-      "success": true,
-      "output_key": "alpha_validation",
-      "error": null,
-      "warnings": []
-    },
-    {
-      "name": "adaptive_weighting",
-      "success": true,
-      "output_key": "adaptive_weighting",
-      "error": null,
-      "warnings": []
-    },
-    {
-      "name": "alpha_ensemble",
-      "success": true,
-      "output_key": "alpha_ensemble",
-      "error": null,
-      "warnings": []
-    },
-    {
-      "name": "cross_sectional_ranker",
-      "success": true,
-      "output_key": "cross_sectional_ranker",
-      "error": null,
-      "warnings": []
-    },
-    {
-      "name": "alpha_portfolio",
-      "success": true,
-      "output_key": "alpha_portfolio",
-      "error": null,
-      "warnings": []
-    },
-    {
-      "name": "strategy_registry",
-      "success": true,
-      "output_key": "strategy_registry",
-      "error": null,
-      "warnings": []
-    },
-    {
-      "name": "market_direction",
-      "success": true,
-      "output_key": "market_direction",
-      "error": null,
-      "warnings": []
-    },
-    {
-      "name": "decision_engine",
-      "success": true,
-      "output_key": "decision_engine",
-      "error": null,
-      "warnings": []
-    },
-    {
-      "name": "execution_planner",
-      "success": true,
-      "output_key": "execution_planner",
-      "error": null,
-      "warnings": []
-    },
-    {
-      "name": "portfolio_state",
-      "success": true,
-      "output_key": "portfolio_state",
-      "error": null,
-      "warnings": []
-    },
-    {
-      "name": "execution_simulator",
-      "success": true,
-      "output_key": "execution_simulator",
-      "error": null,
-      "warnings": []
-    },
-    {
-      "name": "portfolio_lifecycle",
-      "success": true,
-      "output_key": "portfolio_lifecycle",
-      "error": null,
-      "warnings": []
-    },
-    {
-      "name": "paper_trading",
-      "success": true,
-      "output_key": "paper_trading",
-      "error": null,
-      "warnings": []
-    },
-    {
-      "name": "performance",
-      "success": true,
-      "output_key": "performance",
-      "error": null,
-      "warnings": []
-    },
-    {
-      "name": "learning",
-      "success": true,
-      "output_key": "learning",
-      "error": null,
-      "warnings": []
-    },
-    {
-      "name": "position_manager",
-      "success": true,
-      "output_key": "position_manager",
-      "error": null,
-      "warnings": []
-    },
-    {
-      "name": "trade_safety",
-      "success": true,
-      "output_key": "trade_safety",
-      "error": null,
-      "warnings": []
-    },
-    {
-      "name": "action_engine",
-      "success": true,
-      "output_key": "action_engine",
-      "error": null,
-      "warnings": []
-    },
-    {
-      "name": "broker_interface",
-      "success": true,
-      "output_key": "broker_interface",
-      "error": null,
-      "warnings": []
-    },
-    {
-      "name": "rebalance_engine",
-      "success": true,
-      "output_key": "rebalance_engine",
-      "error": null,
-      "warnings": []
-    },
-    {
-      "name": "risk_engine",
-      "success": true,
-      "output_key": "risk_engine",
-      "error": null,
-      "warnings": []
-    },
-    {
-      "name": "execution_engine",
-      "success": true,
-      "output_key": "execution_engine",
-      "error": null,
-      "warnings": []
-    },
-    {
-      "name": "paper_broker",
-      "success": true,
-      "output_key": "paper_broker",
-      "error": null,
-      "warnings": []
-    },
-    {
-      "name": "investment_intelligence",
-      "success": true,
-      "output_key": "investment_intelligence",
-      "error": null,
+      "error": "Traceback (most recent call last):\n  File \"C:\\Projects\\Atlas\\.venv\\Lib\\site-packages\\pandas\\core\\indexes\\base.py\", line 3641, in get_loc\n    return self._engine.get_loc(casted_key)\n           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\n  File \"pandas/_libs/index.pyx\", line 168, in pandas._libs.index.IndexEngine.get_loc\n  File \"pandas/_libs/index.pyx\", line 197, in pandas._libs.index.IndexEngine.get_loc\n  File \"pandas/_libs/hashtable_class_helper.pxi\", line 7668, in pandas._libs.hashtable.PyObjectHashTable.get_item\n  File \"pandas/_libs/hashtable_class_helper.pxi\", line 7676, in pandas._libs.hashtable.PyObjectHashTable.get_item\nKeyError: 'date'\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\Projects\\Atlas\\scripts\\run_alpha_backtests.py\", line 45, in <module>\n    main()\n    ~~~~^^\n  File \"C:\\Projects\\Atlas\\scripts\\run_alpha_backtests.py\", line 19, in main\n    report = build_alpha_backtest_report(min_trades=args.min_trades)\n  File \"C:\\Projects\\Atlas\\src\\atlas\\investment\\alpha\\backtester\\report.py\", line 109, in build_alpha_backtest_report\n    result = run_alpha_backtests(min_trades=min_trades)\n  File \"C:\\Projects\\Atlas\\src\\atlas\\investment\\alpha\\backtester\\engine.py\", line 58, in run_alpha_backtests\n    market[\"date\"] = pd.to_datetime(market[\"date\"], errors=\"coerce\")\n                                    ~~~~~~^^^^^^^^\n  File \"C:\\Projects\\Atlas\\.venv\\Lib\\site-packages\\pandas\\core\\frame.py\", line 4378, in __getitem__\n    indexer = self.columns.get_loc(key)\n  File \"C:\\Projects\\Atlas\\.venv\\Lib\\site-packages\\pandas\\core\\indexes\\base.py\", line 3648, in get_loc\n    raise KeyError(key) from err\nKeyError: 'date'",
       "warnings": []
     }
   ],
@@ -214,52 +46,27 @@
     "market_features",
     "sigil_v32_adapter",
     "alpha_hypotheses",
-    "mark_to_market",
-    "alpha_backtests",
-    "alpha_validation",
-    "adaptive_weighting",
-    "alpha_ensemble",
-    "cross_sectional_ranker",
-    "alpha_portfolio",
-    "strategy_registry",
-    "market_direction",
-    "decision_engine",
-    "execution_planner",
-    "portfolio_state",
-    "execution_simulator",
-    "portfolio_lifecycle",
-    "paper_trading",
-    "performance",
-    "learning",
-    "position_manager",
-    "trade_safety",
-    "action_engine",
-    "broker_interface",
-    "rebalance_engine",
-    "risk_engine",
-    "execution_engine",
-    "paper_broker",
-    "investment_intelligence"
+    "mark_to_market"
   ],
-  "event_count": 60,
+  "event_count": 12,
   "events": [
     {
       "name": "pipeline_started",
-      "timestamp": "2026-07-10T04:34:16.463872+00:00",
+      "timestamp": "2026-07-10T05:06:32.269850+00:00",
       "payload": {
         "node_count": 29
       }
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-10T04:34:16.464355+00:00",
+      "timestamp": "2026-07-10T05:06:32.270334+00:00",
       "payload": {
         "node": "market_features"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:32.939447+00:00",
+      "timestamp": "2026-07-10T05:06:33.314052+00:00",
       "payload": {
         "node": "market_features",
         "success": true,
@@ -269,14 +76,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-10T04:34:32.939931+00:00",
+      "timestamp": "2026-07-10T05:06:33.314488+00:00",
       "payload": {
         "node": "sigil_v32_adapter"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:33.537283+00:00",
+      "timestamp": "2026-07-10T05:06:33.968591+00:00",
       "payload": {
         "node": "sigil_v32_adapter",
         "success": true,
@@ -286,14 +93,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-10T04:34:33.537759+00:00",
+      "timestamp": "2026-07-10T05:06:33.969355+00:00",
       "payload": {
         "node": "alpha_hypotheses"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:34.215531+00:00",
+      "timestamp": "2026-07-10T05:06:34.633186+00:00",
       "payload": {
         "node": "alpha_hypotheses",
         "success": true,
@@ -303,14 +110,14 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-10T04:34:34.216159+00:00",
+      "timestamp": "2026-07-10T05:06:34.633956+00:00",
       "payload": {
         "node": "mark_to_market"
       }
     },
     {
       "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:34.809459+00:00",
+      "timestamp": "2026-07-10T05:06:35.244641+00:00",
       "payload": {
         "node": "mark_to_market",
         "success": true,
@@ -320,434 +127,26 @@
     },
     {
       "name": "node_started",
-      "timestamp": "2026-07-10T04:34:34.809868+00:00",
+      "timestamp": "2026-07-10T05:06:35.245103+00:00",
       "payload": {
         "node": "alpha_backtests"
       }
     },
     {
-      "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:37.134349+00:00",
+      "name": "node_failed",
+      "timestamp": "2026-07-10T05:06:36.124117+00:00",
       "payload": {
         "node": "alpha_backtests",
-        "success": true,
+        "success": false,
         "output_key": "alpha_backtests",
-        "error": null
-      }
-    },
-    {
-      "name": "node_started",
-      "timestamp": "2026-07-10T04:34:37.134874+00:00",
-      "payload": {
-        "node": "alpha_validation"
-      }
-    },
-    {
-      "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:38.272850+00:00",
-      "payload": {
-        "node": "alpha_validation",
-        "success": true,
-        "output_key": "alpha_validation",
-        "error": null
-      }
-    },
-    {
-      "name": "node_started",
-      "timestamp": "2026-07-10T04:34:38.273470+00:00",
-      "payload": {
-        "node": "adaptive_weighting"
-      }
-    },
-    {
-      "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:38.874906+00:00",
-      "payload": {
-        "node": "adaptive_weighting",
-        "success": true,
-        "output_key": "adaptive_weighting",
-        "error": null
-      }
-    },
-    {
-      "name": "node_started",
-      "timestamp": "2026-07-10T04:34:38.875326+00:00",
-      "payload": {
-        "node": "alpha_ensemble"
-      }
-    },
-    {
-      "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:42.171481+00:00",
-      "payload": {
-        "node": "alpha_ensemble",
-        "success": true,
-        "output_key": "alpha_ensemble",
-        "error": null
-      }
-    },
-    {
-      "name": "node_started",
-      "timestamp": "2026-07-10T04:34:42.171955+00:00",
-      "payload": {
-        "node": "cross_sectional_ranker"
-      }
-    },
-    {
-      "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:43.052920+00:00",
-      "payload": {
-        "node": "cross_sectional_ranker",
-        "success": true,
-        "output_key": "cross_sectional_ranker",
-        "error": null
-      }
-    },
-    {
-      "name": "node_started",
-      "timestamp": "2026-07-10T04:34:43.053358+00:00",
-      "payload": {
-        "node": "alpha_portfolio"
-      }
-    },
-    {
-      "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:43.629843+00:00",
-      "payload": {
-        "node": "alpha_portfolio",
-        "success": true,
-        "output_key": "alpha_portfolio",
-        "error": null
-      }
-    },
-    {
-      "name": "node_started",
-      "timestamp": "2026-07-10T04:34:43.630253+00:00",
-      "payload": {
-        "node": "strategy_registry"
-      }
-    },
-    {
-      "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:44.214169+00:00",
-      "payload": {
-        "node": "strategy_registry",
-        "success": true,
-        "output_key": "strategy_registry",
-        "error": null
-      }
-    },
-    {
-      "name": "node_started",
-      "timestamp": "2026-07-10T04:34:44.214588+00:00",
-      "payload": {
-        "node": "market_direction"
-      }
-    },
-    {
-      "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:44.792899+00:00",
-      "payload": {
-        "node": "market_direction",
-        "success": true,
-        "output_key": "market_direction",
-        "error": null
-      }
-    },
-    {
-      "name": "node_started",
-      "timestamp": "2026-07-10T04:34:44.793314+00:00",
-      "payload": {
-        "node": "decision_engine"
-      }
-    },
-    {
-      "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:45.395456+00:00",
-      "payload": {
-        "node": "decision_engine",
-        "success": true,
-        "output_key": "decision_engine",
-        "error": null
-      }
-    },
-    {
-      "name": "node_started",
-      "timestamp": "2026-07-10T04:34:45.395951+00:00",
-      "payload": {
-        "node": "execution_planner"
-      }
-    },
-    {
-      "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:45.966599+00:00",
-      "payload": {
-        "node": "execution_planner",
-        "success": true,
-        "output_key": "execution_planner",
-        "error": null
-      }
-    },
-    {
-      "name": "node_started",
-      "timestamp": "2026-07-10T04:34:45.967188+00:00",
-      "payload": {
-        "node": "portfolio_state"
-      }
-    },
-    {
-      "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:46.582066+00:00",
-      "payload": {
-        "node": "portfolio_state",
-        "success": true,
-        "output_key": "portfolio_state",
-        "error": null
-      }
-    },
-    {
-      "name": "node_started",
-      "timestamp": "2026-07-10T04:34:46.582502+00:00",
-      "payload": {
-        "node": "execution_simulator"
-      }
-    },
-    {
-      "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:47.165323+00:00",
-      "payload": {
-        "node": "execution_simulator",
-        "success": true,
-        "output_key": "execution_simulator",
-        "error": null
-      }
-    },
-    {
-      "name": "node_started",
-      "timestamp": "2026-07-10T04:34:47.165926+00:00",
-      "payload": {
-        "node": "portfolio_lifecycle"
-      }
-    },
-    {
-      "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:47.747063+00:00",
-      "payload": {
-        "node": "portfolio_lifecycle",
-        "success": true,
-        "output_key": "portfolio_lifecycle",
-        "error": null
-      }
-    },
-    {
-      "name": "node_started",
-      "timestamp": "2026-07-10T04:34:47.747653+00:00",
-      "payload": {
-        "node": "paper_trading"
-      }
-    },
-    {
-      "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:48.360253+00:00",
-      "payload": {
-        "node": "paper_trading",
-        "success": true,
-        "output_key": "paper_trading",
-        "error": null
-      }
-    },
-    {
-      "name": "node_started",
-      "timestamp": "2026-07-10T04:34:48.360749+00:00",
-      "payload": {
-        "node": "performance"
-      }
-    },
-    {
-      "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:48.986895+00:00",
-      "payload": {
-        "node": "performance",
-        "success": true,
-        "output_key": "performance",
-        "error": null
-      }
-    },
-    {
-      "name": "node_started",
-      "timestamp": "2026-07-10T04:34:48.987355+00:00",
-      "payload": {
-        "node": "learning"
-      }
-    },
-    {
-      "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:49.602603+00:00",
-      "payload": {
-        "node": "learning",
-        "success": true,
-        "output_key": "learning",
-        "error": null
-      }
-    },
-    {
-      "name": "node_started",
-      "timestamp": "2026-07-10T04:34:49.603000+00:00",
-      "payload": {
-        "node": "position_manager"
-      }
-    },
-    {
-      "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:50.218076+00:00",
-      "payload": {
-        "node": "position_manager",
-        "success": true,
-        "output_key": "position_manager",
-        "error": null
-      }
-    },
-    {
-      "name": "node_started",
-      "timestamp": "2026-07-10T04:34:50.218509+00:00",
-      "payload": {
-        "node": "trade_safety"
-      }
-    },
-    {
-      "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:50.799626+00:00",
-      "payload": {
-        "node": "trade_safety",
-        "success": true,
-        "output_key": "trade_safety",
-        "error": null
-      }
-    },
-    {
-      "name": "node_started",
-      "timestamp": "2026-07-10T04:34:50.800107+00:00",
-      "payload": {
-        "node": "action_engine"
-      }
-    },
-    {
-      "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:51.415317+00:00",
-      "payload": {
-        "node": "action_engine",
-        "success": true,
-        "output_key": "action_engine",
-        "error": null
-      }
-    },
-    {
-      "name": "node_started",
-      "timestamp": "2026-07-10T04:34:51.416514+00:00",
-      "payload": {
-        "node": "broker_interface"
-      }
-    },
-    {
-      "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:52.001974+00:00",
-      "payload": {
-        "node": "broker_interface",
-        "success": true,
-        "output_key": "broker_interface",
-        "error": null
-      }
-    },
-    {
-      "name": "node_started",
-      "timestamp": "2026-07-10T04:34:52.002435+00:00",
-      "payload": {
-        "node": "rebalance_engine"
-      }
-    },
-    {
-      "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:52.572448+00:00",
-      "payload": {
-        "node": "rebalance_engine",
-        "success": true,
-        "output_key": "rebalance_engine",
-        "error": null
-      }
-    },
-    {
-      "name": "node_started",
-      "timestamp": "2026-07-10T04:34:52.572880+00:00",
-      "payload": {
-        "node": "risk_engine"
-      }
-    },
-    {
-      "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:53.157739+00:00",
-      "payload": {
-        "node": "risk_engine",
-        "success": true,
-        "output_key": "risk_engine",
-        "error": null
-      }
-    },
-    {
-      "name": "node_started",
-      "timestamp": "2026-07-10T04:34:53.158181+00:00",
-      "payload": {
-        "node": "execution_engine"
-      }
-    },
-    {
-      "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:53.782973+00:00",
-      "payload": {
-        "node": "execution_engine",
-        "success": true,
-        "output_key": "execution_engine",
-        "error": null
-      }
-    },
-    {
-      "name": "node_started",
-      "timestamp": "2026-07-10T04:34:53.783418+00:00",
-      "payload": {
-        "node": "paper_broker"
-      }
-    },
-    {
-      "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:54.379165+00:00",
-      "payload": {
-        "node": "paper_broker",
-        "success": true,
-        "output_key": "paper_broker",
-        "error": null
-      }
-    },
-    {
-      "name": "node_started",
-      "timestamp": "2026-07-10T04:34:54.379561+00:00",
-      "payload": {
-        "node": "investment_intelligence"
-      }
-    },
-    {
-      "name": "node_completed",
-      "timestamp": "2026-07-10T04:34:55.108312+00:00",
-      "payload": {
-        "node": "investment_intelligence",
-        "success": true,
-        "output_key": "investment_intelligence",
-        "error": null
+        "error": "Traceback (most recent call last):\n  File \"C:\\Projects\\Atlas\\.venv\\Lib\\site-packages\\pandas\\core\\indexes\\base.py\", line 3641, in get_loc\n    return self._engine.get_loc(casted_key)\n           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\n  File \"pandas/_libs/index.pyx\", line 168, in pandas._libs.index.IndexEngine.get_loc\n  File \"pandas/_libs/index.pyx\", line 197, in pandas._libs.index.IndexEngine.get_loc\n  File \"pandas/_libs/hashtable_class_helper.pxi\", line 7668, in pandas._libs.hashtable.PyObjectHashTable.get_item\n  File \"pandas/_libs/hashtable_class_helper.pxi\", line 7676, in pandas._libs.hashtable.PyObjectHashTable.get_item\nKeyError: 'date'\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\Projects\\Atlas\\scripts\\run_alpha_backtests.py\", line 45, in <module>\n    main()\n    ~~~~^^\n  File \"C:\\Projects\\Atlas\\scripts\\run_alpha_backtests.py\", line 19, in main\n    report = build_alpha_backtest_report(min_trades=args.min_trades)\n  File \"C:\\Projects\\Atlas\\src\\atlas\\investment\\alpha\\backtester\\report.py\", line 109, in build_alpha_backtest_report\n    result = run_alpha_backtests(min_trades=min_trades)\n  File \"C:\\Projects\\Atlas\\src\\atlas\\investment\\alpha\\backtester\\engine.py\", line 58, in run_alpha_backtests\n    market[\"date\"] = pd.to_datetime(market[\"date\"], errors=\"coerce\")\n                                    ~~~~~~^^^^^^^^\n  File \"C:\\Projects\\Atlas\\.venv\\Lib\\site-packages\\pandas\\core\\frame.py\", line 4378, in __getitem__\n    indexer = self.columns.get_loc(key)\n  File \"C:\\Projects\\Atlas\\.venv\\Lib\\site-packages\\pandas\\core\\indexes\\base.py\", line 3648, in get_loc\n    raise KeyError(key) from err\nKeyError: 'date'"
       }
     },
     {
       "name": "pipeline_completed",
-      "timestamp": "2026-07-10T04:34:55.108702+00:00",
+      "timestamp": "2026-07-10T05:06:36.124548+00:00",
       "payload": {
-        "success": true
+        "success": false
       }
     }
   ],
@@ -755,7 +154,7 @@
     {
       "node": "market_features",
       "status": "PENDING",
-      "queue_id": "4cd0a47b-c39f-43f4-91ec-1afbdd73599f",
+      "queue_id": "f5ae4854-25e9-49ec-b6ff-22d762642a47",
       "metadata": {
         "requires": [],
         "provides": [
@@ -766,7 +165,7 @@
     {
       "node": "sigil_v32_adapter",
       "status": "PENDING",
-      "queue_id": "6b0c4668-e706-4a65-8d88-a988b372eafe",
+      "queue_id": "ea328b45-f3e3-48e1-8e80-3d2b9d95bcca",
       "metadata": {
         "requires": [],
         "provides": [
@@ -777,7 +176,7 @@
     {
       "node": "alpha_hypotheses",
       "status": "PENDING",
-      "queue_id": "3df760cd-4e57-47ed-a6a1-e7211303a030",
+      "queue_id": "c1516a1d-b43c-42c6-b1ba-54f06abbe5c7",
       "metadata": {
         "requires": [
           "market_features"
@@ -790,7 +189,7 @@
     {
       "node": "mark_to_market",
       "status": "PENDING",
-      "queue_id": "edde54f8-1d9b-42bb-a84a-b5bbdaf95679",
+      "queue_id": "d9e60dd6-4fb3-46b7-966a-f36e718ae10d",
       "metadata": {
         "requires": [
           "market_features"
@@ -803,359 +202,13 @@
     {
       "node": "alpha_backtests",
       "status": "PENDING",
-      "queue_id": "84ff2449-493f-4c5e-b871-74cdfc2c4936",
+      "queue_id": "c5432d30-4343-48eb-85d2-dfd1d17dcf97",
       "metadata": {
         "requires": [
           "alpha_hypotheses"
         ],
         "provides": [
           "alpha_backtests"
-        ]
-      }
-    },
-    {
-      "node": "alpha_validation",
-      "status": "PENDING",
-      "queue_id": "87f26775-c9c5-4e2f-b280-987e0e3fd499",
-      "metadata": {
-        "requires": [
-          "alpha_backtests"
-        ],
-        "provides": [
-          "alpha_validation"
-        ]
-      }
-    },
-    {
-      "node": "adaptive_weighting",
-      "status": "PENDING",
-      "queue_id": "8d381b69-a25f-4715-9830-4ef894bd347e",
-      "metadata": {
-        "requires": [
-          "alpha_validation",
-          "alpha_backtests"
-        ],
-        "provides": [
-          "adaptive_weighting"
-        ]
-      }
-    },
-    {
-      "node": "alpha_ensemble",
-      "status": "PENDING",
-      "queue_id": "f5a8586a-19b1-415f-b437-82d95a1af374",
-      "metadata": {
-        "requires": [
-          "alpha_validation"
-        ],
-        "provides": [
-          "alpha_ensemble"
-        ]
-      }
-    },
-    {
-      "node": "cross_sectional_ranker",
-      "status": "PENDING",
-      "queue_id": "3ce8ffad-0c72-4acc-bdd7-17fbcdad58bb",
-      "metadata": {
-        "requires": [
-          "alpha_ensemble"
-        ],
-        "provides": [
-          "cross_sectional_ranker"
-        ]
-      }
-    },
-    {
-      "node": "alpha_portfolio",
-      "status": "PENDING",
-      "queue_id": "6a2b6c45-820e-471e-a510-5ca5a3f9eda1",
-      "metadata": {
-        "requires": [
-          "cross_sectional_ranker"
-        ],
-        "provides": [
-          "alpha_portfolio"
-        ]
-      }
-    },
-    {
-      "node": "strategy_registry",
-      "status": "PENDING",
-      "queue_id": "014b5286-857b-4654-bc89-421c2900fa89",
-      "metadata": {
-        "requires": [
-          "alpha_portfolio",
-          "sigil_v32_adapter"
-        ],
-        "provides": [
-          "strategy_registry"
-        ]
-      }
-    },
-    {
-      "node": "market_direction",
-      "status": "PENDING",
-      "queue_id": "0884aa9a-df0f-4e1b-9d73-941dfab63698",
-      "metadata": {
-        "requires": [
-          "strategy_registry"
-        ],
-        "provides": [
-          "market_direction"
-        ]
-      }
-    },
-    {
-      "node": "decision_engine",
-      "status": "PENDING",
-      "queue_id": "6707f255-2ece-4e35-9f89-8ce18baac4c2",
-      "metadata": {
-        "requires": [
-          "market_direction",
-          "adaptive_weighting",
-          "strategy_registry"
-        ],
-        "provides": [
-          "decision_engine"
-        ]
-      }
-    },
-    {
-      "node": "execution_planner",
-      "status": "PENDING",
-      "queue_id": "c3069d14-a168-4b23-bfb9-3e47513d12b8",
-      "metadata": {
-        "requires": [
-          "decision_engine",
-          "alpha_portfolio",
-          "strategy_registry"
-        ],
-        "provides": [
-          "execution_planner"
-        ]
-      }
-    },
-    {
-      "node": "portfolio_state",
-      "status": "PENDING",
-      "queue_id": "76e3887d-1515-44c0-9dd4-a4cff1fedb9f",
-      "metadata": {
-        "requires": [
-          "mark_to_market",
-          "decision_engine"
-        ],
-        "provides": [
-          "portfolio_state"
-        ]
-      }
-    },
-    {
-      "node": "execution_simulator",
-      "status": "PENDING",
-      "queue_id": "26c1b66f-9507-4f3b-9850-229a6d310366",
-      "metadata": {
-        "requires": [
-          "execution_planner"
-        ],
-        "provides": [
-          "execution_simulator"
-        ]
-      }
-    },
-    {
-      "node": "portfolio_lifecycle",
-      "status": "PENDING",
-      "queue_id": "6b5fee00-cfb4-419c-a9ba-966d3d69b1d9",
-      "metadata": {
-        "requires": [
-          "portfolio_state"
-        ],
-        "provides": [
-          "portfolio_lifecycle"
-        ]
-      }
-    },
-    {
-      "node": "paper_trading",
-      "status": "PENDING",
-      "queue_id": "06af7a7c-7582-4dd2-858d-763493e7abfe",
-      "metadata": {
-        "requires": [
-          "execution_simulator"
-        ],
-        "provides": [
-          "paper_trading"
-        ]
-      }
-    },
-    {
-      "node": "performance",
-      "status": "PENDING",
-      "queue_id": "9add3c5d-c913-4f5d-ae68-fdadb9091661",
-      "metadata": {
-        "requires": [
-          "paper_trading"
-        ],
-        "provides": [
-          "performance"
-        ]
-      }
-    },
-    {
-      "node": "learning",
-      "status": "PENDING",
-      "queue_id": "d55cffcf-af96-4da6-8286-24ad59af5d7e",
-      "metadata": {
-        "requires": [
-          "performance"
-        ],
-        "provides": [
-          "learning"
-        ]
-      }
-    },
-    {
-      "node": "position_manager",
-      "status": "PENDING",
-      "queue_id": "f28c6a17-fe7e-41c4-9270-e54c4e17f1ab",
-      "metadata": {
-        "requires": [
-          "portfolio_lifecycle",
-          "portfolio_state",
-          "decision_engine",
-          "learning"
-        ],
-        "provides": [
-          "position_manager"
-        ]
-      }
-    },
-    {
-      "node": "trade_safety",
-      "status": "PENDING",
-      "queue_id": "6e648a67-1dfb-480a-9a5f-023b7fda2f03",
-      "metadata": {
-        "requires": [
-          "execution_simulator",
-          "performance",
-          "learning",
-          "decision_engine"
-        ],
-        "provides": [
-          "trade_safety"
-        ]
-      }
-    },
-    {
-      "node": "action_engine",
-      "status": "PENDING",
-      "queue_id": "667f3248-3eda-4e91-b32c-875adeab83c4",
-      "metadata": {
-        "requires": [
-          "portfolio_lifecycle",
-          "position_manager",
-          "portfolio_state",
-          "decision_engine",
-          "learning",
-          "performance"
-        ],
-        "provides": [
-          "action_engine"
-        ]
-      }
-    },
-    {
-      "node": "broker_interface",
-      "status": "PENDING",
-      "queue_id": "39514621-6002-43d7-b77f-6ab10872497b",
-      "metadata": {
-        "requires": [
-          "trade_safety",
-          "execution_planner"
-        ],
-        "provides": [
-          "broker_interface"
-        ]
-      }
-    },
-    {
-      "node": "rebalance_engine",
-      "status": "PENDING",
-      "queue_id": "f0293df5-91eb-4164-aaa2-70aad5d57004",
-      "metadata": {
-        "requires": [
-          "portfolio_state",
-          "position_manager",
-          "decision_engine",
-          "alpha_portfolio"
-        ],
-        "provides": [
-          "rebalance_engine"
-        ]
-      }
-    },
-    {
-      "node": "risk_engine",
-      "status": "PENDING",
-      "queue_id": "e41336d5-45a9-4322-9f8e-b1f0e2531e5e",
-      "metadata": {
-        "requires": [
-          "portfolio_state",
-          "performance",
-          "learning",
-          "action_engine",
-          "rebalance_engine"
-        ],
-        "provides": [
-          "risk_engine"
-        ]
-      }
-    },
-    {
-      "node": "execution_engine",
-      "status": "PENDING",
-      "queue_id": "388fd3e4-de75-4ef4-ae9b-7263d1580ceb",
-      "metadata": {
-        "requires": [
-          "broker_interface",
-          "trade_safety",
-          "risk_engine"
-        ],
-        "provides": [
-          "execution_engine"
-        ]
-      }
-    },
-    {
-      "node": "paper_broker",
-      "status": "PENDING",
-      "queue_id": "f270a341-bdf8-40d7-86ef-7b78e00bd8d3",
-      "metadata": {
-        "requires": [
-          "execution_engine"
-        ],
-        "provides": [
-          "paper_broker"
-        ]
-      }
-    },
-    {
-      "node": "investment_intelligence",
-      "status": "PENDING",
-      "queue_id": "2392bc51-dd0e-42bc-a503-e526a145067d",
-      "metadata": {
-        "requires": [
-          "paper_broker",
-          "mark_to_market",
-          "portfolio_state",
-          "performance",
-          "learning",
-          "rebalance_engine",
-          "risk_engine"
-        ],
-        "provides": [
-          "investment_intelligence"
         ]
       }
     }

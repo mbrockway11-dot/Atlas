@@ -1,29 +1,39 @@
 
-"""Build investment alpha market features."""
+"""Build Market Features v2 from Market Universe v1."""
 
 from __future__ import annotations
 
-import argparse
-from pathlib import Path
-
-from atlas.investment.alpha.market_features import build_market_feature_report
-
-
-def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--root", default=r"C:\Users\lyfe1\OneDrive\Desktop\sigil-engine")
-    return parser.parse_args()
+from atlas.investment.alpha.market_features import (
+    build_market_feature_report,
+)
 
 
 def main() -> None:
-    args = parse_args()
-    report = build_market_feature_report(Path(args.root))
+    report = build_market_feature_report()
 
     print(report["success"])
     print(report["summary"])
     print("Asset rows:", report.get("asset_feature_rows"))
     print("Market rows:", report.get("market_feature_rows"))
+    print("History rows:", report.get("history_rows"))
     print("Assets:", report.get("assets"))
+    print("Aggregate:", report.get("market_aggregate"))
+
+    print("Rankings:")
+    for row in report.get("latest_features", []):
+        print({
+            "rank": row.get("cross_sectional_rank"),
+            "asset": row.get("asset"),
+            "score": row.get("cross_sectional_score"),
+            "return_30d": row.get("return_30d"),
+            "momentum_30d": row.get("momentum_30d"),
+            "volatility_30d": row.get(
+                "volatility_30d"
+            ),
+            "trend_state": row.get("trend_state"),
+        })
+
+    print("Outputs:", report["outputs"])
 
 
 if __name__ == "__main__":

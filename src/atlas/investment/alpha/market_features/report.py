@@ -1,97 +1,304 @@
 
-"""Market Feature Engine report/export."""
+"""Market Features v2 report and export."""
 
 from __future__ import annotations
 
+from datetime import datetime, UTC
 import json
 from pathlib import Path
 from typing import Any
 
 import pandas as pd
 
-from atlas.investment.alpha.market_features.engine import build_market_feature_frame
+from atlas.investment.alpha.market_features.features import (
+    build_feature_frame,
+    build_latest_asset_features,
+    build_market_aggregate,
+)
+from atlas.investment.alpha.market_features.loader import (
+    load_market_feature_inputs,
+)
 
 
-DEFAULT_ROOT = Path(r"C:\Users\lyfe1\OneDrive\Desktop\sigil-engine")
 OUT_DIR = Path("output/investment_alpha")
-ASSET_FEATURES_CSV = OUT_DIR / "market_asset_features.csv"
-MARKET_FEATURES_CSV = OUT_DIR / "market_features.csv"
-REPORT_JSON = OUT_DIR / "market_feature_report.json"
-REPORT_MD = OUT_DIR / "market_feature_report.md"
+
+REPORT_JSON = OUT_DIR / "market_features_report.json"
+REPORT_MD = OUT_DIR / "market_features_report.md"
+
+FEATURE_HISTORY_CSV = OUT_DIR / "market_feature_history.csv"
+LATEST_FEATURES_CSV = OUT_DIR / "market_features.csv"
+MARKET_FEATURES_CSV = OUT_DIR / "market_aggregate_features.csv"
 
 
-def build_market_feature_report(root: str | Path = DEFAULT_ROOT) -> dict[str, Any]:
-    """Build and export market features."""
-    result = build_market_feature_frame(root)
+def build_market_feature_report(
+    legacy_root: Path | None = None,
+) -> dict[str, Any]:
+    inputs = load_market_feature_inputs(legacy_root)
 
-    if not result.get("success"):
-        report = {
-            "success": False,
-            "summary": result.get("error"),
-            "root": str(root),
-        }
-        write_report(report)
-        return report
+    universe_report = (
+        inputs.get("universe_report", {}) or {}
+    )
+    approved_universe = inputs.get(
+        "approved_universe"
+    )
+    prices = inputs.get("prices")
 
-    asset_features: pd.DataFrame = result["asset_features"]
-    market_features: pd.DataFrame = result["market_features"]
+    if not universe_report:
+        return build_failure_report(
+            "Market Universe v1 report is unavailable."
+        )
 
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    asset_features.to_csv(ASSET_FEATURES_CSV, index=False)
-    market_features.to_csv(MARKET_FEATURES_CSV, index=False)
+    if universe_report.get("success") is not True:
+        return build_failure_report(
+            "Market Universe v1 did not pass required core gates."
+        )
+
+    approved_assets = set(
+        str(asset)
+        for asset in universe_report.get(
+            "approved_assets",
+            [],
+        )
+    )
+
+    if (
+        approved_universe is not None
+        and not approved_universe.empty
+        and "asset" in approved_universe.columns
+    ):
+        approved_assets &= set(
+            approved_universe["asset"]
+            .dropna()
+            .astype(str)
+            .tolist()
+        )
+
+    if not approved_assets:
+        return build_failure_report(
+            "No approved Market Universe assets are available."
+        )
+
+    filtered_prices = prices[
+        prices["asset"].astype(str).isin(
+            approved_assets
+        )
+    ].copy()
+
+    if filtered_prices.empty:
+        return build_failure_report(
+            "No approved-universe price rows are available."
+        )
+
+    history = build_feature_frame(filtered_prices)
+    latest = build_latest_asset_features(history)
+    aggregate = build_market_aggregate(latest)
+
+    generated_at = datetime.now(UTC).isoformat()
+
+    assets = (
+        latest["asset"].astype(str).tolist()
+        if not latest.empty
+        else []
+    )
+
+    summary = (
+        f"Market Features v2 generated features for "
+        f"{len(assets)} approved asset(s) from "
+        f"{len(filtered_prices)} Market Universe price row(s). "
+        f"Market regime: {aggregate.get('market_regime')}."
+    )
 
     report = {
         "success": True,
-        "root": str(root),
-        "summary": result["summary"],
-        "asset_feature_rows": int(len(asset_features)),
-        "market_feature_rows": int(len(market_features)),
-        "asset_count": int(asset_features["asset"].nunique()),
-        "assets": sorted(asset_features["asset"].dropna().astype(str).unique().tolist()),
-        "asset_features_csv": str(ASSET_FEATURES_CSV),
-        "market_features_csv": str(MARKET_FEATURES_CSV),
-        "market_feature_columns": list(market_features.columns),
-        "asset_feature_columns": list(asset_features.columns),
+        "version": "market_features_v2",
+        "source": "market_universe_v1",
+        "generated_at": generated_at,
+        "summary": summary,
+        "text_summary": summary,
+        "assets": assets,
+        "approved_asset_count": len(
+            approved_assets
+        ),
+        "asset_feature_rows": len(latest),
+        "market_feature_rows": 1,
+        "history_rows": len(history),
+        "market_aggregate": aggregate,
+        "latest_features": (
+            records(latest)
+        ),
+        "execution_scope_changed": False,
+        "execution_note": (
+            "Market Features v2 expands research and ranking only. "
+            "Execution remains restricted by approved-universe, "
+            "portfolio, risk, and safety controls."
+        ),
+        "outputs": {
+            "json": str(REPORT_JSON),
+            "markdown": str(REPORT_MD),
+            "history_csv": str(FEATURE_HISTORY_CSV),
+            "asset_features_csv": str(LATEST_FEATURES_CSV),
+            "market_features_csv": str(MARKET_FEATURES_CSV),
+        },
     }
 
-    write_report(report)
+    write_outputs(
+        report=report,
+        history=history,
+        latest=latest,
+        aggregate=aggregate,
+    )
+
     return report
 
 
-def write_report(report: dict[str, Any]) -> None:
+def build_failure_report(reason: str) -> dict[str, Any]:
+    summary = f"Market Features v2 blocked: {reason}"
+
+    report = {
+        "success": False,
+        "version": "market_features_v2",
+        "source": "market_universe_v1",
+        "generated_at": datetime.now(UTC).isoformat(),
+        "summary": summary,
+        "text_summary": summary,
+        "reason": reason,
+        "assets": [],
+        "approved_asset_count": 0,
+        "asset_feature_rows": 0,
+        "market_feature_rows": 0,
+        "history_rows": 0,
+        "market_aggregate": {},
+        "latest_features": [],
+        "execution_scope_changed": False,
+        "outputs": {
+            "json": str(REPORT_JSON),
+            "markdown": str(REPORT_MD),
+            "history_csv": str(FEATURE_HISTORY_CSV),
+            "asset_features_csv": str(LATEST_FEATURES_CSV),
+            "market_features_csv": str(MARKET_FEATURES_CSV),
+        },
+    }
+
+    write_outputs(
+        report=report,
+        history=pd.DataFrame(),
+        latest=pd.DataFrame(),
+        aggregate={},
+    )
+
+    return report
+
+
+def write_outputs(
+    *,
+    report: dict[str, Any],
+    history: pd.DataFrame,
+    latest: pd.DataFrame,
+    aggregate: dict,
+) -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    REPORT_JSON.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
-    REPORT_MD.write_text(build_markdown(report), encoding="utf-8")
+
+    (
+        history
+        if history is not None
+        else pd.DataFrame()
+    ).to_csv(
+        FEATURE_HISTORY_CSV,
+        index=False,
+    )
+
+    (
+        latest
+        if latest is not None
+        else pd.DataFrame()
+    ).to_csv(
+        LATEST_FEATURES_CSV,
+        index=False,
+    )
+
+    pd.DataFrame(
+        [aggregate] if aggregate else []
+    ).to_csv(
+        MARKET_FEATURES_CSV,
+        index=False,
+    )
+
+    REPORT_JSON.write_text(
+        json.dumps(
+            report,
+            indent=2,
+            ensure_ascii=False,
+            default=str,
+        ),
+        encoding="utf-8",
+    )
+
+    REPORT_MD.write_text(
+        build_markdown(report),
+        encoding="utf-8",
+    )
 
 
 def build_markdown(report: dict[str, Any]) -> str:
     lines = [
-        "# Market Feature Engine Report",
+        "# Market Features v2",
         "",
         report.get("summary", ""),
         "",
-        "## Outputs",
+        f"Source: `{report.get('source')}`",
         "",
-        f"- Asset features: `{report.get('asset_features_csv', 'n/a')}`",
-        f"- Market features: `{report.get('market_features_csv', 'n/a')}`",
+        "## Market Aggregate",
         "",
-        "## Coverage",
+        "```json",
+        json.dumps(
+            report.get("market_aggregate", {}),
+            indent=2,
+        ),
+        "```",
         "",
-        f"- Asset feature rows: `{report.get('asset_feature_rows', 0)}`",
-        f"- Market feature rows: `{report.get('market_feature_rows', 0)}`",
-        f"- Asset count: `{report.get('asset_count', 0)}`",
-        "",
-        "## Assets",
+        "## Approved Asset Features",
         "",
     ]
 
-    for asset in report.get("assets", []) or []:
-        lines.append(f"- `{asset}`")
+    latest = report.get("latest_features", [])
 
-    lines.extend(["", "## Market Feature Columns", ""])
+    if not latest:
+        lines.append("No asset features are available.")
+    else:
+        for row in latest:
+            lines.append(
+                f"- `{row.get('asset')}` "
+                f"rank=`{row.get('cross_sectional_rank')}` "
+                f"score=`{format_number(row.get('cross_sectional_score'))}` "
+                f"30d_return=`{format_number(row.get('return_30d'))}` "
+                f"trend=`{row.get('trend_state')}`"
+            )
 
-    for col in report.get("market_feature_columns", []) or []:
-        lines.append(f"- `{col}`")
+    lines.extend([
+        "",
+        "## Execution Boundary",
+        "",
+        report.get("execution_note", ""),
+    ])
 
-    lines.append("")
-    return "\n".join(lines)
+    return "\n".join(lines) + "\n"
+
+
+def records(frame: pd.DataFrame) -> list[dict]:
+    if frame is None or frame.empty:
+        return []
+
+    clean = frame.copy()
+    clean = clean.where(
+        pd.notna(clean),
+        None,
+    )
+
+    return clean.to_dict("records")
+
+
+def format_number(value) -> str:
+    try:
+        return f"{float(value):.6f}"
+    except (TypeError, ValueError):
+        return "n/a"
