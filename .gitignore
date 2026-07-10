@@ -75,3 +75,4 @@ __pycache__/
 Thumbs.db
 .vscode/
 .idea/
+output/wikidata_cache/
