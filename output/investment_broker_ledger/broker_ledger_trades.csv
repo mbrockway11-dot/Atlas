@@ -1,0 +1,4 @@
+timestamp,stable_order_key,asset,side,action,filled_weight,notional_value,fill_status,source
+2026-07-09T11:15:01.164419+00:00,,ETH-USD,LONG,BUY,0.131163,0.0,PAPER_FILLED,paper_broker_v3_fill_audit
+2026-07-10T00:38:19.501634+00:00,BTC-USD:LONG:SELL:0.027631,BTC-USD,LONG,SELL,0.027576,2757.6,PAPER_FILLED,paper_broker_v3_fill_audit
+2026-07-10T00:38:19.501655+00:00,ETH-USD:LONG:BUY:0.027631,ETH-USD,LONG,BUY,0.027576,2757.6,PAPER_FILLED,paper_broker_v3_fill_audit
