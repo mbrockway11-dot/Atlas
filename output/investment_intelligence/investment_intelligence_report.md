@@ -1,62 +1,88 @@
-# Atlas Investment Intelligence v1
+# Investment Intelligence v2
 
-Investment Intelligence v1 assessed portfolio confidence as MODERATE (0.641), system health as HEALTHY_WITH_WARNINGS, and explained 2 asset(s) and 2 trade action(s).
+Investment Intelligence v2 assessed 10 research asset(s), identified market state HIGH_DISPERSION_SELECTION, and measured segmented-data coverage at 100.0%.
 
-## Executive Assessment
+## Market Context
 
-- Overall confidence: `0.6413`
-- Confidence label: `MODERATE`
-- System health: `HEALTHY_WITH_WARNINGS`
-- Equity: `100000.0`
-- Risky exposure: `0.7`
-- Cash exposure: `0.3`
-- Learning regime: `flat`
-- Risk label: `low_risk`
+```json
+{
+  "asset_count": 10,
+  "breadth": {
+    "positive_1d_ratio": 1.0,
+    "positive_7d_ratio": 0.7,
+    "positive_30d_ratio": 0.7
+  },
+  "median_returns": {
+    "return_1d": 0.0199,
+    "return_7d": 0.025712,
+    "return_30d": 0.017938
+  },
+  "dispersion": {
+    "return_30d_std": 0.166607,
+    "volatility_30d_std": 0.176161,
+    "label": "HIGH"
+  },
+  "leaders": [
+    {
+      "asset": "BTC-USD",
+      "score": 0.105625,
+      "score_field": "final_alpha_score",
+      "rank": 1.0
+    },
+    {
+      "asset": "ETH-USD",
+      "score": 0.105625,
+      "score_field": "final_alpha_score",
+      "rank": 1.0
+    },
+    {
+      "asset": "SOL-USD",
+      "score": 0.0,
+      "score_field": "final_alpha_score",
+      "rank": 3.0
+    }
+  ],
+  "laggards": [
+    {
+      "asset": "SOL-USD",
+      "score": 0.0,
+      "score_field": "final_alpha_score",
+      "rank": 3.0
+    },
+    {
+      "asset": "AAVE-USD",
+      "score": 0.0,
+      "score_field": "final_alpha_score",
+      "rank": 3.0
+    },
+    {
+      "asset": "LINK-USD",
+      "score": 0.0,
+      "score_field": "final_alpha_score",
+      "rank": 3.0
+    }
+  ],
+  "rank_concentration": {
+    "top_two_score_share": 1.0,
+    "label": "HIGHLY_CONCENTRATED"
+  },
+  "market_state": "HIGH_DISPERSION_SELECTION"
+}
+```
 
-## Portfolio Explanation
+## Price Repository
 
-The portfolio is 70.00% invested with 30.00% held in cash. The learning regime is flat. Overall confidence is MODERATE at 0.641. 2 rebalance order(s) are required to move the portfolio toward adaptive targets.
+```json
+{
+  "coverage_ratio": 1.0,
+  "coverage_label": "EXCELLENT",
+  "segment_count": 30,
+  "healthy_segment_count": 30,
+  "unhealthy_segments": [],
+  "provider": "yfinance"
+}
+```
 
-## Recommendations
+## V2 Recommendations
 
-- Maintain current controls and continue monitoring.
-
-## Health Checks
-
-- `PASS` **accounting_reconciliation** ? Broker Ledger is mathematically reconciled.
-- `PASS` **mark_to_market** ? Mark-to-Market v4 is healthy.
-- `PASS` **portfolio_state** ? Portfolio State is available.
-- `PASS` **performance** ? Performance Engine is healthy.
-- `PASS` **learning** ? Learning Engine is healthy.
-- `PASS` **risk** ? Risk Engine is healthy.
-- `WARN` **trade_safety** ? Safety Governor approved with warnings.
-- `PASS` **atlas_core** ? Atlas Core completed successfully.
-
-## Asset Explanations
-
-### BTC-USD
-
-BTC-USD has an ensemble conviction score of 0.585 and registry status MAINTAIN. Reduce exposure by approximately 8.76%.
-
-- Ensemble score: `0.585`
-- Current weight: `0.350055`
-- Target weight: `0.2625`
-- Registry status: `MAINTAIN`
-
-### ETH-USD
-
-ETH-USD has an ensemble conviction score of 0.585 and registry status MAINTAIN. Reduce exposure by approximately 8.74%.
-
-- Ensemble score: `0.585`
-- Current weight: `0.349945`
-- Target weight: `0.2625`
-- Registry status: `MAINTAIN`
-
-## Trade Explanations
-
-- **SELL BTC-USD** ? SELL BTC-USD because its current portfolio weight is 35.0055% and its adaptive target is 26.2500%. Required change: -8.7555%.
-- **SELL ETH-USD** ? SELL ETH-USD because its current portfolio weight is 34.9945% and its adaptive target is 26.2500%. Required change: -8.7445%.
-
-## Changes Since Prior Run
-
-- Overall confidence changed by +0.0265.
+- Leadership is concentrated; avoid treating the full universe as equally supported.

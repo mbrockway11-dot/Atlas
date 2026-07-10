@@ -1,0 +1,23 @@
+{
+  "version": "price_repository_v1",
+  "provider": "yfinance",
+  "repository_root": "data/market_prices",
+  "approved_universe_csv": "output/investment_market_universe/approved_universe.csv",
+  "timeframes": {
+    "1d": {
+      "interval": "1d",
+      "period": "5y",
+      "minimum_rows": 700
+    },
+    "1h": {
+      "interval": "1h",
+      "period": "730d",
+      "minimum_rows": 1000
+    },
+    "15m": {
+      "interval": "15m",
+      "period": "60d",
+      "minimum_rows": 500
+    }
+  }
+}

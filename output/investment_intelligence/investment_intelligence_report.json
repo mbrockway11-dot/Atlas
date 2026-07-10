@@ -1,15 +1,15 @@
 {
   "success": true,
-  "version": "investment_intelligence_v1",
-  "generated_at": "2026-07-10T03:12:42.686467+00:00",
-  "summary": "Investment Intelligence v1 assessed portfolio confidence as MODERATE (0.641), system health as HEALTHY_WITH_WARNINGS, and explained 2 asset(s) and 2 trade action(s).",
-  "text_summary": "Investment Intelligence v1 assessed portfolio confidence as MODERATE (0.641), system health as HEALTHY_WITH_WARNINGS, and explained 2 asset(s) and 2 trade action(s).",
+  "version": "investment_intelligence_v2",
+  "generated_at": "2026-07-10T06:59:48.760649+00:00",
+  "summary": "Investment Intelligence v2 assessed 10 research asset(s), identified market state HIGH_DISPERSION_SELECTION, and measured segmented-data coverage at 100.0%.",
+  "text_summary": "Investment Intelligence v2 assessed 10 research asset(s), identified market state HIGH_DISPERSION_SELECTION, and measured segmented-data coverage at 100.0%.",
   "confidence": {
-    "overall_confidence": 0.6413,
+    "overall_confidence": 0.66355,
     "confidence_label": "MODERATE",
     "components": {
       "ensemble": {
-        "score": 0.585,
+        "score": 0.65,
         "weight": 0.25
       },
       "learning": {
@@ -29,14 +29,15 @@
         "weight": 0.1
       },
       "data": {
-        "score": 0.05,
+        "score": 0.11,
         "weight": 0.1
       }
     },
     "limitations": [
       "Alpha Ensemble currently has limited independent signal-source diversity."
     ],
-    "source": "investment_intelligence_v1"
+    "source": "investment_intelligence_v1",
+    "repository_adjusted_confidence": 0.714017
   },
   "health": {
     "health_label": "HEALTHY_WITH_WARNINGS",
@@ -96,39 +97,39 @@
     "cash_weight": 0.3,
     "learning_regime": "flat",
     "risk_label": "low_risk",
-    "overall_confidence": 0.6413,
+    "overall_confidence": 0.66355,
     "confidence_label": "MODERATE",
     "rebalance_order_count": 2,
-    "explanation": "The portfolio is 70.00% invested with 30.00% held in cash. The learning regime is flat. Overall confidence is MODERATE at 0.641. 2 rebalance order(s) are required to move the portfolio toward adaptive targets."
+    "explanation": "The portfolio is 70.00% invested with 30.00% held in cash. The learning regime is flat. Overall confidence is MODERATE at 0.664. 2 rebalance order(s) are required to move the portfolio toward adaptive targets."
   },
   "asset_explanations": [
     {
       "asset": "BTC-USD",
-      "ensemble_score": 0.585,
-      "ensemble_action": "MAINTAIN",
+      "ensemble_score": 0.65,
+      "ensemble_action": "PROMOTE_LONG",
       "source_count": 1,
       "current_weight": 0.350055,
-      "target_weight": 0.2625,
-      "weight_delta": -0.087555,
+      "target_weight": 0.35,
+      "weight_delta": -5.5e-05,
       "unrealized_pnl": 0.0,
       "unrealized_pnl_pct": 0.0,
       "registry_status": "MAINTAIN",
       "asset_confidence": 0.65,
-      "explanation": "BTC-USD has an ensemble conviction score of 0.585 and registry status MAINTAIN. Reduce exposure by approximately 8.76%."
+      "explanation": "BTC-USD has an ensemble conviction score of 0.650 and registry status MAINTAIN. Current exposure already matches the target."
     },
     {
       "asset": "ETH-USD",
-      "ensemble_score": 0.585,
-      "ensemble_action": "MAINTAIN",
+      "ensemble_score": 0.65,
+      "ensemble_action": "PROMOTE_LONG",
       "source_count": 1,
       "current_weight": 0.349945,
-      "target_weight": 0.2625,
-      "weight_delta": -0.087445,
+      "target_weight": 0.35,
+      "weight_delta": 5.5e-05,
       "unrealized_pnl": 0.0,
       "unrealized_pnl_pct": 0.0,
       "registry_status": "MAINTAIN",
       "asset_confidence": 0.65,
-      "explanation": "ETH-USD has an ensemble conviction score of 0.585 and registry status MAINTAIN. Reduce exposure by approximately 8.74%."
+      "explanation": "ETH-USD has an ensemble conviction score of 0.650 and registry status MAINTAIN. Current exposure already matches the target."
     }
   ],
   "trade_explanations": [
@@ -176,7 +177,7 @@
       "source_key": "alpha_validation",
       "success": true,
       "version": null,
-      "summary": "Promoted 9 alpha strategy/strategies. Rejected 16."
+      "summary": "Promoted 0 alpha strategy/strategies. Rejected 9."
     },
     {
       "sequence": 4,
@@ -192,7 +193,7 @@
       "source_key": "adaptive_weighting",
       "success": true,
       "version": "adaptive_weighting_v4",
-      "summary": "Adaptive Weighting v4 consumed Alpha Ensemble v4 hints and produced 3 adaptive weight row(s). Regime multiplier=0.75."
+      "summary": "Adaptive Weighting v4 consumed Alpha Ensemble v4 hints and produced 3 adaptive weight row(s). Regime multiplier=1.0."
     },
     {
       "sequence": 6,
@@ -200,7 +201,7 @@
       "source_key": "alpha_portfolio",
       "success": true,
       "version": null,
-      "summary": "Alpha Portfolio constructed 4 row(s). Risk label: aggressive."
+      "summary": "Alpha Portfolio constructed 3 row(s). Risk label: aggressive."
     },
     {
       "sequence": 7,
@@ -294,7 +295,7 @@
   "changes_since_prior": {
     "has_prior_report": true,
     "changes": [
-      "Overall confidence changed by +0.0265."
+      "Overall confidence changed by +0.0010."
     ]
   },
   "recommendations": [
@@ -308,5 +309,224 @@
     "health_csv": "output\\investment_intelligence\\portfolio_health.csv",
     "decision_chain_csv": "output\\investment_intelligence\\decision_chain.csv",
     "history_csv": "output\\investment_intelligence\\intelligence_history.csv"
-  }
+  },
+  "market_context": {
+    "asset_count": 10,
+    "breadth": {
+      "positive_1d_ratio": 1.0,
+      "positive_7d_ratio": 0.7,
+      "positive_30d_ratio": 0.7
+    },
+    "median_returns": {
+      "return_1d": 0.0199,
+      "return_7d": 0.025712,
+      "return_30d": 0.017938
+    },
+    "dispersion": {
+      "return_30d_std": 0.166607,
+      "volatility_30d_std": 0.176161,
+      "label": "HIGH"
+    },
+    "leaders": [
+      {
+        "asset": "BTC-USD",
+        "score": 0.105625,
+        "score_field": "final_alpha_score",
+        "rank": 1.0
+      },
+      {
+        "asset": "ETH-USD",
+        "score": 0.105625,
+        "score_field": "final_alpha_score",
+        "rank": 1.0
+      },
+      {
+        "asset": "SOL-USD",
+        "score": 0.0,
+        "score_field": "final_alpha_score",
+        "rank": 3.0
+      }
+    ],
+    "laggards": [
+      {
+        "asset": "SOL-USD",
+        "score": 0.0,
+        "score_field": "final_alpha_score",
+        "rank": 3.0
+      },
+      {
+        "asset": "AAVE-USD",
+        "score": 0.0,
+        "score_field": "final_alpha_score",
+        "rank": 3.0
+      },
+      {
+        "asset": "LINK-USD",
+        "score": 0.0,
+        "score_field": "final_alpha_score",
+        "rank": 3.0
+      }
+    ],
+    "rank_concentration": {
+      "top_two_score_share": 1.0,
+      "label": "HIGHLY_CONCENTRATED"
+    },
+    "market_state": "HIGH_DISPERSION_SELECTION"
+  },
+  "repository_context": {
+    "coverage_ratio": 1.0,
+    "coverage_label": "EXCELLENT",
+    "segment_count": 30,
+    "healthy_segment_count": 30,
+    "unhealthy_segments": [],
+    "provider": "yfinance"
+  },
+  "universe_context": {
+    "configured_assets": 12,
+    "approved_assets": [
+      "BTC-USD",
+      "ETH-USD",
+      "SOL-USD",
+      "BNB-USD",
+      "XRP-USD",
+      "LINK-USD",
+      "AVAX-USD",
+      "AAVE-USD",
+      "DOGE-USD",
+      "ADA-USD"
+    ],
+    "rejected_assets": [
+      "SUI-USD",
+      "HYPE-USD"
+    ],
+    "approved_count": 10,
+    "research_asset_count": 10
+  },
+  "opportunity_map": [
+    {
+      "asset": "BTC-USD",
+      "opportunity_label": "WATCH",
+      "alpha_score": 0.105625,
+      "rank": 1.0,
+      "trend_state": "NEUTRAL",
+      "return_30d": 0.0376341312814907,
+      "volatility_30d": 0.3242515374813206,
+      "ensemble_confidence": 0.65,
+      "research_only": true
+    },
+    {
+      "asset": "ETH-USD",
+      "opportunity_label": "WATCH",
+      "alpha_score": 0.105625,
+      "rank": 1.0,
+      "trend_state": "NEUTRAL",
+      "return_30d": 0.0827702222994428,
+      "volatility_30d": 0.4364324255994208,
+      "ensemble_confidence": 0.65,
+      "research_only": true
+    },
+    {
+      "asset": "AAVE-USD",
+      "opportunity_label": "NEUTRAL",
+      "alpha_score": 0.0,
+      "rank": 3.0,
+      "trend_state": "UPTREND",
+      "return_30d": 0.5031621795168055,
+      "volatility_30d": 0.8689380141209487,
+      "ensemble_confidence": 0.0,
+      "research_only": true
+    },
+    {
+      "asset": "ADA-USD",
+      "opportunity_label": "NEUTRAL",
+      "alpha_score": 0.0,
+      "rank": 3.0,
+      "trend_state": "NEUTRAL",
+      "return_30d": 0.0147215536800002,
+      "volatility_30d": 0.7737283845721504,
+      "ensemble_confidence": 0.0,
+      "research_only": true
+    },
+    {
+      "asset": "AVAX-USD",
+      "opportunity_label": "NEUTRAL",
+      "alpha_score": 0.0,
+      "rank": 3.0,
+      "trend_state": "NEUTRAL",
+      "return_30d": 0.0211535414811077,
+      "volatility_30d": 0.6116692048601473,
+      "ensemble_confidence": 0.0,
+      "research_only": true
+    },
+    {
+      "asset": "BNB-USD",
+      "opportunity_label": "NEUTRAL",
+      "alpha_score": 0.0,
+      "rank": 3.0,
+      "trend_state": "NEUTRAL",
+      "return_30d": -0.0293339057464199,
+      "volatility_30d": 0.3175325714556317,
+      "ensemble_confidence": 0.0,
+      "research_only": true
+    },
+    {
+      "asset": "DOGE-USD",
+      "opportunity_label": "AVOID_OR_HEDGE_RESEARCH",
+      "alpha_score": 0.0,
+      "rank": 3.0,
+      "trend_state": "DOWNTREND",
+      "return_30d": -0.1281683112155722,
+      "volatility_30d": 0.3964304797847372,
+      "ensemble_confidence": 0.0,
+      "research_only": true
+    },
+    {
+      "asset": "LINK-USD",
+      "opportunity_label": "NEUTRAL",
+      "alpha_score": 0.0,
+      "rank": 3.0,
+      "trend_state": "NEUTRAL",
+      "return_30d": 0.0061195709327621,
+      "volatility_30d": 0.434928529312695,
+      "ensemble_confidence": 0.0,
+      "research_only": true
+    },
+    {
+      "asset": "SOL-USD",
+      "opportunity_label": "NEUTRAL",
+      "alpha_score": 0.0,
+      "rank": 3.0,
+      "trend_state": "UPTREND",
+      "return_30d": 0.2148629424359522,
+      "volatility_30d": 0.5658305900372579,
+      "ensemble_confidence": 0.0,
+      "research_only": true
+    },
+    {
+      "asset": "XRP-USD",
+      "opportunity_label": "NEUTRAL",
+      "alpha_score": 0.0,
+      "rank": 3.0,
+      "trend_state": "NEUTRAL",
+      "return_30d": -0.0253699150342439,
+      "volatility_30d": 0.4497833356069604,
+      "ensemble_confidence": 0.0,
+      "research_only": true
+    }
+  ],
+  "research_execution_boundary": {
+    "research_universe_count": 10,
+    "execution_remains_controlled_by": [
+      "approved_universe",
+      "adaptive_portfolio",
+      "risk_engine",
+      "trade_safety",
+      "execution_engine"
+    ],
+    "intelligence_is_terminal": true,
+    "execution_scope_changed": false
+  },
+  "v2_recommendations": [
+    "Leadership is concentrated; avoid treating the full universe as equally supported."
+  ]
 }

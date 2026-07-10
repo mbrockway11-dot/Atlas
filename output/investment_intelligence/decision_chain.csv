@@ -1,10 +1,10 @@
 sequence,layer,source_key,success,version,summary
 1,Market Features,market_features,,,
 2,Alpha Hypotheses,alpha_hypotheses,,,
-3,Alpha Validation,alpha_validation,True,,Promoted 9 alpha strategy/strategies. Rejected 16.
+3,Alpha Validation,alpha_validation,True,,Promoted 0 alpha strategy/strategies. Rejected 9.
 4,Alpha Ensemble v4,alpha_ensemble,True,alpha_ensemble_v4,"Alpha Ensemble v4 combined 2 signal row(s), scored 2 asset(s), produced 3 allocation hint(s)."
-5,Adaptive Weighting v4,adaptive_weighting,True,adaptive_weighting_v4,Adaptive Weighting v4 consumed Alpha Ensemble v4 hints and produced 3 adaptive weight row(s). Regime multiplier=0.75.
-6,Alpha Portfolio,alpha_portfolio,True,,Alpha Portfolio constructed 4 row(s). Risk label: aggressive.
+5,Adaptive Weighting v4,adaptive_weighting,True,adaptive_weighting_v4,Adaptive Weighting v4 consumed Alpha Ensemble v4 hints and produced 3 adaptive weight row(s). Regime multiplier=1.0.
+6,Alpha Portfolio,alpha_portfolio,True,,Alpha Portfolio constructed 3 row(s). Risk label: aggressive.
 7,Rebalance Engine v4,rebalance,True,rebalance_engine_v4,"Rebalance Engine v4 compared Portfolio State v4 to Alpha Portfolio v3, generated 2 order intent(s), turnover=0.175."
 8,Execution Planner,execution_planner,True,execution_planner_v3,Execution Planner v3 built 2 planned order row(s) from Rebalance Engine v4.
 9,Safety Governor,safety,True,,Trade Safety Governor status: APPROVED_WITH_WARNINGS. Decision: ALLOW_PAPER_EXECUTION. Reason: All hard safety checks passed with warnings..
