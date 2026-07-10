@@ -76,3 +76,10 @@ Thumbs.db
 .vscode/
 .idea/
 output/wikidata_cache/
+output/autonomous/
+output/benchmarks/
+output/campaigns/
+output/investment_adaptive/
+output/market_bridge/
+output/timeline/
+output/research_memory.json
