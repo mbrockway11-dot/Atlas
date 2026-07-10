@@ -1,0 +1,79 @@
+{
+  "success": true,
+  "version": "alpha_ensemble_v4",
+  "summary": "Alpha Ensemble v4 combined 2 signal row(s), scored 2 asset(s), produced 3 allocation hint(s).",
+  "text_summary": "Alpha Ensemble v4 combined 2 signal row(s), scored 2 asset(s), produced 3 allocation hint(s).",
+  "signals": [
+    {
+      "asset": "BTC-USD",
+      "signal_source": "strategy_registry_v3",
+      "direction": "LONG",
+      "raw_score": 0.65,
+      "confidence": 0.65,
+      "status": "MAINTAIN"
+    },
+    {
+      "asset": "ETH-USD",
+      "signal_source": "strategy_registry_v3",
+      "direction": "LONG",
+      "raw_score": 0.65,
+      "confidence": 0.65,
+      "status": "MAINTAIN"
+    }
+  ],
+  "scores": [
+    {
+      "asset": "BTC-USD",
+      "ensemble_score": 0.65,
+      "conviction": 0.65,
+      "source_count": 1,
+      "regime_multiplier": 1.0,
+      "performance_multiplier": 1.0,
+      "ensemble_action": "PROMOTE_LONG",
+      "source": "alpha_ensemble_v4"
+    },
+    {
+      "asset": "ETH-USD",
+      "ensemble_score": 0.65,
+      "conviction": 0.65,
+      "source_count": 1,
+      "regime_multiplier": 1.0,
+      "performance_multiplier": 1.0,
+      "ensemble_action": "PROMOTE_LONG",
+      "source": "alpha_ensemble_v4"
+    }
+  ],
+  "allocations": [
+    {
+      "asset": "BTC-USD",
+      "ensemble_score": 0.65,
+      "ensemble_target_weight": 0.35,
+      "ensemble_action": "PROMOTE_LONG",
+      "source_count": 1,
+      "source": "alpha_ensemble_v4"
+    },
+    {
+      "asset": "ETH-USD",
+      "ensemble_score": 0.65,
+      "ensemble_target_weight": 0.35,
+      "ensemble_action": "PROMOTE_LONG",
+      "source_count": 1,
+      "source": "alpha_ensemble_v4"
+    },
+    {
+      "asset": "CASH",
+      "ensemble_score": 1.0,
+      "ensemble_target_weight": 0.3,
+      "ensemble_action": "RESERVE_CASH",
+      "source_count": 0,
+      "source": "alpha_ensemble_v4"
+    }
+  ],
+  "outputs": {
+    "json": "output\\investment_alpha_ensemble\\alpha_ensemble_report.json",
+    "markdown": "output\\investment_alpha_ensemble\\alpha_ensemble_report.md",
+    "signals_csv": "output\\investment_alpha_ensemble\\alpha_ensemble_signals.csv",
+    "scores_csv": "output\\investment_alpha_ensemble\\alpha_ensemble_scores.csv",
+    "allocations_csv": "output\\investment_alpha_ensemble\\alpha_ensemble_allocations.csv"
+  }
+}

@@ -1,0 +1,4 @@
+asset,ensemble_score,ensemble_target_weight,ensemble_action,source_count,source
+BTC-USD,0.65,0.35,PROMOTE_LONG,1,alpha_ensemble_v4
+ETH-USD,0.65,0.35,PROMOTE_LONG,1,alpha_ensemble_v4
+CASH,1.0,0.3,RESERVE_CASH,0,alpha_ensemble_v4

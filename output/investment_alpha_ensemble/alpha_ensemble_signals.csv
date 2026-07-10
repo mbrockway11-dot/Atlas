@@ -1,0 +1,3 @@
+asset,signal_source,direction,raw_score,confidence,status
+BTC-USD,strategy_registry_v3,LONG,0.65,0.65,MAINTAIN
+ETH-USD,strategy_registry_v3,LONG,0.65,0.65,MAINTAIN
