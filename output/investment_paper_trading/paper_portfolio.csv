@@ -1,2 +1,4 @@
-asset,paper_weight,paper_value,side,cost_drag
-CASH,1.0,100000.0,CASH,0.0
+asset,paper_weight,paper_value,side,cost_drag,status
+BNB-USD,0.080446,8044.58,LONG,0.00016121,OPEN_PAPER_POSITION
+LINK-USD,0.08077,8077.01,LONG,0.00016186,OPEN_PAPER_POSITION
+CASH,0.838461,83846.1,CASH,0.0,AVAILABLE_CASH

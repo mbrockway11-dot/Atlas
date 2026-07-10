@@ -1,3 +1,11 @@
-asset,signal_source,direction,raw_score,confidence,status
-BTC-USD,strategy_registry_v3,LONG,0.65,0.65,MAINTAIN
-ETH-USD,strategy_registry_v3,LONG,0.65,0.65,MAINTAIN
+asset,signal_source,direction,raw_score,confidence,status,source_count
+LINK-USD,alpha_ensemble_v5,NEUTRAL,0.513002,0.956944,WATCH,6
+BNB-USD,alpha_ensemble_v5,NEUTRAL,0.510871,0.95708,WATCH,6
+AVAX-USD,alpha_ensemble_v5,NEUTRAL,0.489101,0.95566,WATCH,6
+XRP-USD,alpha_ensemble_v5,NEUTRAL,0.48466,0.95477,WATCH,6
+ADA-USD,alpha_ensemble_v5,NEUTRAL,0.480637,0.953806,WATCH,6
+AAVE-USD,alpha_ensemble_v5,NEUTRAL,0.520257,0.828532,WATCH,6
+SOL-USD,alpha_ensemble_v5,NEUTRAL,0.492465,0.841315,WATCH,6
+DOGE-USD,alpha_ensemble_v5,NEUTRAL,0.413201,0.923378,ROTATING_OUT,6
+BTC-USD,alpha_ensemble_v5,NEUTRAL,0.432586,0.864062,ROTATING_OUT,6
+ETH-USD,alpha_ensemble_v5,NEUTRAL,0.430487,0.864404,ROTATING_OUT,6

@@ -44,22 +44,22 @@ Investment Intelligence v2.1 assessed 10 research asset(s), identified market st
   ],
   "laggards": [
     {
-      "asset": "LINK-USD",
-      "score": -0.0732263341844999,
+      "asset": "SOL-USD",
+      "score": 0.0,
       "score_field": "final_alpha_score",
-      "rank": 10.0
+      "rank": 1.0
     },
     {
-      "asset": "BNB-USD",
-      "score": -0.072836804076,
+      "asset": "AAVE-USD",
+      "score": 0.0,
       "score_field": "final_alpha_score",
-      "rank": 9.0
+      "rank": 1.0
     },
     {
-      "asset": "AVAX-USD",
-      "score": -0.068738843637,
+      "asset": "BTC-USD",
+      "score": 0.0,
       "score_field": "final_alpha_score",
-      "rank": 8.0
+      "rank": 1.0
     }
   ],
   "rank_concentration": {
@@ -88,8 +88,8 @@ Investment Intelligence v2.1 assessed 10 research asset(s), identified market st
 ```json
 {
   "version": "investment_intelligence_reconciliation_v2_1",
-  "generated_at": "2026-07-10T11:07:54.941865+00:00",
-  "snapshot_fingerprint": "2b747a887c359523128716049fe6208d4aef336764f6da5c5125a2a0c25f791f",
+  "generated_at": "2026-07-10T11:14:30.100823+00:00",
+  "snapshot_fingerprint": "3a989d2b891739cd5d12f0fd8d5893ad98f3c41d8e668a17467d8098c7a28a71",
   "state_consistent": false,
   "stale_rebalance_detected": true,
   "tolerance": 0.0005,
@@ -283,36 +283,36 @@ Investment Intelligence v2.1 assessed 10 research asset(s), identified market st
       "source": "portfolio_state",
       "path": "output\\investment_portfolio_state\\portfolio_state.json",
       "exists": true,
-      "size_bytes": 2143,
-      "modified_at": "2026-07-10T10:25:06.647099+00:00"
+      "size_bytes": 2144,
+      "modified_at": "2026-07-10T11:14:16.634633+00:00"
     },
     {
       "source": "portfolio_holdings",
       "path": "output\\investment_portfolio_state\\portfolio_holdings.csv",
       "exists": true,
       "size_bytes": 366,
-      "modified_at": "2026-07-10T10:25:06.646139+00:00"
+      "modified_at": "2026-07-10T11:14:16.634633+00:00"
     },
     {
       "source": "mtm_report",
       "path": "output\\investment_mark_to_market\\mark_to_market_report.json",
       "exists": true,
       "size_bytes": 2393,
-      "modified_at": "2026-07-10T10:24:59.325448+00:00"
+      "modified_at": "2026-07-10T11:14:06.222558+00:00"
     },
     {
       "source": "mtm_positions",
       "path": "output\\investment_mark_to_market\\positions.csv",
       "exists": true,
       "size_bytes": 390,
-      "modified_at": "2026-07-10T10:24:59.322711+00:00"
+      "modified_at": "2026-07-10T11:14:06.214213+00:00"
     },
     {
       "source": "alpha_portfolio_report",
       "path": "output\\investment_alpha\\alpha_portfolio_report.json",
       "exists": true,
-      "size_bytes": 2347,
-      "modified_at": "2026-07-10T11:07:49.885760+00:00"
+      "size_bytes": 701,
+      "modified_at": "2026-07-10T11:14:12.286568+00:00"
     },
     {
       "source": "alpha_portfolio",
@@ -326,28 +326,28 @@ Investment Intelligence v2.1 assessed 10 research asset(s), identified market st
       "path": "output\\investment_adaptive_weighting\\adaptive_weighting_report.json",
       "exists": true,
       "size_bytes": 2786,
-      "modified_at": "2026-07-10T11:07:13.102741+00:00"
+      "modified_at": "2026-07-10T11:14:09.582640+00:00"
     },
     {
       "source": "adaptive_weights",
       "path": "output\\investment_adaptive_weighting\\adaptive_weights.csv",
       "exists": true,
       "size_bytes": 430,
-      "modified_at": "2026-07-10T11:07:13.102741+00:00"
+      "modified_at": "2026-07-10T11:14:09.582640+00:00"
     },
     {
       "source": "rebalance_report",
       "path": "output\\investment_rebalance\\rebalance_report.json",
       "exists": true,
       "size_bytes": 4571,
-      "modified_at": "2026-07-10T11:07:50.895261+00:00"
+      "modified_at": "2026-07-10T11:14:26.009866+00:00"
     },
     {
       "source": "rebalance_orders",
       "path": "output\\investment_rebalance\\rebalance_orders.csv",
       "exists": true,
       "size_bytes": 919,
-      "modified_at": "2026-07-10T11:07:50.895261+00:00"
+      "modified_at": "2026-07-10T11:14:26.009866+00:00"
     },
     {
       "source": "broker_ledger_report",

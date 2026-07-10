@@ -1,19 +1,22 @@
 {
   "success": true,
   "version": "learning_engine_v3",
-  "summary": "Learning Engine v3 evaluated 2 asset scorecard row(s). Regime: insufficient_history. Confidence=0.29.",
+  "summary": "Learning Engine v3 evaluated 2 asset scorecard row(s). Regime: flat. Confidence=0.41.",
   "learning_regime": {
-    "learning_regime": "insufficient_history",
-    "trend": "unknown",
-    "confidence": 0.05,
-    "reason": "Not enough MTM equity observations for statistical learning.",
+    "learning_regime": "flat",
+    "trend": "flat",
+    "confidence": 0.25,
+    "pnl_pct": 0.0,
+    "sharpe": 0.0,
+    "max_drawdown": 0.0,
+    "return_observations": 15,
     "source": "performance_v3"
   },
-  "learning_confidence": 0.29,
+  "learning_confidence": 0.41,
   "scorecard": [
     {
       "asset": "BTC-USD",
-      "trade_count": 4,
+      "trade_count": 5,
       "market_value": 35005.5,
       "unrealized_pnl": 0.0,
       "asset_confidence": 0.65,
@@ -21,7 +24,7 @@
     },
     {
       "asset": "ETH-USD",
-      "trade_count": 4,
+      "trade_count": 5,
       "market_value": 34994.5,
       "unrealized_pnl": 0.0,
       "asset_confidence": 0.65,
@@ -29,7 +32,7 @@
     }
   ],
   "recommendations": [
-    "Accumulate more broker-authoritative MTM history before changing strategy weights."
+    "Maintain current exposure while monitoring equity curve and attribution."
   ],
   "outputs": {
     "json": "output\\investment_learning\\learning_report.json",

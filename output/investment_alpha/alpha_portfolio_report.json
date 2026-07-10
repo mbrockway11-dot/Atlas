@@ -1,70 +1,24 @@
 {
   "success": true,
-  "version": "alpha_portfolio_v3_1",
-  "generated_at": "2026-07-10T11:07:49.881879+00:00",
-  "summary": "Alpha Portfolio v3.1 preserved 3 Adaptive Weighting v4 target row(s). Risky=0.6, cash=0.4, total=1.0.",
-  "text_summary": "Alpha Portfolio v3.1 preserved 3 Adaptive Weighting v4 target row(s). Risky=0.6, cash=0.4, total=1.0.",
-  "portfolio_summary": {
-    "asset_count": 3,
-    "risky_weight": 0.6,
-    "cash_weight": 0.4,
-    "gross_exposure": 0.6,
-    "total_weight": 1.0,
-    "source": "adaptive_weighting_v4_passthrough",
-    "adaptive_passthrough_valid": true,
-    "second_risk_scaling_applied": false
+  "summary": "Alpha Portfolio constructed 1 row(s). Risk label: conservative.",
+  "risk": {
+    "success": true,
+    "asset_count": 0,
+    "total_risky_weight": 0.0,
+    "cash_weight": 1.0,
+    "max_asset_weight": 0.0,
+    "diversification_score": 0.0,
+    "risk_label": "conservative"
   },
-  "rows": [
-    {
-      "asset": "LINK-USD",
-      "target_weight": 0.300603,
-      "paper_weight": 0.300603,
-      "weight": 0.300603,
-      "allocation": 0.300603,
-      "target_exposure": 0.300603,
-      "adaptive_weight": 0.300603,
-      "source": "adaptive_weighting_v4_passthrough",
-      "base_weight": 0.300603,
-      "registry_multiplier": 1.0,
-      "regime_multiplier": 1.0
-    },
-    {
-      "asset": "BNB-USD",
-      "target_weight": 0.299397,
-      "paper_weight": 0.299397,
-      "weight": 0.299397,
-      "allocation": 0.299397,
-      "target_exposure": 0.299397,
-      "adaptive_weight": 0.299397,
-      "source": "adaptive_weighting_v4_passthrough",
-      "base_weight": 0.299397,
-      "registry_multiplier": 1.0,
-      "regime_multiplier": 1.0
-    },
+  "portfolio": [
     {
       "asset": "CASH",
-      "target_weight": 0.4,
-      "paper_weight": 0.4,
-      "weight": 0.4,
-      "allocation": 0.4,
-      "target_exposure": 0.4,
-      "adaptive_weight": 0.4,
-      "source": "adaptive_weighting_v4_passthrough",
-      "base_weight": 0.4,
-      "registry_multiplier": 1.0,
-      "regime_multiplier": 1.0
+      "target_weight": 1.0,
+      "reason": "No positive alpha scores."
     }
   ],
-  "issues": [],
-  "source_fingerprint": "3eea9618d924a50d00a34804039922b4b855d66c1a89756fbb2943e537ff5360",
-  "contract": {
-    "authoritative_input": "adaptive_weighting_v4",
-    "second_risk_scaling_applied": false,
-    "normalization_applied": false,
-    "execution_instruction": false
-  },
   "outputs": {
-    "portfolio_csv": "output\\investment_alpha\\alpha_portfolio.csv",
+    "portfolio_csv": "output\\investment_alpha\\alpha_portfolio_latest.csv",
     "json": "output\\investment_alpha\\alpha_portfolio_report.json",
     "markdown": "output\\investment_alpha\\alpha_portfolio_report.md"
   }

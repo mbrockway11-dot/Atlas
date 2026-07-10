@@ -357,7 +357,7 @@ Outputs: {'fills_csv': 'output\\investment_execution_simulator\\simulated_fills.
 ```text
 True
 Paper Trading portfolio built with risky weight 0.490842 and cash weight 0.508328.
-Summary: {'portfolio_rows': 4, 'ledger_rows': 6, 'risky_weight': 0.490842, 'cash_weight': 0.508328, 'paper_equity': 99916.96}
+Summary: {'portfolio_rows': 4, 'ledger_rows': 10, 'risky_weight': 0.490842, 'cash_weight': 0.508328, 'paper_equity': 99916.96}
 {'asset': 'BTC-USD', 'paper_weight': 0.223536, 'paper_value': 22353.6, 'side': 'LONG', 'cost_drag': 0.00044797, 'status': 'OPEN_PAPER_POSITION'}
 {'asset': 'ETH-USD', 'paper_weight': 0.190824, 'paper_value': 19082.36, 'side': 'LONG', 'cost_drag': 0.00038241, 'status': 'OPEN_PAPER_POSITION'}
 {'asset': 'RESERVED_CASH', 'paper_weight': 0.076482, 'paper_value': 7648.2, 'side': 'CASH', 'cost_drag': 0.0, 'status': 'PENDING_EXECUTION_RESERVE'}

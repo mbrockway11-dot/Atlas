@@ -1,0 +1,11 @@
+asset,sector,rotation,previous_rank,current_rank,rank_change,current_score,current_confidence
+LINK-USD,oracle,STABLE,1.0,1,0.0,0.513002,0.956944
+BNB-USD,exchange_ecosystem,STABLE,2.0,2,0.0,0.510871,0.95708
+AVAX-USD,layer_1,STABLE,3.0,3,0.0,0.489101,0.95566
+XRP-USD,payments,STABLE,4.0,4,0.0,0.48466,0.95477
+ADA-USD,layer_1,STABLE,5.0,5,0.0,0.480637,0.953806
+AAVE-USD,defi_lending,STABLE,6.0,6,0.0,0.520257,0.828532
+SOL-USD,layer_1_high_beta,STABLE,7.0,7,0.0,0.492465,0.841315
+DOGE-USD,retail_sentiment,STABLE,8.0,8,0.0,0.413201,0.923378
+BTC-USD,reserve,STABLE,9.0,9,0.0,0.432586,0.864062
+ETH-USD,smart_contract,STABLE,10.0,10,0.0,0.430487,0.864404

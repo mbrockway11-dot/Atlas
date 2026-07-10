@@ -1,71 +1,40 @@
 {
   "success": true,
   "summary": {
-    "portfolio_rows": 1,
-    "ledger_rows": 58,
-    "risky_weight": 0.0,
-    "cash_weight": 1.0,
-    "paper_equity": 100000.0
+    "portfolio_rows": 3,
+    "ledger_rows": 62,
+    "risky_weight": 0.161216,
+    "cash_weight": 0.838461,
+    "paper_equity": 99967.69
   },
   "portfolio": [
     {
+      "asset": "BNB-USD",
+      "paper_weight": 0.080446,
+      "paper_value": 8044.58,
+      "side": "LONG",
+      "cost_drag": 0.00016121,
+      "status": "OPEN_PAPER_POSITION"
+    },
+    {
+      "asset": "LINK-USD",
+      "paper_weight": 0.08077,
+      "paper_value": 8077.01,
+      "side": "LONG",
+      "cost_drag": 0.00016186,
+      "status": "OPEN_PAPER_POSITION"
+    },
+    {
       "asset": "CASH",
-      "paper_weight": 1.0,
-      "paper_value": 100000.0,
+      "paper_weight": 0.838461,
+      "paper_value": 83846.1,
       "side": "CASH",
-      "cost_drag": 0.0
+      "cost_drag": 0.0,
+      "status": "AVAILABLE_CASH"
     }
   ],
   "latest_ledger_rows": [
     {
-      "timestamp": "2026-07-09T09:22:36.491449+00:00",
-      "asset": "BTC-USD",
-      "side": "LONG",
-      "order_action": "BUY",
-      "paper_weight": 0.223984,
-      "fee_drag": 0.00017919,
-      "slippage_drag": 0.00026878,
-      "total_cost_drag": 0.00044797,
-      "status": "PAPER_FILLED",
-      "reason": "No execution adapter signal for asset."
-    },
-    {
-      "timestamp": "2026-07-09T09:22:36.491449+00:00",
-      "asset": "ETH-USD",
-      "side": "LONG",
-      "order_action": "BUY",
-      "paper_weight": 0.191206,
-      "fee_drag": 0.00015296,
-      "slippage_drag": 0.00022945,
-      "total_cost_drag": 0.00038241,
-      "status": "PAPER_FILLED",
-      "reason": "No execution adapter signal for asset."
-    },
-    {
-      "timestamp": "2026-07-09T09:27:57.466384+00:00",
-      "asset": "BTC-USD",
-      "side": "LONG",
-      "order_action": "BUY",
-      "paper_weight": 0.223984,
-      "fee_drag": 0.00017919,
-      "slippage_drag": 0.00026878,
-      "total_cost_drag": 0.00044797,
-      "status": "PAPER_FILLED",
-      "reason": "No execution adapter signal for asset."
-    },
-    {
-      "timestamp": "2026-07-09T09:27:57.466384+00:00",
-      "asset": "ETH-USD",
-      "side": "LONG",
-      "order_action": "BUY",
-      "paper_weight": 0.191206,
-      "fee_drag": 0.00015296,
-      "slippage_drag": 0.00022945,
-      "total_cost_drag": 0.00038241,
-      "status": "PAPER_FILLED",
-      "reason": "No execution adapter signal for asset."
-    },
-    {
       "timestamp": "2026-07-09T09:42:24.863663+00:00",
       "asset": "BTC-USD",
       "side": "LONG",
@@ -256,9 +225,57 @@
       "total_cost_drag": 0.00026233,
       "status": "PAPER_FILLED",
       "reason": "Optimize current MTM portfolio toward risk-adjusted target portfolio."
+    },
+    {
+      "timestamp": "2026-07-10T00:38:14.043783+00:00",
+      "asset": "ETH-USD",
+      "side": "LONG",
+      "order_action": "BUY",
+      "paper_weight": 0.027631,
+      "fee_drag": 2.21e-05,
+      "slippage_drag": 3.316e-05,
+      "total_cost_drag": 5.526e-05,
+      "status": "PAPER_FILLED",
+      "reason": "Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets."
+    },
+    {
+      "timestamp": "2026-07-10T00:43:43.979777+00:00",
+      "asset": "ETH-USD",
+      "side": "LONG",
+      "order_action": "BUY",
+      "paper_weight": 0.027631,
+      "fee_drag": 2.21e-05,
+      "slippage_drag": 3.316e-05,
+      "total_cost_drag": 5.526e-05,
+      "status": "PAPER_FILLED",
+      "reason": "Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets."
+    },
+    {
+      "timestamp": "2026-07-10T11:14:19.387807+00:00",
+      "asset": "BNB-USD",
+      "side": "LONG",
+      "order_action": "BUY",
+      "paper_weight": 0.080607,
+      "fee_drag": 6.449e-05,
+      "slippage_drag": 9.673e-05,
+      "total_cost_drag": 0.00016121,
+      "status": "PAPER_FILLED",
+      "reason": "Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets. Turnover scaled to v4 cap."
+    },
+    {
+      "timestamp": "2026-07-10T11:14:19.387807+00:00",
+      "asset": "LINK-USD",
+      "side": "LONG",
+      "order_action": "BUY",
+      "paper_weight": 0.080932,
+      "fee_drag": 6.475e-05,
+      "slippage_drag": 9.712e-05,
+      "total_cost_drag": 0.00016186,
+      "status": "PAPER_FILLED",
+      "reason": "Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets. Turnover scaled to v4 cap."
     }
   ],
-  "text_summary": "Paper Trading portfolio built with risky weight 0.0 and cash weight 1.0.",
+  "text_summary": "Paper Trading portfolio built with risky weight 0.161216 and cash weight 0.838461.",
   "outputs": {
     "ledger_csv": "output\\investment_paper_trading\\paper_trade_ledger.csv",
     "portfolio_csv": "output\\investment_paper_trading\\paper_portfolio.csv",

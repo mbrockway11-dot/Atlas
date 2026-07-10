@@ -1,10 +1,10 @@
 # Learning Engine v3 Report
 
-Learning Engine v3 evaluated 2 asset scorecard row(s). Regime: insufficient_history. Confidence=0.29.
+Learning Engine v3 evaluated 2 asset scorecard row(s). Regime: flat. Confidence=0.41.
 
 ## Recommendations
 
-- Accumulate more broker-authoritative MTM history before changing strategy weights.
+- Maintain current exposure while monitoring equity curve and attribution.
 
 ## Scorecard
 

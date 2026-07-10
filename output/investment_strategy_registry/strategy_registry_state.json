@@ -1,9 +1,9 @@
 {
   "version": "strategy_registry_v3",
   "source": "learning_engine_v3",
-  "updated_at": "2026-07-10T02:55:57.238050+00:00",
-  "learning_regime": "insufficient_history",
-  "learning_confidence": 0.29,
+  "updated_at": "2026-07-10T11:14:13.121562+00:00",
+  "learning_regime": "flat",
+  "learning_confidence": 0.41,
   "performance_snapshot": {
     "pnl_pct": 0.0,
     "sharpe": 0.0,
@@ -17,14 +17,14 @@
       "status": "MAINTAIN",
       "recommendation": "maintain",
       "asset_confidence": 0.65,
-      "learning_confidence": 0.29,
-      "learning_regime": "insufficient_history",
+      "learning_confidence": 0.41,
+      "learning_regime": "flat",
       "weight_multiplier": 1.0,
-      "age_runs": 17,
+      "age_runs": 26,
       "promote_count": 0,
       "reduce_count": 0,
       "review_retire_count": 0,
-      "updated_at": "2026-07-10T02:55:57.237934+00:00"
+      "updated_at": "2026-07-10T11:14:13.121463+00:00"
     },
     {
       "strategy_id": "asset::ETH-USD",
@@ -33,14 +33,14 @@
       "status": "MAINTAIN",
       "recommendation": "maintain",
       "asset_confidence": 0.65,
-      "learning_confidence": 0.29,
-      "learning_regime": "insufficient_history",
+      "learning_confidence": 0.41,
+      "learning_regime": "flat",
       "weight_multiplier": 1.0,
-      "age_runs": 17,
+      "age_runs": 26,
       "promote_count": 0,
       "reduce_count": 0,
       "review_retire_count": 0,
-      "updated_at": "2026-07-10T02:55:57.238039+00:00"
+      "updated_at": "2026-07-10T11:14:13.121552+00:00"
     }
   ],
   "counts": {

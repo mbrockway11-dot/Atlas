@@ -1,11 +1,11 @@
 {
   "success": true,
   "version": "investment_intelligence_v2_1",
-  "generated_at": "2026-07-10T11:07:54.855415+00:00",
+  "generated_at": "2026-07-10T11:14:30.026947+00:00",
   "summary": "Investment Intelligence v2.1 assessed 10 research asset(s), identified market state HIGH_DISPERSION_SELECTION, measured segmented-data coverage at 100.0%, and reconciled portfolio state with 4 canonical action(s).",
   "text_summary": "Investment Intelligence v2.1 assessed 10 research asset(s), identified market state HIGH_DISPERSION_SELECTION, measured segmented-data coverage at 100.0%, and reconciled portfolio state with 4 canonical action(s).",
   "confidence": {
-    "overall_confidence": 0.623232,
+    "overall_confidence": 0.624232,
     "confidence_label": "MODERATE",
     "components": {
       "ensemble": {
@@ -29,7 +29,7 @@
         "weight": 0.1
       },
       "data": {
-        "score": 0.14,
+        "score": 0.15,
         "weight": 0.1
       }
     },
@@ -37,7 +37,7 @@
       "Alpha Ensemble currently has limited independent signal-source diversity."
     ],
     "source": "investment_intelligence_v1",
-    "repository_adjusted_confidence": 0.679747
+    "repository_adjusted_confidence": 0.680597
   },
   "health": {
     "health_label": "HEALTHY_WITH_WARNINGS",
@@ -97,13 +97,13 @@
     "cash_weight": 0.3,
     "learning_regime": "flat",
     "risk_label": "low_risk",
-    "overall_confidence": 0.623232,
+    "overall_confidence": 0.624232,
     "confidence_label": "MODERATE",
     "rebalance_order_count": 4,
     "explanation": "The reconciled portfolio is 70.00% invested with 30.00% in cash. The canonical target is 60.00% risky and 40.00% cash. 4 reconciled portfolio action(s) are required.",
     "target_risky_weight": 0.6,
     "target_cash_weight": 0.4,
-    "snapshot_fingerprint": "2b747a887c359523128716049fe6208d4aef336764f6da5c5125a2a0c25f791f",
+    "snapshot_fingerprint": "3a989d2b891739cd5d12f0fd8d5893ad98f3c41d8e668a17467d8098c7a28a71",
     "state_consistent": false
   },
   "asset_explanations": [
@@ -163,7 +163,7 @@
       "asset_confidence": 0.0,
       "explanation": "BNB-USD has ensemble conviction 0.511. Increase exposure by approximately 29.94%.",
       "target_source": "alpha_portfolio_v3",
-      "snapshot_fingerprint": "2b747a887c359523128716049fe6208d4aef336764f6da5c5125a2a0c25f791f"
+      "snapshot_fingerprint": "3a989d2b891739cd5d12f0fd8d5893ad98f3c41d8e668a17467d8098c7a28a71"
     },
     {
       "asset": "BTC-USD",
@@ -179,7 +179,7 @@
       "asset_confidence": 0.65,
       "explanation": "BTC-USD has ensemble conviction 0.433. Reduce exposure by approximately 35.01%.",
       "target_source": "alpha_portfolio_v3",
-      "snapshot_fingerprint": "2b747a887c359523128716049fe6208d4aef336764f6da5c5125a2a0c25f791f"
+      "snapshot_fingerprint": "3a989d2b891739cd5d12f0fd8d5893ad98f3c41d8e668a17467d8098c7a28a71"
     },
     {
       "asset": "DOGE-USD",
@@ -209,7 +209,7 @@
       "asset_confidence": 0.65,
       "explanation": "ETH-USD has ensemble conviction 0.430. Reduce exposure by approximately 34.99%.",
       "target_source": "alpha_portfolio_v3",
-      "snapshot_fingerprint": "2b747a887c359523128716049fe6208d4aef336764f6da5c5125a2a0c25f791f"
+      "snapshot_fingerprint": "3a989d2b891739cd5d12f0fd8d5893ad98f3c41d8e668a17467d8098c7a28a71"
     },
     {
       "asset": "LINK-USD",
@@ -225,7 +225,7 @@
       "asset_confidence": 0.0,
       "explanation": "LINK-USD has ensemble conviction 0.513. Increase exposure by approximately 30.06%.",
       "target_source": "alpha_portfolio_v3",
-      "snapshot_fingerprint": "2b747a887c359523128716049fe6208d4aef336764f6da5c5125a2a0c25f791f"
+      "snapshot_fingerprint": "3a989d2b891739cd5d12f0fd8d5893ad98f3c41d8e668a17467d8098c7a28a71"
     },
     {
       "asset": "SOL-USD",
@@ -360,8 +360,8 @@
       "layer": "Alpha Portfolio",
       "source_key": "alpha_portfolio",
       "success": true,
-      "version": "alpha_portfolio_v3_1",
-      "summary": "Alpha Portfolio v3.1 preserved 3 Adaptive Weighting v4 target row(s). Risky=0.6, cash=0.4, total=1.0."
+      "version": null,
+      "summary": "Alpha Portfolio constructed 1 row(s). Risk label: conservative."
     },
     {
       "sequence": 7,
@@ -393,7 +393,7 @@
       "source_key": "execution_engine",
       "success": true,
       "version": "execution_engine_v3",
-      "summary": "Execution Engine v3 processed 2 order(s): executed=2, duplicates=0, rejected=0."
+      "summary": "Execution Engine v3 processed 4 order(s): executed=4, duplicates=0, rejected=0."
     },
     {
       "sequence": 11,
@@ -401,7 +401,7 @@
       "source_key": "paper_broker",
       "success": true,
       "version": "paper_broker_v3",
-      "summary": "Paper Broker v3 consumed 2 execution fill row(s), created 2 new broker fill(s), positions=2, cash=152395.1."
+      "summary": "Paper Broker v3 consumed 4 execution fill row(s), created 4 new broker fill(s), positions=4, cash=155082.1."
     },
     {
       "sequence": 12,
@@ -455,9 +455,7 @@
   "changes_since_prior": {
     "has_prior_report": true,
     "changes": [
-      "Overall confidence changed by -0.0026.",
-      "BNB-USD target weight changed by -4.9971%.",
-      "LINK-USD target weight changed by -5.0029%."
+      "Overall confidence changed by +0.0010."
     ]
   },
   "recommendations": [
@@ -474,8 +472,8 @@
   },
   "reconciliation": {
     "version": "investment_intelligence_reconciliation_v2_1",
-    "generated_at": "2026-07-10T11:07:54.941865+00:00",
-    "snapshot_fingerprint": "2b747a887c359523128716049fe6208d4aef336764f6da5c5125a2a0c25f791f",
+    "generated_at": "2026-07-10T11:14:30.100823+00:00",
+    "snapshot_fingerprint": "3a989d2b891739cd5d12f0fd8d5893ad98f3c41d8e668a17467d8098c7a28a71",
     "state_consistent": false,
     "stale_rebalance_detected": true,
     "tolerance": 0.0005,
@@ -669,36 +667,36 @@
         "source": "portfolio_state",
         "path": "output\\investment_portfolio_state\\portfolio_state.json",
         "exists": true,
-        "size_bytes": 2143,
-        "modified_at": "2026-07-10T10:25:06.647099+00:00"
+        "size_bytes": 2144,
+        "modified_at": "2026-07-10T11:14:16.634633+00:00"
       },
       {
         "source": "portfolio_holdings",
         "path": "output\\investment_portfolio_state\\portfolio_holdings.csv",
         "exists": true,
         "size_bytes": 366,
-        "modified_at": "2026-07-10T10:25:06.646139+00:00"
+        "modified_at": "2026-07-10T11:14:16.634633+00:00"
       },
       {
         "source": "mtm_report",
         "path": "output\\investment_mark_to_market\\mark_to_market_report.json",
         "exists": true,
         "size_bytes": 2393,
-        "modified_at": "2026-07-10T10:24:59.325448+00:00"
+        "modified_at": "2026-07-10T11:14:06.222558+00:00"
       },
       {
         "source": "mtm_positions",
         "path": "output\\investment_mark_to_market\\positions.csv",
         "exists": true,
         "size_bytes": 390,
-        "modified_at": "2026-07-10T10:24:59.322711+00:00"
+        "modified_at": "2026-07-10T11:14:06.214213+00:00"
       },
       {
         "source": "alpha_portfolio_report",
         "path": "output\\investment_alpha\\alpha_portfolio_report.json",
         "exists": true,
-        "size_bytes": 2347,
-        "modified_at": "2026-07-10T11:07:49.885760+00:00"
+        "size_bytes": 701,
+        "modified_at": "2026-07-10T11:14:12.286568+00:00"
       },
       {
         "source": "alpha_portfolio",
@@ -712,28 +710,28 @@
         "path": "output\\investment_adaptive_weighting\\adaptive_weighting_report.json",
         "exists": true,
         "size_bytes": 2786,
-        "modified_at": "2026-07-10T11:07:13.102741+00:00"
+        "modified_at": "2026-07-10T11:14:09.582640+00:00"
       },
       {
         "source": "adaptive_weights",
         "path": "output\\investment_adaptive_weighting\\adaptive_weights.csv",
         "exists": true,
         "size_bytes": 430,
-        "modified_at": "2026-07-10T11:07:13.102741+00:00"
+        "modified_at": "2026-07-10T11:14:09.582640+00:00"
       },
       {
         "source": "rebalance_report",
         "path": "output\\investment_rebalance\\rebalance_report.json",
         "exists": true,
         "size_bytes": 4571,
-        "modified_at": "2026-07-10T11:07:50.895261+00:00"
+        "modified_at": "2026-07-10T11:14:26.009866+00:00"
       },
       {
         "source": "rebalance_orders",
         "path": "output\\investment_rebalance\\rebalance_orders.csv",
         "exists": true,
         "size_bytes": 919,
-        "modified_at": "2026-07-10T11:07:50.895261+00:00"
+        "modified_at": "2026-07-10T11:14:26.009866+00:00"
       },
       {
         "source": "broker_ledger_report",
@@ -790,22 +788,22 @@
     ],
     "laggards": [
       {
-        "asset": "LINK-USD",
-        "score": -0.0732263341844999,
+        "asset": "SOL-USD",
+        "score": 0.0,
         "score_field": "final_alpha_score",
-        "rank": 10.0
+        "rank": 1.0
       },
       {
-        "asset": "BNB-USD",
-        "score": -0.072836804076,
+        "asset": "AAVE-USD",
+        "score": 0.0,
         "score_field": "final_alpha_score",
-        "rank": 9.0
+        "rank": 1.0
       },
       {
-        "asset": "AVAX-USD",
-        "score": -0.068738843637,
+        "asset": "BTC-USD",
+        "score": 0.0,
         "score_field": "final_alpha_score",
-        "rank": 8.0
+        "rank": 1.0
       }
     ],
     "rank_concentration": {
@@ -852,7 +850,40 @@
       "trend_state": "UPTREND",
       "return_30d": 0.5031621795168055,
       "volatility_30d": 0.8689380141209487,
-      "ensemble_confidence": 0.720544,
+      "ensemble_confidence": 0.828532,
+      "research_only": true
+    },
+    {
+      "asset": "ADA-USD",
+      "opportunity_label": "NEUTRAL",
+      "alpha_score": 0.0,
+      "rank": 1.0,
+      "trend_state": "NEUTRAL",
+      "return_30d": 0.0147215536800002,
+      "volatility_30d": 0.7737283845721504,
+      "ensemble_confidence": 0.953806,
+      "research_only": true
+    },
+    {
+      "asset": "AVAX-USD",
+      "opportunity_label": "NEUTRAL",
+      "alpha_score": 0.0,
+      "rank": 1.0,
+      "trend_state": "NEUTRAL",
+      "return_30d": 0.0211535414811077,
+      "volatility_30d": 0.6116692048601473,
+      "ensemble_confidence": 0.95566,
+      "research_only": true
+    },
+    {
+      "asset": "BNB-USD",
+      "opportunity_label": "NEUTRAL",
+      "alpha_score": 0.0,
+      "rank": 1.0,
+      "trend_state": "NEUTRAL",
+      "return_30d": -0.0293339057464199,
+      "volatility_30d": 0.3175325714556317,
+      "ensemble_confidence": 0.95708,
       "research_only": true
     },
     {
@@ -863,7 +894,18 @@
       "trend_state": "NEUTRAL",
       "return_30d": 0.0376341312814907,
       "volatility_30d": 0.3242515374813206,
-      "ensemble_confidence": 0.882257,
+      "ensemble_confidence": 0.864062,
+      "research_only": true
+    },
+    {
+      "asset": "DOGE-USD",
+      "opportunity_label": "AVOID_OR_HEDGE_RESEARCH",
+      "alpha_score": 0.0,
+      "rank": 1.0,
+      "trend_state": "DOWNTREND",
+      "return_30d": -0.1281683112155722,
+      "volatility_30d": 0.3964304797847372,
+      "ensemble_confidence": 0.923378,
       "research_only": true
     },
     {
@@ -874,7 +916,18 @@
       "trend_state": "NEUTRAL",
       "return_30d": 0.0827702222994428,
       "volatility_30d": 0.4364324255994208,
-      "ensemble_confidence": 0.882521,
+      "ensemble_confidence": 0.864404,
+      "research_only": true
+    },
+    {
+      "asset": "LINK-USD",
+      "opportunity_label": "NEUTRAL",
+      "alpha_score": 0.0,
+      "rank": 1.0,
+      "trend_state": "NEUTRAL",
+      "return_30d": 0.0061195709327621,
+      "volatility_30d": 0.434928529312695,
+      "ensemble_confidence": 0.956944,
       "research_only": true
     },
     {
@@ -885,73 +938,18 @@
       "trend_state": "UPTREND",
       "return_30d": 0.2148629424359522,
       "volatility_30d": 0.5658305900372579,
-      "ensemble_confidence": 0.734509,
-      "research_only": true
-    },
-    {
-      "asset": "DOGE-USD",
-      "opportunity_label": "AVOID_OR_HEDGE_RESEARCH",
-      "alpha_score": -0.05310336915325,
-      "rank": 5.0,
-      "trend_state": "DOWNTREND",
-      "return_30d": -0.1281683112155722,
-      "volatility_30d": 0.3964304797847372,
-      "ensemble_confidence": 0.772837,
-      "research_only": true
-    },
-    {
-      "asset": "ADA-USD",
-      "opportunity_label": "NEUTRAL",
-      "alpha_score": -0.0670903380535,
-      "rank": 6.0,
-      "trend_state": "NEUTRAL",
-      "return_30d": 0.0147215536800002,
-      "volatility_30d": 0.7737283845721504,
-      "ensemble_confidence": 0.778667,
+      "ensemble_confidence": 0.841315,
       "research_only": true
     },
     {
       "asset": "XRP-USD",
       "opportunity_label": "NEUTRAL",
-      "alpha_score": -0.067877566804,
-      "rank": 7.0,
+      "alpha_score": 0.0,
+      "rank": 1.0,
       "trend_state": "NEUTRAL",
       "return_30d": -0.0253699150342439,
       "volatility_30d": 0.4497833356069604,
-      "ensemble_confidence": 0.778408,
-      "research_only": true
-    },
-    {
-      "asset": "AVAX-USD",
-      "opportunity_label": "NEUTRAL",
-      "alpha_score": -0.068738843637,
-      "rank": 8.0,
-      "trend_state": "NEUTRAL",
-      "return_30d": 0.0211535414811077,
-      "volatility_30d": 0.6116692048601473,
-      "ensemble_confidence": 0.778042,
-      "research_only": true
-    },
-    {
-      "asset": "BNB-USD",
-      "opportunity_label": "NEUTRAL",
-      "alpha_score": -0.072836804076,
-      "rank": 9.0,
-      "trend_state": "NEUTRAL",
-      "return_30d": -0.0293339057464199,
-      "volatility_30d": 0.3175325714556317,
-      "ensemble_confidence": 0.775074,
-      "research_only": true
-    },
-    {
-      "asset": "LINK-USD",
-      "opportunity_label": "NEUTRAL",
-      "alpha_score": -0.0732263341844999,
-      "rank": 10.0,
-      "trend_state": "NEUTRAL",
-      "return_30d": 0.0061195709327621,
-      "volatility_30d": 0.434928529312695,
-      "ensemble_confidence": 0.774681,
+      "ensemble_confidence": 0.95477,
       "research_only": true
     }
   ],

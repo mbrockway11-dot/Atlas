@@ -1,16 +1,70 @@
 {
-  "success": false,
+  "success": true,
   "summary": {
-    "filled_weight": 0.0,
-    "cash_weight": 1.0,
-    "total_cost_drag": 0.0,
-    "warning_count": 1,
-    "warnings": [
-      "No order intents found."
-    ]
+    "filled_weight": 0.161539,
+    "cash_weight": 0.838461,
+    "waiting_weight": 0.0,
+    "total_cost_drag": 0.00032307,
+    "filled_count": 2,
+    "waiting_count": 0,
+    "warning_count": 0,
+    "warnings": []
   },
-  "fills": [],
-  "text_summary": "Execution Simulator filled 0 order(s), waiting on 0, with estimated cost drag 0.0.",
+  "fills": [
+    {
+      "asset": "BNB-USD",
+      "side": "LONG",
+      "order_action": "BUY",
+      "execution_gate": "OPEN",
+      "planned_weight": 0.080607,
+      "simulated_fill_weight": 0.080607,
+      "fill_status": "FILLED_SIMULATED",
+      "fee_drag": 6.449e-05,
+      "slippage_drag": 9.673e-05,
+      "total_cost_drag": 0.00016121,
+      "reason": "Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets. Turnover scaled to v4 cap."
+    },
+    {
+      "asset": "BTC-USD",
+      "side": "LONG",
+      "order_action": "SELL",
+      "execution_gate": "OPEN",
+      "planned_weight": 0.094246,
+      "simulated_fill_weight": 0.0,
+      "fill_status": "NO_FILL",
+      "fee_drag": 0.0,
+      "slippage_drag": 0.0,
+      "total_cost_drag": 0.0,
+      "reason": "Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets. Turnover scaled to v4 cap."
+    },
+    {
+      "asset": "ETH-USD",
+      "side": "LONG",
+      "order_action": "SELL",
+      "execution_gate": "OPEN",
+      "planned_weight": 0.094216,
+      "simulated_fill_weight": 0.0,
+      "fill_status": "NO_FILL",
+      "fee_drag": 0.0,
+      "slippage_drag": 0.0,
+      "total_cost_drag": 0.0,
+      "reason": "Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets. Turnover scaled to v4 cap."
+    },
+    {
+      "asset": "LINK-USD",
+      "side": "LONG",
+      "order_action": "BUY",
+      "execution_gate": "OPEN",
+      "planned_weight": 0.080932,
+      "simulated_fill_weight": 0.080932,
+      "fill_status": "FILLED_SIMULATED",
+      "fee_drag": 6.475e-05,
+      "slippage_drag": 9.712e-05,
+      "total_cost_drag": 0.00016186,
+      "reason": "Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets. Turnover scaled to v4 cap."
+    }
+  ],
+  "text_summary": "Execution Simulator filled 2 order(s), waiting on 0, with estimated cost drag 0.00032307.",
   "outputs": {
     "fills_csv": "output\\investment_execution_simulator\\simulated_fills.csv",
     "json": "output\\investment_execution_simulator\\execution_simulator_report.json",

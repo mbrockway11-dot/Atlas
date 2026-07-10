@@ -25,15 +25,15 @@
       "entry_timestamp": "2026-07-09T07:17:00.080611+00:00",
       "entry_price": 67672.9140625,
       "current_price": 67672.9140625,
-      "quantity": 0.3309802793376643,
-      "cost_basis": 22398.4,
-      "market_value": 22398.4,
-      "portfolio_weight": 0.223984,
+      "quantity": 0.5172749021516987,
+      "cost_basis": 35005.5,
+      "market_value": 35005.5,
+      "portfolio_weight": 0.350055,
       "unrealized_pnl": 0.0,
       "unrealized_pnl_pct": 0.0,
-      "holding_age_hours": 2.9541,
+      "holding_age_hours": 27.9551,
       "transition_reason": "Position is active and within lifecycle limits.",
-      "updated_at": "2026-07-09T10:14:14.705455+00:00"
+      "updated_at": "2026-07-10T11:14:18.476480+00:00"
     },
     {
       "position_id": "paper::ETH-USD::LONG",
@@ -43,15 +43,15 @@
       "entry_timestamp": "2026-07-09T07:17:00.080611+00:00",
       "entry_price": 2065.40966796875,
       "current_price": 2065.40966796875,
-      "quantity": 9.257533890990432,
-      "cost_basis": 19120.6,
-      "market_value": 19120.6,
-      "portfolio_weight": 0.191206,
+      "quantity": 16.943127817550952,
+      "cost_basis": 34994.5,
+      "market_value": 34994.5,
+      "portfolio_weight": 0.349945,
       "unrealized_pnl": 0.0,
       "unrealized_pnl_pct": 0.0,
-      "holding_age_hours": 2.9541,
+      "holding_age_hours": 27.9551,
       "transition_reason": "Position is active and within lifecycle limits.",
-      "updated_at": "2026-07-09T10:14:14.705970+00:00"
+      "updated_at": "2026-07-10T11:14:18.477169+00:00"
     },
     {
       "position_id": "cash::CASH",
@@ -59,7 +59,7 @@
       "side": "CASH",
       "state": "CASH",
       "transition_reason": "Cash reserve.",
-      "updated_at": "2026-07-09T10:14:14.705977+00:00"
+      "updated_at": "2026-07-10T11:14:18.477178+00:00"
     }
   ],
   "outputs": {

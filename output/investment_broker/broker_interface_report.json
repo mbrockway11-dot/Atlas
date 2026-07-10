@@ -1,11 +1,11 @@
 {
   "success": true,
-  "safety_status": "REJECTED",
-  "approved": false,
+  "safety_status": "APPROVED_WITH_WARNINGS",
+  "approved": true,
   "broker": "paper",
   "order_count": 0,
   "orders": [],
-  "summary": "Broker Interface prepared 0 paper broker order(s). Safety status: REJECTED.",
+  "summary": "Broker Interface prepared 0 paper broker order(s). Safety status: APPROVED_WITH_WARNINGS.",
   "outputs": {
     "json": "output\\investment_broker\\broker_interface_report.json",
     "markdown": "output\\investment_broker\\broker_interface_report.md",

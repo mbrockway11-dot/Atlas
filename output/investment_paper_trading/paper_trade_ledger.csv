@@ -57,3 +57,7 @@ timestamp,asset,side,order_action,paper_weight,fee_drag,slippage_drag,total_cost
 2026-07-09T11:14:55.070437+00:00,ETH-USD,LONG,BUY,0.131163,0.00010493,0.0001574,0.00026233,PAPER_FILLED,Optimize current MTM portfolio toward risk-adjusted target portfolio.
 2026-07-09T11:45:24.219136+00:00,BTC-USD,LONG,BUY,0.153647,0.00012292,0.00018438,0.00030729,PAPER_FILLED,Optimize current MTM portfolio toward risk-adjusted target portfolio.
 2026-07-09T11:45:24.219136+00:00,ETH-USD,LONG,BUY,0.131163,0.00010493,0.0001574,0.00026233,PAPER_FILLED,Optimize current MTM portfolio toward risk-adjusted target portfolio.
+2026-07-10T00:38:14.043783+00:00,ETH-USD,LONG,BUY,0.027631,2.21e-05,3.316e-05,5.526e-05,PAPER_FILLED,Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets.
+2026-07-10T00:43:43.979777+00:00,ETH-USD,LONG,BUY,0.027631,2.21e-05,3.316e-05,5.526e-05,PAPER_FILLED,Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets.
+2026-07-10T11:14:19.387807+00:00,BNB-USD,LONG,BUY,0.080607,6.449e-05,9.673e-05,0.00016121,PAPER_FILLED,Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets. Turnover scaled to v4 cap.
+2026-07-10T11:14:19.387807+00:00,LINK-USD,LONG,BUY,0.080932,6.475e-05,9.712e-05,0.00016186,PAPER_FILLED,Move Portfolio State v4 current weights toward Alpha Portfolio v3 adaptive targets. Turnover scaled to v4 cap.

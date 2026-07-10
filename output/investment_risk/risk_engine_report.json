@@ -1,20 +1,20 @@
 {
   "success": true,
   "version": "risk_engine_v3",
-  "summary": "Risk Engine v3 classified MTM portfolio as low_risk with score 0.018.",
+  "summary": "Risk Engine v3 classified MTM portfolio as low_risk with score 0.113.",
   "aggregate": {
-    "aggregate_risk_score": 0.018,
+    "aggregate_risk_score": 0.113,
     "risk_label": "low_risk",
     "risk_breakdown": {
       "exposure": {
-        "score": 0.0,
+        "score": 0.25,
         "weight": 0.22,
-        "weighted_score": 0.0
+        "weighted_score": 0.055
       },
       "concentration": {
-        "score": 0.0,
+        "score": 0.25,
         "weight": 0.16,
-        "weighted_score": 0.0
+        "weighted_score": 0.04
       },
       "drawdown": {
         "score": 0.0,
@@ -43,37 +43,43 @@
       }
     },
     "warnings": [
+      "MTM gross exposure above 65%.",
+      "Largest MTM position above 30%.",
       "Learning regime is flat."
     ],
-    "warning_count": 1,
+    "warning_count": 3,
     "source": "risk_engine_v3_mtm"
   },
   "risk_blocks": [
     {
       "risk_type": "exposure",
-      "risk_score": 0.0,
-      "risky_weight": 0.41519,
-      "cash_weight": 0.58481,
+      "risk_score": 0.25,
+      "risky_weight": 0.7,
+      "cash_weight": 0.3,
       "reserved_cash_weight": 0.0,
-      "gross_exposure": 0.41519,
+      "gross_exposure": 0.7,
       "drawdown": 0.0,
       "source": "portfolio_state_v3_mtm",
-      "warnings": []
+      "warnings": [
+        "MTM gross exposure above 65%."
+      ]
     },
     {
       "risk_type": "concentration",
-      "risk_score": 0.0,
-      "max_position_weight": 0.223984,
+      "risk_score": 0.25,
+      "max_position_weight": 0.350055,
       "asset_count": 2,
       "source": "mtm_positions",
-      "warnings": []
+      "warnings": [
+        "Largest MTM position above 30%."
+      ]
     },
     {
       "risk_type": "drawdown",
       "risk_score": 0.0,
       "pnl_pct": 0.0,
       "drawdown": 0.0,
-      "equity_curve_rows": 8,
+      "equity_curve_rows": 16,
       "source": "performance_v3_mtm",
       "warnings": []
     },
@@ -89,7 +95,7 @@
       "risk_type": "learning",
       "risk_score": 0.15,
       "learning_regime": "flat",
-      "learning_confidence": 0.05,
+      "learning_confidence": 0.25,
       "warnings": [
         "Learning regime is flat."
       ]
@@ -105,8 +111,8 @@
     {
       "risk_type": "rebalance",
       "risk_score": 0.0,
-      "turnover": 0.076482,
-      "order_count": 1,
+      "turnover": 0.0,
+      "order_count": 0,
       "warnings": []
     }
   ],
