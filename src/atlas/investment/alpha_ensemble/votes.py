@@ -1,5 +1,5 @@
 ﻿
-"""Alpha Ensemble v6.1 research-governed voting."""
+"""Ensemble Intelligence v7 research-governed voting."""
 
 from __future__ import annotations
 
@@ -62,6 +62,9 @@ def build_asset_votes(
         ),
         regime_suitability=inputs.get(
             "engine_regime_suitability"
+        ),
+        context_modifiers=inputs.get(
+            "engine_context_modifiers"
         ),
     )
 
@@ -274,7 +277,7 @@ def build_asset_votes(
                     ),
                 )
             ),
-            "source": "alpha_ensemble_v6_1",
+            "source": "ensemble_intelligence_v7",
         })
 
     rows.sort(
@@ -786,6 +789,7 @@ def finite(
 
 def clamp(value: float) -> float:
     return max(0.0, min(1.0, float(value)))
+
 
 
 

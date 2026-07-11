@@ -1,4 +1,4 @@
-﻿"""Alpha Ensemble v6.1 loaders."""
+﻿"""Ensemble Intelligence v7 loaders."""
 
 from __future__ import annotations
 
@@ -89,13 +89,23 @@ REGIME_INTELLIGENCE_REPORT = Path(
     "regime_intelligence_report.json"
 )
 
+MACRO_REGIME_FUSION_REPORT = Path(
+    "output/investment_macro_regime_fusion/"
+    "macro_regime_fusion_report.json"
+)
+
+ENGINE_CONTEXT_MODIFIERS = Path(
+    "output/investment_macro_regime_fusion/"
+    "engine_context_modifiers.csv"
+)
+
 UNIVERSE_REPORT = Path(
     "output/investment_market_universe/market_universe_report.json"
 )
 
 
 def load_alpha_ensemble_inputs() -> dict[str, Any]:
-    """Load Alpha Ensemble v6.1 inputs without failing on absent artifacts."""
+    """Load Ensemble Intelligence v7 inputs without failing on absent artifacts."""
     cross_sectional = safe_read_csv(
         CROSS_SECTIONAL
     )
@@ -157,6 +167,12 @@ def load_alpha_ensemble_inputs() -> dict[str, Any]:
         ),
         "regime_intelligence": safe_read_json(
             REGIME_INTELLIGENCE_REPORT
+        ),
+        "macro_regime_fusion": safe_read_json(
+            MACRO_REGIME_FUSION_REPORT
+        ),
+        "engine_context_modifiers": safe_read_csv(
+            ENGINE_CONTEXT_MODIFIERS
         ),
     }
 
@@ -220,5 +236,6 @@ def metadata_by_asset(
         ): row.to_dict()
         for _, row in frame.iterrows()
     }
+
 
 

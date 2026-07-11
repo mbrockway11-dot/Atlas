@@ -1,4 +1,4 @@
-﻿"""Bounded Learning and Regime modifiers for Alpha Ensemble v6.1."""
+﻿"""Bounded adaptive modifiers for Ensemble Intelligence v7."""
 
 from __future__ import annotations
 
@@ -12,6 +12,9 @@ LEARNING_MAX = 1.10
 
 REGIME_MIN = 0.75
 REGIME_MAX = 1.25
+
+FUSION_MIN = 0.80
+FUSION_MAX = 1.20
 
 
 def build_learning_modifier_map(
@@ -51,8 +54,6 @@ def build_learning_modifier_map(
             )
         )
 
-        # Convert the Learning Engine's 0–1 recommendation into a
-        # deliberately narrow production influence band.
         bounded = (
             LEARNING_MIN
             + raw
@@ -145,6 +146,74 @@ def build_regime_modifier_map(
             "regime_confidence": finite(
                 row.get(
                     "regime_confidence"
+                )
+            ),
+        }
+
+    return output
+
+
+def build_fusion_modifier_map(
+    context_modifiers: pd.DataFrame | None,
+) -> dict[str, dict]:
+    """Index bounded Macro-Regime Fusion modifiers by engine."""
+    if (
+        context_modifiers is None
+        or context_modifiers.empty
+        or "engine_id" not in context_modifiers.columns
+    ):
+        return {}
+
+    frame = context_modifiers.copy()
+
+    if "effective_context_modifier" not in frame.columns:
+        frame["effective_context_modifier"] = 1.0
+
+    frame["effective_context_modifier"] = pd.to_numeric(
+        frame["effective_context_modifier"],
+        errors="coerce",
+    ).fillna(1.0)
+
+    output: dict[str, dict] = {}
+
+    for _, row in frame.iterrows():
+        engine_id = str(
+            row.get("engine_id")
+        )
+
+        raw = finite(
+            row.get(
+                "effective_context_modifier"
+            ),
+            default=1.0,
+        )
+
+        bounded = max(
+            FUSION_MIN,
+            min(
+                FUSION_MAX,
+                raw,
+            ),
+        )
+
+        output[engine_id] = {
+            "fusion_raw_modifier": round(
+                raw,
+                8,
+            ),
+            "fusion_modifier": round(
+                bounded,
+                8,
+            ),
+            "fused_regime": str(
+                row.get(
+                    "fused_regime",
+                    "UNKNOWN",
+                )
+            ),
+            "fusion_confidence": finite(
+                row.get(
+                    "fusion_confidence"
                 )
             ),
         }
