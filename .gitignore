@@ -101,3 +101,4 @@ output/investment_learning/strategy_memory_summary.csv
 output/investment_macro_regime_fusion/
 output/investment_alpha_ensemble/
 output/investment_learning/
+output/investment_portfolio_optimizer/

@@ -54,6 +54,14 @@ PIPELINE_COMMANDS = [
         sys.executable,
         "scripts/update_learning_engine.py",
     ],
+    [
+        sys.executable,
+        "scripts/update_ensemble_intelligence_v7.py",
+    ],
+    [
+        sys.executable,
+        "scripts/update_portfolio_optimizer_v2.py",
+    ],
 ]
 
 
@@ -62,18 +70,18 @@ TEST_COMMAND = [
     "-m",
     "pytest",
     "tests/test_alpha_engines.py",
-    "tests/test_macro_intelligence_v1.py",
-    "tests/test_regime_intelligence_v1.py",
-    "tests/test_macro_regime_fusion_v1.py",
-    "tests/test_macro_intelligence_v1.py",
-    "tests/test_regime_intelligence_v1.py",
-    "tests/test_macro_regime_fusion_v1.py",
     "tests/test_alpha_engine_expansion.py",
     "tests/test_historical_alpha_engines.py",
     "tests/test_alpha_engine_validation.py",
     "tests/test_alpha_research_lab.py",
     "tests/test_alpha_research_portfolio.py",
+    "tests/test_macro_intelligence_v1.py",
+    "tests/test_regime_intelligence_v1.py",
+    "tests/test_macro_regime_fusion_v1.py",
     "tests/test_alpha_ensemble_v6.py",
+    "tests/test_alpha_ensemble_v6_1.py",
+    "tests/test_ensemble_intelligence_v7.py",
+    "tests/test_portfolio_optimizer_v2.py",
     "tests/test_learning_engine_v3_1.py",
     "-q",
 ]
@@ -119,6 +127,14 @@ REQUIRED_ARTIFACTS = [
     "output/investment_learning/strategy_memory_summary.csv",
     "output/investment_learning/engine_learning_recommendations.csv",
     "output/investment_learning/market_memory.csv",
+    "output/investment_alpha_ensemble/ensemble_v7_engine_governance.csv",
+    "output/investment_alpha_ensemble/ensemble_v7_contribution_ledger.csv",
+    "output/investment_alpha_ensemble/ensemble_v7_audit.json",
+    "output/investment_alpha_ensemble/ensemble_v7_audit.md",
+    "output/investment_portfolio_optimizer/optimized_portfolio.csv",
+    "output/investment_portfolio_optimizer/portfolio_covariance.csv",
+    "output/investment_portfolio_optimizer/portfolio_optimizer_report.json",
+    "output/investment_portfolio_optimizer/portfolio_optimizer_report.md",
 ]
 
 
@@ -516,6 +532,10 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+
+
+
 
 
 
