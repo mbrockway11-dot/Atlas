@@ -64,6 +64,10 @@ PIPELINE_COMMANDS = [
     ],
     [
         sys.executable,
+        "scripts/run_meta_research_engine.py",
+    ],
+    [
+        sys.executable,
         "scripts/update_portfolio_optimizer_v2.py",
     ],
     [
@@ -93,8 +97,11 @@ TEST_COMMAND = [
     "tests/test_alpha_ensemble_v6.py",
     "tests/test_alpha_ensemble_v6_1.py",
     "tests/test_ensemble_intelligence_v7.py",
+    "tests/test_governance_snapshots_v1.py",
+    "tests/test_meta_research_engine_v1.py",
     "tests/test_portfolio_optimizer_v2.py",
     "tests/test_portfolio_promotion_lab_v1.py",
+    "tests/test_portfolio_promotion_lab_v2.py",
     "tests/test_learning_engine_v3_1.py",
     "-q",
 ]
@@ -149,6 +156,14 @@ REQUIRED_ARTIFACTS = [
     "output/investment_governance_snapshots/governance_snapshot_manifest.csv",
     "output/investment_governance_snapshots/governance_snapshots_report.json",
     "output/investment_governance_snapshots/governance_snapshots_report.md",
+    "output/investment_meta_research/engine_diagnostics.csv",
+    "output/investment_meta_research/feature_interactions.csv",
+    "output/investment_meta_research/engine_failure_modes.csv",
+    "output/investment_meta_research/engine_family_gaps.csv",
+    "output/investment_meta_research/research_priorities.csv",
+    "output/investment_meta_research/hypothesis_library.csv",
+    "output/investment_meta_research/meta_research_report.json",
+    "output/investment_meta_research/meta_research_report.md",
     "output/investment_portfolio_optimizer/optimized_portfolio.csv",
     "output/investment_portfolio_optimizer/portfolio_covariance.csv",
     "output/investment_portfolio_optimizer/portfolio_optimizer_report.json",
@@ -555,6 +570,8 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+
 
 
 
