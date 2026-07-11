@@ -62,6 +62,10 @@ PIPELINE_COMMANDS = [
         sys.executable,
         "scripts/update_portfolio_optimizer_v2.py",
     ],
+    [
+        sys.executable,
+        "scripts/run_portfolio_promotion_lab.py",
+    ],
 ]
 
 
@@ -82,6 +86,7 @@ TEST_COMMAND = [
     "tests/test_alpha_ensemble_v6_1.py",
     "tests/test_ensemble_intelligence_v7.py",
     "tests/test_portfolio_optimizer_v2.py",
+    "tests/test_portfolio_promotion_lab_v1.py",
     "tests/test_learning_engine_v3_1.py",
     "-q",
 ]
@@ -135,6 +140,11 @@ REQUIRED_ARTIFACTS = [
     "output/investment_portfolio_optimizer/portfolio_covariance.csv",
     "output/investment_portfolio_optimizer/portfolio_optimizer_report.json",
     "output/investment_portfolio_optimizer/portfolio_optimizer_report.md",
+    "output/investment_portfolio_promotion_lab/portfolio_evaluation_metrics.csv",
+    "output/investment_portfolio_promotion_lab/portfolio_window_comparison.csv",
+    "output/investment_portfolio_promotion_lab/portfolio_promotion_decision.csv",
+    "output/investment_portfolio_promotion_lab/portfolio_promotion_report.json",
+    "output/investment_portfolio_promotion_lab/portfolio_promotion_report.md",
 ]
 
 
@@ -532,6 +542,8 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+
 
 
 
