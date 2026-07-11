@@ -32,6 +32,10 @@ PIPELINE_COMMANDS = [
     ],
     [
         sys.executable,
+        "scripts/update_macro_regime_fusion.py",
+    ],
+    [
+        sys.executable,
         "scripts/run_historical_alpha_engines.py",
     ],
     [
@@ -60,8 +64,10 @@ TEST_COMMAND = [
     "tests/test_alpha_engines.py",
     "tests/test_macro_intelligence_v1.py",
     "tests/test_regime_intelligence_v1.py",
+    "tests/test_macro_regime_fusion_v1.py",
     "tests/test_macro_intelligence_v1.py",
     "tests/test_regime_intelligence_v1.py",
+    "tests/test_macro_regime_fusion_v1.py",
     "tests/test_alpha_engine_expansion.py",
     "tests/test_historical_alpha_engines.py",
     "tests/test_alpha_engine_validation.py",
@@ -99,6 +105,8 @@ REQUIRED_ARTIFACTS = [
     "output/investment_regime_intelligence/regime_intelligence_report.json",
     "output/investment_regime_intelligence/current_market_state.csv",
     "output/investment_regime_intelligence/engine_regime_suitability.csv",
+    "output/investment_macro_regime_fusion/macro_regime_fusion_report.json",
+    "output/investment_macro_regime_fusion/engine_context_modifiers.csv",
     "output/investment_alpha_engines/historical_alpha_engine_report.json",
     "output/investment_alpha_engines/historical_alpha_engine_validation.json",
     "output/investment_alpha_research_lab/alpha_research_lab_report.json",
@@ -508,6 +516,7 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
 
 
 
