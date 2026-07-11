@@ -88,3 +88,13 @@ output/research_memory.json
 output/investment_alpha_engines/
 output/investment_alpha_research_lab/
 
+
+# Atlas generated investment artifacts
+output/investment_macro_intelligence/
+output/investment_regime_intelligence/
+output/stabilization/
+output/investment_alpha_ensemble/alpha_ensemble_engine_governance.csv
+output/investment_learning/engine_learning_recommendations.csv
+output/investment_learning/market_memory.csv
+output/investment_learning/strategy_memory.csv
+output/investment_learning/strategy_memory_summary.csv
