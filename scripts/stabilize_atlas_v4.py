@@ -24,6 +24,10 @@ PIPELINE_COMMANDS = [
     ],
     [
         sys.executable,
+        "scripts/update_macro_intelligence.py",
+    ],
+    [
+        sys.executable,
         "scripts/update_regime_intelligence.py",
     ],
     [
@@ -54,7 +58,9 @@ TEST_COMMAND = [
     "-m",
     "pytest",
     "tests/test_alpha_engines.py",
+    "tests/test_macro_intelligence_v1.py",
     "tests/test_regime_intelligence_v1.py",
+    "tests/test_macro_intelligence_v1.py",
     "tests/test_regime_intelligence_v1.py",
     "tests/test_alpha_engine_expansion.py",
     "tests/test_historical_alpha_engines.py",
@@ -87,6 +93,9 @@ KNOWN_EXTERNAL_BLOCKERS = [
 REQUIRED_ARTIFACTS = [
     "output/investment_alpha_engines/alpha_engine_report.json",
     "output/investment_alpha_engines/alpha_engine_latest.csv",
+    "output/investment_macro_intelligence/macro_intelligence_report.json",
+    "output/investment_macro_intelligence/macro_indicators.csv",
+    "output/investment_macro_intelligence/macro_fetch_status.csv",
     "output/investment_regime_intelligence/regime_intelligence_report.json",
     "output/investment_regime_intelligence/current_market_state.csv",
     "output/investment_regime_intelligence/engine_regime_suitability.csv",
@@ -499,6 +508,7 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
 
 
 
