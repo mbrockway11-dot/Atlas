@@ -113,7 +113,25 @@ def build_portfolio_promotion_v2_report() -> dict[str, Any]:
         candidate["curve"],
     )
 
-    historical_governance_available = False
+    governance_snapshots = inputs.get(
+        "governance_snapshots",
+        pd.DataFrame(),
+    )
+
+    historical_governance_available = (
+        governance_snapshots is not None
+        and not governance_snapshots.empty
+        and "effective_at"
+        in governance_snapshots.columns
+        and pd.to_datetime(
+            governance_snapshots[
+                "effective_at"
+            ],
+            errors="coerce",
+            utc=True,
+        ).dropna().nunique()
+        >= 12
+    )
 
     decision = build_promotion_decision(
         baseline=baseline[
@@ -555,3 +573,4 @@ def build_markdown(
     ]
 
     return "\n".join(lines)
+

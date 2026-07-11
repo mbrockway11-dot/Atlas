@@ -60,11 +60,19 @@ PIPELINE_COMMANDS = [
     ],
     [
         sys.executable,
+        "scripts/update_governance_snapshots.py",
+    ],
+    [
+        sys.executable,
         "scripts/update_portfolio_optimizer_v2.py",
     ],
     [
         sys.executable,
         "scripts/run_portfolio_promotion_lab.py",
+    ],
+    [
+        sys.executable,
+        "scripts/run_portfolio_promotion_lab_v2.py",
     ],
 ]
 
@@ -136,6 +144,11 @@ REQUIRED_ARTIFACTS = [
     "output/investment_alpha_ensemble/ensemble_v7_contribution_ledger.csv",
     "output/investment_alpha_ensemble/ensemble_v7_audit.json",
     "output/investment_alpha_ensemble/ensemble_v7_audit.md",
+    "output/investment_governance_snapshots/engine_governance_snapshots.csv",
+    "output/investment_governance_snapshots/market_context_snapshots.csv",
+    "output/investment_governance_snapshots/governance_snapshot_manifest.csv",
+    "output/investment_governance_snapshots/governance_snapshots_report.json",
+    "output/investment_governance_snapshots/governance_snapshots_report.md",
     "output/investment_portfolio_optimizer/optimized_portfolio.csv",
     "output/investment_portfolio_optimizer/portfolio_covariance.csv",
     "output/investment_portfolio_optimizer/portfolio_optimizer_report.json",
@@ -542,6 +555,8 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+
 
 
 

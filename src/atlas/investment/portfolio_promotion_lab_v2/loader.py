@@ -36,6 +36,11 @@ OPTIMIZER_REPORT = Path(
     "portfolio_optimizer_report.json"
 )
 
+GOVERNANCE_SNAPSHOTS = Path(
+    "output/investment_governance_snapshots/"
+    "engine_governance_snapshots.csv"
+)
+
 
 def load_walk_forward_inputs() -> dict[str, Any]:
     """Load canonical walk-forward research artifacts."""
@@ -55,4 +60,8 @@ def load_walk_forward_inputs() -> dict[str, Any]:
         "optimizer_report": safe_read_json(
             OPTIMIZER_REPORT
         ),
+        "governance_snapshots": safe_read_csv(
+            GOVERNANCE_SNAPSHOTS
+        ),
     }
+
