@@ -1,4 +1,4 @@
-"""Alpha Engine Framework v1 registry and orchestration."""
+﻿"""Alpha Engine Framework v1 registry and orchestration."""
 
 from __future__ import annotations
 
@@ -15,6 +15,15 @@ from atlas.investment.alpha.backtester.schema import (
     normalize_market_frame,
 )
 from atlas.investment.alpha.engines.base import AlphaEngine
+from atlas.investment.alpha.engines.drawdown_recovery import (
+    DrawdownRecoveryEngine,
+)
+from atlas.investment.alpha.engines.market_breadth import (
+    MarketBreadthEngine,
+)
+from atlas.investment.alpha.engines.mean_reversion import (
+    MeanReversionEngine,
+)
 from atlas.investment.alpha.engines.momentum import (
     CrossSectionalMomentumEngine,
 )
@@ -24,6 +33,9 @@ from atlas.investment.alpha.engines.schema import (
 )
 from atlas.investment.alpha.engines.trend import (
     TrendContinuationEngine,
+)
+from atlas.investment.alpha.engines.volatility_compression import (
+    VolatilityCompressionEngine,
 )
 from atlas.investment.alpha.engines.volatility_expansion import (
     VolatilityExpansionEngine,
@@ -52,6 +64,10 @@ def registered_engines() -> list[AlphaEngine]:
         TrendContinuationEngine(),
         CrossSectionalMomentumEngine(),
         VolatilityExpansionEngine(),
+        MeanReversionEngine(),
+        VolatilityCompressionEngine(),
+        MarketBreadthEngine(),
+        DrawdownRecoveryEngine(),
     ]
 
 
@@ -152,7 +168,7 @@ def run_alpha_engines(
 
     report = {
         "success": active_count > 0,
-        "framework_version": "1.0.0",
+        "framework_version": "2.0.0",
         "market_rows": int(len(market)),
         "approved_asset_count": int(
             market["asset"].nunique()
@@ -168,7 +184,7 @@ def run_alpha_engines(
             orient="records"
         ),
         "summary": (
-            "Alpha Engine Framework v1 ran "
+            "Alpha Engine Framework v2 ran "
             f"{active_count}/{len(engines)} active engine(s) "
             f"and produced {len(signals)} signal row(s)."
         ),
@@ -349,7 +365,7 @@ def build_markdown(
 ) -> str:
     """Render the Alpha Engine Framework report."""
     lines = [
-        "# Alpha Engine Framework v1",
+        "# Alpha Engine Framework v2",
         "",
         report.get(
             "summary",
@@ -462,3 +478,4 @@ __all__ = [
     "registered_engines",
     "run_alpha_engines",
 ]
+

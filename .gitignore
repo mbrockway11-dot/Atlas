@@ -83,3 +83,8 @@ output/investment_adaptive/
 output/market_bridge/
 output/timeline/
 output/research_memory.json
+
+# Generated investment research outputs
+output/investment_alpha_engines/
+output/investment_alpha_research_lab/
+

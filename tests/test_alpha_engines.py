@@ -1,4 +1,4 @@
-"""Tests for Atlas Alpha Engine Framework v1."""
+﻿"""Tests for Atlas Alpha Engine Framework v1."""
 
 from __future__ import annotations
 
@@ -25,11 +25,19 @@ def sample_market_frame() -> pd.DataFrame:
                 "close": 100.0,
                 "return_1d": 0.02,
                 "return_7d": 0.08,
+                "return_14d": 0.11,
                 "return_30d": 0.15,
+                "momentum_14d": 0.11,
                 "momentum_30d": 0.14,
                 "momentum_90d": 0.35,
                 "volatility_7d": 0.50,
                 "volatility_30d": 0.25,
+                "atr_pct_14d": 0.04,
+                "distance_sma_7d": 0.04,
+                "distance_sma_14d": 0.06,
+                "distance_sma_30d": 0.09,
+                "drawdown_from_90d_high": -0.08,
+                "volume_ratio_30d": 1.20,
                 "trend_state": "UPTREND",
                 "cross_sectional_percentile": 0.90,
             },
@@ -39,11 +47,19 @@ def sample_market_frame() -> pd.DataFrame:
                 "close": 50.0,
                 "return_1d": -0.02,
                 "return_7d": -0.08,
+                "return_14d": -0.11,
                 "return_30d": -0.15,
+                "momentum_14d": -0.11,
                 "momentum_30d": -0.14,
                 "momentum_90d": -0.35,
                 "volatility_7d": 0.50,
                 "volatility_30d": 0.25,
+                "atr_pct_14d": 0.05,
+                "distance_sma_7d": -0.04,
+                "distance_sma_14d": -0.06,
+                "distance_sma_30d": -0.09,
+                "drawdown_from_90d_high": -0.30,
+                "volume_ratio_30d": 1.10,
                 "trend_state": "DOWNTREND",
                 "cross_sectional_percentile": 0.10,
             },
@@ -58,7 +74,7 @@ def test_registry_contains_unique_engines():
         for engine in engines
     ]
 
-    assert len(engines) == 3
+    assert len(engines) == 7
     assert len(engine_ids) == len(set(engine_ids))
 
 
@@ -140,3 +156,6 @@ def test_low_confidence_suppresses_signal():
         )
         == "INSUFFICIENT_EVIDENCE"
     )
+
+
+
