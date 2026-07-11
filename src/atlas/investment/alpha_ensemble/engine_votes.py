@@ -1,4 +1,4 @@
-﻿"""Research engine vote aggregation for Alpha Ensemble v6."""
+﻿"""Research engine vote aggregation for Alpha Ensemble v6.1."""
 
 from __future__ import annotations
 
@@ -236,3 +236,4 @@ def finite(
         if math.isfinite(result)
         else default
     )
+

@@ -1,10 +1,15 @@
-﻿"""Research-governed engine admission for Alpha Ensemble v6."""
+﻿"""Research-governed engine admission for Alpha Ensemble v6.1."""
 
 from __future__ import annotations
 
 import math
 
 import pandas as pd
+
+from atlas.investment.alpha_ensemble.modifiers import (
+    build_learning_modifier_map,
+    build_regime_modifier_map,
+)
 
 
 ELIGIBLE_DECISIONS = {
@@ -13,33 +18,50 @@ ELIGIBLE_DECISIONS = {
 }
 
 
+GOVERNANCE_COLUMNS = [
+    "engine_id",
+    "family",
+    "decision",
+    "eligible",
+    "base_governance_weight",
+    "learning_raw_multiplier",
+    "learning_modifier",
+    "learning_recommendation",
+    "learning_reliability",
+    "regime_raw_suitability",
+    "regime_modifier",
+    "market_regime",
+    "regime_confidence",
+    "combined_modifier",
+    "governance_weight",
+    "promotion_score",
+    "performance_score",
+    "stability_score",
+    "risk_score",
+    "independence_score",
+    "portfolio_sharpe",
+    "portfolio_recovery_factor",
+    "hard_failures",
+]
+
+
 def build_engine_governance(
     decisions: pd.DataFrame,
+    learning_recommendations: pd.DataFrame | None = None,
+    regime_suitability: pd.DataFrame | None = None,
 ) -> pd.DataFrame:
-    """Normalize Research Lab decisions into ensemble governance rows."""
-    columns = [
-        "engine_id",
-        "family",
-        "decision",
-        "eligible",
-        "governance_weight",
-        "promotion_score",
-        "performance_score",
-        "stability_score",
-        "risk_score",
-        "independence_score",
-        "portfolio_sharpe",
-        "portfolio_recovery_factor",
-        "hard_failures",
-    ]
-
+    """Build Research Lab admission with bounded adaptive modifiers."""
     if decisions is None or decisions.empty:
-        return pd.DataFrame(columns=columns)
+        return pd.DataFrame(
+            columns=GOVERNANCE_COLUMNS
+        )
 
     frame = decisions.copy()
 
     if "engine_id" not in frame.columns:
-        return pd.DataFrame(columns=columns)
+        return pd.DataFrame(
+            columns=GOVERNANCE_COLUMNS
+        )
 
     frame["engine_id"] = (
         frame["engine_id"]
@@ -56,7 +78,7 @@ def build_engine_governance(
         .str.upper()
     )
 
-    for column in [
+    numeric_columns = [
         "promotion_score",
         "performance_score",
         "stability_score",
@@ -64,7 +86,9 @@ def build_engine_governance(
         "independence_score",
         "portfolio_sharpe",
         "portfolio_recovery_factor",
-    ]:
+    ]
+
+    for column in numeric_columns:
         if column not in frame.columns:
             frame[column] = 0.0
 
@@ -76,6 +100,12 @@ def build_engine_governance(
     if "family" not in frame.columns:
         frame["family"] = "unknown"
 
+    frame["family"] = (
+        frame["family"]
+        .fillna("unknown")
+        .astype(str)
+    )
+
     if "hard_failures" not in frame.columns:
         frame["hard_failures"] = ""
 
@@ -86,53 +116,152 @@ def build_engine_governance(
         .str.strip()
     )
 
-    frame["family"] = (
-        frame["family"]
-        .fillna("unknown")
-        .astype(str)
-    )
-
     frame["eligible"] = (
         frame["decision"].isin(
             ELIGIBLE_DECISIONS
         )
-        & frame["hard_failures"]
-        .fillna("")
-        .astype(str)
-        .eq("")
+        & frame["hard_failures"].eq("")
     )
 
-    frame["governance_weight"] = frame.apply(
-        calculate_governance_weight,
-        axis=1,
+    learning_map = build_learning_modifier_map(
+        learning_recommendations
+    )
+
+    regime_map = build_regime_modifier_map(
+        regime_suitability
+    )
+
+    rows: list[dict] = []
+
+    for _, row in frame.iterrows():
+        engine_id = str(
+            row["engine_id"]
+        )
+
+        eligible = bool(
+            row["eligible"]
+        )
+
+        base_weight = (
+            calculate_base_governance_weight(
+                row
+            )
+            if eligible
+            else 0.0
+        )
+
+        learning = learning_map.get(
+            engine_id,
+            {
+                "learning_raw_multiplier": 1.0,
+                "learning_modifier": 1.0,
+                "learning_recommendation": (
+                    "NO_LEARNING_INPUT"
+                ),
+                "learning_reliability": 0.0,
+            },
+        )
+
+        regime = regime_map.get(
+            engine_id,
+            {
+                "regime_raw_suitability": 0.50,
+                "regime_modifier": 1.0,
+                "market_regime": "UNKNOWN",
+                "regime_confidence": 0.0,
+            },
+        )
+
+        combined_modifier = (
+            finite(
+                learning.get(
+                    "learning_modifier"
+                ),
+                default=1.0,
+            )
+            * finite(
+                regime.get(
+                    "regime_modifier"
+                ),
+                default=1.0,
+            )
+        )
+
+        adjusted_weight = (
+            base_weight
+            * combined_modifier
+            if eligible
+            else 0.0
+        )
+
+        rows.append({
+            **row.to_dict(),
+            "base_governance_weight": (
+                base_weight
+            ),
+            **learning,
+            **regime,
+            "combined_modifier": (
+                combined_modifier
+            ),
+            "governance_weight": (
+                adjusted_weight
+            ),
+        })
+
+    result = pd.DataFrame(
+        rows
     )
 
     eligible_total = float(
-        frame.loc[
-            frame["eligible"],
+        result.loc[
+            result["eligible"],
             "governance_weight",
         ].sum()
     )
 
     if eligible_total > 0:
-        frame.loc[
-            frame["eligible"],
+        result.loc[
+            result["eligible"],
             "governance_weight",
         ] = (
-            frame.loc[
-                frame["eligible"],
+            result.loc[
+                result["eligible"],
                 "governance_weight",
             ]
             / eligible_total
         )
 
-    frame.loc[
-        ~frame["eligible"],
-        "governance_weight",
+    result.loc[
+        ~result["eligible"],
+        [
+            "base_governance_weight",
+            "governance_weight",
+        ],
     ] = 0.0
 
-    return frame[
-        columns
+    for column in [
+        "base_governance_weight",
+        "learning_raw_multiplier",
+        "learning_modifier",
+        "learning_reliability",
+        "regime_raw_suitability",
+        "regime_modifier",
+        "regime_confidence",
+        "combined_modifier",
+        "governance_weight",
+    ]:
+        result[column] = pd.to_numeric(
+            result[column],
+            errors="coerce",
+        ).fillna(0.0).round(8)
+
+    for column in GOVERNANCE_COLUMNS:
+        if column not in result.columns:
+            result[column] = None
+
+    return result[
+        GOVERNANCE_COLUMNS
     ].sort_values(
         [
             "eligible",
@@ -148,10 +277,10 @@ def build_engine_governance(
     ).reset_index(drop=True)
 
 
-def calculate_governance_weight(
+def calculate_base_governance_weight(
     row: pd.Series,
 ) -> float:
-    """Build an unnormalized reliability weight."""
+    """Build the original Research Lab reliability weight."""
     if str(
         row.get("decision", "")
     ).upper() not in ELIGIBLE_DECISIONS:
@@ -200,7 +329,9 @@ def calculate_governance_weight(
 
     sharpe = clamp(
         finite(
-            row.get("portfolio_sharpe")
+            row.get(
+                "portfolio_sharpe"
+            )
         ) / 1.5
     )
 
@@ -236,15 +367,25 @@ def calculate_governance_weight(
     )
 
 
+# Backward-compatible alias.
+calculate_governance_weight = (
+    calculate_base_governance_weight
+)
+
+
 def governance_by_engine(
     governance: pd.DataFrame,
 ) -> dict[str, dict]:
-    """Index governance rows by engine ID."""
-    if governance is None or governance.empty:
+    if (
+        governance is None
+        or governance.empty
+    ):
         return {}
 
     return {
-        str(row["engine_id"]): row.to_dict()
+        str(
+            row["engine_id"]
+        ): row.to_dict()
         for _, row in governance.iterrows()
     }
 
@@ -256,7 +397,10 @@ def finite(
 ) -> float:
     try:
         result = float(value)
-    except (TypeError, ValueError):
+    except (
+        TypeError,
+        ValueError,
+    ):
         return default
 
     return (
@@ -276,5 +420,3 @@ def clamp(
             float(value),
         ),
     )
-
-

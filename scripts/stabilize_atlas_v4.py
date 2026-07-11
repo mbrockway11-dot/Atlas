@@ -24,6 +24,10 @@ PIPELINE_COMMANDS = [
     ],
     [
         sys.executable,
+        "scripts/update_regime_intelligence.py",
+    ],
+    [
+        sys.executable,
         "scripts/run_historical_alpha_engines.py",
     ],
     [
@@ -50,6 +54,8 @@ TEST_COMMAND = [
     "-m",
     "pytest",
     "tests/test_alpha_engines.py",
+    "tests/test_regime_intelligence_v1.py",
+    "tests/test_regime_intelligence_v1.py",
     "tests/test_alpha_engine_expansion.py",
     "tests/test_historical_alpha_engines.py",
     "tests/test_alpha_engine_validation.py",
@@ -81,6 +87,9 @@ KNOWN_EXTERNAL_BLOCKERS = [
 REQUIRED_ARTIFACTS = [
     "output/investment_alpha_engines/alpha_engine_report.json",
     "output/investment_alpha_engines/alpha_engine_latest.csv",
+    "output/investment_regime_intelligence/regime_intelligence_report.json",
+    "output/investment_regime_intelligence/current_market_state.csv",
+    "output/investment_regime_intelligence/engine_regime_suitability.csv",
     "output/investment_alpha_engines/historical_alpha_engine_report.json",
     "output/investment_alpha_engines/historical_alpha_engine_validation.json",
     "output/investment_alpha_research_lab/alpha_research_lab_report.json",
@@ -98,7 +107,7 @@ REQUIRED_ARTIFACTS = [
 
 EXPECTED_CONTRACTS = {
     "output/investment_alpha_ensemble/alpha_ensemble_report.json": {
-        "version": "alpha_ensemble_v6",
+        "version": "alpha_ensemble_v6_1",
     },
     "output/investment_learning/learning_report.json": {
         "version": "learning_engine_v3_1",
@@ -490,6 +499,11 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+
+
+
+
 
 
 

@@ -72,7 +72,7 @@ def build_ensemble_allocations(
             "regime_cash_weight": (
                 recommended_cash
             ),
-            "source": "alpha_ensemble_v6",
+            "source": "alpha_ensemble_v6_1",
         }]
 
     candidates = candidates[:MAX_POSITIONS]
@@ -146,7 +146,7 @@ def build_ensemble_allocations(
             "regime_cash_weight": (
                 recommended_cash
             ),
-            "source": "alpha_ensemble_v6",
+            "source": "alpha_ensemble_v6_1",
         })
 
     allocated_risky = sum(
@@ -179,7 +179,7 @@ def build_ensemble_allocations(
         "regime_cash_weight": (
             recommended_cash
         ),
-        "source": "alpha_ensemble_v6",
+        "source": "alpha_ensemble_v6_1",
     })
 
     return reconcile_total_weight(output)
@@ -584,4 +584,5 @@ def clamp(value: Any) -> float:
             number(value),
         ),
     )
+
 

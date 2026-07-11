@@ -1,4 +1,4 @@
-﻿"""Alpha Ensemble v6 loaders."""
+﻿"""Alpha Ensemble v6.1 loaders."""
 
 from __future__ import annotations
 
@@ -74,13 +74,28 @@ RESEARCH_DECISIONS = Path(
     "alpha_research_promotion_decisions.csv"
 )
 
+ENGINE_LEARNING_RECOMMENDATIONS = Path(
+    "output/investment_learning/"
+    "engine_learning_recommendations.csv"
+)
+
+ENGINE_REGIME_SUITABILITY = Path(
+    "output/investment_regime_intelligence/"
+    "engine_regime_suitability.csv"
+)
+
+REGIME_INTELLIGENCE_REPORT = Path(
+    "output/investment_regime_intelligence/"
+    "regime_intelligence_report.json"
+)
+
 UNIVERSE_REPORT = Path(
     "output/investment_market_universe/market_universe_report.json"
 )
 
 
 def load_alpha_ensemble_inputs() -> dict[str, Any]:
-    """Load Alpha Ensemble v6 inputs without failing on absent artifacts."""
+    """Load Alpha Ensemble v6.1 inputs without failing on absent artifacts."""
     cross_sectional = safe_read_csv(
         CROSS_SECTIONAL
     )
@@ -133,6 +148,15 @@ def load_alpha_ensemble_inputs() -> dict[str, Any]:
         ),
         "research_decisions": safe_read_csv(
             RESEARCH_DECISIONS
+        ),
+        "engine_learning_recommendations": safe_read_csv(
+            ENGINE_LEARNING_RECOMMENDATIONS
+        ),
+        "engine_regime_suitability": safe_read_csv(
+            ENGINE_REGIME_SUITABILITY
+        ),
+        "regime_intelligence": safe_read_json(
+            REGIME_INTELLIGENCE_REPORT
         ),
     }
 
@@ -196,3 +220,5 @@ def metadata_by_asset(
         ): row.to_dict()
         for _, row in frame.iterrows()
     }
+
+

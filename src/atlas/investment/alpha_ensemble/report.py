@@ -64,7 +64,7 @@ def build_alpha_ensemble_report() -> dict[str, Any]:
     )
 
     summary = (
-        f"Alpha Ensemble v6 evaluated "
+        f"Alpha Ensemble v6.1 evaluated "
         f"{len(scores)} approved asset(s), "
         f"identified regime {regime.get('regime')}, "
         f"and produced {len(allocations)} "
@@ -73,7 +73,7 @@ def build_alpha_ensemble_report() -> dict[str, Any]:
 
     report = {
         "success": success,
-        "version": "alpha_ensemble_v6",
+        "version": "alpha_ensemble_v6_1",
         "generated_at": generated_at,
         "summary": summary,
         "text_summary": summary,
@@ -171,7 +171,7 @@ def build_compatibility_signals(
         {
             "asset": row["asset"],
             "signal_source": (
-                "alpha_ensemble_v6"
+                "alpha_ensemble_v6_1"
             ),
             "direction": row["direction"],
             "raw_score": row["ensemble_score"],
@@ -315,7 +315,7 @@ def build_markdown(
     report: dict[str, Any],
 ) -> str:
     lines = [
-        "# Alpha Ensemble v6",
+        "# Alpha Ensemble v6.1",
         "",
         report.get("summary", ""),
         "",
@@ -378,4 +378,5 @@ def build_markdown(
         )
 
     return "\n".join(lines) + "\n"
+
 
