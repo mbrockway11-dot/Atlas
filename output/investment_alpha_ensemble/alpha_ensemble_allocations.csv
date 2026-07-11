@@ -1,4 +1,0 @@
-asset,ensemble_score,confidence,conviction,ensemble_target_weight,ensemble_action,ensemble_rank,sector,diversification_multiplier,source_count,allocation_policy,regime_cash_weight,source
-LINK-USD,0.513002,0.956944,0.490914,0.300603,WATCH,1.0,oracle,1.0,6,DEFENSIVE_WATCH_FALLBACK,0.4,alpha_ensemble_v5_1
-BNB-USD,0.510871,0.95708,0.488944,0.299397,WATCH,2.0,exchange_ecosystem,1.0,6,DEFENSIVE_WATCH_FALLBACK,0.4,alpha_ensemble_v5_1
-CASH,1.0,1.0,1.0,0.4,RESERVE_CASH,,cash,1.0,0,DEFENSIVE_WATCH_FALLBACK,0.4,alpha_ensemble_v5_1
