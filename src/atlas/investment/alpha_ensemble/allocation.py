@@ -1,4 +1,4 @@
-
+﻿
 """Alpha Ensemble v5.1 diversification-aware allocation safety.
 
 The ensemble publishes allocation intelligence consumed by Adaptive
@@ -72,7 +72,7 @@ def build_ensemble_allocations(
             "regime_cash_weight": (
                 recommended_cash
             ),
-            "source": "alpha_ensemble_v5_1",
+            "source": "alpha_ensemble_v6",
         }]
 
     candidates = candidates[:MAX_POSITIONS]
@@ -146,7 +146,7 @@ def build_ensemble_allocations(
             "regime_cash_weight": (
                 recommended_cash
             ),
-            "source": "alpha_ensemble_v5_1",
+            "source": "alpha_ensemble_v6",
         })
 
     allocated_risky = sum(
@@ -179,7 +179,7 @@ def build_ensemble_allocations(
         "regime_cash_weight": (
             recommended_cash
         ),
-        "source": "alpha_ensemble_v5_1",
+        "source": "alpha_ensemble_v6",
     })
 
     return reconcile_total_weight(output)
@@ -584,3 +584,4 @@ def clamp(value: Any) -> float:
             number(value),
         ),
     )
+

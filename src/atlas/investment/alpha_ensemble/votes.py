@@ -1,5 +1,5 @@
-
-"""Alpha Ensemble v5 multi-source voting."""
+﻿
+"""Alpha Ensemble v6 research-governed voting."""
 
 from __future__ import annotations
 
@@ -13,15 +13,22 @@ from atlas.investment.alpha_ensemble.loader import (
     approved_assets,
     metadata_by_asset,
 )
+from atlas.investment.alpha_ensemble.engine_votes import (
+    build_research_engine_votes,
+)
+from atlas.investment.alpha_ensemble.governance import (
+    build_engine_governance,
+)
 
 
 COMPONENT_WEIGHTS = {
-    "feature_vote": 0.30,
-    "rank_vote": 0.25,
-    "backtest_vote": 0.15,
-    "validation_vote": 0.10,
-    "learning_vote": 0.10,
-    "legacy_signal_vote": 0.10,
+    "research_engine_vote": 0.30,
+    "feature_vote": 0.20,
+    "rank_vote": 0.18,
+    "backtest_vote": 0.10,
+    "validation_vote": 0.08,
+    "learning_vote": 0.08,
+    "legacy_signal_vote": 0.06,
 }
 
 
@@ -47,6 +54,16 @@ def build_asset_votes(
         inputs.get("legacy_signals")
     )
 
+
+    governance = build_engine_governance(
+        inputs.get("research_decisions")
+    )
+
+    research_votes = build_research_engine_votes(
+        inputs.get("alpha_engine_signals"),
+        governance,
+    )
+
     global_backtest = extract_global_backtest_score(
         inputs.get("alpha_backtests", {}) or {}
     )
@@ -65,6 +82,20 @@ def build_asset_votes(
         registry_row = registry.get(asset, {})
         learning_row = learning_scores.get(asset, {})
         legacy_row = legacy.get(asset, {})
+
+
+        research_row = research_votes.get(
+            asset,
+            {},
+        )
+
+        research_engine_vote = (
+            research_row.get(
+                "research_engine_vote"
+            )
+            if research_row
+            else None
+        )
 
         feature_vote = build_feature_vote(feature_row)
         rank_vote = build_rank_vote(rank_row, feature_row)
@@ -88,6 +119,9 @@ def build_asset_votes(
         )
 
         components = {
+            "research_engine_vote": (
+                research_engine_vote
+            ),
             "feature_vote": feature_vote,
             "rank_vote": rank_vote,
             "backtest_vote": backtest_vote,
@@ -175,6 +209,36 @@ def build_asset_votes(
                 6,
             ),
             "source_count": source_count,
+            "research_engine_confidence": (
+                research_row.get(
+                    "research_engine_confidence",
+                    0.0,
+                )
+            ),
+            "research_engine_count": (
+                research_row.get(
+                    "research_engine_count",
+                    0,
+                )
+            ),
+            "research_promoted_count": (
+                research_row.get(
+                    "research_promoted_count",
+                    0,
+                )
+            ),
+            "research_keep_count": (
+                research_row.get(
+                    "research_keep_count",
+                    0,
+                )
+            ),
+            "research_engine_ids": (
+                research_row.get(
+                    "research_engine_ids",
+                    "",
+                )
+            ),
             "direction": direction,
             "ensemble_action": action,
             "registry_status": registry_row.get(
@@ -204,7 +268,7 @@ def build_asset_votes(
                     ),
                 )
             ),
-            "source": "alpha_ensemble_v5",
+            "source": "alpha_ensemble_v6",
         })
 
     rows.sort(
@@ -716,3 +780,6 @@ def finite(
 
 def clamp(value: float) -> float:
     return max(0.0, min(1.0, float(value)))
+
+
+

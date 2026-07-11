@@ -1,4 +1,4 @@
-
+﻿
 """Alpha Ensemble v5 report and exports."""
 
 from __future__ import annotations
@@ -64,7 +64,7 @@ def build_alpha_ensemble_report() -> dict[str, Any]:
     )
 
     summary = (
-        f"Alpha Ensemble v5.1 evaluated "
+        f"Alpha Ensemble v6 evaluated "
         f"{len(scores)} approved asset(s), "
         f"identified regime {regime.get('regime')}, "
         f"and produced {len(allocations)} "
@@ -73,7 +73,7 @@ def build_alpha_ensemble_report() -> dict[str, Any]:
 
     report = {
         "success": success,
-        "version": "alpha_ensemble_v5_1",
+        "version": "alpha_ensemble_v6",
         "generated_at": generated_at,
         "summary": summary,
         "text_summary": summary,
@@ -89,7 +89,21 @@ def build_alpha_ensemble_report() -> dict[str, Any]:
             "scores": len(scores),
             "allocations": len(allocations),
             "rotations": len(rotations),
-            "promote_long": sum(
+                        "assets_with_research_engines": sum(
+                int(
+                    row.get(
+                        "research_engine_count",
+                        0,
+                    )
+                ) > 0
+                for row in scores
+            ),
+            "research_engine_votes": sum(
+                row.get(
+                    "research_engine_vote"
+                ) is not None
+                for row in scores
+            ),"promote_long": sum(
                 row["ensemble_action"]
                 == "PROMOTE_LONG"
                 for row in scores
@@ -108,7 +122,13 @@ def build_alpha_ensemble_report() -> dict[str, Any]:
         "contract": {
             "research_only": True,
             "execution_instruction": False,
-            "approved_universe_only": True,
+                        "research_lab_governed": True,
+            "eligible_engine_decisions": [
+                "PROMOTE",
+                "KEEP",
+            ],
+            "retired_engines_excluded": True,
+            "revise_engines_excluded": True,"approved_universe_only": True,
             "adaptive_weighting_compatible": True,
             "allocation_field": (
                 "ensemble_target_weight"
@@ -151,7 +171,7 @@ def build_compatibility_signals(
         {
             "asset": row["asset"],
             "signal_source": (
-                "alpha_ensemble_v5"
+                "alpha_ensemble_v6"
             ),
             "direction": row["direction"],
             "raw_score": row["ensemble_score"],
@@ -295,7 +315,7 @@ def build_markdown(
     report: dict[str, Any],
 ) -> str:
     lines = [
-        "# Alpha Ensemble v5.1",
+        "# Alpha Ensemble v6",
         "",
         report.get("summary", ""),
         "",
@@ -358,3 +378,4 @@ def build_markdown(
         )
 
     return "\n".join(lines) + "\n"
+

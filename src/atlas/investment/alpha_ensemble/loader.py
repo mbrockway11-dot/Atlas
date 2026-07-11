@@ -1,5 +1,4 @@
-
-"""Alpha Ensemble v5 loaders."""
+﻿"""Alpha Ensemble v6 loaders."""
 
 from __future__ import annotations
 
@@ -8,55 +7,83 @@ from typing import Any
 
 import pandas as pd
 
-from atlas.common.io import safe_read_csv, safe_read_json
+from atlas.common.io import (
+    safe_read_csv,
+    safe_read_json,
+)
 
 
 APPROVED_UNIVERSE = Path(
     "output/investment_market_universe/approved_universe.csv"
 )
+
 MARKET_FEATURES = Path(
     "output/investment_alpha/market_features.csv"
 )
+
 CROSS_SECTIONAL = Path(
     "output/investment_alpha/cross_sectional_alpha_latest.csv"
 )
+
 CROSS_SECTIONAL_FALLBACK = Path(
     "output/investment_alpha/cross_sectional_alpha_rankings.csv"
 )
+
 ALPHA_BACKTESTS_JSON = Path(
     "output/investment_alpha/alpha_backtests.json"
 )
+
 ALPHA_RANKINGS = Path(
     "output/investment_alpha/alpha_rankings.csv"
 )
+
 ALPHA_VALIDATION = Path(
     "output/investment_alpha/alpha_validation_report.json"
 )
+
 STRATEGY_REGISTRY = Path(
     "output/investment_strategy_registry/strategy_registry.csv"
 )
+
 LEARNING_REPORT = Path(
     "output/investment_learning/learning_report.json"
 )
+
 LEARNING_SCORECARD = Path(
     "output/investment_learning/strategy_scorecard.csv"
 )
+
 PERFORMANCE_REPORT = Path(
     "output/investment_performance/performance_report.json"
 )
+
 MARKET_DIRECTION = Path(
     "output/investment_market_direction/market_direction_report.json"
 )
+
 LEGACY_SIGNALS = Path(
     "output/investment_alpha_ensemble/alpha_ensemble_signals.csv"
 )
+
+ALPHA_ENGINE_LATEST = Path(
+    "output/investment_alpha_engines/alpha_engine_latest.csv"
+)
+
+RESEARCH_DECISIONS = Path(
+    "output/investment_alpha_research_lab/"
+    "alpha_research_promotion_decisions.csv"
+)
+
 UNIVERSE_REPORT = Path(
     "output/investment_market_universe/market_universe_report.json"
 )
 
 
 def load_alpha_ensemble_inputs() -> dict[str, Any]:
-    cross_sectional = safe_read_csv(CROSS_SECTIONAL)
+    """Load Alpha Ensemble v6 inputs without failing on absent artifacts."""
+    cross_sectional = safe_read_csv(
+        CROSS_SECTIONAL
+    )
 
     if cross_sectional.empty:
         cross_sectional = safe_read_csv(
@@ -64,19 +91,31 @@ def load_alpha_ensemble_inputs() -> dict[str, Any]:
         )
 
     return {
-        "approved_universe": safe_read_csv(APPROVED_UNIVERSE),
-        "universe_report": safe_read_json(UNIVERSE_REPORT),
-        "market_features": safe_read_csv(MARKET_FEATURES),
+        "approved_universe": safe_read_csv(
+            APPROVED_UNIVERSE
+        ),
+        "universe_report": safe_read_json(
+            UNIVERSE_REPORT
+        ),
+        "market_features": safe_read_csv(
+            MARKET_FEATURES
+        ),
         "cross_sectional": cross_sectional,
         "alpha_backtests": safe_read_json(
             ALPHA_BACKTESTS_JSON
         ),
-        "alpha_rankings": safe_read_csv(ALPHA_RANKINGS),
-        "alpha_validation": safe_read_json(ALPHA_VALIDATION),
+        "alpha_rankings": safe_read_csv(
+            ALPHA_RANKINGS
+        ),
+        "alpha_validation": safe_read_json(
+            ALPHA_VALIDATION
+        ),
         "strategy_registry": safe_read_csv(
             STRATEGY_REGISTRY
         ),
-        "learning": safe_read_json(LEARNING_REPORT),
+        "learning": safe_read_json(
+            LEARNING_REPORT
+        ),
         "learning_scorecard": safe_read_csv(
             LEARNING_SCORECARD
         ),
@@ -89,11 +128,22 @@ def load_alpha_ensemble_inputs() -> dict[str, Any]:
         "legacy_signals": safe_read_csv(
             LEGACY_SIGNALS
         ),
+        "alpha_engine_signals": safe_read_csv(
+            ALPHA_ENGINE_LATEST
+        ),
+        "research_decisions": safe_read_csv(
+            RESEARCH_DECISIONS
+        ),
     }
 
 
-def approved_assets(inputs: dict[str, Any]) -> list[str]:
-    frame = inputs.get("approved_universe")
+def approved_assets(
+    inputs: dict[str, Any],
+) -> list[str]:
+    """Return deterministic approved-universe assets."""
+    frame = inputs.get(
+        "approved_universe"
+    )
 
     if (
         frame is not None
@@ -108,18 +158,30 @@ def approved_assets(inputs: dict[str, Any]) -> list[str]:
             .tolist()
         )
 
-    report = inputs.get("universe_report", {}) or {}
+    report = (
+        inputs.get(
+            "universe_report",
+            {},
+        )
+        or {}
+    )
 
     return [
         str(asset)
-        for asset in report.get("approved_assets", [])
+        for asset in report.get(
+            "approved_assets",
+            [],
+        )
     ]
 
 
 def metadata_by_asset(
     inputs: dict[str, Any],
 ) -> dict[str, dict]:
-    frame = inputs.get("approved_universe")
+    """Index approved-universe metadata by asset."""
+    frame = inputs.get(
+        "approved_universe"
+    )
 
     if (
         frame is None
@@ -129,6 +191,8 @@ def metadata_by_asset(
         return {}
 
     return {
-        str(row.get("asset")): row.to_dict()
+        str(
+            row.get("asset")
+        ): row.to_dict()
         for _, row in frame.iterrows()
     }
