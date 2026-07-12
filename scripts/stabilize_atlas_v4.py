@@ -134,6 +134,10 @@ PIPELINE_COMMANDS = [
         sys.executable,
         "scripts/update_research_program_manager.py",
     ],
+    [
+        sys.executable,
+        "scripts/update_research_experiment_designer.py",
+    ],
 ]
 
 
@@ -173,6 +177,7 @@ TEST_COMMAND = [
     "tests/test_adaptive_research_prioritizer_v1.py",
     "tests/test_research_candidate_consolidator_v1.py",
     "tests/test_research_program_manager_v1.py",
+    "tests/test_research_experiment_designer_v1.py",
     "-q",
 ]
 
@@ -361,6 +366,18 @@ REQUIRED_ARTIFACTS = [
     "output/investment_research_program_manager/research_program_manager_state.json",
     "output/investment_research_program_manager/research_program_manager_report.json",
     "output/investment_research_program_manager/research_program_manager_report.md",
+    "output/investment_research_experiment_designer/research_experiment_designs.csv",
+    "output/investment_research_experiment_designer/experiment_hypotheses.csv",
+    "output/investment_research_experiment_designer/experiment_variants.csv",
+    "output/investment_research_experiment_designer/experiment_walk_forward_plan.csv",
+    "output/investment_research_experiment_designer/experiment_metrics.csv",
+    "output/investment_research_experiment_designer/experiment_acceptance_criteria.csv",
+    "output/investment_research_experiment_designer/experiment_dataset_requirements.csv",
+    "output/investment_research_experiment_designer/experiment_risk_register.csv",
+    "output/investment_research_experiment_designer/experiment_design_validation.csv",
+    "output/investment_research_experiment_designer/research_experiment_designer_state.json",
+    "output/investment_research_experiment_designer/research_experiment_designer_report.json",
+    "output/investment_research_experiment_designer/research_experiment_designer_report.md",
     "output/investment_portfolio_optimizer/optimized_portfolio.csv",
     "output/investment_portfolio_optimizer/portfolio_covariance.csv",
     "output/investment_portfolio_optimizer/portfolio_optimizer_report.json",
