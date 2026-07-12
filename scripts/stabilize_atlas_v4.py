@@ -114,6 +114,10 @@ PIPELINE_COMMANDS = [
         sys.executable,
         "scripts/run_research_cycle.py",
     ],
+    [
+        sys.executable,
+        "scripts/update_experiment_registry.py",
+    ],
 ]
 
 
@@ -148,6 +152,7 @@ TEST_COMMAND = [
     "tests/test_atlas_state_api_v1.py",
     "tests/test_research_scheduler_v1.py",
     "tests/test_research_orchestrator_v1.py",
+    "tests/test_experiment_registry_v1.py",
     "-q",
 ]
 
@@ -281,6 +286,16 @@ REQUIRED_ARTIFACTS = [
     "output/investment_research_orchestrator/execution_state.json",
     "output/investment_research_orchestrator/execution_report.json",
     "output/investment_research_orchestrator/execution_report.md",
+    "output/investment_experiment_registry/experiment_registry.csv",
+    "output/investment_experiment_registry/experiment_observations.csv",
+    "output/investment_experiment_registry/experiment_metrics.csv",
+    "output/investment_experiment_registry/experiment_artifacts.csv",
+    "output/investment_experiment_registry/experiment_relationships.csv",
+    "output/investment_experiment_registry/experiment_status_history.csv",
+    "output/investment_experiment_registry/experiment_orchestrator_runs.csv",
+    "output/investment_experiment_registry/experiment_registry_state.json",
+    "output/investment_experiment_registry/experiment_registry_report.json",
+    "output/investment_experiment_registry/experiment_registry_report.md",
     "output/investment_portfolio_optimizer/optimized_portfolio.csv",
     "output/investment_portfolio_optimizer/portfolio_covariance.csv",
     "output/investment_portfolio_optimizer/portfolio_optimizer_report.json",
