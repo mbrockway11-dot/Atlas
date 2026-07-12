@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from scripts.audit_architecture_consolidation import run_audit
+from atlas.investment.architecture_audit import run_audit
 from atlas.investment.artifacts import artifact_path, validate_registry
 from atlas.investment.research_evidence_accumulator.config import (
     EXPERIMENT_EVIDENCE_CSV,
