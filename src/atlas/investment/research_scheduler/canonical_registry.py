@@ -1,18 +1,10 @@
-"""Canonical Atlas research job registry.
+"""Canonical composed Atlas research job registry.
 
-This module is the single source of truth for dependency ordering,
-commands, output artifacts, priorities, and freshness policy.  The
-scheduler and orchestrator consume these immutable specifications.
+The legacy registry remains unchanged for compatibility.  This module adds
+newer research-program and evidence stages, adjusts the validated-variant
+handoff to consume accumulated evidence, and exposes one composed registry
+to the scheduler and orchestrator.
 """
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from pathlib import Path
-
-
-@dataclass(frozen=True)
-class ResearchJobSpec:
-    """One schedulable Atlas research stage."""
-
-    job_id
