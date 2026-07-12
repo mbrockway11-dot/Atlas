@@ -56,7 +56,8 @@ class PluginRegistry:
         return list(self._plugins.values())
 
     def names(self) -> list[str]:
-        return list(self._plugins.keys())
+        """Return deterministic public plugin names independent of registration order."""
+        return sorted(self._plugins)
 
     def ordered(self, *, enabled: Iterable[str] | None = None) -> list[Any]:
         active_names = (
