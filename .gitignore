@@ -110,3 +110,5 @@ output/investment_hypothesis_validation/
 output/investment_validated_variants/
 output/investment_variant_review/
 output/investment_variant_decisions/
+output/investment_variant_implementation_planner/
+output/investment_atlas_compiler/

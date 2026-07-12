@@ -80,6 +80,14 @@ PIPELINE_COMMANDS = [
     ],
     [
         sys.executable,
+        "scripts/update_variant_decision_ledger.py",
+    ],
+    [
+        sys.executable,
+        "scripts/run_variant_implementation_planner.py",
+    ],
+    [
+        sys.executable,
         "scripts/update_portfolio_optimizer_v2.py",
     ],
     [
@@ -89,6 +97,10 @@ PIPELINE_COMMANDS = [
     [
         sys.executable,
         "scripts/run_portfolio_promotion_lab_v2.py",
+    ],
+    [
+        sys.executable,
+        "scripts/update_atlas_compiler.py",
     ],
 ]
 
@@ -114,10 +126,13 @@ TEST_COMMAND = [
     "tests/test_hypothesis_validation_lab_v1.py",
     "tests/test_validated_variant_registry_v1.py",
     "tests/test_variant_review_board_v1.py",
+    "tests/test_variant_decision_ledger_v1.py",
+    "tests/test_variant_implementation_planner_v1.py",
     "tests/test_portfolio_optimizer_v2.py",
     "tests/test_portfolio_promotion_lab_v1.py",
     "tests/test_portfolio_promotion_lab_v2.py",
     "tests/test_learning_engine_v3_1.py",
+    "tests/test_atlas_compiler_v1.py",
     "-q",
 ]
 
@@ -200,6 +215,33 @@ REQUIRED_ARTIFACTS = [
     "output/investment_variant_review/implementation_backlog.csv",
     "output/investment_variant_review/variant_review_report.json",
     "output/investment_variant_review/variant_review_report.md",
+    "output/investment_variant_decisions/variant_decision_ledger.csv",
+    "output/investment_variant_decisions/decision_history.csv",
+    "output/investment_variant_decisions/approved_variants.csv",
+    "output/investment_variant_decisions/rejected_variants.csv",
+    "output/investment_variant_decisions/archived_variants.csv",
+    "output/investment_variant_decisions/deferred_variants.csv",
+    "output/investment_variant_decisions/revisit_later_variants.csv",
+    "output/investment_variant_decisions/implementation_queue.csv",
+    "output/investment_variant_decisions/variant_decision_report.json",
+    "output/investment_variant_decisions/variant_decision_report.md",
+    "output/investment_variant_implementation_planner/variant_implementation_plans.csv",
+    "output/investment_variant_implementation_planner/variant_target_files.csv",
+    "output/investment_variant_implementation_planner/variant_test_plan.csv",
+    "output/investment_variant_implementation_planner/variant_acceptance_criteria.csv",
+    "output/investment_variant_implementation_planner/variant_rollback_plan.csv",
+    "output/investment_variant_implementation_planner/variant_engineering_backlog.csv",
+    "output/investment_variant_implementation_planner/variant_implementation_specifications.jsonl",
+    "output/investment_variant_implementation_planner/variant_implementation_conflicts.csv",
+    "output/investment_variant_implementation_planner/variant_implementation_planner_report.json",
+    "output/investment_variant_implementation_planner/variant_implementation_planner_report.md",
+    "output/investment_atlas_compiler/atlas_compiled_state.json",
+    "output/investment_atlas_compiler/atlas_compiled_state.md",
+    "output/investment_atlas_compiler/atlas_component_inventory.csv",
+    "output/investment_atlas_compiler/atlas_component_validation.csv",
+    "output/investment_atlas_compiler/atlas_state_manifest.csv",
+    "output/investment_atlas_compiler/atlas_compiler_report.json",
+    "output/investment_atlas_compiler/atlas_compiler_report.md",
     "output/investment_portfolio_optimizer/optimized_portfolio.csv",
     "output/investment_portfolio_optimizer/portfolio_covariance.csv",
     "output/investment_portfolio_optimizer/portfolio_optimizer_report.json",
@@ -606,6 +648,13 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+
+
+
+
+
+
 
 
 
