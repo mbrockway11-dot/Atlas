@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from typing import Any
 
+from atlas.common.io import safe_read_csv, safe_read_json
 from atlas.investment.artifacts import artifact_path, load_csv, load_json
 
 
@@ -36,3 +37,12 @@ def load_program_manager_sources() -> dict[str, Any]:
         )
         for name, key in SOURCE_KEYS.items()
     }
+
+
+__all__ = [
+    "SOURCE_KEYS",
+    "SOURCE_PATHS",
+    "load_program_manager_sources",
+    "safe_read_csv",
+    "safe_read_json",
+]
