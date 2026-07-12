@@ -1,13 +1,12 @@
-﻿"""Atlas Experiment Registry v1 orchestration."""
+"""Atlas Experiment Registry v1 orchestration."""
 
 from __future__ import annotations
-
 import json
 from datetime import UTC, datetime
 from typing import Any
 
 import pandas as pd
-
+from atlas.common.io import safe_read_csv
 from atlas.investment.experiment_registry.builder import (
     build_registry_bundle,
 )
@@ -29,7 +28,6 @@ from atlas.investment.experiment_registry.config import (
 )
 from atlas.investment.experiment_registry.loader import (
     load_experiment_sources,
-    safe_read_csv,
 )
 from atlas.investment.experiment_registry.storage import (
     merge_registry_bundle,
