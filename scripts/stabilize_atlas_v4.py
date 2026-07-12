@@ -138,6 +138,10 @@ PIPELINE_COMMANDS = [
         sys.executable,
         "scripts/update_research_experiment_designer.py",
     ],
+    [
+        sys.executable,
+        "scripts/run_research_experiment_execution.py",
+    ],
 ]
 
 
@@ -178,6 +182,7 @@ TEST_COMMAND = [
     "tests/test_research_candidate_consolidator_v1.py",
     "tests/test_research_program_manager_v1.py",
     "tests/test_research_experiment_designer_v1.py",
+    "tests/test_research_experiment_execution_v1.py",
     "-q",
 ]
 
@@ -378,6 +383,17 @@ REQUIRED_ARTIFACTS = [
     "output/investment_research_experiment_designer/research_experiment_designer_state.json",
     "output/investment_research_experiment_designer/research_experiment_designer_report.json",
     "output/investment_research_experiment_designer/research_experiment_designer_report.md",
+    "output/investment_research_experiment_execution/experiment_execution_runs.csv",
+    "output/investment_research_experiment_execution/experiment_fold_results.csv",
+    "output/investment_research_experiment_execution/experiment_variant_results.csv",
+    "output/investment_research_experiment_execution/experiment_trade_comparison.csv",
+    "output/investment_research_experiment_execution/experiment_acceptance_results.csv",
+    "output/investment_research_experiment_execution/experiment_exclusions.csv",
+    "output/investment_research_experiment_execution/experiment_execution_validation.csv",
+    "output/investment_research_experiment_execution/experiment_evidence_summary.csv",
+    "output/investment_research_experiment_execution/experiment_execution_state.json",
+    "output/investment_research_experiment_execution/experiment_execution_report.json",
+    "output/investment_research_experiment_execution/experiment_execution_report.md",
     "output/investment_portfolio_optimizer/optimized_portfolio.csv",
     "output/investment_portfolio_optimizer/portfolio_covariance.csv",
     "output/investment_portfolio_optimizer/portfolio_optimizer_report.json",
