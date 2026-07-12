@@ -72,6 +72,10 @@ PIPELINE_COMMANDS = [
     ],
     [
         sys.executable,
+        "scripts/update_validated_variant_registry.py",
+    ],
+    [
+        sys.executable,
         "scripts/update_portfolio_optimizer_v2.py",
     ],
     [
@@ -104,6 +108,7 @@ TEST_COMMAND = [
     "tests/test_governance_snapshots_v1.py",
     "tests/test_meta_research_engine_v1.py",
     "tests/test_hypothesis_validation_lab_v1.py",
+    "tests/test_validated_variant_registry_v1.py",
     "tests/test_portfolio_optimizer_v2.py",
     "tests/test_portfolio_promotion_lab_v1.py",
     "tests/test_portfolio_promotion_lab_v2.py",
@@ -175,6 +180,12 @@ REQUIRED_ARTIFACTS = [
     "output/investment_hypothesis_validation/validated_hypotheses.csv",
     "output/investment_hypothesis_validation/hypothesis_validation_report.json",
     "output/investment_hypothesis_validation/hypothesis_validation_report.md",
+    "output/investment_validated_variants/validated_variant_registry.csv",
+    "output/investment_validated_variants/validated_variant_specifications.jsonl",
+    "output/investment_validated_variants/validated_variant_manifest.csv",
+    "output/investment_validated_variants/validated_variant_conflicts.csv",
+    "output/investment_validated_variants/validated_variant_registry_report.json",
+    "output/investment_validated_variants/validated_variant_registry_report.md",
     "output/investment_portfolio_optimizer/optimized_portfolio.csv",
     "output/investment_portfolio_optimizer/portfolio_covariance.csv",
     "output/investment_portfolio_optimizer/portfolio_optimizer_report.json",
@@ -581,6 +592,8 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+
 
 
 
