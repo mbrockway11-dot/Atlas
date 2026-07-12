@@ -43,6 +43,15 @@ SCHEDULE_COLUMNS = [
     "dirty_roots",
     "dirty_depth",
     "invalidation_reason",
+    "content_hash",
+    "previous_content_hash",
+    "hash_algorithm",
+    "fingerprint_available",
+    "fingerprint_baseline_complete",
+    "fingerprint_baseline_missing",
+    "output_content_changed",
+    "content_stale",
+    "content_changed_dependencies",
     "age_hours",
     "stale_after_hours",
     "artifact_success",
@@ -116,6 +125,12 @@ def build_research_schedule(
                     False,
                 )
             )
+            or bool(
+                freshness.get(
+                    "content_stale",
+                    False,
+                )
+            )
         ):
             status = "STALE"
             invalidation_reason = str(
@@ -137,7 +152,12 @@ def build_research_schedule(
                 )
             )
 
-            if invalidation_reason == "UPSTREAM_NEWER":
+            if invalidation_reason == "UPSTREAM_CONTENT_CHANGED":
+                reason = (
+                    "One or more upstream artifact content "
+                    "fingerprints changed."
+                )
+            elif invalidation_reason == "UPSTREAM_NEWER":
                 reason = (
                     "One or more upstream artifacts are "
                     "newer than this output."
@@ -346,6 +366,60 @@ def build_research_schedule(
             "invalidation_reason": str(
                 freshness.get(
                     "invalidation_reason",
+                    "",
+                )
+            ),
+            "content_hash": str(
+                freshness.get(
+                    "content_hash",
+                    "",
+                )
+            ),
+            "previous_content_hash": str(
+                freshness.get(
+                    "previous_content_hash",
+                    "",
+                )
+            ),
+            "hash_algorithm": str(
+                freshness.get(
+                    "hash_algorithm",
+                    "sha256",
+                )
+            ),
+            "fingerprint_available": bool(
+                freshness.get(
+                    "fingerprint_available",
+                    False,
+                )
+            ),
+            "fingerprint_baseline_complete": bool(
+                freshness.get(
+                    "fingerprint_baseline_complete",
+                    False,
+                )
+            ),
+            "fingerprint_baseline_missing": str(
+                freshness.get(
+                    "fingerprint_baseline_missing",
+                    "",
+                )
+            ),
+            "output_content_changed": bool(
+                freshness.get(
+                    "output_content_changed",
+                    False,
+                )
+            ),
+            "content_stale": bool(
+                freshness.get(
+                    "content_stale",
+                    False,
+                )
+            ),
+            "content_changed_dependencies": str(
+                freshness.get(
+                    "content_changed_dependencies",
                     "",
                 )
             ),

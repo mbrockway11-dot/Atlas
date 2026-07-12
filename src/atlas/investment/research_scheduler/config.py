@@ -1,4 +1,4 @@
-﻿"""Atlas Research Scheduler v1 configuration."""
+"""Atlas Research Scheduler v1 configuration."""
 
 from __future__ import annotations
 
@@ -55,6 +55,11 @@ RUN_HISTORY_CSV = (
 SCHEDULER_STATE_JSON = (
     OUTPUT_DIR
     / "scheduler_state.json"
+)
+
+FINGERPRINT_STATE_JSON = (
+    OUTPUT_DIR
+    / "artifact_fingerprint_state.json"
 )
 
 REPORT_JSON = (

@@ -114,6 +114,34 @@ def apply_direct_invalidation(
             if upstream_modified <= downstream_modified:
                 continue
 
+            # When a complete content fingerprint baseline exists, modification
+            # time alone is not evidence of a meaningful change. A dependency is
+            # directly invalidating only when its content hash changed.
+            fingerprint_complete = bool(
+                row.get(
+                    "fingerprint_baseline_complete",
+                    False,
+                )
+            )
+
+            content_changed_dependencies = {
+                value
+                for value in str(
+                    row.get(
+                        "content_changed_dependencies",
+                        "",
+                    )
+                ).split("|")
+                if value
+            }
+
+            if (
+                fingerprint_complete
+                and dependency_id
+                not in content_changed_dependencies
+            ):
+                continue
+
             newer_dependencies.append(
                 dependency_id
             )
@@ -308,6 +336,14 @@ def direct_dirty_reason(
 
     if row.get("artifact_success") is False:
         return "ARTIFACT_REPORTS_FAILURE"
+
+    if bool(
+        row.get(
+            "content_stale",
+            False,
+        )
+    ):
+        return "UPSTREAM_CONTENT_CHANGED"
 
     if bool(
         row.get(

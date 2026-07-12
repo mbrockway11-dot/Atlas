@@ -12,6 +12,11 @@ from atlas.investment.research_scheduler.registry import (
     JOBS,
     ResearchJobSpec,
 )
+from atlas.investment.research_scheduler.fingerprints import (
+    apply_content_fingerprints,
+    load_fingerprint_state,
+    write_fingerprint_state,
+)
 from atlas.investment.research_scheduler.incremental import (
     apply_incremental_freshness,
 )
@@ -36,9 +41,22 @@ def inspect_all_artifacts(
         for job in JOBS
     ]
 
-    return apply_incremental_freshness(
-        rows
+    fingerprinted_rows, next_state = (
+        apply_content_fingerprints(
+            rows,
+            state=load_fingerprint_state(),
+        )
     )
+
+    enriched_rows = apply_incremental_freshness(
+        fingerprinted_rows
+    )
+
+    write_fingerprint_state(
+        next_state
+    )
+
+    return enriched_rows
 
 
 def inspect_artifact(

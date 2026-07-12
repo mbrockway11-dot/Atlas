@@ -160,6 +160,42 @@ def build_research_scheduler_report() -> dict[str, Any]:
         else 0
     )
 
+    fingerprinted_job_count = int(
+        schedule[
+            "fingerprint_available"
+        ].astype(bool).sum()
+        if (
+            not schedule.empty
+            and "fingerprint_available"
+            in schedule.columns
+        )
+        else 0
+    )
+
+    content_stale_count = int(
+        schedule[
+            "content_stale"
+        ].astype(bool).sum()
+        if (
+            not schedule.empty
+            and "content_stale"
+            in schedule.columns
+        )
+        else 0
+    )
+
+    content_changed_output_count = int(
+        schedule[
+            "output_content_changed"
+        ].astype(bool).sum()
+        if (
+            not schedule.empty
+            and "output_content_changed"
+            in schedule.columns
+        )
+        else 0
+    )
+
     scheduler_run_id = (
         build_scheduler_run_id(
             state_hash=state_hash,
@@ -252,6 +288,15 @@ def build_research_scheduler_report() -> dict[str, Any]:
             "maximum_dirty_depth": (
                 maximum_dirty_depth
             ),
+            "fingerprinted_jobs": (
+                fingerprinted_job_count
+            ),
+            "content_stale_jobs": (
+                content_stale_count
+            ),
+            "content_changed_outputs": (
+                content_changed_output_count
+            ),
         },
         "status_counts": status_counts,
         "next_jobs": (
@@ -278,6 +323,10 @@ def build_research_scheduler_report() -> dict[str, Any]:
             "incremental_invalidation": True,
             "upstream_newer_rebuilds_downstream": True,
             "transitive_dirty_propagation": True,
+            "content_fingerprints": True,
+            "hash_algorithm": "sha256",
+            "mtime_only_changes_are_ignored": True,
+            "persistent_dependency_hash_snapshots": True,
             "dirty_roots_are_traceable": True,
             "dirty_depth_is_reported": True,
             "canonical_dependency_graph_only": True,
@@ -510,6 +559,21 @@ def write_outputs(
         ][
             "maximum_dirty_depth"
         ],
+        "fingerprinted_jobs": report[
+            "counts"
+        ][
+            "fingerprinted_jobs"
+        ],
+        "content_stale_jobs": report[
+            "counts"
+        ][
+            "content_stale_jobs"
+        ],
+        "content_changed_outputs": report[
+            "counts"
+        ][
+            "content_changed_outputs"
+        ],
         "success": report[
             "success"
         ],
@@ -626,6 +690,18 @@ def build_markdown(
         (
             f"- Maximum dirty depth: "
             f"`{report['counts']['maximum_dirty_depth']}`"
+        ),
+        (
+            f"- Fingerprinted jobs: "
+            f"`{report['counts']['fingerprinted_jobs']}`"
+        ),
+        (
+            f"- Content-stale jobs: "
+            f"`{report['counts']['content_stale_jobs']}`"
+        ),
+        (
+            f"- Changed output fingerprints: "
+            f"`{report['counts']['content_changed_outputs']}`"
         ),
         "",
         "## Next Research Jobs",
