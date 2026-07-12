@@ -142,6 +142,10 @@ PIPELINE_COMMANDS = [
         sys.executable,
         "scripts/run_research_experiment_execution.py",
     ],
+    [
+        sys.executable,
+        "scripts/update_research_evidence_accumulator.py",
+    ],
 ]
 
 
@@ -183,6 +187,7 @@ TEST_COMMAND = [
     "tests/test_research_program_manager_v1.py",
     "tests/test_research_experiment_designer_v1.py",
     "tests/test_research_experiment_execution_v1.py",
+    "tests/test_research_evidence_accumulator_v1.py",
     "-q",
 ]
 
@@ -394,6 +399,18 @@ REQUIRED_ARTIFACTS = [
     "output/investment_research_experiment_execution/experiment_execution_state.json",
     "output/investment_research_experiment_execution/experiment_execution_report.json",
     "output/investment_research_experiment_execution/experiment_execution_report.md",
+    "output/investment_research_evidence_accumulator/accumulated_experiment_evidence.csv",
+    "output/investment_research_evidence_accumulator/accumulated_variant_evidence.csv",
+    "output/investment_research_evidence_accumulator/evidence_run_lineage.csv",
+    "output/investment_research_evidence_accumulator/evidence_consistency.csv",
+    "output/investment_research_evidence_accumulator/evidence_decay.csv",
+    "output/investment_research_evidence_accumulator/evidence_contradictions.csv",
+    "output/investment_research_evidence_accumulator/evidence_sufficiency.csv",
+    "output/investment_research_evidence_accumulator/evidence_program_recommendations.csv",
+    "output/investment_research_evidence_accumulator/evidence_history.csv",
+    "output/investment_research_evidence_accumulator/research_evidence_accumulator_state.json",
+    "output/investment_research_evidence_accumulator/research_evidence_accumulator_report.json",
+    "output/investment_research_evidence_accumulator/research_evidence_accumulator_report.md",
     "output/investment_portfolio_optimizer/optimized_portfolio.csv",
     "output/investment_portfolio_optimizer/portfolio_covariance.csv",
     "output/investment_portfolio_optimizer/portfolio_optimizer_report.json",
