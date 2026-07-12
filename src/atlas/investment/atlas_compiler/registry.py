@@ -195,7 +195,7 @@ SOURCE_SPECS = [
         section="portfolio",
         path=Path(
             "output/investment_portfolio_promotion_lab_v2/"
-            "portfolio_promotion_lab_v2_report.json"
+            "portfolio_promotion_v2_report.json"
         ),
         source_type="json",
         required=False,
@@ -228,3 +228,4 @@ SOURCE_SPECS = [
         source_type="csv",
     ),
 ]
+
