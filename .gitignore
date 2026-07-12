@@ -113,3 +113,4 @@ output/investment_variant_decisions/
 output/investment_variant_implementation_planner/
 output/investment_atlas_compiler/
 output/investment_state_api/
+output/investment_research_scheduler/
