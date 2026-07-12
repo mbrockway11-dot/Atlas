@@ -12,7 +12,7 @@ from atlas.investment.research_experiment_designer.config import (
     DEFAULT_MAX_RETENTION_RATIO,
     DEFAULT_MIN_RETENTION_RATIO,
     DEFAULT_MIN_TRADES,
-    ELIGIBLE_PROGRAM_STATUS,
+    ELIGIBLE_PROGRAM_STATUSES,
     REQUIRED_METRICS,
     SCHEMA_VERSION,
     SOURCE,
@@ -80,8 +80,8 @@ def build_experiment_design_bundle(
     eligible = programs[
         programs[
             "current_status"
-        ].astype(str).eq(
-            ELIGIBLE_PROGRAM_STATUS
+        ].astype(str).isin(
+            ELIGIBLE_PROGRAM_STATUSES
         )
         & ~programs[
             "is_blocked"
@@ -715,7 +715,7 @@ def validate_design(
                 program.get(
                     "current_status"
                 )
-            ) == ELIGIBLE_PROGRAM_STATUS,
+            ) in ELIGIBLE_PROGRAM_STATUSES,
         ),
         (
             "PROGRAM_NOT_BLOCKED",
@@ -798,3 +798,4 @@ def empty_bundle() -> dict[str, pd.DataFrame]:
         "risks": pd.DataFrame(),
         "validation": pd.DataFrame(),
     }
+

@@ -10,6 +10,8 @@ import pandas as pd
 
 from atlas.investment.research_experiment_execution.config import (
     ENGINE_COLUMN_CANDIDATES,
+    HISTORICAL_FEATURES_PATH,
+    HISTORICAL_TRADES_PATH,
     OBSERVATION_SEARCH_PATHS,
     RETURN_COLUMN_CANDIDATES,
     TIMESTAMP_COLUMN_CANDIDATES,
@@ -77,7 +79,20 @@ def discover_observations() -> tuple[
     pd.DataFrame,
     Path | None,
 ]:
+    historical = (
+        build_historical_trade_observations()
+    )
+
+    if not historical.empty:
+        return (
+            historical,
+            HISTORICAL_TRADES_PATH,
+        )
+
     for path in OBSERVATION_SEARCH_PATHS:
+        if path == HISTORICAL_TRADES_PATH:
+            continue
+
         frame = safe_read_csv(path)
 
         if frame.empty:
@@ -92,6 +107,175 @@ def discover_observations() -> tuple[
 
     return pd.DataFrame(), None
 
+
+def build_historical_trade_observations(
+) -> pd.DataFrame:
+    trades = safe_read_csv(
+        HISTORICAL_TRADES_PATH
+    )
+
+    features = safe_read_csv(
+        HISTORICAL_FEATURES_PATH
+    )
+
+    if trades.empty or features.empty:
+        return pd.DataFrame()
+
+    required_trade_columns = {
+        "engine_id",
+        "timestamp",
+        "asset",
+        "strategy_return",
+    }
+
+    required_feature_columns = {
+        "timestamp",
+        "asset",
+    }
+
+    if not required_trade_columns.issubset(
+        trades.columns
+    ):
+        return pd.DataFrame()
+
+    if not required_feature_columns.issubset(
+        features.columns
+    ):
+        return pd.DataFrame()
+
+    trades = trades.copy()
+    features = features.copy()
+
+    trades[
+        "timestamp"
+    ] = pd.to_datetime(
+        trades["timestamp"],
+        utc=True,
+        errors="coerce",
+    )
+
+    features[
+        "timestamp"
+    ] = pd.to_datetime(
+        features["timestamp"],
+        utc=True,
+        errors="coerce",
+    )
+
+    trades[
+        "asset"
+    ] = trades[
+        "asset"
+    ].astype(str)
+
+    features[
+        "asset"
+    ] = features[
+        "asset"
+    ].astype(str)
+
+    trades[
+        "strategy_return"
+    ] = pd.to_numeric(
+        trades["strategy_return"],
+        errors="coerce",
+    )
+
+    trades = trades.dropna(
+        subset=[
+            "engine_id",
+            "timestamp",
+            "asset",
+            "strategy_return",
+        ]
+    )
+
+    features = features.dropna(
+        subset=[
+            "timestamp",
+            "asset",
+        ]
+    )
+
+    feature_columns = [
+        column
+        for column in features.columns
+        if column not in {
+            "open",
+            "high",
+            "low",
+            "close",
+            "volume",
+        }
+    ]
+
+    observations = trades.merge(
+        features[
+            feature_columns
+        ],
+        on=[
+            "timestamp",
+            "asset",
+        ],
+        how="left",
+        validate="many_to_one",
+        suffixes=(
+            "",
+            "_feature",
+        ),
+    )
+
+    observations[
+        "trade_return"
+    ] = observations[
+        "strategy_return"
+    ]
+
+    observations[
+        "trade_id"
+    ] = [
+        (
+            f"{engine_id}|"
+            f"{asset}|"
+            f"{timestamp.isoformat()}|"
+            f"{index}"
+        )
+        for index, (
+            engine_id,
+            asset,
+            timestamp,
+        ) in enumerate(
+            zip(
+                observations[
+                    "engine_id"
+                ].astype(str),
+                observations[
+                    "asset"
+                ].astype(str),
+                observations[
+                    "timestamp"
+                ],
+            )
+        )
+    ]
+
+    observations[
+        "observation_source"
+    ] = (
+        "historical_alpha_engine_non_overlapping_trades"
+    )
+
+    observations = observations.sort_values(
+        [
+            "engine_id",
+            "asset",
+            "timestamp",
+            "trade_id",
+        ],
+        kind="stable",
+    ).reset_index(drop=True)
+
+    return observations
 
 def normalize_observations(
     frame: pd.DataFrame,
@@ -260,3 +444,6 @@ def safe_read_json(
         if isinstance(payload, dict)
         else {}
     )
+
+
+

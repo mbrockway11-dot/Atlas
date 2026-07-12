@@ -71,7 +71,18 @@ SOURCE = VERSION
 
 ELIGIBLE_PROGRAM_STATUS = "EXPERIMENT_DESIGNED"
 
+HISTORICAL_TRADES_PATH = Path(
+    "output/investment_alpha_engines/"
+    "historical_alpha_engine_non_overlapping_trades.csv"
+)
+
+HISTORICAL_FEATURES_PATH = Path(
+    "output/investment_alpha/"
+    "market_feature_history.csv"
+)
+
 OBSERVATION_SEARCH_PATHS = (
+    HISTORICAL_TRADES_PATH,
     Path(
         "output/investment_hypothesis_validation/"
         "walk_forward_trades.csv"
@@ -87,10 +98,6 @@ OBSERVATION_SEARCH_PATHS = (
     Path(
         "output/investment_alpha_research_lab/"
         "research_trades.csv"
-    ),
-    Path(
-        "output/investment_historical_alpha_engines/"
-        "historical_engine_trades.csv"
     ),
 )
 
@@ -109,6 +116,7 @@ TIMESTAMP_COLUMN_CANDIDATES = (
 
 RETURN_COLUMN_CANDIDATES = (
     "trade_return",
+    "strategy_return",
     "net_return",
     "return",
     "forward_return",
@@ -131,3 +139,4 @@ REQUIRED_DESIGN_CHECKS = {
     "PROGRAM_DIMENSIONS_PRESENT",
     "NO_UNRESOLVED_CONFLICTS",
 }
+
