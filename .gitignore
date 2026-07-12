@@ -116,3 +116,4 @@ output/investment_state_api/
 output/investment_research_scheduler/
 output/investment_research_orchestrator/
 output/investment_experiment_registry/
+output/investment_research_knowledge_graph/

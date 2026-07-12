@@ -118,6 +118,10 @@ PIPELINE_COMMANDS = [
         sys.executable,
         "scripts/update_experiment_registry.py",
     ],
+    [
+        sys.executable,
+        "scripts/update_research_knowledge_graph.py",
+    ],
 ]
 
 
@@ -153,6 +157,7 @@ TEST_COMMAND = [
     "tests/test_research_scheduler_v1.py",
     "tests/test_research_orchestrator_v1.py",
     "tests/test_experiment_registry_v1.py",
+    "tests/test_research_knowledge_graph_v1.py",
     "-q",
 ]
 
@@ -296,6 +301,18 @@ REQUIRED_ARTIFACTS = [
     "output/investment_experiment_registry/experiment_registry_state.json",
     "output/investment_experiment_registry/experiment_registry_report.json",
     "output/investment_experiment_registry/experiment_registry_report.md",
+    "output/investment_research_knowledge_graph/knowledge_graph_nodes.csv",
+    "output/investment_research_knowledge_graph/knowledge_graph_edges.csv",
+    "output/investment_research_knowledge_graph/engine_relationships.csv",
+    "output/investment_research_knowledge_graph/hypothesis_relationships.csv",
+    "output/investment_research_knowledge_graph/variant_lineage.csv",
+    "output/investment_research_knowledge_graph/portfolio_lineage.csv",
+    "output/investment_research_knowledge_graph/research_cycle_lineage.csv",
+    "output/investment_research_knowledge_graph/graph_integrity.csv",
+    "output/investment_research_knowledge_graph/graph_metrics.csv",
+    "output/investment_research_knowledge_graph/knowledge_graph_state.json",
+    "output/investment_research_knowledge_graph/knowledge_graph_report.json",
+    "output/investment_research_knowledge_graph/knowledge_graph_report.md",
     "output/investment_portfolio_optimizer/optimized_portfolio.csv",
     "output/investment_portfolio_optimizer/portfolio_covariance.csv",
     "output/investment_portfolio_optimizer/portfolio_optimizer_report.json",
