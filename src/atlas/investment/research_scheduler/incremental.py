@@ -1,10 +1,15 @@
-"""Incremental dependency freshness for the canonical research DAG.
+"""Incremental invalidation for the canonical Atlas research DAG.
 
-This module does not define another graph or registry. It evaluates dependency
-edges already owned by the canonical research job registry.
+This module does not own a second graph or registry. It evaluates dependency
+edges already defined by the canonical research job registry.
 
-A downstream artifact is incrementally stale when at least one valid upstream
-artifact was modified after the downstream artifact.
+Phase C.1:
+    Detect a directly stale downstream artifact when a valid upstream artifact
+    is newer than it.
+
+Phase C.2:
+    Propagate dirtiness through the complete affected downstream subgraph, even
+    when a descendant's immediate dependency artifact has not yet been rebuilt.
 """
 
 from __future__ import annotations
@@ -23,11 +28,7 @@ def apply_incremental_freshness(
     *,
     jobs: Sequence[ResearchJobSpec] = JOBS,
 ) -> list[dict[str, Any]]:
-    """Enrich freshness rows with canonical dependency invalidation signals.
-
-    Existing age-based freshness values remain unchanged. The scheduler decides
-    whether an incrementally stale artifact should be rebuilt.
-    """
+    """Apply direct timestamp invalidation and transitive dirty propagation."""
     rows = [
         dict(row)
         for row in freshness_rows
@@ -39,6 +40,28 @@ def apply_incremental_freshness(
         if str(row.get("job_id", ""))
     }
 
+    apply_direct_invalidation(
+        row_map=row_map,
+        jobs=jobs,
+    )
+
+    propagate_dirty_set(
+        row_map=row_map,
+        jobs=jobs,
+    )
+
+    for row in rows:
+        apply_default_fields(row)
+
+    return rows
+
+
+def apply_direct_invalidation(
+    *,
+    row_map: dict[str, dict[str, Any]],
+    jobs: Sequence[ResearchJobSpec],
+) -> None:
+    """Detect direct upstream-newer invalidation for every registered job."""
     for job in jobs:
         row = row_map.get(job.job_id)
 
@@ -50,7 +73,7 @@ def apply_incremental_freshness(
         )
 
         newer_dependencies: list[str] = []
-        newest_upstream_modified_at = ""
+        newest_upstream: datetime | None = None
 
         for dependency_id in job.dependencies:
             dependency_row = row_map.get(
@@ -61,41 +84,48 @@ def apply_incremental_freshness(
                 continue
 
             if not bool(
-                dependency_row.get("exists", False)
+                dependency_row.get(
+                    "exists",
+                    False,
+                )
             ):
                 continue
 
             if not bool(
-                dependency_row.get("valid", False)
+                dependency_row.get(
+                    "valid",
+                    False,
+                )
             ):
                 continue
 
             upstream_modified = parse_modified_at(
-                dependency_row.get("modified_at")
+                dependency_row.get(
+                    "modified_at"
+                )
             )
 
             if upstream_modified is None:
                 continue
 
-            if (
-                downstream_modified is not None
-                and upstream_modified
-                > downstream_modified
-            ):
-                newer_dependencies.append(
-                    dependency_id
-                )
+            if downstream_modified is None:
+                continue
 
-                if (
-                    not newest_upstream_modified_at
-                    or upstream_modified
-                    > parse_modified_at(
-                        newest_upstream_modified_at
-                    )
-                ):
-                    newest_upstream_modified_at = (
-                        upstream_modified.isoformat()
-                    )
+            if upstream_modified <= downstream_modified:
+                continue
+
+            newer_dependencies.append(
+                dependency_id
+            )
+
+            if (
+                newest_upstream is None
+                or upstream_modified
+                > newest_upstream
+            ):
+                newest_upstream = (
+                    upstream_modified
+                )
 
         row["upstream_newer"] = bool(
             newer_dependencies
@@ -108,27 +138,213 @@ def apply_incremental_freshness(
         )
         row[
             "newest_upstream_modified_at"
-        ] = newest_upstream_modified_at
-
-    for row in rows:
-        row.setdefault(
-            "upstream_newer",
-            False,
+        ] = (
+            newest_upstream.isoformat()
+            if newest_upstream is not None
+            else ""
         )
-        row.setdefault(
+
+
+def propagate_dirty_set(
+    *,
+    row_map: dict[str, dict[str, Any]],
+    jobs: Sequence[ResearchJobSpec],
+) -> None:
+    """Propagate dirty state across all downstream dependency paths.
+
+    Direct dirty roots include artifacts that are missing, invalid, failed,
+    age-stale, or directly invalidated by a newer upstream artifact.
+
+    Propagation reaches a fixed point, making behavior independent of registry
+    declaration order while still using only canonical registry dependencies.
+    """
+    job_map = {
+        job.job_id: job
+        for job in jobs
+    }
+
+    dirty: set[str] = set()
+    dirty_roots: dict[str, set[str]] = {}
+    dirty_depth: dict[str, int] = {}
+    direct_reasons: dict[str, str] = {}
+
+    for job in jobs:
+        row = row_map.get(job.job_id)
+
+        if row is None or not job.enabled:
+            continue
+
+        reason = direct_dirty_reason(row)
+
+        if not reason:
+            continue
+
+        dirty.add(job.job_id)
+        dirty_roots[job.job_id] = {
+            job.job_id
+        }
+        dirty_depth[job.job_id] = 0
+        direct_reasons[job.job_id] = reason
+
+    changed = True
+
+    while changed:
+        changed = False
+
+        for job in jobs:
+            if (
+                not job.enabled
+                or job.job_id in dirty
+                or job.job_id not in row_map
+            ):
+                continue
+
+            dirty_dependencies = [
+                dependency_id
+                for dependency_id
+                in job.dependencies
+                if dependency_id in dirty
+            ]
+
+            if not dirty_dependencies:
+                continue
+
+            dirty.add(job.job_id)
+
+            roots: set[str] = set()
+            parent_depths: list[int] = []
+
+            for dependency_id in (
+                dirty_dependencies
+            ):
+                roots.update(
+                    dirty_roots.get(
+                        dependency_id,
+                        {dependency_id},
+                    )
+                )
+                parent_depths.append(
+                    dirty_depth.get(
+                        dependency_id,
+                        0,
+                    )
+                )
+
+            dirty_roots[job.job_id] = roots
+            dirty_depth[job.job_id] = (
+                max(parent_depths) + 1
+            )
+            changed = True
+
+    for job_id, row in row_map.items():
+        job = job_map.get(job_id)
+
+        if job is None:
+            apply_default_fields(row)
+            continue
+
+        dirty_dependencies = [
+            dependency_id
+            for dependency_id in job.dependencies
+            if dependency_id in dirty
+        ]
+
+        is_dirty = job_id in dirty
+        is_direct = (
+            job_id in direct_reasons
+        )
+        is_propagated = bool(
+            is_dirty and not is_direct
+        )
+
+        row["directly_dirty"] = is_direct
+        row["propagated_dirty"] = (
+            is_propagated
+        )
+        row["dirty"] = is_dirty
+        row["dirty_dependencies"] = "|".join(
+            dirty_dependencies
+        )
+        row["dirty_roots"] = "|".join(
+            sorted(
+                dirty_roots.get(
+                    job_id,
+                    set(),
+                )
+            )
+        )
+        row["dirty_depth"] = int(
+            dirty_depth.get(
+                job_id,
+                0,
+            )
+        )
+
+        if is_direct:
+            row["invalidation_reason"] = (
+                direct_reasons[job_id]
+            )
+        elif is_propagated:
+            row["invalidation_reason"] = (
+                "UPSTREAM_DIRTY"
+            )
+        else:
+            row["invalidation_reason"] = ""
+
+
+def direct_dirty_reason(
+    row: Mapping[str, Any],
+) -> str:
+    """Return the direct invalidation reason for one artifact row."""
+    if not bool(
+        row.get("exists", False)
+    ):
+        return "ARTIFACT_MISSING"
+
+    if not bool(
+        row.get("valid", False)
+    ):
+        return "ARTIFACT_INVALID"
+
+    if row.get("artifact_success") is False:
+        return "ARTIFACT_REPORTS_FAILURE"
+
+    if bool(
+        row.get(
             "incrementally_stale",
             False,
         )
-        row.setdefault(
-            "newer_dependencies",
-            "",
-        )
-        row.setdefault(
-            "newest_upstream_modified_at",
-            "",
-        )
+    ):
+        return "UPSTREAM_NEWER"
 
-    return rows
+    if not bool(
+        row.get("fresh", False)
+    ):
+        return "AGE_STALE"
+
+    return ""
+
+
+def apply_default_fields(
+    row: dict[str, Any],
+) -> None:
+    """Ensure every freshness row exposes the complete incremental contract."""
+    defaults = {
+        "upstream_newer": False,
+        "incrementally_stale": False,
+        "newer_dependencies": "",
+        "newest_upstream_modified_at": "",
+        "directly_dirty": False,
+        "propagated_dirty": False,
+        "dirty": False,
+        "dirty_dependencies": "",
+        "dirty_roots": "",
+        "dirty_depth": 0,
+        "invalidation_reason": "",
+    }
+
+    for key, value in defaults.items():
+        row.setdefault(key, value)
 
 
 def parse_modified_at(
@@ -156,5 +372,8 @@ def parse_modified_at(
 
 __all__ = [
     "apply_incremental_freshness",
+    "apply_direct_invalidation",
+    "direct_dirty_reason",
     "parse_modified_at",
+    "propagate_dirty_set",
 ]

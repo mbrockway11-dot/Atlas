@@ -112,6 +112,54 @@ def build_research_scheduler_report() -> dict[str, Any]:
         else 0
     )
 
+    directly_dirty_count = int(
+        schedule[
+            "directly_dirty"
+        ].astype(bool).sum()
+        if (
+            not schedule.empty
+            and "directly_dirty"
+            in schedule.columns
+        )
+        else 0
+    )
+
+    propagated_dirty_count = int(
+        schedule[
+            "propagated_dirty"
+        ].astype(bool).sum()
+        if (
+            not schedule.empty
+            and "propagated_dirty"
+            in schedule.columns
+        )
+        else 0
+    )
+
+    dirty_job_count = int(
+        schedule[
+            "dirty"
+        ].astype(bool).sum()
+        if (
+            not schedule.empty
+            and "dirty"
+            in schedule.columns
+        )
+        else 0
+    )
+
+    maximum_dirty_depth = int(
+        schedule[
+            "dirty_depth"
+        ].fillna(0).astype(int).max()
+        if (
+            not schedule.empty
+            and "dirty_depth"
+            in schedule.columns
+        )
+        else 0
+    )
+
     scheduler_run_id = (
         build_scheduler_run_id(
             state_hash=state_hash,
@@ -194,6 +242,16 @@ def build_research_scheduler_report() -> dict[str, Any]:
             "incrementally_stale_jobs": (
                 incremental_stale_count
             ),
+            "directly_dirty_jobs": (
+                directly_dirty_count
+            ),
+            "propagated_dirty_jobs": (
+                propagated_dirty_count
+            ),
+            "dirty_jobs": dirty_job_count,
+            "maximum_dirty_depth": (
+                maximum_dirty_depth
+            ),
         },
         "status_counts": status_counts,
         "next_jobs": (
@@ -219,6 +277,9 @@ def build_research_scheduler_report() -> dict[str, Any]:
             "dependency_aware": True,
             "incremental_invalidation": True,
             "upstream_newer_rebuilds_downstream": True,
+            "transitive_dirty_propagation": True,
+            "dirty_roots_are_traceable": True,
+            "dirty_depth_is_reported": True,
             "canonical_dependency_graph_only": True,
             "deterministic_given_artifacts_and_time": True,
         },
@@ -429,6 +490,26 @@ def write_outputs(
         ][
             "incrementally_stale_jobs"
         ],
+        "directly_dirty_jobs": report[
+            "counts"
+        ][
+            "directly_dirty_jobs"
+        ],
+        "propagated_dirty_jobs": report[
+            "counts"
+        ][
+            "propagated_dirty_jobs"
+        ],
+        "dirty_jobs": report[
+            "counts"
+        ][
+            "dirty_jobs"
+        ],
+        "maximum_dirty_depth": report[
+            "counts"
+        ][
+            "maximum_dirty_depth"
+        ],
         "success": report[
             "success"
         ],
@@ -529,6 +610,22 @@ def build_markdown(
         (
             f"- Incrementally stale jobs: "
             f"`{report['counts']['incrementally_stale_jobs']}`"
+        ),
+        (
+            f"- Directly dirty jobs: "
+            f"`{report['counts']['directly_dirty_jobs']}`"
+        ),
+        (
+            f"- Propagated dirty jobs: "
+            f"`{report['counts']['propagated_dirty_jobs']}`"
+        ),
+        (
+            f"- Total dirty jobs: "
+            f"`{report['counts']['dirty_jobs']}`"
+        ),
+        (
+            f"- Maximum dirty depth: "
+            f"`{report['counts']['maximum_dirty_depth']}`"
         ),
         "",
         "## Next Research Jobs",

@@ -36,6 +36,13 @@ SCHEDULE_COLUMNS = [
     "incrementally_stale",
     "newer_dependencies",
     "newest_upstream_modified_at",
+    "directly_dirty",
+    "propagated_dirty",
+    "dirty",
+    "dirty_dependencies",
+    "dirty_roots",
+    "dirty_depth",
+    "invalidation_reason",
     "age_hours",
     "stale_after_hours",
     "artifact_success",
@@ -96,27 +103,66 @@ def build_research_schedule(
             reason = (
                 "Artifact reports success=False."
             )
-        elif bool(
-            freshness.get(
-                "incrementally_stale",
-                False,
+        elif (
+            bool(
+                freshness.get(
+                    "dirty",
+                    False,
+                )
+            )
+            or bool(
+                freshness.get(
+                    "incrementally_stale",
+                    False,
+                )
             )
         ):
             status = "STALE"
-            newer_dependencies = str(
+            invalidation_reason = str(
                 freshness.get(
-                    "newer_dependencies",
+                    "invalidation_reason",
                     "",
                 )
             )
-            reason = (
-                "One or more upstream artifacts are "
-                "newer than this output."
+            dirty_roots = str(
+                freshness.get(
+                    "dirty_roots",
+                    "",
+                )
             )
-            if newer_dependencies:
+            dirty_dependencies = str(
+                freshness.get(
+                    "dirty_dependencies",
+                    "",
+                )
+            )
+
+            if invalidation_reason == "UPSTREAM_NEWER":
+                reason = (
+                    "One or more upstream artifacts are "
+                    "newer than this output."
+                )
+            elif invalidation_reason == "UPSTREAM_DIRTY":
+                reason = (
+                    "A dirty upstream dependency invalidated "
+                    "this downstream output."
+                )
+            else:
+                reason = (
+                    "Artifact requires rebuilding because of "
+                    f"{invalidation_reason or 'DIRTY_STATE'}."
+                )
+
+            if dirty_dependencies:
                 reason += (
-                    " Newer dependencies: "
-                    f"{newer_dependencies}."
+                    " Dirty dependencies: "
+                    f"{dirty_dependencies}."
+                )
+
+            if dirty_roots:
+                reason += (
+                    " Dirty roots: "
+                    f"{dirty_roots}."
                 )
         elif not bool(
             freshness.get(
@@ -257,6 +303,49 @@ def build_research_schedule(
             "newest_upstream_modified_at": str(
                 freshness.get(
                     "newest_upstream_modified_at",
+                    "",
+                )
+            ),
+            "directly_dirty": bool(
+                freshness.get(
+                    "directly_dirty",
+                    False,
+                )
+            ),
+            "propagated_dirty": bool(
+                freshness.get(
+                    "propagated_dirty",
+                    False,
+                )
+            ),
+            "dirty": bool(
+                freshness.get(
+                    "dirty",
+                    False,
+                )
+            ),
+            "dirty_dependencies": str(
+                freshness.get(
+                    "dirty_dependencies",
+                    "",
+                )
+            ),
+            "dirty_roots": str(
+                freshness.get(
+                    "dirty_roots",
+                    "",
+                )
+            ),
+            "dirty_depth": int(
+                freshness.get(
+                    "dirty_depth",
+                    0,
+                )
+                or 0
+            ),
+            "invalidation_reason": str(
+                freshness.get(
+                    "invalidation_reason",
                     "",
                 )
             ),
