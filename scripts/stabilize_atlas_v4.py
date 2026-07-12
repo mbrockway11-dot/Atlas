@@ -122,6 +122,14 @@ PIPELINE_COMMANDS = [
         sys.executable,
         "scripts/update_research_knowledge_graph.py",
     ],
+    [
+        sys.executable,
+        "scripts/update_adaptive_research_prioritizer.py",
+    ],
+    [
+        sys.executable,
+        "scripts/update_research_candidate_consolidator.py",
+    ],
 ]
 
 
@@ -158,6 +166,8 @@ TEST_COMMAND = [
     "tests/test_research_orchestrator_v1.py",
     "tests/test_experiment_registry_v1.py",
     "tests/test_research_knowledge_graph_v1.py",
+    "tests/test_adaptive_research_prioritizer_v1.py",
+    "tests/test_research_candidate_consolidator_v1.py",
     "-q",
 ]
 
@@ -313,6 +323,27 @@ REQUIRED_ARTIFACTS = [
     "output/investment_research_knowledge_graph/knowledge_graph_state.json",
     "output/investment_research_knowledge_graph/knowledge_graph_report.json",
     "output/investment_research_knowledge_graph/knowledge_graph_report.md",
+    "output/investment_adaptive_research_prioritizer/research_priority_queue.csv",
+    "output/investment_adaptive_research_prioritizer/research_candidate_scores.csv",
+    "output/investment_adaptive_research_prioritizer/research_score_components.csv",
+    "output/investment_adaptive_research_prioritizer/research_duplication_flags.csv",
+    "output/investment_adaptive_research_prioritizer/research_coverage_gaps.csv",
+    "output/investment_adaptive_research_prioritizer/research_priority_explanations.csv",
+    "output/investment_adaptive_research_prioritizer/research_priority_history.csv",
+    "output/investment_adaptive_research_prioritizer/research_prioritizer_state.json",
+    "output/investment_adaptive_research_prioritizer/research_prioritizer_report.json",
+    "output/investment_adaptive_research_prioritizer/research_prioritizer_report.md",
+    "output/investment_research_candidate_consolidator/consolidated_research_programs.csv",
+    "output/investment_research_candidate_consolidator/research_program_members.csv",
+    "output/investment_research_candidate_consolidator/research_program_dimensions.csv",
+    "output/investment_research_candidate_consolidator/research_program_conflicts.csv",
+    "output/investment_research_candidate_consolidator/research_program_scores.csv",
+    "output/investment_research_candidate_consolidator/unconsolidated_candidates.csv",
+    "output/investment_research_candidate_consolidator/consolidation_audit.csv",
+    "output/investment_research_candidate_consolidator/consolidation_history.csv",
+    "output/investment_research_candidate_consolidator/research_candidate_consolidator_state.json",
+    "output/investment_research_candidate_consolidator/research_candidate_consolidator_report.json",
+    "output/investment_research_candidate_consolidator/research_candidate_consolidator_report.md",
     "output/investment_portfolio_optimizer/optimized_portfolio.csv",
     "output/investment_portfolio_optimizer/portfolio_covariance.csv",
     "output/investment_portfolio_optimizer/portfolio_optimizer_report.json",
