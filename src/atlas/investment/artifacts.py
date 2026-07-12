@@ -69,15 +69,25 @@ ARTIFACTS: dict[str, Path] = {
     "research_experiment_design_validation": Path("output/investment_research_experiment_designer/experiment_design_validation.csv"),
     "research_experiment_designer_report": Path("output/investment_research_experiment_designer/research_experiment_designer_report.json"),
 
-    # Experiment execution and accumulated evidence.
+    # Experiment execution.
     "research_execution_runs": Path("output/investment_research_experiment_execution/experiment_execution_runs.csv"),
     "research_execution_fold_results": Path("output/investment_research_experiment_execution/experiment_fold_results.csv"),
     "research_execution_variant_results": Path("output/investment_research_experiment_execution/experiment_variant_results.csv"),
     "research_execution_acceptance_results": Path("output/investment_research_experiment_execution/experiment_acceptance_results.csv"),
     "research_execution_evidence_summary": Path("output/investment_research_experiment_execution/experiment_evidence_summary.csv"),
     "research_execution_report": Path("output/investment_research_experiment_execution/experiment_execution_report.json"),
-    "research_evidence_runs": Path("output/investment_research_evidence_accumulator/research_evidence_runs.csv"),
-    "research_evidence_variants": Path("output/investment_research_evidence_accumulator/research_evidence_variants.csv"),
+
+    # Accumulated longitudinal evidence.
+    "accumulated_experiment_evidence": Path("output/investment_research_evidence_accumulator/accumulated_experiment_evidence.csv"),
+    "accumulated_variant_evidence": Path("output/investment_research_evidence_accumulator/accumulated_variant_evidence.csv"),
+    "evidence_run_lineage": Path("output/investment_research_evidence_accumulator/evidence_run_lineage.csv"),
+    "evidence_consistency": Path("output/investment_research_evidence_accumulator/evidence_consistency.csv"),
+    "evidence_decay": Path("output/investment_research_evidence_accumulator/evidence_decay.csv"),
+    "evidence_contradictions": Path("output/investment_research_evidence_accumulator/evidence_contradictions.csv"),
+    "evidence_sufficiency": Path("output/investment_research_evidence_accumulator/evidence_sufficiency.csv"),
+    "evidence_program_recommendations": Path("output/investment_research_evidence_accumulator/evidence_program_recommendations.csv"),
+    "evidence_history": Path("output/investment_research_evidence_accumulator/evidence_history.csv"),
+    "research_evidence_accumulator_state": Path("output/investment_research_evidence_accumulator/research_evidence_accumulator_state.json"),
     "research_evidence_accumulator_report": Path("output/investment_research_evidence_accumulator/research_evidence_accumulator_report.json"),
 
     # Variant governance.
