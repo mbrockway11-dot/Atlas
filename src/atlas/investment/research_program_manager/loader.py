@@ -1,55 +1,28 @@
-﻿"""Research Program Manager source loading."""
+"""Research Program Manager source loading."""
 
 from __future__ import annotations
 
-import json
-from pathlib import Path
 from typing import Any
 
-import pandas as pd
+from atlas.investment.artifacts import artifact_path, load_csv, load_json
 
+
+SOURCE_KEYS = {
+    "consolidated_programs": "consolidated_research_programs",
+    "program_members": "research_program_members",
+    "program_dimensions": "research_program_dimensions",
+    "program_conflicts": "research_program_conflicts",
+    "consolidator_report": "research_candidate_consolidator_report",
+    "experiment_registry": "experiment_registry",
+    "experiment_observations": "experiment_observations",
+    "validated_variants": "validated_variant_registry",
+    "implementation_queue": "variant_implementation_queue",
+    "compiler_report": "atlas_compiler_report",
+}
 
 SOURCE_PATHS = {
-    "consolidated_programs": Path(
-        "output/investment_research_candidate_consolidator/"
-        "consolidated_research_programs.csv"
-    ),
-    "program_members": Path(
-        "output/investment_research_candidate_consolidator/"
-        "research_program_members.csv"
-    ),
-    "program_dimensions": Path(
-        "output/investment_research_candidate_consolidator/"
-        "research_program_dimensions.csv"
-    ),
-    "program_conflicts": Path(
-        "output/investment_research_candidate_consolidator/"
-        "research_program_conflicts.csv"
-    ),
-    "consolidator_report": Path(
-        "output/investment_research_candidate_consolidator/"
-        "research_candidate_consolidator_report.json"
-    ),
-    "experiment_registry": Path(
-        "output/investment_experiment_registry/"
-        "experiment_registry.csv"
-    ),
-    "experiment_observations": Path(
-        "output/investment_experiment_registry/"
-        "experiment_observations.csv"
-    ),
-    "validated_variants": Path(
-        "output/investment_validated_variants/"
-        "validated_variant_registry.csv"
-    ),
-    "implementation_queue": Path(
-        "output/investment_variant_decisions/"
-        "implementation_queue.csv"
-    ),
-    "compiler_report": Path(
-        "output/investment_atlas_compiler/"
-        "atlas_compiler_report.json"
-    ),
+    name: artifact_path(key)
+    for name, key in SOURCE_KEYS.items()
 }
 
 
@@ -57,60 +30,9 @@ def load_program_manager_sources() -> dict[str, Any]:
     """Load all available research-program evidence."""
     return {
         name: (
-            safe_read_json(path)
-            if path.suffix.lower() == ".json"
-            else safe_read_csv(path)
+            load_json(key)
+            if artifact_path(key).suffix.lower() == ".json"
+            else load_csv(key)
         )
-        for name, path in SOURCE_PATHS.items()
+        for name, key in SOURCE_KEYS.items()
     }
-
-
-def safe_read_csv(
-    path: Path,
-) -> pd.DataFrame:
-    if (
-        not path.exists()
-        or not path.is_file()
-        or path.stat().st_size == 0
-    ):
-        return pd.DataFrame()
-
-    try:
-        return pd.read_csv(path)
-    except (
-        pd.errors.EmptyDataError,
-        pd.errors.ParserError,
-        UnicodeDecodeError,
-        OSError,
-    ):
-        return pd.DataFrame()
-
-
-def safe_read_json(
-    path: Path,
-) -> dict:
-    if (
-        not path.exists()
-        or not path.is_file()
-        or path.stat().st_size == 0
-    ):
-        return {}
-
-    try:
-        payload = json.loads(
-            path.read_text(
-                encoding="utf-8"
-            )
-        )
-    except (
-        json.JSONDecodeError,
-        UnicodeDecodeError,
-        OSError,
-    ):
-        return {}
-
-    return (
-        payload
-        if isinstance(payload, dict)
-        else {}
-    )
