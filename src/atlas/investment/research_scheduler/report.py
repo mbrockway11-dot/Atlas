@@ -1,4 +1,4 @@
-﻿"""Atlas Research Scheduler v1 orchestration."""
+"""Atlas Research Scheduler v1 orchestration."""
 
 from __future__ import annotations
 
@@ -100,6 +100,18 @@ def build_research_scheduler_report() -> dict[str, Any]:
         else {}
     )
 
+    incremental_stale_count = int(
+        schedule[
+            "incrementally_stale"
+        ].astype(bool).sum()
+        if (
+            not schedule.empty
+            and "incrementally_stale"
+            in schedule.columns
+        )
+        else 0
+    )
+
     scheduler_run_id = (
         build_scheduler_run_id(
             state_hash=state_hash,
@@ -179,6 +191,9 @@ def build_research_scheduler_report() -> dict[str, Any]:
                     0,
                 )
             ),
+            "incrementally_stale_jobs": (
+                incremental_stale_count
+            ),
         },
         "status_counts": status_counts,
         "next_jobs": (
@@ -202,6 +217,9 @@ def build_research_scheduler_report() -> dict[str, Any]:
             "changes_manual_decisions": False,
             "commands_are_advisory_only": True,
             "dependency_aware": True,
+            "incremental_invalidation": True,
+            "upstream_newer_rebuilds_downstream": True,
+            "canonical_dependency_graph_only": True,
             "deterministic_given_artifacts_and_time": True,
         },
         "outputs": {
@@ -406,6 +424,11 @@ def write_outputs(
         ][
             "stale_jobs"
         ],
+        "incrementally_stale_jobs": report[
+            "counts"
+        ][
+            "incrementally_stale_jobs"
+        ],
         "success": report[
             "success"
         ],
@@ -502,6 +525,10 @@ def build_markdown(
         (
             f"- Failed jobs: "
             f"`{report['counts']['failed_jobs']}`"
+        ),
+        (
+            f"- Incrementally stale jobs: "
+            f"`{report['counts']['incrementally_stale_jobs']}`"
         ),
         "",
         "## Next Research Jobs",

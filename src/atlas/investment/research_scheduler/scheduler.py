@@ -1,4 +1,4 @@
-﻿"""Atlas Research Scheduler dependency resolution."""
+"""Atlas Research Scheduler dependency resolution."""
 
 from __future__ import annotations
 
@@ -32,6 +32,10 @@ SCHEDULE_COLUMNS = [
     "exists",
     "valid",
     "fresh",
+    "upstream_newer",
+    "incrementally_stale",
+    "newer_dependencies",
+    "newest_upstream_modified_at",
     "age_hours",
     "stale_after_hours",
     "artifact_success",
@@ -92,6 +96,28 @@ def build_research_schedule(
             reason = (
                 "Artifact reports success=False."
             )
+        elif bool(
+            freshness.get(
+                "incrementally_stale",
+                False,
+            )
+        ):
+            status = "STALE"
+            newer_dependencies = str(
+                freshness.get(
+                    "newer_dependencies",
+                    "",
+                )
+            )
+            reason = (
+                "One or more upstream artifacts are "
+                "newer than this output."
+            )
+            if newer_dependencies:
+                reason += (
+                    " Newer dependencies: "
+                    f"{newer_dependencies}."
+                )
         elif not bool(
             freshness.get(
                 "fresh",
@@ -208,6 +234,30 @@ def build_research_schedule(
                 freshness.get(
                     "fresh",
                     False,
+                )
+            ),
+            "upstream_newer": bool(
+                freshness.get(
+                    "upstream_newer",
+                    False,
+                )
+            ),
+            "incrementally_stale": bool(
+                freshness.get(
+                    "incrementally_stale",
+                    False,
+                )
+            ),
+            "newer_dependencies": str(
+                freshness.get(
+                    "newer_dependencies",
+                    "",
+                )
+            ),
+            "newest_upstream_modified_at": str(
+                freshness.get(
+                    "newest_upstream_modified_at",
+                    "",
                 )
             ),
             "age_hours": freshness.get(

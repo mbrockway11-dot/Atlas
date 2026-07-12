@@ -1,4 +1,4 @@
-﻿"""Atlas research artifact freshness inspection."""
+"""Atlas research artifact freshness inspection."""
 
 from __future__ import annotations
 
@@ -11,6 +11,9 @@ from typing import Any
 from atlas.investment.research_scheduler.registry import (
     JOBS,
     ResearchJobSpec,
+)
+from atlas.investment.research_scheduler.incremental import (
+    apply_incremental_freshness,
 )
 
 
@@ -25,13 +28,17 @@ def inspect_all_artifacts(
         else datetime.now(UTC)
     )
 
-    return [
+    rows = [
         inspect_artifact(
             job,
             now=reference_time,
         )
         for job in JOBS
     ]
+
+    return apply_incremental_freshness(
+        rows
+    )
 
 
 def inspect_artifact(
