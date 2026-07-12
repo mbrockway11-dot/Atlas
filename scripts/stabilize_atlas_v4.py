@@ -130,6 +130,10 @@ PIPELINE_COMMANDS = [
         sys.executable,
         "scripts/update_research_candidate_consolidator.py",
     ],
+    [
+        sys.executable,
+        "scripts/update_research_program_manager.py",
+    ],
 ]
 
 
@@ -168,6 +172,7 @@ TEST_COMMAND = [
     "tests/test_research_knowledge_graph_v1.py",
     "tests/test_adaptive_research_prioritizer_v1.py",
     "tests/test_research_candidate_consolidator_v1.py",
+    "tests/test_research_program_manager_v1.py",
     "-q",
 ]
 
@@ -344,6 +349,18 @@ REQUIRED_ARTIFACTS = [
     "output/investment_research_candidate_consolidator/research_candidate_consolidator_state.json",
     "output/investment_research_candidate_consolidator/research_candidate_consolidator_report.json",
     "output/investment_research_candidate_consolidator/research_candidate_consolidator_report.md",
+    "output/investment_research_program_manager/research_program_registry.csv",
+    "output/investment_research_program_manager/research_program_status_history.csv",
+    "output/investment_research_program_manager/research_program_evidence.csv",
+    "output/investment_research_program_manager/research_program_dependencies.csv",
+    "output/investment_research_program_manager/research_program_approval_queue.csv",
+    "output/investment_research_program_manager/research_program_active_queue.csv",
+    "output/investment_research_program_manager/research_program_blocked_queue.csv",
+    "output/investment_research_program_manager/research_program_promotion_queue.csv",
+    "output/investment_research_program_manager/research_program_archived.csv",
+    "output/investment_research_program_manager/research_program_manager_state.json",
+    "output/investment_research_program_manager/research_program_manager_report.json",
+    "output/investment_research_program_manager/research_program_manager_report.md",
     "output/investment_portfolio_optimizer/optimized_portfolio.csv",
     "output/investment_portfolio_optimizer/portfolio_covariance.csv",
     "output/investment_portfolio_optimizer/portfolio_optimizer_report.json",
