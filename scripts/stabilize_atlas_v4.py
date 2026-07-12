@@ -106,6 +106,10 @@ PIPELINE_COMMANDS = [
         sys.executable,
         "scripts/validate_atlas_state_api.py",
     ],
+    [
+        sys.executable,
+        "scripts/update_research_scheduler.py",
+    ],
 ]
 
 
@@ -138,6 +142,7 @@ TEST_COMMAND = [
     "tests/test_learning_engine_v3_1.py",
     "tests/test_atlas_compiler_v1.py",
     "tests/test_atlas_state_api_v1.py",
+    "tests/test_research_scheduler_v1.py",
     "-q",
 ]
 
@@ -249,6 +254,17 @@ REQUIRED_ARTIFACTS = [
     "output/investment_atlas_compiler/atlas_compiler_report.md",
     "output/investment_state_api/state_api_validation.json",
     "output/investment_state_api/state_api_validation.md",
+    "output/investment_research_scheduler/research_schedule.csv",
+    "output/investment_research_scheduler/pending_jobs.csv",
+    "output/investment_research_scheduler/blocked_jobs.csv",
+    "output/investment_research_scheduler/completed_jobs.csv",
+    "output/investment_research_scheduler/failed_jobs.csv",
+    "output/investment_research_scheduler/artifact_freshness.csv",
+    "output/investment_research_scheduler/dependency_graph.csv",
+    "output/investment_research_scheduler/scheduler_run_history.csv",
+    "output/investment_research_scheduler/scheduler_state.json",
+    "output/investment_research_scheduler/scheduler_report.json",
+    "output/investment_research_scheduler/scheduler_report.md",
     "output/investment_portfolio_optimizer/optimized_portfolio.csv",
     "output/investment_portfolio_optimizer/portfolio_covariance.csv",
     "output/investment_portfolio_optimizer/portfolio_optimizer_report.json",
