@@ -1,4 +1,4 @@
-﻿"""Atlas v4 stabilization checkpoint."""
+"""Atlas v4 stabilization checkpoint."""
 
 from __future__ import annotations
 
@@ -9,6 +9,10 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from atlas.investment.research_orchestrator.stabilization import (
+    build_stabilization_commands,
+)
+
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -17,137 +21,7 @@ REPORT_JSON = OUTPUT_DIR / "atlas_v4_stabilization_report.json"
 REPORT_MD = OUTPUT_DIR / "atlas_v4_stabilization_report.md"
 
 
-PIPELINE_COMMANDS = [
-    [
-        sys.executable,
-        "scripts/run_alpha_engines.py",
-    ],
-    [
-        sys.executable,
-        "scripts/update_macro_intelligence.py",
-    ],
-    [
-        sys.executable,
-        "scripts/update_regime_intelligence.py",
-    ],
-    [
-        sys.executable,
-        "scripts/update_macro_regime_fusion.py",
-    ],
-    [
-        sys.executable,
-        "scripts/run_historical_alpha_engines.py",
-    ],
-    [
-        sys.executable,
-        "scripts/validate_historical_alpha_engines.py",
-    ],
-    [
-        sys.executable,
-        "scripts/run_alpha_research_lab.py",
-    ],
-    [
-        sys.executable,
-        "scripts/update_alpha_ensemble.py",
-    ],
-    [
-        sys.executable,
-        "scripts/update_learning_engine.py",
-    ],
-    [
-        sys.executable,
-        "scripts/update_ensemble_intelligence_v7.py",
-    ],
-    [
-        sys.executable,
-        "scripts/update_governance_snapshots.py",
-    ],
-    [
-        sys.executable,
-        "scripts/run_meta_research_engine.py",
-    ],
-    [
-        sys.executable,
-        "scripts/run_hypothesis_validation_lab.py",
-    ],
-    [
-        sys.executable,
-        "scripts/update_validated_variant_registry.py",
-    ],
-    [
-        sys.executable,
-        "scripts/run_variant_review_board.py",
-    ],
-    [
-        sys.executable,
-        "scripts/update_variant_decision_ledger.py",
-    ],
-    [
-        sys.executable,
-        "scripts/run_variant_implementation_planner.py",
-    ],
-    [
-        sys.executable,
-        "scripts/update_portfolio_optimizer_v2.py",
-    ],
-    [
-        sys.executable,
-        "scripts/run_portfolio_promotion_lab.py",
-    ],
-    [
-        sys.executable,
-        "scripts/run_portfolio_promotion_lab_v2.py",
-    ],
-    [
-        sys.executable,
-        "scripts/update_atlas_compiler.py",
-    ],
-    [
-        sys.executable,
-        "scripts/validate_atlas_state_api.py",
-    ],
-    [
-        sys.executable,
-        "scripts/update_research_scheduler.py",
-    ],
-    [
-        sys.executable,
-        "scripts/run_research_cycle.py",
-    ],
-    [
-        sys.executable,
-        "scripts/update_experiment_registry.py",
-    ],
-    [
-        sys.executable,
-        "scripts/update_research_knowledge_graph.py",
-    ],
-    [
-        sys.executable,
-        "scripts/update_adaptive_research_prioritizer.py",
-    ],
-    [
-        sys.executable,
-        "scripts/update_research_candidate_consolidator.py",
-    ],
-    [
-        sys.executable,
-        "scripts/update_research_program_manager.py",
-    ],
-    [
-        sys.executable,
-        "scripts/update_research_experiment_designer.py",
-    ],
-    [
-        sys.executable,
-        "scripts/run_research_experiment_execution.py",
-    ],
-    [
-        sys.executable,
-        "scripts/update_research_evidence_accumulator.py",
-    ],
-]
-
+PIPELINE_COMMANDS = build_stabilization_commands()
 
 TEST_COMMAND = [
     sys.executable,
