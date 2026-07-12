@@ -1,4 +1,4 @@
-﻿"""Continuous Research Orchestrator reporting."""
+"""Continuous Research Orchestrator reporting."""
 
 from __future__ import annotations
 
@@ -38,6 +38,8 @@ def build_orchestrator_report(
     max_jobs: int = 100,
     timeout_seconds: int = 1800,
     continue_on_failure: bool = False,
+    resume: bool = False,
+    restart: bool = False,
 ) -> dict[str, Any]:
     """Build and optionally execute one research cycle."""
     cycle = run_research_cycle(
@@ -49,6 +51,8 @@ def build_orchestrator_report(
         continue_on_failure=(
             continue_on_failure
         ),
+        resume=resume,
+        restart=restart,
     )
 
     results = cycle["results"]
@@ -72,8 +76,8 @@ def build_orchestrator_report(
         ])
     ].copy() if not results.empty else pd.DataFrame()
 
-    success = bool(
-        failed.empty
+    success = not bool(
+        cycle["failure_detected"]
     )
 
     report = {
@@ -99,6 +103,30 @@ def build_orchestrator_report(
         "duration_seconds": cycle[
             "duration_seconds"
         ],
+        "resumed": bool(
+            cycle.get("resumed", False)
+        ),
+        "restarted": bool(
+            cycle.get("restarted", False)
+        ),
+        "resumed_from_run_id": str(
+            cycle.get(
+                "resumed_from_run_id",
+                "",
+            )
+        ),
+        "completed_job_ids": list(
+            cycle.get(
+                "completed_job_ids",
+                [],
+            )
+        ),
+        "attempted_this_invocation": list(
+            cycle.get(
+                "attempted_this_invocation",
+                [],
+            )
+        ),
         "initial_state_hash": cycle[
             "initial_scheduler"
         ][
@@ -156,6 +184,10 @@ def build_orchestrator_report(
             "dependency_aware": True,
             "scheduler_refreshed_after_each_job": True,
             "fail_fast_default": True,
+            "resume_supported": True,
+            "restart_supported": True,
+            "atomic_job_checkpoints": True,
+            "completed_jobs_skipped_on_resume": True,
         },
         "outputs": {
             "execution_plan_csv": str(
@@ -281,46 +313,7 @@ def write_outputs(
         report
     )
 
-    state = {
-        "version": report[
-            "version"
-        ],
-        "schema_version": report[
-            "schema_version"
-        ],
-        "run_id": report[
-            "run_id"
-        ],
-        "mode": report["mode"],
-        "success": report[
-            "success"
-        ],
-        "started_at": report[
-            "started_at"
-        ],
-        "completed_at": report[
-            "completed_at"
-        ],
-        "initial_state_hash": report[
-            "initial_state_hash"
-        ],
-        "counts": report[
-            "counts"
-        ],
-        "contract": report[
-            "contract"
-        ],
-    }
-
-    EXECUTION_STATE_JSON.write_text(
-        json.dumps(
-            state,
-            indent=2,
-            ensure_ascii=False,
-            default=str,
-        ),
-        encoding="utf-8",
-    )
+    # execution_state.json is written atomically by the cycle controller.
 
     REPORT_JSON.write_text(
         json.dumps(
@@ -414,7 +407,7 @@ def append_run_history(
         ignore_index=True,
     ).drop_duplicates(
         subset=["run_id"],
-        keep="first",
+        keep="last",
     )
 
     history.to_csv(

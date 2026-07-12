@@ -10,5 +10,397 @@ from typing import Any
 
 import pandas as pd
 
-from atlas.investment.research_orchestrator.executor import execute_job
-from atlas.investment.research_orchestrator.planner import
+from atlas.investment.research_orchestrator.executor import (
+    execute_job,
+)
+from atlas.investment.research_orchestrator.planner import (
+    build_execution_plan,
+    classify_nonselected_jobs,
+)
+from atlas.investment.research_orchestrator.resume import (
+    completed_job_ids,
+    is_resumable_state,
+    load_resume_state,
+    write_resume_state,
+)
+from atlas.investment.research_scheduler import (
+    build_research_scheduler_report,
+)
+
+
+ROOT = Path(__file__).resolve().parents[4]
+
+
+def run_research_cycle(
+    *,
+    execute: bool = False,
+    max_jobs: int = 100,
+    timeout_seconds: int = 1800,
+    continue_on_failure: bool = False,
+    resume: bool = False,
+    restart: bool = False,
+) -> dict[str, Any]:
+    """Run or preview one dependency-aware research cycle.
+
+    ``resume`` reuses the last incomplete execution checkpoint and skips
+    successfully completed jobs.
+
+    ``restart`` ignores the previous checkpoint and creates a fresh run.
+    """
+    if resume and restart:
+        raise ValueError(
+            "resume and restart are mutually exclusive"
+        )
+
+    invocation_started_at = datetime.now(UTC)
+
+    initial_scheduler = (
+        build_research_scheduler_report()
+    )
+
+    state_hash = str(
+        initial_scheduler["state_hash"]
+    )
+
+    prior_state: dict[str, Any] = {}
+    resumed = False
+    restarted = bool(restart)
+
+    if resume:
+        prior_state = load_resume_state()
+
+        if not is_resumable_state(
+            prior_state
+        ):
+            raise ValueError(
+                "No resumable research cycle exists."
+            )
+
+        resumed = True
+
+    if resumed:
+        run_id = str(
+            prior_state["run_id"]
+        )
+        logical_started_at = str(
+            prior_state.get(
+                "started_at",
+                invocation_started_at.isoformat(),
+            )
+        )
+        results: list[dict[str, Any]] = [
+            dict(result)
+            for result in prior_state.get(
+                "results",
+                [],
+            )
+            if isinstance(result, dict)
+        ]
+        completed_jobs = completed_job_ids(
+            prior_state
+        )
+    else:
+        run_id = build_run_id(
+            state_hash=state_hash,
+            started_at=invocation_started_at,
+            execute=execute,
+        )
+        logical_started_at = (
+            invocation_started_at.isoformat()
+        )
+        results = []
+        completed_jobs: set[str] = set()
+
+    current_schedule = _read_schedule(
+        initial_scheduler
+    )
+
+    initial_plan = build_execution_plan(
+        current_schedule,
+        execute=execute,
+        max_jobs=max_jobs,
+    )
+
+    if completed_jobs:
+        initial_plan = initial_plan[
+            ~initial_plan[
+                "job_id"
+            ].astype(str).isin(
+                completed_jobs
+            )
+        ].reset_index(drop=True)
+
+    nonselected = (
+        classify_nonselected_jobs(
+            current_schedule
+        )
+    )
+
+    attempted_this_invocation: set[str] = (
+        set()
+    )
+    failure_detected = False
+
+    if not execute:
+        for _, plan_row in (
+            initial_plan.iterrows()
+        ):
+            results.append({
+                "job_id": str(
+                    plan_row["job_id"]
+                ),
+                "status": "DRY_RUN",
+                "started_at": "",
+                "completed_at": "",
+                "duration_seconds": 0.0,
+                "returncode": None,
+                "stdout_path": "",
+                "stderr_path": "",
+                "error": "",
+                "execution_authorized": False,
+                "execution_instruction": False,
+            })
+    else:
+        write_resume_state(
+            run_id=run_id,
+            status="RUNNING",
+            execute=True,
+            started_at=logical_started_at,
+            initial_state_hash=state_hash,
+            results=results,
+            resumed=resumed,
+            restarted=restarted,
+        )
+
+        try:
+            while (
+                len(attempted_this_invocation)
+                < max(0, int(max_jobs))
+            ):
+                scheduler_report = (
+                    build_research_scheduler_report()
+                )
+
+                current_schedule = (
+                    _read_schedule(
+                        scheduler_report
+                    )
+                )
+
+                plan = build_execution_plan(
+                    current_schedule,
+                    execute=True,
+                    max_jobs=max_jobs,
+                )
+
+                excluded_jobs = (
+                    attempted_this_invocation
+                    | completed_jobs
+                )
+
+                available = plan[
+                    ~plan[
+                        "job_id"
+                    ].astype(str).isin(
+                        excluded_jobs
+                    )
+                ]
+
+                if available.empty:
+                    break
+
+                next_job_id = str(
+                    available.iloc[0][
+                        "job_id"
+                    ]
+                )
+
+                attempted_this_invocation.add(
+                    next_job_id
+                )
+
+                result = execute_job(
+                    job_id=next_job_id,
+                    run_id=run_id,
+                    timeout_seconds=(
+                        timeout_seconds
+                    ),
+                    root=ROOT,
+                )
+
+                result = dict(result)
+                results.append(result)
+
+                if (
+                    str(result.get("status", ""))
+                    == "SUCCEEDED"
+                ):
+                    completed_jobs.add(
+                        next_job_id
+                    )
+                else:
+                    failure_detected = True
+
+                write_resume_state(
+                    run_id=run_id,
+                    status=(
+                        "FAILED"
+                        if failure_detected
+                        else "RUNNING"
+                    ),
+                    execute=True,
+                    started_at=logical_started_at,
+                    initial_state_hash=state_hash,
+                    results=results,
+                    failure_detected=(
+                        failure_detected
+                    ),
+                    resumed=resumed,
+                    restarted=restarted,
+                )
+
+                if (
+                    failure_detected
+                    and not continue_on_failure
+                ):
+                    break
+
+        except BaseException:
+            write_resume_state(
+                run_id=run_id,
+                status="INTERRUPTED",
+                execute=True,
+                started_at=logical_started_at,
+                initial_state_hash=state_hash,
+                results=results,
+                failure_detected=True,
+                resumed=resumed,
+                restarted=restarted,
+            )
+            raise
+
+        final_scheduler = (
+            build_research_scheduler_report()
+        )
+
+        current_schedule = _read_schedule(
+            final_scheduler
+        )
+
+        nonselected = (
+            classify_nonselected_jobs(
+                current_schedule
+            )
+        )
+
+    completed_at = datetime.now(UTC)
+
+    if execute:
+        write_resume_state(
+            run_id=run_id,
+            status=(
+                "FAILED"
+                if failure_detected
+                else "SUCCEEDED"
+            ),
+            execute=True,
+            started_at=logical_started_at,
+            completed_at=(
+                completed_at.isoformat()
+            ),
+            initial_state_hash=state_hash,
+            results=results,
+            failure_detected=(
+                failure_detected
+            ),
+            resumed=resumed,
+            restarted=restarted,
+        )
+
+    results_frame = pd.DataFrame(
+        results
+    )
+
+    return {
+        "run_id": run_id,
+        "execute": execute,
+        "resumed": resumed,
+        "restarted": restarted,
+        "resumed_from_run_id": (
+            run_id
+            if resumed
+            else ""
+        ),
+        "completed_job_ids": sorted(
+            completed_jobs
+        ),
+        "attempted_this_invocation": sorted(
+            attempted_this_invocation
+        ),
+        "started_at": logical_started_at,
+        "invocation_started_at": (
+            invocation_started_at.isoformat()
+        ),
+        "completed_at": (
+            completed_at.isoformat()
+        ),
+        "duration_seconds": round(
+            (
+                completed_at
+                - invocation_started_at
+            ).total_seconds(),
+            8,
+        ),
+        "initial_scheduler": (
+            initial_scheduler
+        ),
+        "initial_plan": initial_plan,
+        "results": results_frame,
+        "skipped": nonselected[
+            "skipped"
+        ],
+        "blocked": nonselected[
+            "blocked"
+        ],
+        "failure_detected": (
+            failure_detected
+        ),
+    }
+
+
+def _read_schedule(
+    scheduler_report: dict[str, Any],
+) -> pd.DataFrame:
+    """Read the schedule produced by one scheduler refresh."""
+    return pd.read_csv(
+        scheduler_report[
+            "outputs"
+        ][
+            "research_schedule_csv"
+        ]
+    )
+
+
+def build_run_id(
+    *,
+    state_hash: str,
+    started_at: datetime,
+    execute: bool,
+) -> str:
+    payload = json.dumps(
+        {
+            "state_hash": state_hash,
+            "started_at": (
+                started_at.isoformat()
+            ),
+            "execute": execute,
+        },
+        sort_keys=True,
+    ).encode("utf-8")
+
+    return (
+        "ORCH-"
+        + hashlib.sha256(
+            payload
+        ).hexdigest()[:20]
+    )

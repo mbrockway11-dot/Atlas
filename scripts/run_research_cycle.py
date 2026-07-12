@@ -1,4 +1,4 @@
-﻿"""Run one controlled Atlas research cycle."""
+"""Run one controlled Atlas research cycle."""
 
 from __future__ import annotations
 
@@ -47,6 +47,26 @@ def parse_arguments() -> argparse.Namespace:
         action="store_true",
     )
 
+    mode_group = parser.add_mutually_exclusive_group()
+
+    mode_group.add_argument(
+        "--resume",
+        action="store_true",
+        help=(
+            "Resume the last incomplete executable cycle "
+            "and skip its successful jobs."
+        ),
+    )
+
+    mode_group.add_argument(
+        "--restart",
+        action="store_true",
+        help=(
+            "Ignore any prior checkpoint and start a fresh "
+            "execution cycle."
+        ),
+    )
+
     return parser.parse_args()
 
 
@@ -62,6 +82,8 @@ def main() -> None:
         continue_on_failure=(
             arguments.continue_on_failure
         ),
+        resume=arguments.resume,
+        restart=arguments.restart,
     )
 
     print(report["success"])
