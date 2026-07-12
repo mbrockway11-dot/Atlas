@@ -15,6 +15,7 @@ def build_supporting_maps(
     governance_snapshots: pd.DataFrame,
     engine_performance: pd.DataFrame,
     conflicts: pd.DataFrame,
+    longitudinal_evidence: pd.DataFrame | None = None,
 ) -> dict:
     """Build deterministic lookup maps for board scoring."""
     return {
@@ -35,6 +36,9 @@ def build_supporting_maps(
         ),
         "conflicts": build_conflict_set(
             conflicts
+        ),
+        "longitudinal": build_longitudinal_map(
+            longitudinal_evidence
         ),
     }
 
@@ -299,6 +303,73 @@ def build_conflict_set(
     )
 
 
+def build_longitudinal_map(
+    frame: pd.DataFrame | None,
+) -> dict[str, dict]:
+    if (
+        frame is None
+        or frame.empty
+        or "variant_id" not in frame.columns
+    ):
+        return {}
+
+    return {
+        str(row["variant_id"]): {
+            "longitudinal_evidence_score": number(
+                row.get(
+                    "evidence_score"
+                )
+            ),
+            "longitudinal_consistency_score": number(
+                row.get(
+                    "consistency_score"
+                )
+            ),
+            "longitudinal_run_pass_rate": number(
+                row.get(
+                    "run_pass_rate"
+                )
+            ),
+            "longitudinal_contradiction_rate": number(
+                row.get(
+                    "contradiction_rate"
+                )
+            ),
+            "longitudinal_decay_rate": number(
+                row.get(
+                    "decay_rate"
+                )
+            ),
+            "longitudinal_sufficiency_score": number(
+                row.get(
+                    "sufficiency_score"
+                )
+            ),
+            "longitudinal_durability": str(
+                row.get(
+                    "durability_status",
+                    "",
+                )
+            ),
+            "longitudinal_evidence_sufficient": boolean(
+                row.get(
+                    "evidence_sufficient"
+                )
+            ),
+            "longitudinal_run_count": integer(
+                row.get(
+                    "run_count"
+                )
+            ),
+            "longitudinal_state_hashes": integer(
+                row.get(
+                    "distinct_state_hashes"
+                )
+            ),
+        }
+        for _, row in frame.iterrows()
+    }
+
 def numeric_series(
     frame: pd.DataFrame,
     column: str,
@@ -381,3 +452,4 @@ def boolean(
         "1",
         "yes",
     }
+

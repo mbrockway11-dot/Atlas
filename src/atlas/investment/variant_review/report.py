@@ -59,6 +59,9 @@ def build_variant_review_report() -> dict[str, Any]:
         conflicts=inputs[
             "conflicts"
         ],
+        longitudinal_evidence=inputs[
+            "accumulated_variant_evidence"
+        ],
     )
 
     board = build_review_board(
@@ -340,4 +343,5 @@ def build_markdown(
     ])
 
     return "\n".join(lines)
+
 

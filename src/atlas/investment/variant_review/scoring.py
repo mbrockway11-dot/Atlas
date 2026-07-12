@@ -34,6 +34,14 @@ BOARD_COLUMNS = [
     "governance_score",
     "meta_priority_score",
     "complexity_score",
+    "longitudinal_evidence_score",
+    "longitudinal_consistency_score",
+    "longitudinal_run_pass_rate",
+    "longitudinal_contradiction_rate",
+    "longitudinal_decay_rate",
+    "longitudinal_sufficiency_score",
+    "longitudinal_durability",
+    "longitudinal_evidence_sufficient",
     "overall_review_score",
     "recommended_decision",
     "decision_reason",
@@ -117,6 +125,14 @@ def build_review_board(
         conflict = (
             variant_id
             in maps["conflicts"]
+        )
+
+        longitudinal = maps.get(
+            "longitudinal",
+            {},
+        ).get(
+            variant_id,
+            {},
         )
 
         validation_score = number(
@@ -259,6 +275,18 @@ def build_review_board(
             conflict=conflict,
         )
 
+        longitudinal_score = number(
+            longitudinal.get(
+                "longitudinal_evidence_score"
+            )
+        )
+
+        if longitudinal:
+            overall = clamp(
+                overall * 0.80
+                + longitudinal_score * 0.20
+            )
+
         decision, reason = recommend_decision(
             overall_score=overall,
             validation_score=validation_score,
@@ -277,6 +305,56 @@ def build_review_board(
             ),
             conflict=conflict,
         )
+
+        if longitudinal:
+            durability = text(
+                longitudinal.get(
+                    "longitudinal_durability"
+                )
+            )
+
+            evidence_sufficient = bool(
+                longitudinal.get(
+                    "longitudinal_evidence_sufficient",
+                    False,
+                )
+            )
+
+            contradiction_rate = number(
+                longitudinal.get(
+                    "longitudinal_contradiction_rate"
+                )
+            )
+
+            decay_rate = number(
+                longitudinal.get(
+                    "longitudinal_decay_rate"
+                )
+            )
+
+            if (
+                not evidence_sufficient
+                or durability != "DURABLE"
+            ):
+                decision = "REQUEST_MORE_RESEARCH"
+                reason = (
+                    "Longitudinal evidence is not yet "
+                    "sufficient and durable."
+                )
+
+            if contradiction_rate > 0.35:
+                decision = "HOLD"
+                reason = (
+                    "Longitudinal evidence contains a "
+                    "material contradiction rate."
+                )
+
+            if decay_rate > 0.25:
+                decision = "HOLD"
+                reason = (
+                    "Longitudinal evidence shows "
+                    "material recent decay."
+                )
 
         rows.append({
             "variant_id": variant_id,
@@ -374,6 +452,65 @@ def build_review_board(
             "complexity_score": round(
                 complexity_score,
                 8,
+            ),
+            "longitudinal_evidence_score": round(
+                number(
+                    longitudinal.get(
+                        "longitudinal_evidence_score"
+                    )
+                ),
+                8,
+            ),
+            "longitudinal_consistency_score": round(
+                number(
+                    longitudinal.get(
+                        "longitudinal_consistency_score"
+                    )
+                ),
+                8,
+            ),
+            "longitudinal_run_pass_rate": round(
+                number(
+                    longitudinal.get(
+                        "longitudinal_run_pass_rate"
+                    )
+                ),
+                8,
+            ),
+            "longitudinal_contradiction_rate": round(
+                number(
+                    longitudinal.get(
+                        "longitudinal_contradiction_rate"
+                    )
+                ),
+                8,
+            ),
+            "longitudinal_decay_rate": round(
+                number(
+                    longitudinal.get(
+                        "longitudinal_decay_rate"
+                    )
+                ),
+                8,
+            ),
+            "longitudinal_sufficiency_score": round(
+                number(
+                    longitudinal.get(
+                        "longitudinal_sufficiency_score"
+                    )
+                ),
+                8,
+            ),
+            "longitudinal_durability": text(
+                longitudinal.get(
+                    "longitudinal_durability"
+                )
+            ),
+            "longitudinal_evidence_sufficient": bool(
+                longitudinal.get(
+                    "longitudinal_evidence_sufficient",
+                    False,
+                )
             ),
             "overall_review_score": round(
                 overall * 100.0,
@@ -763,3 +900,4 @@ def text(
         return ""
 
     return str(value)
+

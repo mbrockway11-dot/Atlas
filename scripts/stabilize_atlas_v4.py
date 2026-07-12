@@ -188,6 +188,7 @@ TEST_COMMAND = [
     "tests/test_research_experiment_designer_v1.py",
     "tests/test_research_experiment_execution_v1.py",
     "tests/test_research_evidence_accumulator_v1.py",
+    "tests/test_research_evidence_variant_integration_v1.py",
     "-q",
 ]
 

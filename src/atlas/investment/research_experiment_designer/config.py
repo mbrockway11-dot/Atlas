@@ -77,6 +77,8 @@ SOURCE = VERSION
 ELIGIBLE_PROGRAM_STATUSES = {
     "APPROVED_FOR_DESIGN",
     "EXPERIMENT_DESIGNED",
+    "VALIDATING",
+    "EVIDENCE_ACCUMULATING",
 }
 
 DEFAULT_FOLD_COUNT = 6
@@ -97,4 +99,5 @@ REQUIRED_METRICS = (
     "fold_win_rate",
     "retention_ratio",
 )
+
 

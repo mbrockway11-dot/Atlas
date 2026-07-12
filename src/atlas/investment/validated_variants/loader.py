@@ -28,9 +28,29 @@ ENGINE_PERFORMANCE = Path(
     "historical_alpha_engine_performance.csv"
 )
 
+ACCUMULATED_VARIANT_EVIDENCE = Path(
+    "output/investment_research_evidence_accumulator/"
+    "accumulated_variant_evidence.csv"
+)
+
+PROGRAM_RECOMMENDATIONS = Path(
+    "output/investment_research_evidence_accumulator/"
+    "evidence_program_recommendations.csv"
+)
+
+EXPERIMENT_VARIANTS = Path(
+    "output/investment_research_experiment_designer/"
+    "experiment_variants.csv"
+)
+
+EXPERIMENT_DESIGNS = Path(
+    "output/investment_research_experiment_designer/"
+    "research_experiment_designs.csv"
+)
+
 
 def load_variant_registry_inputs() -> dict[str, Any]:
-    """Load validated research evidence."""
+    """Load canonical and accumulated validation evidence."""
     return {
         "validated_hypotheses": safe_read_csv(
             VALIDATED_HYPOTHESES
@@ -43,6 +63,18 @@ def load_variant_registry_inputs() -> dict[str, Any]:
         ),
         "engine_performance": safe_read_csv(
             ENGINE_PERFORMANCE
+        ),
+        "accumulated_variant_evidence": safe_read_csv(
+            ACCUMULATED_VARIANT_EVIDENCE
+        ),
+        "program_recommendations": safe_read_csv(
+            PROGRAM_RECOMMENDATIONS
+        ),
+        "experiment_variants": safe_read_csv(
+            EXPERIMENT_VARIANTS
+        ),
+        "experiment_designs": safe_read_csv(
+            EXPERIMENT_DESIGNS
         ),
     }
 

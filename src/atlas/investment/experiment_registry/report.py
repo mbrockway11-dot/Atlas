@@ -29,6 +29,9 @@ from atlas.investment.experiment_registry.config import (
 from atlas.investment.experiment_registry.loader import (
     load_experiment_sources,
 )
+
+from atlas.common.io import safe_read_csv
+
 from atlas.investment.experiment_registry.storage import (
     merge_registry_bundle,
 )

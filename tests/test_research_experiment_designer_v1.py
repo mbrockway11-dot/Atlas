@@ -237,3 +237,45 @@ def test_designer_never_authorizes_execution():
     ][
         "production_eligible"
     ].astype(bool).any()
+
+
+def test_validating_program_design_is_regenerated():
+    test_sources = sources()
+
+    test_sources[
+        "program_registry"
+    ].loc[
+        0,
+        "current_status",
+    ] = "VALIDATING"
+
+    bundle = build_experiment_design_bundle(
+        test_sources
+    )
+
+    assert len(
+        bundle["designs"]
+    ) == 1
+
+    assert len(
+        bundle["variants"]
+    ) == 2
+
+
+def test_evidence_accumulating_program_design_is_regenerated():
+    test_sources = sources()
+
+    test_sources[
+        "program_registry"
+    ].loc[
+        0,
+        "current_status",
+    ] = "EVIDENCE_ACCUMULATING"
+
+    bundle = build_experiment_design_bundle(
+        test_sources
+    )
+
+    assert len(
+        bundle["designs"]
+    ) == 1

@@ -25,6 +25,9 @@ from atlas.investment.validated_variants.config import (
 from atlas.investment.validated_variants.loader import (
     load_variant_registry_inputs,
 )
+from atlas.investment.validated_variants.research_evidence_bridge import (
+    build_accumulated_evidence_variants,
+)
 from atlas.investment.validated_variants.storage import (
     merge_registry,
     write_jsonl,
@@ -35,10 +38,41 @@ def build_validated_variant_registry_report() -> dict[str, Any]:
     """Build and persist immutable validated variant specifications."""
     inputs = load_variant_registry_inputs()
 
-    incoming = build_variant_specifications(
+    canonical_incoming = build_variant_specifications(
         inputs["validated_hypotheses"],
         inputs["hypothesis_library"],
     )
+
+    accumulated_incoming = (
+        build_accumulated_evidence_variants(
+            accumulated_evidence=inputs[
+                "accumulated_variant_evidence"
+            ],
+            program_recommendations=inputs[
+                "program_recommendations"
+            ],
+            experiment_variants=inputs[
+                "experiment_variants"
+            ],
+            experiment_designs=inputs[
+                "experiment_designs"
+            ],
+        )
+    )
+
+    incoming = pd.concat(
+        [
+            canonical_incoming,
+            accumulated_incoming,
+        ],
+        ignore_index=True,
+    )
+
+    if not incoming.empty:
+        incoming = incoming.drop_duplicates(
+            subset=["variant_id"],
+            keep="first",
+        ).reset_index(drop=True)
 
     registry, conflicts, merge_stats = (
         merge_registry(
@@ -321,3 +355,4 @@ def build_markdown(
     ])
 
     return "\n".join(lines)
+
