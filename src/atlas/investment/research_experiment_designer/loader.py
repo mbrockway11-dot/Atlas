@@ -1,102 +1,35 @@
-﻿"""Research Experiment Designer source loading."""
+"""Research Experiment Designer source loading."""
 
 from __future__ import annotations
 
-import json
-from pathlib import Path
 from typing import Any
 
-import pandas as pd
+from atlas.investment.artifacts import artifact_path, load_csv, load_json
 
+
+SOURCE_KEYS = {
+    "program_registry": "research_program_registry",
+    "program_members": "research_program_members",
+    "program_dimensions": "research_program_dimensions",
+    "program_conflicts": "research_program_conflicts",
+    "candidate_scores": "research_candidate_scores",
+    "historical_validation": "historical_alpha_validation_report",
+    "compiler_report": "atlas_compiler_report",
+}
 
 SOURCE_PATHS = {
-    "program_registry": Path(
-        "output/investment_research_program_manager/"
-        "research_program_registry.csv"
-    ),
-    "program_members": Path(
-        "output/investment_research_candidate_consolidator/"
-        "research_program_members.csv"
-    ),
-    "program_dimensions": Path(
-        "output/investment_research_candidate_consolidator/"
-        "research_program_dimensions.csv"
-    ),
-    "program_conflicts": Path(
-        "output/investment_research_candidate_consolidator/"
-        "research_program_conflicts.csv"
-    ),
-    "candidate_scores": Path(
-        "output/investment_adaptive_research_prioritizer/"
-        "research_candidate_scores.csv"
-    ),
-    "historical_validation": Path(
-        "output/investment_historical_alpha_validation/"
-        "historical_alpha_validation_report.json"
-    ),
-    "compiler_report": Path(
-        "output/investment_atlas_compiler/"
-        "atlas_compiler_report.json"
-    ),
+    name: artifact_path(key)
+    for name, key in SOURCE_KEYS.items()
 }
 
 
 def load_designer_sources() -> dict[str, Any]:
+    """Load all available experiment-design evidence."""
     return {
         name: (
-            safe_read_json(path)
-            if path.suffix.lower() == ".json"
-            else safe_read_csv(path)
+            load_json(key)
+            if artifact_path(key).suffix.lower() == ".json"
+            else load_csv(key)
         )
-        for name, path in SOURCE_PATHS.items()
+        for name, key in SOURCE_KEYS.items()
     }
-
-
-def safe_read_csv(
-    path: Path,
-) -> pd.DataFrame:
-    if (
-        not path.exists()
-        or not path.is_file()
-        or path.stat().st_size == 0
-    ):
-        return pd.DataFrame()
-
-    try:
-        return pd.read_csv(path)
-    except (
-        pd.errors.EmptyDataError,
-        pd.errors.ParserError,
-        UnicodeDecodeError,
-        OSError,
-    ):
-        return pd.DataFrame()
-
-
-def safe_read_json(
-    path: Path,
-) -> dict:
-    if (
-        not path.exists()
-        or not path.is_file()
-        or path.stat().st_size == 0
-    ):
-        return {}
-
-    try:
-        payload = json.loads(
-            path.read_text(
-                encoding="utf-8"
-            )
-        )
-    except (
-        json.JSONDecodeError,
-        UnicodeDecodeError,
-        OSError,
-    ):
-        return {}
-
-    return payload if isinstance(
-        payload,
-        dict,
-    ) else {}
