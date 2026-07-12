@@ -102,6 +102,10 @@ PIPELINE_COMMANDS = [
         sys.executable,
         "scripts/update_atlas_compiler.py",
     ],
+    [
+        sys.executable,
+        "scripts/validate_atlas_state_api.py",
+    ],
 ]
 
 
@@ -133,6 +137,7 @@ TEST_COMMAND = [
     "tests/test_portfolio_promotion_lab_v2.py",
     "tests/test_learning_engine_v3_1.py",
     "tests/test_atlas_compiler_v1.py",
+    "tests/test_atlas_state_api_v1.py",
     "-q",
 ]
 
@@ -242,6 +247,8 @@ REQUIRED_ARTIFACTS = [
     "output/investment_atlas_compiler/atlas_state_manifest.csv",
     "output/investment_atlas_compiler/atlas_compiler_report.json",
     "output/investment_atlas_compiler/atlas_compiler_report.md",
+    "output/investment_state_api/state_api_validation.json",
+    "output/investment_state_api/state_api_validation.md",
     "output/investment_portfolio_optimizer/optimized_portfolio.csv",
     "output/investment_portfolio_optimizer/portfolio_covariance.csv",
     "output/investment_portfolio_optimizer/portfolio_optimizer_report.json",
