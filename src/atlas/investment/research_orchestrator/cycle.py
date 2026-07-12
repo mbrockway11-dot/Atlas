@@ -11,4 +11,4 @@ from typing import Any
 import pandas as pd
 
 from atlas.investment.research_orchestrator.executor import execute_job
-from atlas
+from atlas.investment.research_orchestrator.planner import
