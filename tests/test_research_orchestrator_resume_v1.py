@@ -186,6 +186,7 @@ def test_resume_skips_completed_jobs(
         execute=True,
         resume=True,
         max_jobs=10,
+        self_heal=False,
     )
 
     assert result["run_id"] == "ORCH-EXISTING"

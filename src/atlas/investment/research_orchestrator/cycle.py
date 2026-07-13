@@ -23,6 +23,13 @@ from atlas.investment.research_orchestrator.resume import (
     load_resume_state,
     write_resume_state,
 )
+from atlas.investment.research_orchestrator.self_healing import (
+    annotate_recovery_result,
+    blocked_job_ids,
+    can_retry,
+    schedule_signature,
+    verify_job_health,
+)
 from atlas.investment.research_scheduler import (
     build_research_scheduler_report,
 )
@@ -39,6 +46,8 @@ def run_research_cycle(
     continue_on_failure: bool = False,
     resume: bool = False,
     restart: bool = False,
+    self_heal: bool = True,
+    max_recovery_attempts: int = 2,
 ) -> dict[str, Any]:
     """Run or preview one dependency-aware research cycle.
 
@@ -136,8 +145,18 @@ def run_research_cycle(
         )
     )
 
-    attempted_this_invocation: set[str] = (
-        set()
+    attempted_this_invocation: set[str] = set()
+    attempt_counts: dict[str, int] = {}
+    invocation_attempt_count = 0
+    recovery_attempt_count = 0
+    healed_job_ids: set[str] = set()
+    recovery_failed_job_ids: set[str] = set()
+    scheduler_stalled = False
+    stall_reason = ""
+    previous_schedule_signature = (
+        schedule_signature(
+            current_schedule
+        )
     )
     failure_detected = False
 
@@ -174,16 +193,20 @@ def run_research_cycle(
 
         try:
             while (
-                len(attempted_this_invocation)
+                invocation_attempt_count
                 < max(0, int(max_jobs))
             ):
                 scheduler_report = (
                     build_research_scheduler_report()
                 )
 
-                current_schedule = (
-                    _read_schedule(
-                        scheduler_report
+                current_schedule = _read_schedule(
+                    scheduler_report
+                )
+
+                current_signature = (
+                    schedule_signature(
+                        current_schedule
                     )
                 )
 
@@ -193,33 +216,84 @@ def run_research_cycle(
                     max_jobs=max_jobs,
                 )
 
-                excluded_jobs = (
-                    attempted_this_invocation
-                    | completed_jobs
-                )
+                available_rows = []
 
-                available = plan[
-                    ~plan[
-                        "job_id"
-                    ].astype(str).isin(
-                        excluded_jobs
+                for _, candidate in plan.iterrows():
+                    candidate_id = str(
+                        candidate["job_id"]
                     )
-                ]
 
-                if available.empty:
+                    if candidate_id in completed_jobs:
+                        continue
+
+                    attempts = attempt_counts.get(
+                        candidate_id,
+                        0,
+                    )
+
+                    allowed_attempts = (
+                        max(
+                            1,
+                            int(
+                                max_recovery_attempts
+                            ),
+                        )
+                        if self_heal
+                        else 1
+                    )
+
+                    if attempts >= allowed_attempts:
+                        continue
+
+                    available_rows.append(
+                        candidate
+                    )
+
+                if not available_rows:
+                    blocked = blocked_job_ids(
+                        current_schedule
+                    )
+
+                    if blocked:
+                        scheduler_stalled = True
+                        stall_reason = (
+                            "No executable recovery root "
+                            "remained while blocked jobs "
+                            "were still present."
+                        )
+
                     break
 
+                candidate = available_rows[0]
+
                 next_job_id = str(
-                    available.iloc[0][
-                        "job_id"
-                    ]
+                    candidate["job_id"]
                 )
 
                 attempted_this_invocation.add(
                     next_job_id
                 )
 
-                result = execute_job(
+                attempt_counts[next_job_id] = (
+                    attempt_counts.get(
+                        next_job_id,
+                        0,
+                    )
+                    + 1
+                )
+
+                attempt_number = (
+                    attempt_counts[
+                        next_job_id
+                    ]
+                )
+
+                invocation_attempt_count += 1
+
+                if attempt_number > 1:
+                    recovery_attempt_count += 1
+
+                raw_result = execute_job(
                     job_id=next_job_id,
                     run_id=run_id,
                     timeout_seconds=(
@@ -228,18 +302,119 @@ def run_research_cycle(
                     root=ROOT,
                 )
 
-                result = dict(result)
-                results.append(result)
+                raw_result = dict(
+                    raw_result
+                )
 
-                if (
-                    str(result.get("status", ""))
+                refreshed_report = (
+                    build_research_scheduler_report()
+                )
+
+                refreshed_schedule = (
+                    _read_schedule(
+                        refreshed_report
+                    )
+                )
+
+                verification = verify_job_health(
+                    refreshed_schedule,
+                    next_job_id,
+                )
+
+                command_succeeded = (
+                    str(
+                        raw_result.get(
+                            "status",
+                            "",
+                        )
+                    )
                     == "SUCCEEDED"
-                ):
+                )
+
+                healed = bool(
+                    command_succeeded
+                    and (
+                        not self_heal
+                        or verification.get(
+                            "healed",
+                            False,
+                        )
+                    )
+                )
+
+                retry_allowed = can_retry(
+                    attempts=attempt_number,
+                    max_recovery_attempts=(
+                        max_recovery_attempts
+                    ),
+                    self_heal=self_heal,
+                )
+
+                retry_pending = bool(
+                    not healed
+                    and retry_allowed
+                )
+
+                if healed:
+                    raw_result["status"] = (
+                        "SUCCEEDED"
+                    )
                     completed_jobs.add(
                         next_job_id
                     )
+                    healed_job_ids.add(
+                        next_job_id
+                    )
+                elif retry_pending:
+                    raw_result["status"] = (
+                        "RETRY_PENDING"
+                    )
                 else:
+                    raw_result["status"] = (
+                        "RECOVERY_FAILED"
+                    )
+                    recovery_failed_job_ids.add(
+                        next_job_id
+                    )
                     failure_detected = True
+
+                result = annotate_recovery_result(
+                    raw_result,
+                    attempt=attempt_number,
+                    verification=verification,
+                    retry_pending=retry_pending,
+                    self_heal=self_heal,
+                )
+
+                results.append(result)
+
+                refreshed_signature = (
+                    schedule_signature(
+                        refreshed_schedule
+                    )
+                )
+
+                if (
+                    retry_pending
+                    and refreshed_signature
+                    == current_signature
+                    and attempt_number
+                    >= max(
+                        1,
+                        int(
+                            max_recovery_attempts
+                        ),
+                    )
+                ):
+                    scheduler_stalled = True
+                    stall_reason = (
+                        "Recovery attempts produced no "
+                        "scheduler-state progress."
+                    )
+
+                previous_schedule_signature = (
+                    refreshed_signature
+                )
 
                 write_resume_state(
                     run_id=run_id,
@@ -263,6 +438,10 @@ def run_research_cycle(
                     failure_detected
                     and not continue_on_failure
                 ):
+                    break
+
+                if scheduler_stalled:
+                    failure_detected = True
                     break
 
         except BaseException:
@@ -336,6 +515,35 @@ def run_research_cycle(
         ),
         "attempted_this_invocation": sorted(
             attempted_this_invocation
+        ),
+        "attempt_counts": dict(
+            sorted(
+                attempt_counts.items()
+            )
+        ),
+        "execution_attempt_count": int(
+            invocation_attempt_count
+        ),
+        "recovery_attempt_count": int(
+            recovery_attempt_count
+        ),
+        "healed_job_ids": sorted(
+            healed_job_ids
+        ),
+        "recovery_failed_job_ids": sorted(
+            recovery_failed_job_ids
+        ),
+        "self_healing_enabled": bool(
+            self_heal
+        ),
+        "max_recovery_attempts": int(
+            max_recovery_attempts
+        ),
+        "scheduler_stalled": bool(
+            scheduler_stalled
+        ),
+        "stall_reason": str(
+            stall_reason
         ),
         "started_at": logical_started_at,
         "invocation_started_at": (

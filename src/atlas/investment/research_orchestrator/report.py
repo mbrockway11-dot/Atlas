@@ -40,6 +40,8 @@ def build_orchestrator_report(
     continue_on_failure: bool = False,
     resume: bool = False,
     restart: bool = False,
+    self_heal: bool = True,
+    max_recovery_attempts: int = 2,
 ) -> dict[str, Any]:
     """Build and optionally execute one research cycle."""
     cycle = run_research_cycle(
@@ -53,6 +55,10 @@ def build_orchestrator_report(
         ),
         resume=resume,
         restart=restart,
+        self_heal=self_heal,
+        max_recovery_attempts=(
+            max_recovery_attempts
+        ),
     )
 
     results = cycle["results"]
@@ -73,6 +79,7 @@ def build_orchestrator_report(
         ].astype(str).isin([
             "FAILED",
             "TIMED_OUT",
+            "RECOVERY_FAILED",
         ])
     ].copy() if not results.empty else pd.DataFrame()
 
@@ -127,6 +134,48 @@ def build_orchestrator_report(
                 [],
             )
         ),
+        "attempt_counts": dict(
+            cycle.get(
+                "attempt_counts",
+                {},
+            )
+        ),
+        "self_healing_enabled": bool(
+            cycle.get(
+                "self_healing_enabled",
+                False,
+            )
+        ),
+        "max_recovery_attempts": int(
+            cycle.get(
+                "max_recovery_attempts",
+                0,
+            )
+        ),
+        "scheduler_stalled": bool(
+            cycle.get(
+                "scheduler_stalled",
+                False,
+            )
+        ),
+        "stall_reason": str(
+            cycle.get(
+                "stall_reason",
+                "",
+            )
+        ),
+        "healed_job_ids": list(
+            cycle.get(
+                "healed_job_ids",
+                [],
+            )
+        ),
+        "recovery_failed_job_ids": list(
+            cycle.get(
+                "recovery_failed_job_ids",
+                [],
+            )
+        ),
         "initial_state_hash": cycle[
             "initial_scheduler"
         ][
@@ -170,6 +219,34 @@ def build_orchestrator_report(
                     ]
                 )
             ),
+            "execution_attempts": int(
+                cycle.get(
+                    "execution_attempt_count",
+                    0,
+                )
+            ),
+            "recovery_attempts": int(
+                cycle.get(
+                    "recovery_attempt_count",
+                    0,
+                )
+            ),
+            "healed_jobs": int(
+                len(
+                    cycle.get(
+                        "healed_job_ids",
+                        [],
+                    )
+                )
+            ),
+            "recovery_failed_jobs": int(
+                len(
+                    cycle.get(
+                        "recovery_failed_job_ids",
+                        [],
+                    )
+                )
+            ),
         },
         "contract": {
             "research_only": True,
@@ -188,6 +265,11 @@ def build_orchestrator_report(
             "restart_supported": True,
             "atomic_job_checkpoints": True,
             "completed_jobs_skipped_on_resume": True,
+            "self_healing_supported": True,
+            "post_execution_artifact_verification": True,
+            "bounded_recovery_retries": True,
+            "false_success_detection": True,
+            "stalled_dag_detection": True,
         },
         "outputs": {
             "execution_plan_csv": str(

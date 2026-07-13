@@ -1,4 +1,4 @@
-﻿"""Continuous Research Orchestrator v1 configuration."""
+"""Continuous Research Orchestrator v1 configuration."""
 
 from __future__ import annotations
 
@@ -71,6 +71,7 @@ REPORT_MD = (
 
 DEFAULT_TIMEOUT_SECONDS = 1800
 DEFAULT_MAX_JOBS = 100
+DEFAULT_MAX_RECOVERY_ATTEMPTS = 2
 
 ALLOWED_PLANNED_STATUSES = {
     "READY",

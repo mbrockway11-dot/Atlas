@@ -9,6 +9,7 @@ from atlas.investment.research_orchestrator import (
 )
 from atlas.investment.research_orchestrator.config import (
     DEFAULT_MAX_JOBS,
+    DEFAULT_MAX_RECOVERY_ATTEMPTS,
     DEFAULT_TIMEOUT_SECONDS,
 )
 
@@ -45,6 +46,24 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument(
         "--continue-on-failure",
         action="store_true",
+    )
+
+    parser.add_argument(
+        "--no-self-heal",
+        action="store_true",
+        help=(
+            "Disable verified artifact recovery retries."
+        ),
+    )
+
+    parser.add_argument(
+        "--max-recovery-attempts",
+        type=int,
+        default=DEFAULT_MAX_RECOVERY_ATTEMPTS,
+        help=(
+            "Maximum execution attempts per unhealthy "
+            "job before recovery fails."
+        ),
     )
 
     mode_group = parser.add_mutually_exclusive_group()
@@ -84,6 +103,12 @@ def main() -> None:
         ),
         resume=arguments.resume,
         restart=arguments.restart,
+        self_heal=(
+            not arguments.no_self_heal
+        ),
+        max_recovery_attempts=(
+            arguments.max_recovery_attempts
+        ),
     )
 
     print(report["success"])
