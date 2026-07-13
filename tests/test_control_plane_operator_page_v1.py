@@ -39,7 +39,10 @@ def test_page_does_not_import_raw_execution_services():
 
     forbidden = [
         "dispatch_approved_plan",
-        "create_approval",
+        (
+            "from atlas.investment."
+            "control_plane_approval import"
+        ),
         "run_research_cycle",
         "execute_job",
         "subprocess.run",

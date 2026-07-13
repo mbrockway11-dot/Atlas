@@ -12,6 +12,16 @@ from atlas.investment import (
 def test_rejected_approval_is_audited(
     monkeypatch: pytest.MonkeyPatch,
 ):
+    monkeypatch.setattr(
+        control_plane_operator,
+        "require_permission",
+        lambda **kwargs: {
+            "allowed": True,
+            "role": "ADMINISTRATOR",
+        },
+    )
+
+
     events = []
 
     monkeypatch.setattr(
@@ -63,6 +73,28 @@ def test_rejected_approval_is_audited(
 def test_rejected_dispatch_is_audited(
     monkeypatch: pytest.MonkeyPatch,
 ):
+    monkeypatch.setattr(
+        control_plane_operator,
+        "evaluate_separation_of_duties",
+        lambda **kwargs: {
+            "allowed": True,
+            "reason": (
+                "SEPARATION_OF_DUTIES_SATISFIED"
+            ),
+        },
+    )
+
+
+    monkeypatch.setattr(
+        control_plane_operator,
+        "require_permission",
+        lambda **kwargs: {
+            "allowed": True,
+            "role": "ADMINISTRATOR",
+        },
+    )
+
+
     events = []
 
     monkeypatch.setattr(
@@ -114,6 +146,16 @@ def test_rejected_dispatch_is_audited(
 def test_completed_reconciliation_is_audited(
     monkeypatch: pytest.MonkeyPatch,
 ):
+    monkeypatch.setattr(
+        control_plane_operator,
+        "require_permission",
+        lambda **kwargs: {
+            "allowed": True,
+            "role": "ADMINISTRATOR",
+        },
+    )
+
+
     events = []
 
     monkeypatch.setattr(

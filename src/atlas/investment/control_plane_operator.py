@@ -32,6 +32,11 @@ from atlas.investment.control_plane_approval import (
 from atlas.investment.control_plane_dispatch import (
     dispatch_approved_plan,
 )
+from atlas.investment.control_plane_authorization import (
+    build_operator_capabilities,
+    evaluate_separation_of_duties,
+    require_permission,
+)
 from atlas.investment.control_plane_remediation import (
     REMEDIATION_PLAN_JSON,
     build_remediation_plan,
@@ -333,6 +338,16 @@ def create_guarded_approval(
     approval_path: Path = APPROVAL_JSON,
 ) -> dict[str, Any]:
     """Create an approval only after a fresh guarded preflight."""
+    identity = (
+        operator_id
+        or approved_by
+    ).strip()
+
+    authorization = require_permission(
+        operator_id=identity,
+        permission="CREATE_APPROVAL",
+    )
+
     preflight = build_operator_preflight(
         stored_plan_path=stored_plan_path
     )
@@ -362,6 +377,11 @@ def create_guarded_approval(
             [],
         ),
         metadata={
+            "operator_role": (
+                authorization[
+                    "role"
+                ]
+            ),
             "preflight_status": (
                 preflight.get(
                     "status",
@@ -611,6 +631,9 @@ def create_guarded_approval(
                 "approved_job_ids"
             ]
         ),
+        "authorization": (
+            authorization
+        ),
         "preflight": without_effective_plan(
             preflight
         ),
@@ -775,11 +798,38 @@ def dispatch_guarded_approval(
     approval_path: Path = APPROVAL_JSON,
 ) -> dict[str, Any]:
     """Dispatch only after fresh approval and scheduler validation."""
+    identity = str(
+        operator_id
+    ).strip()
+
+    authorization = require_permission(
+        operator_id=identity,
+        permission="DISPATCH_APPROVAL",
+    )
+
     preflight = build_dispatch_preflight(
         approved_plan_path=(
             approved_plan_path
         ),
         approval_path=approval_path,
+    )
+
+    separation = (
+        evaluate_separation_of_duties(
+            approved_by=str(
+                preflight.get(
+                    "approved_by",
+                    "",
+                )
+            ),
+            dispatched_by=identity,
+            approved_job_count=len(
+                preflight.get(
+                    "approved_job_ids",
+                    [],
+                )
+            ),
+        )
     )
 
     audit_operator_action(
@@ -812,6 +862,14 @@ def dispatch_guarded_approval(
             [],
         ),
         metadata={
+            "operator_role": (
+                authorization[
+                    "role"
+                ]
+            ),
+            "separation_of_duties": (
+                separation
+            ),
             "preflight_status": (
                 preflight.get(
                     "status",
@@ -912,6 +970,46 @@ def dispatch_guarded_approval(
             f"Expected: {expected}"
         )
 
+    # F.4: separation of duties must be enforced before dispatch.
+    if not separation["allowed"]:
+        audit_operator_action(
+            action="DISPATCH_REJECTED",
+            result="REJECTED",
+            operator_id=identity,
+            session_id=session_id,
+            reason=str(
+                separation["reason"]
+            ),
+            approval_id=str(
+                preflight.get(
+                    "approval_id",
+                    "",
+                )
+            ),
+            job_ids=preflight.get(
+                "approved_job_ids",
+                [],
+            ),
+            metadata={
+                "operator_role": (
+                    authorization[
+                        "role"
+                    ]
+                ),
+                "separation_of_duties": (
+                    separation
+                ),
+            },
+        )
+
+        raise PermissionError(
+            "Dispatch separation-of-duties "
+            "policy denied this operation: "
+            + str(
+                separation["reason"]
+            )
+        )
+
     result = dispatch_approved_plan(
         plan_path=approved_plan_path,
         approval_path=approval_path,
@@ -1005,6 +1103,12 @@ def dispatch_guarded_approval(
             )
             or {}
         ),
+        "authorization": (
+            authorization
+        ),
+        "separation_of_duties": (
+            separation
+        ),
         "preflight": preflight,
     }
 
@@ -1019,6 +1123,15 @@ def reconcile_guarded_dispatch(
     approval_path: Path = APPROVAL_JSON,
 ) -> dict[str, Any]:
     """Reconcile the latest guarded dispatch without executing more work."""
+    identity = str(
+        operator_id
+    ).strip()
+
+    authorization = require_permission(
+        operator_id=identity,
+        permission="RECONCILE_DISPATCH",
+    )
+
     approval = load_optional_json(
         approval_path
     )
@@ -1158,6 +1271,11 @@ def reconcile_guarded_dispatch(
             [],
         ),
         metadata={
+            "operator_role": (
+                authorization[
+                    "role"
+                ]
+            ),
             "outcome": report.get(
                 "outcome",
                 "UNKNOWN",
@@ -1456,6 +1574,17 @@ def safe_int(
         return 0
 
 
+
+def get_operator_capabilities(
+    operator_id: str,
+) -> dict[str, Any]:
+    """Return backend-resolved dashboard capabilities."""
+    return build_operator_capabilities(
+        operator_id
+    )
+
+
+
 __all__ = [
     "APPROVED_PLAN_JSON",
     "OPERATOR_SERVICE_VERSION",
@@ -1463,5 +1592,6 @@ __all__ = [
     "build_operator_preflight",
     "create_guarded_approval",
     "dispatch_guarded_approval",
+    "get_operator_capabilities",
     "reconcile_guarded_dispatch",
 ]

@@ -16,6 +16,7 @@ from atlas.investment.control_plane_operator import (
     build_operator_preflight,
     create_guarded_approval,
     dispatch_guarded_approval,
+    get_operator_capabilities,
     reconcile_guarded_dispatch,
 )
 
@@ -866,6 +867,41 @@ def render_operator_controls() -> None:
         + operator_session_id()
     )
 
+    capabilities = (
+        current_operator_capabilities()
+    )
+
+    role = str(
+        capabilities.get(
+            "role",
+            "VIEWER",
+        )
+    )
+
+    st.info(
+        "Resolved role: "
+        + role
+        + " | Permissions: "
+        + (
+            ", ".join(
+                capabilities.get(
+                    "permissions",
+                    [],
+                )
+            )
+            or "(none)"
+        )
+    )
+
+    if not capabilities.get(
+        "policy_configured",
+        False,
+    ):
+        st.warning(
+            "No backend operator-role policy is configured. "
+            "All identities default to VIEWER."
+        )
+
     st.warning(
         "These controls use backend preflight validation. "
         "No raw command execution exists in this page."
@@ -878,16 +914,48 @@ def render_operator_controls() -> None:
     ])
 
     with approval_tab:
-        render_approval_control()
+        if capabilities.get(
+            "can_create_approval",
+            False,
+        ):
+            render_approval_control()
+        else:
+            st.info(
+                "Your resolved role cannot create approvals."
+            )
 
     with dispatch_tab:
-        render_dispatch_control()
+        if capabilities.get(
+            "can_dispatch",
+            False,
+        ):
+            render_dispatch_control()
+        else:
+            st.info(
+                "Your resolved role cannot dispatch approvals."
+            )
 
     with reconcile_tab:
-        render_reconcile_control()
+        if capabilities.get(
+            "can_reconcile",
+            False,
+        ):
+            render_reconcile_control()
+        else:
+            st.info(
+                "Your resolved role cannot reconcile dispatches."
+            )
 
 
 def render_approval_control() -> None:
+    identity = operator_identity()
+
+    if not identity:
+        st.info(
+            "Enter an operator identity before requesting approval."
+        )
+        return
+
     try:
         preflight = build_operator_preflight()
     except Exception as error:
@@ -927,9 +995,9 @@ def render_approval_control() -> None:
     with st.form(
         "guarded_approval_form"
     ):
-        approved_by = st.text_input(
-            "Approved by",
-            value="",
+        st.write(
+            "**Approver identity:** "
+            + identity
         )
 
         ttl_minutes = st.number_input(
@@ -971,9 +1039,9 @@ def render_approval_control() -> None:
     if submitted:
         try:
             result = create_guarded_approval(
-                approved_by=approved_by,
+                approved_by=identity,
                 confirmation=confirmation,
-                operator_id=approved_by,
+                operator_id=identity,
                 session_id=operator_session_id(),
                 ttl_minutes=int(
                     ttl_minutes
@@ -999,6 +1067,14 @@ def render_approval_control() -> None:
 
 
 def render_dispatch_control() -> None:
+    identity = operator_identity()
+
+    if not identity:
+        st.info(
+            "Enter an operator identity before dispatching."
+        )
+        return
+
     try:
         preflight = (
             build_dispatch_preflight()
@@ -1072,9 +1148,7 @@ def render_dispatch_control() -> None:
             result = (
                 dispatch_guarded_approval(
                     confirmation=confirmation,
-                    operator_id=(
-                        operator_identity()
-                    ),
+                    operator_id=identity,
                     session_id=(
                         operator_session_id()
                     ),
@@ -1121,6 +1195,14 @@ def render_dispatch_control() -> None:
 
 
 def render_reconcile_control() -> None:
+    identity = operator_identity()
+
+    if not identity:
+        st.info(
+            "Enter an operator identity before reconciling."
+        )
+        return
+
     st.write(
         "Reconciliation is read-only. It verifies "
         "scope, provenance, and post-dispatch health."
@@ -1139,9 +1221,7 @@ def render_reconcile_control() -> None:
         try:
             report = (
                 reconcile_guarded_dispatch(
-                    operator_id=(
-                        operator_identity()
-                    ),
+                    operator_id=identity,
                     session_id=(
                         operator_session_id()
                     ),
@@ -1403,6 +1483,14 @@ def ensure_operator_session() -> None:
         "atlas_operator_identity",
         "",
     )
+
+
+
+def current_operator_capabilities() -> dict[str, Any]:
+    return get_operator_capabilities(
+        operator_identity()
+    )
+
 
 
 def operator_session_id() -> str:

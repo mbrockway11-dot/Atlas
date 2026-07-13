@@ -236,6 +236,15 @@ def test_approval_requires_exact_confirmation(
 ):
     monkeypatch.setattr(
         control_plane_operator,
+        "require_permission",
+        lambda **kwargs: {
+            "allowed": True,
+            "role": "ADMINISTRATOR",
+        },
+    )
+
+    monkeypatch.setattr(
+        control_plane_operator,
         "build_operator_preflight",
         lambda **kwargs: {
             "success": True,
@@ -343,6 +352,26 @@ def test_dispatch_requires_exact_confirmation(
 ):
     monkeypatch.setattr(
         control_plane_operator,
+        "require_permission",
+        lambda **kwargs: {
+            "allowed": True,
+            "role": "ADMINISTRATOR",
+        },
+    )
+
+    monkeypatch.setattr(
+        control_plane_operator,
+        "evaluate_separation_of_duties",
+        lambda **kwargs: {
+            "allowed": True,
+            "reason": (
+                "SEPARATION_OF_DUTIES_SATISFIED"
+            ),
+        },
+    )
+
+    monkeypatch.setattr(
+        control_plane_operator,
         "build_dispatch_preflight",
         lambda **kwargs: {
             "success": True,
@@ -360,7 +389,8 @@ def test_dispatch_requires_exact_confirmation(
         (
             control_plane_operator
             .dispatch_guarded_approval(
-                confirmation="wrong"
+                confirmation="wrong",
+                    operator_id="tester"
             )
         )
 
@@ -368,6 +398,16 @@ def test_dispatch_requires_exact_confirmation(
 def test_reconciliation_requires_used_approval(
     monkeypatch: pytest.MonkeyPatch,
 ):
+    monkeypatch.setattr(
+        control_plane_operator,
+        "require_permission",
+        lambda **kwargs: {
+            "allowed": True,
+            "role": "ADMINISTRATOR",
+        },
+    )
+
+
     monkeypatch.setattr(
         control_plane_operator,
         "load_optional_json",
@@ -382,5 +422,6 @@ def test_reconciliation_requires_used_approval(
     ):
         (
             control_plane_operator
-            .reconcile_guarded_dispatch()
+            .reconcile_guarded_dispatch(
+                    operator_id="tester",)
         )
