@@ -1114,6 +1114,19 @@ def summarize_performance(
         else 0.0
     )
 
+    traded_records = [
+        record
+        for record in records
+        if integer(
+            record.get(
+                "order_count",
+                0,
+            ),
+            name="order_count",
+        )
+        > 0
+    ]
+
     average_fill_rate = (
         statistics.fmean([
             finite(
@@ -1123,10 +1136,11 @@ def summarize_performance(
                 ),
                 name="full_fill_rate",
             )
-            for record in records
+            for record
+            in traded_records
         ])
-        if records
-        else 0.0
+        if traded_records
+        else None
     )
 
     average_reconciliation_rate = (
@@ -1140,10 +1154,11 @@ def summarize_performance(
                     "reconciliation_success_rate"
                 ),
             )
-            for record in records
+            for record
+            in traded_records
         ])
-        if records
-        else 0.0
+        if traded_records
+        else None
     )
 
     return {
@@ -1556,15 +1571,27 @@ def validate_performance_ledger(
                 + str(expected_index)
             )
 
-        if finite(
+        order_count = integer(
             record.get(
-                "reconciliation_success_rate",
-                0.0,
+                "order_count",
+                0,
             ),
-            name=(
-                "reconciliation_success_rate"
-            ),
-        ) < 1.0:
+            name="order_count",
+        )
+
+        if (
+            order_count > 0
+            and finite(
+                record.get(
+                    "reconciliation_success_rate",
+                    0.0,
+                ),
+                name=(
+                    "reconciliation_success_rate"
+                ),
+            )
+            < 1.0
+        ):
             warnings.append(
                 "RECONCILIATION_RATE_BELOW_ONE:"
                 + str(expected_index)
