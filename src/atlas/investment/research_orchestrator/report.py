@@ -42,6 +42,7 @@ def build_orchestrator_report(
     restart: bool = False,
     self_heal: bool = True,
     max_recovery_attempts: int = 2,
+    use_build_cache: bool = True,
 ) -> dict[str, Any]:
     """Build and optionally execute one research cycle."""
     cycle = run_research_cycle(
@@ -59,6 +60,9 @@ def build_orchestrator_report(
         max_recovery_attempts=(
             max_recovery_attempts
         ),
+        use_build_cache=(
+            use_build_cache
+        ),
     )
 
     results = cycle["results"]
@@ -71,6 +75,11 @@ def build_orchestrator_report(
     dry_run = filter_status(
         results,
         "DRY_RUN",
+    )
+
+    cached = filter_status(
+        results,
+        "CACHED",
     )
 
     failed = results[
@@ -170,6 +179,24 @@ def build_orchestrator_report(
                 [],
             )
         ),
+        "cached_job_ids": list(
+            cycle.get(
+                "cached_job_ids",
+                [],
+            )
+        ),
+        "cache_miss_reasons": dict(
+            cycle.get(
+                "cache_miss_reasons",
+                {},
+            )
+        ),
+        "build_cache_enabled": bool(
+            cycle.get(
+                "build_cache_enabled",
+                False,
+            )
+        ),
         "recovery_failed_job_ids": list(
             cycle.get(
                 "recovery_failed_job_ids",
@@ -185,6 +212,7 @@ def build_orchestrator_report(
             "Continuous Research Orchestrator v1 "
             f"planned {len(cycle['initial_plan'])} job(s), "
             f"executed {len(succeeded)} successfully, "
+            f"reused {len(cached)} cached build(s), "
             f"previewed {len(dry_run)}, and "
             f"recorded {len(failed)} failure(s)."
         ),
@@ -201,6 +229,9 @@ def build_orchestrator_report(
             ),
             "dry_run_jobs": int(
                 len(dry_run)
+            ),
+            "cached_jobs": int(
+                len(cached)
             ),
             "failed_jobs": int(
                 len(failed)
@@ -270,6 +301,11 @@ def build_orchestrator_report(
             "bounded_recovery_retries": True,
             "false_success_detection": True,
             "stalled_dag_detection": True,
+            "deterministic_build_cache": True,
+            "cache_requires_valid_inputs": True,
+            "cache_requires_valid_outputs": True,
+            "cache_uses_content_hashes": True,
+            "cache_never_restores_unvalidated_outputs": True,
         },
         "outputs": {
             "execution_plan_csv": str(

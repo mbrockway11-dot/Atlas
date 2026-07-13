@@ -6,6 +6,10 @@ from atlas.investment.research_orchestrator.cycle import (
 from atlas.investment.research_orchestrator.planner import (
     build_execution_plan,
 )
+from atlas.investment.research_orchestrator.build_cache import (
+    evaluate_build_cache,
+    record_successful_build,
+)
 from atlas.investment.research_orchestrator.report import (
     build_orchestrator_report,
 )
@@ -17,6 +21,8 @@ from atlas.investment.research_orchestrator.self_healing import (
 __all__ = [
     "build_execution_plan",
     "build_orchestrator_report",
+    "evaluate_build_cache",
+    "record_successful_build",
     "run_research_cycle",
     "verify_job_health",
 ]

@@ -66,6 +66,15 @@ def parse_arguments() -> argparse.Namespace:
         ),
     )
 
+    parser.add_argument(
+        "--no-build-cache",
+        action="store_true",
+        help=(
+            "Disable deterministic reuse of previously "
+            "validated job outputs."
+        ),
+    )
+
     mode_group = parser.add_mutually_exclusive_group()
 
     mode_group.add_argument(
@@ -108,6 +117,9 @@ def main() -> None:
         ),
         max_recovery_attempts=(
             arguments.max_recovery_attempts
+        ),
+        use_build_cache=(
+            not arguments.no_build_cache
         ),
     )
 

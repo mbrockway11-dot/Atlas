@@ -10,6 +10,10 @@ from typing import Any
 
 import pandas as pd
 
+from atlas.investment.research_orchestrator.build_cache import (
+    evaluate_build_cache,
+    record_successful_build,
+)
 from atlas.investment.research_orchestrator.executor import (
     execute_job,
 )
@@ -48,6 +52,7 @@ def run_research_cycle(
     restart: bool = False,
     self_heal: bool = True,
     max_recovery_attempts: int = 2,
+    use_build_cache: bool = True,
 ) -> dict[str, Any]:
     """Run or preview one dependency-aware research cycle.
 
@@ -151,6 +156,8 @@ def run_research_cycle(
     recovery_attempt_count = 0
     healed_job_ids: set[str] = set()
     recovery_failed_job_ids: set[str] = set()
+    cached_job_ids: set[str] = set()
+    cache_miss_reasons: dict[str, str] = {}
     scheduler_stalled = False
     stall_reason = ""
     previous_schedule_signature = (
@@ -293,6 +300,93 @@ def run_research_cycle(
                 if attempt_number > 1:
                     recovery_attempt_count += 1
 
+                cache_decision = {
+                    "cache_hit": False,
+                    "reason": (
+                        "BUILD_CACHE_DISABLED"
+                    ),
+                }
+
+                if use_build_cache:
+                    cache_decision = (
+                        evaluate_build_cache(
+                            next_job_id
+                        )
+                    )
+
+                if bool(
+                    cache_decision.get(
+                        "cache_hit",
+                        False,
+                    )
+                ):
+                    cached_job_ids.add(
+                        next_job_id
+                    )
+                    completed_jobs.add(
+                        next_job_id
+                    )
+
+                    results.append({
+                        "job_id": next_job_id,
+                        "status": "CACHED",
+                        "started_at": "",
+                        "completed_at": "",
+                        "duration_seconds": 0.0,
+                        "returncode": 0,
+                        "stdout_path": "",
+                        "stderr_path": "",
+                        "error": "",
+                        "execution_authorized": True,
+                        "execution_instruction": False,
+                        "build_cache_enabled": True,
+                        "cache_hit": True,
+                        "cache_reason": (
+                            cache_decision.get(
+                                "reason",
+                                "CACHE_HIT",
+                            )
+                        ),
+                        "cached_run_id": (
+                            cache_decision.get(
+                                "cached_run_id",
+                                "",
+                            )
+                        ),
+                        "artifact_verified": True,
+                        "artifact_healed": True,
+                        "retry_pending": False,
+                    })
+
+                    write_resume_state(
+                        run_id=run_id,
+                        status="RUNNING",
+                        execute=True,
+                        started_at=(
+                            logical_started_at
+                        ),
+                        initial_state_hash=(
+                            state_hash
+                        ),
+                        results=results,
+                        failure_detected=(
+                            failure_detected
+                        ),
+                        resumed=resumed,
+                        restarted=restarted,
+                    )
+
+                    continue
+
+                cache_miss_reasons[
+                    next_job_id
+                ] = str(
+                    cache_decision.get(
+                        "reason",
+                        "CACHE_MISS",
+                    )
+                )
+
                 raw_result = execute_job(
                     job_id=next_job_id,
                     run_id=run_id,
@@ -365,6 +459,12 @@ def run_research_cycle(
                     healed_job_ids.add(
                         next_job_id
                     )
+
+                    if use_build_cache:
+                        record_successful_build(
+                            next_job_id,
+                            run_id=run_id,
+                        )
                 elif retry_pending:
                     raw_result["status"] = (
                         "RETRY_PENDING"
@@ -532,6 +632,17 @@ def run_research_cycle(
         ),
         "recovery_failed_job_ids": sorted(
             recovery_failed_job_ids
+        ),
+        "cached_job_ids": sorted(
+            cached_job_ids
+        ),
+        "cache_miss_reasons": dict(
+            sorted(
+                cache_miss_reasons.items()
+            )
+        ),
+        "build_cache_enabled": bool(
+            use_build_cache
         ),
         "self_healing_enabled": bool(
             self_heal

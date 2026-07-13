@@ -85,3 +85,9 @@ TERMINAL_JOB_STATUSES = {
     "BLOCKED",
     "DRY_RUN",
 }
+
+
+BUILD_CACHE_JSON = (
+    OUTPUT_DIR
+    / "build_cache.json"
+)
