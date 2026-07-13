@@ -623,10 +623,10 @@ def classify_outcome(
     ):
         return "PARTIALLY_REPAIRED"
 
-    if (
-        attempted_job_ids
-        and not made_progress
-    ):
+    if not attempted_job_ids:
+        return "NO_PROGRESS"
+
+    if not made_progress:
         return "NO_PROGRESS"
 
     return "FAILED"
@@ -772,15 +772,17 @@ def build_receipt_id(
     *,
     approval_id: str,
     run_id: str,
-    reconciled_at: str,
+    reconciled_at: str = "",
 ) -> str:
-    """Build a deterministic receipt ID."""
+    """Build one stable receipt ID per approval and dispatch run.
+
+    ``reconciled_at`` remains accepted for backward compatibility but is not
+    part of the identity. Re-running reconciliation therefore cannot append
+    duplicate receipts for the same controlled dispatch.
+    """
     payload = {
         "approval_id": approval_id,
         "run_id": run_id,
-        "reconciled_at": (
-            reconciled_at
-        ),
     }
 
     encoded = json.dumps(
