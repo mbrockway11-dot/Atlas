@@ -10,6 +10,13 @@ import streamlit as st
 from atlas.investment.control_plane_dashboard import (
     build_control_plane_dashboard_model,
 )
+from atlas.investment.control_plane_operator import (
+    build_dispatch_preflight,
+    build_operator_preflight,
+    create_guarded_approval,
+    dispatch_guarded_approval,
+    reconcile_guarded_dispatch,
+)
 
 
 STATUS_ICON = {
@@ -58,6 +65,7 @@ def render() -> None:
     render_approval(model)
     render_reconciliation(model)
     render_provenance(model)
+    render_operator_controls()
     render_contract(model)
 
     if refresh:
@@ -834,6 +842,399 @@ def render_provenance(
         st.info(
             "No provenance events are available."
         )
+
+
+
+def render_operator_controls() -> None:
+    st.divider()
+    st.subheader("Guarded Operator Controls")
+
+    st.warning(
+        "These controls use backend preflight validation. "
+        "No raw command execution exists in this page."
+    )
+
+    approval_tab, dispatch_tab, reconcile_tab = st.tabs([
+        "Approve",
+        "Dispatch",
+        "Reconcile",
+    ])
+
+    with approval_tab:
+        render_approval_control()
+
+    with dispatch_tab:
+        render_dispatch_control()
+
+    with reconcile_tab:
+        render_reconcile_control()
+
+
+def render_approval_control() -> None:
+    try:
+        preflight = build_operator_preflight()
+    except Exception as error:
+        st.error(
+            "Approval preflight failed: "
+            + str(error)
+        )
+        return
+
+    render_preflight_summary(
+        preflight
+    )
+
+    if not preflight.get(
+        "success",
+        False,
+    ):
+        st.info(
+            "Approval is unavailable until preflight is READY."
+        )
+        return
+
+    expected = str(
+        preflight.get(
+            "approval_confirmation",
+            "",
+        )
+    )
+
+    eligible_count = len(
+        preflight.get(
+            "eligible_job_ids",
+            [],
+        )
+    )
+
+    with st.form(
+        "guarded_approval_form"
+    ):
+        approved_by = st.text_input(
+            "Approved by",
+            value="",
+        )
+
+        ttl_minutes = st.number_input(
+            "Approval lifetime in minutes",
+            min_value=1,
+            max_value=240,
+            value=30,
+            step=1,
+        )
+
+        max_steps = st.number_input(
+            "Maximum approved steps",
+            min_value=1,
+            max_value=max(
+                1,
+                eligible_count,
+            ),
+            value=min(
+                1,
+                max(
+                    1,
+                    eligible_count,
+                ),
+            ),
+            step=1,
+        )
+
+        st.code(expected)
+
+        confirmation = st.text_input(
+            "Type the exact approval phrase"
+        )
+
+        submitted = st.form_submit_button(
+            "Create signed approval",
+            type="primary",
+        )
+
+    if submitted:
+        try:
+            result = create_guarded_approval(
+                approved_by=approved_by,
+                confirmation=confirmation,
+                ttl_minutes=int(
+                    ttl_minutes
+                ),
+                max_steps=int(
+                    max_steps
+                ),
+            )
+
+            st.success(
+                "Signed approval created."
+            )
+
+            st.json(
+                result.get(
+                    "approval",
+                    {},
+                )
+            )
+
+        except Exception as error:
+            st.error(str(error))
+
+
+def render_dispatch_control() -> None:
+    try:
+        preflight = (
+            build_dispatch_preflight()
+        )
+    except Exception as error:
+        st.error(
+            "Dispatch preflight failed: "
+            + str(error)
+        )
+        return
+
+    render_preflight_summary(
+        preflight
+    )
+
+    if not preflight.get(
+        "success",
+        False,
+    ):
+        st.info(
+            "Dispatch is unavailable until preflight is READY."
+        )
+        return
+
+    expected = str(
+        preflight.get(
+            "dispatch_confirmation",
+            "",
+        )
+    )
+
+    st.write(
+        "**Approved jobs:** "
+        + ", ".join(
+            preflight.get(
+                "approved_job_ids",
+                [],
+            )
+        )
+    )
+
+    with st.form(
+        "guarded_dispatch_form"
+    ):
+        timeout_seconds = st.number_input(
+            "Per-job timeout in seconds",
+            min_value=30,
+            max_value=7200,
+            value=1800,
+            step=30,
+        )
+
+        continue_on_failure = st.checkbox(
+            "Continue after a failed approved job",
+            value=False,
+        )
+
+        st.code(expected)
+
+        confirmation = st.text_input(
+            "Type the exact dispatch phrase"
+        )
+
+        submitted = st.form_submit_button(
+            "Dispatch approved scope",
+            type="primary",
+        )
+
+    if submitted:
+        try:
+            result = (
+                dispatch_guarded_approval(
+                    confirmation=confirmation,
+                    timeout_seconds=int(
+                        timeout_seconds
+                    ),
+                    continue_on_failure=(
+                        continue_on_failure
+                    ),
+                )
+            )
+
+            if result.get(
+                "success",
+                False,
+            ):
+                st.success(
+                    "Controlled dispatch completed."
+                )
+            else:
+                st.error(
+                    "Controlled dispatch reported failure."
+                )
+
+            st.json({
+                "approval_id": result.get(
+                    "approval_id",
+                    "",
+                ),
+                "run_id": result.get(
+                    "run_id",
+                    "",
+                ),
+                "approved_job_ids": (
+                    result.get(
+                        "approved_job_ids",
+                        [],
+                    )
+                ),
+            })
+
+        except Exception as error:
+            st.error(str(error))
+
+
+def render_reconcile_control() -> None:
+    st.write(
+        "Reconciliation is read-only. It verifies "
+        "scope, provenance, and post-dispatch health."
+    )
+
+    confirmed = st.checkbox(
+        "I understand reconciliation does not execute jobs.",
+        value=False,
+        key="reconcile_confirmation",
+    )
+
+    if st.button(
+        "Reconcile latest guarded dispatch",
+        disabled=not confirmed,
+    ):
+        try:
+            report = (
+                reconcile_guarded_dispatch()
+            )
+
+            outcome = str(
+                report.get(
+                    "outcome",
+                    "UNKNOWN",
+                )
+            )
+
+            if outcome in {
+                "RECONCILED",
+                "PARTIALLY_REPAIRED",
+                "NO_PROGRESS",
+            }:
+                st.success(
+                    "Reconciliation completed: "
+                    + outcome
+                )
+            else:
+                st.error(
+                    "Reconciliation completed: "
+                    + outcome
+                )
+
+            st.write(
+                report.get(
+                    "summary",
+                    "",
+                )
+            )
+
+        except Exception as error:
+            st.error(str(error))
+
+
+def render_preflight_summary(
+    preflight: dict[str, Any],
+) -> None:
+    status = str(
+        preflight.get(
+            "status",
+            "UNKNOWN",
+        )
+    )
+
+    icon = STATUS_ICON.get(
+        status,
+        "?",
+    )
+
+    st.markdown(
+        f"### {icon} Preflight: {status}"
+    )
+
+    st.write(
+        preflight.get(
+            "reason",
+            "",
+        )
+    )
+
+    counts = preflight.get(
+        "counts",
+        {},
+    )
+
+    if counts:
+        columns = st.columns(4)
+
+        metric(
+            columns[0],
+            "Eligible",
+            counts.get(
+                "eligible_steps",
+                0,
+            ),
+        )
+
+        metric(
+            columns[1],
+            "Pruned Current",
+            counts.get(
+                "pruned_current_jobs",
+                0,
+            ),
+        )
+
+        metric(
+            columns[2],
+            "Blocked",
+            counts.get(
+                "blocked_jobs",
+                0,
+            ),
+        )
+
+        metric(
+            columns[3],
+            "Unknown",
+            counts.get(
+                "unknown_jobs",
+                0,
+            ),
+        )
+
+    with st.expander(
+        "Preflight details",
+        expanded=False,
+    ):
+        safe = {
+            key: value
+            for key, value
+            in preflight.items()
+            if key not in {
+                "effective_plan",
+                "eligible_steps",
+            }
+        }
+
+        st.json(safe)
+
 
 
 def render_contract(
