@@ -24,6 +24,11 @@ from atlas.investment.control_plane_approval import (
 from atlas.investment.control_plane_remediation import (
     build_and_write_remediation_plan,
 )
+from atlas.investment.control_plane_operator_audit import (
+    load_latest_operator_audit,
+    read_operator_events,
+    validate_operator_audit_chain,
+)
 from atlas.investment.dispatch_reconciliation import (
     RECONCILIATION_JSON,
     read_dispatch_receipts,
@@ -115,6 +120,20 @@ def build_control_plane_dashboard_model(
 
     dispatch_receipts = (
         read_dispatch_receipts()
+    )
+
+    operator_events = (
+        read_operator_events()
+    )
+
+    operator_audit_latest = (
+        load_latest_operator_audit()
+    )
+
+    operator_audit_validation = (
+        validate_operator_audit_chain(
+            operator_events
+        )
     )
 
     components = normalize_components(
@@ -241,6 +260,33 @@ def build_control_plane_dashboard_model(
                 dispatch_receipts
             )
         ),
+        "operator_audit": {
+            "event_count": len(
+                operator_events
+            ),
+            "chain_valid": bool(
+                operator_audit_validation.get(
+                    "valid",
+                    False,
+                )
+            ),
+            "chain_errors": list(
+                operator_audit_validation.get(
+                    "errors",
+                    [],
+                )
+            ),
+            "latest": dict(
+                operator_audit_latest
+            ),
+            "events": [
+                sanitize_operator_event(
+                    event
+                )
+                for event
+                in operator_events
+            ],
+        },
         "provenance": {
             "event_count": len(
                 provenance_events
@@ -572,6 +618,96 @@ def safe_reconciliation_summary(
             or {}
         ),
     }
+
+
+
+def sanitize_operator_event(
+    event: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Flatten safe operator-audit fields for dashboard display."""
+    return {
+        "event_id": str(
+            event.get(
+                "event_id",
+                "",
+            )
+        ),
+        "recorded_at": str(
+            event.get(
+                "recorded_at",
+                "",
+            )
+        ),
+        "action": str(
+            event.get(
+                "action",
+                "",
+            )
+        ),
+        "result": str(
+            event.get(
+                "result",
+                "",
+            )
+        ),
+        "operator_id": str(
+            event.get(
+                "operator_id",
+                "",
+            )
+        ),
+        "session_id": str(
+            event.get(
+                "session_id",
+                "",
+            )
+        ),
+        "reason": str(
+            event.get(
+                "reason",
+                "",
+            )
+        ),
+        "plan_hash": str(
+            event.get(
+                "plan_hash",
+                "",
+            )
+        ),
+        "approval_id": str(
+            event.get(
+                "approval_id",
+                "",
+            )
+        ),
+        "dispatch_run_id": str(
+            event.get(
+                "dispatch_run_id",
+                "",
+            )
+        ),
+        "job_ids": "|".join(
+            str(value)
+            for value in event.get(
+                "job_ids",
+                [],
+            )
+            or []
+        ),
+        "event_hash": str(
+            event.get(
+                "event_hash",
+                "",
+            )
+        ),
+        "previous_event_hash": str(
+            event.get(
+                "previous_event_hash",
+                "",
+            )
+        ),
+    }
+
 
 
 def sanitize_provenance_event(

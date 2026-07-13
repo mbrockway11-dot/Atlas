@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import uuid
 from typing import Any
 
 import pandas as pd
@@ -37,6 +38,8 @@ STATUS_ICON = {
 
 
 def render() -> None:
+    ensure_operator_session()
+
     st.title("Atlas Control Plane")
 
     st.caption(
@@ -66,6 +69,7 @@ def render() -> None:
     render_reconciliation(model)
     render_provenance(model)
     render_operator_controls()
+    render_operator_audit(model)
     render_contract(model)
 
     if refresh:
@@ -849,6 +853,19 @@ def render_operator_controls() -> None:
     st.divider()
     st.subheader("Guarded Operator Controls")
 
+    st.text_input(
+        "Operator identity",
+        key="atlas_operator_identity",
+        placeholder=(
+            "Enter your name before using controls"
+        ),
+    )
+
+    st.caption(
+        "Session ID: "
+        + operator_session_id()
+    )
+
     st.warning(
         "These controls use backend preflight validation. "
         "No raw command execution exists in this page."
@@ -956,6 +973,8 @@ def render_approval_control() -> None:
             result = create_guarded_approval(
                 approved_by=approved_by,
                 confirmation=confirmation,
+                operator_id=approved_by,
+                session_id=operator_session_id(),
                 ttl_minutes=int(
                     ttl_minutes
                 ),
@@ -1053,6 +1072,12 @@ def render_dispatch_control() -> None:
             result = (
                 dispatch_guarded_approval(
                     confirmation=confirmation,
+                    operator_id=(
+                        operator_identity()
+                    ),
+                    session_id=(
+                        operator_session_id()
+                    ),
                     timeout_seconds=int(
                         timeout_seconds
                     ),
@@ -1113,7 +1138,14 @@ def render_reconcile_control() -> None:
     ):
         try:
             report = (
-                reconcile_guarded_dispatch()
+                reconcile_guarded_dispatch(
+                    operator_id=(
+                        operator_identity()
+                    ),
+                    session_id=(
+                        operator_session_id()
+                    ),
+                )
             )
 
             outcome = str(
@@ -1234,6 +1266,161 @@ def render_preflight_summary(
         }
 
         st.json(safe)
+
+
+
+
+def render_operator_audit(
+    model: dict[str, Any],
+) -> None:
+    st.divider()
+    st.subheader("Operator Audit Trail")
+
+    audit = model.get(
+        "operator_audit",
+        {},
+    )
+
+    latest = audit.get(
+        "latest",
+        {},
+    )
+
+    columns = st.columns(4)
+
+    metric(
+        columns[0],
+        "Audit Events",
+        audit.get(
+            "event_count",
+            0,
+        ),
+    )
+
+    metric(
+        columns[1],
+        "Chain Valid",
+        audit.get(
+            "chain_valid",
+            False,
+        ),
+    )
+
+    metric(
+        columns[2],
+        "Operators",
+        len(
+            latest.get(
+                "operator_ids",
+                [],
+            )
+            or []
+        ),
+    )
+
+    metric(
+        columns[3],
+        "Sessions",
+        len(
+            latest.get(
+                "session_ids",
+                [],
+            )
+            or []
+        ),
+    )
+
+    errors = audit.get(
+        "chain_errors",
+        [],
+    )
+
+    if errors:
+        st.error(
+            "Operator audit integrity errors: "
+            + ", ".join(
+                str(value)
+                for value in errors
+            )
+        )
+
+    events = audit.get(
+        "events",
+        [],
+    )
+
+    if events:
+        frame = pd.DataFrame(
+            events
+        )
+
+        preferred = [
+            "recorded_at",
+            "action",
+            "result",
+            "operator_id",
+            "session_id",
+            "approval_id",
+            "dispatch_run_id",
+            "job_ids",
+            "reason",
+        ]
+
+        visible = [
+            column
+            for column in preferred
+            if column in frame.columns
+        ]
+
+        st.dataframe(
+            frame[
+                visible
+                if visible
+                else frame.columns.tolist()
+            ],
+            use_container_width=True,
+            hide_index=True,
+        )
+    else:
+        st.info(
+            "No operator audit events are available."
+        )
+
+
+def ensure_operator_session() -> None:
+    if (
+        "atlas_operator_session_id"
+        not in st.session_state
+    ):
+        st.session_state[
+            "atlas_operator_session_id"
+        ] = (
+            "UI-"
+            + uuid.uuid4().hex[:20]
+        )
+
+    st.session_state.setdefault(
+        "atlas_operator_identity",
+        "",
+    )
+
+
+def operator_session_id() -> str:
+    return str(
+        st.session_state.get(
+            "atlas_operator_session_id",
+            "",
+        )
+    )
+
+
+def operator_identity() -> str:
+    return str(
+        st.session_state.get(
+            "atlas_operator_identity",
+            "",
+        )
+    ).strip()
 
 
 

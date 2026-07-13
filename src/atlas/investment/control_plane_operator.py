@@ -36,6 +36,9 @@ from atlas.investment.control_plane_remediation import (
     REMEDIATION_PLAN_JSON,
     build_remediation_plan,
 )
+from atlas.investment.control_plane_operator_audit import (
+    record_operator_event,
+)
 from atlas.investment.dispatch_reconciliation import (
     reconcile_dispatch,
 )
@@ -45,6 +48,37 @@ from atlas.investment.research_scheduler import (
 
 
 OPERATOR_SERVICE_VERSION = "1.0.0"
+
+
+def audit_operator_action(
+    *,
+    action: str,
+    result: str,
+    operator_id: str,
+    session_id: str,
+    reason: str = "",
+    plan_hash: str = "",
+    approval_id: str = "",
+    dispatch_run_id: str = "",
+    job_ids=(),
+    metadata=None,
+) -> dict[str, Any]:
+    """Record a sanitized operator-control event."""
+    return record_operator_event(
+        action=action,
+        result=result,
+        operator_id=operator_id,
+        session_id=session_id,
+        reason=reason,
+        plan_hash=plan_hash,
+        approval_id=approval_id,
+        dispatch_run_id=(
+            dispatch_run_id
+        ),
+        job_ids=job_ids,
+        metadata=metadata,
+    )
+
 
 APPROVED_PLAN_JSON = Path(
     "output/atlas_control_plane/"
@@ -286,6 +320,8 @@ def create_guarded_approval(
     *,
     approved_by: str,
     confirmation: str,
+    operator_id: str = "",
+    session_id: str = "",
     ttl_minutes: int = 30,
     max_steps: int | None = None,
     stored_plan_path: Path = (
@@ -301,7 +337,82 @@ def create_guarded_approval(
         stored_plan_path=stored_plan_path
     )
 
+    audit_operator_action(
+        action="APPROVAL_ATTEMPTED",
+        result="REQUESTED",
+        operator_id=(
+            operator_id
+            or approved_by
+        ),
+        session_id=session_id,
+        reason=str(
+            preflight.get(
+                "reason",
+                "",
+            )
+        ),
+        plan_hash=str(
+            preflight.get(
+                "effective_plan_hash",
+                "",
+            )
+        ),
+        job_ids=preflight.get(
+            "eligible_job_ids",
+            [],
+        ),
+        metadata={
+            "preflight_status": (
+                preflight.get(
+                    "status",
+                    "",
+                )
+            ),
+            "eligible_steps": (
+                preflight.get(
+                    "counts",
+                    {},
+                ).get(
+                    "eligible_steps",
+                    0,
+                )
+            ),
+        },
+    )
+
     if not preflight["success"]:
+        audit_operator_action(
+            action="APPROVAL_REJECTED",
+            result="REJECTED",
+            operator_id=(
+                operator_id
+                or approved_by
+            ),
+            session_id=session_id,
+            reason=str(
+                preflight.get(
+                    "status",
+                    ""
+                )
+            )
+            + ": "
+            + str(
+                preflight.get(
+                    "reason",
+                    "",
+                )
+            ),
+            plan_hash=str(
+                preflight.get(
+                    "effective_plan_hash",
+                    "",
+                )
+            ),
+            job_ids=preflight.get(
+                "eligible_job_ids",
+                [],
+            ),
+        )
         raise ValueError(
             "Approval preflight failed: "
             + str(preflight["status"])
@@ -316,6 +427,29 @@ def create_guarded_approval(
     )
 
     if confirmation.strip() != expected:
+        audit_operator_action(
+            action="APPROVAL_REJECTED",
+            result="REJECTED",
+            operator_id=(
+                operator_id
+                or approved_by
+            ),
+            session_id=session_id,
+            reason=(
+                "APPROVAL_CONFIRMATION_MISMATCH"
+            ),
+            plan_hash=str(
+                preflight.get(
+                    "effective_plan_hash",
+                    "",
+                )
+            ),
+            job_ids=preflight.get(
+                "eligible_job_ids",
+                [],
+            ),
+        )
+
         raise ValueError(
             "Approval confirmation mismatch. "
             f"Expected: {expected}"
@@ -415,6 +549,48 @@ def create_guarded_approval(
     write_approval(
         approval,
         approval_path,
+    )
+
+    audit_operator_action(
+        action="APPROVAL_CREATED",
+        result="SUCCEEDED",
+        operator_id=(
+            operator_id
+            or approved_by
+        ),
+        session_id=session_id,
+        reason=(
+            "Signed approval created."
+        ),
+        plan_hash=(
+            remediation_plan_hash(
+                effective_plan
+            )
+        ),
+        approval_id=str(
+            approval.get(
+                "approval_id",
+                "",
+            )
+        ),
+        job_ids=approval.get(
+            "approved_job_ids",
+            [],
+        ),
+        metadata={
+            "expires_at": (
+                approval.get(
+                    "expires_at",
+                    "",
+                )
+            ),
+            "max_steps": (
+                approval.get(
+                    "max_steps",
+                    0,
+                )
+            ),
+        },
     )
 
     return {
@@ -589,6 +765,8 @@ def build_dispatch_preflight(
 def dispatch_guarded_approval(
     *,
     confirmation: str,
+    operator_id: str = "",
+    session_id: str = "",
     timeout_seconds: int = 1800,
     continue_on_failure: bool = False,
     approved_plan_path: Path = (
@@ -604,7 +782,89 @@ def dispatch_guarded_approval(
         approval_path=approval_path,
     )
 
+    audit_operator_action(
+        action="DISPATCH_ATTEMPTED",
+        result="REQUESTED",
+        operator_id=(
+            operator_id
+            or str(
+                preflight.get(
+                    "approved_by",
+                    "",
+                )
+            )
+        ),
+        session_id=session_id,
+        reason=str(
+            preflight.get(
+                "reason",
+                "",
+            )
+        ),
+        approval_id=str(
+            preflight.get(
+                "approval_id",
+                "",
+            )
+        ),
+        job_ids=preflight.get(
+            "approved_job_ids",
+            [],
+        ),
+        metadata={
+            "preflight_status": (
+                preflight.get(
+                    "status",
+                    "",
+                )
+            ),
+            "expires_at": (
+                preflight.get(
+                    "expires_at",
+                    "",
+                )
+            ),
+        },
+    )
+
     if not preflight["success"]:
+        audit_operator_action(
+            action="DISPATCH_REJECTED",
+            result="REJECTED",
+            operator_id=(
+                operator_id
+                or str(
+                    preflight.get(
+                        "approved_by",
+                        "",
+                    )
+                )
+            ),
+            session_id=session_id,
+            reason=str(
+                preflight.get(
+                    "status",
+                    "",
+                )
+            )
+            + ": "
+            + str(
+                preflight.get(
+                    "reason",
+                    "",
+                )
+            ),
+            approval_id=str(
+                preflight.get(
+                    "approval_id",
+                    "",
+                )
+            ),
+            job_ids=preflight.get(
+                "approved_job_ids",
+                [],
+            ),
+        )
         raise ValueError(
             "Dispatch preflight failed: "
             + str(preflight["status"])
@@ -619,6 +879,34 @@ def dispatch_guarded_approval(
     )
 
     if confirmation.strip() != expected:
+        audit_operator_action(
+            action="DISPATCH_REJECTED",
+            result="REJECTED",
+            operator_id=(
+                operator_id
+                or str(
+                    preflight.get(
+                        "approved_by",
+                        "",
+                    )
+                )
+            ),
+            session_id=session_id,
+            reason=(
+                "DISPATCH_CONFIRMATION_MISMATCH"
+            ),
+            approval_id=str(
+                preflight.get(
+                    "approval_id",
+                    "",
+                )
+            ),
+            job_ids=preflight.get(
+                "approved_job_ids",
+                [],
+            ),
+        )
+
         raise ValueError(
             "Dispatch confirmation mismatch. "
             f"Expected: {expected}"
@@ -630,6 +918,52 @@ def dispatch_guarded_approval(
         timeout_seconds=timeout_seconds,
         continue_on_failure=(
             continue_on_failure
+        ),
+    )
+
+    audit_operator_action(
+        action="DISPATCH_COMPLETED",
+        result=(
+            "SUCCEEDED"
+            if result.get(
+                "success",
+                False,
+            )
+            else "FAILED"
+        ),
+        operator_id=(
+            operator_id
+            or str(
+                result.get(
+                    "approved_by",
+                    "",
+                )
+            )
+        ),
+        session_id=session_id,
+        reason=(
+            "Controlled dispatch completed."
+            if result.get(
+                "success",
+                False,
+            )
+            else "Controlled dispatch reported failure."
+        ),
+        approval_id=str(
+            result.get(
+                "approval_id",
+                "",
+            )
+        ),
+        dispatch_run_id=str(
+            result.get(
+                "run_id",
+                "",
+            )
+        ),
+        job_ids=result.get(
+            "approved_job_ids",
+            [],
         ),
     )
 
@@ -677,6 +1011,8 @@ def dispatch_guarded_approval(
 
 def reconcile_guarded_dispatch(
     *,
+    operator_id: str = "",
+    session_id: str = "",
     approved_plan_path: Path = (
         APPROVED_PLAN_JSON
     ),
@@ -687,7 +1023,49 @@ def reconcile_guarded_dispatch(
         approval_path
     )
 
+    audit_operator_action(
+        action="RECONCILIATION_ATTEMPTED",
+        result="REQUESTED",
+        operator_id=(
+            operator_id
+            or str(
+                approval.get(
+                    "approved_by",
+                    "",
+                )
+            )
+        ),
+        session_id=session_id,
+        reason=(
+            "Operator requested reconciliation."
+        ),
+        approval_id=str(
+            approval.get(
+                "approval_id",
+                "",
+            )
+        ),
+        dispatch_run_id=str(
+            approval.get(
+                "dispatch_run_id",
+                "",
+            )
+        ),
+        job_ids=approval.get(
+            "approved_job_ids",
+            [],
+        ),
+    )
+
     if not approval:
+        audit_operator_action(
+            action="RECONCILIATION_REJECTED",
+            result="REJECTED",
+            operator_id=operator_id,
+            session_id=session_id,
+            reason="APPROVAL_MISSING",
+        )
+
         raise ValueError(
             "No approval record is available."
         )
@@ -698,16 +1076,105 @@ def reconcile_guarded_dispatch(
             False,
         )
     ):
+        audit_operator_action(
+            action="RECONCILIATION_REJECTED",
+            result="REJECTED",
+            operator_id=(
+                operator_id
+                or str(
+                    approval.get(
+                        "approved_by",
+                        "",
+                    )
+                )
+            ),
+            session_id=session_id,
+            reason=(
+                "APPROVAL_NOT_DISPATCHED"
+            ),
+            approval_id=str(
+                approval.get(
+                    "approval_id",
+                    "",
+                )
+            ),
+            job_ids=approval.get(
+                "approved_job_ids",
+                [],
+            ),
+        )
+
         raise ValueError(
             "Approval has not been dispatched."
         )
 
-    return reconcile_dispatch(
+    report = reconcile_dispatch(
         approval_path=approval_path,
         original_plan_path=(
             approved_plan_path
         ),
     )
+
+    audit_operator_action(
+        action="RECONCILIATION_COMPLETED",
+        result=(
+            "SUCCEEDED"
+            if report.get(
+                "success",
+                False,
+            )
+            else "FAILED"
+        ),
+        operator_id=(
+            operator_id
+            or str(
+                approval.get(
+                    "approved_by",
+                    "",
+                )
+            )
+        ),
+        session_id=session_id,
+        reason=str(
+            report.get(
+                "outcome",
+                "UNKNOWN",
+            )
+        ),
+        approval_id=str(
+            approval.get(
+                "approval_id",
+                "",
+            )
+        ),
+        dispatch_run_id=str(
+            approval.get(
+                "dispatch_run_id",
+                "",
+            )
+        ),
+        job_ids=approval.get(
+            "approved_job_ids",
+            [],
+        ),
+        metadata={
+            "outcome": report.get(
+                "outcome",
+                "UNKNOWN",
+            ),
+            "scope_valid": (
+                report.get(
+                    "receipt",
+                    {},
+                ).get(
+                    "scope_valid",
+                    False,
+                )
+            ),
+        },
+    )
+
+    return report
 
 
 def build_effective_plan(
