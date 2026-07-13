@@ -21,6 +21,9 @@ from atlas.investment.research_orchestrator.planner import (
     build_execution_plan,
     classify_nonselected_jobs,
 )
+from atlas.investment.research_orchestrator.provenance import (
+    record_execution_provenance,
+)
 from atlas.investment.research_orchestrator.resume import (
     completed_job_ids,
     is_resumable_state,
@@ -327,7 +330,7 @@ def run_research_cycle(
                         next_job_id
                     )
 
-                    results.append({
+                    cached_result = {
                         "job_id": next_job_id,
                         "status": "CACHED",
                         "started_at": "",
@@ -355,8 +358,31 @@ def run_research_cycle(
                         ),
                         "artifact_verified": True,
                         "artifact_healed": True,
+                        "scheduler_healthy": True,
+                        "contract_healthy": True,
                         "retry_pending": False,
-                    })
+                    }
+
+                    results.append(
+                        cached_result
+                    )
+
+                    record_execution_provenance(
+                        job_id=next_job_id,
+                        run_id=run_id,
+                        result=cached_result,
+                        attempt=attempt_number,
+                        cache_decision=(
+                            cache_decision
+                        ),
+                        verification={
+                            "verified": True,
+                            "healed": True,
+                            "scheduler_healthy": True,
+                            "contract_healthy": True,
+                            "status": "CURRENT",
+                        },
+                    )
 
                     write_resume_state(
                         run_id=run_id,
@@ -487,6 +513,17 @@ def run_research_cycle(
                 )
 
                 results.append(result)
+
+                record_execution_provenance(
+                    job_id=next_job_id,
+                    run_id=run_id,
+                    result=result,
+                    attempt=attempt_number,
+                    cache_decision=(
+                        cache_decision
+                    ),
+                    verification=verification,
+                )
 
                 refreshed_signature = (
                     schedule_signature(

@@ -91,3 +91,14 @@ BUILD_CACHE_JSON = (
     OUTPUT_DIR
     / "build_cache.json"
 )
+
+
+PROVENANCE_JSONL = (
+    OUTPUT_DIR
+    / "execution_provenance.jsonl"
+)
+
+PROVENANCE_LATEST_JSON = (
+    OUTPUT_DIR
+    / "execution_provenance_latest.json"
+)

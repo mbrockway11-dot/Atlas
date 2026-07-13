@@ -17,6 +17,8 @@ from atlas.investment.research_orchestrator.config import (
     EXECUTION_TIMELINE_CSV,
     FAILED_JOBS_CSV,
     OUTPUT_DIR,
+    PROVENANCE_JSONL,
+    PROVENANCE_LATEST_JSON,
     REPORT_JSON,
     REPORT_MD,
     RUN_HISTORY_CSV,
@@ -306,6 +308,11 @@ def build_orchestrator_report(
             "cache_requires_valid_outputs": True,
             "cache_uses_content_hashes": True,
             "cache_never_restores_unvalidated_outputs": True,
+            "immutable_execution_provenance": True,
+            "input_hashes_recorded": True,
+            "output_hashes_recorded": True,
+            "command_signature_recorded": True,
+            "cache_and_recovery_decisions_recorded": True,
         },
         "outputs": {
             "execution_plan_csv": str(
@@ -334,6 +341,12 @@ def build_orchestrator_report(
             ),
             "execution_state_json": str(
                 EXECUTION_STATE_JSON
+            ),
+            "provenance_jsonl": str(
+                PROVENANCE_JSONL
+            ),
+            "provenance_latest_json": str(
+                PROVENANCE_LATEST_JSON
             ),
             "report_json": str(
                 REPORT_JSON
