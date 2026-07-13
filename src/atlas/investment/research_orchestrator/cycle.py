@@ -56,6 +56,7 @@ def run_research_cycle(
     self_heal: bool = True,
     max_recovery_attempts: int = 2,
     use_build_cache: bool = True,
+    allowed_job_ids: set[str] | None = None,
 ) -> dict[str, Any]:
     """Run or preview one dependency-aware research cycle.
 
@@ -234,6 +235,13 @@ def run_research_cycle(
                     )
 
                     if candidate_id in completed_jobs:
+                        continue
+
+                    if (
+                        allowed_job_ids is not None
+                        and candidate_id
+                        not in allowed_job_ids
+                    ):
                         continue
 
                     attempts = attempt_counts.get(
@@ -680,6 +688,13 @@ def run_research_cycle(
         ),
         "build_cache_enabled": bool(
             use_build_cache
+        ),
+        "execution_scope_restricted": bool(
+            allowed_job_ids is not None
+        ),
+        "allowed_job_ids": sorted(
+            allowed_job_ids
+            or set()
         ),
         "self_healing_enabled": bool(
             self_heal
