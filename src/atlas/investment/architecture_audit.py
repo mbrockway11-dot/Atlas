@@ -10,6 +10,9 @@ from __future__ import annotations
 import ast
 from pathlib import Path
 
+from atlas.investment.artifact_contracts import (
+    validate_contract_registry,
+)
 from atlas.investment.artifacts import ARTIFACTS, validate_registry
 from atlas.investment.research_scheduler import JOBS, topological_order
 
@@ -32,6 +35,12 @@ FORBIDDEN_IMPORT = "atlas.investment.experiment_registry.loader"
 def audit_loader(path: Path) -> list[str]:
     """Return architecture violations found in one active loader."""
     errors: list[str] = []
+
+    errors.extend(
+        "ARTIFACT_CONTRACT:"
+        + error
+        for error in validate_contract_registry()
+    )
     source = path.read_text(encoding="utf-8-sig")
     tree = ast.parse(source, filename=str(path))
 

@@ -10,6 +10,10 @@ from typing import Any
 
 import pandas as pd
 
+from atlas.investment.artifact_contracts import (
+    validate_job_outputs,
+)
+
 
 HEALTHY_STATUSES = {
     "CURRENT",
@@ -83,10 +87,31 @@ def verify_job_health(
         )
     )
 
+    output_contract = validate_job_outputs(
+        str(job_id)
+    )
+
+    scheduler_healthy = (
+        status in HEALTHY_STATUSES
+    )
+
+    contract_healthy = bool(
+        output_contract["success"]
+    )
+
     return {
         "job_id": str(job_id),
         "verified": True,
-        "healed": status in HEALTHY_STATUSES,
+        "healed": bool(
+            scheduler_healthy
+            and contract_healthy
+        ),
+        "scheduler_healthy": (
+            scheduler_healthy
+        ),
+        "contract_healthy": (
+            contract_healthy
+        ),
         "status": status,
         "reason": str(
             row.get(
@@ -129,6 +154,26 @@ def verify_job_health(
                 "invalidation_reason",
                 "",
             )
+        ),
+        "required_output_count": int(
+            output_contract[
+                "required_output_count"
+            ]
+        ),
+        "valid_required_output_count": int(
+            output_contract[
+                "valid_required_output_count"
+            ]
+        ),
+        "missing_or_invalid_required_count": int(
+            output_contract[
+                "missing_or_invalid_required_count"
+            ]
+        ),
+        "required_output_failures": list(
+            output_contract[
+                "required_failures"
+            ]
         ),
     }
 
@@ -190,6 +235,42 @@ def annotate_recovery_result(
             verification.get(
                 "reason",
                 "",
+            )
+        ),
+        "scheduler_healthy": bool(
+            verification.get(
+                "scheduler_healthy",
+                False,
+            )
+        ),
+        "contract_healthy": bool(
+            verification.get(
+                "contract_healthy",
+                False,
+            )
+        ),
+        "required_output_count": int(
+            verification.get(
+                "required_output_count",
+                0,
+            )
+        ),
+        "valid_required_output_count": int(
+            verification.get(
+                "valid_required_output_count",
+                0,
+            )
+        ),
+        "missing_or_invalid_required_count": int(
+            verification.get(
+                "missing_or_invalid_required_count",
+                0,
+            )
+        ),
+        "required_output_failures": list(
+            verification.get(
+                "required_output_failures",
+                [],
             )
         ),
         "retry_pending": bool(
