@@ -676,7 +676,7 @@ def render_table(
 
     st.dataframe(
         frame,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
     )
 
