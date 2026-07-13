@@ -12,6 +12,11 @@ from atlas.investment.execution.contracts import (
 from atlas.investment.execution.ledger import (
     apply_fill,
 )
+from atlas.investment.execution.lifecycle import (
+    LifecycleRecord,
+    LifecycleTransition,
+    PaperOrderLifecycleStore,
+)
 from atlas.investment.execution.paper_broker import (
     PaperBroker,
     PaperBrokerConfig,
@@ -28,6 +33,9 @@ __all__ = [
     "FillRecord",
     "OrderIntent",
     "OrderRecord",
+    "LifecycleRecord",
+    "LifecycleTransition",
+    "PaperOrderLifecycleStore",
     "PaperBroker",
     "PaperBrokerConfig",
     "PositionSnapshot",
