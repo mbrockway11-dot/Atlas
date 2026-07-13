@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 from typing import Any
@@ -17,6 +18,13 @@ from atlas.investment.execution.ledger import (
 from atlas.investment.execution.paper_broker import (
     PaperBroker,
     PaperBrokerConfig,
+)
+from atlas.investment.execution.provenance import (
+    record_execution_events,
+)
+from atlas.investment.execution.reconciliation import (
+    reconcile_paper_execution,
+    write_reconciliation_report,
 )
 from atlas.investment.execution.risk import (
     evaluate_order_intent,
@@ -77,7 +85,13 @@ def run_paper_execution(
             fill,
         )
 
+    execution_id = build_execution_id(
+        intent_id=intent.intent_id,
+        order_id=order.order_id,
+    )
+
     report = {
+        "execution_id": execution_id,
         "success": bool(
             risk.approved
             and order.status
@@ -118,12 +132,222 @@ def run_paper_execution(
         },
     }
 
+    reconciliation = (
+        reconcile_paper_execution(
+            report
+        )
+    )
+
+    report[
+        "reconciliation"
+    ] = reconciliation
+
+    provenance_events = (
+        build_provenance_events(
+            report
+        )
+    )
+
     if write_outputs:
         write_execution_outputs(
             report
         )
 
+        write_reconciliation_report(
+            reconciliation
+        )
+
+        recorded = record_execution_events(
+            execution_id=execution_id,
+            events=provenance_events,
+        )
+
+        report["provenance"] = {
+            "event_count": len(
+                recorded
+            ),
+            "event_ids": [
+                event["event_id"]
+                for event in recorded
+            ],
+            "latest_event_hash": (
+                recorded[-1][
+                    "event_hash"
+                ]
+                if recorded
+                else ""
+            ),
+        }
+
+        write_execution_outputs(
+            report
+        )
+    else:
+        report["provenance"] = {
+            "event_count": len(
+                provenance_events
+            ),
+            "event_ids": [],
+            "latest_event_hash": "",
+            "persisted": False,
+        }
+
     return report
+
+
+def build_execution_id(
+    *,
+    intent_id: str,
+    order_id: str,
+) -> str:
+    encoded = (
+        intent_id
+        + "|"
+        + order_id
+    ).encode("utf-8")
+
+    return (
+        "PAPER-EXEC-"
+        + hashlib.sha256(
+            encoded
+        ).hexdigest()[:24]
+    )
+
+
+def build_provenance_events(
+    report: dict[str, Any],
+) -> list[dict[str, Any]]:
+    intent = report.get(
+        "intent",
+        {},
+    )
+    risk = report.get(
+        "risk",
+        {},
+    )
+    order = report.get(
+        "order",
+        {},
+    )
+
+    intent_id = str(
+        intent.get(
+            "intent_id",
+            "",
+        )
+    )
+
+    order_id = str(
+        order.get(
+            "order_id",
+            "",
+        )
+    )
+
+    events = [
+        {
+            "event_type": (
+                "INTENT_RECORDED"
+            ),
+            "intent_id": intent_id,
+            "status": "RECORDED",
+            "payload": intent,
+        },
+        {
+            "event_type": (
+                "RISK_EVALUATED"
+            ),
+            "intent_id": intent_id,
+            "status": (
+                "APPROVED"
+                if risk.get(
+                    "approved",
+                    False,
+                )
+                else "REJECTED"
+            ),
+            "payload": risk,
+        },
+        {
+            "event_type": (
+                "ORDER_RECORDED"
+            ),
+            "intent_id": intent_id,
+            "order_id": order_id,
+            "status": str(
+                order.get(
+                    "status",
+                    "",
+                )
+            ),
+            "payload": order,
+        },
+    ]
+
+    for fill in report.get(
+        "fills",
+        [],
+    ):
+        events.append({
+            "event_type": (
+                "FILL_RECORDED"
+            ),
+            "intent_id": intent_id,
+            "order_id": order_id,
+            "fill_id": str(
+                fill.get(
+                    "fill_id",
+                    "",
+                )
+            ),
+            "status": "FILLED",
+            "payload": fill,
+        })
+
+    events.extend([
+        {
+            "event_type": (
+                "ACCOUNT_UPDATED"
+            ),
+            "intent_id": intent_id,
+            "order_id": order_id,
+            "status": "UPDATED",
+            "payload": {
+                "before": report.get(
+                    "account_before",
+                    {},
+                ),
+                "after": report.get(
+                    "account_after",
+                    {},
+                ),
+            },
+        },
+        {
+            "event_type": (
+                "EXECUTION_RECONCILED"
+            ),
+            "intent_id": intent_id,
+            "order_id": order_id,
+            "status": (
+                "RECONCILED"
+                if report.get(
+                    "reconciliation",
+                    {},
+                ).get(
+                    "success",
+                    False,
+                )
+                else "FAILED"
+            ),
+            "payload": report.get(
+                "reconciliation",
+                {},
+            ),
+        },
+    ])
+
+    return events
 
 
 def write_execution_outputs(

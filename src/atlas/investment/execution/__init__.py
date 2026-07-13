@@ -31,6 +31,14 @@ from atlas.investment.execution.portfolio_bridge import (
     build_portfolio_intent_plan,
     load_portfolio_targets,
 )
+from atlas.investment.execution.provenance import (
+    read_execution_events,
+    record_execution_events,
+    validate_execution_provenance,
+)
+from atlas.investment.execution.reconciliation import (
+    reconcile_paper_execution,
+)
 from atlas.investment.execution.risk import (
     evaluate_order_intent,
 )
@@ -59,5 +67,9 @@ __all__ = [
     "build_portfolio_intent_plan",
     "evaluate_order_intent",
     "load_portfolio_targets",
+    "read_execution_events",
+    "reconcile_paper_execution",
+    "record_execution_events",
     "run_paper_execution",
+    "validate_execution_provenance",
 ]
