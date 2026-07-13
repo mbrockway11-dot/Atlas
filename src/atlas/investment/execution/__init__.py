@@ -9,6 +9,9 @@ from atlas.investment.execution.contracts import (
     RiskDecision,
     RiskLimits,
 )
+from atlas.investment.execution.dashboard import (
+    build_paper_execution_dashboard_model,
+)
 from atlas.investment.execution.ledger import (
     apply_fill,
 )
@@ -52,6 +55,7 @@ __all__ = [
     "RiskDecision",
     "RiskLimits",
     "apply_fill",
+    "build_paper_execution_dashboard_model",
     "build_portfolio_intent_plan",
     "evaluate_order_intent",
     "load_portfolio_targets",
