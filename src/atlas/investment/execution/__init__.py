@@ -1,5 +1,10 @@
 """Broker-neutral Atlas paper execution plane."""
 
+from atlas.investment.execution.account_store import (
+    account_from_mapping,
+    load_paper_account,
+    write_paper_account,
+)
 from atlas.investment.execution.contracts import (
     AccountSnapshot,
     FillRecord,
@@ -45,6 +50,9 @@ from atlas.investment.execution.risk import (
 from atlas.investment.execution.service import (
     run_paper_execution,
 )
+from atlas.investment.execution.shadow_loop import (
+    run_shadow_cycle,
+)
 
 __all__ = [
     "AccountSnapshot",
@@ -62,14 +70,18 @@ __all__ = [
     "PositionSnapshot",
     "RiskDecision",
     "RiskLimits",
+    "account_from_mapping",
     "apply_fill",
     "build_paper_execution_dashboard_model",
     "build_portfolio_intent_plan",
     "evaluate_order_intent",
+    "load_paper_account",
     "load_portfolio_targets",
     "read_execution_events",
     "reconcile_paper_execution",
     "record_execution_events",
     "run_paper_execution",
+    "run_shadow_cycle",
     "validate_execution_provenance",
+    "write_paper_account",
 ]
