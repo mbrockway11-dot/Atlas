@@ -1,5 +1,9 @@
 """Broker-neutral Atlas paper execution plane."""
 
+from atlas.investment.execution.attribution import (
+    build_shadow_attribution,
+    value_account,
+)
 from atlas.investment.execution.account_store import (
     account_from_mapping,
     load_paper_account,
@@ -85,6 +89,7 @@ __all__ = [
     "apply_fill",
     "build_instrument_universe_report",
     "build_paper_execution_dashboard_model",
+    "build_shadow_attribution",
     "build_portfolio_intent_plan",
     "evaluate_order_intent",
     "get_instrument",
@@ -99,5 +104,6 @@ __all__ = [
     "run_paper_execution",
     "run_shadow_cycle",
     "validate_execution_provenance",
+    "value_account",
     "write_paper_account",
 ]
