@@ -1,9 +1,27 @@
 """Provider-neutral Atlas market-data abstraction layer."""
 
+from atlas.investment.market_data.cache import (
+    CacheStatistics,
+    CachedMarketDataProvider,
+)
+from atlas.investment.market_data.coinbase import (
+    COINBASE_BASE_URL,
+    COINBASE_INTERVAL_SECONDS,
+    COINBASE_PROVIDER_VERSION,
+    CoinbasePublicMarketDataProvider,
+)
 from atlas.investment.market_data.contracts import (
     MARKET_DATA_CONTRACT_VERSION,
     MarketBar,
     QuoteSnapshot,
+)
+from atlas.investment.market_data.diagnostics import (
+    diagnose_provider,
+)
+from atlas.investment.market_data.http import (
+    HttpJsonResponse,
+    JsonHttpTransport,
+    UrllibJsonTransport,
 )
 from atlas.investment.market_data.providers import (
     MarketDataProvider,
@@ -28,6 +46,14 @@ from atlas.investment.market_data.store import (
 
 
 __all__ = [
+    "COINBASE_BASE_URL",
+    "COINBASE_INTERVAL_SECONDS",
+    "COINBASE_PROVIDER_VERSION",
+    "CacheStatistics",
+    "CachedMarketDataProvider",
+    "CoinbasePublicMarketDataProvider",
+    "HttpJsonResponse",
+    "JsonHttpTransport",
     "LATEST_MARKET_SNAPSHOT_JSON",
     "MARKET_DATA_AUDIT_JSONL",
     "MARKET_DATA_CONTRACT_VERSION",
@@ -38,6 +64,8 @@ __all__ = [
     "ProviderCapabilities",
     "QuoteSnapshot",
     "StaticMarketDataProvider",
+    "UrllibJsonTransport",
+    "diagnose_provider",
     "evaluate_bar_series",
     "evaluate_quote_quality",
     "load_market_snapshot",
