@@ -18,6 +18,11 @@ from atlas.investment.execution.contracts import (
     AccountSnapshot,
     OrderIntent,
 )
+from atlas.investment.execution.instruments import (
+    get_instrument,
+    normalize_symbol,
+    require_paper_instrument,
+)
 
 
 PORTFOLIO_BRIDGE_VERSION = "1.0.0"
@@ -48,9 +53,9 @@ class PortfolioTarget:
     source_label: str = ""
 
     def __post_init__(self) -> None:
-        asset = str(
+        asset = normalize_symbol(
             self.asset
-        ).strip().upper()
+        )
 
         weight = float(
             self.target_weight
@@ -116,6 +121,8 @@ class RebalancePolicy:
     quantity_precision: int = 8
     allow_new_short_positions: bool = False
     liquidate_missing_assets: bool = False
+    require_registered_assets: bool = True
+    require_paper_enabled_assets: bool = True
 
     def __post_init__(self) -> None:
         for name in (
@@ -178,6 +185,10 @@ class RebalanceLine:
     quantity: float
     skipped: bool
     skip_reason: str
+    asset_class: str = ""
+    instrument_type: str = ""
+    contract_multiplier: float = 1.0
+    market_session: str = ""
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -212,6 +223,18 @@ def build_portfolio_intent_plan(
 
     normalized_targets = normalize_targets(
         targets
+    )
+
+    validate_target_instruments(
+        normalized_targets,
+        require_registered=(
+            effective_policy
+            .require_registered_assets
+        ),
+        require_paper_enabled=(
+            effective_policy
+            .require_paper_enabled_assets
+        ),
     )
 
     target_weight_total = sum(
@@ -285,6 +308,35 @@ def build_portfolio_intent_plan(
             else 0.0
         )
 
+        instrument = get_instrument(
+            asset,
+            require_registered=(
+                effective_policy
+                .require_registered_assets
+            ),
+        )
+
+        instrument_precision = (
+            instrument.quantity_precision
+            if instrument is not None
+            else effective_policy.quantity_precision
+        )
+
+        instrument_minimum_notional = max(
+            effective_policy.minimum_order_notional,
+            (
+                instrument.minimum_notional
+                if instrument is not None
+                else 0.0
+            ),
+        )
+
+        contract_multiplier = (
+            instrument.contract_multiplier
+            if instrument is not None
+            else 1.0
+        )
+
         reference_price = (
             target.reference_price
             if target is not None
@@ -301,6 +353,7 @@ def build_portfolio_intent_plan(
         current_notional = (
             current_quantity
             * reference_price
+            * contract_multiplier
         )
 
         current_weight = (
@@ -351,7 +404,7 @@ def build_portfolio_intent_plan(
             and abs(
                 requested_notional_delta
             )
-            < effective_policy.minimum_order_notional
+            < instrument_minimum_notional
         ):
             skipped = True
             skip_reason = (
@@ -401,8 +454,11 @@ def build_portfolio_intent_plan(
                 abs(
                     approved_notional_delta
                 )
-                / reference_price,
-                effective_policy.quantity_precision,
+                / (
+                    reference_price
+                    * contract_multiplier
+                ),
+                instrument_precision,
             )
             if not skipped
             else 0.0
@@ -451,6 +507,24 @@ def build_portfolio_intent_plan(
                 skipped=skipped,
                 skip_reason=(
                     skip_reason
+                ),
+                asset_class=(
+                    instrument.asset_class
+                    if instrument is not None
+                    else ""
+                ),
+                instrument_type=(
+                    instrument.instrument_type
+                    if instrument is not None
+                    else ""
+                ),
+                contract_multiplier=(
+                    contract_multiplier
+                ),
+                market_session=(
+                    instrument.market_session
+                    if instrument is not None
+                    else ""
                 ),
             )
         )
@@ -601,6 +675,32 @@ def build_portfolio_intent_plan(
     return report
 
 
+def validate_target_instruments(
+    targets: Iterable[
+        PortfolioTarget
+    ],
+    *,
+    require_registered: bool,
+    require_paper_enabled: bool,
+) -> None:
+    for target in targets:
+        if target.asset == "CASH":
+            continue
+
+        if require_paper_enabled:
+            require_paper_instrument(
+                target.asset
+            )
+            continue
+
+        get_instrument(
+            target.asset,
+            require_registered=(
+                require_registered
+            ),
+        )
+
+
 def normalize_targets(
     targets: Iterable[
         PortfolioTarget
@@ -680,12 +780,35 @@ def apply_turnover_cap(
             * scale
         )
 
+        instrument = get_instrument(
+            line.asset,
+            require_registered=(
+                policy
+                .require_registered_assets
+            ),
+        )
+
+        precision = (
+            instrument.quantity_precision
+            if instrument is not None
+            else policy.quantity_precision
+        )
+
+        multiplier = (
+            instrument.contract_multiplier
+            if instrument is not None
+            else line.contract_multiplier
+        )
+
         quantity = round(
             abs(
                 scaled_notional
             )
-            / line.reference_price,
-            policy.quantity_precision,
+            / (
+                line.reference_price
+                * multiplier
+            ),
+            precision,
         )
 
         if (
@@ -776,9 +899,9 @@ def load_portfolio_targets(
         if asset is None or weight is None:
             continue
 
-        normalized_asset = str(
+        normalized_asset = normalize_symbol(
             asset
-        ).strip().upper()
+        )
 
         if normalized_asset == "CASH":
             continue
@@ -1013,4 +1136,5 @@ __all__ = [
     "extract_target_rows",
     "load_portfolio_targets",
     "normalize_targets",
+    "validate_target_instruments",
 ]

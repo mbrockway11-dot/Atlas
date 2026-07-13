@@ -27,7 +27,7 @@ def approved_risk(
 
 def test_market_order_fills():
     intent = OrderIntent(
-        asset="TEST",
+        asset="BTC-USD",
         side="BUY",
         quantity=1.0,
         reference_price=100.0,
@@ -57,7 +57,7 @@ def test_market_order_fills():
 
 def test_partial_fill_from_liquidity_cap():
     intent = OrderIntent(
-        asset="TEST",
+        asset="BTC-USD",
         side="BUY",
         quantity=10.0,
         reference_price=100.0,

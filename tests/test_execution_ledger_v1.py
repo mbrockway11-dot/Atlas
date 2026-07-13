@@ -20,7 +20,7 @@ def fill(
         fill_id="FILL-1",
         order_id="ORDER-1",
         intent_id="INTENT-1",
-        asset="TEST",
+        asset="BTC-USD",
         side=side,
         quantity=quantity,
         price=price,
@@ -50,7 +50,7 @@ def test_buy_creates_position():
     assert account.cash == 799.0
     assert (
         account.positions[
-            "TEST"
+            "BTC-USD"
         ].quantity
         == 2.0
     )

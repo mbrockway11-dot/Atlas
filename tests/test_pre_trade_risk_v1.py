@@ -19,7 +19,7 @@ def intent(
     reduce_only=False,
 ):
     return OrderIntent(
-        asset="TEST",
+        asset="BTC-USD",
         side=side,
         quantity=quantity,
         reference_price=price,
@@ -94,7 +94,7 @@ def test_reduce_only_cannot_increase_position():
         cash=1_000.0,
         positions={
             "TEST": PositionSnapshot(
-                asset="TEST",
+                asset="BTC-USD",
                 quantity=1.0,
                 average_price=100.0,
                 mark_price=100.0,

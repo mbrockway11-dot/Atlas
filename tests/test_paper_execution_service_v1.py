@@ -96,7 +96,7 @@ def test_rejected_intent_does_not_change_account():
 def test_contract_is_paper_only():
     report = run_paper_execution(
         intent=OrderIntent(
-            asset="TEST",
+            asset="BTC-USD",
             side="BUY",
             quantity=1.0,
             reference_price=100.0,

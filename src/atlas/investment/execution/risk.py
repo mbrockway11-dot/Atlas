@@ -10,6 +10,9 @@ from atlas.investment.execution.contracts import (
     RiskDecision,
     RiskLimits,
 )
+from atlas.investment.execution.instruments import (
+    require_paper_instrument,
+)
 
 
 def evaluate_order_intent(
@@ -19,6 +22,49 @@ def evaluate_order_intent(
 ) -> RiskDecision:
     """Evaluate one order intent against hard account limits."""
     reasons: list[str] = []
+
+    try:
+        instrument = (
+            require_paper_instrument(
+                intent.asset
+            )
+        )
+    except (
+        KeyError,
+        ValueError,
+    ) as error:
+        instrument = None
+        reasons.append(
+            str(error)
+        )
+
+    if instrument is not None:
+        if (
+            intent.quantity
+            < instrument.minimum_quantity
+        ):
+            reasons.append(
+                "INSTRUMENT_MINIMUM_QUANTITY"
+            )
+
+        if (
+            intent.notional
+            < instrument.minimum_notional
+        ):
+            reasons.append(
+                "INSTRUMENT_MINIMUM_NOTIONAL"
+            )
+
+        if (
+            intent.side == "SELL"
+            and not instrument.short_enabled
+            and account.positions.get(
+                intent.asset
+            ) is None
+        ):
+            reasons.append(
+                "INSTRUMENT_SHORT_DISABLED"
+            )
 
     signed_quantity = (
         intent.quantity

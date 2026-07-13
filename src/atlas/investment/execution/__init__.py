@@ -17,6 +17,15 @@ from atlas.investment.execution.contracts import (
 from atlas.investment.execution.dashboard import (
     build_paper_execution_dashboard_model,
 )
+from atlas.investment.execution.instruments import (
+    INSTRUMENT_REGISTRY,
+    InstrumentSpec,
+    build_instrument_universe_report,
+    get_instrument,
+    list_instruments,
+    normalize_symbol,
+    require_paper_instrument,
+)
 from atlas.investment.execution.ledger import (
     apply_fill,
 )
@@ -61,6 +70,8 @@ __all__ = [
     "OrderRecord",
     "LifecycleRecord",
     "LifecycleTransition",
+    "InstrumentSpec",
+    "INSTRUMENT_REGISTRY",
     "PaperOrderLifecycleStore",
     "PaperBroker",
     "PaperBrokerConfig",
@@ -72,13 +83,18 @@ __all__ = [
     "RiskLimits",
     "account_from_mapping",
     "apply_fill",
+    "build_instrument_universe_report",
     "build_paper_execution_dashboard_model",
     "build_portfolio_intent_plan",
     "evaluate_order_intent",
+    "get_instrument",
+    "list_instruments",
     "load_paper_account",
     "load_portfolio_targets",
+    "normalize_symbol",
     "read_execution_events",
     "reconcile_paper_execution",
+    "require_paper_instrument",
     "record_execution_events",
     "run_paper_execution",
     "run_shadow_cycle",
