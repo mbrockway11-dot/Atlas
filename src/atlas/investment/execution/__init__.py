@@ -21,6 +21,13 @@ from atlas.investment.execution.paper_broker import (
     PaperBroker,
     PaperBrokerConfig,
 )
+from atlas.investment.execution.portfolio_bridge import (
+    PortfolioTarget,
+    RebalanceLine,
+    RebalancePolicy,
+    build_portfolio_intent_plan,
+    load_portfolio_targets,
+)
 from atlas.investment.execution.risk import (
     evaluate_order_intent,
 )
@@ -38,10 +45,15 @@ __all__ = [
     "PaperOrderLifecycleStore",
     "PaperBroker",
     "PaperBrokerConfig",
+    "PortfolioTarget",
+    "RebalanceLine",
+    "RebalancePolicy",
     "PositionSnapshot",
     "RiskDecision",
     "RiskLimits",
     "apply_fill",
+    "build_portfolio_intent_plan",
     "evaluate_order_intent",
+    "load_portfolio_targets",
     "run_paper_execution",
 ]
