@@ -13,6 +13,9 @@ from pathlib import Path
 from atlas.investment.artifact_contracts import (
     validate_contract_registry,
 )
+from atlas.investment.artifact_lineage import (
+    validate_lineage_registry,
+)
 from atlas.investment.artifacts import ARTIFACTS, validate_registry
 from atlas.investment.research_scheduler import JOBS, topological_order
 
@@ -40,6 +43,12 @@ def audit_loader(path: Path) -> list[str]:
         "ARTIFACT_CONTRACT:"
         + error
         for error in validate_contract_registry()
+    )
+
+    errors.extend(
+        "ARTIFACT_LINEAGE:"
+        + error
+        for error in validate_lineage_registry()
     )
     source = path.read_text(encoding="utf-8-sig")
     tree = ast.parse(source, filename=str(path))
