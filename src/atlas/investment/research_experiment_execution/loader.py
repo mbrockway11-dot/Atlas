@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 from typing import Any
 
@@ -55,6 +56,25 @@ def load_execution_sources() -> dict[str, Any]:
 
 
 def discover_observations() -> tuple[pd.DataFrame, Path | None]:
+    override_value = os.environ.get(
+        "ATLAS_RESEARCH_OBSERVATIONS_PATH",
+        "",
+    ).strip()
+
+    if override_value:
+        override_path = Path(override_value)
+        override_frame = safe_read_csv(
+            override_path
+        )
+
+        if not override_frame.empty:
+            normalized = normalize_observations(
+                override_frame
+            )
+
+            if not normalized.empty:
+                return normalized, override_path
+
     historical = build_historical_trade_observations()
     if not historical.empty:
         return historical, HISTORICAL_TRADES_PATH

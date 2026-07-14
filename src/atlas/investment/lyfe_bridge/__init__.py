@@ -1,4 +1,4 @@
-﻿from .adapter import (
+from .adapter import (
     LyfeDecisionIntegrityError,
     LyfeDecisionSafetyError,
     adapt_lyfe_decision,
@@ -40,3 +40,13 @@ from .registry import (
     summarize_strategy_registry,
 )
 
+
+from atlas.investment.lyfe_bridge.morphology_observations import (
+    DEFAULT_HORIZONS,
+    MorphologyObservationConfig,
+    build_from_paths,
+    build_morphology_observations,
+    load_market_history,
+    load_topology,
+    write_morphology_observations,
+)
