@@ -123,3 +123,13 @@ output/investment_research_program_manager/
 output/investment_research_experiment_designer/
 output/investment_research_experiment_execution/
 output/investment_research_evidence_accumulator/
+
+# Atlas runtime investment artifacts
+output/atlas_control_plane/
+output/investment_architecture_audit/
+output/investment_market_data/
+output/investment_orchestration/
+output/investment_paper_execution/
+output/investment_scheduler/
+output/investment_approval/
+output/investment_ledger/
