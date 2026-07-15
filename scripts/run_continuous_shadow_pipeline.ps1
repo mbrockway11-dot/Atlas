@@ -1,5 +1,5 @@
-﻿param(
-    [string]$TargetsPath = "output\investment_paper_execution\shadow_targets_g12.json",
+param(
+    [string]$TargetsPath = "output\investment_portfolio_optimizer\portfolio_optimizer_report.json",
     [string]$SnapshotPath = "output\investment_market_data\latest_market_snapshot.json",
     [int]$IntervalSeconds = 30,
     [double]$InitialCash = 10000.0,

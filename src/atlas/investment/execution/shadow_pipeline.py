@@ -578,7 +578,10 @@ def load_target_allocations(
             "targets",
             payload.get(
                 "portfolio_rows",
-                payload,
+                payload.get(
+                    "portfolio",
+                    payload,
+                ),
             ),
         )
         if isinstance(

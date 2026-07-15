@@ -395,6 +395,16 @@ _CANONICAL_INSTRUMENTS = (
         minimum_quantity=0.000001,
         description="NEAR spot proxy",
     ),
+    crypto(
+        "AAVE-USD",
+        minimum_quantity=0.000001,
+        description="Aave spot proxy",
+    ),
+    crypto(
+        "BNB-USD",
+        minimum_quantity=0.000001,
+        description="BNB spot proxy",
+    ),
 
     # Metals
     etf(
@@ -552,6 +562,8 @@ SYMBOL_ALIASES = {
     "DOT": "DOT-USD",
     "ATOM": "ATOM-USD",
     "NEAR": "NEAR-USD",
+    "AAVE": "AAVE-USD",
+    "BNB": "BNB-USD",
     "XAU-USD": "GLD",
     "XAG-USD": "SLV",
     "GOLD": "GLD",
