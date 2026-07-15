@@ -134,3 +134,9 @@ output/investment_scheduler/
 output/investment_approval/
 output/investment_ledger/
 output/investment_lyfe_morphology/
+
+# Atlas generated research outputs
+output/investment_morphology_*/
+output/investment_v32_morphology_*/
+audit/
+*.before_*
