@@ -1,7 +1,18 @@
-﻿"""Atlas broker abstraction package."""
+"""Atlas broker abstraction package."""
 
 from .base import BrokerAdapter, ExecutionModeGate
 from .capabilities import validate_order_capabilities
+from .ccxt_adapter import (
+    CCXTBrokerAdapter,
+    CCXTBrokerConfig,
+    CCXTExchangeProtocol,
+    atlas_symbol_to_ccxt,
+    build_ccxt_exchange,
+    ccxt_symbol_to_atlas,
+    normalize_ccxt_order_type,
+    normalize_ccxt_side,
+    normalize_ccxt_status,
+)
 from .contracts import (
     BrokerAccountSnapshot,
     BrokerCapabilities,
@@ -50,6 +61,15 @@ if DEFAULT_BROKER_PROVIDER not in default_registry.names():
     default_registry.register(DEFAULT_BROKER_PROVIDER, MockBrokerAdapter)
 
 __all__ = [
+    "normalize_ccxt_status",
+    "normalize_ccxt_side",
+    "normalize_ccxt_order_type",
+    "ccxt_symbol_to_atlas",
+    "build_ccxt_exchange",
+    "atlas_symbol_to_ccxt",
+    "CCXTExchangeProtocol",
+    "CCXTBrokerConfig",
+    "CCXTBrokerAdapter",
     "BrokerAccountSnapshot",
     "BrokerAdapter",
     "BrokerCapabilities",
@@ -90,3 +110,9 @@ __all__ = [
     "normalize_symbol",
     "validate_order_capabilities",
 ]
+
+if "ccxt" not in default_registry.names():
+    default_registry.register(
+        "ccxt",
+        CCXTBrokerAdapter,
+    )
