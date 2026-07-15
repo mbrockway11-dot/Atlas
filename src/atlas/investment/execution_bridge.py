@@ -2,12 +2,11 @@
 
 Connects existing Atlas components without introducing new trading logic:
 LYFE instruction -> portfolio intent -> OrderIntent -> risk -> broker/paper execution.
-Live execution remains disabled by the underlying broker and execution gates.
+
+All routes remain paper-only. Human approval is mandatory for executable LYFE
+instructions, and live execution is never authorized by this module.
 """
 
 from __future__ import annotations
 
-from dataclasses import fields
-from typing import Any, Mapping
-
-from atlas.investment.brok
+from dataclasses import asdict
