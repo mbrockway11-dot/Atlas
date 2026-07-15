@@ -1,0 +1,29 @@
+{
+  "checked_at": "2026-07-15T03:48:36.199255+00:00",
+  "credentials_present": {
+    "api_key": false,
+    "api_secret": false,
+    "password": false,
+    "uid": false
+  },
+  "exchange": "binanceus",
+  "live_authorized": false,
+  "order_submission_allowed": false,
+  "read_only": true,
+  "sandbox_requested": false,
+  "schema_version": "atlas.ccxt.read_only_probe.v1",
+  "steps": {
+    "authentication": {
+      "reason": "API key and secret are not both present.",
+      "success": false
+    },
+    "markets": {
+      "market_count": 625,
+      "sol_usd_available": true,
+      "sol_usdt_available": true,
+      "success": true
+    }
+  },
+  "submission_attempted": false,
+  "success": false
+}

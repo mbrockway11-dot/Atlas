@@ -1,0 +1,1511 @@
+﻿===== src\atlas\investment\lyfe_bridge\adapter.py =====
+"""
+Atlas LYFE Strategy Adapter.
+
+Loads and verifies a LYFE StrategyDecision artifact and converts
+it into an Atlas-owned strategy instruction.
+
+This adapter does not execute trades.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+from pathlib import Path
+from typing import Any
+
+from .contracts import (
+    SUPPORTED_MANIFEST_VERSION,
+    AtlasStrategyInstruction,
+    ExternalStrategyDecision,
+)
+
+
+class LyfeDecisionIntegrityError(ValueError):
+    """Raised when an artifact hash or manifest is invalid."""
+
+
+class LyfeDecisionSafetyError(ValueError):
+    """Raised when an external decision violates Atlas safety rules."""
+
+
+def file_sha256(
+    path: str | Path,
+) -> str:
+    path = Path(path)
+    digest = hashlib.sha256()
+
+    with path.open("rb") as handle:
+        for chunk in iter(
+            lambda: handle.read(
+                1024 * 1024
+            ),
+            b"",
+        ):
+            digest.update(chunk)
+
+    return digest.hexdigest()
+
+
+def _load_json(
+    path: str | Path,
+) -> dict[str, Any]:
+    path = Path(path)
+
+    if not path.exists():
+        raise FileNotFoundError(
+            path
+        )
+
+    payload = json.loads(
+        path.read_text(
+            encoding="utf-8"
+        )
+    )
+
+    if not isinstance(payload, dict):
+        raise ValueError(
+            f"Expected JSON object: {path}"
+        )
+
+    return payload
+
+
+def load_manifest(
+    manifest_path: str | Path,
+) -> dict[str, Any]:
+    manifest = _load_json(
+        manifest_path
+    )
+
+    if (
+        manifest.get("schema_version")
+        != SUPPORTED_MANIFEST_VERSION
+    ):
+        raise LyfeDecisionIntegrityError(
+            "Unsupported LYFE decision manifest schema."
+        )
+
+    expected_hash = str(
+        manifest.get(
+            "decision_sha256",
+            "",
+        )
+    ).strip()
+
+    if len(expected_hash) != 64:
+        raise LyfeDecisionIntegrityError(
+            "Manifest decision_sha256 is invalid."
+        )
+
+    return manifest
+
+
+def verify_decision_artifact(
+    decision_path: str | Path,
+    manifest_path: str | Path | None = None,
+) -> str:
+    decision_path = Path(
+        decision_path
+    )
+
+    if manifest_path is None:
+        manifest_path = decision_path.with_suffix(
+            ".manifest.json"
+        )
+
+    manifest = load_manifest(
+        manifest_path
+    )
+
+    actual_hash = file_sha256(
+        decision_path
+    )
+
+    expected_hash = str(
+        manifest["decision_sha256"]
+    )
+
+    if actual_hash != expected_hash:
+        raise LyfeDecisionIntegrityError(
+            "LYFE decision SHA-256 mismatch."
+        )
+
+    return actual_hash
+
+
+def load_external_decision(
+    decision_path: str | Path,
+) -> ExternalStrategyDecision:
+    payload = _load_json(
+        decision_path
+    )
+
+    decision = ExternalStrategyDecision(
+        **payload
+    )
+
+    decision.validate()
+
+    return decision
+
+
+def enforce_atlas_safety_boundary(
+    decision: ExternalStrategyDecision,
+) -> None:
+    if not decision.research_only:
+        raise LyfeDecisionSafetyError(
+            "Atlas currently accepts only research-only LYFE decisions."
+        )
+
+    if not decision.requires_human_approval:
+        raise LyfeDecisionSafetyError(
+            "Atlas requires human approval for all LYFE decisions."
+        )
+
+    if (
+        decision.action == "ENTER"
+        and decision.target_exposure <= 0.0
+    ):
+        raise LyfeDecisionSafetyError(
+            "ENTER decisions must request positive exposure."
+        )
+
+    if (
+        decision.action == "NO_ACTION"
+        and decision.target_exposure != 0.0
+    ):
+        raise LyfeDecisionSafetyError(
+            "NO_ACTION decisions must request zero exposure."
+        )
+
+
+def adapt_lyfe_decision(
+    decision: ExternalStrategyDecision,
+    *,
+    source_sha256: str,
+) -> AtlasStrategyInstruction:
+    enforce_atlas_safety_boundary(
+        decision
+    )
+
+    return AtlasStrategyInstruction(
+        instruction_id=(
+            f"atlas:{decision.decision_id}"
+        ),
+        source_system="LYFE",
+        strategy_id=decision.strategy_id,
+        strategy_version=decision.strategy_version,
+        signal_timestamp_utc=(
+            decision.signal_timestamp_utc
+        ),
+        asset=decision.asset,
+        action=decision.action,
+        direction=decision.direction,
+        requested_exposure=(
+            decision.target_exposure
+        ),
+        confidence=decision.confidence,
+        rationale=decision.reason,
+        requires_human_approval=(
+            decision.requires_human_approval
+        ),
+        research_only=decision.research_only,
+        source_decision_sha256=source_sha256,
+        source_commit=decision.source_commit,
+        dataset_hash=decision.dataset_hash,
+        metadata={
+            **decision.metadata,
+            "external_decision_id":
+                decision.decision_id,
+            "generated_at_utc":
+                decision.generated_at_utc,
+            "research_session_id":
+                decision.research_session_id,
+        },
+    )
+
+
+def import_lyfe_strategy_decision(
+    decision_path: str | Path,
+    manifest_path: str | Path | None = None,
+) -> AtlasStrategyInstruction:
+    source_hash = verify_decision_artifact(
+        decision_path,
+        manifest_path,
+    )
+
+    decision = load_external_decision(
+        decision_path
+    )
+
+    return adapt_lyfe_decision(
+        decision,
+        source_sha256=source_hash,
+    )
+
+===== src\atlas\investment\lyfe_bridge\contracts.py =====
+"""
+Atlas-owned contracts for consuming LYFE strategy decisions.
+
+Atlas does not import LYFE source code. It owns and validates
+its copy of the external contract boundary.
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from datetime import datetime
+from typing import Any, Literal
+
+
+SUPPORTED_SCHEMA_VERSION = "lyfe.strategy-decision.v1"
+SUPPORTED_MANIFEST_VERSION = "lyfe.strategy-decision-manifest.v1"
+
+Action = Literal[
+    "NO_ACTION",
+    "ENTER",
+    "EXIT",
+    "HOLD",
+    "REDUCE",
+]
+
+Direction = Literal[
+    "FLAT",
+    "LONG",
+    "SHORT",
+]
+
+
+@dataclass(frozen=True, slots=True)
+class ExternalStrategyDecision:
+    schema_version: str
+
+    decision_id: str
+    generated_at_utc: str
+    signal_timestamp_utc: str
+
+    strategy_id: str
+    strategy_version: str
+
+    asset: str
+    action: Action
+    direction: Direction
+
+    target_exposure: float
+    confidence: float | None
+
+    reason: str
+
+    dataset_hash: str | None = None
+    source_commit: str | None = None
+    research_session_id: str | None = None
+
+    research_only: bool = True
+    requires_human_approval: bool = True
+
+    metadata: dict[str, Any] = field(
+        default_factory=dict
+    )
+
+    def validate(self) -> None:
+        if self.schema_version != SUPPORTED_SCHEMA_VERSION:
+            raise ValueError(
+                f"Unsupported LYFE schema: {self.schema_version}"
+            )
+
+        for field_name, value in (
+            ("decision_id", self.decision_id),
+            ("strategy_id", self.strategy_id),
+            ("strategy_version", self.strategy_version),
+            ("asset", self.asset),
+            ("reason", self.reason),
+        ):
+            if not str(value).strip():
+                raise ValueError(
+                    f"{field_name} must not be empty."
+                )
+
+        for timestamp_name, timestamp_value in (
+            ("generated_at_utc", self.generated_at_utc),
+            (
+                "signal_timestamp_utc",
+                self.signal_timestamp_utc,
+            ),
+        ):
+            try:
+                parsed = datetime.fromisoformat(
+                    timestamp_value.replace(
+                        "Z",
+                        "+00:00",
+                    )
+                )
+            except ValueError as exc:
+                raise ValueError(
+                    f"{timestamp_name} must be ISO-8601."
+                ) from exc
+
+            if parsed.tzinfo is None:
+                raise ValueError(
+                    f"{timestamp_name} must include timezone."
+                )
+
+        if self.action not in {
+            "NO_ACTION",
+            "ENTER",
+            "EXIT",
+            "HOLD",
+            "REDUCE",
+        }:
+            raise ValueError(
+                f"Unsupported action: {self.action}"
+            )
+
+        if self.direction not in {
+            "FLAT",
+            "LONG",
+            "SHORT",
+        }:
+            raise ValueError(
+                f"Unsupported direction: {self.direction}"
+            )
+
+        if not 0.0 <= self.target_exposure <= 1.0:
+            raise ValueError(
+                "target_exposure must be between 0.0 and 1.0."
+            )
+
+        if (
+            self.confidence is not None
+            and not 0.0 <= self.confidence <= 1.0
+        ):
+            raise ValueError(
+                "confidence must be between 0.0 and 1.0."
+            )
+
+        if (
+            self.action == "NO_ACTION"
+            and self.direction != "FLAT"
+        ):
+            raise ValueError(
+                "NO_ACTION must use FLAT direction."
+            )
+
+        if (
+            self.direction == "FLAT"
+            and self.target_exposure != 0.0
+        ):
+            raise ValueError(
+                "FLAT decisions must use zero exposure."
+            )
+
+
+@dataclass(frozen=True, slots=True)
+class AtlasStrategyInstruction:
+    instruction_id: str
+    source_system: str
+
+    strategy_id: str
+    strategy_version: str
+
+    signal_timestamp_utc: str
+
+    asset: str
+    action: Action
+    direction: Direction
+    requested_exposure: float
+
+    confidence: float | None
+    rationale: str
+
+    requires_human_approval: bool
+    research_only: bool
+
+    source_decision_sha256: str
+    source_commit: str | None = None
+    dataset_hash: str | None = None
+
+    metadata: dict[str, Any] = field(
+        default_factory=dict
+    )
+
+===== src\atlas\investment\lyfe_bridge\morphology_observations.py =====
+"""Build Atlas research observations from LYFE market morphology.
+
+The generator joins synchronized LYFE topology snapshots to asset-level OHLC
+history and labels each point-in-time morphology with future price-path
+outcomes.
+
+Research only. This module does not generate orders or position sizes.
+"""
+
+from __future__ import annotations
+
+import hashlib
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Iterable
+
+import numpy as np
+import pandas as pd
+
+
+DEFAULT_HORIZONS = (1, 2, 4, 8, 16, 32, 96)
+
+TOPOLOGY_REQUIRED = {
+    "timestamp",
+    "rank_state",
+    "prior_rank_state",
+    "transition",
+    "persistence_bars",
+    "entropy",
+    "leader",
+    "laggard",
+    "concentration",
+    "dispersion",
+    "transition_velocity",
+    "multi_timeframe_agreement",
+    "sol_fulcrum_score",
+}
+
+MARKET_REQUIRED = {
+    "timestamp",
+    "asset",
+    "open",
+    "high",
+    "low",
+    "close",
+}
+
+
+@dataclass(frozen=True, slots=True)
+class MorphologyObservationConfig:
+    horizons: tuple[int, ...] = DEFAULT_HORIZONS
+    target_horizon: int = 16
+    engine_id: str = "LYFE_MORPHOLOGY_V1"
+    entry_model: str = "NEXT_BAR_OPEN"
+
+    def __post_init__(self) -> None:
+        horizons = tuple(sorted(set(int(value) for value in self.horizons)))
+
+        if not horizons or any(value < 1 for value in horizons):
+            raise ValueError("horizons must contain positive integers.")
+
+        if self.target_horizon not in horizons:
+            raise ValueError(
+                "target_horizon must be included in horizons."
+            )
+
+        if self.entry_model != "NEXT_BAR_OPEN":
+            raise ValueError(
+                "Only NEXT_BAR_OPEN is supported in v1."
+            )
+
+
+def load_topology(path: str | Path) -> pd.DataFrame:
+    frame = pd.read_csv(path, low_memory=False)
+
+    missing = sorted(TOPOLOGY_REQUIRED - set(frame.columns))
+    if missing:
+        raise ValueError(
+            f"Topology input is missing required columns: {missing}"
+        )
+
+    frame = frame.copy()
+    frame["timestamp"] = pd.to_datetime(
+        frame["timestamp"],
+        utc=True,
+        errors="coerce",
+    )
+
+    frame = (
+        frame.dropna(subset=["timestamp", "rank_state"])
+        .sort_values("timestamp", kind="stable")
+        .drop_duplicates(subset=["timestamp"], keep="last")
+        .reset_index(drop=True)
+    )
+
+    frame["next_rank_state"] = frame["rank_state"].shift(-1)
+    frame["next_transition"] = frame["transition"].shift(-1)
+
+    return frame
+
+
+def load_market_history(path: str | Path) -> pd.DataFrame:
+    frame = pd.read_csv(path, low_memory=False)
+
+    rename_map = {}
+
+    if "symbol" in frame.columns and "asset" not in frame.columns:
+        rename_map["symbol"] = "asset"
+
+    if "datetime" in frame.columns and "timestamp" not in frame.columns:
+        rename_map["datetime"] = "timestamp"
+
+    if rename_map:
+        frame = frame.rename(columns=rename_map)
+
+    missing = sorted(MARKET_REQUIRED - set(frame.columns))
+    if missing:
+        raise ValueError(
+            f"Market input is missing required columns: {missing}"
+        )
+
+    frame = frame.copy()
+
+    frame["timestamp"] = pd.to_datetime(
+        frame["timestamp"],
+        utc=True,
+        errors="coerce",
+    )
+
+    frame["asset"] = (
+        frame["asset"]
+        .astype(str)
+        .str.strip()
+        .str.upper()
+    )
+
+    for column in ("open", "high", "low", "close"):
+        frame[column] = pd.to_numeric(
+            frame[column],
+            errors="coerce",
+        )
+
+    frame = (
+        frame.dropna(
+            subset=[
+                "timestamp",
+                "asset",
+                "open",
+                "high",
+                "low",
+                "close",
+            ]
+        )
+        .sort_values(
+            ["asset", "timestamp"],
+            kind="stable",
+        )
+        .drop_duplicates(
+            subset=["asset", "timestamp"],
+            keep="last",
+        )
+        .reset_index(drop=True)
+    )
+
+    return frame
+
+
+def future_window_max(series: pd.Series, horizon: int) -> pd.Series:
+    """Maximum over bars t+1 through t+horizon."""
+    return (
+        series.shift(-1)
+        .rolling(
+            window=horizon,
+            min_periods=horizon,
+        )
+        .max()
+        .shift(-(horizon - 1))
+    )
+
+
+def future_window_min(series: pd.Series, horizon: int) -> pd.Series:
+    """Minimum over bars t+1 through t+horizon."""
+    return (
+        series.shift(-1)
+        .rolling(
+            window=horizon,
+            min_periods=horizon,
+        )
+        .min()
+        .shift(-(horizon - 1))
+    )
+
+
+def stable_observation_id(
+    *,
+    engine_id: str,
+    asset: str,
+    timestamp: pd.Timestamp,
+) -> str:
+    payload = (
+        f"{engine_id}|{asset}|{timestamp.isoformat()}"
+    ).encode("utf-8")
+
+    return hashlib.sha256(payload).hexdigest()[:24]
+
+
+def label_asset_path(
+    asset_frame: pd.DataFrame,
+    *,
+    config: MorphologyObservationConfig,
+) -> pd.DataFrame:
+    ordered = (
+        asset_frame.sort_values(
+            "timestamp",
+            kind="stable",
+        )
+        .reset_index(drop=True)
+        .copy()
+    )
+
+    ordered["entry_price"] = ordered["open"].shift(-1)
+    ordered["entry_timestamp"] = ordered["timestamp"].shift(-1)
+
+    entry = ordered["entry_price"]
+
+    for horizon in config.horizons:
+        exit_close = ordered["close"].shift(-horizon)
+        future_high = future_window_max(
+            ordered["high"],
+            horizon,
+        )
+        future_low = future_window_min(
+            ordered["low"],
+            horizon,
+        )
+
+        ordered[f"exit_close_{horizon}"] = exit_close
+
+        ordered[f"forward_return_{horizon}"] = (
+            exit_close / entry - 1.0
+        )
+
+        ordered[f"long_mfe_{horizon}"] = (
+            future_high / entry - 1.0
+        )
+
+        ordered[f"long_mae_{horizon}"] = (
+            future_low / entry - 1.0
+        )
+
+        ordered[f"short_return_{horizon}"] = (
+            entry / exit_close - 1.0
+        )
+
+        ordered[f"short_mfe_{horizon}"] = (
+            entry / future_low - 1.0
+        )
+
+        ordered[f"short_mae_{horizon}"] = (
+            entry / future_high - 1.0
+        )
+
+        ordered[f"reward_risk_long_{horizon}"] = (
+            ordered[f"long_mfe_{horizon}"]
+            / ordered[f"long_mae_{horizon}"].abs().replace(0.0, np.nan)
+        )
+
+        ordered[f"reward_risk_short_{horizon}"] = (
+            ordered[f"short_mfe_{horizon}"]
+            / ordered[f"short_mae_{horizon}"].abs().replace(0.0, np.nan)
+        )
+
+    return ordered
+
+
+def build_morphology_observations(
+    topology: pd.DataFrame,
+    market_history: pd.DataFrame,
+    *,
+    config: MorphologyObservationConfig = MorphologyObservationConfig(),
+) -> pd.DataFrame:
+    labelled_assets = []
+
+    for _, asset_frame in market_history.groupby(
+        "asset",
+        sort=True,
+        observed=True,
+    ):
+        labelled_assets.append(
+            label_asset_path(
+                asset_frame,
+                config=config,
+            )
+        )
+
+    labelled = pd.concat(
+        labelled_assets,
+        ignore_index=True,
+    )
+
+    topology_columns = [
+        "timestamp",
+        "rank_state",
+        "prior_rank_state",
+        "transition",
+        "persistence_bars",
+        "entropy",
+        "leader",
+        "laggard",
+        "concentration",
+        "dispersion",
+        "transition_velocity",
+        "multi_timeframe_agreement",
+        "sol_fulcrum_score",
+        "next_rank_state",
+        "next_transition",
+    ]
+
+    observations = labelled.merge(
+        topology[topology_columns],
+        on="timestamp",
+        how="inner",
+        validate="many_to_one",
+    )
+
+    observations["engine_id"] = config.engine_id
+    observations["observation_source"] = "lyfe_morphology_v1"
+    observations["entry_model"] = config.entry_model
+    observations["target_horizon"] = config.target_horizon
+
+    target_column = (
+        f"forward_return_{config.target_horizon}"
+    )
+
+    observations["trade_return"] = observations[target_column]
+
+    observations["trade_id"] = [
+        stable_observation_id(
+            engine_id=config.engine_id,
+            asset=str(asset),
+            timestamp=timestamp,
+        )
+        for asset, timestamp in zip(
+            observations["asset"],
+            observations["timestamp"],
+        )
+    ]
+
+    observations["observation_id"] = observations["trade_id"]
+
+    observations = observations.dropna(
+        subset=[
+            "timestamp",
+            "asset",
+            "entry_price",
+            "trade_return",
+            "rank_state",
+        ]
+    )
+
+    preferred_columns = [
+        "observation_id",
+        "trade_id",
+        "engine_id",
+        "timestamp",
+        "entry_timestamp",
+        "asset",
+        "entry_model",
+        "target_horizon",
+        "entry_price",
+        "trade_return",
+        "observation_source",
+        "rank_state",
+        "prior_rank_state",
+        "transition",
+        "persistence_bars",
+        "entropy",
+        "leader",
+        "laggard",
+        "concentration",
+        "dispersion",
+        "transition_velocity",
+        "multi_timeframe_agreement",
+        "sol_fulcrum_score",
+        "next_rank_state",
+        "next_transition",
+    ]
+
+    remaining = [
+        column
+        for column in observations.columns
+        if column not in preferred_columns
+    ]
+
+    return (
+        observations[
+            preferred_columns + remaining
+        ]
+        .sort_values(
+            ["timestamp", "asset", "trade_id"],
+            kind="stable",
+        )
+        .reset_index(drop=True)
+    )
+
+
+def write_morphology_observations(
+    observations: pd.DataFrame,
+    output_path: str | Path,
+) -> Path:
+    path = Path(output_path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+    observations.to_csv(
+        path,
+        index=False,
+    )
+
+    return path
+
+
+def build_from_paths(
+    *,
+    topology_path: str | Path,
+    market_path: str | Path,
+    output_path: str | Path,
+    horizons: Iterable[int] = DEFAULT_HORIZONS,
+    target_horizon: int = 16,
+) -> pd.DataFrame:
+    config = MorphologyObservationConfig(
+        horizons=tuple(int(value) for value in horizons),
+        target_horizon=int(target_horizon),
+    )
+
+    topology = load_topology(topology_path)
+    market = load_market_history(market_path)
+
+    observations = build_morphology_observations(
+        topology,
+        market,
+        config=config,
+    )
+
+    write_morphology_observations(
+        observations,
+        output_path,
+    )
+
+    return observations
+
+===== src\atlas\investment\lyfe_bridge\portfolio_intent.py =====
+"""
+LYFE-to-Atlas portfolio intent adapter.
+
+Maps validated LYFE strategy instructions into Atlas's existing
+long-only PortfolioTarget and portfolio-intent infrastructure.
+
+This module does not submit orders.
+
+Mapping rules:
+- NO_ACTION: no portfolio change
+- ENTER/HOLD/REDUCE LONG: long target weight
+- EXIT: zero target weight
+- SHORT: retained as a deferred research observation
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+import math
+from typing import Any
+
+from atlas.investment.execution.contracts import (
+    AccountSnapshot,
+)
+from atlas.investment.execution.portfolio_bridge import (
+    PortfolioTarget,
+    RebalancePolicy,
+    build_portfolio_intent_plan,
+)
+
+from .contracts import (
+    AtlasStrategyInstruction,
+)
+
+
+@dataclass(frozen=True, slots=True)
+class LyfePortfolioMapping:
+    instruction_id: str
+    status: str
+    executable: bool
+    reason: str
+    target: PortfolioTarget | None = None
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "instruction_id":
+                self.instruction_id,
+            "status":
+                self.status,
+            "executable":
+                self.executable,
+            "reason":
+                self.reason,
+            "target": (
+                self.target.to_dict()
+                if self.target is not None
+                else None
+            ),
+        }
+
+
+def _validate_reference_price(
+    reference_price: float,
+) -> float:
+    price = float(
+        reference_price
+    )
+
+    if (
+        not math.isfinite(price)
+        or price <= 0.0
+    ):
+        raise ValueError(
+            "reference_price must be positive and finite."
+        )
+
+    return price
+
+
+def map_lyfe_instruction_to_target(
+    instruction: AtlasStrategyInstruction,
+    *,
+    reference_price: float,
+) -> LyfePortfolioMapping:
+    price = _validate_reference_price(
+        reference_price
+    )
+
+    if instruction.action == "NO_ACTION":
+        return LyfePortfolioMapping(
+            instruction_id=(
+                instruction.instruction_id
+            ),
+            status="NO_PORTFOLIO_CHANGE",
+            executable=False,
+            reason=(
+                "LYFE emitted NO_ACTION; Atlas will not "
+                "change the current portfolio."
+            ),
+        )
+
+    if instruction.action == "EXIT":
+        target = PortfolioTarget(
+            asset=instruction.asset,
+            target_weight=0.0,
+            reference_price=price,
+            source_label=(
+                f"LYFE:{instruction.strategy_id}:EXIT"
+            ),
+        )
+
+        return LyfePortfolioMapping(
+            instruction_id=(
+                instruction.instruction_id
+            ),
+            status="EXIT_TARGET_READY",
+            executable=True,
+            reason=(
+                "LYFE exit mapped to zero Atlas target weight."
+            ),
+            target=target,
+        )
+
+    if instruction.direction == "SHORT":
+        return LyfePortfolioMapping(
+            instruction_id=(
+                instruction.instruction_id
+            ),
+            status="SHORT_DEFERRED",
+            executable=False,
+            reason=(
+                "Atlas portfolio execution is currently "
+                "long-only; the LYFE short signal remains "
+                "available for research and shadow evaluation."
+            ),
+        )
+
+    if instruction.direction == "FLAT":
+        return LyfePortfolioMapping(
+            instruction_id=(
+                instruction.instruction_id
+            ),
+            status="FLAT_DEFERRED",
+            executable=False,
+            reason=(
+                "A flat non-exit instruction does not imply "
+                "portfolio liquidation."
+            ),
+        )
+
+    if (
+        instruction.direction == "LONG"
+        and instruction.action
+        in {
+            "ENTER",
+            "HOLD",
+            "REDUCE",
+        }
+    ):
+        target = PortfolioTarget(
+            asset=instruction.asset,
+            target_weight=(
+                instruction.requested_exposure
+            ),
+            reference_price=price,
+            source_label=(
+                f"LYFE:{instruction.strategy_id}:"
+                f"{instruction.action}"
+            ),
+        )
+
+        return LyfePortfolioMapping(
+            instruction_id=(
+                instruction.instruction_id
+            ),
+            status="LONG_TARGET_READY",
+            executable=True,
+            reason=(
+                "LYFE long instruction mapped to an Atlas "
+                "portfolio target."
+            ),
+            target=target,
+        )
+
+    return LyfePortfolioMapping(
+        instruction_id=(
+            instruction.instruction_id
+        ),
+        status="UNSUPPORTED_MAPPING",
+        executable=False,
+        reason=(
+            "The LYFE instruction does not map to a supported "
+            "Atlas portfolio target."
+        ),
+    )
+
+
+def build_lyfe_portfolio_intent_plan(
+    instruction: AtlasStrategyInstruction,
+    *,
+    reference_price: float,
+    account: AccountSnapshot,
+    policy: RebalancePolicy | None = None,
+    write_output: bool = False,
+) -> dict[str, Any]:
+    mapping = map_lyfe_instruction_to_target(
+        instruction,
+        reference_price=reference_price,
+    )
+
+    if (
+        not mapping.executable
+        or mapping.target is None
+    ):
+        return {
+            "version":
+                "lyfe_portfolio_intent_adapter_v1",
+            "instruction_id":
+                instruction.instruction_id,
+            "strategy_id":
+                instruction.strategy_id,
+            "mapping":
+                mapping.to_dict(),
+            "intents": [],
+            "rebalance_lines": [],
+            "execution_blocked": True,
+        }
+
+    plan = build_portfolio_intent_plan(
+        targets=[
+            mapping.target
+        ],
+        account=account,
+        strategy_id=(
+            instruction.strategy_id
+        ),
+        evidence_id=(
+            instruction.source_decision_sha256
+            or instruction.instruction_id
+        ),
+        policy=policy,
+        write_output=write_output,
+    )
+
+    return {
+        **plan,
+        "lyfe_mapping":
+            mapping.to_dict(),
+        "execution_blocked":
+            False,
+    }
+
+===== src\atlas\investment\lyfe_bridge\registry.py =====
+"""
+Atlas Strategy Registry.
+
+Discovers and validates external strategy decisions without
+routing them to risk, approval, portfolio, or execution.
+
+Expected directory structure:
+
+root/
+    V32_AB/
+        latest_strategy_decision.json
+        latest_strategy_decision.manifest.json
+    V33_TOPOLOGY/
+        latest_strategy_decision.json
+        latest_strategy_decision.manifest.json
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from pathlib import Path
+
+from .adapter import (
+    import_lyfe_strategy_decision,
+)
+from .contracts import (
+    AtlasStrategyInstruction,
+)
+
+
+DEFAULT_DECISION_FILENAME = (
+    "latest_strategy_decision.json"
+)
+
+
+@dataclass(frozen=True, slots=True)
+class StrategyRegistryFailure:
+    strategy_directory: str
+    decision_path: str | None
+    error_type: str
+    error_message: str
+
+
+@dataclass(frozen=True, slots=True)
+class RegisteredStrategy:
+    registry_key: str
+    strategy_directory: str
+    decision_path: str
+    instruction: AtlasStrategyInstruction
+
+
+@dataclass(frozen=True, slots=True)
+class StrategyRegistrySnapshot:
+    root_directory: str
+    registered: tuple[
+        RegisteredStrategy,
+        ...,
+    ] = field(
+        default_factory=tuple
+    )
+    failures: tuple[
+        StrategyRegistryFailure,
+        ...,
+    ] = field(
+        default_factory=tuple
+    )
+
+    @property
+    def registered_count(self) -> int:
+        return len(
+            self.registered
+        )
+
+    @property
+    def failure_count(self) -> int:
+        return len(
+            self.failures
+        )
+
+    @property
+    def is_clean(self) -> bool:
+        return self.failure_count == 0
+
+
+def strategy_registry_key(
+    instruction: AtlasStrategyInstruction,
+) -> str:
+    return (
+        f"{instruction.source_system}:"
+        f"{instruction.strategy_id}:"
+        f"{instruction.strategy_version}"
+    )
+
+
+def discover_strategy_directories(
+    root_directory: str | Path,
+) -> list[Path]:
+    root = Path(
+        root_directory
+    )
+
+    if not root.exists():
+        raise FileNotFoundError(
+            root
+        )
+
+    if not root.is_dir():
+        raise NotADirectoryError(
+            root
+        )
+
+    return sorted(
+        (
+            path
+            for path in root.iterdir()
+            if path.is_dir()
+        ),
+        key=lambda path: path.name.lower(),
+    )
+
+
+def load_registered_strategy(
+    strategy_directory: str | Path,
+    *,
+    decision_filename: str = (
+        DEFAULT_DECISION_FILENAME
+    ),
+) -> RegisteredStrategy:
+    strategy_directory = Path(
+        strategy_directory
+    )
+
+    decision_path = (
+        strategy_directory
+        / decision_filename
+    )
+
+    if not decision_path.exists():
+        raise FileNotFoundError(
+            decision_path
+        )
+
+    instruction = (
+        import_lyfe_strategy_decision(
+            decision_path
+        )
+    )
+
+    key = strategy_registry_key(
+        instruction
+    )
+
+    return RegisteredStrategy(
+        registry_key=key,
+        strategy_directory=str(
+            strategy_directory
+        ),
+        decision_path=str(
+            decision_path
+        ),
+        instruction=instruction,
+    )
+
+
+def build_strategy_registry(
+    root_directory: str | Path,
+    *,
+    decision_filename: str = (
+        DEFAULT_DECISION_FILENAME
+    ),
+    strict: bool = False,
+) -> StrategyRegistrySnapshot:
+    root = Path(
+        root_directory
+    )
+
+    registered: list[
+        RegisteredStrategy
+    ] = []
+
+    failures: list[
+        StrategyRegistryFailure
+    ] = []
+
+    seen_keys: set[str] = set()
+
+    for strategy_directory in (
+        discover_strategy_directories(
+            root
+        )
+    ):
+        decision_path = (
+            strategy_directory
+            / decision_filename
+        )
+
+        try:
+            item = load_registered_strategy(
+                strategy_directory,
+                decision_filename=(
+                    decision_filename
+                ),
+            )
+
+            if item.registry_key in seen_keys:
+                raise ValueError(
+                    "Duplicate strategy registry key: "
+                    f"{item.registry_key}"
+                )
+
+            seen_keys.add(
+                item.registry_key
+            )
+
+            registered.append(
+                item
+            )
+
+        except Exception as exc:
+            failure = StrategyRegistryFailure(
+                strategy_directory=str(
+                    strategy_directory
+                ),
+                decision_path=(
+                    str(decision_path)
+                    if decision_path.exists()
+                    else None
+                ),
+                error_type=type(
+                    exc
+                ).__name__,
+                error_message=str(
+                    exc
+                ),
+            )
+
+            if strict:
+                raise RuntimeError(
+                    "Strategy registry discovery "
+                    f"failed for {strategy_directory}: "
+                    f"{type(exc).__name__}: {exc}"
+                ) from exc
+
+            failures.append(
+                failure
+            )
+
+    registered.sort(
+        key=lambda item: (
+            item.registry_key,
+            item.instruction.signal_timestamp_utc,
+            item.instruction.instruction_id,
+        )
+    )
+
+    failures.sort(
+        key=lambda item: (
+            item.strategy_directory,
+            item.error_type,
+            item.error_message,
+        )
+    )
+
+    return StrategyRegistrySnapshot(
+        root_directory=str(
+            root
+        ),
+        registered=tuple(
+            registered
+        ),
+        failures=tuple(
+            failures
+        ),
+    )
+
+
+def registry_instruction_map(
+    snapshot: StrategyRegistrySnapshot,
+) -> dict[
+    str,
+    AtlasStrategyInstruction,
+]:
+    return {
+        item.registry_key:
+            item.instruction
+        for item in snapshot.registered
+    }
+
+
+def summarize_strategy_registry(
+    snapshot: StrategyRegistrySnapshot,
+) -> dict:
+    return {
+        "root_directory":
+            snapshot.root_directory,
+        "registered_count":
+            snapshot.registered_count,
+        "failure_count":
+            snapshot.failure_count,
+        "is_clean":
+            snapshot.is_clean,
+        "registry_keys": [
+            item.registry_key
+            for item in snapshot.registered
+        ],
+        "failures": [
+            {
+                "strategy_directory":
+                    failure.strategy_directory,
+                "decision_path":
+                    failure.decision_path,
+                "error_type":
+                    failure.error_type,
+                "error_message":
+                    failure.error_message,
+            }
+            for failure in snapshot.failures
+        ],
+    }
+
+===== src\atlas\investment\lyfe_bridge\__init__.py =====
+from .adapter import (
+    LyfeDecisionIntegrityError,
+    LyfeDecisionSafetyError,
+    adapt_lyfe_decision,
+    file_sha256,
+    import_lyfe_strategy_decision,
+    load_external_decision,
+    verify_decision_artifact,
+)
+from .contracts import (
+    SUPPORTED_MANIFEST_VERSION,
+    SUPPORTED_SCHEMA_VERSION,
+    AtlasStrategyInstruction,
+    ExternalStrategyDecision,
+)
+
+__all__ = [
+    "SUPPORTED_MANIFEST_VERSION",
+    "SUPPORTED_SCHEMA_VERSION",
+    "AtlasStrategyInstruction",
+    "ExternalStrategyDecision",
+    "LyfeDecisionIntegrityError",
+    "LyfeDecisionSafetyError",
+    "adapt_lyfe_decision",
+    "file_sha256",
+    "import_lyfe_strategy_decision",
+    "load_external_decision",
+    "verify_decision_artifact",
+]
+from .registry import (
+    DEFAULT_DECISION_FILENAME,
+    RegisteredStrategy,
+    StrategyRegistryFailure,
+    StrategyRegistrySnapshot,
+    build_strategy_registry,
+    discover_strategy_directories,
+    load_registered_strategy,
+    registry_instruction_map,
+    strategy_registry_key,
+    summarize_strategy_registry,
+)
+
+
+from atlas.investment.lyfe_bridge.morphology_observations import (
+    DEFAULT_HORIZONS,
+    MorphologyObservationConfig,
+    build_from_paths,
+    build_morphology_observations,
+    load_market_history,
+    load_topology,
+    write_morphology_observations,
+)
+
