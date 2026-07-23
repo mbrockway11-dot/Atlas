@@ -62,7 +62,21 @@ _DOMAIN_ONLY_INPUTS: dict[str, set[ExperimentDomain]] = {
 VALID_NORMALIZATION_MODES = frozenset(
     {"raw", "percentile", "minmax", "zscore"}
 )
-VALID_METRICS = frozenset({"cosine_similarity"})
+def _valid_metrics() -> frozenset[str]:
+    """Return every accepted metric name.
+
+    Sourced from the metric registry so a newly registered geometry is
+    usable in a config without a second place to update. "cosine_similarity"
+    is retained as an alias for the canonical metric, because the baseline
+    config was written before the registry existed and its artifacts are
+    still current.
+    """
+    from atlas.validation.metrics import METRICS_BY_NAME
+
+    return frozenset({*METRICS_BY_NAME, "cosine_similarity"})
+
+
+VALID_METRICS = _valid_metrics()
 
 
 class ExperimentConfigError(ValueError):

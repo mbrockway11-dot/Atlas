@@ -35,18 +35,53 @@ class VariantClass(str, Enum):
 
 
 class SourceConfidence(str, Enum):
-    """How well established a variant pair is.
+    """Evidential state of a variant pair.
 
-    ``derived`` pairs are generated mechanically from a real corpus name and
-    are true by construction. ``well_known`` pairs are widely documented
-    identities recorded from general knowledge rather than checked against a
-    citable authority -- stated plainly so the pilot's evidential weight is
-    not overstated.
+    These are states, not merely annotations: only the top two may enter a
+    confirmatory study. ``provisional_well_known`` rows are usable for
+    exploration but cannot support an inferential claim, because "widely
+    known" recorded from general knowledge is not the same as checked.
     """
 
-    DERIVED = "derived"
-    WELL_KNOWN = "well_known"
-    UNCERTAIN = "uncertain"
+    DERIVED_BY_CONSTRUCTION = "derived_by_construction"
+    SOURCE_VERIFIED = "source_verified"
+    SECONDARY_SOURCE_VERIFIED = "secondary_source_verified"
+    PROVISIONAL_WELL_KNOWN = "provisional_well_known"
+    REJECTED = "rejected"
+
+    # Retained so pilot artifacts remain readable.
+    DERIVED = "derived_by_construction"
+    WELL_KNOWN = "provisional_well_known"
+
+
+# States admissible in a confirmatory study. Anything else is exploratory.
+CONFIRMATORY_STATES: frozenset[SourceConfidence] = frozenset(
+    {
+        SourceConfidence.DERIVED_BY_CONSTRUCTION,
+        SourceConfidence.SOURCE_VERIFIED,
+    }
+)
+
+
+class OrthographicSubclass(str, Enum):
+    """H1 subdivisions, which behave very differently under the encoder.
+
+    A1 is a preprocessing check, not evidence: the encoder is exactly
+    invariant to case, spacing, and punctuation, so a similarity of 1.0 is
+    true by construction and counting it as variant recognition would be
+    circular. The substantive test is A2 and A3.
+    """
+
+    A1_ENCODER_INVARIANCE = "a1_encoder_invariance"
+    A2_DIACRITIC = "a2_diacritic"
+    A3_ORTHOGRAPHIC_CONVENTION = "a3_orthographic_convention"
+
+
+SUBCLASS_ROLE: dict[OrthographicSubclass, str] = {
+    OrthographicSubclass.A1_ENCODER_INVARIANCE: "preprocessing_verification",
+    OrthographicSubclass.A2_DIACRITIC: "substantive",
+    OrthographicSubclass.A3_ORTHOGRAPHIC_CONVENTION: "substantive",
+}
 
 
 # The declared expectation for each class, fixed before results are seen.
@@ -86,6 +121,7 @@ class VariantPair:
     source_confidence: SourceConfidence
     language: str = "en"
     script: str = "latin"
+    subclass: OrthographicSubclass | None = None
 
     @property
     def canonical_tokens(self) -> int:
@@ -144,6 +180,13 @@ class VariantPair:
             "variant_subtype": self.variant_subtype,
             "source": self.source,
             "source_confidence": self.source_confidence.value,
+            "subclass": self.subclass.value if self.subclass else None,
+            "subclass_role": (
+                SUBCLASS_ROLE[self.subclass] if self.subclass else None
+            ),
+            "confirmatory_eligible": (
+                self.source_confidence in CONFIRMATORY_STATES
+            ),
             "language": self.language,
             "script": self.script,
             "canonical_token_count": self.canonical_tokens,

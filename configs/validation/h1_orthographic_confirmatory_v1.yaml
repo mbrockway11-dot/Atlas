@@ -1,0 +1,61 @@
+# Pre-registered confirmatory test of H1, the only pilot class that trended
+# positive under a correctly conditioned null.
+#
+# Registered BEFORE the data were scored. The endpoints, metrics, cohort
+# eligibility, and minimum detectable effect are fixed here so the analysis
+# cannot be steered by its own results.
+
+experiment_id: h1_orthographic_confirmatory_v1
+domain: identity_vector
+kind: cohort_comparison
+
+hypothesis: >
+  Genuine orthographic-preserving name variants score higher against their
+  canonical form than controls matched on the same transformation -- same
+  edit distance and same net length change. Tested on a held-out cohort
+  disjoint from the pilot, restricted to pairs derived by construction.
+  A1 (case, spacing, punctuation) is excluded from the endpoint because the
+  encoder is exactly invariant to those transformations, making a score of
+  1.0 true by construction rather than evidence.
+
+normalization_mode: raw
+metric: cosine
+
+random_seed: 20260801
+bootstrap_iterations: 10000
+permutation_iterations: 10000
+
+positive_cohort:
+  variant_class: orthographic_preserving
+  subclasses_in_endpoint:
+    - a2_diacritic
+    - a3_orthographic_convention
+  subclasses_reported_only:
+    - a1_encoder_invariance
+  admissible_source_states:
+    - derived_by_construction
+    - source_verified
+
+control:
+  strategy: transformation_conditioned
+  match_on:
+    - edit_distance
+    - length_delta
+    - token_count
+  ratio: 5
+
+options:
+  # Frozen metric roles. Cosine stays canonical; centered cosine is reported
+  # as a secondary diagnostic and is NOT a candidate for promotion here --
+  # the pilot already showed its geometric resolution does not translate
+  # into variant discrimination.
+  canonical_metric: cosine
+  research_metric: centered_cosine
+
+  primary_endpoint: conditioned_auc
+  secondary_endpoint: standardized_mean_difference
+  minimum_detectable_effect: 0.4
+
+  target_per_subclass: 50
+  controls_per_null: 5
+  held_out_from: name_variant_pilot_v1
