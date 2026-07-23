@@ -140,3 +140,6 @@ output/investment_morphology_*/
 output/investment_v32_morphology_*/
 audit/
 *.before_*
+
+# Atlas compiled runtime artifacts
+output/compiled/
