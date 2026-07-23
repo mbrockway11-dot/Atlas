@@ -2,18 +2,18 @@
 
 from __future__ import annotations
 
-import json
-
 import pandas as pd
 import streamlit as st
 
+from atlas.compiled.calibration import (
+    load_calibration_vectors_from_artifacts,
+)
 from atlas.ive import (
     build_identity_vector,
     build_planet_relationship_matrix,
     identity_vector_to_dict,
     relationship_matrix_to_dict,
 )
-from atlas.library.profile_library import LIBRARY_DIR, list_saved_profiles
 
 
 NORMALIZATION_MODES = [
@@ -40,8 +40,8 @@ def render_ive_panel(acf: dict) -> None:
 
     use_library_calibration = normalization_mode != "raw"
 
-    calibration_acfs = (
-        load_calibration_acfs()
+    calibration_vectors = (
+        load_calibration_vectors()
         if use_library_calibration
         else None
     )
@@ -52,7 +52,7 @@ def render_ive_panel(acf: dict) -> None:
             "It does not compare the profile against a population."
         )
     else:
-        calibration_count = len(calibration_acfs or [])
+        calibration_count = calibration_profile_count(calibration_vectors)
 
         if calibration_count < 2:
             st.warning(
@@ -68,8 +68,8 @@ def render_ive_panel(acf: dict) -> None:
 
     identity_vector = build_identity_vector(
         acf,
-        calibration_acfs=calibration_acfs,
         normalization_mode=normalization_mode,
+        calibration_vectors=calibration_vectors,
     )
     relationship_matrix = build_planet_relationship_matrix(identity_vector)
 
@@ -85,24 +85,23 @@ def render_ive_panel(acf: dict) -> None:
         st.json(relationship_matrix_to_dict(relationship_matrix))
 
 
-def load_calibration_acfs() -> list[dict]:
-    """Load all saved profile ACFs for calibration."""
-    calibration_acfs = []
+@st.cache_data(show_spinner="Loading compiled calibration corpus...")
+def load_calibration_vectors() -> list:
+    """Load the calibration corpus from compiled artifacts.
 
-    for profile_key in list_saved_profiles():
-        acf_path = LIBRARY_DIR / profile_key / "profile.acf.json"
+    Reads the compiled runtime layer rather than reparsing every saved ACF,
+    which is the difference between a few megabytes and several gigabytes
+    per dashboard render.
+    """
+    return load_calibration_vectors_from_artifacts()
 
-        if not acf_path.exists():
-            continue
 
-        try:
-            calibration_acfs.append(
-                json.loads(acf_path.read_text(encoding="utf-8"))
-            )
-        except json.JSONDecodeError:
-            continue
+def calibration_profile_count(calibration_vectors: list | None) -> int:
+    """Return how many distinct profiles a calibration corpus covers."""
+    if not calibration_vectors:
+        return 0
 
-    return calibration_acfs
+    return len({vector.name for vector in calibration_vectors})
 
 
 def render_global_summary(identity_vector) -> None:

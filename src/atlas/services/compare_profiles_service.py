@@ -7,6 +7,17 @@ from dataclasses import dataclass
 from typing import Any
 
 from atlas.acf.builder import export_acf_profile
+from atlas.compiled.calibration import CalibrationStatisticsArtifact
+from atlas.compiled.identity_vector_artifact import (
+    CompiledIdentityVectorArtifact,
+)
+from atlas.compiled.runtime import (
+    MODES_REQUIRING_CALIBRATION,
+    CompiledRuntimeError,
+    build_runtime_identity_vector,
+    load_runtime_statistics,
+    runtime_provenance,
+)
 from atlas.comparison import compare_planet_agreement
 from atlas.ive import (
     build_identity_vector,
@@ -82,35 +93,32 @@ def build_compare_profiles_payload(
             error="Choose two different profiles.",
         )
 
-    acf_a = load_or_repair_acf(profile_a_key)
-    acf_b = load_or_repair_acf(profile_b_key)
+    try:
+        statistics = (
+            load_runtime_statistics()
+            if normalization_mode in MODES_REQUIRING_CALIBRATION
+            else None
+        )
 
-    if acf_a is None or acf_b is None:
+        vector_a, artifact_a = resolve_runtime_identity_vector(
+            profile_a_key,
+            normalization_mode=normalization_mode,
+            statistics=statistics,
+        )
+        vector_b, artifact_b = resolve_runtime_identity_vector(
+            profile_b_key,
+            normalization_mode=normalization_mode,
+            statistics=statistics,
+        )
+    except CompiledRuntimeError as exc:
         return failed_payload(
             profile_a_key=profile_a_key,
             profile_b_key=profile_b_key,
             normalization_mode=normalization_mode,
-            error="Could not load one or both ACF profiles.",
+            error=str(exc),
         )
-
-    calibration_acfs = (
-        load_calibration_acfs()
-        if normalization_mode != "raw"
-        else None
-    )
 
     try:
-        vector_a = build_identity_vector(
-            acf=acf_a,
-            calibration_acfs=calibration_acfs,
-            normalization_mode=normalization_mode,
-        )
-        vector_b = build_identity_vector(
-            acf=acf_b,
-            calibration_acfs=calibration_acfs,
-            normalization_mode=normalization_mode,
-        )
-
         comparison = compare_identity_vectors(vector_a, vector_b)
         planet_matrix = build_planet_agreement_from_vectors(vector_a, vector_b)
 
@@ -122,11 +130,11 @@ def build_compare_profiles_payload(
             error=f"Comparison failed: {exc}",
         )
 
-    calibration_count = len(calibration_acfs or [])
+    calibration_count = statistics.profile_count if statistics else 0
 
     summary = {
-        "profile_a_name": acf_a["identity"]["name"],
-        "profile_b_name": acf_b["identity"]["name"],
+        "profile_a_name": artifact_a.profile_name,
+        "profile_b_name": artifact_b.profile_name,
         "composite_similarity": comparison.composite_similarity,
         "global_similarity": comparison.global_similarity,
         "relationship_similarity": comparison.relationship_similarity,
@@ -145,6 +153,20 @@ def build_compare_profiles_payload(
         },
         "global_feature_delta": build_global_feature_delta(vector_a, vector_b),
         "planet_feature_delta": build_planet_feature_delta(vector_a, vector_b),
+        "compiled_runtime": {
+            "profile_a": runtime_provenance(artifact_a),
+            "profile_b": runtime_provenance(artifact_b),
+            "calibration": (
+                {
+                    "source_manifest_hash": statistics.source_manifest_hash,
+                    "profile_count": statistics.profile_count,
+                    "vector_count": statistics.vector_count,
+                    "compiler_version": statistics.compiler_version,
+                }
+                if statistics is not None
+                else None
+            ),
+        },
     }
 
     return CompareProfilesPayload(
@@ -152,13 +174,13 @@ def build_compare_profiles_payload(
         version=COMPARE_PROFILES_SERVICE_VERSION,
         profile_a={
             "key": profile_a_key,
-            "name": acf_a["identity"]["name"],
-            "entity_type": acf_a["identity"].get("entity_type", "person"),
+            "name": artifact_a.profile_name,
+            "entity_type": artifact_a.entity_type,
         },
         profile_b={
             "key": profile_b_key,
-            "name": acf_b["identity"]["name"],
-            "entity_type": acf_b["identity"].get("entity_type", "person"),
+            "name": artifact_b.profile_name,
+            "entity_type": artifact_b.entity_type,
         },
         normalization_mode=normalization_mode,
         vector_a=vector_a,
@@ -194,6 +216,38 @@ def failed_payload(
         summary={},
         warnings=[],
         errors=[error],
+    )
+
+
+def resolve_runtime_identity_vector(
+    profile_key: str,
+    *,
+    normalization_mode: str,
+    statistics: CalibrationStatisticsArtifact | None,
+) -> tuple[Any, CompiledIdentityVectorArtifact]:
+    """Build one identity vector from the compiled runtime.
+
+    The happy path never opens the source ACF. If the artifact cannot be
+    resolved -- typically an older export missing ``identity_graph`` -- the
+    ACF is repaired once and the compile retried. A second failure is a
+    controlled service error, not a fall back to reparsing the corpus.
+    """
+    try:
+        return build_runtime_identity_vector(
+            profile_key,
+            normalization_mode=normalization_mode,
+            statistics=statistics,
+        )
+    except CompiledRuntimeError:
+        if load_or_repair_acf(profile_key) is None:
+            raise CompiledRuntimeError(
+                f"Could not load ACF profile {profile_key!r}."
+            ) from None
+
+    return build_runtime_identity_vector(
+        profile_key,
+        normalization_mode=normalization_mode,
+        statistics=statistics,
     )
 
 
