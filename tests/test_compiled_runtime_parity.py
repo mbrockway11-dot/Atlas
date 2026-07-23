@@ -396,7 +396,7 @@ def test_runtime_provenance_reports_source_revision(
     assert provenance["profile_key"] == "nikola_tesla"
     assert provenance["vector_count"] == 21
     assert len(provenance["source_acf_sha256"]) == 64
-    assert provenance["schema_version"].endswith(".v2")
+    assert provenance["schema_version"].endswith(".v3")
 
 
 def test_raw_mode_needs_no_statistics(

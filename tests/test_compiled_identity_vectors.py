@@ -11,7 +11,6 @@ import pytest
 
 from atlas.compiled.hashing import sha256_file
 from atlas.compiled.identity_vector_artifact import (
-    COMPILED_IDENTITY_VECTOR_SCHEMA,
     CompiledIdentityVectorArtifact,
 )
 from atlas.compiled.identity_vector_store import (
@@ -24,23 +23,13 @@ from atlas.compiled.manifest import (
     build_compilation_manifest,
 )
 from atlas.ive import PlanetFeatureVector
+from compiled_factories import make_artifact, make_vector
 
 
 @pytest.fixture
 def sample_vector() -> PlanetFeatureVector:
     """Return one representative raw vector."""
-    return PlanetFeatureVector(
-        version="test",
-        name="Test Person",
-        cipher="ordinal",
-        planet="sun",
-        kamea="sun",
-        grid_size=6,
-        features={
-            "node_coverage": 0.5,
-            "loop_ratio": 0.25,
-        },
-    )
+    return make_vector()
 
 
 @pytest.fixture
@@ -48,23 +37,7 @@ def sample_artifact(
     sample_vector: PlanetFeatureVector,
 ) -> CompiledIdentityVectorArtifact:
     """Return a representative compiled artifact."""
-    content = b'{"identity":{"name":"Test Person"}}'
-
-    return CompiledIdentityVectorArtifact(
-        schema_version=COMPILED_IDENTITY_VECTOR_SCHEMA,
-        profile_key="test_person",
-        profile_name="Test Person",
-        entity_type="person",
-        compiler_name="Atlas Identity Vector Compiler",
-        compiler_version="1.1.0",
-        compiler_git_commit="abc1234",
-        compiled_at="2026-01-01T00:00:00+00:00",
-        source_acf_path="profile.acf.json",
-        source_acf_sha256=hashlib.sha256(content).hexdigest(),
-        source_acf_size_bytes=len(content),
-        vector_count=1,
-        vectors=(sample_vector,),
-    )
+    return make_artifact(vectors=(sample_vector,))
 
 
 def test_artifact_round_trip_preserves_vectors(

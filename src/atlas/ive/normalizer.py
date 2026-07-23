@@ -23,6 +23,16 @@ from atlas.ive.schema import (
 
 DEFAULT_NORMALIZATION_MODE = "percentile"
 
+# Version of the normalization implementation. Bump this whenever the
+# numerical behaviour of any mode changes (formula, clamping, tie handling),
+# even if no schema field moves. It feeds the feature-schema hash so that a
+# purely algorithmic change still invalidates derived artifacts.
+NORMALIZATION_VERSION = "1.0.0"
+
+# The population modes this implementation supports, in a stable order. Part
+# of the schema identity: adding or removing a mode changes it.
+NORMALIZATION_MODES = ("raw", "percentile", "minmax", "zscore")
+
 
 def normalize_planet_vector(
     vector: PlanetFeatureVector,

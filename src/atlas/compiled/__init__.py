@@ -30,6 +30,14 @@ from atlas.compiled.calibration import (
     save_calibration_vectors,
     source_manifest_hash,
 )
+from atlas.compiled.content_hash import compute_identity_content_hash
+from atlas.compiled.feature_schema import (
+    FEATURE_SCHEMA_VERSION,
+    FeatureSchema,
+    current_feature_schema,
+    current_feature_schema_hash,
+    feature_schema_matches,
+)
 from atlas.compiled.hashing import sha256_file
 from atlas.compiled.identity_vector_artifact import (
     COMPILED_IDENTITY_VECTOR_SCHEMA,
@@ -80,6 +88,8 @@ __all__ = [
     "DEFAULT_FEATURE_STATISTICS_PATH",
     "DEFAULT_MANIFEST_PATH",
     "EXPECTED_VECTOR_COUNT",
+    "FEATURE_SCHEMA_VERSION",
+    "FeatureSchema",
     "FeatureStatistics",
     "LibraryCompilationResult",
     "ProfileCompilationOutcome",
@@ -93,7 +103,11 @@ __all__ = [
     "compile_identity_vector_library",
     "compiled_artifact_is_current",
     "compiled_profile_keys",
+    "compute_identity_content_hash",
+    "current_feature_schema",
+    "current_feature_schema_hash",
     "current_git_commit",
+    "feature_schema_matches",
     "group_key",
     "iter_compiled_calibration_vectors",
     "list_compilable_profile_keys",

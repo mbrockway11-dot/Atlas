@@ -151,6 +151,7 @@ class CalibrationVectorArtifact:
     compiler_name: str
     compiler_version: str
     compiler_git_commit: str
+    feature_schema_hash: str
     generated_at: str
     feature_schema: tuple[str, ...]
     profile_count: int
@@ -164,6 +165,7 @@ class CalibrationVectorArtifact:
             "schema_version": self.schema_version,
             "artifact_schema_version": self.artifact_schema_version,
             "source_manifest_hash": self.source_manifest_hash,
+            "feature_schema_hash": self.feature_schema_hash,
             "compiler": {
                 "name": self.compiler_name,
                 "version": self.compiler_version,
@@ -236,6 +238,7 @@ class CalibrationVectorArtifact:
             compiler_name=str(compiler["name"]),
             compiler_version=str(compiler["version"]),
             compiler_git_commit=str(compiler["git_commit"]),
+            feature_schema_hash=str(payload.get("feature_schema_hash", "")),
             generated_at=str(compiler["generated_at"]),
             feature_schema=tuple(
                 str(feature) for feature in payload["feature_schema"]
@@ -315,6 +318,7 @@ def build_calibration_vector_artifact(
         compiler_name=compiler.name,
         compiler_version=compiler.version,
         compiler_git_commit=compiler.git_commit,
+        feature_schema_hash=compiler.feature_schema_hash,
         generated_at=compiler.generated_at,
         feature_schema=tuple(VECTOR_FEATURES),
         profile_count=len(included),
@@ -419,6 +423,7 @@ class CalibrationStatisticsArtifact:
     compiler_name: str
     compiler_version: str
     compiler_git_commit: str
+    feature_schema_hash: str
     generated_at: str
     feature_schema: tuple[str, ...]
     profile_count: int
@@ -441,6 +446,7 @@ class CalibrationStatisticsArtifact:
             "schema_version": self.schema_version,
             "artifact_schema_version": self.artifact_schema_version,
             "source_manifest_hash": self.source_manifest_hash,
+            "feature_schema_hash": self.feature_schema_hash,
             "compiler": {
                 "name": self.compiler_name,
                 "version": self.compiler_version,
@@ -485,6 +491,7 @@ class CalibrationStatisticsArtifact:
             compiler_name=str(compiler["name"]),
             compiler_version=str(compiler["version"]),
             compiler_git_commit=str(compiler["git_commit"]),
+            feature_schema_hash=str(payload.get("feature_schema_hash", "")),
             generated_at=str(compiler["generated_at"]),
             feature_schema=tuple(
                 str(feature) for feature in payload["feature_schema"]
@@ -530,6 +537,7 @@ def build_calibration_statistics(
         compiler_name=compiler.name,
         compiler_version=compiler.version,
         compiler_git_commit=compiler.git_commit,
+        feature_schema_hash=compiler.feature_schema_hash,
         generated_at=compiler.generated_at,
         feature_schema=tuple(VECTOR_FEATURES),
         profile_count=profile_count,

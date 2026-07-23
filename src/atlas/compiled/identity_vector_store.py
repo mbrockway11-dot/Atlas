@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from atlas.compiled.feature_schema import feature_schema_matches
 from atlas.compiled.hashing import sha256_file
 from atlas.compiled.identity_vector_artifact import (
     CompiledIdentityVectorArtifact,
@@ -92,8 +93,22 @@ def compiled_artifact_is_current(
     artifact: CompiledIdentityVectorArtifact,
     source_acf_path: Path,
 ) -> bool:
-    """Return whether an artifact matches the current ACF content."""
+    """Return whether an artifact is usable as-is.
+
+    Three things must hold. The source must still exist -- an artifact whose
+    ACF is gone is orphaned, not current. The source content must be
+    unchanged, decided by size then SHA-256 (never modification time, which
+    changes on copy, sync, branch switch, and restore without the content
+    changing). And the artifact must have been built against the current
+    feature schema: if the feature set, planet or cipher order, builder, or
+    normalization implementation has changed, the stored vectors no longer
+    mean what the current code means by them, even though the ACF is
+    byte-for-byte identical.
+    """
     if not source_acf_path.is_file():
+        return False
+
+    if not feature_schema_matches(artifact.feature_schema_hash):
         return False
 
     stat = source_acf_path.stat()

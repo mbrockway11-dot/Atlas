@@ -7,10 +7,6 @@ from pathlib import Path
 
 import pytest
 
-from atlas.compiled.identity_vector_artifact import (
-    COMPILED_IDENTITY_VECTOR_SCHEMA,
-    CompiledIdentityVectorArtifact,
-)
 from atlas.compiled.identity_vector_store import save_compiled_identity_vector
 from atlas.compiled.index import (
     COMPILED_INDEX_SCHEMA,
@@ -19,20 +15,8 @@ from atlas.compiled.index import (
     load_compiled_index,
     save_compiled_index,
 )
-from atlas.ive.schema import VECTOR_FEATURES, PlanetFeatureVector
-
-
-def _vector(name: str, planet: str = "sun") -> PlanetFeatureVector:
-    """Build a planet feature vector carrying the full feature schema."""
-    return PlanetFeatureVector(
-        version="test",
-        name=name,
-        cipher="ordinal",
-        planet=planet,
-        kamea=planet,
-        grid_size=6,
-        features={feature: 0.5 for feature in VECTOR_FEATURES},
-    )
+from atlas.ive.schema import PlanetFeatureVector
+from compiled_factories import make_artifact, make_vector
 
 
 def _write_artifact(
@@ -45,24 +29,18 @@ def _write_artifact(
 ) -> Path:
     """Persist a compiled artifact into an artifact directory."""
     vectors = tuple(
-        _vector(profile_key, planet=f"planet_{index}")
+        make_vector(name=profile_key, planet=f"planet_{index}")
         for index in range(vector_count)
     )
 
-    artifact = CompiledIdentityVectorArtifact(
-        schema_version=COMPILED_IDENTITY_VECTOR_SCHEMA,
-        profile_key=profile_key,
+    artifact = make_artifact(
+        profile_key,
+        vectors,
         profile_name=profile_name,
         entity_type=entity_type,
-        compiler_name="Atlas Identity Vector Compiler",
-        compiler_version="1.1.0",
-        compiler_git_commit="abc1234",
-        compiled_at="2026-01-01T00:00:00+00:00",
-        source_acf_path=f"library/{profile_key}/profile.acf.json",
         source_acf_sha256=(profile_key * 64)[:64],
         source_acf_size_bytes=2_048,
-        vector_count=len(vectors),
-        vectors=vectors,
+        source_acf_path=f"library/{profile_key}/profile.acf.json",
     )
 
     return save_compiled_identity_vector(

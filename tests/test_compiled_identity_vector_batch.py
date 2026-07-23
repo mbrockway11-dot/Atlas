@@ -22,6 +22,7 @@ from atlas.compiled.identity_vector_library_compiler import (
 from atlas.compiled.identity_vector_store import artifact_path_for_profile
 from atlas.compiled.manifest import COMPILED_MANIFEST_SCHEMA
 from atlas.ive import PlanetFeatureVector
+from compiled_factories import make_artifact, make_vector
 
 
 # ---------------------------------------------------------------------------
@@ -50,30 +51,19 @@ def _artifact_for(
     source_bytes: int = 2_134_000,
 ) -> CompiledIdentityVectorArtifact:
     """Build a representative compiled artifact for a fake compile result."""
-    vector = PlanetFeatureVector(
-        version="test",
+    vector = make_vector(
         name=profile_key,
-        cipher="ordinal",
-        planet="sun",
-        kamea="sun",
-        grid_size=6,
         features={"node_coverage": 0.5},
     )
 
-    return CompiledIdentityVectorArtifact(
-        schema_version=COMPILED_IDENTITY_VECTOR_SCHEMA,
-        profile_key=profile_key,
+    return make_artifact(
+        profile_key,
+        tuple(vector for _ in range(vector_count)),
         profile_name=profile_key,
-        entity_type="person",
-        compiler_name="Atlas Identity Vector Compiler",
-        compiler_version="1.1.0",
-        compiler_git_commit="abc1234",
-        compiled_at="2026-01-01T00:00:00+00:00",
         source_acf_path=f"{profile_key}/profile.acf.json",
         source_acf_sha256=hashlib.sha256(profile_key.encode()).hexdigest(),
         source_acf_size_bytes=source_bytes,
         vector_count=vector_count,
-        vectors=tuple(vector for _ in range(vector_count)),
     )
 
 

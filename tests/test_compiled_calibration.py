@@ -33,6 +33,7 @@ from atlas.compiled.identity_vector_artifact import (
 from atlas.compiled.identity_vector_store import save_compiled_identity_vector
 from atlas.ive.normalizer import normalize_feature_value
 from atlas.ive.schema import VECTOR_FEATURES, PlanetFeatureVector
+from compiled_factories import make_artifact
 
 
 NORMALIZATION_MODES = ("raw", "percentile", "minmax", "zscore")
@@ -74,20 +75,12 @@ def _artifact(
     source_hash: str | None = None,
 ) -> CompiledIdentityVectorArtifact:
     """Build a compiled artifact around a set of vectors."""
-    return CompiledIdentityVectorArtifact(
-        schema_version=COMPILED_IDENTITY_VECTOR_SCHEMA,
-        profile_key=profile_key,
-        profile_name=profile_key.replace("_", " ").title(),
-        entity_type="person",
-        compiler_name="Atlas Identity Vector Compiler",
-        compiler_version="1.1.0",
-        compiler_git_commit="abc1234",
-        compiled_at="2026-01-01T00:00:00+00:00",
-        source_acf_path=f"library/{profile_key}/profile.acf.json",
+    return make_artifact(
+        profile_key,
+        vectors,
         source_acf_sha256=source_hash or (profile_key * 64)[:64],
         source_acf_size_bytes=2_048,
-        vector_count=len(vectors),
-        vectors=vectors,
+        source_acf_path=f"library/{profile_key}/profile.acf.json",
     )
 
 
@@ -476,6 +469,7 @@ def test_calibration_vectors_reject_count_mismatch() -> None:
         compiler_name="x",
         compiler_version="1",
         compiler_git_commit="abc",
+        feature_schema_hash="0" * 64,
         generated_at="now",
         feature_schema=tuple(VECTOR_FEATURES),
         profile_count=1,

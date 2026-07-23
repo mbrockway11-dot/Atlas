@@ -323,12 +323,17 @@ def runtime_provenance(
     artifact: CompiledIdentityVectorArtifact,
 ) -> dict[str, Any]:
     """Return the provenance block describing one compiled artifact."""
+    compiler = artifact.compiler
+
     return {
         "profile_key": artifact.profile_key,
         "schema_version": artifact.schema_version,
-        "compiler_version": artifact.compiler_version,
-        "compiler_git_commit": artifact.compiler_git_commit,
-        "compiled_at": artifact.compiled_at,
+        "feature_schema_hash": artifact.feature_schema_hash,
+        "content_hash": artifact.content_hash,
+        "compiler_version": compiler.version,
+        "compiler_git_commit": compiler.git_commit,
+        "compiler_git_dirty": compiler.git_dirty,
+        "compiled_at": compiler.generated_at,
         "source_acf_sha256": artifact.source_acf_sha256,
         "vector_count": artifact.vector_count,
     }

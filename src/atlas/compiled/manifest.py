@@ -27,6 +27,8 @@ class CompilationManifest:
     compiler_name: str
     compiler_version: str
     compiler_git_commit: str
+    compiler_git_dirty: bool
+    feature_schema_hash: str
     generated_at: str
     requested_count: int
     successful_count: int
@@ -96,6 +98,8 @@ def build_compilation_manifest(
         compiler_name=compiler.name,
         compiler_version=compiler.version,
         compiler_git_commit=compiler.git_commit,
+        compiler_git_dirty=compiler.git_dirty,
+        feature_schema_hash=compiler.feature_schema_hash,
         generated_at=datetime.now(UTC).isoformat(),
         requested_count=requested_count,
         successful_count=successful_count,
