@@ -50,13 +50,19 @@ from atlas.library.profile_library import LIBRARY_DIR
 STATUS_OK = "ok"
 STATUS_STALE = "stale"
 STATUS_MISSING = "missing"
+# An artifact whose source ACF is gone: it still loads, so it is not
+# "missing", but it can no longer be rebuilt or verified against anything.
+# Ranked above missing because a silent, unverifiable artifact is worse than
+# an obviously absent one.
+STATUS_SOURCE_MISSING = "source_missing"
 STATUS_ERROR = "error"
 
 _SEVERITY = {
     STATUS_OK: 0,
     STATUS_STALE: 1,
     STATUS_MISSING: 2,
-    STATUS_ERROR: 3,
+    STATUS_SOURCE_MISSING: 3,
+    STATUS_ERROR: 4,
 }
 
 
@@ -124,6 +130,24 @@ def _read_json(path: Path) -> dict[str, Any] | None:
         return None
 
     return payload if isinstance(payload, dict) else None
+
+
+def orphaned_keys(artifact_dir: Path) -> list[str]:
+    """Return compiled profiles whose source ACF no longer exists."""
+    suffix = ".identity-vector.json"
+
+    if not artifact_dir.is_dir():
+        return []
+
+    return sorted(
+        entry.name[: -len(suffix)]
+        for entry in artifact_dir.iterdir()
+        if entry.is_file()
+        and entry.name.endswith(suffix)
+        and not source_acf_path_for_profile(
+            entry.name[: -len(suffix)]
+        ).is_file()
+    )
 
 
 def _manifest_health(manifest_path: Path) -> ComponentHealth:
@@ -342,6 +366,14 @@ def _artifact_health(
 
     stale: list[str] = []
     damaged: list[str] = []
+    source_missing: list[str] = []
+
+    # An artifact whose source ACF has disappeared is the dangerous case: the
+    # compiled data still loads and still answers queries, so nothing looks
+    # wrong, but the profile can no longer be rebuilt or verified. It is
+    # reported separately from "stale" for exactly that reason.
+    for profile_key in orphaned_keys(artifact_dir):
+        source_missing.append(profile_key)
 
     for profile_key in profile_keys:
         if profile_key in missing:
@@ -364,8 +396,10 @@ def _artifact_health(
         {
             "stale_count": len(stale),
             "damaged_count": len(damaged),
+            "source_missing_count": len(source_missing),
             "stale_sample": stale[:10],
             "damaged_sample": damaged[:10],
+            "source_missing_sample": source_missing[:10],
         }
     )
 
@@ -374,6 +408,15 @@ def _artifact_health(
             "artifacts",
             STATUS_ERROR,
             f"{len(damaged)} artifact(s) are damaged or unreadable.",
+            data,
+        )
+
+    if source_missing:
+        return ComponentHealth(
+            "artifacts",
+            STATUS_SOURCE_MISSING,
+            f"{len(source_missing)} artifact(s) have no source ACF. They "
+            "still load but cannot be rebuilt or verified.",
             data,
         )
 

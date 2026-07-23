@@ -53,6 +53,14 @@ from atlas.temporal.constellations import build_astronomical_constellation_chart
 from atlas.temporal.models import BirthData, NatalChart
 
 
+# Transits are inherently relative to a moment. Compiling them against the
+# current date made every compiled CSS depend on its build date. A fixed
+# reference date keeps compilation reproducible; the value is arbitrary and
+# is always reported alongside the data so it is never mistaken for "now".
+TRANSIT_REFERENCE_DATE = "2000-01-01"
+TRANSIT_REFERENCE_POLICY = "transit-fixed-reference-epoch-v1"
+
+
 def build_temporal_layer(*, profile_payload: dict[str, Any]) -> TemporalLayer:
     """Build CSS temporal layer from saved profile payload plus ephemeris."""
     temporal = extract_temporal(profile_payload)
@@ -322,15 +330,26 @@ def build_safe_ephemeris(
                         data["yogas_error"] = str(exc)
 
                     try:
+                        # Transits are relative to a moment. Compiling them
+                        # against "today" made the compiled CSS depend on
+                        # when it was built, so a fixed reference epoch is
+                        # used and labelled as such. These are placeholder
+                        # geometry, not current transits, and must not be
+                        # read as evidence about the present.
                         transit_chart = build_transit_chart(
                             natal_chart,
+                            transit_date=TRANSIT_REFERENCE_DATE,
                         )
 
                         data["transits"] = transit_chart_to_dict(
                             transit_chart
                         )
 
-                        data["transits_status"] = "computed"
+                        data["transits_status"] = "placeholder_fixed_epoch"
+                        data["transits_reference_date"] = (
+                            TRANSIT_REFERENCE_DATE
+                        )
+                        data["transits_policy"] = TRANSIT_REFERENCE_POLICY
 
                     except Exception as exc:
                         data["transits"] = {}

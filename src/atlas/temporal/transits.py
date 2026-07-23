@@ -48,7 +48,19 @@ def build_transit_chart(
 ) -> TransitChart:
     """Build transit chart for a natal chart."""
 
-    resolved_date = transit_date or date.today().isoformat()
+    # Never default to the current date. A transit chart built from
+    # "today" makes the result depend on when it was computed, which would
+    # silently make any derived artifact non-reproducible. Callers that
+    # genuinely want current transits must say so by passing the date.
+    if transit_date is None:
+        raise ValueError(
+            "build_transit_chart requires an explicit transit_date. "
+            "Defaulting to the current date would make results depend on "
+            "when they were computed. Pass date.today().isoformat() at the "
+            "call site if current transits are genuinely intended."
+        )
+
+    resolved_date = transit_date
 
     transit_birth = BirthData(
         name=f"{natal.name} Transit",

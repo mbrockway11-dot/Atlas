@@ -122,8 +122,19 @@ def find_repairable(
     return repairable
 
 
-def rebuild_one(profile_dir: Path, intake: dict) -> int:
-    """Rebuild one ACF from its intake record; return bytes written."""
+def rebuild_one(
+    profile_dir: Path,
+    intake: dict,
+    *,
+    force: bool = False,
+) -> tuple[int, str]:
+    """Rebuild one ACF from its intake record.
+
+    Returns ``(bytes_written, action)``. Refuses to overwrite an existing ACF
+    unless ``force`` is set: a regenerated profile is not always
+    byte-identical to the original, so silently replacing real data with a
+    rebuild would be a quiet downgrade.
+    """
     birth_data = BirthData(
         date=intake["birth_date"],
         time=intake["birth_time"],
@@ -131,6 +142,13 @@ def rebuild_one(profile_dir: Path, intake: dict) -> int:
     )
 
     output_path = profile_dir / "profile.acf.json"
+    existed = output_path.is_file()
+
+    if existed and not force:
+        raise FileExistsError(
+            f"{output_path} already exists; refusing to overwrite. "
+            "Pass --force to replace it."
+        )
 
     export_acf_profile(
         name=intake["name"],
@@ -139,7 +157,7 @@ def rebuild_one(profile_dir: Path, intake: dict) -> int:
         birth_data=birth_data,
     )
 
-    return output_path.stat().st_size
+    return output_path.stat().st_size, ("overwrote" if existed else "created")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -162,6 +180,14 @@ def build_parser() -> argparse.ArgumentParser:
         dest="profile_keys",
         metavar="KEY",
         help="Repair only this profile. May be repeated.",
+    )
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help=(
+            "Overwrite an ACF that already exists. Off by default: a rebuilt "
+            "profile is not guaranteed byte-identical to the original."
+        ),
     )
     parser.add_argument(
         "--limit",
@@ -201,7 +227,11 @@ def main() -> int:
 
     for profile_key, intake in repairable:
         try:
-            written = rebuild_one(LIBRARY_DIR / profile_key, intake)
+            written, action = rebuild_one(
+                LIBRARY_DIR / profile_key,
+                intake,
+                force=args.force,
+            )
         except Exception as exc:  # noqa: BLE001 - one failure must not abort
             failures.append(
                 {
@@ -212,7 +242,16 @@ def main() -> int:
             )
             continue
 
-        repaired.append({"profile_key": profile_key, "bytes": written})
+        # Every write is logged, so a repair run leaves a record of exactly
+        # which files it created or replaced.
+        repaired.append(
+            {
+                "profile_key": profile_key,
+                "bytes": written,
+                "action": action,
+                "path": str(LIBRARY_DIR / profile_key / "profile.acf.json"),
+            }
+        )
 
     print(
         json.dumps(

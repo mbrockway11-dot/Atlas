@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from atlas.birth import BirthData, birth_data_to_dict
+from atlas.birth import BirthData, birth_data_to_dict, resolve_birth_data
 from atlas.classification import (
     classification_to_dict,
     classify_signature,
@@ -61,6 +61,10 @@ def build_acf_profile(
             "name": name,
             "entity_type": entity_type,
             "birth_data": birth_data_to_dict(birth_data),
+            # Missingness is recorded explicitly rather than left to be
+            # inferred from a null date, so that validation cohorts can
+            # filter on it without reimplementing the rules.
+            "birth_data_resolution": resolve_birth_data(birth_data).to_dict(),
         },
         "profile_interpretation": profile_interpretation_to_dict(interpretation),
         "essence": {
