@@ -1,4 +1,4 @@
-﻿"""Semantic feature registry for Atlas profile comparisons.
+"""Semantic feature registry for Atlas profile comparisons.
 
 This module controls which corpus measurements may participate in structural
 comparison. Selection is based on feature meaning, not merely numeric dtype.

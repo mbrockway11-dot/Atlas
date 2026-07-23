@@ -1,4 +1,4 @@
-﻿"""Identity comparison engine."""
+"""Identity comparison engine."""
 
 from __future__ import annotations
 

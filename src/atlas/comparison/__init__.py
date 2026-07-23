@@ -1,4 +1,4 @@
-﻿"""Atlas comparison framework."""
+"""Atlas comparison framework."""
 
 from .compare import (
     IdentityComparison,

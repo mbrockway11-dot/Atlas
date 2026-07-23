@@ -1,4 +1,4 @@
-﻿"""Planet-level agreement matrix for Atlas identity comparisons."""
+"""Planet-level agreement matrix for Atlas identity comparisons."""
 
 from __future__ import annotations
 
