@@ -16,11 +16,15 @@ from atlas.temporal.models import BirthData
 from atlas.temporal.sidereal import convert_ephemeris_to_sidereal, sidereal_chart_to_dict
 
 
-ASTRONOMY_MEASUREMENT_VERSION = "1.0.0"
+ASTRONOMY_MEASUREMENT_VERSION = "1.1.0"
 CANONICAL_BODIES = (
     "Sun", "Moon", "Mercury", "Venus", "Mars",
     "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto",
 )
+CLASSICAL_KAMEA_BODIES = (
+    "Saturn", "Jupiter", "Mars", "Sun", "Venus", "Mercury", "Moon",
+)
+ASTRONOMY_ONLY_BODIES = ("Uranus", "Neptune", "Pluto")
 MAJOR_ASPECTS = {
     "conjunction": 0.0,
     "sextile": 60.0,
@@ -57,6 +61,30 @@ def build_physical_astronomy(birth: BirthData) -> dict[str, Any]:
             ],
             "tropical_sign": position["sign"],
             "sidereal_lahiri_sign": sidereal_position["sign"],
+            "tropical_coordinates": {
+                "longitude_degrees": position["longitude"],
+                "latitude_degrees": position["latitude"],
+                "sign": position["sign"],
+                "degree_in_sign": position["degree_in_sign"],
+            },
+            "sidereal_lahiri_coordinates": {
+                "longitude_degrees": sidereal_position["longitude"],
+                "latitude_degrees": sidereal_position["latitude"],
+                "sign": sidereal_position["sign"],
+                "degree_in_sign": sidereal_position["degree_in_sign"],
+                "ayanamsha_degrees": sidereal["ayanamsa_degrees"],
+            },
+            "symbolic_projection": (
+                {
+                    "available": True,
+                    "basis": "historical_classical_kamea",
+                }
+                if body in CLASSICAL_KAMEA_BODIES
+                else {
+                    "available": False,
+                    "reason": "no_historical_classical_kamea",
+                }
+            ),
             "classification_authority": {
                 "canonical_astronomical": "IAU Delporte boundary",
                 "tropical_metadata": "12 equal 30-degree signs",
@@ -106,14 +134,24 @@ def build_planet_graph(
             measurements[right]["ecliptic_longitude_degrees"],
         )
         aspect, orb = classify_aspect(separation, maximum_orb_degrees)
+        orb_strength = (
+            round(1.0 - orb / maximum_orb_degrees, 6)
+            if aspect and maximum_orb_degrees
+            else 0.0
+        )
         edges.append({
             "source": left,
             "target": right,
             "angular_separation_degrees": separation,
             "aspect_type": aspect,
             "orb_degrees": orb,
-            "orb_strength": round(1.0 - orb / maximum_orb_degrees, 6)
-            if aspect and maximum_orb_degrees else 0.0,
+            "orb_strength": orb_strength,
+            "normalized_orb_strength": orb_strength,
+            "applying_separating": applying_separating_status(
+                left_measurement=measurements[left],
+                right_measurement=measurements[right],
+                aspect_type=aspect,
+            ),
             "visibility": {
                 "status": "not_computed",
                 "reason": "observer coordinates and horizon model required",
@@ -156,9 +194,55 @@ def classify_aspect(
     return aspect, round(orb, 9)
 
 
+def applying_separating_status(
+    *,
+    left_measurement: dict[str, Any],
+    right_measurement: dict[str, Any],
+    aspect_type: str | None,
+    projection_days: float = 1.0 / 1440.0,
+) -> dict[str, Any]:
+    """Classify whether a measured major aspect is applying or separating."""
+    if not aspect_type:
+        return {
+            "status": "not_available",
+            "reason": "no_classified_major_aspect",
+        }
+
+    exact = MAJOR_ASPECTS[aspect_type]
+    left_longitude = float(left_measurement["ecliptic_longitude_degrees"])
+    right_longitude = float(right_measurement["ecliptic_longitude_degrees"])
+    left_velocity = float(
+        left_measurement["apparent_longitude_velocity_deg_per_day"]
+    )
+    right_velocity = float(
+        right_measurement["apparent_longitude_velocity_deg_per_day"]
+    )
+    current_orb = abs(angular_separation(left_longitude, right_longitude) - exact)
+    projected_orb = abs(
+        angular_separation(
+            left_longitude + left_velocity * projection_days,
+            right_longitude + right_velocity * projection_days,
+        )
+        - exact
+    )
+    difference = projected_orb - current_orb
+    if abs(difference) <= 1e-9:
+        status = "stationary"
+    else:
+        status = "applying" if difference < 0 else "separating"
+    return {
+        "status": status,
+        "method": "one-minute apparent-longitude projection",
+        "projection_days": projection_days,
+    }
+
+
 __all__ = [
     "ASTRONOMY_MEASUREMENT_VERSION",
+    "ASTRONOMY_ONLY_BODIES",
     "CANONICAL_BODIES",
+    "CLASSICAL_KAMEA_BODIES",
+    "applying_separating_status",
     "angular_separation",
     "build_physical_astronomy",
     "build_planet_graph",

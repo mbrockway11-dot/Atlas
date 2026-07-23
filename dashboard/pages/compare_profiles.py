@@ -118,7 +118,7 @@ def render_score_interpretation(comparison) -> None:
     c1, c2, c3 = st.columns(3)
 
     c1.metric(
-        "Relationship âˆ’ Global Gap",
+        "Relationship − Global Gap",
         format_float(gap),
     )
 

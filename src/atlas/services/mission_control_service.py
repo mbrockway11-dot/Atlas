@@ -6,7 +6,7 @@ from typing import Any
 
 
 MISSION_CONTROL_VERSION = "0.1"
-CURRENT_VERIFIED_TESTS = 554
+CURRENT_VERIFIED_TESTS = 1_430
 
 
 def build_mission_control_status() -> dict[str, Any]:

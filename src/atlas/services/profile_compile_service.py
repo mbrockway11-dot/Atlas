@@ -18,6 +18,10 @@ from typing import Any
 from atlas.services.lifecycle_intelligence_service import build_lifecycle_record
 from atlas.services.profile_payload_service import build_profile_payload
 from atlas.services.profile_path_service import resolve_profile_dir
+from atlas.services.structural_codex_service import (
+    build_structural_codex,
+    write_structural_codex_outputs,
+)
 from atlas.compiler.canonical_profile_compiler import compile_canonical_profile
 from atlas.services.graph_service import build_identity_stack_payload
 from atlas.temporal.birth import build_birth_data_from_intake
@@ -56,6 +60,26 @@ def compile_person_profile(
     if canonical_result.get("success") and canonical_result.get("payload_path"):
         created_files.append(canonical_result["payload_path"])
 
+    structural_codex: dict[str, Any] = {}
+    if canonical_result.get("success"):
+        try:
+            structural_codex = build_structural_codex(
+                canonical_result,
+                profile_summary=read_json(profile_dir / "profile_summary.json")
+                if (profile_dir / "profile_summary.json").exists()
+                else {},
+            )
+            if structural_codex.get("success"):
+                codex_paths = write_structural_codex_outputs(
+                    structural_codex,
+                    profile_dir,
+                )
+                created_files.extend(codex_paths.values())
+            else:
+                warnings.extend(structural_codex.get("errors", []))
+        except Exception as exc:  # pragma: no cover - defensive integration boundary
+            warnings.append(f"Structural Codex generation failed: {exc}")
+
     return {
         "success": bool(canonical_result.get("success")),
         "version": PROFILE_COMPILE_SERVICE_VERSION,
@@ -71,6 +95,7 @@ def compile_person_profile(
             "version": canonical_result.get("version"),
         },
         "payload_result": canonical_result,
+        "structural_codex": structural_codex,
     }
 
 
@@ -250,6 +275,8 @@ def artifact_status(profile_dir: Path) -> dict[str, bool]:
         "lifecycle.json",
         "profile.payload.json",
         "research_session.json",
+        "structural_codex.json",
+        "structural_codex.md",
     ]
 
     return {

@@ -1,0 +1,382 @@
+[
+  {
+    "hypothesis_id": "H_ET_NODE_AXIS_AT_RELATIONSHIP_ENTRY",
+    "hypothesis_status": "retrospectively_specified_exploratory",
+    "rationale_type": "symbolic_hypothesis",
+    "profiles_included": [
+      "nikola_tesla",
+      "thomas_edison"
+    ],
+    "profile_count": 2,
+    "events_included": [
+      "chicago_worlds_fair_opens",
+      "niagara_power_reaches_buffalo",
+      "tesla_ac_motor_patent",
+      "tesla_arrives_new_york",
+      "tesla_leaves_edison"
+    ],
+    "event_count": 5,
+    "relationship_pairs_included": 2,
+    "exact_transit_definition": {
+      "transit_planet": "Rahu",
+      "natal_target": "Ketu",
+      "aspect": "conjunction",
+      "orb": 1.0,
+      "lead_days": 7,
+      "lag_days": 7
+    },
+    "event_exposed": 1,
+    "event_unexposed": 9,
+    "control_exposed": 0,
+    "control_unexposed": 36,
+    "observed_event_rate": 0.1,
+    "matched_baseline_rate": 0.0,
+    "effect_size_rate_difference": 0.1,
+    "odds_ratio": 11.526316,
+    "confidence_interval_95": [
+      0.434013,
+      306.110433
+    ],
+    "raw_p_value": 0.217391304348,
+    "corrected_p_value": 0.326086956522,
+    "corrected_significance": false,
+    "placebo_percentile": 88.8,
+    "permutation_p_value": 0.22477522477522477,
+    "permutation_iterations": 1000,
+    "discovery_performance": {
+      "profile_count": 1,
+      "estimable": true,
+      "event_rate": 0.2,
+      "baseline_rate": 0.0,
+      "effect_size_rate_difference": 0.2
+    },
+    "holdout_performance": {
+      "profile_count": 1,
+      "estimable": true,
+      "event_rate": 0.0,
+      "baseline_rate": 0.0,
+      "effect_size_rate_difference": 0.0
+    },
+    "sensitivity_to_birth_time_uncertainty": 1.0,
+    "source_coverage": 1.0,
+    "known_confounders": [
+      "two-person single-relationship case study",
+      "events were selected for historical importance rather than sampled from a complete event corpus",
+      "several milestones represent Westinghouse-versus-Edison system competition rather than direct personal interaction",
+      "Tesla midnight birth time is reported but not treated as verified in this pilot",
+      "Edison birth time is unknown and conflicting values exist in secondary datasets",
+      "exploratory contacts were inspected before this registry was locked",
+      "multiple events belong to the same AC-versus-DC historical process"
+    ],
+    "event_fixed_effects": "event-family stratification recorded; inferential fixed-effect model not estimable in this pilot",
+    "replication_status": "unreplicated_pilot",
+    "decision": "not_retained_underpowered_or_unreplicated",
+    "claim_type": "statistical_association",
+    "causal_claim": false,
+    "symbolic_interpretation": {
+      "success": true,
+      "interpretation_id": "TI-71dbeeaa15dd8bb6",
+      "ontology_id": "atlas.transit-interpretation-ontology.v1",
+      "signature": "rahu|ketu|conjunction|unspecified|0|0|1",
+      "transit_planet": "Rahu",
+      "natal_target": "Ketu",
+      "aspect": "conjunction",
+      "phase": "unspecified",
+      "symbolic_statement": "Within atlas.transit-interpretation-ontology.v1, transit Rahu themes (amplification, boundary crossing, unfamiliar direction) are combined with natal Ketu functions (separation, release) through concentration or direct co-location. The measured phase is treated as phase is not part of the preregistered hypothesis.",
+      "symbolic_themes": {
+        "planet": [
+          "amplification",
+          "boundary crossing",
+          "unfamiliar direction"
+        ],
+        "natal_target": [
+          "separation",
+          "release"
+        ],
+        "aspect_operation": "concentration or direct co-location",
+        "modifiers": []
+      },
+      "eligible_outcome_categories": [
+        "career_transition",
+        "other"
+      ],
+      "ontology_refs": [
+        "planet.rahu",
+        "natal_target.ketu",
+        "aspect.conjunction",
+        "phase.unspecified"
+      ],
+      "source_refs": [
+        "ATLAS_OPERATIONAL_CONVENTION_V1"
+      ],
+      "claim_type": "symbolic_hypothesis",
+      "empirical_evidence": false,
+      "causal_claim": false,
+      "directional_valence": "unspecified",
+      "limitations": [
+        "This composition proposes a falsifiable association; it does not establish prediction or causation."
+      ],
+      "errors": [],
+      "empirical_status": {
+        "decision": "not_retained_underpowered_or_unreplicated",
+        "raw_p_value": 0.217391304348,
+        "corrected_p_value": 0.326086956522,
+        "replication_status": "unreplicated_pilot"
+      }
+    }
+  },
+  {
+    "hypothesis_id": "H_ET_MARS_MERCURY_AT_TECHNICAL_MILESTONE",
+    "hypothesis_status": "retrospectively_specified_exploratory",
+    "rationale_type": "symbolic_hypothesis",
+    "profiles_included": [
+      "nikola_tesla",
+      "thomas_edison"
+    ],
+    "profile_count": 2,
+    "events_included": [
+      "chicago_worlds_fair_opens",
+      "niagara_power_reaches_buffalo",
+      "tesla_ac_motor_patent",
+      "tesla_arrives_new_york",
+      "tesla_leaves_edison"
+    ],
+    "event_count": 5,
+    "relationship_pairs_included": 2,
+    "exact_transit_definition": {
+      "transit_planet": "Mars",
+      "natal_target": "Mercury",
+      "aspect": "conjunction",
+      "orb": 1.0,
+      "lead_days": 7,
+      "lag_days": 7
+    },
+    "event_exposed": 2,
+    "event_unexposed": 8,
+    "control_exposed": 2,
+    "control_unexposed": 34,
+    "observed_event_rate": 0.2,
+    "matched_baseline_rate": 0.055556,
+    "effect_size_rate_difference": 0.144444,
+    "odds_ratio": 4.25,
+    "confidence_interval_95": [
+      0.517382,
+      34.911374
+    ],
+    "raw_p_value": 0.201489107455,
+    "corrected_p_value": 0.326086956522,
+    "corrected_significance": false,
+    "placebo_percentile": 97.3,
+    "permutation_p_value": 0.027972027972027972,
+    "permutation_iterations": 1000,
+    "discovery_performance": {
+      "profile_count": 1,
+      "estimable": true,
+      "event_rate": 0.4,
+      "baseline_rate": 0.0,
+      "effect_size_rate_difference": 0.4
+    },
+    "holdout_performance": {
+      "profile_count": 1,
+      "estimable": true,
+      "event_rate": 0.0,
+      "baseline_rate": 0.111111,
+      "effect_size_rate_difference": -0.111111
+    },
+    "sensitivity_to_birth_time_uncertainty": 0.75,
+    "source_coverage": 1.0,
+    "known_confounders": [
+      "two-person single-relationship case study",
+      "events were selected for historical importance rather than sampled from a complete event corpus",
+      "several milestones represent Westinghouse-versus-Edison system competition rather than direct personal interaction",
+      "Tesla midnight birth time is reported but not treated as verified in this pilot",
+      "Edison birth time is unknown and conflicting values exist in secondary datasets",
+      "exploratory contacts were inspected before this registry was locked",
+      "multiple events belong to the same AC-versus-DC historical process"
+    ],
+    "event_fixed_effects": "event-family stratification recorded; inferential fixed-effect model not estimable in this pilot",
+    "replication_status": "unreplicated_pilot",
+    "decision": "not_retained_underpowered_or_unreplicated",
+    "claim_type": "statistical_association",
+    "causal_claim": false,
+    "symbolic_interpretation": {
+      "success": true,
+      "interpretation_id": "TI-a92bb951e6eb179e",
+      "ontology_id": "atlas.transit-interpretation-ontology.v1",
+      "signature": "mars|mercury|conjunction|unspecified|0|0|1",
+      "transit_planet": "Mars",
+      "natal_target": "Mercury",
+      "aspect": "conjunction",
+      "phase": "unspecified",
+      "symbolic_statement": "Within atlas.transit-interpretation-ontology.v1, transit Mars themes (action, conflict, separation, physical exertion) are combined with natal Mercury functions (communication, documentation, analysis) through concentration or direct co-location. The measured phase is treated as phase is not part of the preregistered hypothesis.",
+      "symbolic_themes": {
+        "planet": [
+          "action",
+          "conflict",
+          "separation",
+          "physical exertion"
+        ],
+        "natal_target": [
+          "communication",
+          "documentation",
+          "analysis"
+        ],
+        "aspect_operation": "concentration or direct co-location",
+        "modifiers": []
+      },
+      "eligible_outcome_categories": [
+        "career_transition"
+      ],
+      "ontology_refs": [
+        "planet.mars",
+        "natal_target.mercury",
+        "aspect.conjunction",
+        "phase.unspecified"
+      ],
+      "source_refs": [
+        "ATLAS_OPERATIONAL_CONVENTION_V1",
+        "PTOLEMY_TETRABIBLOS_1822"
+      ],
+      "claim_type": "symbolic_hypothesis",
+      "empirical_evidence": false,
+      "causal_claim": false,
+      "directional_valence": "unspecified",
+      "limitations": [
+        "This composition proposes a falsifiable association; it does not establish prediction or causation."
+      ],
+      "errors": [],
+      "empirical_status": {
+        "decision": "not_retained_underpowered_or_unreplicated",
+        "raw_p_value": 0.201489107455,
+        "corrected_p_value": 0.326086956522,
+        "replication_status": "unreplicated_pilot"
+      }
+    }
+  },
+  {
+    "hypothesis_id": "H_ET_PROCEDURAL_NEGATIVE_CONTROL",
+    "hypothesis_status": "procedural_negative_control",
+    "rationale_type": "negative_control",
+    "profiles_included": [
+      "nikola_tesla",
+      "thomas_edison"
+    ],
+    "profile_count": 2,
+    "events_included": [
+      "chicago_worlds_fair_opens",
+      "niagara_power_reaches_buffalo",
+      "tesla_ac_motor_patent",
+      "tesla_arrives_new_york",
+      "tesla_leaves_edison"
+    ],
+    "event_count": 5,
+    "relationship_pairs_included": 2,
+    "exact_transit_definition": {
+      "transit_planet": "Venus",
+      "natal_target": "Jupiter",
+      "aspect": "square",
+      "orb": 1.0,
+      "lead_days": 7,
+      "lag_days": 7
+    },
+    "event_exposed": 1,
+    "event_unexposed": 9,
+    "control_exposed": 6,
+    "control_unexposed": 30,
+    "observed_event_rate": 0.1,
+    "matched_baseline_rate": 0.166667,
+    "effect_size_rate_difference": -0.066667,
+    "odds_ratio": 0.555556,
+    "confidence_interval_95": [
+      0.058891,
+      5.240867
+    ],
+    "raw_p_value": 1.0,
+    "corrected_p_value": 1.0,
+    "corrected_significance": false,
+    "placebo_percentile": 32.3,
+    "permutation_p_value": 0.6773226773226774,
+    "permutation_iterations": 1000,
+    "discovery_performance": {
+      "profile_count": 1,
+      "estimable": true,
+      "event_rate": 0.2,
+      "baseline_rate": 0.333333,
+      "effect_size_rate_difference": -0.133333
+    },
+    "holdout_performance": {
+      "profile_count": 1,
+      "estimable": true,
+      "event_rate": 0.0,
+      "baseline_rate": 0.0,
+      "effect_size_rate_difference": 0.0
+    },
+    "sensitivity_to_birth_time_uncertainty": 1.0,
+    "source_coverage": 1.0,
+    "known_confounders": [
+      "two-person single-relationship case study",
+      "events were selected for historical importance rather than sampled from a complete event corpus",
+      "several milestones represent Westinghouse-versus-Edison system competition rather than direct personal interaction",
+      "Tesla midnight birth time is reported but not treated as verified in this pilot",
+      "Edison birth time is unknown and conflicting values exist in secondary datasets",
+      "exploratory contacts were inspected before this registry was locked",
+      "multiple events belong to the same AC-versus-DC historical process"
+    ],
+    "event_fixed_effects": "event-family stratification recorded; inferential fixed-effect model not estimable in this pilot",
+    "replication_status": "unreplicated_pilot",
+    "decision": "not_retained_underpowered_or_unreplicated",
+    "claim_type": "statistical_association",
+    "causal_claim": false,
+    "symbolic_interpretation": {
+      "success": true,
+      "interpretation_id": "TI-de6aa0ecda961c85",
+      "ontology_id": "atlas.transit-interpretation-ontology.v1",
+      "signature": "venus|jupiter|square|unspecified|0|0|1",
+      "transit_planet": "Venus",
+      "natal_target": "Jupiter",
+      "aspect": "square",
+      "phase": "unspecified",
+      "symbolic_statement": "Within atlas.transit-interpretation-ontology.v1, transit Venus themes (affiliation, agreement, valuation, attraction) are combined with natal Jupiter functions (institutional reach, recognition, expansion) through friction, adjustment, or competing demands. The measured phase is treated as phase is not part of the preregistered hypothesis.",
+      "symbolic_themes": {
+        "planet": [
+          "affiliation",
+          "agreement",
+          "valuation",
+          "attraction"
+        ],
+        "natal_target": [
+          "institutional reach",
+          "recognition",
+          "expansion"
+        ],
+        "aspect_operation": "friction, adjustment, or competing demands",
+        "modifiers": []
+      },
+      "eligible_outcome_categories": [],
+      "ontology_refs": [
+        "planet.venus",
+        "natal_target.jupiter",
+        "aspect.square",
+        "phase.unspecified"
+      ],
+      "source_refs": [
+        "ATLAS_OPERATIONAL_CONVENTION_V1",
+        "PTOLEMY_TETRABIBLOS_1822"
+      ],
+      "claim_type": "symbolic_hypothesis",
+      "empirical_evidence": false,
+      "causal_claim": false,
+      "directional_valence": "unspecified",
+      "limitations": [
+        "This composition proposes a falsifiable association; it does not establish prediction or causation."
+      ],
+      "errors": [],
+      "empirical_status": {
+        "decision": "not_retained_underpowered_or_unreplicated",
+        "raw_p_value": 1.0,
+        "corrected_p_value": 1.0,
+        "replication_status": "unreplicated_pilot"
+      }
+    }
+  }
+]

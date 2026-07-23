@@ -1,0 +1,10 @@
+﻿missing_or_uncertain,preserved,record_id,record_type,unstable_transit_contact_count
+"[{""field"": ""birth.time"", ""impact"": ""Houses and angles disabled; natal positions evaluated across 00:00/12:00/23:59; Moon contacts flagged."", ""severity"": ""uncertain""}]",True,nikola_tesla,profile,85
+"[{""field"": ""birth.time"", ""impact"": ""Houses and angles disabled; natal positions evaluated across 00:00/12:00/23:59; Moon contacts flagged."", ""severity"": ""uncertain""}]",True,thomas_edison,profile,109
+[],True,tesla_edison_employment_1884,relationship,
+[],True,tesla_edison_system_competition_1888_1896,relationship,
+[],True,tesla_arrives_new_york,event,
+[],True,tesla_leaves_edison,event,
+[],True,tesla_ac_motor_patent,event,
+[],True,chicago_worlds_fair_opens,event,
+[],True,niagara_power_reaches_buffalo,event,

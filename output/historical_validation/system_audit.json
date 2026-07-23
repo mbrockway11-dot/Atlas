@@ -1,0 +1,28 @@
+{
+  "usable": [
+    "profile library and canonical payload path services",
+    "Swiss Ephemeris tropical geocentric planetary calculations",
+    "population and graph service conventions",
+    "evidence/confidence payload conventions",
+    "Streamlit dashboard service boundary",
+    "profile readiness reports"
+  ],
+  "partially_integrated": [
+    "existing transit engine is sign-contact oriented and lacks orb/exactness/duration controls",
+    "relationship intelligence compares static structure but does not store sourced time-bounded relationships",
+    "lifecycle service accepts events but corpus event coverage is sparse",
+    "unknown birth time is normalized but lower-level ephemeris defaults to noon; this pilot adds explicit uncertainty bounds"
+  ],
+  "duplicated": [
+    "temporal/aspects.py and temporal/atlas_overlay.py expose overlapping aspect-chart implementations",
+    "temporal/ephemeris.py and temporal/geocoder.py contain overlapping ephemeris wrappers"
+  ],
+  "missing_before_pilot": [
+    "normalized sourced event/participation/dynamic-relationship registries",
+    "event/control windows and falsification randomizations",
+    "orb-based applying/separating transit exposure matrix",
+    "Fisher exact tests, permutation tests, BH-FDR, and holdout reporting",
+    "historical transit validation dashboard"
+  ],
+  "separation": "No atlas.investment or trading execution module is imported or modified."
+}

@@ -1,0 +1,37 @@
+[
+  {
+    "behavior_id": "decisive_action_under_pressure",
+    "label": "Decisive action under pressure",
+    "definition": "A documented consequential decision made under immediate operational pressure."
+  },
+  {
+    "behavior_id": "procedural_execution",
+    "label": "Procedural execution",
+    "definition": "Documented completion or systematic development of a technically constrained procedure."
+  },
+  {
+    "behavior_id": "technical_innovation",
+    "label": "Technical innovation",
+    "definition": "Documented creation, development, or transfer of a technical method, product, or system."
+  },
+  {
+    "behavior_id": "nonviolent_collective_leadership",
+    "label": "Nonviolent collective leadership",
+    "definition": "Documented leadership of organized collective action using explicitly nonviolent methods."
+  },
+  {
+    "behavior_id": "persistence_under_adversity",
+    "label": "Persistence under adversity",
+    "definition": "Documented continuation of a sustained objective despite imprisonment, violence, abuse, or comparable material adversity."
+  },
+  {
+    "behavior_id": "reconciliation_cooperation",
+    "label": "Reconciliation and cooperation",
+    "definition": "Documented work toward negotiated reconciliation, peaceful transition, or cooperation across a major conflict boundary."
+  },
+  {
+    "behavior_id": "institution_building",
+    "label": "Institution building",
+    "definition": "Documented creation or durable leadership of an organization, institution, or governance structure."
+  }
+]

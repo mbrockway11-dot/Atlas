@@ -8,6 +8,12 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
+from dashboard.components.structural_codex import render_structural_codex
+from atlas.services.structural_codex_service import (
+    DEFAULT_POPULATION_PATH,
+    PROJECT_ROOT,
+    build_structural_codex_for_profile,
+)
 from atlas.services.population_structural_service import build_structural_neighbors_payload
 from atlas.services.population_intelligence_service import (
     DEFAULT_PROFILE_DIR,
@@ -20,9 +26,10 @@ from atlas.services.population_intelligence_service import (
 )
 
 
-POPULATION_V2_PATH = Path("output/population/population_intelligence_v2.json")
-STRUCTURAL_RARITY_PATH = Path("output/population/structural_rarity_report.json")
-STRUCTURAL_IMPACT_PATH = Path("output/population/structural_impact_report.json")
+POPULATION_V2_PATH = DEFAULT_POPULATION_PATH
+STRUCTURAL_RARITY_PATH = PROJECT_ROOT / "output" / "population" / "structural_rarity_report.json"
+STRUCTURAL_IMPACT_PATH = PROJECT_ROOT / "output" / "population" / "structural_impact_report.json"
+PROFILE_READINESS_PATH = PROJECT_ROOT / "output" / "population" / "profile_readiness" / "profile_readiness_report.json"
 
 
 def render_population_intelligence_page() -> None:
@@ -63,12 +70,106 @@ def render_population_intelligence_page() -> None:
 
     render_summary_cards(payload)
     render_population_v2_summary()
+    render_profile_readiness_summary()
+    render_structural_codex_explorer()
     render_structural_rarity_summary()
     render_structural_impact_summary()
     render_cluster_table(clusters)
     render_neighbor_explorer(matrix)
     render_structural_neighbors_v2()
     render_downloads(data)
+
+
+def render_structural_codex_explorer() -> None:
+    """Build one professional profile with claim-level population evidence."""
+    st.markdown("## Structural Codex Explorer")
+    st.caption(
+        "Deterministic profile narrative with metric citations, population "
+        "percentiles, structural neighbors, and explicit limitations."
+    )
+
+    data = load_population_v2()
+    profiles = data.get("profiles", []) if isinstance(data, dict) else []
+    profile_keys = sorted(
+        str(row.get("profile_key"))
+        for row in profiles
+        if isinstance(row, dict) and row.get("profile_key")
+    )
+    if not profile_keys:
+        st.info("Build Population Intelligence v2 before opening the Codex Explorer.")
+        return
+
+    selected = st.selectbox(
+        "Structural Codex profile",
+        profile_keys,
+        key="population_structural_codex_profile",
+    )
+    if not st.button("Build Structural Codex", key="population_structural_codex_build"):
+        return
+
+    with st.spinner("Compiling evidence-backed Structural Codex..."):
+        codex = build_structural_codex_for_profile(
+            selected,
+            population_path=POPULATION_V2_PATH,
+            write_outputs=True,
+        )
+    render_structural_codex(codex, heading_level=3)
+
+
+def render_profile_readiness_summary() -> None:
+    """Show library-wide completeness and the exact missing inputs."""
+    st.markdown("## Profile Readiness")
+    st.caption(
+        "Core completeness, enrichment gaps, and per-profile notes from the "
+        "latest resumable Structural Codex compilation pass."
+    )
+    if not PROFILE_READINESS_PATH.exists():
+        st.info("Run scripts/compile_structural_codex_library.py to build the readiness report.")
+        return
+    try:
+        report = json.loads(PROFILE_READINESS_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        st.warning(f"Profile readiness report could not be loaded: {exc}")
+        return
+
+    status = report.get("status_counts", {})
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Audited", report.get("audited_profile_count", 0))
+    c2.metric("Complete", status.get("complete", 0))
+    c3.metric("Core Complete + Gaps", status.get("core_complete_with_gaps", 0))
+    c4.metric("Incomplete", status.get("incomplete", 0))
+
+    missing = report.get("missing_field_counts", {})
+    if missing:
+        st.dataframe(
+            pd.DataFrame(
+                [{"Missing field": field, "Profiles affected": count} for field, count in missing.items()]
+            ),
+            use_container_width=True,
+            hide_index=True,
+        )
+
+    records = report.get("records", [])
+    if not records:
+        return
+    status_filter = st.selectbox(
+        "Readiness status",
+        ["all", "incomplete", "core_complete_with_gaps", "complete"],
+        key="profile_readiness_status_filter",
+    )
+    visible = records if status_filter == "all" else [row for row in records if row.get("status") == status_filter]
+    rows = [
+        {
+            "Profile": row.get("profile_key"),
+            "Name": row.get("name"),
+            "Status": row.get("status"),
+            "Missing required": row.get("missing_counts", {}).get("required", 0),
+            "Missing fields": ", ".join(gap.get("field", "") for gap in row.get("missing_data", [])),
+            "Notes": " ".join(row.get("notes", [])),
+        }
+        for row in visible
+    ]
+    st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
 
 
 def render_summary_cards(payload: dict) -> None:

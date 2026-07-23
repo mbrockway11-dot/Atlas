@@ -164,9 +164,17 @@ def normalize_temporal_for_interpreter(
     exports = temporal_payload.get("exports", {})
 
     if exports:
+        # The intelligence interpreter explicitly describes these placements as
+        # sidereal.  Passing the full ephemeris here silently supplied tropical
+        # planets under a Vedic label.  Prefer the canonical sidereal chart and
+        # retain the tropical chart under an explicit key for consumers that
+        # genuinely need it.
+        sidereal = exports.get("sidereal", {})
         return {
             "birth": exports.get("birth", {}),
-            "natal": exports.get("natal", {}),
+            "natal": sidereal or exports.get("natal", {}),
+            "tropical_natal": exports.get("natal", {}),
+            "zodiac": "sidereal" if sidereal else exports.get("natal", {}).get("zodiac", "unknown"),
             "houses": exports.get("houses", {}),
             "nakshatras": exports.get("nakshatras", {}),
             "dignity": exports.get("dignity", {}),

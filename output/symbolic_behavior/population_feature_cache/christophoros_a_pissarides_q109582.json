@@ -1,0 +1,633 @@
+{
+  "profile_key": "christophoros_a_pissarides_q109582",
+  "features": [
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "vedic.sun.sign",
+      "feature_family": "vedic",
+      "independence_group": "birth_input",
+      "value_type": "categorical",
+      "value": "Aquarius",
+      "source_path": "temporal.natal.sidereal.planets.Sun.sign",
+      "input_dependencies": [
+        "birth_date",
+        "birth_place"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "vedic.sun.retrograde",
+      "feature_family": "vedic",
+      "independence_group": "birth_input",
+      "value_type": "categorical",
+      "value": false,
+      "source_path": "temporal.natal.sidereal.planets.Sun.retrograde",
+      "input_dependencies": [
+        "birth_date"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "vedic.moon.sign",
+      "feature_family": "vedic",
+      "independence_group": "birth_input",
+      "value_type": "categorical",
+      "value": "Gemini",
+      "source_path": "temporal.natal.sidereal.planets.Moon.sign",
+      "input_dependencies": [
+        "birth_date",
+        "birth_place"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "vedic.moon.retrograde",
+      "feature_family": "vedic",
+      "independence_group": "birth_input",
+      "value_type": "categorical",
+      "value": false,
+      "source_path": "temporal.natal.sidereal.planets.Moon.retrograde",
+      "input_dependencies": [
+        "birth_date"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "vedic.mercury.sign",
+      "feature_family": "vedic",
+      "independence_group": "birth_input",
+      "value_type": "categorical",
+      "value": "Aquarius",
+      "source_path": "temporal.natal.sidereal.planets.Mercury.sign",
+      "input_dependencies": [
+        "birth_date",
+        "birth_place"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "vedic.mercury.retrograde",
+      "feature_family": "vedic",
+      "independence_group": "birth_input",
+      "value_type": "categorical",
+      "value": true,
+      "source_path": "temporal.natal.sidereal.planets.Mercury.retrograde",
+      "input_dependencies": [
+        "birth_date"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "vedic.venus.sign",
+      "feature_family": "vedic",
+      "independence_group": "birth_input",
+      "value_type": "categorical",
+      "value": "Pisces",
+      "source_path": "temporal.natal.sidereal.planets.Venus.sign",
+      "input_dependencies": [
+        "birth_date",
+        "birth_place"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "vedic.venus.retrograde",
+      "feature_family": "vedic",
+      "independence_group": "birth_input",
+      "value_type": "categorical",
+      "value": false,
+      "source_path": "temporal.natal.sidereal.planets.Venus.retrograde",
+      "input_dependencies": [
+        "birth_date"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "vedic.mars.sign",
+      "feature_family": "vedic",
+      "independence_group": "birth_input",
+      "value_type": "categorical",
+      "value": "Leo",
+      "source_path": "temporal.natal.sidereal.planets.Mars.sign",
+      "input_dependencies": [
+        "birth_date",
+        "birth_place"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "vedic.mars.retrograde",
+      "feature_family": "vedic",
+      "independence_group": "birth_input",
+      "value_type": "categorical",
+      "value": true,
+      "source_path": "temporal.natal.sidereal.planets.Mars.retrograde",
+      "input_dependencies": [
+        "birth_date"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "vedic.jupiter.sign",
+      "feature_family": "vedic",
+      "independence_group": "birth_input",
+      "value_type": "categorical",
+      "value": "Sagittarius",
+      "source_path": "temporal.natal.sidereal.planets.Jupiter.sign",
+      "input_dependencies": [
+        "birth_date",
+        "birth_place"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "vedic.jupiter.retrograde",
+      "feature_family": "vedic",
+      "independence_group": "birth_input",
+      "value_type": "categorical",
+      "value": false,
+      "source_path": "temporal.natal.sidereal.planets.Jupiter.retrograde",
+      "input_dependencies": [
+        "birth_date"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "vedic.saturn.sign",
+      "feature_family": "vedic",
+      "independence_group": "birth_input",
+      "value_type": "categorical",
+      "value": "Cancer",
+      "source_path": "temporal.natal.sidereal.planets.Saturn.sign",
+      "input_dependencies": [
+        "birth_date",
+        "birth_place"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "vedic.saturn.retrograde",
+      "feature_family": "vedic",
+      "independence_group": "birth_input",
+      "value_type": "categorical",
+      "value": true,
+      "source_path": "temporal.natal.sidereal.planets.Saturn.retrograde",
+      "input_dependencies": [
+        "birth_date"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "vedic.rahu.sign",
+      "feature_family": "vedic",
+      "independence_group": "birth_input",
+      "value_type": "categorical",
+      "value": "Aries",
+      "source_path": "temporal.natal.sidereal.planets.Rahu.sign",
+      "input_dependencies": [
+        "birth_date",
+        "birth_place"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "vedic.rahu.retrograde",
+      "feature_family": "vedic",
+      "independence_group": "birth_input",
+      "value_type": "categorical",
+      "value": true,
+      "source_path": "temporal.natal.sidereal.planets.Rahu.retrograde",
+      "input_dependencies": [
+        "birth_date"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "vedic.ketu.sign",
+      "feature_family": "vedic",
+      "independence_group": "birth_input",
+      "value_type": "categorical",
+      "value": "Libra",
+      "source_path": "temporal.natal.sidereal.planets.Ketu.sign",
+      "input_dependencies": [
+        "birth_date",
+        "birth_place"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "vedic.ketu.retrograde",
+      "feature_family": "vedic",
+      "independence_group": "birth_input",
+      "value_type": "categorical",
+      "value": true,
+      "source_path": "temporal.natal.sidereal.planets.Ketu.retrograde",
+      "input_dependencies": [
+        "birth_date"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "numerology.life_path.number",
+      "feature_family": "numerology",
+      "independence_group": "birth_input",
+      "value_type": "categorical",
+      "value": 8,
+      "source_path": "symbolic_profile.numerology.core_numbers.life_path.number",
+      "input_dependencies": [
+        "birth_date"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "numerology.birthday.number",
+      "feature_family": "numerology",
+      "independence_group": "birth_input",
+      "value_type": "categorical",
+      "value": 2,
+      "source_path": "symbolic_profile.numerology.core_numbers.birthday.number",
+      "input_dependencies": [
+        "birth_date"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "numerology.attitude.number",
+      "feature_family": "numerology",
+      "independence_group": "birth_input",
+      "value_type": "categorical",
+      "value": 22,
+      "source_path": "symbolic_profile.numerology.core_numbers.attitude.number",
+      "input_dependencies": [
+        "birth_date"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "numerology.birth_month.number",
+      "feature_family": "numerology",
+      "independence_group": "birth_input",
+      "value_type": "categorical",
+      "value": 2,
+      "source_path": "symbolic_profile.numerology.core_numbers.birth_month.number",
+      "input_dependencies": [
+        "birth_date"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "numerology.birth_year.number",
+      "feature_family": "numerology",
+      "independence_group": "birth_input",
+      "value_type": "categorical",
+      "value": 22,
+      "source_path": "symbolic_profile.numerology.core_numbers.birth_year.number",
+      "input_dependencies": [
+        "birth_date"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "numerology.expression.number",
+      "feature_family": "numerology",
+      "independence_group": "name_input",
+      "value_type": "categorical",
+      "value": 6,
+      "source_path": "symbolic_profile.numerology.core_numbers.expression.number",
+      "input_dependencies": [
+        "recorded_name"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "numerology.soul_urge.number",
+      "feature_family": "numerology",
+      "independence_group": "name_input",
+      "value_type": "categorical",
+      "value": 7,
+      "source_path": "symbolic_profile.numerology.core_numbers.soul_urge.number",
+      "input_dependencies": [
+        "recorded_name"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "numerology.personality.number",
+      "feature_family": "numerology",
+      "independence_group": "name_input",
+      "value_type": "categorical",
+      "value": 8,
+      "source_path": "symbolic_profile.numerology.core_numbers.personality.number",
+      "input_dependencies": [
+        "recorded_name"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "numerology.balance.number",
+      "feature_family": "numerology",
+      "independence_group": "name_input",
+      "value_type": "categorical",
+      "value": 11,
+      "source_path": "symbolic_profile.numerology.core_numbers.balance.number",
+      "input_dependencies": [
+        "recorded_name"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "numerology.maturity.number",
+      "feature_family": "numerology",
+      "independence_group": "birth_and_name_input",
+      "value_type": "categorical",
+      "value": 5,
+      "source_path": "symbolic_profile.numerology.core_numbers.maturity.number",
+      "input_dependencies": [
+        "birth_date",
+        "recorded_name"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "gematria.ordinal.digital_root",
+      "feature_family": "gematria",
+      "independence_group": "name_input",
+      "value_type": "categorical",
+      "value": 6,
+      "source_path": "symbolic_profile.gematria.systems.ordinal.digital_root",
+      "input_dependencies": [
+        "recorded_name"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "gematria.hebrew_literal.digital_root",
+      "feature_family": "gematria",
+      "independence_group": "name_input",
+      "value_type": "categorical",
+      "value": 1,
+      "source_path": "symbolic_profile.gematria.systems.hebrew_literal.digital_root",
+      "input_dependencies": [
+        "recorded_name"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "gematria.hebrew_phonetic.digital_root",
+      "feature_family": "gematria",
+      "independence_group": "name_input",
+      "value_type": "categorical",
+      "value": 3,
+      "source_path": "symbolic_profile.gematria.systems.hebrew_phonetic.digital_root",
+      "input_dependencies": [
+        "recorded_name"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "gematria.reverse_ordinal.digital_root",
+      "feature_family": "gematria",
+      "independence_group": "name_input",
+      "value_type": "categorical",
+      "value": 3,
+      "source_path": "symbolic_profile.gematria.systems.reverse_ordinal.digital_root",
+      "input_dependencies": [
+        "recorded_name"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "gematria.cross_system.distinct_root_count",
+      "feature_family": "gematria",
+      "independence_group": "name_input",
+      "value_type": "numeric",
+      "value": 3,
+      "source_path": "symbolic_profile.gematria.cross_system.distinct_root_count",
+      "input_dependencies": [
+        "recorded_name"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "gematria.cross_system.exact_root_convergence",
+      "feature_family": "gematria",
+      "independence_group": "name_input",
+      "value_type": "categorical",
+      "value": false,
+      "source_path": "symbolic_profile.gematria.cross_system.exact_root_convergence",
+      "input_dependencies": [
+        "recorded_name"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "kamea.top_planet",
+      "feature_family": "kamea",
+      "independence_group": "name_input",
+      "value_type": "categorical",
+      "value": "mars",
+      "source_path": "symbolic_profile.kamea.ranked_planets[0].planet",
+      "input_dependencies": [
+        "recorded_name",
+        "cipher_rules"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "kamea.mars.composite_score",
+      "feature_family": "kamea",
+      "independence_group": "name_input",
+      "value_type": "numeric",
+      "value": 0.503091,
+      "source_path": "symbolic_profile.kamea.ranked_planets.mars.composite_score",
+      "input_dependencies": [
+        "recorded_name",
+        "cipher_rules"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "kamea.saturn.composite_score",
+      "feature_family": "kamea",
+      "independence_group": "name_input",
+      "value_type": "numeric",
+      "value": 0.501939,
+      "source_path": "symbolic_profile.kamea.ranked_planets.saturn.composite_score",
+      "input_dependencies": [
+        "recorded_name",
+        "cipher_rules"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "kamea.jupiter.composite_score",
+      "feature_family": "kamea",
+      "independence_group": "name_input",
+      "value_type": "numeric",
+      "value": 0.469627,
+      "source_path": "symbolic_profile.kamea.ranked_planets.jupiter.composite_score",
+      "input_dependencies": [
+        "recorded_name",
+        "cipher_rules"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "kamea.sun.composite_score",
+      "feature_family": "kamea",
+      "independence_group": "name_input",
+      "value_type": "numeric",
+      "value": 0.446191,
+      "source_path": "symbolic_profile.kamea.ranked_planets.sun.composite_score",
+      "input_dependencies": [
+        "recorded_name",
+        "cipher_rules"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "kamea.mercury.composite_score",
+      "feature_family": "kamea",
+      "independence_group": "name_input",
+      "value_type": "numeric",
+      "value": 0.422395,
+      "source_path": "symbolic_profile.kamea.ranked_planets.mercury.composite_score",
+      "input_dependencies": [
+        "recorded_name",
+        "cipher_rules"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "kamea.venus.composite_score",
+      "feature_family": "kamea",
+      "independence_group": "name_input",
+      "value_type": "numeric",
+      "value": 0.421213,
+      "source_path": "symbolic_profile.kamea.ranked_planets.venus.composite_score",
+      "input_dependencies": [
+        "recorded_name",
+        "cipher_rules"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    },
+    {
+      "profile_key": "christophoros_a_pissarides_q109582",
+      "feature_id": "kamea.moon.composite_score",
+      "feature_family": "kamea",
+      "independence_group": "name_input",
+      "value_type": "numeric",
+      "value": 0.399355,
+      "source_path": "symbolic_profile.kamea.ranked_planets.moon.composite_score",
+      "input_dependencies": [
+        "recorded_name",
+        "cipher_rules"
+      ],
+      "claim_type": "deterministic_symbolic_feature",
+      "empirical_evidence": false
+    }
+  ],
+  "quality": {
+    "profile_key": "christophoros_a_pissarides_q109582",
+    "success": true,
+    "birth_time_known": false,
+    "houses_included": false,
+    "feature_count": 42,
+    "families": [
+      "gematria",
+      "kamea",
+      "numerology",
+      "vedic"
+    ],
+    "independence_groups": [
+      "birth_and_name_input",
+      "birth_input",
+      "name_input"
+    ],
+    "errors": [],
+    "warnings": [
+      "Birth time unknown; houses and angles are excluded."
+    ]
+  }
+}

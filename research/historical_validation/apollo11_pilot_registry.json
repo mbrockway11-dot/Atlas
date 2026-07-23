@@ -1,0 +1,299 @@
+{
+  "schema_version": "atlas.historical-event-relationship.v1",
+  "pilot_id": "apollo11_crew_pilot_v1",
+  "research_only": true,
+  "causal_claims_allowed": false,
+  "profiles": [
+    {
+      "profile_key": "neil_armstrong",
+      "name": "Neil Armstrong",
+      "birth_date": "1930-08-05",
+      "birth_time": "",
+      "birth_time_status": "unknown",
+      "birth_place": "Wapakoneta, Ohio, USA",
+      "occupation": "astronaut",
+      "institution": "NASA",
+      "geography": "United States",
+      "source_citations": ["NASA_CREW_BIOS"]
+    },
+    {
+      "profile_key": "buzz_aldrin",
+      "name": "Buzz Aldrin",
+      "birth_date": "1930-01-20",
+      "birth_time": "",
+      "birth_time_status": "unknown",
+      "birth_place": "Montclair, New Jersey, USA",
+      "occupation": "astronaut",
+      "institution": "NASA",
+      "geography": "United States",
+      "source_citations": ["NASA_CREW_BIOS"]
+    },
+    {
+      "profile_key": "michael_collins_astronaut",
+      "name": "Michael Collins",
+      "birth_date": "1930-10-31",
+      "birth_time": "",
+      "birth_time_status": "unknown",
+      "birth_place": "Rome, Italy",
+      "occupation": "astronaut",
+      "institution": "NASA",
+      "geography": "United States",
+      "source_citations": ["NASA_CREW_PAGE", "NASA_CREW_BIOS"]
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "NASA_MISSION_OVERVIEW",
+      "title": "Apollo 11 Mission Overview",
+      "publisher": "NASA",
+      "url": "https://www.nasa.gov/history/apollo-11-mission-overview/",
+      "source_type": "authoritative_agency_history",
+      "accessed_at": "2026-07-21"
+    },
+    {
+      "source_id": "NASA_CREW_ANNOUNCEMENT",
+      "title": "50 Years Ago: NASA Names Apollo 11 Crew",
+      "publisher": "NASA",
+      "url": "https://www.nasa.gov/history/50-years-ago-nasa-names-apollo-11-crew/",
+      "source_type": "authoritative_agency_history",
+      "accessed_at": "2026-07-21"
+    },
+    {
+      "source_id": "NASA_CREW_PAGE",
+      "title": "Apollo 11",
+      "publisher": "NASA",
+      "url": "https://www.nasa.gov/mission/apollo-11/",
+      "source_type": "authoritative_agency_mission_record",
+      "accessed_at": "2026-07-21"
+    },
+    {
+      "source_id": "NASA_CREW_BIOS",
+      "title": "Project Apollo: Astronaut Biographies",
+      "publisher": "NASA History Office",
+      "url": "https://www.nasa.gov/wp-content/uploads/static/history/ap11ann/astrobios.htm",
+      "source_type": "authoritative_agency_biography",
+      "accessed_at": "2026-07-21"
+    }
+  ],
+  "historical_events": [
+    {
+      "event_id": "apollo11_crew_announcement",
+      "name": "Apollo 11 prime crew formally announced",
+      "event_type": "appointment",
+      "start_date": "1969-01-09",
+      "end_date": "1969-01-09",
+      "date_precision": "day",
+      "locations": ["Houston, Texas, USA"],
+      "description": "NASA formally announced Armstrong, Collins, and Aldrin as the Apollo 11 prime crew.",
+      "historical_regime": "Cold War / Space Race",
+      "event_family": "apollo11_mission",
+      "source_citations": ["NASA_CREW_ANNOUNCEMENT"],
+      "evidence_confidence": "high"
+    },
+    {
+      "event_id": "apollo11_launch",
+      "name": "Apollo 11 launch",
+      "event_type": "mission_launch",
+      "start_date": "1969-07-16",
+      "end_date": "1969-07-16",
+      "date_precision": "day",
+      "locations": ["Kennedy Space Center, Florida, USA"],
+      "description": "Apollo 11 launched from Launch Pad 39A.",
+      "historical_regime": "Cold War / Space Race",
+      "event_family": "apollo11_mission",
+      "source_citations": ["NASA_MISSION_OVERVIEW", "NASA_CREW_PAGE"],
+      "evidence_confidence": "high"
+    },
+    {
+      "event_id": "apollo11_lunar_landing",
+      "name": "Apollo 11 lunar landing",
+      "event_type": "mission_milestone",
+      "start_date": "1969-07-20",
+      "end_date": "1969-07-20",
+      "date_precision": "day",
+      "locations": ["Sea of Tranquility, Moon", "Lunar orbit"],
+      "description": "Armstrong and Aldrin landed in Eagle while Collins operated Columbia in lunar orbit.",
+      "historical_regime": "Cold War / Space Race",
+      "event_family": "apollo11_mission",
+      "source_citations": ["NASA_MISSION_OVERVIEW", "NASA_CREW_PAGE"],
+      "evidence_confidence": "high"
+    },
+    {
+      "event_id": "apollo11_splashdown",
+      "name": "Apollo 11 splashdown",
+      "event_type": "mission_completion",
+      "start_date": "1969-07-24",
+      "end_date": "1969-07-24",
+      "date_precision": "day",
+      "locations": ["Pacific Ocean"],
+      "description": "Apollo 11 returned safely and splashed down in the Pacific Ocean.",
+      "historical_regime": "Cold War / Space Race",
+      "event_family": "apollo11_mission",
+      "source_citations": ["NASA_MISSION_OVERVIEW", "NASA_CREW_PAGE"],
+      "evidence_confidence": "high"
+    }
+  ],
+  "profile_participation": [
+    {
+      "profile_key": "neil_armstrong", "event_id": "apollo11_crew_announcement",
+      "participation_role": "commander_appointee", "active_interval": {"start_date": "1969-01-09", "end_date": "1969-01-09"},
+      "involvement_confidence": "high", "documented_outcome": "Formally announced as Apollo 11 commander.",
+      "outcome_category": "appointment_removal", "outcome_direction": "positive", "outcome_severity": "major",
+      "source_citations": ["NASA_CREW_ANNOUNCEMENT"]
+    },
+    {
+      "profile_key": "buzz_aldrin", "event_id": "apollo11_crew_announcement",
+      "participation_role": "lunar_module_pilot_appointee", "active_interval": {"start_date": "1969-01-09", "end_date": "1969-01-09"},
+      "involvement_confidence": "high", "documented_outcome": "Formally announced as Apollo 11 lunar module pilot.",
+      "outcome_category": "appointment_removal", "outcome_direction": "positive", "outcome_severity": "major",
+      "source_citations": ["NASA_CREW_ANNOUNCEMENT"]
+    },
+    {
+      "profile_key": "michael_collins_astronaut", "event_id": "apollo11_crew_announcement",
+      "participation_role": "command_module_pilot_appointee", "active_interval": {"start_date": "1969-01-09", "end_date": "1969-01-09"},
+      "involvement_confidence": "high", "documented_outcome": "Formally announced as Apollo 11 command module pilot.",
+      "outcome_category": "appointment_removal", "outcome_direction": "positive", "outcome_severity": "major",
+      "source_citations": ["NASA_CREW_ANNOUNCEMENT"]
+    },
+    {
+      "profile_key": "neil_armstrong", "event_id": "apollo11_launch",
+      "participation_role": "mission_commander", "active_interval": {"start_date": "1969-07-16", "end_date": "1969-07-16"},
+      "involvement_confidence": "high", "documented_outcome": "Launched aboard Apollo 11 as commander.",
+      "outcome_category": "collaboration", "outcome_direction": "positive", "outcome_severity": "major",
+      "source_citations": ["NASA_MISSION_OVERVIEW"]
+    },
+    {
+      "profile_key": "buzz_aldrin", "event_id": "apollo11_launch",
+      "participation_role": "lunar_module_pilot", "active_interval": {"start_date": "1969-07-16", "end_date": "1969-07-16"},
+      "involvement_confidence": "high", "documented_outcome": "Launched aboard Apollo 11 as lunar module pilot.",
+      "outcome_category": "collaboration", "outcome_direction": "positive", "outcome_severity": "major",
+      "source_citations": ["NASA_MISSION_OVERVIEW"]
+    },
+    {
+      "profile_key": "michael_collins_astronaut", "event_id": "apollo11_launch",
+      "participation_role": "command_module_pilot", "active_interval": {"start_date": "1969-07-16", "end_date": "1969-07-16"},
+      "involvement_confidence": "high", "documented_outcome": "Launched aboard Apollo 11 as command module pilot.",
+      "outcome_category": "collaboration", "outcome_direction": "positive", "outcome_severity": "major",
+      "source_citations": ["NASA_MISSION_OVERVIEW"]
+    },
+    {
+      "profile_key": "neil_armstrong", "event_id": "apollo11_lunar_landing",
+      "participation_role": "lunar_module_commander", "active_interval": {"start_date": "1969-07-20", "end_date": "1969-07-20"},
+      "involvement_confidence": "high", "documented_outcome": "Piloted Eagle during landing and stepped onto the lunar surface.",
+      "outcome_category": "other", "outcome_direction": "positive", "outcome_severity": "major",
+      "source_citations": ["NASA_MISSION_OVERVIEW", "NASA_CREW_PAGE"]
+    },
+    {
+      "profile_key": "buzz_aldrin", "event_id": "apollo11_lunar_landing",
+      "participation_role": "lunar_module_pilot", "active_interval": {"start_date": "1969-07-20", "end_date": "1969-07-20"},
+      "involvement_confidence": "high", "documented_outcome": "Landed in Eagle and conducted lunar surface operations.",
+      "outcome_category": "other", "outcome_direction": "positive", "outcome_severity": "major",
+      "source_citations": ["NASA_MISSION_OVERVIEW", "NASA_CREW_PAGE"]
+    },
+    {
+      "profile_key": "michael_collins_astronaut", "event_id": "apollo11_lunar_landing",
+      "participation_role": "command_module_pilot", "active_interval": {"start_date": "1969-07-20", "end_date": "1969-07-20"},
+      "involvement_confidence": "high", "documented_outcome": "Operated Columbia in lunar orbit while Eagle landed.",
+      "outcome_category": "other", "outcome_direction": "positive", "outcome_severity": "major",
+      "source_citations": ["NASA_MISSION_OVERVIEW", "NASA_CREW_PAGE"]
+    },
+    {
+      "profile_key": "neil_armstrong", "event_id": "apollo11_splashdown",
+      "participation_role": "returning_crew", "active_interval": {"start_date": "1969-07-24", "end_date": "1969-07-24"},
+      "involvement_confidence": "high", "documented_outcome": "Returned safely with the Apollo 11 crew.",
+      "outcome_category": "other", "outcome_direction": "positive", "outcome_severity": "major",
+      "source_citations": ["NASA_MISSION_OVERVIEW"]
+    },
+    {
+      "profile_key": "buzz_aldrin", "event_id": "apollo11_splashdown",
+      "participation_role": "returning_crew", "active_interval": {"start_date": "1969-07-24", "end_date": "1969-07-24"},
+      "involvement_confidence": "high", "documented_outcome": "Returned safely with the Apollo 11 crew.",
+      "outcome_category": "other", "outcome_direction": "positive", "outcome_severity": "major",
+      "source_citations": ["NASA_MISSION_OVERVIEW"]
+    },
+    {
+      "profile_key": "michael_collins_astronaut", "event_id": "apollo11_splashdown",
+      "participation_role": "returning_crew", "active_interval": {"start_date": "1969-07-24", "end_date": "1969-07-24"},
+      "involvement_confidence": "high", "documented_outcome": "Returned safely with the Apollo 11 crew.",
+      "outcome_category": "other", "outcome_direction": "positive", "outcome_severity": "major",
+      "source_citations": ["NASA_MISSION_OVERVIEW"]
+    }
+  ],
+  "dynamic_relationships": [
+    {
+      "relationship_id": "apollo11_armstrong_aldrin",
+      "source_profile": "neil_armstrong",
+      "target_profile": "buzz_aldrin",
+      "relationship_type": "documented_mission_collaboration",
+      "direction": "bidirectional",
+      "start_date": "1969-01-09",
+      "end_date": "1969-07-24",
+      "date_precision": "day",
+      "relationship_state_changes": [{"date": "1969-07-20", "from": "assigned_crew", "to": "active_lunar_surface_team"}],
+      "shared_event_ids": ["apollo11_crew_announcement", "apollo11_launch", "apollo11_lunar_landing", "apollo11_splashdown"],
+      "source_citations": ["NASA_CREW_ANNOUNCEMENT", "NASA_MISSION_OVERVIEW"],
+      "evidence_confidence": "high"
+    },
+    {
+      "relationship_id": "apollo11_armstrong_collins",
+      "source_profile": "neil_armstrong",
+      "target_profile": "michael_collins_astronaut",
+      "relationship_type": "documented_mission_collaboration",
+      "direction": "bidirectional",
+      "start_date": "1969-01-09",
+      "end_date": "1969-07-24",
+      "date_precision": "day",
+      "relationship_state_changes": [{"date": "1969-07-20", "from": "assigned_crew", "to": "split_lunar_operations"}],
+      "shared_event_ids": ["apollo11_crew_announcement", "apollo11_launch", "apollo11_lunar_landing", "apollo11_splashdown"],
+      "source_citations": ["NASA_CREW_ANNOUNCEMENT", "NASA_MISSION_OVERVIEW"],
+      "evidence_confidence": "high"
+    },
+    {
+      "relationship_id": "apollo11_aldrin_collins",
+      "source_profile": "buzz_aldrin",
+      "target_profile": "michael_collins_astronaut",
+      "relationship_type": "documented_mission_collaboration",
+      "direction": "bidirectional",
+      "start_date": "1969-01-09",
+      "end_date": "1969-07-24",
+      "date_precision": "day",
+      "relationship_state_changes": [{"date": "1969-07-20", "from": "assigned_crew", "to": "split_lunar_operations"}],
+      "shared_event_ids": ["apollo11_crew_announcement", "apollo11_launch", "apollo11_lunar_landing", "apollo11_splashdown"],
+      "source_citations": ["NASA_CREW_ANNOUNCEMENT", "NASA_MISSION_OVERVIEW"],
+      "evidence_confidence": "high"
+    }
+  ],
+  "lifecycle_outcomes": [],
+  "hypotheses": [
+    {
+      "hypothesis_id": "H_APOLLO_SATURN_SUN_CONJUNCTION",
+      "status": "exploratory",
+      "unit": "profile_event_window",
+      "transit_planet": "Saturn",
+      "natal_target": "Sun",
+      "aspect": "conjunction",
+      "orb": 3.0,
+      "lead_days": 15,
+      "lag_days": 15,
+      "outcome_category": "any_documented_positive",
+      "expected_direction": "unspecified",
+      "rationale_type": "symbolic_hypothesis",
+      "locked_before_run": true
+    },
+    {
+      "hypothesis_id": "H_NEGATIVE_VENUS_JUPITER_SQUARE",
+      "status": "preregistered_negative_control",
+      "unit": "profile_event_window",
+      "transit_planet": "Venus",
+      "natal_target": "Jupiter",
+      "aspect": "square",
+      "orb": 2.0,
+      "lead_days": 15,
+      "lag_days": 15,
+      "outcome_category": "any_documented_positive",
+      "expected_direction": "null",
+      "rationale_type": "negative_control",
+      "locked_before_run": true
+    }
+  ]
+}

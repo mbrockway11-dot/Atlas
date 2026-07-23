@@ -33,6 +33,9 @@ from pages.decision_lab import render_decision_lab_page
 from pages.evidence_explorer import render_evidence_explorer_page
 from pages.evolution_lab import render_evolution_lab_page
 from pages.graph_explorer import render_graph_explorer_page
+from pages.historical_transit_validation import render_historical_transit_validation_page
+from pages.kamea_consciousness_flow import render_kamea_consciousness_flow_page
+from pages.symbolic_behavior_validation import render_symbolic_behavior_validation_page
 from pages.identity_stack_lab import render_identity_stack_lab_page
 from pages.intelligence_engine import render_intelligence_engine_page
 from pages.investment_validation_lab import render_investment_validation_lab_page
@@ -99,6 +102,9 @@ def build_page_registry() -> dict[str, PageRenderer]:
         "Research Integrity Lab": render_research_integrity_lab_page,
         "Research Orchestrator": render_research_orchestrator_lab_page,
         "Research Session": render_research_session_page,
+        "Historical Transit Validation": render_historical_transit_validation_page,
+        "Symbolic–Behavior Validation": render_symbolic_behavior_validation_page,
+        "Kamea Consciousness Flow": render_kamea_consciousness_flow_page,
 
         # Intelligence
         "Intelligence Engine": render_intelligence_engine_page,
@@ -141,7 +147,7 @@ def render_sidebar(pages: dict[str, PageRenderer]) -> str:
 
     st.sidebar.divider()
     st.sidebar.caption("Architecture")
-    st.sidebar.write("Dashboard â†’ Services â†’ AtlasProfile â†’ Kernel â†’ Plugins")
+    st.sidebar.write("Dashboard → Services → AtlasProfile → Kernel → Plugins")
 
     return selected
 
@@ -254,7 +260,7 @@ def main() -> None:
     """Run Atlas dashboard."""
     st.set_page_config(
         page_title="Atlas Studio",
-        page_icon="ðŸ§­",
+        page_icon="🧭",
         layout="wide",
     )
 
@@ -266,7 +272,7 @@ def main() -> None:
 
     st.caption(
         "A unified platform for deterministic identity, temporal, topological, "
-        "graph, relationship, and population intelligenceâ€”designed for research, "
+        "graph, relationship, and population intelligence—designed for research, "
         "interpretation, and discovery."
     )
 

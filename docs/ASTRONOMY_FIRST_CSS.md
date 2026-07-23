@@ -44,13 +44,32 @@ revisit/persistence measures, motifs, and centrality summaries.
 The Kamea graph is a deterministic name-derived transform, not a physical
 astronomical measurement. Planet and stellar metadata do not modify its path.
 
+The seven classical planets provide historically grounded symbolic Kamea
+structures. Uranus, Neptune, and Pluto participate as measured astronomical
+bodies in the planetary and multilayer graphs but do not receive fabricated
+Kamea structures.
+
+The canonical Kamea set is Saturn, Jupiter, Mars, Sun, Venus, Mercury, and
+Moon. Uranus, Neptune, and Pluto are explicitly marked
+`symbolic_projection.available = false` with reason
+`no_historical_classical_kamea`.
+
 ## Graph of graphs
 
-Every measured astronomical body is a master-graph node. Traditional
-planetary Kamea graphs are nested by reference where available. Master-graph
-edges are measured natal aspects. Outer planets remain valid astronomical
-nodes even though the traditional seven-planet Kamea system has no native
-square for them.
+Every measured astronomical body is a master-graph node. Classical nodes use
+the `astronomical_kamea_node` type and nest normalized Kamea graphs by
+reference. Uranus, Neptune, and Pluto use the `astronomical_only_node` type.
+All master-graph edges carry measured angular separation, aspect and normalized
+orb strength where applicable, and applying/separating status where available.
+
+Astronomy never mutates, rewires, prunes, diffuses, or otherwise alters a Kamea
+graph in the canonical pipeline. Uranus/rewiring, Neptune/diffusion, and
+Pluto/pruning-or-persistence associations exist only as disabled research
+hypotheses outside canonical CSS measurement.
+
+Similarity outputs are separated into `astronomical_similarity`,
+`classical_kamea_similarity`, and `combined_multilayer_similarity`. The absence
+of outer-planet Kamea structures carries no validity or similarity penalty.
 
 ## Classification policy
 

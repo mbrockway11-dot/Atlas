@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="900" viewBox="0 0 900 900">
+<rect width="900" height="900" fill="#020617"/>
+<text x="450.0" y="42" fill="#f8fafc" font-size="28" font-weight="700" text-anchor="middle">Steve Jobs — Unified Kamea Shape</text>
+<text x="450.0" y="68" fill="#94a3b8" font-size="14" text-anchor="middle">all 3×3 through 9×9 Kameas normalized to one unit field</text>
+<rect x="90" y="90" width="720" height="720" fill="none" stroke="#475569" stroke-width="1.5"/>
+<line x1="90" y1="270.00" x2="810" y2="270.00" stroke="#334155" stroke-opacity="0.25"/>
+<line x1="270.00" y1="90" x2="270.00" y2="810" stroke="#334155" stroke-opacity="0.25"/>
+<line x1="90" y1="450.00" x2="810" y2="450.00" stroke="#334155" stroke-opacity="0.25"/>
+<line x1="450.00" y1="90" x2="450.00" y2="810" stroke="#334155" stroke-opacity="0.25"/>
+<line x1="90" y1="630.00" x2="810" y2="630.00" stroke="#334155" stroke-opacity="0.25"/>
+<line x1="630.00" y1="90" x2="630.00" y2="810" stroke="#334155" stroke-opacity="0.25"/>
+<polyline points="810.00,330.00 330.00,330.00 90.00,90.00 90.00,330.00 570.00,570.00 330.00,330.00 330.00,810.00 810.00,810.00 90.00,90.00" fill="none" stroke="#60a5fa" stroke-width="2.4" stroke-opacity="0.32" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="10 6"/>
+<circle cx="810.00" cy="330.00" r="4" fill="none" stroke="#60a5fa" stroke-opacity="0.7"/>
+<line x1="85.00" y1="90.00" x2="95.00" y2="90.00" stroke="#60a5fa" stroke-width="2" stroke-opacity="0.7"/>
+<polyline points="270.00,270.00 270.00,270.00 450.00,90.00 810.00,810.00 90.00,450.00 270.00,270.00 810.00,630.00 90.00,810.00 630.00,810.00" fill="none" stroke="#f87171" stroke-width="2.4" stroke-opacity="0.32" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="10 6"/>
+<circle cx="270.00" cy="270.00" r="4" fill="none" stroke="#f87171" stroke-opacity="0.7"/>
+<line x1="625.00" y1="810.00" x2="635.00" y2="810.00" stroke="#f87171" stroke-width="2" stroke-opacity="0.7"/>
+<polyline points="604.29,398.57 192.86,192.86 295.71,398.57 295.71,90.00 398.57,810.00 810.00,90.00 192.86,398.57 295.71,810.00 295.71,192.86" fill="none" stroke="#34d399" stroke-width="2.4" stroke-opacity="0.32" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="10 6"/>
+<circle cx="604.29" cy="398.57" r="4" fill="none" stroke="#34d399" stroke-opacity="0.7"/>
+<line x1="290.71" y1="192.86" x2="300.71" y2="192.86" stroke="#34d399" stroke-width="2" stroke-opacity="0.7"/>
+<polyline points="630.00,540.00 810.00,360.00 450.00,450.00 450.00,180.00 720.00,630.00 810.00,720.00 630.00,180.00 90.00,180.00 180.00,360.00" fill="none" stroke="#c4b5fd" stroke-width="2.4" stroke-opacity="0.32" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="10 6"/>
+<circle cx="630.00" cy="540.00" r="4" fill="none" stroke="#c4b5fd" stroke-opacity="0.7"/>
+<line x1="175.00" y1="360.00" x2="185.00" y2="360.00" stroke="#c4b5fd" stroke-width="2" stroke-opacity="0.7"/>
+<polyline points="810.00,450.00 810.00,810.00 90.00,810.00 450.00,810.00 450.00,810.00 810.00,450.00 450.00,450.00 450.00,810.00 810.00,810.00" fill="none" stroke="#94a3b8" stroke-width="2.4" stroke-opacity="0.32" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="10 6"/>
+<circle cx="810.00" cy="450.00" r="4" fill="none" stroke="#94a3b8" stroke-opacity="0.7"/>
+<line x1="805.00" y1="810.00" x2="815.00" y2="810.00" stroke="#94a3b8" stroke-width="2" stroke-opacity="0.7"/>
+<polyline points="378.00,522.00 810.00,90.00 810.00,522.00 90.00,666.00 378.00,234.00 666.00,378.00 90.00,90.00 378.00,810.00 90.00,90.00" fill="none" stroke="#fbbf24" stroke-width="2.4" stroke-opacity="0.32" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="10 6"/>
+<circle cx="378.00" cy="522.00" r="4" fill="none" stroke="#fbbf24" stroke-opacity="0.7"/>
+<line x1="85.00" y1="90.00" x2="95.00" y2="90.00" stroke="#fbbf24" stroke-width="2" stroke-opacity="0.7"/>
+<polyline points="570.00,450.00 450.00,690.00 210.00,210.00 450.00,90.00 810.00,690.00 570.00,210.00 330.00,570.00 330.00,690.00 450.00,690.00" fill="none" stroke="#f472b6" stroke-width="2.4" stroke-opacity="0.32" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="10 6"/>
+<circle cx="570.00" cy="450.00" r="4" fill="none" stroke="#f472b6" stroke-opacity="0.7"/>
+<line x1="445.00" y1="690.00" x2="455.00" y2="690.00" stroke="#f472b6" stroke-width="2" stroke-opacity="0.7"/>
+<polyline points="810.00,330.00 330.00,330.00 90.00,90.00 90.00,330.00 570.00,570.00 330.00,330.00 330.00,810.00 810.00,810.00 90.00,90.00" fill="none" stroke="#60a5fa" stroke-width="2.4" stroke-opacity="0.32" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 6"/>
+<circle cx="810.00" cy="330.00" r="4" fill="none" stroke="#60a5fa" stroke-opacity="0.7"/>
+<line x1="85.00" y1="90.00" x2="95.00" y2="90.00" stroke="#60a5fa" stroke-width="2" stroke-opacity="0.7"/>
+<polyline points="270.00,270.00 270.00,270.00 450.00,90.00 810.00,810.00 90.00,450.00 270.00,270.00 810.00,630.00 90.00,810.00 630.00,810.00" fill="none" stroke="#f87171" stroke-width="2.4" stroke-opacity="0.32" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 6"/>
+<circle cx="270.00" cy="270.00" r="4" fill="none" stroke="#f87171" stroke-opacity="0.7"/>
+<line x1="625.00" y1="810.00" x2="635.00" y2="810.00" stroke="#f87171" stroke-width="2" stroke-opacity="0.7"/>
+<polyline points="604.29,398.57 192.86,192.86 295.71,398.57 295.71,90.00 398.57,810.00 810.00,90.00 192.86,398.57 295.71,810.00 295.71,192.86" fill="none" stroke="#34d399" stroke-width="2.4" stroke-opacity="0.32" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 6"/>
+<circle cx="604.29" cy="398.57" r="4" fill="none" stroke="#34d399" stroke-opacity="0.7"/>
+<line x1="290.71" y1="192.86" x2="300.71" y2="192.86" stroke="#34d399" stroke-width="2" stroke-opacity="0.7"/>
+<polyline points="630.00,540.00 810.00,360.00 450.00,450.00 450.00,180.00 720.00,630.00 810.00,720.00 630.00,180.00 90.00,180.00 180.00,360.00" fill="none" stroke="#c4b5fd" stroke-width="2.4" stroke-opacity="0.32" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 6"/>
+<circle cx="630.00" cy="540.00" r="4" fill="none" stroke="#c4b5fd" stroke-opacity="0.7"/>
+<line x1="175.00" y1="360.00" x2="185.00" y2="360.00" stroke="#c4b5fd" stroke-width="2" stroke-opacity="0.7"/>
+<polyline points="810.00,450.00 810.00,810.00 90.00,810.00 450.00,810.00 450.00,810.00 810.00,450.00 450.00,450.00 450.00,810.00 810.00,810.00" fill="none" stroke="#94a3b8" stroke-width="2.4" stroke-opacity="0.32" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 6"/>
+<circle cx="810.00" cy="450.00" r="4" fill="none" stroke="#94a3b8" stroke-opacity="0.7"/>
+<line x1="805.00" y1="810.00" x2="815.00" y2="810.00" stroke="#94a3b8" stroke-width="2" stroke-opacity="0.7"/>
+<polyline points="378.00,522.00 810.00,90.00 810.00,522.00 90.00,666.00 378.00,234.00 666.00,378.00 90.00,90.00 378.00,810.00 90.00,90.00" fill="none" stroke="#fbbf24" stroke-width="2.4" stroke-opacity="0.32" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 6"/>
+<circle cx="378.00" cy="522.00" r="4" fill="none" stroke="#fbbf24" stroke-opacity="0.7"/>
+<line x1="85.00" y1="90.00" x2="95.00" y2="90.00" stroke="#fbbf24" stroke-width="2" stroke-opacity="0.7"/>
+<polyline points="570.00,450.00 450.00,690.00 210.00,210.00 450.00,90.00 810.00,690.00 570.00,210.00 330.00,570.00 330.00,690.00 450.00,690.00" fill="none" stroke="#f472b6" stroke-width="2.4" stroke-opacity="0.32" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 6"/>
+<circle cx="570.00" cy="450.00" r="4" fill="none" stroke="#f472b6" stroke-opacity="0.7"/>
+<line x1="445.00" y1="690.00" x2="455.00" y2="690.00" stroke="#f472b6" stroke-width="2" stroke-opacity="0.7"/>
+<polyline points="570.00,570.00 570.00,90.00 90.00,90.00 90.00,330.00 570.00,570.00 330.00,330.00 90.00,90.00 810.00,810.00 330.00,810.00" fill="none" stroke="#60a5fa" stroke-width="2.4" stroke-opacity="0.32" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="570.00" cy="570.00" r="4" fill="none" stroke="#60a5fa" stroke-opacity="0.7"/>
+<line x1="325.00" y1="810.00" x2="335.00" y2="810.00" stroke="#60a5fa" stroke-width="2" stroke-opacity="0.7"/>
+<polyline points="630.00,630.00 810.00,630.00 450.00,90.00 450.00,450.00 90.00,450.00 270.00,270.00 450.00,90.00 90.00,810.00 90.00,270.00" fill="none" stroke="#f87171" stroke-width="2.4" stroke-opacity="0.32" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="630.00" cy="630.00" r="4" fill="none" stroke="#f87171" stroke-opacity="0.7"/>
+<line x1="85.00" y1="270.00" x2="95.00" y2="270.00" stroke="#f87171" stroke-width="2" stroke-opacity="0.7"/>
+<polyline points="295.71,398.57 295.71,90.00 295.71,398.57 604.29,604.29 398.57,810.00 810.00,90.00 398.57,90.00 295.71,810.00 604.29,192.86" fill="none" stroke="#34d399" stroke-width="2.4" stroke-opacity="0.32" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="295.71" cy="398.57" r="4" fill="none" stroke="#34d399" stroke-opacity="0.7"/>
+<line x1="599.29" y1="192.86" x2="609.29" y2="192.86" stroke="#34d399" stroke-width="2" stroke-opacity="0.7"/>
+<polyline points="180.00,630.00 90.00,450.00 450.00,450.00 90.00,720.00 720.00,630.00 810.00,720.00 90.00,810.00 90.00,180.00 450.00,540.00" fill="none" stroke="#c4b5fd" stroke-width="2.4" stroke-opacity="0.32" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="180.00" cy="630.00" r="4" fill="none" stroke="#c4b5fd" stroke-opacity="0.7"/>
+<line x1="445.00" y1="540.00" x2="455.00" y2="540.00" stroke="#c4b5fd" stroke-width="2" stroke-opacity="0.7"/>
+<polyline points="810.00,90.00 90.00,90.00 90.00,810.00 90.00,810.00 450.00,810.00 810.00,450.00 90.00,90.00 450.00,810.00 450.00,810.00" fill="none" stroke="#94a3b8" stroke-width="2.4" stroke-opacity="0.32" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="810.00" cy="90.00" r="4" fill="none" stroke="#94a3b8" stroke-opacity="0.7"/>
+<line x1="445.00" y1="810.00" x2="455.00" y2="810.00" stroke="#94a3b8" stroke-width="2" stroke-opacity="0.7"/>
+<polyline points="378.00,810.00 522.00,666.00 810.00,522.00 378.00,810.00 378.00,234.00 666.00,378.00 90.00,378.00 378.00,810.00 666.00,522.00" fill="none" stroke="#fbbf24" stroke-width="2.4" stroke-opacity="0.32" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="378.00" cy="810.00" r="4" fill="none" stroke="#fbbf24" stroke-opacity="0.7"/>
+<line x1="661.00" y1="522.00" x2="671.00" y2="522.00" stroke="#fbbf24" stroke-width="2" stroke-opacity="0.7"/>
+<polyline points="450.00,570.00 690.00,450.00 210.00,210.00 210.00,330.00 810.00,690.00 570.00,210.00 210.00,690.00 330.00,690.00 330.00,810.00" fill="none" stroke="#f472b6" stroke-width="2.4" stroke-opacity="0.32" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="450.00" cy="570.00" r="4" fill="none" stroke="#f472b6" stroke-opacity="0.7"/>
+<line x1="325.00" y1="810.00" x2="335.00" y2="810.00" stroke="#f472b6" stroke-width="2" stroke-opacity="0.7"/>
+<circle cx="55" cy="865" r="6" fill="#94a3b8"/>
+<text x="66" y="870" fill="#cbd5e1" font-size="13">Saturn</text>
+<circle cx="170" cy="865" r="6" fill="#60a5fa"/>
+<text x="181" y="870" fill="#cbd5e1" font-size="13">Jupiter</text>
+<circle cx="285" cy="865" r="6" fill="#f87171"/>
+<text x="296" y="870" fill="#cbd5e1" font-size="13">Mars</text>
+<circle cx="400" cy="865" r="6" fill="#fbbf24"/>
+<text x="411" y="870" fill="#cbd5e1" font-size="13">Sun</text>
+<circle cx="515" cy="865" r="6" fill="#f472b6"/>
+<text x="526" y="870" fill="#cbd5e1" font-size="13">Venus</text>
+<circle cx="630" cy="865" r="6" fill="#34d399"/>
+<text x="641" y="870" fill="#cbd5e1" font-size="13">Mercury</text>
+<circle cx="745" cy="865" r="6" fill="#c4b5fd"/>
+<text x="756" y="870" fill="#cbd5e1" font-size="13">Moon</text>
+</svg>

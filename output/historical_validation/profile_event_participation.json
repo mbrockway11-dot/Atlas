@@ -1,0 +1,209 @@
+[
+  {
+    "profile_key": "neil_armstrong",
+    "event_id": "apollo11_crew_announcement",
+    "participation_role": "commander_appointee",
+    "active_interval": {
+      "start_date": "1969-01-09",
+      "end_date": "1969-01-09"
+    },
+    "involvement_confidence": "high",
+    "documented_outcome": "Formally announced as Apollo 11 commander.",
+    "outcome_category": "appointment_removal",
+    "outcome_direction": "positive",
+    "outcome_severity": "major",
+    "source_citations": [
+      "NASA_CREW_ANNOUNCEMENT"
+    ]
+  },
+  {
+    "profile_key": "buzz_aldrin",
+    "event_id": "apollo11_crew_announcement",
+    "participation_role": "lunar_module_pilot_appointee",
+    "active_interval": {
+      "start_date": "1969-01-09",
+      "end_date": "1969-01-09"
+    },
+    "involvement_confidence": "high",
+    "documented_outcome": "Formally announced as Apollo 11 lunar module pilot.",
+    "outcome_category": "appointment_removal",
+    "outcome_direction": "positive",
+    "outcome_severity": "major",
+    "source_citations": [
+      "NASA_CREW_ANNOUNCEMENT"
+    ]
+  },
+  {
+    "profile_key": "michael_collins_astronaut",
+    "event_id": "apollo11_crew_announcement",
+    "participation_role": "command_module_pilot_appointee",
+    "active_interval": {
+      "start_date": "1969-01-09",
+      "end_date": "1969-01-09"
+    },
+    "involvement_confidence": "high",
+    "documented_outcome": "Formally announced as Apollo 11 command module pilot.",
+    "outcome_category": "appointment_removal",
+    "outcome_direction": "positive",
+    "outcome_severity": "major",
+    "source_citations": [
+      "NASA_CREW_ANNOUNCEMENT"
+    ]
+  },
+  {
+    "profile_key": "neil_armstrong",
+    "event_id": "apollo11_launch",
+    "participation_role": "mission_commander",
+    "active_interval": {
+      "start_date": "1969-07-16",
+      "end_date": "1969-07-16"
+    },
+    "involvement_confidence": "high",
+    "documented_outcome": "Launched aboard Apollo 11 as commander.",
+    "outcome_category": "collaboration",
+    "outcome_direction": "positive",
+    "outcome_severity": "major",
+    "source_citations": [
+      "NASA_MISSION_OVERVIEW"
+    ]
+  },
+  {
+    "profile_key": "buzz_aldrin",
+    "event_id": "apollo11_launch",
+    "participation_role": "lunar_module_pilot",
+    "active_interval": {
+      "start_date": "1969-07-16",
+      "end_date": "1969-07-16"
+    },
+    "involvement_confidence": "high",
+    "documented_outcome": "Launched aboard Apollo 11 as lunar module pilot.",
+    "outcome_category": "collaboration",
+    "outcome_direction": "positive",
+    "outcome_severity": "major",
+    "source_citations": [
+      "NASA_MISSION_OVERVIEW"
+    ]
+  },
+  {
+    "profile_key": "michael_collins_astronaut",
+    "event_id": "apollo11_launch",
+    "participation_role": "command_module_pilot",
+    "active_interval": {
+      "start_date": "1969-07-16",
+      "end_date": "1969-07-16"
+    },
+    "involvement_confidence": "high",
+    "documented_outcome": "Launched aboard Apollo 11 as command module pilot.",
+    "outcome_category": "collaboration",
+    "outcome_direction": "positive",
+    "outcome_severity": "major",
+    "source_citations": [
+      "NASA_MISSION_OVERVIEW"
+    ]
+  },
+  {
+    "profile_key": "neil_armstrong",
+    "event_id": "apollo11_lunar_landing",
+    "participation_role": "lunar_module_commander",
+    "active_interval": {
+      "start_date": "1969-07-20",
+      "end_date": "1969-07-20"
+    },
+    "involvement_confidence": "high",
+    "documented_outcome": "Piloted Eagle during landing and stepped onto the lunar surface.",
+    "outcome_category": "other",
+    "outcome_direction": "positive",
+    "outcome_severity": "major",
+    "source_citations": [
+      "NASA_MISSION_OVERVIEW",
+      "NASA_CREW_PAGE"
+    ]
+  },
+  {
+    "profile_key": "buzz_aldrin",
+    "event_id": "apollo11_lunar_landing",
+    "participation_role": "lunar_module_pilot",
+    "active_interval": {
+      "start_date": "1969-07-20",
+      "end_date": "1969-07-20"
+    },
+    "involvement_confidence": "high",
+    "documented_outcome": "Landed in Eagle and conducted lunar surface operations.",
+    "outcome_category": "other",
+    "outcome_direction": "positive",
+    "outcome_severity": "major",
+    "source_citations": [
+      "NASA_MISSION_OVERVIEW",
+      "NASA_CREW_PAGE"
+    ]
+  },
+  {
+    "profile_key": "michael_collins_astronaut",
+    "event_id": "apollo11_lunar_landing",
+    "participation_role": "command_module_pilot",
+    "active_interval": {
+      "start_date": "1969-07-20",
+      "end_date": "1969-07-20"
+    },
+    "involvement_confidence": "high",
+    "documented_outcome": "Operated Columbia in lunar orbit while Eagle landed.",
+    "outcome_category": "other",
+    "outcome_direction": "positive",
+    "outcome_severity": "major",
+    "source_citations": [
+      "NASA_MISSION_OVERVIEW",
+      "NASA_CREW_PAGE"
+    ]
+  },
+  {
+    "profile_key": "neil_armstrong",
+    "event_id": "apollo11_splashdown",
+    "participation_role": "returning_crew",
+    "active_interval": {
+      "start_date": "1969-07-24",
+      "end_date": "1969-07-24"
+    },
+    "involvement_confidence": "high",
+    "documented_outcome": "Returned safely with the Apollo 11 crew.",
+    "outcome_category": "other",
+    "outcome_direction": "positive",
+    "outcome_severity": "major",
+    "source_citations": [
+      "NASA_MISSION_OVERVIEW"
+    ]
+  },
+  {
+    "profile_key": "buzz_aldrin",
+    "event_id": "apollo11_splashdown",
+    "participation_role": "returning_crew",
+    "active_interval": {
+      "start_date": "1969-07-24",
+      "end_date": "1969-07-24"
+    },
+    "involvement_confidence": "high",
+    "documented_outcome": "Returned safely with the Apollo 11 crew.",
+    "outcome_category": "other",
+    "outcome_direction": "positive",
+    "outcome_severity": "major",
+    "source_citations": [
+      "NASA_MISSION_OVERVIEW"
+    ]
+  },
+  {
+    "profile_key": "michael_collins_astronaut",
+    "event_id": "apollo11_splashdown",
+    "participation_role": "returning_crew",
+    "active_interval": {
+      "start_date": "1969-07-24",
+      "end_date": "1969-07-24"
+    },
+    "involvement_confidence": "high",
+    "documented_outcome": "Returned safely with the Apollo 11 crew.",
+    "outcome_category": "other",
+    "outcome_direction": "positive",
+    "outcome_severity": "major",
+    "source_citations": [
+      "NASA_MISSION_OVERVIEW"
+    ]
+  }
+]

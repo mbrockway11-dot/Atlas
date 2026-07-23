@@ -10,9 +10,10 @@ from statistics import mean
 
 from atlas.compiler.canonical_profile_compiler import compile_canonical_profile
 from atlas.library.profile_library import list_saved_profiles
+from atlas.services.profile_path_service import PROJECT_ROOT
 
 
-OUT = Path("output/population/population_intelligence_v2.json")
+OUT = PROJECT_ROOT / "output" / "population" / "population_intelligence_v2.json"
 
 
 def main() -> None:
@@ -48,6 +49,8 @@ def main() -> None:
             "topology_class": topology,
             "dominant_axis": basis.get("dominant_topology_axis"),
             "dominant_motif": basis.get("dominant_motif"),
+            "resonance_class": basis.get("resonance_class"),
+            "dominant_resonance_axis": basis.get("dominant_resonance_axis"),
             "motif_richness": float(basis.get("motif_richness") or 0),
             "raw_nodes": int(basis.get("raw_node_count") or 0),
             "raw_edges": int(basis.get("raw_edge_count") or 0),

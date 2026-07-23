@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import streamlit as st
 
+from dashboard.components.structural_codex import render_structural_codex
 from atlas.services.person_intake_service import create_person_profile
 from atlas.services.profile_compile_service import compile_person_profile
 
@@ -98,6 +99,10 @@ def render_profile_builder_page() -> None:
 
             st.subheader("Artifact Status")
             st.json(compile_payload.get("artifact_status", {}))
+
+            codex = compile_payload.get("structural_codex", {})
+            if codex.get("success"):
+                render_structural_codex(codex)
         else:
             st.error("Profile compile failed.")
 

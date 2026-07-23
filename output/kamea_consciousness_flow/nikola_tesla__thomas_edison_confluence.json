@@ -1,0 +1,648 @@
+{
+  "success": true,
+  "version": "1.0.0",
+  "profile_a": "nikola_tesla",
+  "profile_b": "thomas_edison",
+  "definition": "Overlap and divergence between independently derived invariant planetary riverbeds.",
+  "claim_type": "deterministic_symbolic_comparison",
+  "causal_claim": false,
+  "planetary_confluences": [
+    {
+      "planet": "jupiter",
+      "shared_nodes": [
+        "jupiter:11",
+        "jupiter:2",
+        "jupiter:4",
+        "jupiter:6",
+        "jupiter:8",
+        "jupiter:9"
+      ],
+      "profile_a_only_nodes": [
+        "jupiter:12",
+        "jupiter:3",
+        "jupiter:5"
+      ],
+      "profile_b_only_nodes": [
+        "jupiter:1",
+        "jupiter:13",
+        "jupiter:14",
+        "jupiter:16",
+        "jupiter:7"
+      ],
+      "shared_edges": [],
+      "profile_a_only_edges": [
+        {
+          "source": "jupiter:11",
+          "target": "jupiter:2"
+        },
+        {
+          "source": "jupiter:11",
+          "target": "jupiter:4"
+        },
+        {
+          "source": "jupiter:12",
+          "target": "jupiter:5"
+        },
+        {
+          "source": "jupiter:2",
+          "target": "jupiter:9"
+        },
+        {
+          "source": "jupiter:3",
+          "target": "jupiter:4"
+        },
+        {
+          "source": "jupiter:4",
+          "target": "jupiter:11"
+        },
+        {
+          "source": "jupiter:5",
+          "target": "jupiter:6"
+        },
+        {
+          "source": "jupiter:6",
+          "target": "jupiter:3"
+        },
+        {
+          "source": "jupiter:8",
+          "target": "jupiter:11"
+        },
+        {
+          "source": "jupiter:9",
+          "target": "jupiter:12"
+        }
+      ],
+      "profile_b_only_edges": [
+        {
+          "source": "jupiter:16",
+          "target": "jupiter:1"
+        }
+      ],
+      "opposing_currents": [],
+      "shared_node_count": 6,
+      "shared_edge_count": 0,
+      "opposing_current_count": 0,
+      "node_jaccard": 0.428571,
+      "edge_jaccard": 0.0
+    },
+    {
+      "planet": "mars",
+      "shared_nodes": [
+        "mars:12",
+        "mars:17",
+        "mars:2",
+        "mars:7"
+      ],
+      "profile_a_only_nodes": [
+        "mars:10"
+      ],
+      "profile_b_only_nodes": [
+        "mars:11",
+        "mars:24",
+        "mars:4",
+        "mars:5"
+      ],
+      "shared_edges": [],
+      "profile_a_only_edges": [
+        {
+          "source": "mars:10",
+          "target": "mars:12"
+        },
+        {
+          "source": "mars:12",
+          "target": "mars:7"
+        },
+        {
+          "source": "mars:17",
+          "target": "mars:10"
+        },
+        {
+          "source": "mars:17",
+          "target": "mars:2"
+        },
+        {
+          "source": "mars:2",
+          "target": "mars:17"
+        },
+        {
+          "source": "mars:2",
+          "target": "mars:7"
+        },
+        {
+          "source": "mars:7",
+          "target": "mars:17"
+        },
+        {
+          "source": "mars:7",
+          "target": "mars:2"
+        }
+      ],
+      "profile_b_only_edges": [
+        {
+          "source": "mars:2",
+          "target": "mars:4"
+        }
+      ],
+      "opposing_currents": [],
+      "shared_node_count": 4,
+      "shared_edge_count": 0,
+      "opposing_current_count": 0,
+      "node_jaccard": 0.444444,
+      "edge_jaccard": 0.0
+    },
+    {
+      "planet": "mercury",
+      "shared_nodes": [
+        "mercury:17",
+        "mercury:36"
+      ],
+      "profile_a_only_nodes": [
+        "mercury:13",
+        "mercury:14",
+        "mercury:16",
+        "mercury:30",
+        "mercury:31",
+        "mercury:56",
+        "mercury:59",
+        "mercury:8"
+      ],
+      "profile_b_only_nodes": [
+        "mercury:2",
+        "mercury:23",
+        "mercury:25",
+        "mercury:27",
+        "mercury:46",
+        "mercury:55"
+      ],
+      "shared_edges": [],
+      "profile_a_only_edges": [
+        {
+          "source": "mercury:13",
+          "target": "mercury:8"
+        },
+        {
+          "source": "mercury:14",
+          "target": "mercury:17"
+        },
+        {
+          "source": "mercury:16",
+          "target": "mercury:30"
+        },
+        {
+          "source": "mercury:16",
+          "target": "mercury:36"
+        },
+        {
+          "source": "mercury:17",
+          "target": "mercury:31"
+        },
+        {
+          "source": "mercury:30",
+          "target": "mercury:16"
+        },
+        {
+          "source": "mercury:36",
+          "target": "mercury:14"
+        },
+        {
+          "source": "mercury:56",
+          "target": "mercury:13"
+        },
+        {
+          "source": "mercury:59",
+          "target": "mercury:16"
+        },
+        {
+          "source": "mercury:8",
+          "target": "mercury:59"
+        }
+      ],
+      "profile_b_only_edges": [
+        {
+          "source": "mercury:23",
+          "target": "mercury:25"
+        }
+      ],
+      "opposing_currents": [],
+      "shared_node_count": 2,
+      "shared_edge_count": 0,
+      "opposing_current_count": 0,
+      "node_jaccard": 0.125,
+      "edge_jaccard": 0.0
+    },
+    {
+      "planet": "moon",
+      "shared_nodes": [],
+      "profile_a_only_nodes": [
+        "moon:12",
+        "moon:25",
+        "moon:40",
+        "moon:44",
+        "moon:45",
+        "moon:48",
+        "moon:60",
+        "moon:74",
+        "moon:76",
+        "moon:8",
+        "moon:80"
+      ],
+      "profile_b_only_nodes": [
+        "moon:23",
+        "moon:28",
+        "moon:32",
+        "moon:33",
+        "moon:39",
+        "moon:63"
+      ],
+      "shared_edges": [],
+      "profile_a_only_edges": [
+        {
+          "source": "moon:12",
+          "target": "moon:76"
+        },
+        {
+          "source": "moon:25",
+          "target": "moon:8"
+        },
+        {
+          "source": "moon:40",
+          "target": "moon:60"
+        },
+        {
+          "source": "moon:45",
+          "target": "moon:48"
+        },
+        {
+          "source": "moon:48",
+          "target": "moon:80"
+        },
+        {
+          "source": "moon:60",
+          "target": "moon:45"
+        },
+        {
+          "source": "moon:74",
+          "target": "moon:12"
+        },
+        {
+          "source": "moon:76",
+          "target": "moon:40"
+        },
+        {
+          "source": "moon:8",
+          "target": "moon:74"
+        },
+        {
+          "source": "moon:80",
+          "target": "moon:44"
+        }
+      ],
+      "profile_b_only_edges": [
+        {
+          "source": "moon:28",
+          "target": "moon:32"
+        }
+      ],
+      "opposing_currents": [],
+      "shared_node_count": 0,
+      "shared_edge_count": 0,
+      "opposing_current_count": 0,
+      "node_jaccard": 0.0,
+      "edge_jaccard": 0.0
+    },
+    {
+      "planet": "saturn",
+      "shared_nodes": [
+        "saturn:2",
+        "saturn:3",
+        "saturn:5",
+        "saturn:6",
+        "saturn:7",
+        "saturn:8"
+      ],
+      "profile_a_only_nodes": [
+        "saturn:4"
+      ],
+      "profile_b_only_nodes": [
+        "saturn:1",
+        "saturn:9"
+      ],
+      "shared_edges": [],
+      "profile_a_only_edges": [
+        {
+          "source": "saturn:2",
+          "target": "saturn:4"
+        },
+        {
+          "source": "saturn:2",
+          "target": "saturn:8"
+        },
+        {
+          "source": "saturn:3",
+          "target": "saturn:5"
+        },
+        {
+          "source": "saturn:4",
+          "target": "saturn:3"
+        },
+        {
+          "source": "saturn:4",
+          "target": "saturn:6"
+        },
+        {
+          "source": "saturn:5",
+          "target": "saturn:2"
+        },
+        {
+          "source": "saturn:6",
+          "target": "saturn:3"
+        },
+        {
+          "source": "saturn:6",
+          "target": "saturn:4"
+        },
+        {
+          "source": "saturn:7",
+          "target": "saturn:2"
+        },
+        {
+          "source": "saturn:8",
+          "target": "saturn:7"
+        }
+      ],
+      "profile_b_only_edges": [
+        {
+          "source": "saturn:3",
+          "target": "saturn:1"
+        },
+        {
+          "source": "saturn:3",
+          "target": "saturn:3"
+        },
+        {
+          "source": "saturn:8",
+          "target": "saturn:6"
+        },
+        {
+          "source": "saturn:9",
+          "target": "saturn:8"
+        }
+      ],
+      "opposing_currents": [],
+      "shared_node_count": 6,
+      "shared_edge_count": 0,
+      "opposing_current_count": 0,
+      "node_jaccard": 0.666667,
+      "edge_jaccard": 0.0
+    },
+    {
+      "planet": "sun",
+      "shared_nodes": [
+        "sun:13",
+        "sun:14",
+        "sun:21",
+        "sun:7",
+        "sun:8"
+      ],
+      "profile_a_only_nodes": [
+        "sun:12",
+        "sun:16",
+        "sun:31",
+        "sun:36",
+        "sun:6"
+      ],
+      "profile_b_only_nodes": [
+        "sun:27",
+        "sun:30",
+        "sun:34",
+        "sun:5"
+      ],
+      "shared_edges": [],
+      "profile_a_only_edges": [
+        {
+          "source": "sun:12",
+          "target": "sun:6"
+        },
+        {
+          "source": "sun:14",
+          "target": "sun:36"
+        },
+        {
+          "source": "sun:16",
+          "target": "sun:21"
+        },
+        {
+          "source": "sun:21",
+          "target": "sun:8"
+        },
+        {
+          "source": "sun:31",
+          "target": "sun:16"
+        },
+        {
+          "source": "sun:36",
+          "target": "sun:12"
+        },
+        {
+          "source": "sun:6",
+          "target": "sun:7"
+        },
+        {
+          "source": "sun:7",
+          "target": "sun:13"
+        },
+        {
+          "source": "sun:8",
+          "target": "sun:14"
+        },
+        {
+          "source": "sun:8",
+          "target": "sun:31"
+        }
+      ],
+      "profile_b_only_edges": [
+        {
+          "source": "sun:5",
+          "target": "sun:7"
+        },
+        {
+          "source": "sun:7",
+          "target": "sun:8"
+        }
+      ],
+      "opposing_currents": [],
+      "shared_node_count": 5,
+      "shared_edge_count": 0,
+      "opposing_current_count": 0,
+      "node_jaccard": 0.357143,
+      "edge_jaccard": 0.0
+    },
+    {
+      "planet": "venus",
+      "shared_nodes": [
+        "venus:22",
+        "venus:33",
+        "venus:34"
+      ],
+      "profile_a_only_nodes": [
+        "venus:24",
+        "venus:28",
+        "venus:29",
+        "venus:30",
+        "venus:39",
+        "venus:47",
+        "venus:48"
+      ],
+      "profile_b_only_nodes": [
+        "venus:17",
+        "venus:18",
+        "venus:26",
+        "venus:38",
+        "venus:44",
+        "venus:7"
+      ],
+      "shared_edges": [],
+      "profile_a_only_edges": [
+        {
+          "source": "venus:22",
+          "target": "venus:47"
+        },
+        {
+          "source": "venus:24",
+          "target": "venus:28"
+        },
+        {
+          "source": "venus:28",
+          "target": "venus:39"
+        },
+        {
+          "source": "venus:29",
+          "target": "venus:33"
+        },
+        {
+          "source": "venus:30",
+          "target": "venus:34"
+        },
+        {
+          "source": "venus:30",
+          "target": "venus:48"
+        },
+        {
+          "source": "venus:33",
+          "target": "venus:30"
+        },
+        {
+          "source": "venus:39",
+          "target": "venus:29"
+        },
+        {
+          "source": "venus:47",
+          "target": "venus:30"
+        },
+        {
+          "source": "venus:48",
+          "target": "venus:24"
+        }
+      ],
+      "profile_b_only_edges": [
+        {
+          "source": "venus:18",
+          "target": "venus:22"
+        },
+        {
+          "source": "venus:22",
+          "target": "venus:26"
+        }
+      ],
+      "opposing_currents": [],
+      "shared_node_count": 3,
+      "shared_edge_count": 0,
+      "opposing_current_count": 0,
+      "node_jaccard": 0.1875,
+      "edge_jaccard": 0.0
+    }
+  ],
+  "shape_confluence": {
+    "planetary_shape_comparisons": [
+      {
+        "planet": "jupiter",
+        "union_shape_jaccard": 0.451883,
+        "consensus_shape_jaccard": 0.153527,
+        "directional_shape_jaccard": 0.007519,
+        "shared_union_cell_count": 216,
+        "shared_consensus_cell_count": 37,
+        "shared_directional_segment_count": 2
+      },
+      {
+        "planet": "mars",
+        "union_shape_jaccard": 0.322581,
+        "consensus_shape_jaccard": 0.145695,
+        "directional_shape_jaccard": 0.021277,
+        "shared_union_cell_count": 140,
+        "shared_consensus_cell_count": 22,
+        "shared_directional_segment_count": 4
+      },
+      {
+        "planet": "mercury",
+        "union_shape_jaccard": 0.201581,
+        "consensus_shape_jaccard": 0.082609,
+        "directional_shape_jaccard": 0.018265,
+        "shared_union_cell_count": 102,
+        "shared_consensus_cell_count": 19,
+        "shared_directional_segment_count": 4
+      },
+      {
+        "planet": "moon",
+        "union_shape_jaccard": 0.159341,
+        "consensus_shape_jaccard": 0.046083,
+        "directional_shape_jaccard": 0.0,
+        "shared_union_cell_count": 87,
+        "shared_consensus_cell_count": 10,
+        "shared_directional_segment_count": 0
+      },
+      {
+        "planet": "saturn",
+        "union_shape_jaccard": 0.443128,
+        "consensus_shape_jaccard": 0.142424,
+        "directional_shape_jaccard": 0.007833,
+        "shared_union_cell_count": 187,
+        "shared_consensus_cell_count": 47,
+        "shared_directional_segment_count": 3
+      },
+      {
+        "planet": "sun",
+        "union_shape_jaccard": 0.220758,
+        "consensus_shape_jaccard": 0.067164,
+        "directional_shape_jaccard": 0.003817,
+        "shared_union_cell_count": 134,
+        "shared_consensus_cell_count": 18,
+        "shared_directional_segment_count": 1
+      },
+      {
+        "planet": "venus",
+        "union_shape_jaccard": 0.173038,
+        "consensus_shape_jaccard": 0.104762,
+        "directional_shape_jaccard": 0.047619,
+        "shared_union_cell_count": 86,
+        "shared_consensus_cell_count": 22,
+        "shared_directional_segment_count": 10
+      }
+    ],
+    "mean_union_shape_jaccard": 0.281759,
+    "mean_consensus_shape_jaccard": 0.106038,
+    "mean_directional_shape_jaccard": 0.01519,
+    "strongest_shape_confluence_planet": "jupiter"
+  },
+  "summary": {
+    "planet_count": 7,
+    "shared_invariant_node_count": 26,
+    "shared_invariant_edge_count": 0,
+    "opposing_current_count": 0,
+    "mean_node_jaccard": 0.315618,
+    "mean_edge_jaccard": 0.0,
+    "strongest_confluence_planet": "saturn",
+    "mean_normalized_shape_jaccard": 0.106038,
+    "mean_normalized_directional_jaccard": 0.01519,
+    "strongest_shape_confluence_planet": "jupiter"
+  }
+}

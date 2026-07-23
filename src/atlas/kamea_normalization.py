@@ -9,7 +9,11 @@ from typing import Any
 from atlas.kamea_flow.flow import build_kamea_flow
 
 
-NORMALIZED_KAMEA_GRAPH_VERSION = "1.0.0"
+NORMALIZED_KAMEA_GRAPH_VERSION = "1.1.0"
+CLASSICAL_KAMEA_BODIES = (
+    "saturn", "jupiter", "mars", "sun", "venus", "mercury", "moon",
+)
+ASTRONOMY_ONLY_BODIES = ("uranus", "neptune", "pluto")
 
 
 def build_normalized_kamea_graphs(payload: dict[str, Any]) -> dict[str, Any]:
@@ -23,12 +27,20 @@ def build_normalized_kamea_graphs(payload: dict[str, Any]) -> dict[str, Any]:
     for rows in streams.values():
         ordered = sorted(rows, key=lambda row: row.get("stream_index", 0))
         if ordered:
-            by_planet[str(ordered[0].get("planet"))].append(ordered)
+            by_planet[str(ordered[0].get("planet")).strip().casefold()].append(
+                ordered
+            )
 
     graphs = {
         planet: build_weighted_graph(planet, planet_streams)
         for planet, planet_streams in sorted(by_planet.items())
+        if planet.casefold() in CLASSICAL_KAMEA_BODIES
     }
+    excluded_planets = sorted(
+        planet
+        for planet in by_planet
+        if planet.casefold() not in CLASSICAL_KAMEA_BODIES
+    )
     return {
         "success": True,
         "version": NORMALIZED_KAMEA_GRAPH_VERSION,
@@ -38,7 +50,26 @@ def build_normalized_kamea_graphs(payload: dict[str, Any]) -> dict[str, Any]:
         "repeated_nodes_increase_weight": True,
         "repeated_edges_increase_weight": True,
         "graphs": graphs,
+        "classical_kamea_bodies": list(CLASSICAL_KAMEA_BODIES),
+        "astronomy_only_bodies": list(ASTRONOMY_ONLY_BODIES),
+        "projection_registry": {
+            body: {
+                "available": True,
+                "basis": "historical_classical_kamea",
+                "generated": body in graphs,
+            }
+            for body in CLASSICAL_KAMEA_BODIES
+        } | {
+            body: {
+                "available": False,
+                "reason": "no_historical_classical_kamea",
+                "generated": False,
+            }
+            for body in ASTRONOMY_ONLY_BODIES
+        },
+        "excluded_nonclassical_streams": excluded_planets,
         "summary": {
+            "historically_supported_planet_count": len(CLASSICAL_KAMEA_BODIES),
             "planet_count": len(graphs),
             "node_count": sum(row["node_count"] for row in graphs.values()),
             "edge_count": sum(row["edge_count"] for row in graphs.values()),
@@ -271,4 +302,10 @@ def mean(values: Any) -> float:
     return sum(items) / len(items) if items else 0.0
 
 
-__all__ = ["build_normalized_kamea_graphs", "build_weighted_graph", "graph_metrics"]
+__all__ = [
+    "ASTRONOMY_ONLY_BODIES",
+    "CLASSICAL_KAMEA_BODIES",
+    "build_normalized_kamea_graphs",
+    "build_weighted_graph",
+    "graph_metrics",
+]

@@ -26,9 +26,10 @@ from atlas.calibration.structural_clustering import (
     build_structural_clusters,
     structural_clustering_result_to_dict,
 )
+from atlas.library.profile_library import ROOT_LIBRARY_DIR
 
 
-DEFAULT_PROFILE_DIR = Path("output/library")
+DEFAULT_PROFILE_DIR = ROOT_LIBRARY_DIR
 
 
 def profile_library_exists(profile_dir: str | Path = DEFAULT_PROFILE_DIR) -> bool:

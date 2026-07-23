@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800">
+<rect width="800" height="800" fill="#020617"/>
+<text x="400.0" y="42" fill="#f8fafc" font-size="28" font-weight="700" text-anchor="middle">Moon Invariant Riverbed</text>
+<text x="400.0" y="70" fill="#94a3b8" font-size="15" text-anchor="middle">shared by at least two cipher tributaries</text>
+<line x1="90" y1="90.00" x2="710.00" y2="90.00" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="90.00" y1="90" x2="90.00" y2="710.00" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="90" y1="167.50" x2="710.00" y2="167.50" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="167.50" y1="90" x2="167.50" y2="710.00" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="90" y1="245.00" x2="710.00" y2="245.00" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="245.00" y1="90" x2="245.00" y2="710.00" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="90" y1="322.50" x2="710.00" y2="322.50" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="322.50" y1="90" x2="322.50" y2="710.00" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="90" y1="400.00" x2="710.00" y2="400.00" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="400.00" y1="90" x2="400.00" y2="710.00" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="90" y1="477.50" x2="710.00" y2="477.50" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="477.50" y1="90" x2="477.50" y2="710.00" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="90" y1="555.00" x2="710.00" y2="555.00" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="555.00" y1="90" x2="555.00" y2="710.00" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="90" y1="632.50" x2="710.00" y2="632.50" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="632.50" y1="90" x2="632.50" y2="710.00" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="90" y1="710.00" x2="710.00" y2="710.00" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="710.00" y1="90" x2="710.00" y2="710.00" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="632.50" y1="322.50" x2="710.00" y2="167.50" stroke="#c4b5fd" stroke-width="3.50" stroke-opacity="0.72" stroke-linecap="round"/>
+<line x1="322.50" y1="322.50" x2="555.00" y2="710.00" stroke="#c4b5fd" stroke-width="3.50" stroke-opacity="0.72" stroke-linecap="round"/>
+<line x1="555.00" y1="710.00" x2="632.50" y2="400.00" stroke="#c4b5fd" stroke-width="3.50" stroke-opacity="0.72" stroke-linecap="round"/>
+<line x1="245.00" y1="555.00" x2="632.50" y2="322.50" stroke="#c4b5fd" stroke-width="3.50" stroke-opacity="0.72" stroke-linecap="round"/>
+<line x1="245.00" y1="555.00" x2="245.00" y2="555.00" stroke="#c4b5fd" stroke-width="3.50" stroke-opacity="0.72" stroke-linecap="round"/>
+<line x1="632.50" y1="400.00" x2="245.00" y2="555.00" stroke="#c4b5fd" stroke-width="3.50" stroke-opacity="0.72" stroke-linecap="round"/>
+<circle cx="555.00" cy="710.00" r="12" fill="#c4b5fd" fill-opacity="0.55" stroke="#c4b5fd" stroke-width="2"/>
+<text x="555.00" y="693.00" fill="#f8fafc" font-size="13" text-anchor="middle">53</text>
+<circle cx="245.00" cy="555.00" r="12" fill="#c4b5fd" fill-opacity="0.55" stroke="#c4b5fd" stroke-width="2"/>
+<text x="245.00" y="538.00" fill="#f8fafc" font-size="13" text-anchor="middle">59</text>
+<circle cx="632.50" cy="322.50" r="10" fill="#c4b5fd" fill-opacity="0.55" stroke="#c4b5fd" stroke-width="2"/>
+<text x="632.50" y="307.50" fill="#f8fafc" font-size="13" text-anchor="middle">24</text>
+<circle cx="322.50" cy="322.50" r="10" fill="#c4b5fd" fill-opacity="0.55" stroke="#c4b5fd" stroke-width="2"/>
+<text x="322.50" y="307.50" fill="#f8fafc" font-size="13" text-anchor="middle">40</text>
+<circle cx="710.00" cy="167.50" r="10" fill="#c4b5fd" fill-opacity="0.55" stroke="#c4b5fd" stroke-width="2"/>
+<text x="710.00" y="152.50" fill="#f8fafc" font-size="13" text-anchor="middle">46</text>
+<circle cx="632.50" cy="400.00" r="10" fill="#c4b5fd" fill-opacity="0.55" stroke="#c4b5fd" stroke-width="2"/>
+<text x="632.50" y="385.00" fill="#f8fafc" font-size="13" text-anchor="middle">65</text>
+<text x="400.0" y="776" fill="#94a3b8" font-size="14" text-anchor="middle">nodes 6 · channels 6 · node consensus 0.461538</text>
+</svg>

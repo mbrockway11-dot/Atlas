@@ -1,0 +1,11 @@
+{
+  "version": "atlas.symbolic-behavior-validation.v1",
+  "status": "complete",
+  "stage": "complete",
+  "completed_profiles": 2057,
+  "total_profiles": 2057,
+  "feature_rows": 80988,
+  "cache_hits": 2057,
+  "summary_path": "C:\\Projects\\Atlas\\output\\symbolic_behavior\\population_symbolic_feature_summary.json",
+  "updated_at": "2026-07-22T03:49:15.634327+00:00"
+}

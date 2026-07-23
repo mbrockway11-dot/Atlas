@@ -49,6 +49,15 @@ def build_astronomy_layer(*, profile_payload: dict[str, Any]) -> AstronomyLayer:
                 "iau_constellation": row["iau_constellation"],
                 "tropical_sign": row["tropical_sign"],
                 "sidereal_lahiri_sign": row["sidereal_lahiri_sign"],
+                "tropical_coordinates": row["tropical_coordinates"],
+                "sidereal_lahiri_coordinates": row[
+                    "sidereal_lahiri_coordinates"
+                ],
+                "apparent_longitude_velocity_deg_per_day": row[
+                    "apparent_longitude_velocity_deg_per_day"
+                ],
+                "retrograde": row["retrograde"],
+                "symbolic_projection": row["symbolic_projection"],
             }
             for body, row in measurement.get("bodies", {}).items()
         },

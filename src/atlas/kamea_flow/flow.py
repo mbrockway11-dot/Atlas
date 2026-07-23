@@ -32,15 +32,21 @@ def build_flow_edges(steps: list[KameaFlowStep]) -> list[KameaFlowEdge]:
     edge_counter: Counter[tuple[str, str, str, str]] = Counter()
     edge_geometry: dict[tuple[str, str, str, str], tuple[float, float, float]] = {}
 
-    for left, right in zip(steps, steps[1:]):
-        key = (left.node, right.node, left.cipher, left.planet)
-        edge_counter[key] += 1
+    streams: dict[str, list[KameaFlowStep]] = {}
+    for step in steps:
+        streams.setdefault(step.stream_id, []).append(step)
 
-        dx = right.x - left.x
-        dy = right.y - left.y
-        distance = math.sqrt(dx * dx + dy * dy)
+    for stream_id, stream_steps in streams.items():
+        ordered = sorted(stream_steps, key=lambda item: item.stream_index)
+        for left, right in zip(ordered, ordered[1:]):
+            key = (left.node, right.node, left.cipher, left.planet)
+            edge_counter[key] += 1
 
-        edge_geometry[key] = (distance, dx, dy)
+            dx = right.x - left.x
+            dy = right.y - left.y
+            distance = math.sqrt(dx * dx + dy * dy)
+
+            edge_geometry[key] = (distance, dx, dy)
 
     edges = []
 
@@ -54,6 +60,7 @@ def build_flow_edges(steps: list[KameaFlowStep]) -> list[KameaFlowEdge]:
                 target=target,
                 cipher=cipher,
                 planet=planet,
+                stream_id=f"{cipher}::{planet}",
                 count=count,
                 distance=round(distance, 6),
                 direction_x=round(dx, 6),

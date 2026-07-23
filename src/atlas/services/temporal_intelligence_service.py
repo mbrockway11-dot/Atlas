@@ -69,6 +69,9 @@ def build_temporal_intelligence_payload(
         "birth": ephemeris.get("birth", {}),
         "natal": ephemeris,
         "sidereal": ephemeris.get("sidereal", {}),
+        "astronomical_constellations": ephemeris.get(
+            "astronomical_constellations", {}
+        ),
         "houses": ephemeris.get("houses", {}),
         "nakshatras": ephemeris.get("nakshatra", {}),
         "dignity": ephemeris.get("dignity", {}),
@@ -102,6 +105,7 @@ def build_temporal_metrics(
     birth = exports.get("birth", {})
     natal = exports.get("natal", {})
     sidereal = exports.get("sidereal", {})
+    constellations = exports.get("astronomical_constellations", {})
     houses = exports.get("houses", {})
     nakshatras = exports.get("nakshatras", {})
     dignity = exports.get("dignity", {})
@@ -117,6 +121,18 @@ def build_temporal_metrics(
         "birth_place": birth.get("place", birth.get("birth_place", "")),
         "planet_count": len(natal.get("planets", {})),
         "sidereal_status": natal.get("sidereal_status", ""),
+        "astronomical_constellations_status": natal.get(
+            "astronomical_constellations_status", ""
+        ),
+        "constellation_planet_count": _summary_count(
+            constellations, "planet_count", "planets"
+        ),
+        "zodiac_constellation_count": constellations.get(
+            "zodiac_constellation_count", 0
+        ),
+        "ophiuchus_count": constellations.get("summary", {}).get(
+            "ecliptic_path_ophiuchus_count", 0
+        ),
         "nakshatra_status": natal.get("nakshatra_status", ""),
         "houses_status": natal.get("houses_status", ""),
         "aspects_status": natal.get("aspects_status", ""),
@@ -153,6 +169,7 @@ def build_temporal_warnings(
 
     for key in [
         "sidereal_status",
+        "astronomical_constellations_status",
         "nakshatra_status",
         "houses_status",
         "aspects_status",

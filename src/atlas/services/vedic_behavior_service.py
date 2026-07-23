@@ -82,7 +82,9 @@ def build_vedic_behavior_model(
     source_warnings: list[str],
 ) -> dict[str, Any]:
     """Build the Vedic behavior model."""
-    natal = temporal_data.get("natal", {})
+    tropical_natal = temporal_data.get("natal", {})
+    sidereal_natal = temporal_data.get("sidereal", {})
+    natal = sidereal_natal or tropical_natal
     birth = temporal_data.get("birth", {})
     dignity = temporal_data.get("dignity", {})
     dasha = temporal_data.get("dasha", {})
@@ -142,6 +144,24 @@ def build_vedic_behavior_model(
             "from Vedic temporal factors. They are not confirmed behavior, diagnosis, "
             "or deterministic identity."
         ),
+        "coordinate_system": {
+            "zodiac": (
+                natal.get("zodiac", "sidereal")
+                if isinstance(natal, dict)
+                else "sidereal"
+            ),
+            "ayanamsa": (
+                natal.get("ayanamsa", "Lahiri")
+                if isinstance(natal, dict)
+                else "Lahiri"
+            ),
+            "planet_source": (
+                "temporal.sidereal"
+                if sidereal_natal
+                else "temporal.natal_fallback"
+            ),
+            "fallback_used": not bool(sidereal_natal),
+        },
         "confidence": confidence,
         "assumptions": assumptions,
         "sections": sections,

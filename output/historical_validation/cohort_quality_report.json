@@ -1,0 +1,25 @@
+{
+  "pilot_id": "apollo11_crew_pilot_v1",
+  "cohort_selection_basis": "authoritative-source completeness and bounded documented collaboration, not attractive transit results",
+  "profile_count": 3,
+  "event_count": 4,
+  "relationship_count": 3,
+  "event_window_count": 12,
+  "control_window_count": 36,
+  "exposure_count": 4028,
+  "profiles_missing_birth_time": 3,
+  "profiles_missing_birth_date": 0,
+  "profiles_absent_from_main_library": 1,
+  "events_missing_citations": 0,
+  "relationships_missing_citations": 0,
+  "retained_findings": 0,
+  "rejected_or_not_retained_findings": 2,
+  "limitations": [
+    "Three-person single-mission pilot is not powered for general inference.",
+    "All documented pilot outcomes are positive; shared-event differential outcomes are unavailable.",
+    "All birth times are unknown; houses and angles are disabled and Moon contacts are uncertainty-flagged.",
+    "Four mission milestones are correlated within one historical event family.",
+    "No matched unconnected relationship controls meet the pilot evidence standard.",
+    "No finding may be called validated from this pilot."
+  ]
+}

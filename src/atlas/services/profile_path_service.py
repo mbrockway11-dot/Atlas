@@ -11,15 +11,15 @@ def resolve_profile_dir(profile_key: str) -> Path:
     clean_key = profile_key.strip()
 
     candidates = [
-        LIBRARY_DIR / clean_key,
         PROFILES_DIR / clean_key,
+        LIBRARY_DIR / clean_key,
     ]
 
     for candidate in candidates:
         if candidate.exists():
             return candidate
 
-    return LIBRARY_DIR / clean_key
+    return PROFILES_DIR / clean_key
 
 
 def profile_exists(profile_key: str) -> bool:

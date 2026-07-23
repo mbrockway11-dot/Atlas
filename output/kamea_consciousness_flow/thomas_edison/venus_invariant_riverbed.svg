@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800">
+<rect width="800" height="800" fill="#020617"/>
+<text x="400.0" y="42" fill="#f8fafc" font-size="28" font-weight="700" text-anchor="middle">Venus Invariant Riverbed</text>
+<text x="400.0" y="70" fill="#94a3b8" font-size="15" text-anchor="middle">shared by at least two cipher tributaries</text>
+<line x1="90" y1="90.00" x2="710.00" y2="90.00" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="90.00" y1="90" x2="90.00" y2="710.00" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="90" y1="193.33" x2="710.00" y2="193.33" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="193.33" y1="90" x2="193.33" y2="710.00" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="90" y1="296.67" x2="710.00" y2="296.67" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="296.67" y1="90" x2="296.67" y2="710.00" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="90" y1="400.00" x2="710.00" y2="400.00" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="400.00" y1="90" x2="400.00" y2="710.00" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="90" y1="503.33" x2="710.00" y2="503.33" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="503.33" y1="90" x2="503.33" y2="710.00" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="90" y1="606.67" x2="710.00" y2="606.67" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="606.67" y1="90" x2="606.67" y2="710.00" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="90" y1="710.00" x2="710.00" y2="710.00" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="710.00" y1="90" x2="710.00" y2="710.00" stroke="#334155" stroke-opacity="0.35"/>
+<line x1="503.33" y1="296.67" x2="90.00" y2="90.00" stroke="#f472b6" stroke-width="3.50" stroke-opacity="0.72" stroke-linecap="round"/>
+<line x1="90.00" y1="90.00" x2="503.33" y2="503.33" stroke="#f472b6" stroke-width="3.50" stroke-opacity="0.72" stroke-linecap="round"/>
+<circle cx="90.00" cy="90.00" r="12" fill="#f472b6" fill-opacity="0.55" stroke="#f472b6" stroke-width="2"/>
+<text x="90.00" y="73.00" fill="#f8fafc" font-size="13" text-anchor="middle">22</text>
+<circle cx="400.00" cy="606.67" r="12" fill="#f472b6" fill-opacity="0.55" stroke="#f472b6" stroke-width="2"/>
+<text x="400.00" y="589.67" fill="#f8fafc" font-size="13" text-anchor="middle">33</text>
+<circle cx="503.33" cy="710.00" r="12" fill="#f472b6" fill-opacity="0.55" stroke="#f472b6" stroke-width="2"/>
+<text x="503.33" y="693.00" fill="#f8fafc" font-size="13" text-anchor="middle">34</text>
+<circle cx="296.67" cy="400.00" r="10" fill="#f472b6" fill-opacity="0.55" stroke="#f472b6" stroke-width="2"/>
+<text x="296.67" y="385.00" fill="#f8fafc" font-size="13" text-anchor="middle">7</text>
+<circle cx="400.00" cy="193.33" r="10" fill="#f472b6" fill-opacity="0.55" stroke="#f472b6" stroke-width="2"/>
+<text x="400.00" y="178.33" fill="#f8fafc" font-size="13" text-anchor="middle">17</text>
+<circle cx="503.33" cy="296.67" r="10" fill="#f472b6" fill-opacity="0.55" stroke="#f472b6" stroke-width="2"/>
+<text x="503.33" y="281.67" fill="#f8fafc" font-size="13" text-anchor="middle">18</text>
+<circle cx="503.33" cy="503.33" r="10" fill="#f472b6" fill-opacity="0.55" stroke="#f472b6" stroke-width="2"/>
+<text x="503.33" y="488.33" fill="#f8fafc" font-size="13" text-anchor="middle">26</text>
+<circle cx="90.00" cy="503.33" r="10" fill="#f472b6" fill-opacity="0.55" stroke="#f472b6" stroke-width="2"/>
+<text x="90.00" y="488.33" fill="#f8fafc" font-size="13" text-anchor="middle">38</text>
+<circle cx="606.67" cy="503.33" r="10" fill="#f472b6" fill-opacity="0.55" stroke="#f472b6" stroke-width="2"/>
+<text x="606.67" y="488.33" fill="#f8fafc" font-size="13" text-anchor="middle">44</text>
+<text x="400.0" y="776" fill="#94a3b8" font-size="14" text-anchor="middle">nodes 9 · channels 2 · node consensus 0.409091</text>
+</svg>

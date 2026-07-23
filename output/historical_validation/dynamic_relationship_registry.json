@@ -1,0 +1,86 @@
+[
+  {
+    "relationship_id": "apollo11_armstrong_aldrin",
+    "source_profile": "neil_armstrong",
+    "target_profile": "buzz_aldrin",
+    "relationship_type": "documented_mission_collaboration",
+    "direction": "bidirectional",
+    "start_date": "1969-01-09",
+    "end_date": "1969-07-24",
+    "date_precision": "day",
+    "relationship_state_changes": [
+      {
+        "date": "1969-07-20",
+        "from": "assigned_crew",
+        "to": "active_lunar_surface_team"
+      }
+    ],
+    "shared_event_ids": [
+      "apollo11_crew_announcement",
+      "apollo11_launch",
+      "apollo11_lunar_landing",
+      "apollo11_splashdown"
+    ],
+    "source_citations": [
+      "NASA_CREW_ANNOUNCEMENT",
+      "NASA_MISSION_OVERVIEW"
+    ],
+    "evidence_confidence": "high"
+  },
+  {
+    "relationship_id": "apollo11_armstrong_collins",
+    "source_profile": "neil_armstrong",
+    "target_profile": "michael_collins_astronaut",
+    "relationship_type": "documented_mission_collaboration",
+    "direction": "bidirectional",
+    "start_date": "1969-01-09",
+    "end_date": "1969-07-24",
+    "date_precision": "day",
+    "relationship_state_changes": [
+      {
+        "date": "1969-07-20",
+        "from": "assigned_crew",
+        "to": "split_lunar_operations"
+      }
+    ],
+    "shared_event_ids": [
+      "apollo11_crew_announcement",
+      "apollo11_launch",
+      "apollo11_lunar_landing",
+      "apollo11_splashdown"
+    ],
+    "source_citations": [
+      "NASA_CREW_ANNOUNCEMENT",
+      "NASA_MISSION_OVERVIEW"
+    ],
+    "evidence_confidence": "high"
+  },
+  {
+    "relationship_id": "apollo11_aldrin_collins",
+    "source_profile": "buzz_aldrin",
+    "target_profile": "michael_collins_astronaut",
+    "relationship_type": "documented_mission_collaboration",
+    "direction": "bidirectional",
+    "start_date": "1969-01-09",
+    "end_date": "1969-07-24",
+    "date_precision": "day",
+    "relationship_state_changes": [
+      {
+        "date": "1969-07-20",
+        "from": "assigned_crew",
+        "to": "split_lunar_operations"
+      }
+    ],
+    "shared_event_ids": [
+      "apollo11_crew_announcement",
+      "apollo11_launch",
+      "apollo11_lunar_landing",
+      "apollo11_splashdown"
+    ],
+    "source_citations": [
+      "NASA_CREW_ANNOUNCEMENT",
+      "NASA_MISSION_OVERVIEW"
+    ],
+    "evidence_confidence": "high"
+  }
+]

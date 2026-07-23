@@ -1,0 +1,706 @@
+[
+  {
+    "profile_key": "nikola_tesla",
+    "event_id": "tesla_arrives_new_york",
+    "event_family": "edison_tesla_relationship",
+    "outcome_category": "collaboration",
+    "outcome_direction": "positive",
+    "source_citations": [
+      "TESLA_MUSEUM_ARRIVAL",
+      "TESLA_MUSEUM_EDISON_DIARY"
+    ],
+    "window_id": "event:nikola_tesla:tesla_arrives_new_york",
+    "window_kind": "event",
+    "anchor_date": "1884-06-06",
+    "outcome_present": 1,
+    "match_method": "documented event date"
+  },
+  {
+    "profile_key": "nikola_tesla",
+    "event_id": "tesla_arrives_new_york",
+    "event_family": "edison_tesla_relationship",
+    "outcome_category": "collaboration",
+    "outcome_direction": "positive",
+    "source_citations": [
+      "TESLA_MUSEUM_ARRIVAL",
+      "TESLA_MUSEUM_EDISON_DIARY"
+    ],
+    "window_id": "control:nikola_tesla:tesla_arrives_new_york:-364",
+    "window_kind": "within_person_control",
+    "anchor_date": "1883-06-08",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted -364 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "nikola_tesla",
+    "event_id": "tesla_arrives_new_york",
+    "event_family": "edison_tesla_relationship",
+    "outcome_category": "collaboration",
+    "outcome_direction": "positive",
+    "source_citations": [
+      "TESLA_MUSEUM_ARRIVAL",
+      "TESLA_MUSEUM_EDISON_DIARY"
+    ],
+    "window_id": "control:nikola_tesla:tesla_arrives_new_york:-182",
+    "window_kind": "within_person_control",
+    "anchor_date": "1883-12-07",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted -182 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "nikola_tesla",
+    "event_id": "tesla_arrives_new_york",
+    "event_family": "edison_tesla_relationship",
+    "outcome_category": "collaboration",
+    "outcome_direction": "positive",
+    "source_citations": [
+      "TESLA_MUSEUM_ARRIVAL",
+      "TESLA_MUSEUM_EDISON_DIARY"
+    ],
+    "window_id": "control:nikola_tesla:tesla_arrives_new_york:+364",
+    "window_kind": "within_person_control",
+    "anchor_date": "1885-06-05",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted +364 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "thomas_edison",
+    "event_id": "tesla_arrives_new_york",
+    "event_family": "edison_tesla_relationship",
+    "outcome_category": "collaboration",
+    "outcome_direction": "neutral",
+    "source_citations": [
+      "TESLA_MUSEUM_EDISON_DIARY"
+    ],
+    "window_id": "event:thomas_edison:tesla_arrives_new_york",
+    "window_kind": "event",
+    "anchor_date": "1884-06-06",
+    "outcome_present": 1,
+    "match_method": "documented event date"
+  },
+  {
+    "profile_key": "thomas_edison",
+    "event_id": "tesla_arrives_new_york",
+    "event_family": "edison_tesla_relationship",
+    "outcome_category": "collaboration",
+    "outcome_direction": "neutral",
+    "source_citations": [
+      "TESLA_MUSEUM_EDISON_DIARY"
+    ],
+    "window_id": "control:thomas_edison:tesla_arrives_new_york:-364",
+    "window_kind": "within_person_control",
+    "anchor_date": "1883-06-08",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted -364 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "thomas_edison",
+    "event_id": "tesla_arrives_new_york",
+    "event_family": "edison_tesla_relationship",
+    "outcome_category": "collaboration",
+    "outcome_direction": "neutral",
+    "source_citations": [
+      "TESLA_MUSEUM_EDISON_DIARY"
+    ],
+    "window_id": "control:thomas_edison:tesla_arrives_new_york:-182",
+    "window_kind": "within_person_control",
+    "anchor_date": "1883-12-07",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted -182 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "thomas_edison",
+    "event_id": "tesla_arrives_new_york",
+    "event_family": "edison_tesla_relationship",
+    "outcome_category": "collaboration",
+    "outcome_direction": "neutral",
+    "source_citations": [
+      "TESLA_MUSEUM_EDISON_DIARY"
+    ],
+    "window_id": "control:thomas_edison:tesla_arrives_new_york:+364",
+    "window_kind": "within_person_control",
+    "anchor_date": "1885-06-05",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted +364 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "nikola_tesla",
+    "event_id": "tesla_leaves_edison",
+    "event_family": "edison_tesla_relationship",
+    "outcome_category": "conflict",
+    "outcome_direction": "negative",
+    "source_citations": [
+      "TESLA_MUSEUM_EDISON_DIARY"
+    ],
+    "window_id": "event:nikola_tesla:tesla_leaves_edison",
+    "window_kind": "event",
+    "anchor_date": "1884-12-07",
+    "outcome_present": 1,
+    "match_method": "documented event date"
+  },
+  {
+    "profile_key": "nikola_tesla",
+    "event_id": "tesla_leaves_edison",
+    "event_family": "edison_tesla_relationship",
+    "outcome_category": "conflict",
+    "outcome_direction": "negative",
+    "source_citations": [
+      "TESLA_MUSEUM_EDISON_DIARY"
+    ],
+    "window_id": "control:nikola_tesla:tesla_leaves_edison:-364",
+    "window_kind": "within_person_control",
+    "anchor_date": "1883-12-09",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted -364 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "nikola_tesla",
+    "event_id": "tesla_leaves_edison",
+    "event_family": "edison_tesla_relationship",
+    "outcome_category": "conflict",
+    "outcome_direction": "negative",
+    "source_citations": [
+      "TESLA_MUSEUM_EDISON_DIARY"
+    ],
+    "window_id": "control:nikola_tesla:tesla_leaves_edison:+182",
+    "window_kind": "within_person_control",
+    "anchor_date": "1885-06-07",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted +182 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "nikola_tesla",
+    "event_id": "tesla_leaves_edison",
+    "event_family": "edison_tesla_relationship",
+    "outcome_category": "conflict",
+    "outcome_direction": "negative",
+    "source_citations": [
+      "TESLA_MUSEUM_EDISON_DIARY"
+    ],
+    "window_id": "control:nikola_tesla:tesla_leaves_edison:+364",
+    "window_kind": "within_person_control",
+    "anchor_date": "1885-12-06",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted +364 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "thomas_edison",
+    "event_id": "tesla_leaves_edison",
+    "event_family": "edison_tesla_relationship",
+    "outcome_category": "conflict",
+    "outcome_direction": "neutral",
+    "source_citations": [
+      "TESLA_MUSEUM_EDISON_DIARY"
+    ],
+    "window_id": "event:thomas_edison:tesla_leaves_edison",
+    "window_kind": "event",
+    "anchor_date": "1884-12-07",
+    "outcome_present": 1,
+    "match_method": "documented event date"
+  },
+  {
+    "profile_key": "thomas_edison",
+    "event_id": "tesla_leaves_edison",
+    "event_family": "edison_tesla_relationship",
+    "outcome_category": "conflict",
+    "outcome_direction": "neutral",
+    "source_citations": [
+      "TESLA_MUSEUM_EDISON_DIARY"
+    ],
+    "window_id": "control:thomas_edison:tesla_leaves_edison:-364",
+    "window_kind": "within_person_control",
+    "anchor_date": "1883-12-09",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted -364 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "thomas_edison",
+    "event_id": "tesla_leaves_edison",
+    "event_family": "edison_tesla_relationship",
+    "outcome_category": "conflict",
+    "outcome_direction": "neutral",
+    "source_citations": [
+      "TESLA_MUSEUM_EDISON_DIARY"
+    ],
+    "window_id": "control:thomas_edison:tesla_leaves_edison:+182",
+    "window_kind": "within_person_control",
+    "anchor_date": "1885-06-07",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted +182 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "thomas_edison",
+    "event_id": "tesla_leaves_edison",
+    "event_family": "edison_tesla_relationship",
+    "outcome_category": "conflict",
+    "outcome_direction": "neutral",
+    "source_citations": [
+      "TESLA_MUSEUM_EDISON_DIARY"
+    ],
+    "window_id": "control:thomas_edison:tesla_leaves_edison:+364",
+    "window_kind": "within_person_control",
+    "anchor_date": "1885-12-06",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted +364 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "nikola_tesla",
+    "event_id": "tesla_ac_motor_patent",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "publication_discovery",
+    "outcome_direction": "positive",
+    "source_citations": [
+      "LOC_AC_MOTOR_HAER",
+      "LOC_WESTINGHOUSE"
+    ],
+    "window_id": "event:nikola_tesla:tesla_ac_motor_patent",
+    "window_kind": "event",
+    "anchor_date": "1888-05-01",
+    "outcome_present": 1,
+    "match_method": "documented event date"
+  },
+  {
+    "profile_key": "nikola_tesla",
+    "event_id": "tesla_ac_motor_patent",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "publication_discovery",
+    "outcome_direction": "positive",
+    "source_citations": [
+      "LOC_AC_MOTOR_HAER",
+      "LOC_WESTINGHOUSE"
+    ],
+    "window_id": "control:nikola_tesla:tesla_ac_motor_patent:-364",
+    "window_kind": "within_person_control",
+    "anchor_date": "1887-05-03",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted -364 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "nikola_tesla",
+    "event_id": "tesla_ac_motor_patent",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "publication_discovery",
+    "outcome_direction": "positive",
+    "source_citations": [
+      "LOC_AC_MOTOR_HAER",
+      "LOC_WESTINGHOUSE"
+    ],
+    "window_id": "control:nikola_tesla:tesla_ac_motor_patent:-182",
+    "window_kind": "within_person_control",
+    "anchor_date": "1887-11-01",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted -182 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "nikola_tesla",
+    "event_id": "tesla_ac_motor_patent",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "publication_discovery",
+    "outcome_direction": "positive",
+    "source_citations": [
+      "LOC_AC_MOTOR_HAER",
+      "LOC_WESTINGHOUSE"
+    ],
+    "window_id": "control:nikola_tesla:tesla_ac_motor_patent:+182",
+    "window_kind": "within_person_control",
+    "anchor_date": "1888-10-30",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted +182 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "nikola_tesla",
+    "event_id": "tesla_ac_motor_patent",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "publication_discovery",
+    "outcome_direction": "positive",
+    "source_citations": [
+      "LOC_AC_MOTOR_HAER",
+      "LOC_WESTINGHOUSE"
+    ],
+    "window_id": "control:nikola_tesla:tesla_ac_motor_patent:+364",
+    "window_kind": "within_person_control",
+    "anchor_date": "1889-04-30",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted +364 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "thomas_edison",
+    "event_id": "tesla_ac_motor_patent",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "conflict",
+    "outcome_direction": "negative",
+    "source_citations": [
+      "LOC_WESTINGHOUSE",
+      "DOE_WAR_CURRENTS"
+    ],
+    "window_id": "event:thomas_edison:tesla_ac_motor_patent",
+    "window_kind": "event",
+    "anchor_date": "1888-05-01",
+    "outcome_present": 1,
+    "match_method": "documented event date"
+  },
+  {
+    "profile_key": "thomas_edison",
+    "event_id": "tesla_ac_motor_patent",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "conflict",
+    "outcome_direction": "negative",
+    "source_citations": [
+      "LOC_WESTINGHOUSE",
+      "DOE_WAR_CURRENTS"
+    ],
+    "window_id": "control:thomas_edison:tesla_ac_motor_patent:-364",
+    "window_kind": "within_person_control",
+    "anchor_date": "1887-05-03",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted -364 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "thomas_edison",
+    "event_id": "tesla_ac_motor_patent",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "conflict",
+    "outcome_direction": "negative",
+    "source_citations": [
+      "LOC_WESTINGHOUSE",
+      "DOE_WAR_CURRENTS"
+    ],
+    "window_id": "control:thomas_edison:tesla_ac_motor_patent:-182",
+    "window_kind": "within_person_control",
+    "anchor_date": "1887-11-01",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted -182 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "thomas_edison",
+    "event_id": "tesla_ac_motor_patent",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "conflict",
+    "outcome_direction": "negative",
+    "source_citations": [
+      "LOC_WESTINGHOUSE",
+      "DOE_WAR_CURRENTS"
+    ],
+    "window_id": "control:thomas_edison:tesla_ac_motor_patent:+182",
+    "window_kind": "within_person_control",
+    "anchor_date": "1888-10-30",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted +182 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "thomas_edison",
+    "event_id": "tesla_ac_motor_patent",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "conflict",
+    "outcome_direction": "negative",
+    "source_citations": [
+      "LOC_WESTINGHOUSE",
+      "DOE_WAR_CURRENTS"
+    ],
+    "window_id": "control:thomas_edison:tesla_ac_motor_patent:+364",
+    "window_kind": "within_person_control",
+    "anchor_date": "1889-04-30",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted +364 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "nikola_tesla",
+    "event_id": "chicago_worlds_fair_opens",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "publication_discovery",
+    "outcome_direction": "positive",
+    "source_citations": [
+      "DOE_WAR_CURRENTS"
+    ],
+    "window_id": "event:nikola_tesla:chicago_worlds_fair_opens",
+    "window_kind": "event",
+    "anchor_date": "1893-05-01",
+    "outcome_present": 1,
+    "match_method": "documented event date"
+  },
+  {
+    "profile_key": "nikola_tesla",
+    "event_id": "chicago_worlds_fair_opens",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "publication_discovery",
+    "outcome_direction": "positive",
+    "source_citations": [
+      "DOE_WAR_CURRENTS"
+    ],
+    "window_id": "control:nikola_tesla:chicago_worlds_fair_opens:-364",
+    "window_kind": "within_person_control",
+    "anchor_date": "1892-05-02",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted -364 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "nikola_tesla",
+    "event_id": "chicago_worlds_fair_opens",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "publication_discovery",
+    "outcome_direction": "positive",
+    "source_citations": [
+      "DOE_WAR_CURRENTS"
+    ],
+    "window_id": "control:nikola_tesla:chicago_worlds_fair_opens:-182",
+    "window_kind": "within_person_control",
+    "anchor_date": "1892-10-31",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted -182 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "nikola_tesla",
+    "event_id": "chicago_worlds_fair_opens",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "publication_discovery",
+    "outcome_direction": "positive",
+    "source_citations": [
+      "DOE_WAR_CURRENTS"
+    ],
+    "window_id": "control:nikola_tesla:chicago_worlds_fair_opens:+182",
+    "window_kind": "within_person_control",
+    "anchor_date": "1893-10-30",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted +182 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "nikola_tesla",
+    "event_id": "chicago_worlds_fair_opens",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "publication_discovery",
+    "outcome_direction": "positive",
+    "source_citations": [
+      "DOE_WAR_CURRENTS"
+    ],
+    "window_id": "control:nikola_tesla:chicago_worlds_fair_opens:+364",
+    "window_kind": "within_person_control",
+    "anchor_date": "1894-04-30",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted +364 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "thomas_edison",
+    "event_id": "chicago_worlds_fair_opens",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "financial_change",
+    "outcome_direction": "negative",
+    "source_citations": [
+      "DOE_WAR_CURRENTS"
+    ],
+    "window_id": "event:thomas_edison:chicago_worlds_fair_opens",
+    "window_kind": "event",
+    "anchor_date": "1893-05-01",
+    "outcome_present": 1,
+    "match_method": "documented event date"
+  },
+  {
+    "profile_key": "thomas_edison",
+    "event_id": "chicago_worlds_fair_opens",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "financial_change",
+    "outcome_direction": "negative",
+    "source_citations": [
+      "DOE_WAR_CURRENTS"
+    ],
+    "window_id": "control:thomas_edison:chicago_worlds_fair_opens:-364",
+    "window_kind": "within_person_control",
+    "anchor_date": "1892-05-02",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted -364 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "thomas_edison",
+    "event_id": "chicago_worlds_fair_opens",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "financial_change",
+    "outcome_direction": "negative",
+    "source_citations": [
+      "DOE_WAR_CURRENTS"
+    ],
+    "window_id": "control:thomas_edison:chicago_worlds_fair_opens:-182",
+    "window_kind": "within_person_control",
+    "anchor_date": "1892-10-31",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted -182 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "thomas_edison",
+    "event_id": "chicago_worlds_fair_opens",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "financial_change",
+    "outcome_direction": "negative",
+    "source_citations": [
+      "DOE_WAR_CURRENTS"
+    ],
+    "window_id": "control:thomas_edison:chicago_worlds_fair_opens:+182",
+    "window_kind": "within_person_control",
+    "anchor_date": "1893-10-30",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted +182 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "thomas_edison",
+    "event_id": "chicago_worlds_fair_opens",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "financial_change",
+    "outcome_direction": "negative",
+    "source_citations": [
+      "DOE_WAR_CURRENTS"
+    ],
+    "window_id": "control:thomas_edison:chicago_worlds_fair_opens:+364",
+    "window_kind": "within_person_control",
+    "anchor_date": "1894-04-30",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted +364 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "nikola_tesla",
+    "event_id": "niagara_power_reaches_buffalo",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "publication_discovery",
+    "outcome_direction": "positive",
+    "source_citations": [
+      "DOE_WAR_CURRENTS"
+    ],
+    "window_id": "event:nikola_tesla:niagara_power_reaches_buffalo",
+    "window_kind": "event",
+    "anchor_date": "1896-11-16",
+    "outcome_present": 1,
+    "match_method": "documented event date"
+  },
+  {
+    "profile_key": "nikola_tesla",
+    "event_id": "niagara_power_reaches_buffalo",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "publication_discovery",
+    "outcome_direction": "positive",
+    "source_citations": [
+      "DOE_WAR_CURRENTS"
+    ],
+    "window_id": "control:nikola_tesla:niagara_power_reaches_buffalo:-364",
+    "window_kind": "within_person_control",
+    "anchor_date": "1895-11-18",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted -364 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "nikola_tesla",
+    "event_id": "niagara_power_reaches_buffalo",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "publication_discovery",
+    "outcome_direction": "positive",
+    "source_citations": [
+      "DOE_WAR_CURRENTS"
+    ],
+    "window_id": "control:nikola_tesla:niagara_power_reaches_buffalo:-182",
+    "window_kind": "within_person_control",
+    "anchor_date": "1896-05-18",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted -182 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "nikola_tesla",
+    "event_id": "niagara_power_reaches_buffalo",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "publication_discovery",
+    "outcome_direction": "positive",
+    "source_citations": [
+      "DOE_WAR_CURRENTS"
+    ],
+    "window_id": "control:nikola_tesla:niagara_power_reaches_buffalo:+182",
+    "window_kind": "within_person_control",
+    "anchor_date": "1897-05-17",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted +182 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "nikola_tesla",
+    "event_id": "niagara_power_reaches_buffalo",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "publication_discovery",
+    "outcome_direction": "positive",
+    "source_citations": [
+      "DOE_WAR_CURRENTS"
+    ],
+    "window_id": "control:nikola_tesla:niagara_power_reaches_buffalo:+364",
+    "window_kind": "within_person_control",
+    "anchor_date": "1897-11-15",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted +364 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "thomas_edison",
+    "event_id": "niagara_power_reaches_buffalo",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "financial_change",
+    "outcome_direction": "negative",
+    "source_citations": [
+      "DOE_WAR_CURRENTS"
+    ],
+    "window_id": "event:thomas_edison:niagara_power_reaches_buffalo",
+    "window_kind": "event",
+    "anchor_date": "1896-11-16",
+    "outcome_present": 1,
+    "match_method": "documented event date"
+  },
+  {
+    "profile_key": "thomas_edison",
+    "event_id": "niagara_power_reaches_buffalo",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "financial_change",
+    "outcome_direction": "negative",
+    "source_citations": [
+      "DOE_WAR_CURRENTS"
+    ],
+    "window_id": "control:thomas_edison:niagara_power_reaches_buffalo:-364",
+    "window_kind": "within_person_control",
+    "anchor_date": "1895-11-18",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted -364 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "thomas_edison",
+    "event_id": "niagara_power_reaches_buffalo",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "financial_change",
+    "outcome_direction": "negative",
+    "source_citations": [
+      "DOE_WAR_CURRENTS"
+    ],
+    "window_id": "control:thomas_edison:niagara_power_reaches_buffalo:-182",
+    "window_kind": "within_person_control",
+    "anchor_date": "1896-05-18",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted -182 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "thomas_edison",
+    "event_id": "niagara_power_reaches_buffalo",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "financial_change",
+    "outcome_direction": "negative",
+    "source_citations": [
+      "DOE_WAR_CURRENTS"
+    ],
+    "window_id": "control:thomas_edison:niagara_power_reaches_buffalo:+182",
+    "window_kind": "within_person_control",
+    "anchor_date": "1897-05-17",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted +182 days; excludes ±30 days around registered events"
+  },
+  {
+    "profile_key": "thomas_edison",
+    "event_id": "niagara_power_reaches_buffalo",
+    "event_family": "ac_dc_system_competition",
+    "outcome_category": "financial_change",
+    "outcome_direction": "negative",
+    "source_citations": [
+      "DOE_WAR_CURRENTS"
+    ],
+    "window_id": "control:thomas_edison:niagara_power_reaches_buffalo:+364",
+    "window_kind": "within_person_control",
+    "anchor_date": "1897-11-15",
+    "outcome_present": 0,
+    "match_method": "same person; event date shifted +364 days; excludes ±30 days around registered events"
+  }
+]

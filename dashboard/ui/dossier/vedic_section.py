@@ -46,8 +46,55 @@ def render_vedic_section(profile: dict[str, Any]) -> None:
 
     st.markdown(build_natal_synthesis(profile, planets))
 
+    constellations = extract_astronomical_constellations(temporal)
+    if constellations:
+        render_astronomical_constellations(constellations)
+
     for planet in sort_planets(planets):
         render_planet_card(planet, classification)
+
+
+def extract_astronomical_constellations(
+    temporal: dict[str, Any],
+) -> dict[str, dict[str, Any]]:
+    """Extract the separate IAU constellation layer from temporal output."""
+    natal = temporal.get("natal", {}) if isinstance(temporal.get("natal"), dict) else {}
+    ephemeris = natal.get("ephemeris", {}) if isinstance(natal.get("ephemeris"), dict) else {}
+    chart = ephemeris.get("astronomical_constellations", {})
+    planets = chart.get("planets", {}) if isinstance(chart, dict) else {}
+    return planets if isinstance(planets, dict) else {}
+
+
+def render_astronomical_constellations(
+    constellations: dict[str, dict[str, Any]],
+) -> None:
+    """Render true-sky and 13-constellation ecliptic-path placements."""
+    st.markdown("### Astronomical Constellations — IAU Boundaries")
+    st.caption(
+        "This is a separate astronomical layer, not the 12-sign Vedic zodiac. "
+        "The ecliptic path crosses 13 unequal constellations, including Ophiuchus."
+    )
+
+    rows = []
+    for planet in PLANET_ORDER:
+        record = constellations.get(planet.title()) or constellations.get(planet)
+        if not isinstance(record, dict):
+            continue
+        rows.append(
+            {
+                "Planet": planet.title(),
+                "Actual sky constellation": record.get(
+                    "actual_constellation", "unknown"
+                ),
+                "Projected on ecliptic": record.get(
+                    "ecliptic_path_constellation", "unknown"
+                ),
+                "Ophiuchus": "yes" if record.get("is_ophiuchus") else "",
+            }
+        )
+
+    if rows:
+        st.dataframe(rows, use_container_width=True, hide_index=True)
 
 
 def extract_planets(temporal: dict[str, Any]) -> list[dict[str, Any]]:

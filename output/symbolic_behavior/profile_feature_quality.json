@@ -1,0 +1,106 @@
+[
+  {
+    "profile_key": "bill_gates",
+    "success": true,
+    "birth_time_known": true,
+    "houses_included": false,
+    "feature_count": 42,
+    "families": [
+      "gematria",
+      "kamea",
+      "numerology",
+      "vedic"
+    ],
+    "independence_groups": [
+      "birth_and_name_input",
+      "birth_input",
+      "name_input"
+    ],
+    "errors": [],
+    "warnings": []
+  },
+  {
+    "profile_key": "buzz_aldrin",
+    "success": true,
+    "birth_time_known": false,
+    "houses_included": false,
+    "feature_count": 42,
+    "families": [
+      "gematria",
+      "kamea",
+      "numerology",
+      "vedic"
+    ],
+    "independence_groups": [
+      "birth_and_name_input",
+      "birth_input",
+      "name_input"
+    ],
+    "errors": [],
+    "warnings": [
+      "Birth time unknown; houses and angles are excluded."
+    ]
+  },
+  {
+    "profile_key": "martin_luther_king_jr",
+    "success": true,
+    "birth_time_known": true,
+    "houses_included": false,
+    "feature_count": 42,
+    "families": [
+      "gematria",
+      "kamea",
+      "numerology",
+      "vedic"
+    ],
+    "independence_groups": [
+      "birth_and_name_input",
+      "birth_input",
+      "name_input"
+    ],
+    "errors": [],
+    "warnings": []
+  },
+  {
+    "profile_key": "neil_armstrong",
+    "success": true,
+    "birth_time_known": false,
+    "houses_included": false,
+    "feature_count": 42,
+    "families": [
+      "gematria",
+      "kamea",
+      "numerology",
+      "vedic"
+    ],
+    "independence_groups": [
+      "birth_and_name_input",
+      "birth_input",
+      "name_input"
+    ],
+    "errors": [],
+    "warnings": [
+      "Birth time unknown; houses and angles are excluded."
+    ]
+  },
+  {
+    "profile_key": "nelson_mandela",
+    "success": true,
+    "birth_time_known": true,
+    "houses_included": false,
+    "feature_count": 42,
+    "families": [
+      "gematria",
+      "kamea",
+      "numerology",
+      "vedic"
+    ],
+    "independence_groups": [
+      "birth_and_name_input",
+      "birth_input",
+      "name_input"
+    ],
+    "errors": [],
+    "warnings": []
+  }
+]

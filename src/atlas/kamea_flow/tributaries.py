@@ -68,7 +68,7 @@ def group_steps(steps: list[dict[str, Any]]) -> dict[tuple[str, str], list[dict[
         grouped[key].append(step)
 
     for key in grouped:
-        grouped[key] = sorted(grouped[key], key=lambda item: item.get("index", 0))
+        grouped[key] = sorted(grouped[key], key=lambda item: item.get("stream_index", item.get("index", 0)))
 
     return dict(grouped)
 
@@ -116,6 +116,7 @@ def build_tributary_row(
         "step_count": len(steps),
         "edge_count": len(edges),
         "unique_node_count": len(node_counts),
+        "visited_nodes": sorted(node_counts),
         "repeated_node_count": len(repeated),
         "top_repeated_nodes": repeated[:10],
         "start_node": str(steps[0].get("node")) if steps else "",
@@ -167,8 +168,8 @@ def build_cross_stream_metrics(tributaries: list[dict[str, Any]]) -> dict[str, A
         if tributary.get("end_node"):
             end_nodes[tributary.get("end_node")] += 1
 
-        for item in tributary.get("top_repeated_nodes", []) or []:
-            node_to_streams[str(item.get("node"))].add(stream_id)
+        for node in tributary.get("visited_nodes", []) or []:
+            node_to_streams[str(node)].add(stream_id)
 
     cross_stream_attractors = [
         {

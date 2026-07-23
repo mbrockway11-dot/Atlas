@@ -13,6 +13,17 @@ from typing import Any
 from atlas.kamea_flow.models import KameaFlowStep
 
 
+PLANET_GRID_SIZES = {
+    "saturn": 3,
+    "jupiter": 4,
+    "mars": 5,
+    "sun": 6,
+    "venus": 7,
+    "mercury": 8,
+    "moon": 9,
+}
+
+
 def extract_kamea_flow_steps(payload: dict[str, Any]) -> list[KameaFlowStep]:
     """Extract ordered Kamea flow steps from a canonical payload."""
     kamea = payload.get("kamea", {}) or {}
@@ -59,29 +70,62 @@ def extract_steps_from_pass(
         or "unknown_planet"
     )
 
-    raw_steps = (
-        construction_pass.get("steps")
-        or construction_pass.get("path")
-        or construction_pass.get("nodes")
-        or []
-    )
+    path_views = construction_pass.get("path_views", {}) or {}
+    analysis_path = path_views.get("analysis_path", {}) or {}
+    wrapped_values = analysis_path.get("wrapped_values", []) or []
+    path_coordinates = analysis_path.get("coordinates", []) or []
+    visit_history = (analysis_path.get("visit_history", {}) or {}).get("visits", []) or []
+
+    if wrapped_values and len(wrapped_values) == len(path_coordinates):
+        raw_steps = [
+            {
+                "node": value,
+                "value": value,
+                "x": coordinate[1],
+                "y": coordinate[0],
+                "visit_depth": (
+                    visit_history[index].get("visit_depth", 0)
+                    if index < len(visit_history) and isinstance(visit_history[index], dict)
+                    else 0
+                ),
+            }
+            for index, (value, coordinate) in enumerate(zip(wrapped_values, path_coordinates, strict=True))
+        ]
+    else:
+        raw_steps = (
+            construction_pass.get("steps")
+            or construction_pass.get("path")
+            or construction_pass.get("nodes")
+            or []
+        )
 
     steps = []
+    planet_key = planet.lower().strip()
+    grid_size = PLANET_GRID_SIZES.get(planet_key, 9)
+    stream_id = f"{cipher}::{planet_key}"
 
     for local_index, item in enumerate(as_list(raw_steps)):
         node = node_label(item)
         value = numeric_value(item)
         x, y = coordinates(item)
+        denominator = max(grid_size - 1, 1)
 
         steps.append(
             KameaFlowStep(
                 index=pass_index * 10000 + local_index,
+                stream_index=local_index,
+                stream_id=stream_id,
                 cipher=cipher,
-                planet=planet,
-                node=node,
+                planet=planet_key,
+                node=f"{planet_key}:{node}",
+                local_node=node,
                 value=value,
                 x=x,
                 y=y,
+                normalized_x=round(x / denominator, 6),
+                normalized_y=round(y / denominator, 6),
+                grid_size=grid_size,
+                visit_depth=visit_depth_value(item),
                 weight=weight_value(item),
             )
         )
@@ -115,12 +159,19 @@ def extract_steps_from_graph(kamea: dict[str, Any]) -> list[KameaFlowStep]:
         steps.append(
             KameaFlowStep(
                 index=index,
+                stream_index=index,
+                stream_id=f"{str(node_data.get('cipher') or 'unknown_cipher')}::{str(node_data.get('planet') or 'unknown_planet')}",
                 cipher=str(node_data.get("cipher") or "unknown_cipher"),
                 planet=str(node_data.get("planet") or "unknown_planet"),
                 node=str(node_data.get("node") or node_data.get("id") or key),
+                local_node=str(node_data.get("value") or key),
                 value=numeric_value(node_data),
                 x=x,
                 y=y,
+                normalized_x=x / 8.0,
+                normalized_y=y / 8.0,
+                grid_size=9,
+                visit_depth=0,
                 weight=weight_value(node_data),
             )
         )
@@ -199,6 +250,15 @@ def weight_value(item: Any) -> float:
                 return max(1.0, float_or_zero(item.get(key)))
 
     return 1.0
+
+
+def visit_depth_value(item: Any) -> int:
+    if isinstance(item, dict):
+        try:
+            return max(0, int(item.get("visit_depth") or 0))
+        except (TypeError, ValueError):
+            return 0
+    return 0
 
 
 def float_or_zero(value: Any) -> float:

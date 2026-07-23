@@ -15,12 +15,19 @@ class KameaFlowStep:
     """One ordered movement through a Kamea field."""
 
     index: int
+    stream_index: int
+    stream_id: str
     cipher: str
     planet: str
     node: str
+    local_node: str
     value: float
     x: float
     y: float
+    normalized_x: float
+    normalized_y: float
+    grid_size: int
+    visit_depth: int
     weight: float
 
 
@@ -32,6 +39,7 @@ class KameaFlowEdge:
     target: str
     cipher: str
     planet: str
+    stream_id: str
     count: int
     distance: float
     direction_x: float

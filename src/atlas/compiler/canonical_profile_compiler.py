@@ -114,6 +114,10 @@ def compile_canonical_profile(profile_key: str, *, force: bool = False) -> dict[
             "geometry_deduplicated",
             "repeated_nodes_increase_weight",
             "repeated_edges_increase_weight",
+            "classical_kamea_bodies",
+            "astronomy_only_bodies",
+            "projection_registry",
+            "excluded_nonclassical_streams",
             "summary",
             "interpretation_applied",
         ]

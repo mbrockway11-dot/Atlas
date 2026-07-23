@@ -1,0 +1,321 @@
+{
+  "schema_version": "atlas.historical-event-relationship.v1",
+  "pilot_id": "edison_tesla_relationship_pilot_v1",
+  "research_only": true,
+  "causal_claims_allowed": false,
+  "cohort_selection_basis": "Historically documented employment-to-system-competition relationship selected before statistical testing; transit hypotheses marked retrospective where prior inspection occurred.",
+  "known_confounders": [
+    "two-person single-relationship case study",
+    "events were selected for historical importance rather than sampled from a complete event corpus",
+    "several milestones represent Westinghouse-versus-Edison system competition rather than direct personal interaction",
+    "Tesla midnight birth time is reported but not treated as verified in this pilot",
+    "Edison birth time is unknown and conflicting values exist in secondary datasets",
+    "exploratory contacts were inspected before this registry was locked",
+    "multiple events belong to the same AC-versus-DC historical process"
+  ],
+  "profiles": [
+    {
+      "profile_key": "nikola_tesla",
+      "name": "Nikola Tesla",
+      "birth_date": "1856-07-10",
+      "birth_time": "00:00",
+      "birth_time_status": "reported_unverified",
+      "birth_time_provenance": {
+        "value": "00:00",
+        "method": "reported historical tradition",
+        "confidence": "moderate",
+        "source_citations": ["TESLA_SCIENCE_CENTER_BIRTH", "ATLAS_HISTORICAL_INTAKE"]
+      },
+      "birth_place": "Smiljan, Croatia",
+      "occupation": "inventor and electrical engineer",
+      "institution": "Tesla Electric Company / Westinghouse collaborator",
+      "geography": "Europe and United States",
+      "source_citations": ["TESLA_MUSEUM_IDENTITY", "TESLA_MUSEUM_ARRIVAL", "TESLA_SCIENCE_CENTER_BIRTH", "ATLAS_HISTORICAL_INTAKE"]
+    },
+    {
+      "profile_key": "thomas_edison",
+      "name": "Thomas Alva Edison",
+      "birth_date": "1847-02-11",
+      "birth_time": "03:00",
+      "birth_time_status": "estimated_historical",
+      "birth_time_provenance": {
+        "value": "03:00",
+        "method": "Atlas historical intake estimate; conflicts with other Atlas batches that record Unknown",
+        "confidence": "low",
+        "source_citations": ["ATLAS_HISTORICAL_INTAKE"]
+      },
+      "birth_place": "Milan, Ohio, USA",
+      "occupation": "inventor and industrialist",
+      "institution": "Edison Machine Works / Edison Electric interests",
+      "geography": "United States",
+      "source_citations": ["NPS_EDISON_BIO", "EDISON_PAPERS_CHRONOLOGY", "ATLAS_HISTORICAL_INTAKE"]
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "ATLAS_HISTORICAL_INTAKE",
+      "title": "Atlas historical profile intake",
+      "publisher": "Atlas internal research corpus",
+      "url": "research/profile_intake/historical_batch.csv",
+      "source_type": "internal_dataset_unverified",
+      "accessed_at": "2026-07-22"
+    },
+    {
+      "source_id": "TESLA_SCIENCE_CENTER_BIRTH",
+      "title": "Birth of Nikola Tesla",
+      "publisher": "Tesla Science Center at Wardenclyffe",
+      "url": "https://teslasciencecenter.org/pivotalmoments/birth/",
+      "source_type": "institutional_historical_narrative",
+      "accessed_at": "2026-07-22"
+    },
+    {
+      "source_id": "TESLA_MUSEUM_IDENTITY",
+      "title": "Nikola Tesla Identity Documents",
+      "publisher": "Nikola Tesla Museum",
+      "url": "https://tesla-museum.org/en/legacy/archive/identity-documents/",
+      "source_type": "museum_archive",
+      "accessed_at": "2026-07-22"
+    },
+    {
+      "source_id": "TESLA_MUSEUM_ARRIVAL",
+      "title": "Tesla Hotels in New York",
+      "publisher": "Nikola Tesla Museum",
+      "url": "https://putevimatesle.tesla-museum.org/tesla-u-visokom-drustvu/hoteli-u-njujorku/",
+      "source_type": "museum_research_history",
+      "accessed_at": "2026-07-22"
+    },
+    {
+      "source_id": "TESLA_MUSEUM_EDISON_DIARY",
+      "title": "Tesla's Diary Replica, Exhibit 036",
+      "publisher": "Nikola Tesla Museum",
+      "url": "https://tesla-museum.org/en/qr-en/exhibit-036/",
+      "source_type": "museum_archive_interpretation",
+      "accessed_at": "2026-07-22"
+    },
+    {
+      "source_id": "NPS_EDISON_BIO",
+      "title": "Thomas Edison Biography: 1847–1882",
+      "publisher": "National Park Service",
+      "url": "https://www.nps.gov/people/thomas-edison-biography-1847-1882-birth-to-pearl-street.htm",
+      "source_type": "authoritative_agency_biography",
+      "accessed_at": "2026-07-22"
+    },
+    {
+      "source_id": "EDISON_PAPERS_CHRONOLOGY",
+      "title": "Thomas A. Edison Chronology, 1881–1890",
+      "publisher": "Thomas A. Edison Papers, Rutgers University",
+      "url": "https://edison.rutgers.edu/life-of-edison/chronology/1881-1890",
+      "source_type": "scholarly_documentary_archive",
+      "accessed_at": "2026-07-22"
+    },
+    {
+      "source_id": "LOC_WESTINGHOUSE",
+      "title": "About George Westinghouse",
+      "publisher": "Library of Congress",
+      "url": "https://www.loc.gov/collections/films-of-westinghouse-works-1904/articles-and-essays/the-westinghouse-world/about-george-westinghouse/",
+      "source_type": "authoritative_library_history",
+      "accessed_at": "2026-07-22"
+    },
+    {
+      "source_id": "LOC_AC_MOTOR_HAER",
+      "title": "Historic American Engineering Record: New York, New Haven & Hartford",
+      "publisher": "Library of Congress",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ct/ct0500/ct0568/data/ct0568data.pdf",
+      "source_type": "federal_engineering_record",
+      "accessed_at": "2026-07-22"
+    },
+    {
+      "source_id": "DOE_WAR_CURRENTS",
+      "title": "The War of the Currents: AC vs. DC Power",
+      "publisher": "U.S. Department of Energy",
+      "url": "https://www.energy.gov/articles/war-currents-ac-vs-dc-power",
+      "source_type": "authoritative_agency_history",
+      "accessed_at": "2026-07-22"
+    }
+  ],
+  "historical_events": [
+    {
+      "event_id": "tesla_arrives_new_york",
+      "name": "Tesla arrives in New York and enters Edison's organization",
+      "event_type": "relocation_and_employment",
+      "start_date": "1884-06-06",
+      "end_date": "1884-06-06",
+      "date_precision": "day",
+      "locations": ["New York, New York, USA", "Newark, New Jersey, USA"],
+      "description": "Tesla arrived from Europe and soon began working within Edison's organization.",
+      "historical_regime": "early commercial electrification",
+      "event_family": "edison_tesla_relationship",
+      "source_citations": ["TESLA_MUSEUM_ARRIVAL", "TESLA_MUSEUM_EDISON_DIARY"],
+      "evidence_confidence": "high"
+    },
+    {
+      "event_id": "tesla_leaves_edison",
+      "name": "Tesla records departure from Edison Machine Works",
+      "event_type": "employment_separation",
+      "start_date": "1884-12-07",
+      "end_date": "1884-12-07",
+      "date_precision": "day",
+      "locations": ["New York metropolitan area, USA"],
+      "description": "The museum's diary account records Tesla's final dated entry and written departure from Edison Machine Works.",
+      "historical_regime": "early commercial electrification",
+      "event_family": "edison_tesla_relationship",
+      "source_citations": ["TESLA_MUSEUM_EDISON_DIARY"],
+      "evidence_confidence": "moderate"
+    },
+    {
+      "event_id": "tesla_ac_motor_patent",
+      "name": "Tesla AC motor patent milestone",
+      "event_type": "patent_and_commercial_transition",
+      "start_date": "1888-05-01",
+      "end_date": "1888-05-01",
+      "date_precision": "day",
+      "locations": ["United States"],
+      "description": "Tesla's practical AC motor patent became a key input to Westinghouse's competing power system.",
+      "historical_regime": "War of the Currents",
+      "event_family": "ac_dc_system_competition",
+      "source_citations": ["LOC_AC_MOTOR_HAER", "LOC_WESTINGHOUSE"],
+      "evidence_confidence": "high"
+    },
+    {
+      "event_id": "chicago_worlds_fair_opens",
+      "name": "Chicago World's Fair opens with Westinghouse AC illumination",
+      "event_type": "public_system_demonstration",
+      "start_date": "1893-05-01",
+      "end_date": "1893-05-01",
+      "date_precision": "day",
+      "locations": ["Chicago, Illinois, USA"],
+      "description": "Westinghouse's Tesla-based AC system powered the fair after defeating the General Electric bid.",
+      "historical_regime": "War of the Currents",
+      "event_family": "ac_dc_system_competition",
+      "source_citations": ["DOE_WAR_CURRENTS"],
+      "evidence_confidence": "high"
+    },
+    {
+      "event_id": "niagara_power_reaches_buffalo",
+      "name": "Niagara Falls AC power reaches Buffalo",
+      "event_type": "infrastructure_milestone",
+      "start_date": "1896-11-16",
+      "end_date": "1896-11-16",
+      "date_precision": "day",
+      "locations": ["Niagara Falls and Buffalo, New York, USA"],
+      "description": "Alternating current from Niagara Falls reached Buffalo, demonstrating long-distance AC transmission at scale.",
+      "historical_regime": "AC infrastructure consolidation",
+      "event_family": "ac_dc_system_competition",
+      "source_citations": ["DOE_WAR_CURRENTS"],
+      "evidence_confidence": "high"
+    }
+  ],
+  "profile_participation": [
+    {
+      "profile_key": "nikola_tesla", "event_id": "tesla_arrives_new_york", "participation_role": "arriving_engineer_and_employee", "active_interval": {"start_date": "1884-06-06", "end_date": "1884-06-06"}, "involvement_confidence": "high", "documented_outcome": "Entered Edison's organization after arriving in New York.", "outcome_category": "collaboration", "outcome_direction": "positive", "outcome_severity": "major", "source_citations": ["TESLA_MUSEUM_ARRIVAL", "TESLA_MUSEUM_EDISON_DIARY"]
+    },
+    {
+      "profile_key": "thomas_edison", "event_id": "tesla_arrives_new_york", "participation_role": "organizational_principal", "active_interval": {"start_date": "1884-06-06", "end_date": "1884-06-06"}, "involvement_confidence": "moderate", "documented_outcome": "Tesla entered the Edison organization.", "outcome_category": "collaboration", "outcome_direction": "neutral", "outcome_severity": "moderate", "source_citations": ["TESLA_MUSEUM_EDISON_DIARY"]
+    },
+    {
+      "profile_key": "nikola_tesla", "event_id": "tesla_leaves_edison", "participation_role": "departing_employee", "active_interval": {"start_date": "1884-12-07", "end_date": "1884-12-07"}, "involvement_confidence": "moderate", "documented_outcome": "Left Edison Machine Works after a compensation dispute described by the museum account.", "outcome_category": "conflict", "outcome_direction": "negative", "outcome_severity": "major", "source_citations": ["TESLA_MUSEUM_EDISON_DIARY"]
+    },
+    {
+      "profile_key": "thomas_edison", "event_id": "tesla_leaves_edison", "participation_role": "organizational_principal", "active_interval": {"start_date": "1884-12-07", "end_date": "1884-12-07"}, "involvement_confidence": "low", "documented_outcome": "Tesla's employment within Edison's organization ended.", "outcome_category": "conflict", "outcome_direction": "neutral", "outcome_severity": "moderate", "source_citations": ["TESLA_MUSEUM_EDISON_DIARY"]
+    },
+    {
+      "profile_key": "nikola_tesla", "event_id": "tesla_ac_motor_patent", "participation_role": "inventor_and_patent_holder", "active_interval": {"start_date": "1888-05-01", "end_date": "1888-05-01"}, "involvement_confidence": "high", "documented_outcome": "AC motor patent enabled Westinghouse commercialization.", "outcome_category": "publication_discovery", "outcome_direction": "positive", "outcome_severity": "major", "source_citations": ["LOC_AC_MOTOR_HAER", "LOC_WESTINGHOUSE"]
+    },
+    {
+      "profile_key": "thomas_edison", "event_id": "tesla_ac_motor_patent", "participation_role": "incumbent_dc_system_principal", "active_interval": {"start_date": "1888-05-01", "end_date": "1888-05-01"}, "involvement_confidence": "moderate", "documented_outcome": "The Westinghouse AC system gained a practical motor while Edison interests remained committed to DC.", "outcome_category": "conflict", "outcome_direction": "negative", "outcome_severity": "major", "source_citations": ["LOC_WESTINGHOUSE", "DOE_WAR_CURRENTS"]
+    },
+    {
+      "profile_key": "nikola_tesla", "event_id": "chicago_worlds_fair_opens", "participation_role": "licensed_ac_architecture_inventor", "active_interval": {"start_date": "1893-05-01", "end_date": "1893-05-01"}, "involvement_confidence": "high", "documented_outcome": "Tesla-based AC architecture powered the fair.", "outcome_category": "publication_discovery", "outcome_direction": "positive", "outcome_severity": "major", "source_citations": ["DOE_WAR_CURRENTS"]
+    },
+    {
+      "profile_key": "thomas_edison", "event_id": "chicago_worlds_fair_opens", "participation_role": "legacy_dc_system_principal", "active_interval": {"start_date": "1893-05-01", "end_date": "1893-05-01"}, "involvement_confidence": "moderate", "documented_outcome": "General Electric's higher DC-oriented bid lost to Westinghouse's AC bid.", "outcome_category": "financial_change", "outcome_direction": "negative", "outcome_severity": "major", "source_citations": ["DOE_WAR_CURRENTS"]
+    },
+    {
+      "profile_key": "nikola_tesla", "event_id": "niagara_power_reaches_buffalo", "participation_role": "licensed_ac_architecture_inventor", "active_interval": {"start_date": "1896-11-16", "end_date": "1896-11-16"}, "involvement_confidence": "high", "documented_outcome": "Tesla's AC architecture was demonstrated at infrastructure scale.", "outcome_category": "publication_discovery", "outcome_direction": "positive", "outcome_severity": "major", "source_citations": ["DOE_WAR_CURRENTS"]
+    },
+    {
+      "profile_key": "thomas_edison", "event_id": "niagara_power_reaches_buffalo", "participation_role": "historical_dc_system_principal", "active_interval": {"start_date": "1896-11-16", "end_date": "1896-11-16"}, "involvement_confidence": "moderate", "documented_outcome": "The infrastructure milestone consolidated AC while General Electric had begun adopting AC.", "outcome_category": "financial_change", "outcome_direction": "negative", "outcome_severity": "major", "source_citations": ["DOE_WAR_CURRENTS"]
+    }
+  ],
+  "dynamic_relationships": [
+    {
+      "relationship_id": "tesla_edison_employment_1884",
+      "source_profile": "nikola_tesla",
+      "target_profile": "thomas_edison",
+      "relationship_type": "documented_employment_within_organization",
+      "direction": "tesla_to_edison_organization",
+      "start_date": "1884-06-06",
+      "end_date": "1884-12-07",
+      "date_precision": "day",
+      "relationship_state_changes": [{"date": "1884-12-07", "from": "employment_and_technical_contact", "to": "separation"}],
+      "shared_event_ids": ["tesla_arrives_new_york", "tesla_leaves_edison"],
+      "source_citations": ["TESLA_MUSEUM_ARRIVAL", "TESLA_MUSEUM_EDISON_DIARY"],
+      "evidence_confidence": "moderate"
+    },
+    {
+      "relationship_id": "tesla_edison_system_competition_1888_1896",
+      "source_profile": "nikola_tesla",
+      "target_profile": "thomas_edison",
+      "relationship_type": "indirect_competing_electrical_architectures",
+      "direction": "bidirectional_system_competition",
+      "start_date": "1888-05-01",
+      "end_date": "1896-11-16",
+      "date_precision": "day",
+      "relationship_state_changes": [
+        {"date": "1893-05-01", "from": "commercial_system_competition", "to": "public_ac_advantage"},
+        {"date": "1896-11-16", "from": "public_ac_advantage", "to": "ac_infrastructure_consolidation"}
+      ],
+      "shared_event_ids": ["tesla_ac_motor_patent", "chicago_worlds_fair_opens", "niagara_power_reaches_buffalo"],
+      "source_citations": ["LOC_WESTINGHOUSE", "DOE_WAR_CURRENTS"],
+      "evidence_confidence": "high"
+    }
+  ],
+  "lifecycle_outcomes": [],
+  "hypotheses": [
+    {
+      "hypothesis_id": "H_ET_NODE_AXIS_AT_RELATIONSHIP_ENTRY",
+      "status": "retrospectively_specified_exploratory",
+      "unit": "profile_event_window",
+      "transit_planet": "Rahu",
+      "natal_target": "Ketu",
+      "aspect": "conjunction",
+      "orb": 1.0,
+      "lead_days": 7,
+      "lag_days": 7,
+      "outcome_category": "relationship_transition",
+      "expected_direction": "unspecified",
+      "rationale_type": "symbolic_hypothesis",
+      "locked_before_run": false
+    },
+    {
+      "hypothesis_id": "H_ET_MARS_MERCURY_AT_TECHNICAL_MILESTONE",
+      "status": "retrospectively_specified_exploratory",
+      "unit": "profile_event_window",
+      "transit_planet": "Mars",
+      "natal_target": "Mercury",
+      "aspect": "conjunction",
+      "orb": 1.0,
+      "lead_days": 7,
+      "lag_days": 7,
+      "outcome_category": "technical_milestone",
+      "expected_direction": "unspecified",
+      "rationale_type": "symbolic_hypothesis",
+      "locked_before_run": false
+    },
+    {
+      "hypothesis_id": "H_ET_PROCEDURAL_NEGATIVE_CONTROL",
+      "status": "procedural_negative_control",
+      "unit": "profile_event_window",
+      "transit_planet": "Venus",
+      "natal_target": "Jupiter",
+      "aspect": "square",
+      "orb": 1.0,
+      "lead_days": 7,
+      "lag_days": 7,
+      "outcome_category": "any_documented_event",
+      "expected_direction": "null",
+      "rationale_type": "negative_control",
+      "locked_before_run": true
+    }
+  ]
+}

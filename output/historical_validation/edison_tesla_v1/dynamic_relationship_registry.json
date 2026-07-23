@@ -1,0 +1,60 @@
+[
+  {
+    "relationship_id": "tesla_edison_employment_1884",
+    "source_profile": "nikola_tesla",
+    "target_profile": "thomas_edison",
+    "relationship_type": "documented_employment_within_organization",
+    "direction": "tesla_to_edison_organization",
+    "start_date": "1884-06-06",
+    "end_date": "1884-12-07",
+    "date_precision": "day",
+    "relationship_state_changes": [
+      {
+        "date": "1884-12-07",
+        "from": "employment_and_technical_contact",
+        "to": "separation"
+      }
+    ],
+    "shared_event_ids": [
+      "tesla_arrives_new_york",
+      "tesla_leaves_edison"
+    ],
+    "source_citations": [
+      "TESLA_MUSEUM_ARRIVAL",
+      "TESLA_MUSEUM_EDISON_DIARY"
+    ],
+    "evidence_confidence": "moderate"
+  },
+  {
+    "relationship_id": "tesla_edison_system_competition_1888_1896",
+    "source_profile": "nikola_tesla",
+    "target_profile": "thomas_edison",
+    "relationship_type": "indirect_competing_electrical_architectures",
+    "direction": "bidirectional_system_competition",
+    "start_date": "1888-05-01",
+    "end_date": "1896-11-16",
+    "date_precision": "day",
+    "relationship_state_changes": [
+      {
+        "date": "1893-05-01",
+        "from": "commercial_system_competition",
+        "to": "public_ac_advantage"
+      },
+      {
+        "date": "1896-11-16",
+        "from": "public_ac_advantage",
+        "to": "ac_infrastructure_consolidation"
+      }
+    ],
+    "shared_event_ids": [
+      "tesla_ac_motor_patent",
+      "chicago_worlds_fair_opens",
+      "niagara_power_reaches_buffalo"
+    ],
+    "source_citations": [
+      "LOC_WESTINGHOUSE",
+      "DOE_WAR_CURRENTS"
+    ],
+    "evidence_confidence": "high"
+  }
+]

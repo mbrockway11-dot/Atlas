@@ -1,0 +1,74 @@
+[
+  {
+    "source_id": "NASA_ARMSTRONG_BIO",
+    "title": "Neil A. Armstrong",
+    "publisher": "NASA",
+    "url": "https://www.nasa.gov/people/neil-a-armstrong/",
+    "source_type": "authoritative_biography",
+    "accessed_at": "2026-07-21"
+  },
+  {
+    "source_id": "NASA_APOLLO_BIOS",
+    "title": "Project Apollo: Astronaut Biographies",
+    "publisher": "NASA",
+    "url": "https://www.nasa.gov/wp-content/uploads/static/history/ap11ann/astrobios.htm",
+    "source_type": "authoritative_biography",
+    "accessed_at": "2026-07-21"
+  },
+  {
+    "source_id": "NASA_ALDRIN_BIO",
+    "title": "Edwin Buzz Aldrin",
+    "publisher": "NASA",
+    "url": "https://www.nasa.gov/former-astronaut-edwin-buzz-aldrin/",
+    "source_type": "authoritative_biography",
+    "accessed_at": "2026-07-21"
+  },
+  {
+    "source_id": "NOBEL_KING_FACTS",
+    "title": "Martin Luther King Jr. – Facts",
+    "publisher": "Nobel Prize Outreach",
+    "url": "https://www.nobelprize.org/prizes/peace/1964/king/",
+    "source_type": "institutional_biography",
+    "accessed_at": "2026-07-21"
+  },
+  {
+    "source_id": "NOBEL_KING_BIO",
+    "title": "Martin Luther King Jr. – Biographical",
+    "publisher": "Nobel Prize Outreach",
+    "url": "https://www.nobelprize.org/prizes/peace/1964/king/biographical/",
+    "source_type": "institutional_biography",
+    "accessed_at": "2026-07-21"
+  },
+  {
+    "source_id": "NOBEL_MANDELA_1993",
+    "title": "The Nobel Peace Prize 1993",
+    "publisher": "Nobel Prize Outreach",
+    "url": "https://www.nobelprize.org/prizes/peace/1993/summary/",
+    "source_type": "institutional_award_record",
+    "accessed_at": "2026-07-21"
+  },
+  {
+    "source_id": "NOBEL_MANDELA_QA",
+    "title": "Nelson Mandela – Questions and answers",
+    "publisher": "Nobel Prize Outreach",
+    "url": "https://www.nobelprize.org/prizes/peace/1993/mandela/questions-and-answers/",
+    "source_type": "institutional_biography",
+    "accessed_at": "2026-07-21"
+  },
+  {
+    "source_id": "GATES_LEADERSHIP_BIO",
+    "title": "Bill Gates: Chair and Board Member",
+    "publisher": "Gates Foundation",
+    "url": "https://www.gatesfoundation.org/about/leadership/bill-gates",
+    "source_type": "institutional_biography",
+    "accessed_at": "2026-07-21"
+  },
+  {
+    "source_id": "GATES_FOUNDATION_STORY",
+    "title": "Gates Foundation Origin Story and Key Milestones",
+    "publisher": "Gates Foundation",
+    "url": "https://www.gatesfoundation.org/about/our-story",
+    "source_type": "institutional_history",
+    "accessed_at": "2026-07-21"
+  }
+]

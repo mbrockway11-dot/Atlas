@@ -12,7 +12,8 @@ from atlas.profiles.summary import build_individual_profile_summary
 from atlas.reports.markdown import build_profile_markdown_report, write_markdown_report
 
 
-ROOT_LIBRARY_DIR = Path("output/library")
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+ROOT_LIBRARY_DIR = PROJECT_ROOT / "output" / "library"
 LIBRARY_DIR = ROOT_LIBRARY_DIR / "profiles"
 
 

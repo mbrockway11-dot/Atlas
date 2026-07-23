@@ -16,6 +16,12 @@ def build_structural_measurement_layer(
         master_graph=result["master_graph"],
         topology_classification=result["topology_classification"],
         feature_vector=result["feature_vector"],
-        similarity=result["similarity"],
+        astronomical_similarity=result["astronomical_similarity"],
+        classical_kamea_similarity=result["classical_kamea_similarity"],
+        combined_multilayer_similarity=result[
+            "combined_multilayer_similarity"
+        ],
         cluster_membership=result["cluster_membership"],
+        schema_validation=result["schema_validation"],
+        canonical_transform_policy=result["canonical_transform_policy"],
     )

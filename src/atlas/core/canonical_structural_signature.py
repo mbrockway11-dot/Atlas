@@ -15,7 +15,7 @@ from dataclasses import dataclass, field, fields, is_dataclass
 from typing import Any
 
 
-CSS_VERSION = "1.0"
+CSS_VERSION = "1.1"
 
 
 @dataclass(slots=True)
@@ -70,8 +70,12 @@ class StructuralMeasurementLayer:
     master_graph: dict[str, Any] = field(default_factory=dict)
     topology_classification: dict[str, Any] = field(default_factory=dict)
     feature_vector: dict[str, float] = field(default_factory=dict)
-    similarity: dict[str, Any] = field(default_factory=dict)
+    astronomical_similarity: dict[str, Any] = field(default_factory=dict)
+    classical_kamea_similarity: dict[str, Any] = field(default_factory=dict)
+    combined_multilayer_similarity: dict[str, Any] = field(default_factory=dict)
     cluster_membership: dict[str, Any] = field(default_factory=dict)
+    schema_validation: dict[str, Any] = field(default_factory=dict)
+    canonical_transform_policy: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass(slots=True)

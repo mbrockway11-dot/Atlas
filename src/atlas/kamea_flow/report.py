@@ -7,10 +7,12 @@ from typing import Any
 
 from atlas.kamea_flow.flow import build_kamea_flow
 from atlas.kamea_flow.metrics import build_kamea_flow_metrics
+from atlas.kamea_flow.riverbed import build_invariant_riverbed
+from atlas.kamea_flow.shape import build_unified_shape_analysis
 from atlas.kamea_flow.tributaries import build_kamea_tributaries
 
 
-KAMEA_FLOW_REPORT_VERSION = "1.0.0"
+KAMEA_FLOW_REPORT_VERSION = "2.0.0"
 
 
 def build_kamea_flow_report(payload: dict[str, Any]) -> dict[str, Any]:
@@ -18,6 +20,8 @@ def build_kamea_flow_report(payload: dict[str, Any]) -> dict[str, Any]:
     flow = build_kamea_flow(payload)
     metrics = build_kamea_flow_metrics(flow)
     tributaries = build_kamea_tributaries(flow)
+    riverbed = build_invariant_riverbed(flow)
+    shape = build_unified_shape_analysis(flow)
 
     return {
         "success": True,
@@ -26,6 +30,20 @@ def build_kamea_flow_report(payload: dict[str, Any]) -> dict[str, Any]:
         "flow": flow,
         "metrics": metrics,
         "tributaries": tributaries,
+        "riverbed": riverbed,
+        "shape": shape,
+        "interpretive_model": {
+            "name": "Kamea consciousness-flow metaphor",
+            "source": "encoded identity sequence",
+            "filter": "planetary Kamea coordinate field",
+            "current": "ordered full traversal",
+            "tributary": "one cipher-planet stream",
+            "pool_or_attractor": "revisited node or shared same-planet node",
+            "riverbed": "node or directed channel reproduced across cipher streams",
+            "claim_type": "symbolic_interpretation",
+            "empirical_consciousness_measurement": False,
+            "causal_claim": False,
+        },
         "summary": build_summary(flow, metrics, tributaries),
     }
 

@@ -1,0 +1,1894 @@
+{
+  "success": true,
+  "schema_version": "atlas.autonomous.relationship-research.v1",
+  "research_only": true,
+  "causal_claims_allowed": false,
+  "cohort_count": 4,
+  "question_count": 20,
+  "selected_count": 10,
+  "hypothesis_count": 30,
+  "cohorts": [
+    {
+      "pair_id": "nikola_tesla__thomas_edison",
+      "profile_a": "nikola_tesla",
+      "profile_b": "thomas_edison",
+      "relationship_type": "employment_to_system_competition",
+      "event_count": 5,
+      "source_count": 10,
+      "birth_time_status_a": "reported_unverified",
+      "birth_time_status_b": "estimated_historical",
+      "evidence_status": "evidence_backed",
+      "registry": "research/historical_validation/edison_tesla_relationship_registry.json",
+      "readiness_score": 0.77875,
+      "readiness_components": {
+        "dated_events": 0.625,
+        "sources": 1.0,
+        "birth_time": 0.65,
+        "evidence": 0.9
+      },
+      "blockers": [],
+      "eligible_for_outcome_testing": true
+    },
+    {
+      "pair_id": "sigmund_freud__carl_jung",
+      "profile_a": "sigmund_freud",
+      "profile_b": "carl_jung",
+      "relationship_type": "candidate_collaboration_to_rupture",
+      "event_count": 0,
+      "source_count": 0,
+      "birth_time_status_a": "reported_unverified",
+      "birth_time_status_b": "reported_unverified",
+      "evidence_status": "sources_required",
+      "readiness_score": 0.17,
+      "readiness_components": {
+        "dated_events": 0.0,
+        "sources": 0.0,
+        "birth_time": 0.65,
+        "evidence": 0.2
+      },
+      "blockers": [
+        "INSUFFICIENT_DATED_EVENTS",
+        "INSUFFICIENT_INDEPENDENT_SOURCES",
+        "EVENT_REGISTRY_NOT_LOCKED"
+      ],
+      "eligible_for_outcome_testing": false
+    },
+    {
+      "pair_id": "steve_jobs__bill_gates",
+      "profile_a": "steve_jobs",
+      "profile_b": "bill_gates",
+      "relationship_type": "candidate_competition_and_collaboration",
+      "event_count": 0,
+      "source_count": 0,
+      "birth_time_status_a": "reported_unverified",
+      "birth_time_status_b": "reported_unverified",
+      "evidence_status": "sources_required",
+      "readiness_score": 0.17,
+      "readiness_components": {
+        "dated_events": 0.0,
+        "sources": 0.0,
+        "birth_time": 0.65,
+        "evidence": 0.2
+      },
+      "blockers": [
+        "INSUFFICIENT_DATED_EVENTS",
+        "INSUFFICIENT_INDEPENDENT_SOURCES",
+        "EVENT_REGISTRY_NOT_LOCKED"
+      ],
+      "eligible_for_outcome_testing": false
+    },
+    {
+      "pair_id": "thomas_edison__henry_ford",
+      "profile_a": "thomas_edison",
+      "profile_b": "henry_ford",
+      "relationship_type": "candidate_collaboration_control",
+      "event_count": 0,
+      "source_count": 0,
+      "birth_time_status_a": "estimated_historical",
+      "birth_time_status_b": "estimated_historical",
+      "evidence_status": "sources_required",
+      "readiness_score": 0.17,
+      "readiness_components": {
+        "dated_events": 0.0,
+        "sources": 0.0,
+        "birth_time": 0.65,
+        "evidence": 0.2
+      },
+      "blockers": [
+        "INSUFFICIENT_DATED_EVENTS",
+        "INSUFFICIENT_INDEPENDENT_SOURCES",
+        "EVENT_REGISTRY_NOT_LOCKED"
+      ],
+      "eligible_for_outcome_testing": false
+    }
+  ],
+  "questions": [
+    {
+      "question_id": "relationship::nikola_tesla__thomas_edison::birth_time_robustness",
+      "pair_id": "nikola_tesla__thomas_edison",
+      "question": "Which relationship features remain stable across each profile's birth-time uncertainty interval?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "robustness",
+      "outcome": "feature_stability",
+      "metrics": [
+        "stable_feature_ratio",
+        "moon_longitude_span",
+        "house_sign_change_count"
+      ],
+      "controls": [
+        "00:00/12:00/23:59 bounds",
+        "timing-insensitive feature subset"
+      ],
+      "readiness": 0.77875,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 1.0,
+      "selection_eligible": true,
+      "priority_score": 0.900438,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::nikola_tesla__thomas_edison::event_window_contrast",
+      "pair_id": "nikola_tesla__thomas_edison",
+      "question": "Do preregistered features differ before, during, and after documented interaction events versus matched control dates?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "association_test",
+      "outcome": "documented_event_window",
+      "metrics": [
+        "pre_event_transit_exposure",
+        "event_window_transit_exposure",
+        "post_event_transit_exposure"
+      ],
+      "controls": [
+        "matched non-event dates",
+        "multiple-testing correction",
+        "event-family clustering"
+      ],
+      "readiness": 0.77875,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 1.0,
+      "selection_eligible": true,
+      "priority_score": 0.900438,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::nikola_tesla__thomas_edison::incremental_value",
+      "pair_id": "nikola_tesla__thomas_edison",
+      "question": "Do symbolic feature families add held-out predictive value beyond historical and demographic baselines?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "incremental_validation",
+      "outcome": "held_out_relationship_transition",
+      "metrics": [
+        "mean_consensus_shape_jaccard",
+        "mean_directional_shape_jaccard",
+        "mean_tortuosity_delta",
+        "self_intersection_delta",
+        "sidereal_contact_count",
+        "nakshatra_relation_class",
+        "timing_stable_contact_count",
+        "numerology_similarity",
+        "gematria_similarity",
+        "name_length_matched_residual"
+      ],
+      "controls": [
+        "history-only baseline",
+        "demographic baseline",
+        "family ablation",
+        "held-out pairs"
+      ],
+      "readiness": 0.77875,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 1.0,
+      "selection_eligible": true,
+      "priority_score": 0.900438,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::nikola_tesla__thomas_edison::shape_outcome_contrast",
+      "pair_id": "nikola_tesla__thomas_edison",
+      "question": "Do normalized Kamea route metrics distinguish collaborative, conflict, and neutral outcomes?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "association_test",
+      "outcome": "relationship_outcome_class",
+      "metrics": [
+        "mean_consensus_shape_jaccard",
+        "mean_directional_shape_jaccard",
+        "mean_tortuosity_delta",
+        "self_intersection_delta"
+      ],
+      "controls": [
+        "name-length matching",
+        "cipher permutation",
+        "random-pair baseline"
+      ],
+      "readiness": 0.77875,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 1.0,
+      "selection_eligible": true,
+      "priority_score": 0.900438,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::sigmund_freud__carl_jung::birth_time_robustness",
+      "pair_id": "sigmund_freud__carl_jung",
+      "question": "Which relationship features remain stable across each profile's birth-time uncertainty interval?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "robustness",
+      "outcome": "feature_stability",
+      "metrics": [
+        "stable_feature_ratio",
+        "moon_longitude_span",
+        "house_sign_change_count"
+      ],
+      "controls": [
+        "00:00/12:00/23:59 bounds",
+        "timing-insensitive feature subset"
+      ],
+      "readiness": 0.17,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 1.0,
+      "selection_eligible": true,
+      "priority_score": 0.6265,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::sigmund_freud__carl_jung::evidence_completion",
+      "pair_id": "sigmund_freud__carl_jung",
+      "question": "What dated, citation-backed interaction events and matched control dates are missing?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "data_acquisition",
+      "outcome": "registry_completeness",
+      "metrics": [
+        "event_count",
+        "source_count",
+        "date_precision"
+      ],
+      "controls": [
+        "source independence",
+        "event selection audit"
+      ],
+      "readiness": 0.17,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 1.0,
+      "selection_eligible": true,
+      "priority_score": 0.6265,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::steve_jobs__bill_gates::birth_time_robustness",
+      "pair_id": "steve_jobs__bill_gates",
+      "question": "Which relationship features remain stable across each profile's birth-time uncertainty interval?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "robustness",
+      "outcome": "feature_stability",
+      "metrics": [
+        "stable_feature_ratio",
+        "moon_longitude_span",
+        "house_sign_change_count"
+      ],
+      "controls": [
+        "00:00/12:00/23:59 bounds",
+        "timing-insensitive feature subset"
+      ],
+      "readiness": 0.17,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 1.0,
+      "selection_eligible": true,
+      "priority_score": 0.6265,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::steve_jobs__bill_gates::evidence_completion",
+      "pair_id": "steve_jobs__bill_gates",
+      "question": "What dated, citation-backed interaction events and matched control dates are missing?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "data_acquisition",
+      "outcome": "registry_completeness",
+      "metrics": [
+        "event_count",
+        "source_count",
+        "date_precision"
+      ],
+      "controls": [
+        "source independence",
+        "event selection audit"
+      ],
+      "readiness": 0.17,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 1.0,
+      "selection_eligible": true,
+      "priority_score": 0.6265,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::thomas_edison__henry_ford::birth_time_robustness",
+      "pair_id": "thomas_edison__henry_ford",
+      "question": "Which relationship features remain stable across each profile's birth-time uncertainty interval?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "robustness",
+      "outcome": "feature_stability",
+      "metrics": [
+        "stable_feature_ratio",
+        "moon_longitude_span",
+        "house_sign_change_count"
+      ],
+      "controls": [
+        "00:00/12:00/23:59 bounds",
+        "timing-insensitive feature subset"
+      ],
+      "readiness": 0.17,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 1.0,
+      "selection_eligible": true,
+      "priority_score": 0.6265,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::thomas_edison__henry_ford::evidence_completion",
+      "pair_id": "thomas_edison__henry_ford",
+      "question": "What dated, citation-backed interaction events and matched control dates are missing?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "data_acquisition",
+      "outcome": "registry_completeness",
+      "metrics": [
+        "event_count",
+        "source_count",
+        "date_precision"
+      ],
+      "controls": [
+        "source independence",
+        "event selection audit"
+      ],
+      "readiness": 0.17,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 1.0,
+      "selection_eligible": true,
+      "priority_score": 0.6265,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::cross_cohort::replication",
+      "pair_id": "cross_cohort",
+      "question": "Which preregistered effects replicate across cooperative, adversarial, and rupture relationship cohorts?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "replication",
+      "outcome": "cross_pair_effect_replication",
+      "metrics": [
+        "effect_direction_consistency",
+        "corrected_effect_size",
+        "holdout_accuracy"
+      ],
+      "controls": [
+        "leave-one-pair-out validation",
+        "relationship-type strata",
+        "random-pair baseline"
+      ],
+      "readiness": 0.333333,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 0.25,
+      "selection_eligible": false,
+      "priority_score": 0.5125,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::sigmund_freud__carl_jung::event_window_contrast",
+      "pair_id": "sigmund_freud__carl_jung",
+      "question": "Do preregistered features differ before, during, and after documented interaction events versus matched control dates?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "association_test",
+      "outcome": "documented_event_window",
+      "metrics": [
+        "pre_event_transit_exposure",
+        "event_window_transit_exposure",
+        "post_event_transit_exposure"
+      ],
+      "controls": [
+        "matched non-event dates",
+        "multiple-testing correction",
+        "event-family clustering"
+      ],
+      "readiness": 0.17,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 0.25,
+      "selection_eligible": false,
+      "priority_score": 0.439,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::sigmund_freud__carl_jung::incremental_value",
+      "pair_id": "sigmund_freud__carl_jung",
+      "question": "Do symbolic feature families add held-out predictive value beyond historical and demographic baselines?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "incremental_validation",
+      "outcome": "held_out_relationship_transition",
+      "metrics": [
+        "mean_consensus_shape_jaccard",
+        "mean_directional_shape_jaccard",
+        "mean_tortuosity_delta",
+        "self_intersection_delta",
+        "sidereal_contact_count",
+        "nakshatra_relation_class",
+        "timing_stable_contact_count",
+        "numerology_similarity",
+        "gematria_similarity",
+        "name_length_matched_residual"
+      ],
+      "controls": [
+        "history-only baseline",
+        "demographic baseline",
+        "family ablation",
+        "held-out pairs"
+      ],
+      "readiness": 0.17,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 0.25,
+      "selection_eligible": false,
+      "priority_score": 0.439,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::sigmund_freud__carl_jung::shape_outcome_contrast",
+      "pair_id": "sigmund_freud__carl_jung",
+      "question": "Do normalized Kamea route metrics distinguish collaborative, conflict, and neutral outcomes?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "association_test",
+      "outcome": "relationship_outcome_class",
+      "metrics": [
+        "mean_consensus_shape_jaccard",
+        "mean_directional_shape_jaccard",
+        "mean_tortuosity_delta",
+        "self_intersection_delta"
+      ],
+      "controls": [
+        "name-length matching",
+        "cipher permutation",
+        "random-pair baseline"
+      ],
+      "readiness": 0.17,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 0.25,
+      "selection_eligible": false,
+      "priority_score": 0.439,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::steve_jobs__bill_gates::event_window_contrast",
+      "pair_id": "steve_jobs__bill_gates",
+      "question": "Do preregistered features differ before, during, and after documented interaction events versus matched control dates?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "association_test",
+      "outcome": "documented_event_window",
+      "metrics": [
+        "pre_event_transit_exposure",
+        "event_window_transit_exposure",
+        "post_event_transit_exposure"
+      ],
+      "controls": [
+        "matched non-event dates",
+        "multiple-testing correction",
+        "event-family clustering"
+      ],
+      "readiness": 0.17,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 0.25,
+      "selection_eligible": false,
+      "priority_score": 0.439,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::steve_jobs__bill_gates::incremental_value",
+      "pair_id": "steve_jobs__bill_gates",
+      "question": "Do symbolic feature families add held-out predictive value beyond historical and demographic baselines?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "incremental_validation",
+      "outcome": "held_out_relationship_transition",
+      "metrics": [
+        "mean_consensus_shape_jaccard",
+        "mean_directional_shape_jaccard",
+        "mean_tortuosity_delta",
+        "self_intersection_delta",
+        "sidereal_contact_count",
+        "nakshatra_relation_class",
+        "timing_stable_contact_count",
+        "numerology_similarity",
+        "gematria_similarity",
+        "name_length_matched_residual"
+      ],
+      "controls": [
+        "history-only baseline",
+        "demographic baseline",
+        "family ablation",
+        "held-out pairs"
+      ],
+      "readiness": 0.17,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 0.25,
+      "selection_eligible": false,
+      "priority_score": 0.439,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::steve_jobs__bill_gates::shape_outcome_contrast",
+      "pair_id": "steve_jobs__bill_gates",
+      "question": "Do normalized Kamea route metrics distinguish collaborative, conflict, and neutral outcomes?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "association_test",
+      "outcome": "relationship_outcome_class",
+      "metrics": [
+        "mean_consensus_shape_jaccard",
+        "mean_directional_shape_jaccard",
+        "mean_tortuosity_delta",
+        "self_intersection_delta"
+      ],
+      "controls": [
+        "name-length matching",
+        "cipher permutation",
+        "random-pair baseline"
+      ],
+      "readiness": 0.17,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 0.25,
+      "selection_eligible": false,
+      "priority_score": 0.439,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::thomas_edison__henry_ford::event_window_contrast",
+      "pair_id": "thomas_edison__henry_ford",
+      "question": "Do preregistered features differ before, during, and after documented interaction events versus matched control dates?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "association_test",
+      "outcome": "documented_event_window",
+      "metrics": [
+        "pre_event_transit_exposure",
+        "event_window_transit_exposure",
+        "post_event_transit_exposure"
+      ],
+      "controls": [
+        "matched non-event dates",
+        "multiple-testing correction",
+        "event-family clustering"
+      ],
+      "readiness": 0.17,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 0.25,
+      "selection_eligible": false,
+      "priority_score": 0.439,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::thomas_edison__henry_ford::incremental_value",
+      "pair_id": "thomas_edison__henry_ford",
+      "question": "Do symbolic feature families add held-out predictive value beyond historical and demographic baselines?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "incremental_validation",
+      "outcome": "held_out_relationship_transition",
+      "metrics": [
+        "mean_consensus_shape_jaccard",
+        "mean_directional_shape_jaccard",
+        "mean_tortuosity_delta",
+        "self_intersection_delta",
+        "sidereal_contact_count",
+        "nakshatra_relation_class",
+        "timing_stable_contact_count",
+        "numerology_similarity",
+        "gematria_similarity",
+        "name_length_matched_residual"
+      ],
+      "controls": [
+        "history-only baseline",
+        "demographic baseline",
+        "family ablation",
+        "held-out pairs"
+      ],
+      "readiness": 0.17,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 0.25,
+      "selection_eligible": false,
+      "priority_score": 0.439,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::thomas_edison__henry_ford::shape_outcome_contrast",
+      "pair_id": "thomas_edison__henry_ford",
+      "question": "Do normalized Kamea route metrics distinguish collaborative, conflict, and neutral outcomes?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "association_test",
+      "outcome": "relationship_outcome_class",
+      "metrics": [
+        "mean_consensus_shape_jaccard",
+        "mean_directional_shape_jaccard",
+        "mean_tortuosity_delta",
+        "self_intersection_delta"
+      ],
+      "controls": [
+        "name-length matching",
+        "cipher permutation",
+        "random-pair baseline"
+      ],
+      "readiness": 0.17,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 0.25,
+      "selection_eligible": false,
+      "priority_score": 0.439,
+      "status": "generated"
+    }
+  ],
+  "selected_questions": [
+    {
+      "question_id": "relationship::nikola_tesla__thomas_edison::birth_time_robustness",
+      "pair_id": "nikola_tesla__thomas_edison",
+      "question": "Which relationship features remain stable across each profile's birth-time uncertainty interval?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "robustness",
+      "outcome": "feature_stability",
+      "metrics": [
+        "stable_feature_ratio",
+        "moon_longitude_span",
+        "house_sign_change_count"
+      ],
+      "controls": [
+        "00:00/12:00/23:59 bounds",
+        "timing-insensitive feature subset"
+      ],
+      "readiness": 0.77875,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 1.0,
+      "selection_eligible": true,
+      "priority_score": 0.900438,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::nikola_tesla__thomas_edison::event_window_contrast",
+      "pair_id": "nikola_tesla__thomas_edison",
+      "question": "Do preregistered features differ before, during, and after documented interaction events versus matched control dates?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "association_test",
+      "outcome": "documented_event_window",
+      "metrics": [
+        "pre_event_transit_exposure",
+        "event_window_transit_exposure",
+        "post_event_transit_exposure"
+      ],
+      "controls": [
+        "matched non-event dates",
+        "multiple-testing correction",
+        "event-family clustering"
+      ],
+      "readiness": 0.77875,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 1.0,
+      "selection_eligible": true,
+      "priority_score": 0.900438,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::nikola_tesla__thomas_edison::incremental_value",
+      "pair_id": "nikola_tesla__thomas_edison",
+      "question": "Do symbolic feature families add held-out predictive value beyond historical and demographic baselines?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "incremental_validation",
+      "outcome": "held_out_relationship_transition",
+      "metrics": [
+        "mean_consensus_shape_jaccard",
+        "mean_directional_shape_jaccard",
+        "mean_tortuosity_delta",
+        "self_intersection_delta",
+        "sidereal_contact_count",
+        "nakshatra_relation_class",
+        "timing_stable_contact_count",
+        "numerology_similarity",
+        "gematria_similarity",
+        "name_length_matched_residual"
+      ],
+      "controls": [
+        "history-only baseline",
+        "demographic baseline",
+        "family ablation",
+        "held-out pairs"
+      ],
+      "readiness": 0.77875,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 1.0,
+      "selection_eligible": true,
+      "priority_score": 0.900438,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::nikola_tesla__thomas_edison::shape_outcome_contrast",
+      "pair_id": "nikola_tesla__thomas_edison",
+      "question": "Do normalized Kamea route metrics distinguish collaborative, conflict, and neutral outcomes?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "association_test",
+      "outcome": "relationship_outcome_class",
+      "metrics": [
+        "mean_consensus_shape_jaccard",
+        "mean_directional_shape_jaccard",
+        "mean_tortuosity_delta",
+        "self_intersection_delta"
+      ],
+      "controls": [
+        "name-length matching",
+        "cipher permutation",
+        "random-pair baseline"
+      ],
+      "readiness": 0.77875,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 1.0,
+      "selection_eligible": true,
+      "priority_score": 0.900438,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::sigmund_freud__carl_jung::birth_time_robustness",
+      "pair_id": "sigmund_freud__carl_jung",
+      "question": "Which relationship features remain stable across each profile's birth-time uncertainty interval?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "robustness",
+      "outcome": "feature_stability",
+      "metrics": [
+        "stable_feature_ratio",
+        "moon_longitude_span",
+        "house_sign_change_count"
+      ],
+      "controls": [
+        "00:00/12:00/23:59 bounds",
+        "timing-insensitive feature subset"
+      ],
+      "readiness": 0.17,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 1.0,
+      "selection_eligible": true,
+      "priority_score": 0.6265,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::sigmund_freud__carl_jung::evidence_completion",
+      "pair_id": "sigmund_freud__carl_jung",
+      "question": "What dated, citation-backed interaction events and matched control dates are missing?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "data_acquisition",
+      "outcome": "registry_completeness",
+      "metrics": [
+        "event_count",
+        "source_count",
+        "date_precision"
+      ],
+      "controls": [
+        "source independence",
+        "event selection audit"
+      ],
+      "readiness": 0.17,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 1.0,
+      "selection_eligible": true,
+      "priority_score": 0.6265,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::steve_jobs__bill_gates::birth_time_robustness",
+      "pair_id": "steve_jobs__bill_gates",
+      "question": "Which relationship features remain stable across each profile's birth-time uncertainty interval?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "robustness",
+      "outcome": "feature_stability",
+      "metrics": [
+        "stable_feature_ratio",
+        "moon_longitude_span",
+        "house_sign_change_count"
+      ],
+      "controls": [
+        "00:00/12:00/23:59 bounds",
+        "timing-insensitive feature subset"
+      ],
+      "readiness": 0.17,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 1.0,
+      "selection_eligible": true,
+      "priority_score": 0.6265,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::steve_jobs__bill_gates::evidence_completion",
+      "pair_id": "steve_jobs__bill_gates",
+      "question": "What dated, citation-backed interaction events and matched control dates are missing?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "data_acquisition",
+      "outcome": "registry_completeness",
+      "metrics": [
+        "event_count",
+        "source_count",
+        "date_precision"
+      ],
+      "controls": [
+        "source independence",
+        "event selection audit"
+      ],
+      "readiness": 0.17,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 1.0,
+      "selection_eligible": true,
+      "priority_score": 0.6265,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::thomas_edison__henry_ford::birth_time_robustness",
+      "pair_id": "thomas_edison__henry_ford",
+      "question": "Which relationship features remain stable across each profile's birth-time uncertainty interval?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "robustness",
+      "outcome": "feature_stability",
+      "metrics": [
+        "stable_feature_ratio",
+        "moon_longitude_span",
+        "house_sign_change_count"
+      ],
+      "controls": [
+        "00:00/12:00/23:59 bounds",
+        "timing-insensitive feature subset"
+      ],
+      "readiness": 0.17,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 1.0,
+      "selection_eligible": true,
+      "priority_score": 0.6265,
+      "status": "generated"
+    },
+    {
+      "question_id": "relationship::thomas_edison__henry_ford::evidence_completion",
+      "pair_id": "thomas_edison__henry_ford",
+      "question": "What dated, citation-backed interaction events and matched control dates are missing?",
+      "kind": "relationship_hypothesis_program",
+      "stage": "data_acquisition",
+      "outcome": "registry_completeness",
+      "metrics": [
+        "event_count",
+        "source_count",
+        "date_precision"
+      ],
+      "controls": [
+        "source independence",
+        "event selection audit"
+      ],
+      "readiness": 0.17,
+      "novelty": 1.0,
+      "already_in_memory": false,
+      "feasibility": 1.0,
+      "selection_eligible": true,
+      "priority_score": 0.6265,
+      "status": "generated"
+    }
+  ],
+  "hypotheses": [
+    {
+      "question_id": "relationship::nikola_tesla__thomas_edison::birth_time_robustness",
+      "pair_id": "nikola_tesla__thomas_edison",
+      "stage": "robustness",
+      "outcome": "feature_stability",
+      "metrics": [
+        "stable_feature_ratio",
+        "moon_longitude_span",
+        "house_sign_change_count"
+      ],
+      "controls": [
+        "00:00/12:00/23:59 bounds",
+        "timing-insensitive feature subset"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::nikola_tesla__thomas_edison::birth_time_robustness::association",
+      "model_role": "candidate_association",
+      "statement": "The preregistered metrics are associated with the documented outcome beyond matched controls.",
+      "disconfirmation_rule": "Reject when corrected effects fail to exceed matched controls or reverse out of sample."
+    },
+    {
+      "question_id": "relationship::nikola_tesla__thomas_edison::birth_time_robustness",
+      "pair_id": "nikola_tesla__thomas_edison",
+      "stage": "robustness",
+      "outcome": "feature_stability",
+      "metrics": [
+        "stable_feature_ratio",
+        "moon_longitude_span",
+        "house_sign_change_count"
+      ],
+      "controls": [
+        "00:00/12:00/23:59 bounds",
+        "timing-insensitive feature subset"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::nikola_tesla__thomas_edison::birth_time_robustness::null",
+      "model_role": "null",
+      "statement": "The preregistered metrics do not distinguish the documented outcome from matched controls.",
+      "disconfirmation_rule": "Reject only after a corrected effect replicates in an independent held-out pair."
+    },
+    {
+      "question_id": "relationship::nikola_tesla__thomas_edison::birth_time_robustness",
+      "pair_id": "nikola_tesla__thomas_edison",
+      "stage": "robustness",
+      "outcome": "feature_stability",
+      "metrics": [
+        "stable_feature_ratio",
+        "moon_longitude_span",
+        "house_sign_change_count"
+      ],
+      "controls": [
+        "00:00/12:00/23:59 bounds",
+        "timing-insensitive feature subset"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::nikola_tesla__thomas_edison::birth_time_robustness::confounder",
+      "model_role": "rival_confounder",
+      "statement": "Any apparent association is explained by event selection, name construction, birth-time uncertainty, or shared historical context.",
+      "disconfirmation_rule": "Reject only when the association survives all listed controls and feature-family ablations."
+    },
+    {
+      "question_id": "relationship::nikola_tesla__thomas_edison::event_window_contrast",
+      "pair_id": "nikola_tesla__thomas_edison",
+      "stage": "association_test",
+      "outcome": "documented_event_window",
+      "metrics": [
+        "pre_event_transit_exposure",
+        "event_window_transit_exposure",
+        "post_event_transit_exposure"
+      ],
+      "controls": [
+        "matched non-event dates",
+        "multiple-testing correction",
+        "event-family clustering"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::nikola_tesla__thomas_edison::event_window_contrast::association",
+      "model_role": "candidate_association",
+      "statement": "The preregistered metrics are associated with the documented outcome beyond matched controls.",
+      "disconfirmation_rule": "Reject when corrected effects fail to exceed matched controls or reverse out of sample."
+    },
+    {
+      "question_id": "relationship::nikola_tesla__thomas_edison::event_window_contrast",
+      "pair_id": "nikola_tesla__thomas_edison",
+      "stage": "association_test",
+      "outcome": "documented_event_window",
+      "metrics": [
+        "pre_event_transit_exposure",
+        "event_window_transit_exposure",
+        "post_event_transit_exposure"
+      ],
+      "controls": [
+        "matched non-event dates",
+        "multiple-testing correction",
+        "event-family clustering"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::nikola_tesla__thomas_edison::event_window_contrast::null",
+      "model_role": "null",
+      "statement": "The preregistered metrics do not distinguish the documented outcome from matched controls.",
+      "disconfirmation_rule": "Reject only after a corrected effect replicates in an independent held-out pair."
+    },
+    {
+      "question_id": "relationship::nikola_tesla__thomas_edison::event_window_contrast",
+      "pair_id": "nikola_tesla__thomas_edison",
+      "stage": "association_test",
+      "outcome": "documented_event_window",
+      "metrics": [
+        "pre_event_transit_exposure",
+        "event_window_transit_exposure",
+        "post_event_transit_exposure"
+      ],
+      "controls": [
+        "matched non-event dates",
+        "multiple-testing correction",
+        "event-family clustering"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::nikola_tesla__thomas_edison::event_window_contrast::confounder",
+      "model_role": "rival_confounder",
+      "statement": "Any apparent association is explained by event selection, name construction, birth-time uncertainty, or shared historical context.",
+      "disconfirmation_rule": "Reject only when the association survives all listed controls and feature-family ablations."
+    },
+    {
+      "question_id": "relationship::nikola_tesla__thomas_edison::incremental_value",
+      "pair_id": "nikola_tesla__thomas_edison",
+      "stage": "incremental_validation",
+      "outcome": "held_out_relationship_transition",
+      "metrics": [
+        "mean_consensus_shape_jaccard",
+        "mean_directional_shape_jaccard",
+        "mean_tortuosity_delta",
+        "self_intersection_delta",
+        "sidereal_contact_count",
+        "nakshatra_relation_class",
+        "timing_stable_contact_count",
+        "numerology_similarity",
+        "gematria_similarity",
+        "name_length_matched_residual"
+      ],
+      "controls": [
+        "history-only baseline",
+        "demographic baseline",
+        "family ablation",
+        "held-out pairs"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::nikola_tesla__thomas_edison::incremental_value::association",
+      "model_role": "candidate_association",
+      "statement": "The preregistered metrics are associated with the documented outcome beyond matched controls.",
+      "disconfirmation_rule": "Reject when corrected effects fail to exceed matched controls or reverse out of sample."
+    },
+    {
+      "question_id": "relationship::nikola_tesla__thomas_edison::incremental_value",
+      "pair_id": "nikola_tesla__thomas_edison",
+      "stage": "incremental_validation",
+      "outcome": "held_out_relationship_transition",
+      "metrics": [
+        "mean_consensus_shape_jaccard",
+        "mean_directional_shape_jaccard",
+        "mean_tortuosity_delta",
+        "self_intersection_delta",
+        "sidereal_contact_count",
+        "nakshatra_relation_class",
+        "timing_stable_contact_count",
+        "numerology_similarity",
+        "gematria_similarity",
+        "name_length_matched_residual"
+      ],
+      "controls": [
+        "history-only baseline",
+        "demographic baseline",
+        "family ablation",
+        "held-out pairs"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::nikola_tesla__thomas_edison::incremental_value::null",
+      "model_role": "null",
+      "statement": "The preregistered metrics do not distinguish the documented outcome from matched controls.",
+      "disconfirmation_rule": "Reject only after a corrected effect replicates in an independent held-out pair."
+    },
+    {
+      "question_id": "relationship::nikola_tesla__thomas_edison::incremental_value",
+      "pair_id": "nikola_tesla__thomas_edison",
+      "stage": "incremental_validation",
+      "outcome": "held_out_relationship_transition",
+      "metrics": [
+        "mean_consensus_shape_jaccard",
+        "mean_directional_shape_jaccard",
+        "mean_tortuosity_delta",
+        "self_intersection_delta",
+        "sidereal_contact_count",
+        "nakshatra_relation_class",
+        "timing_stable_contact_count",
+        "numerology_similarity",
+        "gematria_similarity",
+        "name_length_matched_residual"
+      ],
+      "controls": [
+        "history-only baseline",
+        "demographic baseline",
+        "family ablation",
+        "held-out pairs"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::nikola_tesla__thomas_edison::incremental_value::confounder",
+      "model_role": "rival_confounder",
+      "statement": "Any apparent association is explained by event selection, name construction, birth-time uncertainty, or shared historical context.",
+      "disconfirmation_rule": "Reject only when the association survives all listed controls and feature-family ablations."
+    },
+    {
+      "question_id": "relationship::nikola_tesla__thomas_edison::shape_outcome_contrast",
+      "pair_id": "nikola_tesla__thomas_edison",
+      "stage": "association_test",
+      "outcome": "relationship_outcome_class",
+      "metrics": [
+        "mean_consensus_shape_jaccard",
+        "mean_directional_shape_jaccard",
+        "mean_tortuosity_delta",
+        "self_intersection_delta"
+      ],
+      "controls": [
+        "name-length matching",
+        "cipher permutation",
+        "random-pair baseline"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::nikola_tesla__thomas_edison::shape_outcome_contrast::association",
+      "model_role": "candidate_association",
+      "statement": "The preregistered metrics are associated with the documented outcome beyond matched controls.",
+      "disconfirmation_rule": "Reject when corrected effects fail to exceed matched controls or reverse out of sample."
+    },
+    {
+      "question_id": "relationship::nikola_tesla__thomas_edison::shape_outcome_contrast",
+      "pair_id": "nikola_tesla__thomas_edison",
+      "stage": "association_test",
+      "outcome": "relationship_outcome_class",
+      "metrics": [
+        "mean_consensus_shape_jaccard",
+        "mean_directional_shape_jaccard",
+        "mean_tortuosity_delta",
+        "self_intersection_delta"
+      ],
+      "controls": [
+        "name-length matching",
+        "cipher permutation",
+        "random-pair baseline"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::nikola_tesla__thomas_edison::shape_outcome_contrast::null",
+      "model_role": "null",
+      "statement": "The preregistered metrics do not distinguish the documented outcome from matched controls.",
+      "disconfirmation_rule": "Reject only after a corrected effect replicates in an independent held-out pair."
+    },
+    {
+      "question_id": "relationship::nikola_tesla__thomas_edison::shape_outcome_contrast",
+      "pair_id": "nikola_tesla__thomas_edison",
+      "stage": "association_test",
+      "outcome": "relationship_outcome_class",
+      "metrics": [
+        "mean_consensus_shape_jaccard",
+        "mean_directional_shape_jaccard",
+        "mean_tortuosity_delta",
+        "self_intersection_delta"
+      ],
+      "controls": [
+        "name-length matching",
+        "cipher permutation",
+        "random-pair baseline"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::nikola_tesla__thomas_edison::shape_outcome_contrast::confounder",
+      "model_role": "rival_confounder",
+      "statement": "Any apparent association is explained by event selection, name construction, birth-time uncertainty, or shared historical context.",
+      "disconfirmation_rule": "Reject only when the association survives all listed controls and feature-family ablations."
+    },
+    {
+      "question_id": "relationship::sigmund_freud__carl_jung::birth_time_robustness",
+      "pair_id": "sigmund_freud__carl_jung",
+      "stage": "robustness",
+      "outcome": "feature_stability",
+      "metrics": [
+        "stable_feature_ratio",
+        "moon_longitude_span",
+        "house_sign_change_count"
+      ],
+      "controls": [
+        "00:00/12:00/23:59 bounds",
+        "timing-insensitive feature subset"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::sigmund_freud__carl_jung::birth_time_robustness::association",
+      "model_role": "candidate_association",
+      "statement": "The preregistered metrics are associated with the documented outcome beyond matched controls.",
+      "disconfirmation_rule": "Reject when corrected effects fail to exceed matched controls or reverse out of sample."
+    },
+    {
+      "question_id": "relationship::sigmund_freud__carl_jung::birth_time_robustness",
+      "pair_id": "sigmund_freud__carl_jung",
+      "stage": "robustness",
+      "outcome": "feature_stability",
+      "metrics": [
+        "stable_feature_ratio",
+        "moon_longitude_span",
+        "house_sign_change_count"
+      ],
+      "controls": [
+        "00:00/12:00/23:59 bounds",
+        "timing-insensitive feature subset"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::sigmund_freud__carl_jung::birth_time_robustness::null",
+      "model_role": "null",
+      "statement": "The preregistered metrics do not distinguish the documented outcome from matched controls.",
+      "disconfirmation_rule": "Reject only after a corrected effect replicates in an independent held-out pair."
+    },
+    {
+      "question_id": "relationship::sigmund_freud__carl_jung::birth_time_robustness",
+      "pair_id": "sigmund_freud__carl_jung",
+      "stage": "robustness",
+      "outcome": "feature_stability",
+      "metrics": [
+        "stable_feature_ratio",
+        "moon_longitude_span",
+        "house_sign_change_count"
+      ],
+      "controls": [
+        "00:00/12:00/23:59 bounds",
+        "timing-insensitive feature subset"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::sigmund_freud__carl_jung::birth_time_robustness::confounder",
+      "model_role": "rival_confounder",
+      "statement": "Any apparent association is explained by event selection, name construction, birth-time uncertainty, or shared historical context.",
+      "disconfirmation_rule": "Reject only when the association survives all listed controls and feature-family ablations."
+    },
+    {
+      "question_id": "relationship::sigmund_freud__carl_jung::evidence_completion",
+      "pair_id": "sigmund_freud__carl_jung",
+      "stage": "data_acquisition",
+      "outcome": "registry_completeness",
+      "metrics": [
+        "event_count",
+        "source_count",
+        "date_precision"
+      ],
+      "controls": [
+        "source independence",
+        "event selection audit"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::sigmund_freud__carl_jung::evidence_completion::association",
+      "model_role": "candidate_association",
+      "statement": "The preregistered metrics are associated with the documented outcome beyond matched controls.",
+      "disconfirmation_rule": "Reject when corrected effects fail to exceed matched controls or reverse out of sample."
+    },
+    {
+      "question_id": "relationship::sigmund_freud__carl_jung::evidence_completion",
+      "pair_id": "sigmund_freud__carl_jung",
+      "stage": "data_acquisition",
+      "outcome": "registry_completeness",
+      "metrics": [
+        "event_count",
+        "source_count",
+        "date_precision"
+      ],
+      "controls": [
+        "source independence",
+        "event selection audit"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::sigmund_freud__carl_jung::evidence_completion::null",
+      "model_role": "null",
+      "statement": "The preregistered metrics do not distinguish the documented outcome from matched controls.",
+      "disconfirmation_rule": "Reject only after a corrected effect replicates in an independent held-out pair."
+    },
+    {
+      "question_id": "relationship::sigmund_freud__carl_jung::evidence_completion",
+      "pair_id": "sigmund_freud__carl_jung",
+      "stage": "data_acquisition",
+      "outcome": "registry_completeness",
+      "metrics": [
+        "event_count",
+        "source_count",
+        "date_precision"
+      ],
+      "controls": [
+        "source independence",
+        "event selection audit"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::sigmund_freud__carl_jung::evidence_completion::confounder",
+      "model_role": "rival_confounder",
+      "statement": "Any apparent association is explained by event selection, name construction, birth-time uncertainty, or shared historical context.",
+      "disconfirmation_rule": "Reject only when the association survives all listed controls and feature-family ablations."
+    },
+    {
+      "question_id": "relationship::steve_jobs__bill_gates::birth_time_robustness",
+      "pair_id": "steve_jobs__bill_gates",
+      "stage": "robustness",
+      "outcome": "feature_stability",
+      "metrics": [
+        "stable_feature_ratio",
+        "moon_longitude_span",
+        "house_sign_change_count"
+      ],
+      "controls": [
+        "00:00/12:00/23:59 bounds",
+        "timing-insensitive feature subset"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::steve_jobs__bill_gates::birth_time_robustness::association",
+      "model_role": "candidate_association",
+      "statement": "The preregistered metrics are associated with the documented outcome beyond matched controls.",
+      "disconfirmation_rule": "Reject when corrected effects fail to exceed matched controls or reverse out of sample."
+    },
+    {
+      "question_id": "relationship::steve_jobs__bill_gates::birth_time_robustness",
+      "pair_id": "steve_jobs__bill_gates",
+      "stage": "robustness",
+      "outcome": "feature_stability",
+      "metrics": [
+        "stable_feature_ratio",
+        "moon_longitude_span",
+        "house_sign_change_count"
+      ],
+      "controls": [
+        "00:00/12:00/23:59 bounds",
+        "timing-insensitive feature subset"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::steve_jobs__bill_gates::birth_time_robustness::null",
+      "model_role": "null",
+      "statement": "The preregistered metrics do not distinguish the documented outcome from matched controls.",
+      "disconfirmation_rule": "Reject only after a corrected effect replicates in an independent held-out pair."
+    },
+    {
+      "question_id": "relationship::steve_jobs__bill_gates::birth_time_robustness",
+      "pair_id": "steve_jobs__bill_gates",
+      "stage": "robustness",
+      "outcome": "feature_stability",
+      "metrics": [
+        "stable_feature_ratio",
+        "moon_longitude_span",
+        "house_sign_change_count"
+      ],
+      "controls": [
+        "00:00/12:00/23:59 bounds",
+        "timing-insensitive feature subset"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::steve_jobs__bill_gates::birth_time_robustness::confounder",
+      "model_role": "rival_confounder",
+      "statement": "Any apparent association is explained by event selection, name construction, birth-time uncertainty, or shared historical context.",
+      "disconfirmation_rule": "Reject only when the association survives all listed controls and feature-family ablations."
+    },
+    {
+      "question_id": "relationship::steve_jobs__bill_gates::evidence_completion",
+      "pair_id": "steve_jobs__bill_gates",
+      "stage": "data_acquisition",
+      "outcome": "registry_completeness",
+      "metrics": [
+        "event_count",
+        "source_count",
+        "date_precision"
+      ],
+      "controls": [
+        "source independence",
+        "event selection audit"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::steve_jobs__bill_gates::evidence_completion::association",
+      "model_role": "candidate_association",
+      "statement": "The preregistered metrics are associated with the documented outcome beyond matched controls.",
+      "disconfirmation_rule": "Reject when corrected effects fail to exceed matched controls or reverse out of sample."
+    },
+    {
+      "question_id": "relationship::steve_jobs__bill_gates::evidence_completion",
+      "pair_id": "steve_jobs__bill_gates",
+      "stage": "data_acquisition",
+      "outcome": "registry_completeness",
+      "metrics": [
+        "event_count",
+        "source_count",
+        "date_precision"
+      ],
+      "controls": [
+        "source independence",
+        "event selection audit"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::steve_jobs__bill_gates::evidence_completion::null",
+      "model_role": "null",
+      "statement": "The preregistered metrics do not distinguish the documented outcome from matched controls.",
+      "disconfirmation_rule": "Reject only after a corrected effect replicates in an independent held-out pair."
+    },
+    {
+      "question_id": "relationship::steve_jobs__bill_gates::evidence_completion",
+      "pair_id": "steve_jobs__bill_gates",
+      "stage": "data_acquisition",
+      "outcome": "registry_completeness",
+      "metrics": [
+        "event_count",
+        "source_count",
+        "date_precision"
+      ],
+      "controls": [
+        "source independence",
+        "event selection audit"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::steve_jobs__bill_gates::evidence_completion::confounder",
+      "model_role": "rival_confounder",
+      "statement": "Any apparent association is explained by event selection, name construction, birth-time uncertainty, or shared historical context.",
+      "disconfirmation_rule": "Reject only when the association survives all listed controls and feature-family ablations."
+    },
+    {
+      "question_id": "relationship::thomas_edison__henry_ford::birth_time_robustness",
+      "pair_id": "thomas_edison__henry_ford",
+      "stage": "robustness",
+      "outcome": "feature_stability",
+      "metrics": [
+        "stable_feature_ratio",
+        "moon_longitude_span",
+        "house_sign_change_count"
+      ],
+      "controls": [
+        "00:00/12:00/23:59 bounds",
+        "timing-insensitive feature subset"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::thomas_edison__henry_ford::birth_time_robustness::association",
+      "model_role": "candidate_association",
+      "statement": "The preregistered metrics are associated with the documented outcome beyond matched controls.",
+      "disconfirmation_rule": "Reject when corrected effects fail to exceed matched controls or reverse out of sample."
+    },
+    {
+      "question_id": "relationship::thomas_edison__henry_ford::birth_time_robustness",
+      "pair_id": "thomas_edison__henry_ford",
+      "stage": "robustness",
+      "outcome": "feature_stability",
+      "metrics": [
+        "stable_feature_ratio",
+        "moon_longitude_span",
+        "house_sign_change_count"
+      ],
+      "controls": [
+        "00:00/12:00/23:59 bounds",
+        "timing-insensitive feature subset"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::thomas_edison__henry_ford::birth_time_robustness::null",
+      "model_role": "null",
+      "statement": "The preregistered metrics do not distinguish the documented outcome from matched controls.",
+      "disconfirmation_rule": "Reject only after a corrected effect replicates in an independent held-out pair."
+    },
+    {
+      "question_id": "relationship::thomas_edison__henry_ford::birth_time_robustness",
+      "pair_id": "thomas_edison__henry_ford",
+      "stage": "robustness",
+      "outcome": "feature_stability",
+      "metrics": [
+        "stable_feature_ratio",
+        "moon_longitude_span",
+        "house_sign_change_count"
+      ],
+      "controls": [
+        "00:00/12:00/23:59 bounds",
+        "timing-insensitive feature subset"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::thomas_edison__henry_ford::birth_time_robustness::confounder",
+      "model_role": "rival_confounder",
+      "statement": "Any apparent association is explained by event selection, name construction, birth-time uncertainty, or shared historical context.",
+      "disconfirmation_rule": "Reject only when the association survives all listed controls and feature-family ablations."
+    },
+    {
+      "question_id": "relationship::thomas_edison__henry_ford::evidence_completion",
+      "pair_id": "thomas_edison__henry_ford",
+      "stage": "data_acquisition",
+      "outcome": "registry_completeness",
+      "metrics": [
+        "event_count",
+        "source_count",
+        "date_precision"
+      ],
+      "controls": [
+        "source independence",
+        "event selection audit"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::thomas_edison__henry_ford::evidence_completion::association",
+      "model_role": "candidate_association",
+      "statement": "The preregistered metrics are associated with the documented outcome beyond matched controls.",
+      "disconfirmation_rule": "Reject when corrected effects fail to exceed matched controls or reverse out of sample."
+    },
+    {
+      "question_id": "relationship::thomas_edison__henry_ford::evidence_completion",
+      "pair_id": "thomas_edison__henry_ford",
+      "stage": "data_acquisition",
+      "outcome": "registry_completeness",
+      "metrics": [
+        "event_count",
+        "source_count",
+        "date_precision"
+      ],
+      "controls": [
+        "source independence",
+        "event selection audit"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::thomas_edison__henry_ford::evidence_completion::null",
+      "model_role": "null",
+      "statement": "The preregistered metrics do not distinguish the documented outcome from matched controls.",
+      "disconfirmation_rule": "Reject only after a corrected effect replicates in an independent held-out pair."
+    },
+    {
+      "question_id": "relationship::thomas_edison__henry_ford::evidence_completion",
+      "pair_id": "thomas_edison__henry_ford",
+      "stage": "data_acquisition",
+      "outcome": "registry_completeness",
+      "metrics": [
+        "event_count",
+        "source_count",
+        "date_precision"
+      ],
+      "controls": [
+        "source independence",
+        "event selection audit"
+      ],
+      "status": "preregistered_candidate",
+      "source": "autonomous_relationship_research",
+      "locked_before_run": true,
+      "research_only": true,
+      "causal_claim": false,
+      "promotion_requirements": [
+        "minimum four dated events per relationship pair",
+        "matched negative-control dates",
+        "multiple-testing correction",
+        "independent-pair replication",
+        "held-out evaluation for predictive claims"
+      ],
+      "hypothesis_id": "relationship::thomas_edison__henry_ford::evidence_completion::confounder",
+      "model_role": "rival_confounder",
+      "statement": "Any apparent association is explained by event selection, name construction, birth-time uncertainty, or shared historical context.",
+      "disconfirmation_rule": "Reject only when the association survives all listed controls and feature-family ablations."
+    }
+  ],
+  "next_actions": [
+    {
+      "pair_id": "sigmund_freud__carl_jung",
+      "action": "complete_and_lock_event_registry",
+      "reasons": [
+        "INSUFFICIENT_DATED_EVENTS",
+        "INSUFFICIENT_INDEPENDENT_SOURCES",
+        "EVENT_REGISTRY_NOT_LOCKED"
+      ]
+    },
+    {
+      "pair_id": "steve_jobs__bill_gates",
+      "action": "complete_and_lock_event_registry",
+      "reasons": [
+        "INSUFFICIENT_DATED_EVENTS",
+        "INSUFFICIENT_INDEPENDENT_SOURCES",
+        "EVENT_REGISTRY_NOT_LOCKED"
+      ]
+    },
+    {
+      "pair_id": "thomas_edison__henry_ford",
+      "action": "complete_and_lock_event_registry",
+      "reasons": [
+        "INSUFFICIENT_DATED_EVENTS",
+        "INSUFFICIENT_INDEPENDENT_SOURCES",
+        "EVENT_REGISTRY_NOT_LOCKED"
+      ]
+    },
+    {
+      "pair_id": "nikola_tesla__thomas_edison",
+      "action": "preregister_then_execute_highest_priority_question",
+      "question_id": "relationship::nikola_tesla__thomas_edison::birth_time_robustness"
+    }
+  ],
+  "summary": "Generated 20 relationship question(s), selected 10, and preregistered 30 competing hypotheses including null and confounder alternatives.",
+  "source_cohort_registry": "C:\\Projects\\Atlas\\research\\historical_validation\\relationship_research_candidates.v1.json"
+}

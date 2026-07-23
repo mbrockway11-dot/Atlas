@@ -1,0 +1,62 @@
+{
+  "success": true,
+  "version": "atlas.symbolic-behavior-validation.v1",
+  "pilot_id": "public_behavior_symbolic_pilot_v1",
+  "generated_at": "2026-07-22T07:07:37.939546+00:00",
+  "research_only": true,
+  "causal_claims_allowed": false,
+  "counts": {
+    "profiles": 5,
+    "behavior_observations": 13,
+    "behavior_categories": 7,
+    "symbolic_features": 210,
+    "tested_associations": 721,
+    "nominal_associations": 0,
+    "corrected_associations": 0,
+    "retained_findings": 0,
+    "cross_family_signals": 0
+  },
+  "quality": {
+    "pilot_status": "pipeline_validation_only",
+    "profile_count": 5,
+    "symbolic_features_blinded_during_annotation": false,
+    "source_coverage": 1.0,
+    "feature_families": [
+      "gematria",
+      "kamea",
+      "numerology",
+      "vedic"
+    ],
+    "independence_groups": [
+      "birth_and_name_input",
+      "birth_input",
+      "name_input"
+    ],
+    "unknown_birth_time_profiles": [
+      "buzz_aldrin",
+      "neil_armstrong"
+    ],
+    "retained_findings": 0,
+    "limitations": [
+      "Only 5 profiles are included; the pilot cannot validate behavioral associations.",
+      "Registry non-membership means not documented here, not behavioral absence.",
+      "Public figures are a selected and historically heterogeneous cohort.",
+      "Behavior coding can contain interpretation bias despite source citations.",
+      "This development pilot was not blinded and cannot retain a finding.",
+      "Unknown birth times disable houses and angles.",
+      "Name spelling, transliteration, aliases, and recorded-name selection affect all name-derived transforms.",
+      "Kamea, Gematria, and name numerology share recorded-name input and are not independent confirmations.",
+      "Birth-date numerology and Vedic placements share birth-date input and require dependency-aware interpretation.",
+      "No causal, diagnostic, predictive, or compatibility claim is permitted."
+    ],
+    "promotion_requirements": {
+      "minimum_profiles": 30,
+      "minimum_profiles_per_behavior": 10,
+      "fdr_alpha": 0.05,
+      "blinded_behavior_annotation_required": true,
+      "independent_replication_required": true,
+      "prospective_validation_required_for_prediction": true
+    }
+  },
+  "output_dir": "C:\\Projects\\Atlas\\output\\symbolic_behavior"
+}

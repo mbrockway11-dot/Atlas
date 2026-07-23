@@ -1,0 +1,79 @@
+[
+  {
+    "behavior_id": "decisive_action_under_pressure",
+    "tested_associations": 103,
+    "nominal_associations": 0,
+    "corrected_associations": 0,
+    "independent_groups_after_correction": [],
+    "independent_base_groups_after_correction": [],
+    "independent_group_count": 0,
+    "cross_family_signal": false,
+    "warning": "Vedic and birth-date numerology share birth_input. Name numerology, Gematria, and Kamea share name_input. Mixed features are not independent corroboration."
+  },
+  {
+    "behavior_id": "institution_building",
+    "tested_associations": 103,
+    "nominal_associations": 0,
+    "corrected_associations": 0,
+    "independent_groups_after_correction": [],
+    "independent_base_groups_after_correction": [],
+    "independent_group_count": 0,
+    "cross_family_signal": false,
+    "warning": "Vedic and birth-date numerology share birth_input. Name numerology, Gematria, and Kamea share name_input. Mixed features are not independent corroboration."
+  },
+  {
+    "behavior_id": "nonviolent_collective_leadership",
+    "tested_associations": 103,
+    "nominal_associations": 0,
+    "corrected_associations": 0,
+    "independent_groups_after_correction": [],
+    "independent_base_groups_after_correction": [],
+    "independent_group_count": 0,
+    "cross_family_signal": false,
+    "warning": "Vedic and birth-date numerology share birth_input. Name numerology, Gematria, and Kamea share name_input. Mixed features are not independent corroboration."
+  },
+  {
+    "behavior_id": "persistence_under_adversity",
+    "tested_associations": 103,
+    "nominal_associations": 0,
+    "corrected_associations": 0,
+    "independent_groups_after_correction": [],
+    "independent_base_groups_after_correction": [],
+    "independent_group_count": 0,
+    "cross_family_signal": false,
+    "warning": "Vedic and birth-date numerology share birth_input. Name numerology, Gematria, and Kamea share name_input. Mixed features are not independent corroboration."
+  },
+  {
+    "behavior_id": "procedural_execution",
+    "tested_associations": 103,
+    "nominal_associations": 0,
+    "corrected_associations": 0,
+    "independent_groups_after_correction": [],
+    "independent_base_groups_after_correction": [],
+    "independent_group_count": 0,
+    "cross_family_signal": false,
+    "warning": "Vedic and birth-date numerology share birth_input. Name numerology, Gematria, and Kamea share name_input. Mixed features are not independent corroboration."
+  },
+  {
+    "behavior_id": "reconciliation_cooperation",
+    "tested_associations": 103,
+    "nominal_associations": 0,
+    "corrected_associations": 0,
+    "independent_groups_after_correction": [],
+    "independent_base_groups_after_correction": [],
+    "independent_group_count": 0,
+    "cross_family_signal": false,
+    "warning": "Vedic and birth-date numerology share birth_input. Name numerology, Gematria, and Kamea share name_input. Mixed features are not independent corroboration."
+  },
+  {
+    "behavior_id": "technical_innovation",
+    "tested_associations": 103,
+    "nominal_associations": 0,
+    "corrected_associations": 0,
+    "independent_groups_after_correction": [],
+    "independent_base_groups_after_correction": [],
+    "independent_group_count": 0,
+    "cross_family_signal": false,
+    "warning": "Vedic and birth-date numerology share birth_input. Name numerology, Gematria, and Kamea share name_input. Mixed features are not independent corroboration."
+  }
+]

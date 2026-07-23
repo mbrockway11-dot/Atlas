@@ -1,0 +1,56 @@
+{
+  "schema_version": "atlas.relationship-research-candidates.v1",
+  "research_only": true,
+  "causal_claims_allowed": false,
+  "notes": [
+    "Only Edison-Tesla currently has a citation-backed, dated event registry.",
+    "Other rows are candidate interaction cohorts and must not enter outcome testing until their source and event registries are completed and locked."
+  ],
+  "cohorts": [
+    {
+      "pair_id": "nikola_tesla__thomas_edison",
+      "profile_a": "nikola_tesla",
+      "profile_b": "thomas_edison",
+      "relationship_type": "employment_to_system_competition",
+      "event_count": 5,
+      "source_count": 10,
+      "birth_time_status_a": "reported_unverified",
+      "birth_time_status_b": "estimated_historical",
+      "evidence_status": "evidence_backed",
+      "registry": "research/historical_validation/edison_tesla_relationship_registry.json"
+    },
+    {
+      "pair_id": "thomas_edison__henry_ford",
+      "profile_a": "thomas_edison",
+      "profile_b": "henry_ford",
+      "relationship_type": "candidate_collaboration_control",
+      "event_count": 0,
+      "source_count": 0,
+      "birth_time_status_a": "estimated_historical",
+      "birth_time_status_b": "estimated_historical",
+      "evidence_status": "sources_required"
+    },
+    {
+      "pair_id": "sigmund_freud__carl_jung",
+      "profile_a": "sigmund_freud",
+      "profile_b": "carl_jung",
+      "relationship_type": "candidate_collaboration_to_rupture",
+      "event_count": 0,
+      "source_count": 0,
+      "birth_time_status_a": "reported_unverified",
+      "birth_time_status_b": "reported_unverified",
+      "evidence_status": "sources_required"
+    },
+    {
+      "pair_id": "steve_jobs__bill_gates",
+      "profile_a": "steve_jobs",
+      "profile_b": "bill_gates",
+      "relationship_type": "candidate_competition_and_collaboration",
+      "event_count": 0,
+      "source_count": 0,
+      "birth_time_status_a": "reported_unverified",
+      "birth_time_status_b": "reported_unverified",
+      "evidence_status": "sources_required"
+    }
+  ]
+}

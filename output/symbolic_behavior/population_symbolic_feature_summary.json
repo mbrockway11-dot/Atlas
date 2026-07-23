@@ -1,0 +1,22 @@
+{
+  "success": true,
+  "version": "atlas.symbolic-behavior-validation.v1",
+  "generated_at": "2026-07-22T03:49:15.633644+00:00",
+  "research_only": true,
+  "unannotated_profiles_used_as_behavior_negative": false,
+  "counts": {
+    "profiles": 2057,
+    "feature_ready_profiles": 2057,
+    "feature_rows": 80988,
+    "behavior_annotated_profiles": 5,
+    "profiles_needing_behavior_annotation": 2052,
+    "cache_hits": 2057
+  },
+  "limitations": [
+    "Population indexing supplies predictors, not behavioral outcomes.",
+    "Profiles without cited observations are never treated as behavior-negative controls.",
+    "The existing five-profile behavior pilot is unblinded and cannot retain findings.",
+    "A blinded annotation protocol and independent replication remain required."
+  ],
+  "output_dir": "C:\\Projects\\Atlas\\output\\symbolic_behavior"
+}
