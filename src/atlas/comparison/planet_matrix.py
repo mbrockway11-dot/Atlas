@@ -1,4 +1,4 @@
-"""Planet-level agreement matrix for Atlas identity comparisons."""
+﻿"""Planet-level agreement matrix for Atlas identity comparisons."""
 
 from __future__ import annotations
 
@@ -20,6 +20,8 @@ PLANETS: tuple[str, ...] = (
 
 @dataclass(frozen=True)
 class PlanetAgreementRow:
+    """One planet-level structural comparison row."""
+
     planet: str
     similarity: float
     distance: float
@@ -31,6 +33,8 @@ class PlanetAgreementRow:
 
 @dataclass(frozen=True)
 class PlanetAgreementMatrix:
+    """Planet-by-planet agreement summary."""
+
     overall_similarity: float
     planet_similarity: dict[str, float]
     planet_confidence: dict[str, float]
@@ -46,7 +50,7 @@ def _clamp_01(value: float) -> float:
 
 
 def _normalize_planet_key(value: str) -> str:
-    return value.strip().lower()
+    return str(value).strip().lower()
 
 
 def _normalize_fingerprint(
@@ -62,26 +66,37 @@ def _normalize_confidence(
     confidence: Mapping[str, float],
 ) -> dict[str, float]:
     return {
-        _normalize_planet_key(planet): value
+        _normalize_planet_key(planet): float(value)
         for planet, value in confidence.items()
     }
 
 
+def _distance_similarity(
+    a: Mapping[str, float],
+    b: Mapping[str, float],
+) -> float:
+    """Return bounded similarity from normalized Euclidean distance.
+
+    Planet fingerprints are expected to contain bounded, non-negative
+    measurements. Distance-based similarity is less forgiving than raw cosine
+    similarity for vectors that all occupy the positive measurement space.
+    """
 
     shared = sorted(set(a) & set(b))
 
     if not shared:
         return 0.0
 
-    dot = sum(float(a[k]) * float(b[k]) for k in shared)
-    mag_a = sum(float(a[k]) ** 2 for k in shared) ** 0.5
-    mag_b = sum(float(b[k]) ** 2 for k in shared) ** 0.5
+    squared_distance = sum(
+        (float(a[feature]) - float(b[feature])) ** 2
+        for feature in shared
+    )
 
-    if mag_a == 0.0 or mag_b == 0.0:
-        return 0.0
+    normalized_distance = (
+        squared_distance ** 0.5
+    ) / (len(shared) ** 0.5)
 
-    raw = dot / (mag_a * mag_b)
-    return _clamp_01((raw + 1.0) / 2.0)
+    return _clamp_01(1.0 - normalized_distance)
 
 
 def _feature_distances(
@@ -89,36 +104,13 @@ def _feature_distances(
     b: Mapping[str, float],
 ) -> dict[str, float]:
     """Return absolute feature-level distances for shared features."""
+
     shared = sorted(set(a) & set(b))
 
     return {
         feature: abs(float(a[feature]) - float(b[feature]))
         for feature in shared
     }
-def _cosine_similarity(a: Mapping[str, float], b: Mapping[str, float]) -> float:
-    """Return distance-based similarity for bounded feature vectors.
-
-    Atlas feature vectors are non-negative normalized measurements. Pure cosine
-    similarity is too forgiving for this space because unrelated all-positive
-    vectors can still point in a similar direction. For planet agreement, we use
-    normalized Euclidean distance and convert it to similarity.
-
-    A result of 1.0 means identical shared features.
-    A result near 0.0 means maximally separated shared features.
-    """
-    shared = sorted(set(a) & set(b))
-
-    if not shared:
-        return 0.0
-
-    squared = sum(
-        (float(a[key]) - float(b[key])) ** 2
-        for key in shared
-    )
-
-    distance = (squared ** 0.5) / (len(shared) ** 0.5)
-
-    return _clamp_01(1.0 - distance)
 
 
 def _rank_features_by_distance(
@@ -129,9 +121,9 @@ def _rank_features_by_distance(
 ) -> list[str]:
     return [
         feature
-        for feature, _ in sorted(
+        for feature, _distance in sorted(
             distances.items(),
-            key=lambda item: item[1],
+            key=lambda item: (item[1], item[0]),
             reverse=reverse,
         )[:top_n]
     ]
@@ -144,11 +136,14 @@ def compare_planet_agreement(
     confidence_b: Mapping[str, float] | None = None,
     top_n_features: int = 3,
 ) -> PlanetAgreementMatrix:
-    """Compare two fingerprints planet-by-planet.
+    """Compare two fingerprints planet by planet.
 
-    Planet names are normalized case-insensitively, so both ``Saturn`` and
-    ``saturn`` resolve to the same canonical planet.
+    Planet names are normalized case-insensitively.
+    Missing planets receive zero similarity and retain their confidence score.
     """
+
+    if top_n_features < 1:
+        raise ValueError("top_n_features must be at least 1.")
 
     normalized_a = _normalize_fingerprint(fingerprint_a)
     normalized_b = _normalize_fingerprint(fingerprint_b)
@@ -164,14 +159,14 @@ def compare_planet_agreement(
         features_a = normalized_a.get(planet, {})
         features_b = normalized_b.get(planet, {})
 
-        similarity = _cosine_similarity(features_a, features_b)
+        similarity = _distance_similarity(features_a, features_b)
         distance = 1.0 - similarity
 
         confidence = mean(
-            [
+            (
                 _clamp_01(normalized_confidence_a.get(planet, 1.0)),
                 _clamp_01(normalized_confidence_b.get(planet, 1.0)),
-            ]
+            )
         )
 
         distances = _feature_distances(features_a, features_b)
@@ -205,12 +200,19 @@ def compare_planet_agreement(
 
     similarities = list(planet_similarity.values())
 
-    overall_similarity = mean(similarities)
+    overall_similarity = mean(similarities) if similarities else 0.0
     planet_variance = pstdev(similarities) if len(similarities) > 1 else 0.0
     planet_agreement = 1.0 - planet_variance
 
-    dominant_match = max(planet_similarity, key=planet_similarity.get)
-    dominant_divergence = min(planet_similarity, key=planet_similarity.get)
+    dominant_match = max(
+        PLANETS,
+        key=lambda planet: planet_similarity[planet],
+    )
+
+    dominant_divergence = min(
+        PLANETS,
+        key=lambda planet: planet_similarity[planet],
+    )
 
     return PlanetAgreementMatrix(
         overall_similarity=_clamp_01(overall_similarity),
