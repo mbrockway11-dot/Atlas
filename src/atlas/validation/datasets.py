@@ -217,3 +217,52 @@ def name_strata(profile_names: Iterable[str]) -> dict[str, np.ndarray]:
 def group_label(cipher: str, planet: str) -> str:
     """Return the canonical comparable-group label."""
     return group_key(cipher, planet)
+
+
+def vector_for_name(
+    name: str,
+    *,
+    layout: tuple[str, ...] | None = None,
+) -> np.ndarray | None:
+    """Return the feature row for an arbitrary name, or None if incomplete.
+
+    Invariance and perturbation experiments score names that are not in the
+    corpus, so they are built through the ordinary ACF path rather than read
+    from a compiled artifact. The result uses the same fixed column layout,
+    which is what makes it comparable with corpus rows.
+    """
+    from atlas.acf.builder import build_acf_profile
+    from atlas.ive import build_raw_vectors_from_acf
+
+    resolved_layout = layout if layout is not None else build_feature_layout()
+    position = {label: index for index, label in enumerate(resolved_layout)}
+
+    try:
+        vectors = build_raw_vectors_from_acf(build_acf_profile(name=name))
+    except Exception:  # noqa: BLE001 - a malformed name is a skip, not a crash
+        return None
+
+    row = np.full(len(resolved_layout), np.nan, dtype=np.float64)
+
+    for vector in vectors:
+        for feature, value in vector.features.items():
+            index = position.get(f"{vector.cipher}|{vector.planet}|{feature}")
+
+            if index is not None:
+                row[index] = value
+
+    if np.isnan(row).any():
+        return None
+
+    return row
+
+
+def cosine(left: np.ndarray, right: np.ndarray) -> float:
+    """Return cosine similarity between two feature rows."""
+    left_norm = np.linalg.norm(left)
+    right_norm = np.linalg.norm(right)
+
+    if left_norm == 0.0 or right_norm == 0.0:
+        return 0.0
+
+    return float((left @ right) / (left_norm * right_norm))
