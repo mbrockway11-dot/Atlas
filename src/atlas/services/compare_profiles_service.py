@@ -24,7 +24,7 @@ from atlas.ive import (
     compare_identity_vectors,
     identity_similarity_to_dict,
 )
-from atlas.library.profile_library import LIBRARY_DIR, list_saved_profiles
+from atlas.library.profile_library import LIBRARY_DIR
 
 
 COMPARE_PROFILES_SERVICE_VERSION = "3.0"
@@ -79,9 +79,16 @@ def build_compare_profiles_payload(
     profile_a_key: str,
     profile_b_key: str,
     *,
-    normalization_mode: str = "percentile",
+    normalization_mode: str = "raw",
 ) -> CompareProfilesPayload:
-    """Build canonical compare profiles payload."""
+    """Build canonical compare profiles payload.
+
+    Defaults to ``"raw"`` -- each profile's own bounded measurements, the
+    canonical self-contained baseline. Callers wanting population
+    normalization pass ``percentile``/``minmax``/``zscore`` explicitly, which
+    loads the precomputed calibration statistics. The default is locked by
+    ``tests/test_normalization_default.py``.
+    """
     warnings: list[str] = []
     errors: list[str] = []
 
@@ -280,26 +287,6 @@ def load_or_repair_acf(profile_key: str) -> dict | None:
     )
 
     return json.loads(acf_path.read_text(encoding="utf-8"))
-
-
-def load_calibration_acfs() -> list[dict]:
-    """Load saved ACF profiles as calibration corpus."""
-    calibration_acfs = []
-
-    for profile_key in list_saved_profiles():
-        acf_path = LIBRARY_DIR / profile_key / "profile.acf.json"
-
-        if not acf_path.exists():
-            continue
-
-        try:
-            calibration_acfs.append(
-                json.loads(acf_path.read_text(encoding="utf-8"))
-            )
-        except json.JSONDecodeError:
-            continue
-
-    return calibration_acfs
 
 
 def build_planet_agreement_from_vectors(vector_a, vector_b):

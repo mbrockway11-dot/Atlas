@@ -1,3 +1,5 @@
+import pytest
+
 from atlas.acf.builder import build_acf_profile
 from atlas.ive import (
     IDENTITY_GLOBAL_FEATURES,
@@ -40,6 +42,9 @@ def test_identity_vector_to_dict():
 
 
 def test_identity_vector_with_calibration_acfs():
+    # Deliberately exercises the deprecated calibration_acfs path so the
+    # backward-compatibility shim stays covered until it is removed. The
+    # warning is asserted rather than silenced.
     acf = build_acf_profile("Michael Elvis Brockway")
 
     calibration_acfs = [
@@ -48,11 +53,12 @@ def test_identity_vector_with_calibration_acfs():
         build_acf_profile("Isaac Newton"),
     ]
 
-    identity_vector = build_identity_vector(
-        acf=acf,
-        calibration_acfs=calibration_acfs,
-        normalization_mode="percentile",
-    )
+    with pytest.warns(DeprecationWarning, match="calibration_acfs"):
+        identity_vector = build_identity_vector(
+            acf=acf,
+            calibration_acfs=calibration_acfs,
+            normalization_mode="percentile",
+        )
 
     assert validate_identity_vector(identity_vector) is True
     assert identity_vector.quality["mean_calibration_size"] >= 1

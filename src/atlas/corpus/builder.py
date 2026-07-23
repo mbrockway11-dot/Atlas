@@ -17,6 +17,7 @@ from atlas.corpus.validation import (
 from atlas.fusion import build_translation_fusion_report
 from atlas.ive import (
     build_identity_vector,
+    build_raw_vectors_from_acf,
     identity_vector_to_dict,
 )
 from atlas.ontology import synthesize_identity_ontology
@@ -50,13 +51,28 @@ def build_research_corpus(
             f"ACF validation failed: {acf_validation.errors}"
         )
 
+    # The corpus builder already holds every ACF in memory to produce one row
+    # per profile, so it compiles the calibration vectors directly from those
+    # ACFs rather than reloading the corpus or reading compiled artifacts that
+    # may be stale relative to the library it was handed. This keeps the whole
+    # corpus internally self-consistent and off the deprecated ACF path.
+    calibration_vectors = (
+        [
+            vector
+            for acf in acfs
+            for vector in build_raw_vectors_from_acf(acf)
+        ]
+        if normalization_mode != "raw"
+        else None
+    )
+
     rows = []
 
     for acf in acfs:
         identity_vector = build_identity_vector(
             acf,
-            calibration_acfs=acfs if normalization_mode != "raw" else None,
             normalization_mode=normalization_mode,
+            calibration_vectors=calibration_vectors,
         )
         ontology = synthesize_identity_ontology(identity_vector)
         translation_fusion = build_translation_fusion_report(acf)
