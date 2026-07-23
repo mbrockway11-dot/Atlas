@@ -1,39 +1,31 @@
-"""Atlas validation-domain framework."""
+"""Atlas Validation Framework v1.
 
-from atlas.validation.base import (
-    Confidence,
-    ValidationContext,
-    ValidationDomain,
-    ValidationResult,
-    ValidationSignal,
-    build_agreement_score,
-    summarize_validation_results,
-)
-from atlas.validation.cross_domain_engine import (
-    build_cross_domain_model,
-    build_cross_domain_payload,
-)
-from atlas.validation.registry import (
-    RegisteredValidationDomain,
-    ValidationDomainRegistry,
-    build_registry_payload,
-    get_default_validation_registry,
-    validate_with_registry,
+Answers one question at a time, about one model at a time. Experiments are
+domain-typed because Atlas is not a single model: identity vectors are
+name-derived, temporal/CSS outputs are birth- and date-sensitive, and an
+experiment that confuses the two produces a confident number about nothing.
+"""
+
+from atlas.validation.models import (
+    VALIDATION_CONFIG_SCHEMA,
+    ControlSpec,
+    ExperimentConfig,
+    ExperimentConfigError,
+    ExperimentDomain,
+    ExperimentKind,
+    config_from_dict,
+    load_config,
+    validate_config,
 )
 
 __all__ = [
-    "Confidence",
-    "ValidationContext",
-    "ValidationDomain",
-    "ValidationResult",
-    "ValidationSignal",
-    "build_agreement_score",
-    "summarize_validation_results",
-    "build_cross_domain_model",
-    "build_cross_domain_payload",
-    "RegisteredValidationDomain",
-    "ValidationDomainRegistry",
-    "build_registry_payload",
-    "get_default_validation_registry",
-    "validate_with_registry",
+    "VALIDATION_CONFIG_SCHEMA",
+    "ControlSpec",
+    "ExperimentConfig",
+    "ExperimentConfigError",
+    "ExperimentDomain",
+    "ExperimentKind",
+    "config_from_dict",
+    "load_config",
+    "validate_config",
 ]

@@ -1,0 +1,28 @@
+# Reference population for every later identity-vector experiment.
+#
+# Establishes what an ordinary Atlas similarity score looks like across the
+# whole corpus, so that any future score can be given a population
+# percentile instead of being interpreted on its own.
+
+experiment_id: identity_random_pair_baseline_v1
+domain: identity_vector
+kind: all_pairs_baseline
+
+hypothesis: >
+  The distribution of identity-vector similarity across all unordered pairs
+  of corpus profiles characterises ordinary, unrelated-pair structure. It
+  makes no claim of its own; it is the reference against which later cohort
+  results are judged, and the basis for assigning population percentiles.
+
+normalization_mode: raw
+metric: cosine_similarity
+
+random_seed: 20260723
+bootstrap_iterations: 0
+permutation_iterations: 0
+
+options:
+  block_size: 256
+  group_sample_size: 200000
+  extremes_limit: 25
+  histogram_bins: 100
