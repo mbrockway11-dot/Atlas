@@ -1,4 +1,0 @@
-asset,target_weight,paper_weight,weight,allocation,target_exposure,adaptive_weight,source,base_weight,registry_multiplier,regime_multiplier
-LINK-USD,0.300603,0.300603,0.300603,0.300603,0.300603,0.300603,adaptive_weighting_v4_passthrough,0.300603,1.0,1.0
-BNB-USD,0.299397,0.299397,0.299397,0.299397,0.299397,0.299397,adaptive_weighting_v4_passthrough,0.299397,1.0,1.0
-CASH,0.4,0.4,0.4,0.4,0.4,0.4,adaptive_weighting_v4_passthrough,0.4,1.0,1.0

@@ -1,9 +1,0 @@
-source,strategy_id,strategy_family,asset,direction,raw_direction,action,weight,strength,confidence,target_exposure,notes
-sigil_v32,ENGINE_A_PULLBACK_CONTINUATION,intraday_execution,SOL-USD,FLAT,FLAT,NO_ACTION,0.048908,0.004891,0.0,0.0,No valid Engine A setup on the latest bar.
-sigil_v32,ENGINE_B_FAILED_OPENING_EXPANSION,intraday_execution,SOL-USD,FLAT,FLAT,NO_ACTION,0.048908,0.004891,0.0,0.0,No valid Engine B setup on the latest bar.
-atlas_alpha,alpha_portfolio_construction,portfolio_allocation,BTC-USD,LONG,LONG,ALLOCATE,0.213973,0.077981,0.0,0.364444,Allocated by cross-sectional alpha score with max-asset cap.
-atlas_alpha,alpha_portfolio_construction,portfolio_allocation,ETH-USD,LONG,LONG,ALLOCATE,0.213973,0.066569,0.0,0.311111,Allocated by cross-sectional alpha score with max-asset cap.
-atlas_alpha,alpha_portfolio_construction,portfolio_allocation,SOL-USD,LONG,LONG,ALLOCATE,0.213973,0.026628,0.0,0.124444,Allocated by cross-sectional alpha score with max-asset cap.
-atlas_alpha,cross_sectional_alpha_ranker,cross_sectional_ranking,BTC-USD,LONG,LONG,WATCH,0.213973,0.146215,0.6833333333333332,0.0,highest_conviction
-atlas_alpha,cross_sectional_alpha_ranker,cross_sectional_ranking,ETH-USD,LONG,LONG,WATCH,0.213973,0.124818,0.5833333333333334,0.0,portfolio_candidate
-atlas_alpha,cross_sectional_alpha_ranker,cross_sectional_ranking,SOL-USD,LONG,LONG,WATCH,0.213973,0.049927,0.2333333333333333,0.0,portfolio_candidate

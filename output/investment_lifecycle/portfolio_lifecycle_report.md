@@ -1,1 +1,0 @@
-# Portfolio Lifecycle v2 Report\n\nPortfolio Lifecycle v2 updated 3 lifecycle row(s). States: {'ACTIVE': 2, 'CASH': 1}.\n\n## Positions\n\n- `BTC-USD` state=`ACTIVE` reason=`Position is active and within lifecycle limits.`\n- `ETH-USD` state=`ACTIVE` reason=`Position is active and within lifecycle limits.`\n- `CASH` state=`CASH` reason=`Cash reserve.`\n

@@ -1,2 +1,0 @@
-asset_count,positive_1d_count,positive_7d_count,positive_30d_count,uptrend_count,downtrend_count,breadth_1d,breadth_7d,breadth_30d,median_return_1d,median_return_7d,median_return_30d,median_volatility_30d,market_regime
-10,10,7,7,2,1,1.0,0.7,0.7,0.0199,0.025712,0.017938,0.443108,SELECTIVE_RISK_ON

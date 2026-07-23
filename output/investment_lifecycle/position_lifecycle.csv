@@ -1,4 +1,0 @@
-position_id,asset,side,state,entry_timestamp,entry_price,current_price,quantity,cost_basis,market_value,portfolio_weight,unrealized_pnl,unrealized_pnl_pct,holding_age_hours,transition_reason,updated_at
-paper::BTC-USD::LONG,BTC-USD,LONG,ACTIVE,2026-07-09T07:17:00.080611+00:00,67672.9140625,67672.9140625,0.5172749021516987,35005.5,35005.5,0.350055,0.0,0.0,27.9551,Position is active and within lifecycle limits.,2026-07-10T11:14:18.476480+00:00
-paper::ETH-USD::LONG,ETH-USD,LONG,ACTIVE,2026-07-09T07:17:00.080611+00:00,2065.40966796875,2065.40966796875,16.943127817550952,34994.5,34994.5,0.349945,0.0,0.0,27.9551,Position is active and within lifecycle limits.,2026-07-10T11:14:18.477169+00:00
-cash::CASH,CASH,CASH,CASH,,,,,,,,,,,Cash reserve.,2026-07-10T11:14:18.477178+00:00

@@ -1,3 +1,0 @@
-source,engine,asset,timestamp,signal_state,action,direction,target_exposure,entry_ready,setup_active,notes
-sigil_v32,ENGINE_A_PULLBACK_CONTINUATION,SOL,2024-12-31 23:45:00+00:00,IDLE,NO_ACTION,FLAT,0.0,False,False,No valid Engine A setup on the latest bar.
-sigil_v32,ENGINE_B_FAILED_OPENING_EXPANSION,SOL,2024-12-31 23:45:00+00:00,IDLE,NO_ACTION,FLAT,0.0,False,False,No valid Engine B setup on the latest bar.

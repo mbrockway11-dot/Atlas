@@ -1,3 +1,0 @@
-strategy_id,strategy_type,asset,status,recommendation,asset_confidence,learning_confidence,learning_regime,weight_multiplier,age_runs,promote_count,reduce_count,review_retire_count,updated_at
-asset::BTC-USD,asset_allocation,BTC-USD,MAINTAIN,maintain,0.65,0.41,flat,1.0,26,0,0,0,2026-07-10T11:14:13.121463+00:00
-asset::ETH-USD,asset_allocation,ETH-USD,MAINTAIN,maintain,0.65,0.41,flat,1.0,26,0,0,0,2026-07-10T11:14:13.121552+00:00

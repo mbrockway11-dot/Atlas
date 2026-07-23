@@ -1,5 +1,0 @@
-asset,side,net_weight,notional_value,status,source
-BNB-USD,LONG,0.080446,8044.6,OPEN,paper_broker_v3
-BTC-USD,LONG,-0.006061,-606.1,OPEN,paper_broker_v3
-ETH-USD,LONG,-0.005976,-597.6,OPEN,paper_broker_v3
-LINK-USD,LONG,0.08077,8077.0,OPEN,paper_broker_v3

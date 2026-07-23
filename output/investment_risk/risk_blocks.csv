@@ -1,8 +1,0 @@
-risk_type,risk_score,risky_weight,cash_weight,reserved_cash_weight,gross_exposure,drawdown,source,warnings,max_position_weight,asset_count,pnl_pct,equity_curve_rows,worst_unrealized_pnl_pct,weighted_loss_pressure,position_count,learning_regime,learning_confidence,exit_review_count,reduce_count,scale_in_count,turnover,order_count
-exposure,0.25,0.7,0.3,0.0,0.7,0.0,portfolio_state_v3_mtm,['MTM gross exposure above 65%.'],,,,,,,,,,,,,,
-concentration,0.25,,,,,,mtm_positions,['Largest MTM position above 30%.'],0.350055,2.0,,,,,,,,,,,,
-drawdown,0.0,,,,,0.0,performance_v3_mtm,[],,,0.0,16.0,,,,,,,,,,
-mtm_position,0.0,,,,,,,[],,,,,0.0,0.0,2.0,,,,,,,
-learning,0.15,,,,,,,['Learning regime is flat.'],,,,,,,,flat,0.25,,,,,
-action,0.0,,,,,,,[],,,,,,,,,,0.0,0.0,0.0,,
-rebalance,0.0,,,,,,,[],,,,,,,,,,,,,0.0,0.0

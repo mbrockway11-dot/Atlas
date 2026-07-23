@@ -26,14 +26,8 @@ __pycache__/
 
 # IDE settings
 .vscode/settings.json
-output/css/
 
 # Atlas generated artifacts
-output/library/
-output/research_memory/
-output/cache/
-output/console/
-output/corpus/
 architecture_audit/
 
 # Python/cache
@@ -50,11 +44,6 @@ __pycache__/
 .venv-1/
 
 # Atlas generated artifacts
-output/library/
-output/research_memory/
-output/cache/
-output/console/
-output/corpus/
 architecture_audit/
 
 # Python/cache
@@ -75,71 +64,29 @@ __pycache__/
 Thumbs.db
 .vscode/
 .idea/
-output/wikidata_cache/
-output/autonomous/
-output/benchmarks/
-output/campaigns/
-output/investment_adaptive/
-output/market_bridge/
-output/timeline/
-output/research_memory.json
 
 # Generated investment research outputs
-output/investment_alpha_engines/
-output/investment_alpha_research_lab/
-
 
 # Atlas generated investment artifacts
-output/investment_macro_intelligence/
-output/investment_regime_intelligence/
-output/stabilization/
-output/investment_alpha_ensemble/alpha_ensemble_engine_governance.csv
-output/investment_learning/engine_learning_recommendations.csv
-output/investment_learning/market_memory.csv
-output/investment_learning/strategy_memory.csv
-output/investment_learning/strategy_memory_summary.csv
-output/investment_macro_regime_fusion/
-output/investment_alpha_ensemble/
-output/investment_learning/
-output/investment_portfolio_optimizer/
-output/investment_portfolio_promotion_lab/
-output/investment_portfolio_promotion_lab_v2/
-output/investment_governance_snapshots/
-output/investment_meta_research/
-output/investment_hypothesis_validation/
-output/investment_validated_variants/
-output/investment_variant_review/
-output/investment_variant_decisions/
-output/investment_variant_implementation_planner/
-output/investment_atlas_compiler/
-output/investment_state_api/
-output/investment_research_scheduler/
-output/investment_research_orchestrator/
-output/investment_experiment_registry/
-output/investment_research_knowledge_graph/
-output/investment_research_candidate_consolidator/
-output/investment_adaptive_research_prioritizer/
-output/investment_research_program_manager/
-output/investment_research_experiment_designer/
-output/investment_research_experiment_execution/
-output/investment_research_evidence_accumulator/
 
 # Atlas runtime investment artifacts
-output/atlas_control_plane/
-output/investment_architecture_audit/
-output/investment_market_data/
-output/investment_orchestration/
-output/investment_paper_execution/
-output/investment_scheduler/
-output/investment_approval/
-output/investment_ledger/
-output/investment_lyfe_morphology/
 
 # Atlas generated research outputs
-output/investment_morphology_*/
-output/investment_v32_morphology_*/
 audit/
 *.before_*
 
 # Atlas compiled runtime artifacts
-output/compiled/
+
+# ==========================================================
+# Generated Atlas output — never tracked
+# ==========================================================
+# Everything under output/ is produced by Atlas scripts and is fully
+# rebuildable from source (see RUNBOOK.md). It is deliberately excluded
+# wholesale rather than rule-by-rule: new subsystems add new output
+# directories, and per-directory rules were always one step behind.
+#
+# ACF profile sources live here too (output/library/profiles/). They are
+# research data, not build output, and are backed up separately — not by Git.
+#
+# To version a specific fixture, add an explicit negation below.
+output/

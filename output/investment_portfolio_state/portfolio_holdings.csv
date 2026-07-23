@@ -1,4 +1,0 @@
-asset,side,weight,value,quantity,current_price,avg_entry_price,unrealized_pnl,unrealized_pnl_pct,source
-BTC-USD,LONG,0.350055,35005.5,0.5172749021516987,67672.9140625,67672.9140625,0.0,0.0,mark_to_market_v4
-ETH-USD,LONG,0.349945,34994.5,16.943127817550952,2065.40966796875,2065.40966796875,0.0,0.0,mark_to_market_v4
-CASH,CASH,0.3,30000.0,,,,,,broker_cash_ledger

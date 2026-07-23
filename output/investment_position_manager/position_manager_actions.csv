@@ -1,3 +1,0 @@
-asset,manager_action,reason,priority,position_id,side,state,unrealized_pnl_pct,holding_age_hours
-BTC-USD,HOLD,No position management trigger fired.,9,paper::BTC-USD::LONG,LONG,ACTIVE,0.0,27.9551
-ETH-USD,HOLD,No position management trigger fired.,9,paper::ETH-USD::LONG,LONG,ACTIVE,0.0,27.9551

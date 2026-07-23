@@ -1,4 +1,0 @@
-asset,base_weight,registry_multiplier,learning_multiplier,regime_multiplier,adaptive_weight,ensemble_cash_weight,ensemble_risky_weight,regime_preserved,source
-LINK-USD,0.300603,1.0,1.0,1.0,0.300603,0.4,0.6,True,adaptive_weighting_v5_regime_preservation
-BNB-USD,0.299397,1.0,1.0,1.0,0.299397,0.4,0.6,True,adaptive_weighting_v5_regime_preservation
-CASH,0.4,1.0,1.0,1.0,0.4,0.4,0.6,True,adaptive_weighting_v5_regime_preservation

@@ -1,2 +1,0 @@
-start_equity,current_equity,pnl,pnl_pct,return_observations,mean_return,volatility,sharpe,sortino,max_drawdown,calmar,trade_count,buy_count,sell_count,total_filled_weight,total_notional,avg_fill_weight,fee_drag,slippage_drag,total_cost_drag,cost_observations,cash,market_value,cash_weight,risky_weight,position_count
-100000.0,100000.0,0.0,0.0,15,0.0,0.0,0.0,0.0,0.0,0.0,10,5,5,1.279103,57910.3,0.12791,0.0004642,0.00069632,0.00116053,10,30000.0,70000.0,0.3,0.7,2

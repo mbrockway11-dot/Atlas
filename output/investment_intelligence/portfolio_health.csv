@@ -1,9 +1,0 @@
-name,status,message
-accounting_reconciliation,PASS,Broker Ledger is mathematically reconciled.
-mark_to_market,PASS,Mark-to-Market v4 is healthy.
-portfolio_state,PASS,Portfolio State is available.
-performance,PASS,Performance Engine is healthy.
-learning,PASS,Learning Engine is healthy.
-risk,PASS,Risk Engine is healthy.
-trade_safety,WARN,Safety Governor approved with warnings.
-atlas_core,PASS,Atlas Core completed successfully.

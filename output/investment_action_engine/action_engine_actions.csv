@@ -1,3 +1,0 @@
-position_id,asset,side,state,manager_action,portfolio_action,requested_weight_delta,priority,risk_label,reason,source,action_status,execution_instruction
-paper::BTC-USD::LONG,BTC-USD,LONG,ACTIVE,HOLD,HOLD_POSITION,0.0,9,low_risk,No position management trigger fired.,position_manager_v3,HOLD,Hold position.
-paper::ETH-USD::LONG,ETH-USD,LONG,ACTIVE,HOLD,HOLD_POSITION,0.0,9,low_risk,No position management trigger fired.,position_manager_v3,HOLD,Hold position.
