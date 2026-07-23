@@ -31,9 +31,12 @@ from atlas.temporal.natal_chart import build_natal_chart_payload
 from atlas.interpretation.profile_classifier import classify_profile
 from atlas.graph.identity_stack import build_identity_graph_stack, identity_graph_stack_to_dict
 from atlas.kamea import build_kamea_identity_graph
+from atlas.astronomy import build_physical_astronomy
+from atlas.kamea_normalization import build_normalized_kamea_graphs
+from atlas.structural_measurement import build_structural_measurement
 
 
-CANONICAL_PROFILE_COMPILER_VERSION = "1.0"
+CANONICAL_PROFILE_COMPILER_VERSION = "2.0-astronomy-first"
 
 
 def compile_canonical_profile(profile_key: str, *, force: bool = False) -> dict[str, Any]:
@@ -69,6 +72,7 @@ def compile_canonical_profile(profile_key: str, *, force: bool = False) -> dict[
         "payload_path": str(payload_path),
         "identity": build_identity(clean_key, intake),
         "birth": build_birth(intake),
+        "astronomy": build_astronomy(intake),
         "death": build_death(intake),
         "lifecycle": build_lifecycle(intake),
         "cipher": missing_layer("cipher", "Cipher compiler not wired into canonical compiler yet."),
@@ -77,6 +81,7 @@ def compile_canonical_profile(profile_key: str, *, force: bool = False) -> dict[
         "topology": {},
         "resonance": {},
         "fingerprint": {},
+        "structural_measurement": {},
         "temporal": build_temporal(intake),
         "classification": {},
         "structural_synthesis": {},
@@ -94,6 +99,29 @@ def compile_canonical_profile(profile_key: str, *, force: bool = False) -> dict[
     }
 
     payload["kamea"] = build_kamea_layer(payload)
+    normalized = build_normalized_kamea_graphs(payload)
+    payload["kamea"]["normalized_graphs"] = normalized.get("graphs", {})
+    payload["kamea"]["structural_metrics"] = {
+        planet: graph.get("metrics", {})
+        for planet, graph in normalized.get("graphs", {}).items()
+    }
+    payload["kamea"]["normalization"] = {
+        key: normalized.get(key)
+        for key in [
+            "version",
+            "coordinate_system",
+            "normalization",
+            "geometry_deduplicated",
+            "repeated_nodes_increase_weight",
+            "repeated_edges_increase_weight",
+            "summary",
+            "interpretation_applied",
+        ]
+    }
+    payload["structural_measurement"] = build_structural_measurement(
+        payload["astronomy"],
+        normalized.get("graphs", {}),
+    )
 
     graph_layers = build_graph_layers(payload)
     payload.update(graph_layers)
@@ -426,7 +454,6 @@ def build_temporal(intake: dict[str, Any]) -> dict[str, Any]:
             "birth_place": birth.get("place", ""),
             "birth_location": birth.get("place", ""),
         }
-
         birth_data = build_birth_data_from_intake(temporal_intake)
         natal_payload = build_natal_chart_payload(birth_data)
 
@@ -452,12 +479,48 @@ def build_temporal(intake: dict[str, Any]) -> dict[str, Any]:
         }
 
 
+def build_astronomy(intake: dict[str, Any]) -> dict[str, Any]:
+    """Build interpretation-free physical measurements before all transforms."""
+    try:
+        birth = build_birth(intake)
+        identity = (
+            intake.get("identity", {})
+            if isinstance(intake.get("identity"), dict)
+            else {}
+        )
+        measurement_intake = {
+            **intake,
+            "name": (
+                identity.get("display_name")
+                or identity.get("full_name")
+                or intake.get("profile_key", "")
+            ),
+            "birth_date": birth.get("date", ""),
+            "birth_time": birth.get("time", ""),
+            "birth_place": birth.get("place", ""),
+            "birth_location": birth.get("place", ""),
+        }
+        return build_physical_astronomy(
+            build_birth_data_from_intake(measurement_intake)
+        )
+    except Exception as exc:
+        return {
+            "success": False,
+            "status": "missing",
+            "error": str(exc),
+            "interpretation_applied": False,
+        }
+
+
 def build_metrics(payload: dict[str, Any]) -> dict[str, Any]:
     """Build canonical profile metrics."""
     temporal = payload.get("temporal", {})
     topology = payload.get("topology", {})
     resonance = payload.get("resonance", {})
     classification = payload.get("classification", {})
+    astronomy = payload.get("astronomy", {})
+    structural = payload.get("structural_measurement", {})
+    normalized_graphs = payload.get("kamea", {}).get("normalized_graphs", {})
 
     return {
         "has_identity": bool(payload.get("identity", {}).get("name")),
@@ -465,12 +528,17 @@ def build_metrics(payload: dict[str, Any]) -> dict[str, Any]:
         "has_birth_time": bool(payload.get("birth", {}).get("time")),
         "has_birth_location": bool(payload.get("birth", {}).get("place")),
         "has_temporal": temporal.get("status") == "compiled",
+        "has_astronomy": astronomy.get("success") is True,
+        "has_physical_planet_graph": bool(astronomy.get("planet_graph")),
         "has_natal": bool(temporal.get("natal")),
         "has_ephemeris": bool(temporal.get("natal", {}).get("ephemeris")),
         "has_graph": payload.get("graph", {}).get("status") == "compiled",
         "has_topology": topology.get("status") == "compiled",
         "has_resonance": resonance.get("status") == "compiled",
         "has_fingerprint": payload.get("fingerprint", {}).get("status") == "compiled",
+        "has_normalized_kamea_graphs": bool(normalized_graphs),
+        "has_master_graph": bool(structural.get("master_graph")),
+        "has_structural_feature_vector": bool(structural.get("feature_vector")),
         "has_classification": bool(classification.get("structural_role")),
             "has_dynamics": bool(payload.get("dynamics", {}).get("success")),
 }

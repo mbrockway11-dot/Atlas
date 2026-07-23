@@ -47,6 +47,7 @@ These documents define the core architecture.
 | **ATLAS_COGNITIVE_ARCHITECTURE.md** | Complete cognitive pipeline from corpus to research memory |
 | **SERVICE_DEPENDENCY_GRAPH.md** | Service relationships and execution order |
 | **CANONICAL_STRUCTURAL_MODEL.md** | Defines the canonical structural representation used throughout Atlas *(next document)* |
+| **[ASTRONOMY_FIRST_CSS.md](../ASTRONOMY_FIRST_CSS.md)** | Defines the V3 astronomy-first measurement contract, normalized Kamea graphs, and graph-of-graphs pipeline |
 
 ---
 

@@ -25,6 +25,9 @@ PLANET_IDS = {
     "Mars": swe.MARS,
     "Jupiter": swe.JUPITER,
     "Saturn": swe.SATURN,
+    "Uranus": swe.URANUS,
+    "Neptune": swe.NEPTUNE,
+    "Pluto": swe.PLUTO,
     "Rahu": swe.MEAN_NODE,
 }
 
@@ -162,7 +165,7 @@ def calculate_planets(
     planets: dict[str, PlanetPosition] = {}
 
     for planet_name, planet_id in PLANET_IDS.items():
-        longitude, latitude, _distance, speed = calculate_body(
+        longitude, latitude, distance, speed = calculate_body(
             julian_day,
             planet_id,
         )
@@ -172,6 +175,7 @@ def calculate_planets(
             longitude=longitude,
             latitude=latitude,
             speed=speed,
+            distance=distance,
         )
 
     rahu = planets.get("Rahu")
@@ -186,6 +190,7 @@ def calculate_planets(
             longitude=ketu_longitude,
             latitude=-rahu.latitude,
             speed=rahu.speed,
+            distance=rahu.distance,
         )
 
     return planets
@@ -216,6 +221,7 @@ def build_planet_position(
     longitude: float,
     latitude: float,
     speed: float,
+    distance: float = 0.0,
 ) -> PlanetPosition:
     """Build PlanetPosition from ecliptic longitude."""
 
@@ -231,6 +237,7 @@ def build_planet_position(
         sign_index=sign_index,
         degree_in_sign=degree_in_sign,
         retrograde=speed < 0,
+        distance=distance,
     )
 
 

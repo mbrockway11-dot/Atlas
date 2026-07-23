@@ -38,6 +38,7 @@ class PlanetPosition:
     sign_index: int
     degree_in_sign: float
     retrograde: bool
+    distance: float = 0.0
 
 
 @dataclass(frozen=True)

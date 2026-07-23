@@ -18,6 +18,7 @@ def safe_load_profile(profile_key: str) -> dict[str, Any]:
         profile_dir / "profile.acf.json",
         profile_dir / "profile_summary.json",
         profile_dir / "profile_interpretation.json",
+        profile_dir / "profile.payload.json",
         profile_dir / f"{profile_key}_essence_graph.json",
         profile_dir / "profile.json",
         profile_dir / "atlas_profile.json",

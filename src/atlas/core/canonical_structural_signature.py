@@ -50,6 +50,28 @@ class KameaLayer:
     resonance: dict[str, Any] = field(default_factory=dict)
     graph_metrics: dict[str, Any] = field(default_factory=dict)
     fingerprint: dict[str, Any] = field(default_factory=dict)
+    normalized_graphs: dict[str, Any] = field(default_factory=dict)
+    structural_metrics: dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass(slots=True)
+class AstronomyLayer:
+    """Canonical physical measurements; interpretation is forbidden here."""
+
+    measurements: dict[str, Any] = field(default_factory=dict)
+    planet_graph: dict[str, Any] = field(default_factory=dict)
+    stellar_context: dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass(slots=True)
+class StructuralMeasurementLayer:
+    """Graph-of-graphs and population-ready deterministic feature contract."""
+
+    master_graph: dict[str, Any] = field(default_factory=dict)
+    topology_classification: dict[str, Any] = field(default_factory=dict)
+    feature_vector: dict[str, float] = field(default_factory=dict)
+    similarity: dict[str, Any] = field(default_factory=dict)
+    cluster_membership: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass(slots=True)
@@ -99,9 +121,13 @@ class CanonicalStructuralSignature:
 
     version: str = CSS_VERSION
     identity: IdentityLayer | None = None
+    astronomy: AstronomyLayer = field(default_factory=AstronomyLayer)
     cipher: CipherLayer = field(default_factory=CipherLayer)
     kamea: KameaLayer = field(default_factory=KameaLayer)
     temporal: TemporalLayer = field(default_factory=TemporalLayer)
+    structural_measurement: StructuralMeasurementLayer = field(
+        default_factory=StructuralMeasurementLayer
+    )
     validation: ValidationLayer = field(default_factory=ValidationLayer)
     research: ResearchLayer = field(default_factory=ResearchLayer)
     population: PopulationLayer = field(default_factory=PopulationLayer)
@@ -112,9 +138,13 @@ class CanonicalStructuralSignature:
         return {
             "version": self.version,
             "identity": dataclass_to_dict(self.identity),
+            "astronomy": dataclass_to_dict(self.astronomy),
             "cipher": dataclass_to_dict(self.cipher),
             "kamea": dataclass_to_dict(self.kamea),
             "temporal": dataclass_to_dict(self.temporal),
+            "structural_measurement": dataclass_to_dict(
+                self.structural_measurement
+            ),
             "validation": dataclass_to_dict(self.validation),
             "research": dataclass_to_dict(self.research),
             "population": dataclass_to_dict(self.population),
@@ -154,9 +184,11 @@ def dataclass_to_dict(value: Any) -> Any:
 __all__ = [
     "CSS_VERSION",
     "IdentityLayer",
+    "AstronomyLayer",
     "CipherLayer",
     "KameaLayer",
     "TemporalLayer",
+    "StructuralMeasurementLayer",
     "ValidationLayer",
     "ResearchLayer",
     "PopulationLayer",

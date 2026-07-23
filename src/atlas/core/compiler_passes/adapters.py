@@ -14,6 +14,20 @@ from atlas.core.compiler_passes.cipher import build_cipher_layer
 from atlas.core.compiler_passes.identity import build_identity_layer
 from atlas.core.compiler_passes.kamea import build_kamea_layer
 from atlas.core.compiler_passes.temporal import build_temporal_layer
+from atlas.core.compiler_passes.astronomy import build_astronomy_layer
+from atlas.core.compiler_passes.structural import build_structural_measurement_layer
+
+
+class AstronomyPass:
+    """Populate canonical physical measurements before symbolic transforms."""
+
+    metadata = PassMetadata(name="astronomy", version="1.0", dependencies=("identity",))
+
+    def run(self, css: CanonicalStructuralSignature, context: CompilerContext) -> CanonicalStructuralSignature:
+        return replace(
+            css,
+            astronomy=build_astronomy_layer(profile_payload=context.profile_payload),
+        )
 
 
 class IdentityPass:
@@ -54,7 +68,11 @@ class CipherPass:
 class KameaPass:
     """Populate css.kamea."""
 
-    metadata = PassMetadata(name="kamea", version="1.0", dependencies=("identity", "cipher"))
+    metadata = PassMetadata(
+        name="kamea",
+        version="2.0",
+        dependencies=("identity", "astronomy", "cipher"),
+    )
 
     def run(
         self,
@@ -70,7 +88,11 @@ class KameaPass:
 class TemporalPass:
     """Populate css.temporal."""
 
-    metadata = PassMetadata(name="temporal", version="1.0", dependencies=("identity",))
+    metadata = PassMetadata(
+        name="temporal",
+        version="2.0",
+        dependencies=("structural_measurement",),
+    )
 
     def run(
         self,
@@ -80,4 +102,23 @@ class TemporalPass:
         return replace(
             css,
             temporal=build_temporal_layer(profile_payload=context.profile_payload),
+        )
+
+
+class StructuralMeasurementPass:
+    """Assemble graph-of-graphs after astronomy and Kamea measurement."""
+
+    metadata = PassMetadata(
+        name="structural_measurement",
+        version="1.0",
+        dependencies=("astronomy", "kamea"),
+    )
+
+    def run(self, css: CanonicalStructuralSignature, context: CompilerContext) -> CanonicalStructuralSignature:
+        return replace(
+            css,
+            structural_measurement=build_structural_measurement_layer(
+                astronomy=css.astronomy.measurements,
+                normalized_kamea_graphs=css.kamea.normalized_graphs,
+            ),
         )

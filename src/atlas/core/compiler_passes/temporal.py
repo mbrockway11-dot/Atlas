@@ -7,6 +7,7 @@ from typing import Any
 from atlas.core.canonical_structural_signature import TemporalLayer
 from atlas.core.compiler_passes.utils import (
     extract_acf,
+    extract_birth,
     extract_intake,
     extract_temporal,
     first_dict,
@@ -48,6 +49,7 @@ from atlas.temporal.transits import (
     transit_chart_to_dict,
 )
 from atlas.temporal.ephemeris import build_ephemeris, ephemeris_result_to_dict
+from atlas.temporal.constellations import build_astronomical_constellation_chart
 from atlas.temporal.models import BirthData, NatalChart
 
 
@@ -119,26 +121,40 @@ def build_temporal_layer(*, profile_payload: dict[str, Any]) -> TemporalLayer:
 def build_birth_seed(profile_payload: dict[str, Any]) -> dict[str, Any]:
     """Build birth seed from profile payload and intake data."""
     intake = extract_intake(profile_payload)
+    identity = intake.get("identity") if isinstance(intake.get("identity"), dict) else {}
+    birth_block = intake.get("birth") if isinstance(intake.get("birth"), dict) else {}
+    birth_fields = extract_birth(intake=intake, profile_payload=profile_payload)
 
     birth = {
-        "name": intake.get("name") or profile_payload.get("name"),
-        "birth_date": intake.get("birth_date") or profile_payload.get("birth_date"),
-        "birth_time": intake.get("birth_time") or profile_payload.get("birth_time"),
+        "name": (
+            intake.get("name")
+            or identity.get("display_name")
+            or identity.get("full_name")
+            or profile_payload.get("name")
+        ),
+        "birth_date": birth_fields.get("birth_date"),
+        "birth_time": birth_fields.get("birth_time"),
         "birth_place": (
-            intake.get("birth_place")
-            or intake.get("birth_location")
-            or profile_payload.get("birth_place")
-            or profile_payload.get("birth_location")
+            birth_fields.get("birth_location")
         ),
         "birth_location": (
-            intake.get("birth_location")
-            or intake.get("birth_place")
-            or profile_payload.get("birth_location")
-            or profile_payload.get("birth_place")
+            birth_fields.get("birth_location")
         ),
-        "latitude": intake.get("latitude") or profile_payload.get("latitude"),
-        "longitude": intake.get("longitude") or profile_payload.get("longitude"),
-        "timezone": intake.get("timezone") or profile_payload.get("timezone"),
+        "latitude": (
+            intake.get("latitude")
+            or birth_block.get("latitude")
+            or profile_payload.get("latitude")
+        ),
+        "longitude": (
+            intake.get("longitude")
+            or birth_block.get("longitude")
+            or profile_payload.get("longitude")
+        ),
+        "timezone": (
+            intake.get("timezone")
+            or birth_block.get("timezone")
+            or profile_payload.get("timezone")
+        ),
         "source_file": intake.get("source_file") or profile_payload.get("source_file"),
         "row_number": intake.get("row_number") or profile_payload.get("row_number"),
     }
@@ -183,6 +199,16 @@ def build_safe_ephemeris(
         result = build_ephemeris(birth_data)
 
         data = ephemeris_result_to_dict(result)
+
+        try:
+            data["astronomical_constellations"] = (
+                build_astronomical_constellation_chart(result)
+            )
+            data["astronomical_constellations_status"] = "computed"
+        except Exception as exc:
+            data["astronomical_constellations"] = {}
+            data["astronomical_constellations_status"] = "failed"
+            data["astronomical_constellations_error"] = str(exc)
 
         #
         # NEW

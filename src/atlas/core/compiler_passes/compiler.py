@@ -22,20 +22,24 @@ from atlas.core.compiler_passes import (
     CipherPass,
     IdentityPass,
     KameaPass,
+    AstronomyPass,
+    StructuralMeasurementPass,
     TemporalPass,
     safe_load_profile,
 )
 
 
-CORE_COMPILER_VERSION = "2.1"
+CORE_COMPILER_VERSION = "3.0"
 
 
 def build_default_engine() -> CompilerEngine:
     """Build the default Atlas compiler engine."""
     engine = CompilerEngine()
     engine.register(IdentityPass())
+    engine.register(AstronomyPass())
     engine.register(CipherPass())
     engine.register(KameaPass())
+    engine.register(StructuralMeasurementPass())
     engine.register(TemporalPass())
     return engine
 
@@ -117,6 +121,8 @@ def build_compiler_metrics(css: CanonicalStructuralSignature) -> dict[str, Any]:
     """Build compiler metrics."""
     return {
         "has_identity": css.identity is not None,
+        "has_astronomy": bool(css.astronomy.measurements),
+        "has_physical_planet_graph": bool(css.astronomy.planet_graph),
         "has_birth_date": bool(css.identity and css.identity.birth_date),
         "has_birth_time": bool(css.identity and css.identity.birth_time),
         "has_birth_location": bool(css.identity and css.identity.birth_location),
@@ -132,6 +138,12 @@ def build_compiler_metrics(css: CanonicalStructuralSignature) -> dict[str, Any]:
         "has_resonance": bool(css.kamea.resonance),
         "has_graph_metrics": bool(css.kamea.graph_metrics),
         "has_fingerprint": bool(css.kamea.fingerprint),
+        "has_normalized_kamea_graphs": bool(css.kamea.normalized_graphs),
+        "has_structural_measurements": bool(css.kamea.structural_metrics),
+        "has_master_graph": bool(css.structural_measurement.master_graph),
+        "has_structural_feature_vector": bool(
+            css.structural_measurement.feature_vector
+        ),
         "compiler_version": css.metadata.get("compiler_version"),
         "pass_count": css.metadata.get("pass_count", 0),
         "report_success": css.metadata.get("compilation_report", {}).get("success"),

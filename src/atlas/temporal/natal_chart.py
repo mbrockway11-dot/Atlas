@@ -12,6 +12,7 @@ from atlas.temporal.ephemeris import (
     build_ephemeris,
     ephemeris_result_to_dict,
 )
+from atlas.temporal.constellations import build_astronomical_constellation_chart
 from atlas.temporal.models import BirthData, NatalChart
 from atlas.temporal.sidereal import (
     convert_ephemeris_to_sidereal,
@@ -100,11 +101,17 @@ def build_natal_chart_payload(
         },
     )
 
+    ephemeris_payload = ephemeris_result_to_dict(ephemeris)
+    ephemeris_payload["astronomical_constellations"] = (
+        build_astronomical_constellation_chart(ephemeris)
+    )
+    ephemeris_payload["astronomical_constellations_status"] = "computed"
+
     return {
         "version": NATAL_CHART_ENGINE_VERSION,
         "name": birth.name,
         "birth": birth,
-        "ephemeris": ephemeris_result_to_dict(ephemeris),
+        "ephemeris": ephemeris_payload,
         "sidereal": sidereal_chart_to_dict(sidereal),
         "natal_chart": chart,
     }

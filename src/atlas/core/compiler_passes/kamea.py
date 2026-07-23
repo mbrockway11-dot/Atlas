@@ -6,6 +6,7 @@ from typing import Any
 
 from atlas.core.canonical_structural_signature import KameaLayer
 from atlas.core.compiler_passes.utils import extract_acf, extract_essence_graph, first_dict
+from atlas.kamea_normalization import build_normalized_kamea_graphs
 
 
 def build_kamea_layer(*, profile_payload: dict[str, Any]) -> KameaLayer:
@@ -44,6 +45,8 @@ def build_kamea_layer(*, profile_payload: dict[str, Any]) -> KameaLayer:
         identity_graph.get("fingerprint") if isinstance(identity_graph, dict) else None,
         metadata.get("fingerprint") if isinstance(metadata, dict) else None,
     )
+    normalized = build_normalized_kamea_graphs(profile_payload)
+    normalized_graphs = normalized.get("graphs", {}) if normalized.get("success") else {}
 
     return KameaLayer(
         topology={**identity_graph, "topology_status": "compiled_from_acf"}
@@ -59,4 +62,9 @@ def build_kamea_layer(*, profile_payload: dict[str, Any]) -> KameaLayer:
         if invariant_analysis
         else {},
         fingerprint=fingerprint,
+        normalized_graphs=normalized_graphs,
+        structural_metrics={
+            planet: graph.get("metrics", {})
+            for planet, graph in normalized_graphs.items()
+        },
     )
