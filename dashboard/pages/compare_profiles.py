@@ -1,4 +1,4 @@
-﻿"""Compare Profiles page."""
+"""Compare Profiles page."""
 
 from __future__ import annotations
 import pandas as pd
@@ -79,8 +79,7 @@ def render_compare_profiles_page() -> None:
     render_similarity_summary(payload.comparison)
     render_score_interpretation(payload.comparison)
     render_planet_similarity(payload.comparison)
-    render_planet_agreement_matrix(payload.planet_agreement_matrix)
-    render_planet_drilldown(payload.planet_agreement_matrix)
+    render_planet_agreement_matrix(payload.planet_matrix)
     render_global_feature_delta(payload.vector_a, payload.vector_b)
     render_planet_feature_delta(payload.vector_a, payload.vector_b)
 
@@ -118,7 +117,7 @@ def render_score_interpretation(comparison) -> None:
     c1, c2, c3 = st.columns(3)
 
     c1.metric(
-        "Relationship − Global Gap",
+        "Relationship âˆ’ Global Gap",
         format_float(gap),
     )
 
