@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from statistics import mean, pvariance
 from typing import Any
+import warnings
 
 from atlas.ive.composite import PLANET_ORDER, build_composite_planet_vectors
 from atlas.ive.feature_vector import build_planet_feature_vector
@@ -14,6 +15,7 @@ from atlas.ive.schema import (
     VECTOR_FEATURES,
     CompositePlanetVector,
     IdentityVector,
+    PlanetFeatureVector,
 )
 
 
@@ -21,24 +23,69 @@ def build_identity_vector(
     acf: dict[str, Any],
     calibration_acfs: list[dict[str, Any]] | None = None,
     normalization_mode: str = "percentile",
+    *,
+    calibration_vectors: list[PlanetFeatureVector] | None = None,
 ) -> IdentityVector:
-    """Build a canonical IdentityVector from an ACF profile."""
+    """Build a canonical IdentityVector from an ACF profile.
+
+    Calibration may be supplied two ways:
+
+    * ``calibration_vectors`` -- already-compiled raw planet vectors. This is
+      the preferred path: it lets callers read vectors from the compiled
+      runtime layer instead of reparsing the entire ACF corpus.
+    * ``calibration_acfs`` -- raw ACF dictionaries, parsed into vectors here.
+      Deprecated; it forces every caller to hold whole ACFs in memory.
+
+    ``calibration_vectors`` wins when both are given. With neither, the
+    profile is normalized against its own vectors.
+    """
     raw_vectors = build_raw_vectors_from_acf(acf)
 
-    calibration_vectors = raw_vectors
+    if calibration_vectors is not None:
+        resolved_calibration = list(calibration_vectors)
+    elif calibration_acfs:
+        warnings.warn(
+            "build_identity_vector(calibration_acfs=...) is deprecated; "
+            "pass pre-compiled calibration_vectors instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
-    if calibration_acfs:
-        calibration_vectors = []
+        resolved_calibration = []
 
         for calibration_acf in calibration_acfs:
-            calibration_vectors.extend(build_raw_vectors_from_acf(calibration_acf))
+            resolved_calibration.extend(
+                build_raw_vectors_from_acf(calibration_acf)
+            )
+    else:
+        resolved_calibration = raw_vectors
 
     normalized_vectors = normalize_planet_vectors(
         vectors=raw_vectors,
-        calibration_vectors=calibration_vectors,
+        calibration_vectors=resolved_calibration,
         mode=normalization_mode,
     )
 
+    return build_identity_vector_from_normalized(
+        name=acf["identity"]["name"],
+        normalized_vectors=normalized_vectors,
+        normalization_mode=normalization_mode,
+    )
+
+
+def build_identity_vector_from_normalized(
+    *,
+    name: str,
+    normalized_vectors: list,
+    normalization_mode: str,
+) -> IdentityVector:
+    """Assemble an IdentityVector from already-normalized planet vectors.
+
+    Split out from :func:`build_identity_vector` so that callers holding
+    compiled vectors and precomputed normalization statistics can reach the
+    same assembly step without routing back through ACF parsing. Both paths
+    share this code, so they cannot drift.
+    """
     composite_vectors = build_composite_planet_vectors(normalized_vectors)
 
     planets = {
@@ -52,7 +99,7 @@ def build_identity_vector(
 
     return IdentityVector(
         version=IVE_VERSION,
-        name=acf["identity"]["name"],
+        name=name,
         planets=planets,
         global_features=global_features,
         quality=quality,

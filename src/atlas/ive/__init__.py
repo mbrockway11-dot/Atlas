@@ -16,6 +16,7 @@ from atlas.ive.identity_vector import (
     build_identity_global_features,
     build_identity_quality,
     build_identity_vector,
+    build_identity_vector_from_normalized,
     build_raw_vectors_from_acf,
     ordered_planet_vectors,
 )
@@ -98,6 +99,7 @@ __all__ = [
     "build_composite_planet_vectors",
     "composite_vectors_to_feature_table",
     "build_identity_vector",
+    "build_identity_vector_from_normalized",
     "build_identity_global_features",
     "build_identity_quality",
     "build_identity_diagnostics",
