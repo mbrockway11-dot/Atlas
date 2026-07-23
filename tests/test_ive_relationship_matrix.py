@@ -1,3 +1,5 @@
+import pytest
+
 from atlas.acf.builder import build_acf_profile
 from atlas.ive import (
     PLANET_ORDER,
@@ -18,10 +20,12 @@ def test_build_planet_relationship_matrix():
     assert matrix.planets == PLANET_ORDER
     assert validate_relationship_matrix(matrix) is True
 
+    # A planet's cosine similarity with itself is 1.0 up to floating-point
+    # rounding; assert approximately, not bit-exact.
     for planet in PLANET_ORDER:
-        assert matrix.similarity[planet][planet] == 1.0
-        assert matrix.distance[planet][planet] == 0.0
-        assert matrix.agreement[planet][planet] == 1.0
+        assert matrix.similarity[planet][planet] == pytest.approx(1.0)
+        assert matrix.distance[planet][planet] == pytest.approx(0.0, abs=1e-9)
+        assert matrix.agreement[planet][planet] == pytest.approx(1.0)
 
 
 def test_relationship_matrix_to_dict():

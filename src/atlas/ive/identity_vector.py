@@ -19,14 +19,28 @@ from atlas.ive.schema import (
 )
 
 
+DEFAULT_NORMALIZATION_MODE = "raw"
+
+
 def build_identity_vector(
     acf: dict[str, Any],
     calibration_acfs: list[dict[str, Any]] | None = None,
-    normalization_mode: str = "percentile",
+    normalization_mode: str = DEFAULT_NORMALIZATION_MODE,
     *,
     calibration_vectors: list[PlanetFeatureVector] | None = None,
 ) -> IdentityVector:
     """Build a canonical IdentityVector from an ACF profile.
+
+    The default mode is ``"raw"`` -- the profile's own bounded measurements,
+    requiring no population. Raw is the canonical baseline because it is
+    self-contained and reproducible: it does not depend on which other
+    profiles happen to be present. The population modes (``percentile``,
+    ``minmax``, ``zscore``) are opt-in and require a calibration population;
+    without one they collapse every feature to 0.5, so a caller that wants
+    population normalization must both request the mode and supply
+    calibration. This default is locked by
+    ``tests/test_normalization_default.py``; changing it alters results for
+    every caller that omits the argument.
 
     Calibration may be supplied two ways:
 
