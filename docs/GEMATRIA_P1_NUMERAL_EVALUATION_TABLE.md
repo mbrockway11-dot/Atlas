@@ -168,47 +168,76 @@ failure:
    "gematria" is never left ambiguous between hechrachi and gadol — and so the
    choice of sources to admit follows from the scope, not the reverse.
 
-## The deriving-authority question — investigated (provisional)
+## The deriving-authority question — a located hypothesis, not a closed chain
 
-Question 1 above narrows to a single historical question: *what is the earliest
-identifiable authority that explicitly specifies the standard Hebrew alphabetic
-numeral mapping?* A first investigation suggests the question's **premise is
-category-mismatched** — the mapping has no single authoring authority.
+Question 1 narrows to: *what is the earliest identifiable authority that
+explicitly specifies the standard Hebrew alphabetic numeral mapping?* A first
+investigation suggests an **emergent-convention provenance model** — but the
+finding must be held at the strength the inspected evidence actually supports,
+which is less than a demonstrated transmission chain.
 
-**Located (via a locator, not yet directly inspected):** the scholarly
-consensus dates the Hebrew alphabetic numeral system to a **Hellenistic-period
-adaptation of the Greek alphabetic numerals**, ~200–78 BCE (the latter the
-earliest archaeological attestation), emergent in Hellenistic Judaism rather
-than established by any text or decree. The Greek system it adapts was in use
-from ~5th c. BCE.
+**Securely supported (directly inspectable):**
 
-- **Provenance of this claim:** surfaced via Wikipedia used strictly as a
-  **locator** (inadmissible tier — it may point to references, never license
-  them). It names the scholarly authorities to inspect directly:
-  **Chrisomalis, *Numerical Notation: A Comparative History*** (Cambridge UP,
-  2010) and **Gandz** (*Proc. American Academy for Jewish Research*, 1932–33).
-  Those are `scholarly_reference` and must be read directly before this is more
-  than provisional.
+- Greek alphabetic numerals **precede** the surviving Hebrew evidence
+  (Chrisomalis abstract: Greek numerals from ~600 BC).
+- Hebrew alphabetic numerals are **attested by the late 2nd c. BCE**, with
+  fuller decimal-system evidence ~78 BCE.
+- The Hebrew system is **structurally related** to the Greek alphabetic system.
+- **No single authoring authority is presently identified** in the inspected
+  evidence. *(Not identified ≠ shown not to exist.)*
 
-**Consequence, if it holds:** a *convention* has a different provenance shape
-than a *doctrine*. The top of the chain is not a "deriving authority" but an
-**originating convention plus earliest attestation**:
+**Provisional (a located hypothesis, pending direct inspection):**
+
+- A direct Greek→Hebrew **adaptation/transmission** (as opposed to precedence +
+  affinity).
+- The **200–78 BCE** span read as a *derivation window* (78 BCE is an
+  attestation date, not a derivation date).
+- **"Emergent convention with no establishing authority"** as a demonstrated
+  conclusion.
+
+**Access status:** Chrisomalis (*Numerical Notation*, Cambridge UP 2010) is
+**paywalled** — only the abstract was visible, and it states that "important
+historical questions remain unresolved." Gandz (*Proc. AAJR*, 1932–33) is not
+yet inspected. The stronger formulation was originally surfaced via Wikipedia
+used strictly as a **locator** (inadmissible; points to references, never
+licenses them). So the transmission claim is a hypothesis these two specialist
+sources must be read to settle.
+
+### Provenance shape, every edge marked by evidentiary status
 
 ```text
-Greek alphabetic numerals (model, ~5th c. BCE)
-    → adopted/adapted in Hellenistic Judaism (~200–78 BCE, emergent)
-    → earliest attestation (~78 BCE)
-    → described by later grammars (Gesenius, …)
-    → implemented (CLDR)
+Greek alphabetic system  (attested ~600 BC)
+    | proposed historical influence     [INFERRED from precedence + affinity;
+    |                                    NOT demonstrated transmission]
+Hebrew alphabetic numeral convention
+    | earliest SURVIVING attestations   [CORROBORATED ~late 2nd c. BCE / 78 BCE;
+    |                                    attestation != moment of origin]
+later grammatical description (Gesenius §5k)
+    | describes                         [CORROBORATED — directly inspected]
+modern implementation (CLDR %hebrew)
+    | implements                        [CORROBORATED — directly inspected]
 ```
 
-So the framework's search for a deriving *authority* correctly terminates not
-in a text but in a **dated convention**. This vindicates the P1 reclassification
-(the value table is a normative *convention*), and it sharpens the standing
-question for future traditions: for a convention, ask *when and from what was it
-adopted, and what is the earliest attestation* — not *who defined it*. Whether
-numerology or Jyotiṣa constructs behave as conventions or as doctrines is
-exactly the cross-domain comparison to watch.
+Two silent slides this prevents: **earliest surviving attestation → moment of
+origin**, and **chronological precedence → demonstrated derivation**. Neither
+inference is licensed by the evidence in hand.
+
+**What survives regardless** is the shape distinction, which is robust:
+
+```text
+Doctrine-shaped provenance    seek an establishing text or authority
+Convention-shaped provenance  seek origin context, transmission evidence,
+                              attestations, later codification, implementations
+```
+
+The mapping behaves convention-shaped, which vindicates treating the value
+table as a normative convention (P1). Whether numerology or Jyotiṣa constructs
+are convention- or doctrine-shaped is the cross-domain comparison to watch.
+
+**Next move (small):** inspect the relevant portions of Chrisomalis and Gandz,
+then annotate each edge above as *explicitly argued*, *inferred*,
+*corroborated*, or *unresolved*. Until then this section is a well-formed
+research hypothesis, not a settled provenance chain.
 
 ## What was not done
 
