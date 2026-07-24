@@ -81,6 +81,57 @@ discontinuity or merely hides it.
 
 ---
 
+## Representation occupancy
+
+Distinct from collision rate, and the distinction is load-bearing: collisions
+say whether *different inputs map together*; occupancy says *how much of the
+representation space is reached at all*. A body can have few collisions and
+still only ever produce a handful of shapes — and that handful is its real
+capacity.
+
+Per body and per scale: fraction of reachable reduced geometries observed,
+their frequency distribution, effective support (exponentiated Shannon
+entropy), and dominant-core versus long-tail behaviour.
+`representation_occupancy()` implements it.
+
+### Preliminary measurement
+
+400 instants at 13-day spacing from 1970. Not the full audit — no baselines,
+one cohort — but it sizes the effect:
+
+```text
+                 R1-W3D                          R1-W1Y
+body      shapes  eff_supp  top1  stat     shapes  eff_supp  top1  stat
+saturn         4      1.07 0.990 0.990          8      5.75 0.338 0.145
+jupiter        9      1.21 0.970 0.970         41     31.54 0.105 0.000
+mars           9      2.51 0.757 0.757        390    386.37 0.005 0.000
+sun           29     13.96 0.395 0.395        200    130.24 0.025 0.000
+venus         12      4.82 0.505 0.140        400    400.00 0.003 0.000
+mercury      114     56.91 0.175 0.175        400    400.00 0.003 0.000
+moon         217    178.12 0.020 0.000        400    400.00 0.003 0.000
+```
+
+`eff_supp` = effective number of shapes in play; `top1` = share of the most
+common shape; `stat` = fraction of stationary paths.
+
+**Effective support spans three orders of magnitude.** At R1-W3D, Saturn's
+effective support is **1.07** — 99% of instants produce the identical shape,
+so R1-W3D Saturn is very nearly a constant and carries almost no information.
+The Moon at the same scale reaches 178.
+
+**Caveat, and it matters:** at R1-W1Y, Venus, Mercury and the Moon all report
+400 shapes from 400 instants with a singleton share of 1.0. That is saturation
+of the *sample*, not measurement of the space — high capacity and
+"sample too small" are indistinguishable there. The full audit needs a cohort
+large enough to un-censor it, and must report where the ceiling was hit rather
+than treating 400/400 as a result.
+
+**This already sharpens the era concern below.** Saturn reaches only 5.75
+effective shapes across 55 years at R1-W1Y — roughly an era label, exactly as
+the 3.27-year cell-crossing time predicts.
+
+---
+
 ## Era predictability — the 2A confound, in R1 space
 
 Accepting static slow bodies has a direct consequence: **a static cell is an
@@ -118,8 +169,12 @@ failure *more* likely here, not less.
 
 ## Deliverables
 
+- [x] `representation_schema_hash` — R1 identity covering feature schema,
+      trajectory spec, scale and reduction version
+- [x] `representation_occupancy` — support, effective support, tail structure
 - [ ] B0–B3 baseline encoders, sharing sample times and bin widths
-- [ ] Per-body, per-scale measurement suite
+- [ ] Per-body, per-scale measurement suite, on a cohort large enough that
+      occupancy is not censored at the sample size
 - [ ] Boundary-conditioned stability, with the fragile-band fraction
 - [ ] Entropy before and after reduction
 - [ ] Era-predictability diagnostic per body and scale

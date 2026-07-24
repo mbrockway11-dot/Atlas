@@ -19,6 +19,7 @@ from atlas.validation.temporal_kamea import (
     CANONICAL_SCALES,
     CLASSICAL_BODIES,
     MEAN_DAILY_MOTION,
+    REDUCTION_VERSION,
     UNSUPPORTED_BODIES,
     SamplingFamily,
     TemporalKameaPath,
@@ -30,10 +31,13 @@ from atlas.validation.temporal_kamea import (
     path_similarity,
     quantization_bin_degrees,
     quantize_longitude,
+    representation_occupancy,
+    representation_schema_hash,
     sample_instants,
     traversal_requirements,
     window_to_traverse,
 )
+from atlas.validation.temporal_state import temporal_schema_hash
 
 
 INSTANT = datetime(1994, 7, 16, 20, 13, 11, tzinfo=UTC)
@@ -435,6 +439,99 @@ def test_longitude_translation_is_not_grid_translation() -> None:
 
     assert shifted.values == tuple(value + 1 for value in first.values)
     assert first.core_shape != shifted.core_shape
+
+
+# ---------------------------------------------------------------------------
+# Representation identity
+# ---------------------------------------------------------------------------
+
+
+def test_representation_hash_covers_every_input_to_meaning() -> None:
+    """Changing any component of the representation changes its identity."""
+    base = canonical_spec("R1-W3D")
+    baseline = representation_schema_hash(base)
+
+    assert baseline == representation_schema_hash(canonical_spec("R1-W3D"))
+    assert baseline != representation_schema_hash(canonical_spec("R1-W30D"))
+    assert baseline != representation_schema_hash(
+        canonical_spec("R1-W3D", half_width=8)
+    )
+    assert baseline != representation_schema_hash(
+        TrajectorySpec(family=SamplingFamily.BODY_RELATIVE)
+    )
+
+
+def test_representation_hash_contains_the_r0_schema() -> None:
+    """An R1 identity is invalidated by a change to the R0 feature schema."""
+    spec = canonical_spec("R1-W3D")
+
+    assert representation_schema_hash(spec) != spec.spec_hash()
+    assert len(representation_schema_hash(spec)) == 64
+    assert REDUCTION_VERSION
+
+
+def test_r0_schema_hash_is_not_coupled_to_the_trajectory_spec() -> None:
+    """R0 artifacts must not be invalidated by an R1 parameter change.
+
+    The R0 hash is stamped into every raw-state artifact including the
+    frozen Temporal 2 v1 result. Folding the trajectory spec into it would
+    change the recorded schema of frozen studies for a reason unrelated to
+    them, so the R1 identity is layered on top instead.
+    """
+    before = temporal_schema_hash()
+
+    representation_schema_hash(canonical_spec("R1-W1Y"))
+    representation_schema_hash(TrajectorySpec(family=SamplingFamily.BIN_RELATIVE))
+
+    assert temporal_schema_hash() == before
+
+
+def test_trajectories_carry_their_representation_identity() -> None:
+    """A path names the representation that produced it."""
+    spec = canonical_spec("R1-W3D")
+    payload = build_trajectory(INSTANT, "venus", spec).to_dict()
+
+    assert payload["representation_schema_hash"] == (
+        representation_schema_hash(spec)
+    )
+    assert payload["spec"]["canonical"] is True
+    assert payload["spec"]["scale"] == "R1-W3D"
+
+
+# ---------------------------------------------------------------------------
+# Representation occupancy
+# ---------------------------------------------------------------------------
+
+
+def test_occupancy_separates_capacity_from_collisions() -> None:
+    """Occupancy measures space used, not whether inputs map together.
+
+    Saturn is expected to occupy a handful of shapes where the Moon
+    occupies many; that gap is the representation's intrinsic capacity, and
+    it is not visible in a collision rate alone.
+    """
+    spec = canonical_spec("R1-W3D")
+    instants = [
+        INSTANT + timedelta(days=37 * index) for index in range(60)
+    ]
+
+    saturn = representation_occupancy(
+        [build_trajectory(moment, "saturn", spec) for moment in instants]
+    )
+    moon = representation_occupancy(
+        [build_trajectory(moment, "moon", spec) for moment in instants]
+    )
+
+    assert saturn["stationary_fraction"] > moon["stationary_fraction"]
+    assert saturn["distinct_core_shapes"] < moon["distinct_core_shapes"]
+    assert saturn["effective_support"] <= saturn["distinct_core_shapes"]
+    assert 0.0 < saturn["observed_fraction_of_nominal"] < 1.0
+    assert moon["nominal_space_log10"] > 1.0
+
+
+def test_occupancy_of_an_empty_sample_is_not_an_error() -> None:
+    """Reported as zero rather than raising, so a batch can continue."""
+    assert representation_occupancy([])["observed"] == 0
 
 
 def test_direct_motion_has_no_reversals() -> None:

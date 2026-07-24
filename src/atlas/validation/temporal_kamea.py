@@ -61,6 +61,7 @@ import hashlib
 import json
 from typing import Any, Iterable, Sequence
 
+import numpy as np
 import swisseph as swe
 
 from atlas.kamea.path import KameaPath
@@ -71,11 +72,18 @@ from atlas.temporal.ephemeris import (
     configure_ephemeris_path,
     DEFAULT_EPHEMERIS_PATH,
 )
-from atlas.validation.temporal_state import require_utc
+from atlas.validation.temporal_state import require_utc, temporal_schema_hash
 
 
 TRAJECTORY_SCHEMA = "atlas.validation.temporal-kamea.v1"
 TRAJECTORY_SPEC_VERSION = "1.0.0"
+
+# The semantics of reduction and core-geometry extraction: reduce_value,
+# project_values, and the render-path dedup that produces core geometry.
+# Bump this when what those *mean* changes, not when they are refactored --
+# a geometry built under different reduction semantics is a different object
+# even from byte-identical inputs.
+REDUCTION_VERSION = "1.0.0"
 
 # The seven bodies with a traditional square. Uranus, Neptune and Pluto have
 # neither a Kamea nor planetary-transform weights, so R1 covers seven of the
@@ -277,6 +285,45 @@ class TrajectorySpec:
         ).hexdigest()
 
 
+def representation_schema_hash(spec: TrajectorySpec) -> str:
+    """Return the identity of a complete temporal representation.
+
+    Closes the integrity gap where an artifact knew its ``spec_hash`` but the
+    schema did not, so a change in the representation would not invalidate
+    comparisons made across it. Composed of every input that changes what an
+    R1 feature *means*::
+
+        R0 feature schema  +  trajectory specification  +  canonical scale
+                           +  reduction version
+
+    Deliberately layered *on top of* :func:`temporal_schema_hash` rather than
+    folded into it. The R0 hash is stamped into every raw-state artifact,
+    including the frozen Temporal 2 v1 result; making it depend on the
+    trajectory spec would change the recorded schema of frozen R0 studies
+    whenever an R1 parameter moved, invalidating them for a reason that has
+    nothing to do with them. R0 studies keep the R0 hash; R1 and R2 studies
+    carry this one, which contains it.
+    """
+    payload = {
+        "schema": TRAJECTORY_SCHEMA,
+        "spec_version": TRAJECTORY_SPEC_VERSION,
+        "reduction_version": REDUCTION_VERSION,
+        "temporal_feature_schema_hash": temporal_schema_hash(),
+        "trajectory_spec_hash": spec.spec_hash(),
+        "scale": spec.scale,
+        "bodies": sorted(CLASSICAL_BODIES),
+        "square_sizes": {
+            key: KAMEAS[key].size for key in sorted(CLASSICAL_BODIES)
+        },
+    }
+
+    return hashlib.sha256(
+        json.dumps(payload, sort_keys=True, separators=(",", ":")).encode(
+            "utf-8"
+        )
+    ).hexdigest()
+
+
 def canonical_spec(
     scale: str = "R1-W3D", half_width: int = CANONICAL_HALF_WIDTH
 ) -> TrajectorySpec:
@@ -460,6 +507,9 @@ class TemporalKameaPath:
             "body": self.body,
             "square_size": KAMEAS[self.kamea_key].size,
             "spec": self.spec.to_dict(),
+            "representation_schema_hash": representation_schema_hash(
+                self.spec
+            ),
             "instants": [moment.isoformat() for moment in self.instants],
             "longitudes": [round(value, 9) for value in self.longitudes],
             "values": list(self.values),
@@ -709,6 +759,64 @@ STABILITY_OFFSETS: tuple[tuple[str, timedelta], ...] = (
     ("1_hour", timedelta(hours=1)),
     ("1_day", timedelta(days=1)),
 )
+
+
+def representation_occupancy(
+    trajectories: Sequence[TemporalKameaPath],
+) -> dict[str, Any]:
+    """Measure how much of the representation space a body actually uses.
+
+    Distinct from collision rate, and the distinction matters: collisions say
+    whether *different inputs* map together, occupancy says how much of the
+    space is reached at all. A body could have few collisions while still
+    only ever producing a handful of shapes, and that handful is its real
+    capacity.
+
+    Reports the dominant core against the long tail, because a distribution
+    with a few overwhelming modes and a scatter of singletons behaves very
+    differently from a flat one even at identical support size.
+    """
+    if not trajectories:
+        return {"observed": 0}
+
+    shapes: dict[tuple[Any, ...], int] = {}
+
+    for trajectory in trajectories:
+        shapes[trajectory.core_shape] = shapes.get(trajectory.core_shape, 0) + 1
+
+    counts = np.array(sorted(shapes.values(), reverse=True), dtype=np.float64)
+    frequencies = counts / counts.sum()
+
+    # Shannon entropy of the shape distribution, and its exponential -- the
+    # effective number of shapes actually in play, which is far below the
+    # nominal support whenever a few dominate.
+    entropy = float(-(frequencies * np.log(frequencies)).sum())
+
+    square = KAMEAS[trajectories[0].kamea_key]
+    samples = len(trajectories[0].coordinates)
+
+    # Every cell sequence of this length is reachable in principle, so the
+    # nominal space is cells^samples. Observed support is always a vanishing
+    # fraction of it; the informative quantity is how vanishing.
+    nominal = float(square.max_value) ** samples
+
+    return {
+        "trajectories": len(trajectories),
+        "distinct_core_shapes": len(shapes),
+        "effective_support": float(np.exp(entropy)),
+        "shape_entropy_nats": entropy,
+        "nominal_space_log10": float(np.log10(nominal)),
+        "observed_fraction_of_nominal": len(shapes) / nominal,
+        "most_common_share": float(frequencies[0]),
+        "top_five_share": float(frequencies[:5].sum()),
+        "singleton_share": float(
+            (counts == 1).sum() / len(counts)
+        ),
+        "stationary_fraction": sum(
+            1 for t in trajectories if t.stationary
+        )
+        / len(trajectories),
+    }
 
 
 def stability_profile(
