@@ -222,7 +222,16 @@ Two silent slides this prevents: **earliest surviving attestation → moment of
 origin**, and **chronological precedence → demonstrated derivation**. Neither
 inference is licensed by the evidence in hand.
 
-**What survives regardless** is the shape distinction, which is robust:
+### The secure statement, and the working model
+
+The narrowest statement the inspected evidence supports:
+
+> The presently inspected evidence **does not identify a defining authority**
+> for the Hebrew alphabetic numeral mapping, and instead presents later
+> descriptions, implementations, and historical attestations.
+
+That is secure. On top of it sits a **working provenance model** — not a
+settled historical classification:
 
 ```text
 Doctrine-shaped provenance    seek an establishing text or authority
@@ -230,14 +239,37 @@ Convention-shaped provenance  seek origin context, transmission evidence,
                               attestations, later codification, implementations
 ```
 
-The mapping behaves convention-shaped, which vindicates treating the value
-table as a normative convention (P1). Whether numerology or Jyotiṣa constructs
-are convention- or doctrine-shaped is the cross-domain comparison to watch.
+The mapping behaves convention-shaped under this model, which is why P1 treats
+the value table as a normative convention. But "the mapping *is* a convention
+with no authority" is not yet a settled historical finding — only that no
+authority is presently identified. Whether numerology or Jyotiṣa constructs are
+convention- or doctrine-shaped is the cross-domain comparison to watch, and it
+too will be a working classification until the sources are read.
 
-**Next move (small):** inspect the relevant portions of Chrisomalis and Gandz,
-then annotate each edge above as *explicitly argued*, *inferred*,
-*corroborated*, or *unresolved*. Until then this section is a well-formed
-research hypothesis, not a settled provenance chain.
+### Next move — a bounded acquisition task
+
+Not architectural or computational. Acquire direct access to, and extract from,
+two specialist sources:
+
+1. **Stephen Chrisomalis, *Numerical Notation*** — the alphabetic-systems
+   section. *(Attempted: Cambridge Core, **paywalled**; abstract only.)*
+2. **Solomon Gandz**, study of Hebrew numerals (*Proc. AAJR*, 1932–33).
+   *(Attempted: not on Internet Archive; likely JSTOR/institutional.)*
+
+Both require library or institutional access not available here. For **each**,
+record only:
+
+- the exact historical claim made;
+- the evidence cited for that claim;
+- whether Greek→Hebrew transmission is stated as **explicit** or **inferred**;
+- the earliest attestation actually discussed;
+- whether the author **identifies**, **denies**, or **does not discuss** an
+  establishing authority.
+
+Then annotate each provenance edge above as *explicitly argued*, *inferred*,
+*corroborated*, or *unresolved*. Until those passages are inspected, this
+section — graph and model alike — remains a well-formed research hypothesis,
+not a settled provenance chain.
 
 ## What was not done
 
