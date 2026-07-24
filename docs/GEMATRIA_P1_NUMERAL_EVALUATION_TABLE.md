@@ -58,11 +58,18 @@ them.
 | CLDR `%hebrew` | | ✓ | ✓ |
 | Academy | ? | ? | ? |
 
-A subtlety this column makes explicit: Gesenius **describes and defines** the
-mapping, which is evidence the convention *existed and was understood* — it is
-**not** automatically evidence that Gesenius is the authority the convention
-*derives from*. That distinction is why the evaluation stopped before
-admission (see F3).
+> **These are inspection results, not intrinsic properties of the works.** Each
+> cell states what the current inspection supports, as of inspection — this is
+> a research notebook, not a ledger of settled facts. Any cell can change on
+> further reading: if Gesenius turns out to cite an earlier authority, or to be
+> summarizing a long-established convention, or to distinguish numeral writing
+> from gematria elsewhere, its role classification moves. Do not treat the
+> table as the authority; it records evidence and its own uncertainty.
+
+A subtlety this column makes explicit: Gesenius **describes** the mapping,
+which is evidence the convention *existed and was understood* — it is **not**
+automatically evidence that Gesenius is the authority the convention *derives
+from*. That distinction is why the evaluation stopped before admission (F3).
 
 ## Findings
 
@@ -160,6 +167,48 @@ failure:
    should therefore be recorded as part of the method's provenance, so
    "gematria" is never left ambiguous between hechrachi and gadol — and so the
    choice of sources to admit follows from the scope, not the reverse.
+
+## The deriving-authority question — investigated (provisional)
+
+Question 1 above narrows to a single historical question: *what is the earliest
+identifiable authority that explicitly specifies the standard Hebrew alphabetic
+numeral mapping?* A first investigation suggests the question's **premise is
+category-mismatched** — the mapping has no single authoring authority.
+
+**Located (via a locator, not yet directly inspected):** the scholarly
+consensus dates the Hebrew alphabetic numeral system to a **Hellenistic-period
+adaptation of the Greek alphabetic numerals**, ~200–78 BCE (the latter the
+earliest archaeological attestation), emergent in Hellenistic Judaism rather
+than established by any text or decree. The Greek system it adapts was in use
+from ~5th c. BCE.
+
+- **Provenance of this claim:** surfaced via Wikipedia used strictly as a
+  **locator** (inadmissible tier — it may point to references, never license
+  them). It names the scholarly authorities to inspect directly:
+  **Chrisomalis, *Numerical Notation: A Comparative History*** (Cambridge UP,
+  2010) and **Gandz** (*Proc. American Academy for Jewish Research*, 1932–33).
+  Those are `scholarly_reference` and must be read directly before this is more
+  than provisional.
+
+**Consequence, if it holds:** a *convention* has a different provenance shape
+than a *doctrine*. The top of the chain is not a "deriving authority" but an
+**originating convention plus earliest attestation**:
+
+```text
+Greek alphabetic numerals (model, ~5th c. BCE)
+    → adopted/adapted in Hellenistic Judaism (~200–78 BCE, emergent)
+    → earliest attestation (~78 BCE)
+    → described by later grammars (Gesenius, …)
+    → implemented (CLDR)
+```
+
+So the framework's search for a deriving *authority* correctly terminates not
+in a text but in a **dated convention**. This vindicates the P1 reclassification
+(the value table is a normative *convention*), and it sharpens the standing
+question for future traditions: for a convention, ask *when and from what was it
+adopted, and what is the earliest attestation* — not *who defined it*. Whether
+numerology or Jyotiṣa constructs behave as conventions or as doctrines is
+exactly the cross-domain comparison to watch.
 
 ## What was not done
 
