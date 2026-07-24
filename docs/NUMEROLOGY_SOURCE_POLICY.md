@@ -94,6 +94,33 @@ be silently conflated.
 
 ---
 
+## Semantic granularity
+
+Every source statement is tagged with what kind of statement it is. **Only
+`direct_denotation` is eligible for 1E-A.**
+
+```text
+direct_denotation   the source states what the value signifies
+analogy             the source likens it to something else
+correspondence      the source links it to another symbolic system
+recommendation      the source advises an action
+prediction          the source forecasts an outcome
+commentary          the source discusses without asserting a denotation
+```
+
+The distinction has teeth:
+
+> *"4 signifies stability"* — a direct denotation, eligible.
+>
+> *"People with 4 often become reliable administrators"* — already a
+> behavioral interpretation. Unavailable until 1E-B.
+
+Without this boundary, 1E-A would drift from expression concordance into
+inferred personality, and the behavioral claim would be smuggled in as though
+it were a denotation.
+
+---
+
 ## Source admissibility
 
 Every mapping requires:
@@ -108,6 +135,46 @@ Every mapping requires:
 > A source saying "4 means stability" can license a constrained mapping. A
 > synthesis layer saying "4 is stable because this subject's Kamea was
 > stationary" cannot.
+
+Sources are **not** treated as equal. Each passage records:
+
+```text
+source_type       primary · traditional_commentary · modern_commentary ·
+                  secondary_synthesis
+authority_scope   tradition_wide · school_specific · author_specific
+```
+
+These live on the passage, not in the admissibility rules, so the rules can
+evolve — tightening or relaxing which source types license a mapping — without
+touching the underlying corpus.
+
+---
+
+## The corpus compiles to the dictionary
+
+The dictionary is a **compiled artifact**, never authored directly:
+
+```text
+SourcePassage(s)        bibliographic evidence
+        ↓
+admissibility rules     frozen, versioned, separable from the corpus
+        ↓
+NumerologyDictionaryEntry   licensed denotation
+        ↓
+DenotationClaim         applied to one subject
+```
+
+Consequences that authoring entries by hand would forfeit:
+
+- every denotation traces to a specific quoted passage;
+- different editions and traditions coexist without blending;
+- conflicting passages stay first-class data instead of being flattened;
+- changing an admissibility rule and rebuilding is deterministic and
+  reproducible.
+
+The conflict verdict is **derived**, not declared: passages agreeing on a key
+compile to consensus, disagreeing passages compile to conflicting, and a key
+with too little admissible evidence compiles to silence.
 
 ---
 
