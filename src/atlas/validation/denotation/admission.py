@@ -181,17 +181,104 @@ ADMISSION_REGISTER: tuple[SystemLayer, ...] = (
             "therefore also unestablished. Baseline 07af099."
         ),
     ),
+    # Gematria decomposes into six layers -- see
+    # docs/GEMATRIA_ADMISSION_CLASSIFICATION.md. Two have no numerology
+    # analogue at all, which is the evidence that the 1E process is not
+    # overfit to numerology.
     SystemLayer(
         system="gematria",
-        layer="unclassified",
-        admission_class=AdmissionClass.UNCLASSIFIED,
+        layer="orthographic_scope",
+        admission_class=AdmissionClass.DERIVED_COMPUTATION,
+        highest_stage_reached=LatticeStage.COMPUTATION,
+        admitted=False,
+        note=(
+            "Blocking defect: normalize_text accepts Hebrew characters "
+            "(isalpha is true) and the value tables then drop every one, so "
+            "Hebrew input yields an empty sequence silently. A layer that "
+            "returns nothing for text it is named after is deterministic but "
+            "not reproducible. Fix by refusing out-of-alphabet input and "
+            "declaring the Latin-only boundary; needs no source."
+        ),
+    ),
+    SystemLayer(
+        system="gematria",
+        layer="transliteration",
+        admission_class=AdmissionClass.TEXTUAL_INTERPRETATION,
+        highest_stage_reached=LatticeStage.CONSTRUCT_IDENTITY,
+        admitted=False,
+        note=(
+            "No numerology analogue. Which Hebrew letter a Latin letter "
+            "represents is an editorial convention, and it is welded into "
+            "HEBREW_LITERAL_VALUES together with the value assignment, so "
+            "neither can be checked separately. Non-injective as well: "
+            "U/V/W, I/J/Y, C/K, S/X and F/P each collapse onto one value. "
+            "Must be split out before any citation could verify it."
+        ),
+    ),
+    SystemLayer(
+        system="gematria",
+        layer="letter_value_assignment",
+        admission_class=AdmissionClass.TEXTUAL_INTERPRETATION,
+        highest_stage_reached=LatticeStage.CONSTRUCT_IDENTITY,
+        admitted=False,
+        note=(
+            "The Hebrew letter values are well attested, so this is expected "
+            "to be the most tractable of the textual layers -- but it cannot "
+            "be cited while fused with transliteration."
+        ),
+    ),
+    SystemLayer(
+        system="gematria",
+        layer="numeric_computation",
+        admission_class=AdmissionClass.DERIVED_COMPUTATION,
+        highest_stage_reached=LatticeStage.COMPUTATION,
+        admitted=True,
+        note=(
+            "Summing a sequence of integers is not in doubt. Admitted in "
+            "isolation only: it consumes transliteration output, and a "
+            "layer's admission covers its own operation, never its inputs."
+        ),
+    ),
+    SystemLayer(
+        system="gematria",
+        layer="equivalence_relation",
+        admission_class=AdmissionClass.HYBRID,
         highest_stage_reached=LatticeStage.MEASUREMENT,
         admitted=False,
         note=(
-            "Must be decomposed before implementation. Letter-to-number "
-            "computation and interpretation of the resulting value are "
-            "plausibly separate admission problems and should not inherit "
-            "numerology's classification by analogy."
+            "Gematria's characteristic operation and its sharpest difference "
+            "from numerology: the semantic move is equivalence between texts "
+            "sharing a value, not denotation of a number. Not implemented at "
+            "all. Specifying it requires declaring a comparison corpus, "
+            "since which texts may be compared determines every equivalence "
+            "found -- so corpus selection is textual authority, not "
+            "computation."
+        ),
+    ),
+    SystemLayer(
+        system="gematria",
+        layer="denotation",
+        admission_class=AdmissionClass.TEXTUAL_INTERPRETATION,
+        highest_stage_reached=LatticeStage.MEASUREMENT,
+        admitted=False,
+        note=(
+            "No citation corpus. Blocked behind the same acquisition gate "
+            "numerology is blocked on."
+        ),
+    ),
+    # Registered apart from gematria deliberately. A=1..Z=26 over the Latin
+    # alphabet shares no tradition, alphabet or value assignment with Hebrew
+    # gematria; filing it under gematria would be the category error the
+    # tradition boundary exists to prevent.
+    SystemLayer(
+        system="english_ordinal",
+        layer="ordinal_computation",
+        admission_class=AdmissionClass.DERIVED_COMPUTATION,
+        highest_stage_reached=LatticeStage.COMPUTATION,
+        admitted=True,
+        note=(
+            "A modern English ordinal cipher, not gematria. Deterministic "
+            "and admitted as computation; it denotes nothing on its own."
         ),
     ),
     SystemLayer(
@@ -212,6 +299,23 @@ ADMISSION_REGISTER: tuple[SystemLayer, ...] = (
 def layers_for(system: str) -> list[SystemLayer]:
     """Return every registered layer of one system."""
     return [layer for layer in ADMISSION_REGISTER if layer.system == system]
+
+
+def registered_systems() -> list[str]:
+    """Return every system with a classification, admitted or not."""
+    return sorted({layer.system for layer in ADMISSION_REGISTER})
+
+
+def admissible_in_isolation(system: str) -> list[str]:
+    """Return a system's admitted layers.
+
+    Named to prevent the reading it invites. A layer's admission covers its
+    own operation, never its inputs -- gematria's numeric computation is
+    reproducible arithmetic consuming unlicensed transliteration output, so
+    it is admitted and still contributes nothing usable downstream. This is
+    the feed-forward invariant applied to data rather than imports.
+    """
+    return [layer.layer for layer in layers_for(system) if layer.admitted]
 
 
 def admitted_systems() -> list[str]:

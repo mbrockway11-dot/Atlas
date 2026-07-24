@@ -215,14 +215,17 @@ def test_numerology_is_admitted_for_arithmetic_but_not_denotation() -> None:
     )
 
 
-def test_gematria_and_vedic_are_unclassified_and_undecomposed() -> None:
-    """They may not inherit numerology's classification by analogy."""
-    for system in ("gematria", "vedic"):
-        (layer,) = layers_for(system)
+def test_vedic_is_unclassified_and_undecomposed() -> None:
+    """It may not inherit numerology's or gematria's classification.
 
-        assert layer.admission_class is AdmissionClass.UNCLASSIFIED
-        assert layer.admitted is False
-        assert "decomposed before implementation" in layer.note
+    Gematria has since been decomposed (1E-G-CLASSIFY) and left this list;
+    Vedic has not, and its layer count is expected to differ again.
+    """
+    (layer,) = layers_for("vedic")
+
+    assert layer.admission_class is AdmissionClass.UNCLASSIFIED
+    assert layer.admitted is False
+    assert "decomposed before implementation" in layer.note
 
 
 def test_only_kamea_currently_denotes() -> None:
@@ -243,3 +246,94 @@ def test_concordance_is_not_ready() -> None:
     assert report["default"] == "silent unless admitted"
     assert report["admitted_denoting_systems"] == ["kamea"]
     assert "only one system currently denotes" in report["note"]
+
+
+# ---------------------------------------------------------------------------
+# Gematria admission (1E-G-CLASSIFY)
+# ---------------------------------------------------------------------------
+
+
+def test_gematria_decomposes_differently_from_numerology() -> None:
+    """The methodology test: a different system, a different decomposition.
+
+    If gematria had merely mirrored numerology's layers, that would suggest
+    the 1E process was overfit to numerology. It does not: gematria needs a
+    transliteration layer and an equivalence relation, neither of which
+    numerology has any analogue for.
+    """
+    gematria = {layer.layer for layer in layers_for("gematria")}
+    numerology = {layer.layer for layer in layers_for("numerology")}
+
+    # Layers with no numerology analogue at all.
+    assert {"transliteration", "equivalence_relation"} <= gematria
+    assert not ({"transliteration", "equivalence_relation"} & numerology)
+    # Both legitimately have a denotation layer -- every interpretive system
+    # does. The finding is the layers gematria needs and numerology does not.
+    assert gematria - numerology >= {
+        "transliteration",
+        "equivalence_relation",
+        "orthographic_scope",
+        "letter_value_assignment",
+    }
+    assert len(gematria) > len(numerology)
+
+
+def test_english_ordinal_is_registered_apart_from_gematria() -> None:
+    """A=1..Z=26 shares no tradition or alphabet with Hebrew gematria."""
+    from atlas.validation.denotation.admission import registered_systems
+
+    assert "english_ordinal" in registered_systems()
+    assert layers_for("english_ordinal")[0].system != "gematria"
+
+
+def test_gematria_transliteration_needs_textual_authority() -> None:
+    """Which Hebrew letter a Latin letter represents is a convention."""
+    (layer,) = [
+        item
+        for item in layers_for("gematria")
+        if item.layer == "transliteration"
+    ]
+
+    assert layer.admission_class is AdmissionClass.TEXTUAL_INTERPRETATION
+    assert layer.admitted is False
+    assert "fused" in layer.note or "welded" in layer.note
+
+
+def test_the_equivalence_layer_is_hybrid_and_unimplemented() -> None:
+    """Gematria's characteristic operation is relational, not denotational."""
+    (layer,) = [
+        item
+        for item in layers_for("gematria")
+        if item.layer == "equivalence_relation"
+    ]
+
+    assert layer.admission_class is AdmissionClass.HYBRID
+    assert layer.admitted is False
+    assert "comparison corpus" in layer.note
+
+
+def test_admission_does_not_launder_inputs() -> None:
+    """An admitted layer consuming unlicensed input stays unusable.
+
+    Gematria's numeric computation is reproducible arithmetic, and it is
+    admitted. It still contributes nothing, because everything upstream of
+    it is inadmissible.
+    """
+    from atlas.validation.denotation.admission import admissible_in_isolation
+
+    assert admissible_in_isolation("gematria") == ["numeric_computation"]
+    assert "gematria" not in admitted_systems()
+
+
+def test_gematria_denotes_nothing() -> None:
+    """No layer of gematria reaches the denotation stage."""
+    assert all(
+        layer.highest_stage_reached is not LatticeStage.DENOTATION
+        for layer in layers_for("gematria")
+    )
+
+
+def test_classification_did_not_change_concordance_readiness() -> None:
+    """Classifying a system is not admitting it."""
+    assert admitted_systems() == ["kamea"]
+    assert concordance_ready() is False
