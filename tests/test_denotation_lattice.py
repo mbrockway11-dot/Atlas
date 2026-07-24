@@ -42,10 +42,13 @@ MODULE_STAGE: dict[str, int] = {
     "ontology": 0,
     "numerology_tradition": 0,
     "numerology_expression": 0,
-    # 1 -- source verification: bibliography, corpus, declared corpus
+    "gematria_orthography": 0,
+    # 1 -- source verification: bibliography, corpus, schemes awaiting citation
     "numerology_bibliography": 1,
     "numerology_corpus": 1,
     "numerology_corpus_v1": 1,
+    "gematria_transliteration": 1,
+    "gematria_pipeline": 1,
     # 2 -- denotation: claims, dictionary, compilation
     "expressions": 2,
     "numerology_dictionary": 2,
@@ -321,7 +324,14 @@ def test_admission_does_not_launder_inputs() -> None:
     """
     from atlas.validation.denotation.admission import admissible_in_isolation
 
-    assert admissible_in_isolation("gematria") == ["numeric_computation"]
+    # After 1E-G-REPAIR both the orthographic scope check and the numeric
+    # computation are reproducible and admitted in isolation. Neither can
+    # feed a denotation, because transliteration and value assignment between
+    # them are unlicensed -- so gematria still denotes nothing.
+    assert admissible_in_isolation("gematria") == [
+        "orthographic_scope",
+        "numeric_computation",
+    ]
     assert "gematria" not in admitted_systems()
 
 

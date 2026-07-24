@@ -190,14 +190,17 @@ ADMISSION_REGISTER: tuple[SystemLayer, ...] = (
         layer="orthographic_scope",
         admission_class=AdmissionClass.DERIVED_COMPUTATION,
         highest_stage_reached=LatticeStage.COMPUTATION,
-        admitted=False,
+        # Repaired in 1E-G-REPAIR: check_scope is fail-closed and reports
+        # every rejected symbol, so the silent-truncation defect is gone and
+        # the layer is now reproducible.
+        admitted=True,
         note=(
-            "Blocking defect: normalize_text accepts Hebrew characters "
-            "(isalpha is true) and the value tables then drop every one, so "
-            "Hebrew input yields an empty sequence silently. A layer that "
-            "returns nothing for text it is named after is deterministic but "
-            "not reproducible. Fix by refusing out-of-alphabet input and "
-            "declaring the Latin-only boundary; needs no source."
+            "Repaired. gematria_orthography.check_scope declares accepted "
+            "scripts and distinguishes EMPTY_INPUT from NO_LICENSED_SYMBOLS, "
+            "so Hebrew input to a Latin scheme raises instead of returning an "
+            "empty sequence. Admitted as reproducible computation; the legacy "
+            "atlas.ciphers path stays for its other callers and is "
+            "quarantined from 1E."
         ),
     ),
     SystemLayer(
@@ -205,14 +208,16 @@ ADMISSION_REGISTER: tuple[SystemLayer, ...] = (
         layer="transliteration",
         admission_class=AdmissionClass.TEXTUAL_INTERPRETATION,
         highest_stage_reached=LatticeStage.CONSTRUCT_IDENTITY,
+        # Split out in 1E-G-REPAIR, so it CAN now be cited -- but no scheme is
+        # admitted, so it stays inadmissible pending 1E-G-SOURCE.
         admitted=False,
         note=(
-            "No numerology analogue. Which Hebrew letter a Latin letter "
-            "represents is an editorial convention, and it is welded into "
-            "HEBREW_LITERAL_VALUES together with the value assignment, so "
-            "neither can be checked separately. Non-injective as well: "
-            "U/V/W, I/J/Y, C/K, S/X and F/P each collapse onto one value. "
-            "Must be split out before any citation could verify it."
+            "No numerology analogue. Split from value assignment in "
+            "1E-G-REPAIR into gematria_transliteration, so the Latin->Hebrew "
+            "editorial convention is now separately representable and "
+            "hashable. Zero admitted schemes: the legacy fused mapping is "
+            "registered as a candidate only, non-injective and uncited. "
+            "Admission awaits 1E-G-SOURCE."
         ),
     ),
     SystemLayer(
@@ -222,9 +227,10 @@ ADMISSION_REGISTER: tuple[SystemLayer, ...] = (
         highest_stage_reached=LatticeStage.CONSTRUCT_IDENTITY,
         admitted=False,
         note=(
-            "The Hebrew letter values are well attested, so this is expected "
-            "to be the most tractable of the textual layers -- but it cannot "
-            "be cited while fused with transliteration."
+            "Split from transliteration in 1E-G-REPAIR. The standard Hebrew "
+            "values are held as a candidate ValueAssignment, uncited and not "
+            "admitted; expected to be the most tractable textual layer once "
+            "1E-G-SOURCE supplies a citation."
         ),
     ),
     SystemLayer(
