@@ -34,11 +34,18 @@ PYTHAGOREAN = {
 
 VOWELS = frozenset("aeiou")
 
-# Values left unreduced under the master-number policy. Part of the reduction
-# identifier: a version that reduces these is a different policy.
+# Values left unreduced by this arithmetic. Part of the reduction identifier:
+# a version that reduces these is a different policy.
+#
+# Preserving them is a *computational* choice and carries no claim that any
+# source licenses meanings for them. The identifier is named for what the
+# arithmetic does rather than for a tradition, so that it cannot be read as
+# an assertion that Jordan or the wider tradition endorses all three -- a
+# value can be preserved here and still compile to silence for want of a
+# passage that denotes it.
 MASTER_VALUES = frozenset({11, 22, 33})
 
-REDUCTION_POLICY = "pythagorean-master-11-22-33-v1"
+REDUCTION_POLICY = "alphabetic-1to9-preserve-11-22-33-v1"
 
 
 class NumerologyExpressionError(ValueError):
