@@ -11,7 +11,13 @@ Corpus: 2,122 compiled profiles · 2,250,381 unordered pairs · schema
 
 ## What the vector encodes
 
-Structural properties of a **name string**, and nothing else.
+**Atlas identity vectors model Latin orthography, not names in general.**
+
+The encoder's effective alphabet is `A B C ... Z`. Every other character is
+deleted before encoding. That is an architectural property, not a tuning
+parameter, and it bounds every claim below: what the model encodes is
+structural properties of the **ASCII-letter skeleton of a name string**, and
+nothing else.
 
 Each profile is 3 ciphers × 7 planets × 17 graph features = 357 dimensions,
 derived from the name's Kamea identity graph.
@@ -89,7 +95,8 @@ percentile** — unremarkable.
 
 - **Same-person variant recognition.** Not demonstrated in any class.
 - **Identity inference about people.** The vector describes a string.
-- **Non-Latin-script names.** See the scope boundary above.
+- **Non-Latin-script names.** The model is an ASCII encoder. Applying it to
+  such names produces vectors that look valid and are meaningless.
 - **Any temporal, birth-date, or astrological claim.** Those inputs are
   absent from this model.
 - **Presenting a raw score alone.** Always pair with global and matched
@@ -198,5 +205,8 @@ the same config reproduces its outputs byte-for-byte.
   effects rather than reveal strong ones.
 - **H4 (aliases): needs source verification** and separation by structural
   overlap before its mean has a coherent interpretation.
-- **Non-Latin script handling: open defect.** Requires a decision on whether
-  to transliterate, extend the cipher maps, or refuse such names explicitly.
+- **Non-Latin script handling: open defect**, tracked as
+  [Identity Runtime 3.0 — Unicode Name Encoding](IDENTITY_RUNTIME_3_UNICODE.md).
+  The identity branch is frozen until that milestone is addressed; it is
+  architectural, while the temporal branch's open questions are
+  methodological, so the two proceed independently.
