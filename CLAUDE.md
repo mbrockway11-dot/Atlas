@@ -114,3 +114,13 @@ the one that matters.
   collapsing the classes that carry it, so a clean check downstream is
   compatible with a badly confounded cohort. Certify in the representation
   that carries the information, not the one the analysis consumes.
+- Don't gate a denotational system on whether it *can produce* meanings.
+  **A system is eligible only when the exact evidence state that licensed
+  those meanings remains reproducible, synchronized and independently
+  auditable.** Representation 1E enforces this: capability flags are derived
+  from the corpus, and `concordance_eligible` requires the corpus, rules and
+  dictionary hashes to agree — so a dictionary full of real entries goes
+  ineligible the moment its evidence changes underneath it. Checking "is the
+  dictionary non-empty" fails open for fixtures, stale artifacts and
+  unprovenanced legacy output alike. Any new system entering 1E inherits this
+  gate; it may not borrow an existing synthesis vocabulary to skip it.

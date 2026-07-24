@@ -239,3 +239,38 @@ Symbolic and behavioral mappings for numerology, gematria and Vedic each
 require their own frozen source dictionaries. Those are preregistered work in
 their own right; until a dictionary exists for a given system and axis, that
 system contributes **silence** on that axis, never an interpreted guess.
+
+---
+
+## Entry gate for any system
+
+Numerology established the discipline every later system inherits. See
+[the source policy](NUMEROLOGY_SOURCE_POLICY.md) and
+[the acquisition gate](NUMEROLOGY_SOURCE_ACQUISITION.md).
+
+> **A denotational system is not eligible because it can produce meanings. It
+> is eligible only when the exact evidence state that licensed those meanings
+> remains reproducible, synchronized and independently auditable.**
+
+Concretely, a system entering 1E must supply:
+
+- a declared tradition boundary, with any historical claim stated or disowned
+- layered bibliographic identity — work, manifestation, source copy, passage
+- a construct-equivalence verdict per mapping; a shared phrase is not evidence
+- semantic granularity, with only direct denotation eligible for 1E-A
+- derived capability flags, hash-synchronized to the corpus that produced them
+- quarantine of any pre-existing unprovenanced interpretation path
+
+It may **not** bypass its own missing sources by reaching for a synthesis
+vocabulary already in the tree.
+
+### Current entry status
+
+| system | state |
+|---|---|
+| Kamea | **admitted** — structural axis only, direct measurement, no source needed |
+| numerology | architecture complete, **acquisition pending** (baseline `07af099`) |
+| gematria | not started |
+| Vedic | not started |
+
+1E-A cannot run yet: concordance needs two eligible systems and has one.
