@@ -81,6 +81,81 @@ work → manifestation → source-copy model already in place.
 
 ---
 
+## Per-layer source map
+
+One best source *family* per layer, not one book per tradition — because
+different layers license different claims and therefore need different
+evidence. This is the acquisition shopping list at layer granularity.
+
+### The general mapping
+
+| Layer | Claim licensed | Best source(s) | Tier |
+|---|---|---|---|
+| orthography / symbol identity | "this is the symbol" | Unicode; traditional script standards | normative |
+| computation / astronomy | "this is the computed value" | Swiss Ephemeris (version recorded) | normative |
+| bibliographic provenance | "this edition/copy exists" | WorldCat, LoC, HathiTrust, Internet Archive | catalog |
+| traditional rule / method | "this is the tradition's rule" | primary texts or critical editions | primary_traditional |
+| interpretation / denotation | "the tradition says this signifies X" | primary texts with explicit commentary | primary_traditional |
+| historical context | "how traditions differed" | scholarly monographs | scholarly_reference |
+
+### Per system
+
+**Numerology** — bibliography via WorldCat / LoC; primary sources are whichever
+authors define Atlas's scope (Juno Jordan, Florence Campbell, Cheiro if
+intentionally in scope). Consistency of scope matters more than popularity.
+
+**Gematria**, layer by layer:
+- orthography → Unicode (done)
+- transliteration → one published convention (ISO 259, ALA-LC, SBL) —
+  orthography only, never a value
+- value method → a primary/authoritative traditional source stating the
+  chosen method (e.g. standard *mispar hechrachi*), from a verified copy
+- equivalence → primary texts demonstrating actual gematria use, not
+  calculators
+- denotation → primary commentaries making explicit interpretive claims
+
+**Vedic**, one source family per layer:
+- astronomy → Swiss Ephemeris (done)
+- ayanamsa → primary works for the admitted school (Lahiri / Raman /
+  Krishnamurti)
+- house system → primary jyotisha texts or authoritative school documentation
+- dasha → primary descriptions of Vimshottari (or the admitted system)
+- interpretation → classical literature in reliable critical editions or
+  respected translations: *Bṛhat Parāśara Horā Śāstra*, *Bṛhat Jātaka*,
+  *Phaladīpikā*, *Jātaka Pārijāta*
+
+### Kamea is different — and that is the finding, not a gap
+
+Applying the same taxonomy to Kamea reveals **no textual method layer at all**:
+
+```text
+planet → square dimensions → construction algorithm → cell arrangement
+       → graph structure
+```
+
+| Layer | Best source |
+|---|---|
+| construction algorithm | historical magic-square mathematics / verified descriptions of planetary squares |
+| arithmetic correctness | direct computation |
+| structural properties | graph-theoretic analysis |
+| denotation | **none** in this framework |
+
+Every interpretive tradition eventually reaches `primary source → rule →
+interpretation`. Kamea never develops that branch: its pipeline terminates at
+`construction → measurement → structure`. This is not an omission — 1D
+established that Kamea's structure is directly measurable, and 1E admitted it
+through **measurement** rather than textual authority. Pinned by
+`tests/test_denotation_lattice.py`: Kamea reaches denotation with zero textual
+layers, and it is the only system whose denotation is admitted — because a
+denotation is admitted if and only if it is licensed by measurement, not text.
+
+So Kamea's thin source stack is a *consequence* of the architecture applied
+consistently, and it reinforces the standing conclusion: Kamea is a
+measurement system, while numerology, gematria and Vedic require progressively
+richer layers of traditional textual authority before they may denote.
+
+---
+
 ## Acquisition priority
 
 1. **One verified gematria value-method source** — smallest acquisition,

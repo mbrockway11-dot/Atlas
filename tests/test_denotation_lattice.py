@@ -20,6 +20,7 @@ from pathlib import Path
 import pytest
 
 from atlas.validation.denotation.admission import (
+    ADMISSION_REGISTER,
     LATTICE_ORDER,
     AdmissionClass,
     AdmissionError,
@@ -486,6 +487,78 @@ def test_vedic_denotes_nothing_and_concordance_unchanged() -> None:
     assert all(
         layer.highest_stage_reached is not LatticeStage.DENOTATION
         for layer in layers_for("vedic")
+    )
+    assert admitted_systems() == ["kamea"]
+    assert concordance_ready() is False
+
+
+# ---------------------------------------------------------------------------
+# Kamea is structurally a measurement system (the 1D->1E through-line)
+# ---------------------------------------------------------------------------
+
+
+def test_kamea_denotes_by_measurement_with_no_textual_layer() -> None:
+    """Kamea reaches denotation with zero textual_interpretation layers.
+
+    The permanent structural fact behind Kamea's admission. Applying the same
+    source-layer taxonomy to Kamea reveals no 'traditional rule -> meaning'
+    branch: 1D showed its structure is directly measurable, and 1E admitted
+    it through measurement rather than textual authority. Its source stack is
+    thin by construction, not by omission.
+    """
+    (kamea,) = layers_for("kamea")
+
+    assert kamea.admission_class is AdmissionClass.DIRECT_MEASUREMENT
+    assert kamea.highest_stage_reached is LatticeStage.DENOTATION
+    assert kamea.admitted is True
+
+    textual = [
+        layer
+        for layer in layers_for("kamea")
+        if layer.admission_class is AdmissionClass.TEXTUAL_INTERPRETATION
+    ]
+
+    assert textual == []
+
+
+def test_every_interpretive_system_has_a_textual_layer() -> None:
+    """Numerology, gematria and Vedic all require textual authority.
+
+    The contrast that makes Kamea's shape meaningful: each interpretive system
+    develops a 'primary source -> rule -> interpretation' branch that Kamea
+    never does.
+    """
+    for system in ("numerology", "gematria", "vedic"):
+        textual = [
+            layer
+            for layer in layers_for(system)
+            if layer.admission_class
+            is AdmissionClass.TEXTUAL_INTERPRETATION
+        ]
+
+        assert textual, system
+
+
+def test_the_only_admitted_denotation_is_measurement_licensed() -> None:
+    """The acquisition frontier: measurement denotes, text is still blocked.
+
+    This is the invariant that a source event will change. When the first
+    verified source admits a textual denotation, this test must be updated to
+    name the new denoting system -- which is exactly the acknowledgement a
+    capability gain should force. Until then, Kamea alone denotes, by
+    measurement.
+    """
+    admitted_denotations = [
+        layer
+        for layer in ADMISSION_REGISTER
+        if layer.highest_stage_reached is LatticeStage.DENOTATION
+        and layer.admitted
+    ]
+
+    assert [layer.system for layer in admitted_denotations] == ["kamea"]
+    assert all(
+        layer.admission_class is AdmissionClass.DIRECT_MEASUREMENT
+        for layer in admitted_denotations
     )
     assert admitted_systems() == ["kamea"]
     assert concordance_ready() is False
