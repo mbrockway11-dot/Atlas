@@ -339,10 +339,28 @@ unseen-class rate — so the separation generalizes across held-out year blocks
 rather than resting on the fallback. Precisely what the 3.27-year cell-crossing
 time predicts. No other body exceeds the 0.70 threshold at any scale.
 
-**Translation removes the leak by destroying the information.** Saturn's B2
-falls to chance (0.507 at W3D; MI 0.635 → 0.012). B2 is not *cleaner* than
-B3D, it is emptier — and reading a null B2 result as evidence of no era
-dependence would invert the finding.
+**Translation *masks* the Saturn era signal by collapsing the classes that
+carry it.** Saturn's B2 falls to chance (0.507 at W3D; MI 0.635 → 0.012).
+
+The wording is load-bearing, so state the contrast plainly:
+
+```text
+statistical adjustment:      preserve relevant information
+                             remove nuisance association
+
+translation normalization:   discard distinctions
+                             nuisance association disappears as a consequence
+```
+
+B2 does not *correct* the era leak. It is not cleaner than B3D — it is
+emptier. So **a null B2 diagnostic cannot certify a clean control design**,
+and reading one as evidence of era-independence would invert the finding.
+
+Two truths must both be preserved:
+
+1. R1's quantized trajectory layer is era-sensitive for Saturn.
+2. R1's translation-normalized geometry can conceal that sensitivity by
+   destroying the relevant information.
 
 ### Mutual information is unusable under saturation
 
@@ -368,19 +386,85 @@ before 2B runs.
 
 ---
 
-## R1 control quality (required before 2B)
+## R1 control quality — implemented and enforced
 
-Extending `control_quality.py` to R1. Every R1 event study reports, per body:
+`r1_control_quality.py`. Stricter than the R0 gate, because R1 introduces a
+failure mode R0 does not have.
+
+### The structural rule
+
+> **A downstream coarsening may not be used to certify balance in an upstream
+> representation.**
+
+Without it, this passes silently:
 
 ```text
-cell occupancy imbalance      transition-rate imbalance
-core-shape imbalance          stationary-path frequency
-era predictability
+events and controls differ strongly in Saturn phase
+        ↓
+B2 erases the distinction
+        ↓
+B2 balance check passes
+        ↓
+study appears properly controlled
 ```
 
-Same enforcement as the R0 gate: a study that omits it produces no output. The
-v1 failure is the reason that gate exists, and R1's degeneracy makes the same
-failure *more* likely here, not less.
+`write_r1_result` refuses to write when events and controls are
+distinguishable in B3 or B3D **even if B2 looks balanced**, and refuses again
+when the upstream encodings fail on their own terms. A masked cohort produces
+no output at all.
+
+### Asymmetric thresholds, by failure category
+
+One global threshold would miss most of these, because the bodies fail
+differently:
+
+| category | trigger | who fails this way |
+|---|---|---|
+| era leakage | blocked accuracy ≥ 0.70 with p < 0.05 | Saturn |
+| saturation | unseen-class rate > 0.50; MI suppressed from interpretation | fast bodies |
+| degeneracy | dominant class share > 0.90 | slow bodies, short scales |
+| translation masking | B3D imbalanced or era-predictive while B2 is not | B2 |
+| support mismatch | class-support overlap < 0.50 | any |
+
+### The Saturn regression gate
+
+The measured behaviour is now a permanent fixture in
+`tests/test_r1_control_quality.py`:
+
+- Saturn B3D **must** separate 1970–1980 from 2010–2020 above threshold, with
+  a low unseen-class rate.
+- Saturn B2 **must** show the documented information loss (gap > 0.2).
+- The fast bodies **must not** spuriously exceed the threshold.
+
+If any of these stops holding, the representation changed and the audit's
+conclusions no longer follow from the code.
+
+**Still to do:** prove that an era-matched *control generator* eliminates the
+separability. The current study proves the representation contains era
+information; it does not yet prove the matching procedure removes it.
+
+### Reporting rules, frozen
+
+Three quantities that the Moon case showed are genuinely distinct —
+population association, sample memorization, held-out predictability:
+
+- Never report MI without the unseen-class rate.
+- Treat MI as uninterpretable above the saturation threshold.
+- Blocked permutation significance is the authoritative era verdict.
+- Report accuracy only alongside fallback behaviour and class coverage.
+- `|balanced_accuracy − 0.5|` may be used descriptively for sub-chance cases,
+  never as evidence on its own.
+
+---
+
+## The general principle
+
+Beyond R1, and worth stating on its own:
+
+> **A lossy representation can make a confounded dataset appear balanced.**
+
+Balance must therefore be certified in the representation that carries the
+information, not in whatever representation the analysis happens to consume.
 
 ---
 

@@ -108,3 +108,9 @@ the one that matters.
   the outliers.
 - Don't use `build_identity_vector(calibration_acfs=...)` in new code; it is
   deprecated and warns. Pass `calibration_vectors=`.
+- Don't certify control balance in a lossy representation. **A lossy
+  representation can make a confounded dataset appear balanced** — Temporal 1D
+  measured this: translation normalization masks Saturn's era signal by
+  collapsing the classes that carry it, so a clean check downstream is
+  compatible with a badly confounded cohort. Certify in the representation
+  that carries the information, not the one the analysis consumes.
