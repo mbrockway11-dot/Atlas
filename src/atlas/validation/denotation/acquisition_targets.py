@@ -126,7 +126,7 @@ CANONICAL_ACQUISITION_CORPUS: tuple[AcquisitionTarget, ...] = (
             "and explicitly omits Hebrew numeric values as out of scope. "
             "Admission stays closed until a source covers "
             "MANDATORY_NUMERAL_REQUIREMENTS (see 1E-G-P1-NORMATIVE-SOURCE-"
-            "SELECTION). Pardes Rimmonim retained for equivalence/denotation "
+            "EVALUATION). Pardes Rimmonim retained for equivalence/denotation "
             "research (1E-G-SOURCE-B/-C), not P1 computation."
         ),
     ),

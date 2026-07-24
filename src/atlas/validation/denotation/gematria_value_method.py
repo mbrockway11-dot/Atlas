@@ -194,25 +194,31 @@ MANDATORY_NUMERAL_REQUIREMENTS: frozenset[str] = frozenset(
     }
 )
 
-# The candidate normative authorities, in the order they are to be tested. A
-# lower-priority candidate is considered only if the ones above it do not
-# suffice. Unicode CLDR is last and conditional: it models Hebrew numerals as
-# an algorithmic numbering system, but its exact rules must be inspected to
-# confirm they expose the mapping and policies above before it is treated as
-# sufficient.
-NUMERAL_AUTHORITY_CANDIDATES: tuple[str, ...] = (
-    "official_hebrew_or_governmental_numeral_standard",
-    "scholarly_grammar_of_hebrew_numeration",
-    "unicode_cldr_hebrew_algorithmic_numbering",
+# Candidate normative authorities to EVALUATE against the requirements. Their
+# listing is a search starting point, not an evidence hierarchy: which one is
+# strongest is decided by how completely each specifies the six requirements,
+# not by its position here. An Academy of the Hebrew Language publication may
+# be the strongest if it specifies the system -- or a scholarly grammar may be,
+# if it does not. Unicode CLDR is an *implementation* standard (it models
+# Hebrew numerals algorithmically, TR35), not a historical authority, so its
+# rules must be inspected; that caveat is about its kind, not its rank.
+NUMERAL_AUTHORITY_CANDIDATES: frozenset[str] = frozenset(
+    {
+        "official_hebrew_or_governmental_numeral_standard",
+        "scholarly_grammar_of_hebrew_numeration",
+        "unicode_cldr_hebrew_algorithmic_numbering",
+    }
 )
 
 
 def numeral_source_sufficient(covered: frozenset[str]) -> bool:
     """Return whether a candidate covers every mandatory requirement.
 
-    The acceptance gate for the value-table source. A source that does not
+    The acceptance gate for the value-table source, and the thing that decides
+    among candidates -- not their kind or convenience. A source that does not
     explicitly specify the mapping, final-form treatment and above-400 policy
-    is not sufficient, however standard its values look.
+    is not sufficient, however standard its values look or however
+    machine-readable it is.
     """
     return MANDATORY_NUMERAL_REQUIREMENTS <= covered
 

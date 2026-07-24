@@ -112,6 +112,15 @@ Each stage: **do**, **accept when**, **enforced by**, **silence if**.
 > code, establish equivalence — *then* extract meanings. Never search first for
 > "the meaning of 4" or "what Ketu signifies."
 
+> **Standing question — define or presuppose?** Before a source is admitted for
+> any construct, ask: *does this source establish the rule, or assume a rule
+> established elsewhere?* A source that presupposes the construct is evidence of
+> **usage**, not of the **definition**, and citing it to license the definition
+> is mis-targeting. The P1 integration test caught exactly this: Pardes
+> Rimmonim and the Talmud *use* gematria values without defining them, so they
+> license equivalence, not the value table. Apply this to every source in every
+> tradition — numerology and Jyotiṣa included — before acquisition, not after.
+
 ### 7. Semantic granularity
 
 - **Do:** tag each statement as `direct_denotation`, `analogy`,

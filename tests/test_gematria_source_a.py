@@ -377,14 +377,21 @@ def test_thousands_and_punctuation_are_conditional() -> None:
     assert numeral_source_sufficient(MANDATORY_NUMERAL_REQUIREMENTS)
 
 
-def test_candidate_authorities_are_ordered_unicode_cldr_last() -> None:
-    """Official standard, then grammar, then CLDR -- CLDR last and conditional."""
+def test_candidates_are_a_set_to_evaluate_not_a_hierarchy() -> None:
+    """The candidates are evaluated against the requirements, not ranked.
+
+    Position confers no evidential weight: which authority is strongest is
+    decided by requirement coverage, so the candidates are an unordered set.
+    """
     from atlas.validation.denotation.gematria_value_method import (
         NUMERAL_AUTHORITY_CANDIDATES,
     )
 
-    assert NUMERAL_AUTHORITY_CANDIDATES[0].startswith("official")
-    assert "cldr" in NUMERAL_AUTHORITY_CANDIDATES[-1]
+    assert isinstance(NUMERAL_AUTHORITY_CANDIDATES, frozenset)
+    assert any(
+        "official" in c for c in NUMERAL_AUTHORITY_CANDIDATES
+    )
+    assert any("cldr" in c for c in NUMERAL_AUTHORITY_CANDIDATES)
 
 
 def test_p1_target_reclassified_to_normative_computation() -> None:
