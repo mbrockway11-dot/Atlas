@@ -169,11 +169,105 @@ The current corpus reports exactly one: `no_source_copy`.
 
 ---
 
-## Source-neutral work that may proceed meanwhile
+## Capability gating — the flags downstream code must check
 
-Complete: manifestation and source-copy schemas, printed-page/scan-page
-mapping, transcription hash stability, the merely-declared-edition guard,
-copy-verification gating, double-transcription disagreement handling, and the
-four-reason completeness report.
+Every downstream numerology operation gates on flags **derived from the
+corpus**, never on whether a dictionary happens to be non-empty. That weaker
+check fails open: it is equally satisfied by test-fixture meanings, a stale
+cached artifact, legacy `evidence_from_number` output, a partially ingested
+source, or a dictionary compiled against a corpus that has since changed.
+
+Current state:
+
+```text
+numerology_denotation_capabilities:
+    source_copy_verified:              false
+    construct_equivalence_established: false
+    direct_denotations_available:      false
+    hashes_agree:                      true
+    concordance_eligible:              false
+
+blocking:
+    no transcription-eligible manifestation with a source copy
+    no passage establishes that a source construct is the code's
+    no compiled denotations
+```
+
+`concordance_eligible` turns true only when every upstream state holds **and**
+the corpus, rules and dictionary hashes all agree. A non-empty dictionary
+whose recorded corpus hash no longer matches is not merely stale — it
+describes evidence that is no longer there — and the flag goes false however
+many entries it holds. Tested both ways: the gate turns on for a fully
+transcribed fixture pipeline, and off when the corpus changes underneath a
+compiled dictionary.
+
+---
+
+## Legacy quarantine
+
+```text
+legacy_unprovenanced_interpretation:
+    module:          atlas.synthesis.adapters.numerology
+    symbol:          evidence_from_number
+    present:         true
+    permitted_in_1E: false
+```
+
+`evidence_from_number` maps computed numbers straight to structural evidence
+with no source, tradition, edition, page or construct-equivalence verdict. It
+is the largest remaining accidental-entry path into the provenanced
+architecture, so two AST tests assert that no module under
+`validation/denotation/` imports it or references the symbol by any route.
+
+The quarantine is a boundary, not a deletion — other callers may still use it.
+Without it the provenance architecture and the interpretation shortcut would
+coexist, and a later caller could unknowingly take the shortcut.
+
+---
+
+## Milestone status: 1E-N-SOURCE infrastructure complete; acquisition pending
+
+Acceptance evidence:
+
+- [x] layered bibliographic identity (work / manifestation / copy / passage)
+- [x] source-copy eligibility gate
+- [x] dual transcription with disagreement handling
+- [x] printed-page anchoring, scan page secondary
+- [x] deterministic compiler
+- [x] explicit silence reporting, four reasons
+- [x] no shipped ontology meanings
+- [x] no concordance eligibility
+- [x] capability flags derived from the corpus
+- [x] legacy interpretive adapter quarantined
+
+**What the numerology branch may now claim:** the tradition boundary is
+declared; candidate works are bibliographically identified; unresolved
+manifestation claims remain unresolved; no eligible source copy exists; no
+admissible passages exist; no denotation claims exist; the compiler emits
+silence and explains why.
+
+**What it may not claim:** that the implemented quantities correspond to
+Jordan's or Balliett's constructs; that either source licenses 11, 22 or 33;
+that any number maps to any ontology coordinate; that numerology agrees or
+disagrees with Kamea. This boundary is carried in every capabilities artifact
+as `cannot_claim`.
+
+Acquisition is a **data dependency**, and the next transition is event-driven:
+
+```text
+verified source copy acquired
+      ↓  copy metadata and page map recorded
+      ↓  construct definitions transcribed
+      ↓  independent transcription agreement
+      ↓  construct-equivalence audit
+      ↓  direct denotations extracted
+```
+
+A book becoming available does not advance the dictionary. It merely permits
+the construct audit to begin.
+
+Another system may proceed in parallel **only** under the same provenance
+discipline. It may not bypass numerology's missing sources by reaching for
+existing synthesis vocabularies.
 
 **The first real numerological coordinate must wait for a verified copy.**
