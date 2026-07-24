@@ -22,7 +22,7 @@ harness and nothing more.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from enum import Enum
 import json
@@ -94,6 +94,12 @@ class EventRecord:
     provenance: EventProvenance
     source: str
     timestamp_precision: TimestampPrecision
+    # Everything the source catalogue carried. Retained even when the
+    # current experiment does not consume it: a field discarded at import
+    # cannot be recovered without re-fetching, and a later representation
+    # (topocentric positions, houses, local angles) will need depth and
+    # location.
+    extra: dict[str, Any] = field(default_factory=dict)
 
     @property
     def confirmatory_eligible(self) -> bool:
@@ -115,6 +121,7 @@ class EventRecord:
             "timestamp_precision": self.timestamp_precision.value,
             "precision_seconds": PRECISION_SECONDS[self.timestamp_precision],
             "confirmatory_eligible": self.confirmatory_eligible,
+            **{f"source_{k}": v for k, v in self.extra.items()},
         }
 
 
@@ -288,6 +295,11 @@ def load_catalogue(path: str | Path) -> list[EventRecord]:
                 timestamp_precision=TimestampPrecision(
                     str(row.get("timestamp_precision", "second"))
                 ),
+                extra={
+                    key[len("source_"):]: value
+                    for key, value in row.items()
+                    if key.startswith("source_")
+                },
             )
         )
 

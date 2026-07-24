@@ -1,0 +1,36 @@
+{
+  "accepted_count": 772,
+  "canonical_query": "endtime=2025-12-31T23%3A59%3A59Z&eventtype=earthquake&format=geojson&minmagnitude=7.0&orderby=time-asc&starttime=1970-01-01T00%3A00%3A00Z",
+  "catalogue_version": "usgs_fdsn_event_v1",
+  "count_endpoint_reported": 772,
+  "duplicate_handling": "First occurrence of an event id wins; later ones are rejected as duplicate_event_id.",
+  "earliest_event_utc": "1970-01-04T17:00:41.150000+00:00",
+  "features_returned": 772,
+  "latest_event_utc": "2025-12-08T14:15:09.896000+00:00",
+  "location_caveat": "Earthquake latitude, longitude and depth are catalogue metadata and control information. They are NOT inputs to the present geocentric R0 vector, which depends only on the instant. They are preserved because a later topocentric or house-based representation would need them.",
+  "magnitude_distribution": {
+    "7.0": 530,
+    "7.5": 198,
+    "8.0": 38,
+    "8.5": 4,
+    "9.0": 2
+  },
+  "magnitude_max": 9.1,
+  "magnitude_min": 7.0,
+  "query_parameters": {
+    "endtime": "2025-12-31T23:59:59Z",
+    "eventtype": "earthquake",
+    "format": "geojson",
+    "minmagnitude": "7.0",
+    "orderby": "time-asc",
+    "starttime": "1970-01-01T00:00:00Z"
+  },
+  "raw_response_bytes": 674179,
+  "raw_response_sha256": "e8f6b97e03e3910148ec9e6d3e10a9734c1aad37651205bb3b775edc4d9a47fc",
+  "rejected_count": 0,
+  "rejection_reasons": {},
+  "retrieved_utc": "2026-07-24T00:31:26.250349+00:00",
+  "service": "https://earthquake.usgs.gov/fdsnws/event/1/",
+  "service_version": "2.7.0",
+  "transform_schema": "atlas.validation.usgs-earthquake-transform.v1"
+}

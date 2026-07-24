@@ -1,0 +1,9 @@
+{
+  "catalogue_version": "usgs_fdsn_event_v1",
+  "immutable": true,
+  "note": "USGS revises events after publication. This snapshot is frozen; a refresh must produce v2 and a revision report, never mutate v1.",
+  "response_bytes": 674179,
+  "response_sha256": "e8f6b97e03e3910148ec9e6d3e10a9734c1aad37651205bb3b775edc4d9a47fc",
+  "retrieved_utc": "2026-07-24T00:31:26.250349+00:00",
+  "service_version": "2.7.0"
+}
