@@ -271,11 +271,14 @@ because its figures are large and varied.
 > coarsening is inactive wherever the representation discriminates, and where
 > it is active it collapses toward a single class.
 
-For this representation, the geometry is **largely ornamental**, with the
-caveat that where it acts it is subtractive rather than structuring. That is a
-clean negative result about the square's statistical contribution, and it is
-independent of any event outcome. It does not bear on the arrangement's
-symbolic content, which is not a claim this audit can test.
+On this evidence the geometry looked **largely ornamental**, acting mainly
+where paths were already degenerate.
+
+> ⚠️ **That conclusion did not survive the large cohort.** It was drawn from
+> 80 instants at two scales, and it was wrong. See
+> [the large-cohort result](#large-cohort-result-r1-g-not-r1-q) below — the
+> classification is **R1-G**, not R1-Q. The sections above are kept as the
+> record of what the small cohort showed, not as findings.
 
 ### Cadence sensitivity caught a real artifact
 
@@ -488,6 +491,101 @@ population association, sample memorization, held-out predictability:
 - Report accuracy only alongside fallback behaviour and class coverage.
 - `|balanced_accuracy − 0.5|` may be used descriptively for sub-chance cases,
   never as evidence on its own.
+
+---
+
+## Large-cohort result: R1-G, not R1-Q
+
+```bash
+.venv/Scripts/python.exe scripts/run_r1q_large_cohort.py --instants 300
+```
+
+Frozen design, committed before the run: two deterministic irregular seeds,
+three coprime lattice cadences, **all four canonical scales**, all seven
+bodies, no event labels. 140 rows, 28 body-scale regimes, 462 s.
+
+**Verdict: `R1-G — geometrically active in at least one regime`.** The
+preregistered rule was contradicted, and it was contradicted against my
+expectation.
+
+### The three surviving regimes
+
+Qualifying in **every** cohort with stable activity across cadences:
+
+```text
+regime           cohort               effsup  activ  merges  stat  unseen   NMI
+mercury/R1-W3D   irregular_20260801    149.3  0.393    1162  0.12    0.39  0.82
+mercury/R1-W3D   lattice_47d           163.1  0.344    1220  0.14    0.43  0.83
+sun/R1-W3D       irregular_20260801     63.2  0.586    8852  0.45    0.03  0.59
+sun/R1-W3D       lattice_47d            70.1  0.597    7692  0.41    0.00  0.61
+venus/R1-W3D     irregular_20260801     62.7  0.848   12963  0.13    0.09  0.38
+venus/R1-W3D     lattice_47d            68.0  0.872   12972  0.13    0.07  0.37
+```
+
+**Venus at R1-W3D is the clearest counterexample.** Effective support ~63–69,
+only 13–18% of paths stationary, and translation merges **85–89% of the B3D
+classes**, leaving NMI at 0.36–0.38. That is a rich, non-degenerate regime in
+which the square's uniquely geometric operation reorganizes the partition
+substantially. Mercury is similar at higher capacity and lower activity
+(support ~150, activity ~0.39). The Sun qualifies but is **borderline** on the
+stationarity clause — 0.40–0.45 against a 0.5 threshold — so it should not
+carry the claim alone.
+
+### What the small cohort got wrong, and why
+
+Two errors compounded:
+
+1. **Only two scales were measured.** The earlier run used the default
+   `R1-W3D` and `R1-W1Y` — the extremes. `R1-W30D` and `R1-W180D` were never
+   looked at, and both contain qualifying regimes.
+2. **The middle was read as interpolation between the extremes.** Anchoring on
+   Saturn (total collapse) and the Moon (zero merges) produced a tidy story —
+   "translation acts only where paths are degenerate" — that the data already
+   contradicted. Venus at R1-W3D showed collapse 11.0 with a stationary
+   fraction of 0.14 in the 80-instant run. It was in the table, and it was
+   filed under the degenerate story rather than against it.
+
+The large cohort did not overturn a well-supported conclusion; it exposed one
+that was under-supported when made.
+
+### A gap between the stated rule and the implemented one
+
+The preregistered conjunction included *stable class merges across cohorts*.
+`contradicts_r1q()` checked only the per-row clauses; stability was computed
+separately and never enforced. That is a real discrepancy between what was
+written and what ran, and it is recorded rather than quietly fixed.
+
+`classify_r1q` now enforces it: a body-scale regime counts only when **every**
+cohort's row qualifies *and* its activity agrees across cadences.
+
+**The conclusion survives the stricter rule.** Under enforcement:
+
+```text
+contradicting (stable)     mercury/R1-W3D, sun/R1-W3D, venus/R1-W3D
+rejected for instability   jupiter/R1-W180D, mars/R1-W30D, saturn/R1-W1Y
+```
+
+The three rejections are instructive: all are driven by `lattice_13d` alone
+(Saturn W1Y reads 0.273 there against ~0.60 in the other four cohorts). That
+is the Mercury aliasing artifact again, now caught by the rule instead of by
+inspection.
+
+### What R1-G means, and what it does not
+
+R1-G says translation normalization does substantive partition work in at
+least three stable, non-degenerate regimes — **not** that the geometry is
+useful, and not that it carries event information. Everything established
+earlier still holds:
+
+- Cell lookup is bijective; B1 ≡ B3 and B3D ≡ B2R exactly.
+- Translation only ever **coarsens** — it never refines a partition.
+- It masks Saturn's era signal by destroying the classes that carry it.
+
+So the honest statement is: **the square's geometric operation is not inert,
+but every measured effect of it is subtractive.** A coarsening that removes
+85% of Venus's classes is doing something real; whether that something is
+useful is a question 2B asks, under the gate, and it must still be read as
+incremental over B3D.
 
 ---
 

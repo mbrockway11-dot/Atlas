@@ -105,11 +105,58 @@ def test_classification_reports_r1q_when_nothing_contradicts() -> None:
 
 def test_classification_names_the_contradicting_regime() -> None:
     """A single qualifying regime flips the classification, and is named."""
-    verdict = classify_r1q([_row(activity=0.0), _row(body="venus")])
+    verdict = classify_r1q(
+        [_row(body="mars", activity=0.0), _row(body="venus")]
+    )
 
     assert verdict["r1q_holds"] is False
     assert verdict["classification"].startswith("R1-G")
-    assert verdict["contradicting_regimes"] == ["venus/R1-W3D/irregular"]
+    assert verdict["contradicting_regimes"] == ["venus/R1-W3D"]
+
+
+def test_unstable_activity_cannot_supply_the_evidence() -> None:
+    """The stated conjunction includes cross-cohort stability.
+
+    The first implementation checked the per-row clauses only, which would
+    have admitted a regime whose activity was a lattice artifact -- exactly
+    what the Mercury aliasing result warned about.
+    """
+    rows = [
+        _row(cohort="irregular", activity=0.60),
+        _row(cohort="lattice_13d", activity=0.27),
+    ]
+
+    verdict = classify_r1q(rows)
+
+    assert verdict["contradicting_regimes"] == []
+    assert verdict["rejected_for_instability"] == ["mars/R1-W3D"]
+    assert verdict["r1q_holds"] is True
+    # The rows still qualified individually; the group did not.
+    assert len(verdict["qualifying_rows"]) == 2
+
+
+def test_stable_activity_across_cohorts_does_supply_evidence() -> None:
+    """Agreement across cadences is what makes the evidence credible."""
+    rows = [
+        _row(cohort="irregular", activity=0.85),
+        _row(cohort="lattice_13d", activity=0.87),
+        _row(cohort="lattice_47d", activity=0.86),
+    ]
+
+    verdict = classify_r1q(rows)
+
+    assert verdict["contradicting_regimes"] == ["mars/R1-W3D"]
+    assert verdict["r1q_holds"] is False
+
+
+def test_a_regime_must_qualify_in_every_cohort() -> None:
+    """One passing cohort is not a regime-level result."""
+    rows = [
+        _row(cohort="irregular", activity=0.85),
+        _row(cohort="lattice_13d", activity=0.0),
+    ]
+
+    assert classify_r1q(rows)["contradicting_regimes"] == []
 
 
 def test_thresholds_are_stated_in_the_verdict() -> None:

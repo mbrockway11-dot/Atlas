@@ -210,18 +210,58 @@ def build_regime_row(
     )
 
 
-def classify_r1q(rows: Sequence[RegimeRow]) -> dict[str, Any]:
-    """Apply the preregistered rule across every measured regime."""
-    contradicting = [
+def classify_r1q(
+    rows: Sequence[RegimeRow],
+    *,
+    require_cross_cohort_stability: bool = True,
+) -> dict[str, Any]:
+    """Apply the preregistered rule across every measured regime.
+
+    The stated conjunction includes *stable class merges across cohorts*, so
+    it is enforced here rather than reported alongside: a body-scale regime
+    counts as evidence only when every cohort's row qualifies **and** its
+    translation activity agrees across cadences. The first version of this
+    function checked the per-row clauses only, which admitted regimes whose
+    activity was a lattice artifact -- exactly the failure the Mercury
+    aliasing result warned about.
+    """
+    qualifying_rows = [
         f"{row.body}/{row.scale}/{row.cohort}"
         for row in rows
         if row.contradicts_r1q()
     ]
 
+    grouped: dict[tuple[str, str], list[RegimeRow]] = {}
+
+    for row in rows:
+        grouped.setdefault((row.body, row.scale), []).append(row)
+
+    stability = robustness_across_cohorts(rows)
+    unstable = set(stability["unstable_across_cohorts"])
+
+    contradicting: list[str] = []
+    rejected_for_instability: list[str] = []
+
+    for (body, scale), group in sorted(grouped.items()):
+        if not all(row.contradicts_r1q() for row in group):
+            continue
+
+        label = f"{body}/{scale}"
+
+        if require_cross_cohort_stability and label in unstable:
+            rejected_for_instability.append(label)
+            continue
+
+        contradicting.append(label)
+
     return {
         "schema": R1Q_SCHEMA,
         "regimes": len(rows),
+        "body_scale_regimes": len(grouped),
+        "qualifying_rows": qualifying_rows,
         "contradicting_regimes": contradicting,
+        "rejected_for_instability": rejected_for_instability,
+        "cross_cohort_stability_enforced": require_cross_cohort_stability,
         "r1q_holds": not contradicting,
         "rule": {
             "min_effective_support": MIN_EFFECTIVE_SUPPORT,
