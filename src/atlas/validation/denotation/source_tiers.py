@@ -89,6 +89,15 @@ TIER_LICENSES: dict[SourceTier, frozenset[ClaimType]] = {
 
 # Sources the project has used or named, classified once so a later citation
 # cannot quietly reclassify them. Keyed by a stable source id.
+#
+# Access-route principle: a platform that *hosts* primary texts (Sefaria,
+# GRETIL, Internet Archive) is an access route, not a source of its content's
+# tier. It is classified catalog_archive -- it licenses that a text is
+# locatable there, nothing more. The primary work it hosts keeps its own
+# primary_traditional tier, and a citation must name the *work* (with its
+# verified edition and copy), never the platform, to license a meaning. So
+# "the value is on Sefaria" cannot license a value; "Pardes Rimmonim, edition
+# X, p. Y, obtained via Sefaria" can, once the copy chain is complete.
 KNOWN_SOURCES: dict[str, SourceTier] = {
     # Normative standards -- identity and computation, never meaning.
     "unicode_standard": SourceTier.NORMATIVE_STANDARD,
@@ -96,12 +105,35 @@ KNOWN_SOURCES: dict[str, SourceTier] = {
     "iso_259": SourceTier.NORMATIVE_STANDARD,
     "ala_lc_hebrew_romanization": SourceTier.NORMATIVE_STANDARD,
     "sbl_hebrew_transliteration": SourceTier.NORMATIVE_STANDARD,
-    # Catalogs -- provenance of editions only.
+    # Scholarly references -- context, variants, bibliography; never a rule,
+    # method or meaning. The Jewish Encyclopedia describes mispar hechrachi
+    # but, as a scholarly reference, cannot license the value table.
+    "jewish_encyclopedia_1906": SourceTier.SCHOLARLY_REFERENCE,
+    "jewish_languages_transliteration_guide": (
+        SourceTier.SCHOLARLY_REFERENCE
+    ),
+    # Catalogs and access routes -- provenance / location only. The text
+    # platforms sit here too: they help locate and read a work, but the work's
+    # tier governs what may be licensed.
     "worldcat": SourceTier.CATALOG_ARCHIVE,
     "library_of_congress": SourceTier.CATALOG_ARCHIVE,
     "hathitrust": SourceTier.CATALOG_ARCHIVE,
     "internet_archive": SourceTier.CATALOG_ARCHIVE,
     "open_library": SourceTier.CATALOG_ARCHIVE,
+    "google_books": SourceTier.CATALOG_ARCHIVE,
+    "sefaria": SourceTier.CATALOG_ARCHIVE,
+    "gretil": SourceTier.CATALOG_ARCHIVE,
+    "sanskrit_documents": SourceTier.CATALOG_ARCHIVE,
+    # Primary traditional works -- may license rules, methods, meanings,
+    # equivalence. Classification is not admission: a specific passage from a
+    # specific verified edition, double-transcribed, is still required before
+    # any of these licenses anything.
+    "pardes_rimmonim": SourceTier.PRIMARY_TRADITIONAL,
+    "talmud": SourceTier.PRIMARY_TRADITIONAL,
+    "brihat_parasara_hora_shastra": SourceTier.PRIMARY_TRADITIONAL,
+    "brihat_jataka": SourceTier.PRIMARY_TRADITIONAL,
+    "phaladipika": SourceTier.PRIMARY_TRADITIONAL,
+    "jataka_parijata": SourceTier.PRIMARY_TRADITIONAL,
     # Inadmissible -- may locate a reference, never license one.
     "ai_generated_summary": SourceTier.INADMISSIBLE,
     "wikipedia": SourceTier.INADMISSIBLE,
@@ -111,6 +143,21 @@ KNOWN_SOURCES: dict[str, SourceTier] = {
     "astrology_blog": SourceTier.INADMISSIBLE,
     "social_media_post": SourceTier.INADMISSIBLE,
 }
+
+
+# Text-hosting platforms among the catalog-tier entries. Documented so the
+# access-route principle is legible: these provide text, but licensing is
+# governed by the hosted work's tier, not by the platform.
+ACCESS_ROUTES: frozenset[str] = frozenset(
+    {
+        "internet_archive",
+        "hathitrust",
+        "google_books",
+        "sefaria",
+        "gretil",
+        "sanskrit_documents",
+    }
+)
 
 
 class SourceTierError(ValueError):

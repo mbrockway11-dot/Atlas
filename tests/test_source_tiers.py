@@ -139,3 +139,66 @@ def test_transliteration_standards_are_normative_not_gematria_authority() -> (
         assert can_license(tier, ClaimType.IDENTITY)
         assert not can_license(tier, ClaimType.METHOD)
         assert not can_license(tier, ClaimType.MEANING)
+
+
+# ---------------------------------------------------------------------------
+# The named acquisition queue (Sefaria, Jewish Encyclopedia, GRETIL, ...)
+# ---------------------------------------------------------------------------
+
+
+def test_jewish_encyclopedia_cannot_license_the_value_table() -> None:
+    """A scholarly reference describes mispar hechrachi; it cannot license it.
+
+    The user's own caveat, enforced: the Jewish Encyclopedia is excellent for
+    context and bibliography, but the value method needs a primary source.
+    """
+    je = tier_of("jewish_encyclopedia_1906")
+
+    assert je is SourceTier.SCHOLARLY_REFERENCE
+    assert not can_license(je, ClaimType.METHOD)
+    assert not can_license(je, ClaimType.MEANING)
+    assert can_license(je, ClaimType.CONTEXT)
+
+
+def test_a_text_platform_is_an_access_route_not_a_meaning_licence() -> None:
+    """Sefaria hosts primary texts but does not inherit their tier.
+
+    'The value is on Sefaria' cannot license a value. The hosted work does,
+    and only through a verified edition and copy.
+    """
+    from atlas.validation.denotation.source_tiers import ACCESS_ROUTES
+
+    for platform in ("sefaria", "gretil", "sanskrit_documents"):
+        tier = tier_of(platform)
+
+        assert platform in ACCESS_ROUTES
+        assert tier is SourceTier.CATALOG_ARCHIVE
+        assert can_license(tier, ClaimType.PROVENANCE)
+        assert not can_license(tier, ClaimType.MEANING)
+        assert not can_license(tier, ClaimType.METHOD)
+
+
+def test_the_hosted_primary_work_may_license_a_meaning() -> None:
+    """Pardes Rimmonim is primary_traditional -- the platform is not.
+
+    Classification is not admission: the tier permits the claim, but a
+    specific verified passage is still required to make it.
+    """
+    work = tier_of("pardes_rimmonim")
+
+    assert work is SourceTier.PRIMARY_TRADITIONAL
+    assert can_license(work, ClaimType.METHOD)
+    assert can_license(work, ClaimType.MEANING)
+    assert can_license(work, ClaimType.EQUIVALENCE)
+
+
+def test_classical_jyotisha_texts_are_primary_traditional() -> None:
+    """BPHS and the rest may license rules and meanings; a catalog cannot."""
+    for work in (
+        "brihat_parasara_hora_shastra",
+        "brihat_jataka",
+        "phaladipika",
+        "jataka_parijata",
+    ):
+        assert tier_of(work) is SourceTier.PRIMARY_TRADITIONAL
+        assert can_license(tier_of(work), ClaimType.RULE)
