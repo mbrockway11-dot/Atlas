@@ -48,6 +48,8 @@ MODULE_STAGE: dict[str, int] = {
     "numerology_corpus": 1,
     "numerology_corpus_v1": 1,
     "gematria_transliteration": 1,
+    "gematria_hebrew": 1,
+    "gematria_value_method": 1,
     "gematria_pipeline": 1,
     # 2 -- denotation: claims, dictionary, compilation
     "expressions": 2,
@@ -328,8 +330,12 @@ def test_admission_does_not_launder_inputs() -> None:
     # computation are reproducible and admitted in isolation. Neither can
     # feed a denotation, because transliteration and value assignment between
     # them are unlicensed -- so gematria still denotes nothing.
+    # After 1E-G-SOURCE-A, Hebrew letter identity is also admitted (sourced
+    # to Unicode). Three admitted layers, and gematria still denotes nothing:
+    # letter values between identity and computation remain unlicensed.
     assert admissible_in_isolation("gematria") == [
         "orthographic_scope",
+        "hebrew_orthography",
         "numeric_computation",
     ]
     assert "gematria" not in admitted_systems()

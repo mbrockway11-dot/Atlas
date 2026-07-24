@@ -205,32 +205,55 @@ ADMISSION_REGISTER: tuple[SystemLayer, ...] = (
     ),
     SystemLayer(
         system="gematria",
+        layer="hebrew_orthography",
+        admission_class=AdmissionClass.DERIVED_COMPUTATION,
+        highest_stage_reached=LatticeStage.CONSTRUCT_IDENTITY,
+        # Admitted in 1E-G-SOURCE-A. Letter identity is sourced to the Unicode
+        # standard, which is normative and machine-verifiable -- unlike a
+        # gematria value, a letter's identity is fixed by the orthographic
+        # standard and checked at runtime against unicodedata. The first
+        # genuinely source-backed non-measurement layer in the system.
+        admitted=True,
+        note=(
+            "Direct Hebrew, no transliteration. Code point -> letter identity "
+            "sourced to The Unicode Standard, Hebrew block, verified against "
+            "unicodedata. Latin input is blocked in this path. Licenses "
+            "identity only: Unicode assigns Hebrew letters no numeric value."
+        ),
+    ),
+    SystemLayer(
+        system="gematria",
         layer="transliteration",
         admission_class=AdmissionClass.TEXTUAL_INTERPRETATION,
         highest_stage_reached=LatticeStage.CONSTRUCT_IDENTITY,
         # Split out in 1E-G-REPAIR, so it CAN now be cited -- but no scheme is
-        # admitted, so it stays inadmissible pending 1E-G-SOURCE.
+        # admitted, so it stays inadmissible pending 1E-G-SOURCE. Superseded
+        # as the first path by direct Hebrew, which needs no convention.
         admitted=False,
         note=(
             "No numerology analogue. Split from value assignment in "
             "1E-G-REPAIR into gematria_transliteration, so the Latin->Hebrew "
             "editorial convention is now separately representable and "
             "hashable. Zero admitted schemes: the legacy fused mapping is "
-            "registered as a candidate only, non-injective and uncited. "
-            "Admission awaits 1E-G-SOURCE."
+            "registered as a candidate only, non-injective and uncited. A "
+            "convenience layer, secondary to direct Hebrew; admission awaits "
+            "1E-G-SOURCE."
         ),
     ),
     SystemLayer(
         system="gematria",
         layer="letter_value_assignment",
         admission_class=AdmissionClass.TEXTUAL_INTERPRETATION,
-        highest_stage_reached=LatticeStage.CONSTRUCT_IDENTITY,
+        highest_stage_reached=LatticeStage.SOURCE_VERIFICATION,
         admitted=False,
         note=(
-            "Split from transliteration in 1E-G-REPAIR. The standard Hebrew "
-            "values are held as a candidate ValueAssignment, uncited and not "
-            "admitted; expected to be the most tractable textual layer once "
-            "1E-G-SOURCE supplies a citation."
+            "1E-G-SOURCE-A structured this as a named ValueMethod "
+            "(mispar-hechrachi-candidate) carrying every choice that affects "
+            "the number, but no method is admitted: Unicode assigns Hebrew "
+            "letters no value, so this is a traditional claim needing a "
+            "traditional source, and admission requires a source copy hash "
+            "and locator this phase does not have. Same acquisition wall as "
+            "numerology, one layer along."
         ),
     ),
     SystemLayer(

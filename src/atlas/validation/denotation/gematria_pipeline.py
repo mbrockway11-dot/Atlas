@@ -41,6 +41,7 @@ from atlas.validation.denotation.gematria_transliteration import (
     TransliterationScheme,
     ValueAssignment,
 )
+from atlas.validation.denotation.gematria_value_method import ValueMethod
 
 
 PIPELINE_SCHEMA = "atlas.validation.denotation.gematria-pipeline.v1"
@@ -205,6 +206,77 @@ def _blocked(
         total=None,
         detail=detail,
     )
+
+
+def direct_hebrew_value(text: str, method: "ValueMethod | None") -> dict:
+    """Compute a Hebrew gematria value directly, no transliteration.
+
+    The 1E-G-SOURCE-A path: Hebrew script in, letter identity from Unicode,
+    value from an **admitted** method. Letter identity is licensed today; the
+    numeric value is not, because no method is admitted, so this fail-closes
+    at the value stage with the identities still reported. The returned record
+    carries everything the acceptance test needs -- identities, values, total,
+    method hash and provenance -- so a licensed run is fully reproducible.
+    """
+    from atlas.validation.denotation.gematria_hebrew import (
+        UNICODE_SOURCE,
+        read_hebrew,
+    )
+
+    reading = read_hebrew(text)
+
+    base = {
+        "schema": PIPELINE_SCHEMA,
+        "system": "gematria",
+        "path": "direct_hebrew",
+        "identity_source": UNICODE_SOURCE,
+        "orthography": reading.orthography.to_dict(),
+        "letters": [letter.value for letter in reading.letters],
+    }
+
+    if not reading.usable:
+        return {
+            **base,
+            "stage_status": StageStatus.BLOCKED_SCOPE.value,
+            "values": [],
+            "total": None,
+            "complete": False,
+            "detail": (
+                f"scope: {reading.orthography.scope_status.value}"
+            ),
+        }
+
+    if method is None or not method.admitted:
+        return {
+            **base,
+            # Letter identity IS licensed; only the value is blocked.
+            "stage_status": (
+                StageStatus.BLOCKED_NO_ADMITTED_SCHEME.value
+            ),
+            "letter_identity_licensed": True,
+            "values": [],
+            "total": None,
+            "complete": False,
+            "detail": (
+                "letter identities licensed by Unicode; no admitted value "
+                "method, so the numeric value is not licensed (1E-G-SOURCE-A "
+                "has no traditional value source)"
+            ),
+        }
+
+    values = [
+        method.value_of(letter, final=final)
+        for letter, final in zip(reading.letters, reading.final_forms)
+    ]
+
+    return {
+        **base,
+        "stage_status": StageStatus.OK.value,
+        "values": values,
+        "total": sum(values),
+        "complete": True,
+        "method_provenance": method.provenance(),
+    }
 
 
 # The legacy cipher module, quarantined from 1E. Its function names --
