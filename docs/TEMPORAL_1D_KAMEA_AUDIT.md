@@ -193,16 +193,89 @@ So the reduction's equivalence structure is not a fixed property of the
 geometry. It is entirely a function of whether the sampling window lets the
 body return to a cell it has already occupied.
 
-### B2 ↔ B3: the decisive comparison, partially answered
+### B2 ↔ B3D: the decisive comparison, answered
 
-Where reduction is an identity map, **B2 and B3 are informationally identical**
-— the geometry contributes nothing beyond quantization at that scale. Where
-reduction does collapse, B2 differs from B3 by construction, but the collapse
-it performs is dedup of repeated cells, which a longitude-bin sequence could
-also perform. **The audit is not yet finished**: what remains is to compare
-B2 against a *dedup-matched* B3 to separate "the reduction removes repeats"
-from "the square's arrangement matters." That is now the highest-value
-remaining measurement, and it is not yet run.
+The earlier B2-vs-B3 gap conflated two mechanisms. Splitting them:
+
+```text
+B3   ordered bin sequence
+ ├── B3D  dedup only, same rule, no square
+ └── B2   Kamea projection + reduction
+```
+
+**A second bijection appears, and it locates the entire effect.** Dedup keeps
+positions and value→cell is invertible, so deduplicating the bin sequence and
+deduplicating the cell sequence produce the same partition. Measured:
+`B3D` and `B2R` (core geometry before translation) agree exactly on class
+count, entropy and collision structure in every body and scale.
+
+Combined with `B1 ≡ B3`, that means:
+
+> **Every information difference between B2 and B3D comes from translation
+> normalization** — the single step that uses the grid's two-dimensional
+> structure. Everything else in the Kamea pipeline is bijective relabelling.
+
+### The measured answer
+
+80 instants, irregular cohort. `cls` = equivalence classes; `merges` = pairs
+B2 calls equal that B3D did not; `NMI` = normalized mutual information.
+
+```text
+--- R1-W3D ---
+body      cls_B3D  cls_B2  refines  merges    NMI  dedup_act  transl_act
+saturn          9       1     True    2723  0.000      0.960       0.889
+jupiter        18       3     True    2811  0.049      0.959       0.833
+mars           38       6     True    1792  0.257      0.950       0.842
+sun            51      24     True     566  0.623      0.937       0.529
+venus          44       7     True    1090  0.374      0.924       0.841
+mercury        69      53     True      57  0.892      0.903       0.232
+moon           77      77     True       0  1.000      0.253       0.000
+
+--- R1-W1Y ---
+saturn         21       9     True     402  0.641      0.932       0.571
+jupiter        40      40     True       0  1.000      0.841       0.000
+mars           79      79     True       0  1.000      0.257       0.000
+sun            60      60     True       0  1.000      0.508       0.000
+venus          80      80     True       0  1.000      0.121       0.000
+mercury        80      80     True       0  1.000      0.122       0.000
+moon           80      80     True       0  1.000      0.048       0.000
+```
+
+**H3 is false at the partition level.** `left_refines_right` holds in all 14
+cases: B2 is a pure *coarsening* of B3D. The square never separates two
+trajectories that dedup alone called equal — so it does not induce a different
+*notion of closeness*, only fewer distinctions.
+
+**H2 is true, but narrowly and in the wrong direction to be useful.** The
+square does induce additional equivalence classes, via translation-invariance
+of the core figure — and "which trajectories are translates" genuinely depends
+on the arrangement, since longitude translation is *not* grid translation.
+But:
+
+- Where the representation actually discriminates — fast bodies, long windows
+  — translation makes **zero merges** and NMI is exactly **1.000**. B2 ≡ B3D.
+  The geometry does literally nothing in the regime that matters.
+- Where translation is most active, it is *destructively* active. Saturn at
+  R1-W3D coarsens 9 classes to **1**, NMI **0.000**. That is not structure
+  being exposed; it is all information being removed.
+
+The mechanism is figure size: translation only merges when core figures are
+small enough to coincide, which happens exactly where paths are degenerate.
+Jupiter at R1-W1Y has high dedup activity (0.841) yet zero translation merges,
+because its figures are large and varied.
+
+### What this establishes
+
+> After removing repeated-cell elimination, the Kamea arrangement contributes
+> **only a translation-invariant coarsening** — never a reorganization. That
+> coarsening is inactive wherever the representation discriminates, and where
+> it is active it collapses toward a single class.
+
+For this representation, the geometry is **largely ornamental**, with the
+caveat that where it acts it is subtractive rather than structuring. That is a
+clean negative result about the square's statistical contribution, and it is
+independent of any event outcome. It does not bear on the arrangement's
+symbolic content, which is not a claim this audit can test.
 
 ### Cadence sensitivity caught a real artifact
 
@@ -273,8 +346,10 @@ failure *more* likely here, not less.
       reported separately, with saturation flagged
 - [x] Chao1 and Good–Turing estimators for saturated samples
 - [x] Capacity / compression / stability measured together, never alone
-- [ ] **Dedup-matched B3**, to separate "reduction removes repeats" from
-      "the square's arrangement matters" — the decisive remaining measurement
+- [x] **Dedup-matched B3D** — separates repeat-removal from the arrangement,
+      and answers the decisive question
+- [x] Equivalence-class refinement: partition comparison, not just entropy
+- [x] `reduction_activity` — where each operation is an identity map
 - [ ] Per-body, per-scale measurement suite, on a cohort large enough that
       occupancy is not censored at the sample size
 - [ ] Boundary-conditioned stability, with the fragile-band fraction

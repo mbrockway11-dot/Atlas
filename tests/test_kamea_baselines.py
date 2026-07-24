@@ -19,10 +19,13 @@ from atlas.validation.kamea_baselines import (
     bijection_check,
     cadence_cohorts,
     compression_profile,
+    dedup_preserving_order,
     encode_baselines,
     encode_cohort,
     irregular_cohort,
     occupancy_estimates,
+    partition_comparison,
+    reduction_activity,
     regular_cohort,
     shannon_entropy,
 )
@@ -90,6 +93,88 @@ def test_b1_and_b3_are_informationally_identical() -> None:
 # ---------------------------------------------------------------------------
 # Occupancy estimators
 # ---------------------------------------------------------------------------
+
+
+def test_dedup_is_a_bijection_with_core_geometry() -> None:
+    """B3D and B2R are relabellings of each other.
+
+    Dedup keeps positions and value-to-cell is invertible, so deduplicating
+    the bin sequence and deduplicating the cell sequence produce the same
+    partition. Together with B1==B3 this means every information difference
+    between B2 and B3D comes from translation normalization -- the one step
+    that uses the grid's two-dimensional structure.
+    """
+    encodings = encode_cohort(irregular_cohort(40, seed=5), "mars", SPEC)
+
+    check = bijection_check(encodings)
+
+    assert check["distinct_b3d"] == check["distinct_b2r"]
+    assert check["entropy_b3d"] == pytest.approx(check["entropy_b2r"])
+    assert check["dedup_structure_matches"] is True
+
+
+def test_b3d_applies_the_reduction_rule_without_the_square() -> None:
+    """B3D is the null the reduction must beat."""
+    assert dedup_preserving_order((3, 3, 5, 5, 5, 3, 7)) == (3, 5, 7)
+    assert dedup_preserving_order(()) == ()
+
+    trajectory = build_trajectory(INSTANT, "saturn", SPEC)
+    encoded = encode_baselines(trajectory)
+
+    assert encoded["B3D"] == dedup_preserving_order(
+        trajectory.path.reduced_values
+    )
+    assert len(encoded["B3D"]) == len(encoded["B2R"])
+
+
+def test_b2_is_a_coarsening_of_b3d_never_a_reorganization() -> None:
+    """The square merges classes; it never splits them.
+
+    So it cannot separate two trajectories that dedup alone called equal.
+    Any contribution is a loss of distinctions, not a different notion of
+    which trajectories are close.
+    """
+    encodings = encode_cohort(irregular_cohort(50, seed=9), "venus", SPEC)
+
+    comparison = partition_comparison(
+        [item["B3D"] for item in encodings],
+        [item["B2"] for item in encodings],
+    )
+
+    assert comparison["left_refines_right"] is True
+    assert comparison["pairs_same_left_only"] == 0
+    assert comparison["classes_B2"] <= comparison["classes_B3D"]
+
+
+def test_partition_comparison_detects_identical_partitions() -> None:
+    """Zero merges and NMI 1.0 mean the square added nothing."""
+    labels = ["a", "b", "c", "d"]
+    comparison = partition_comparison(labels, labels)
+
+    assert comparison["normalized_mutual_information"] == pytest.approx(1.0)
+    assert comparison["merges_added_by_right"] == 0
+    assert comparison["variation_of_information"] == pytest.approx(0.0)
+
+
+def test_partition_comparison_detects_total_collapse() -> None:
+    """Merging everything into one class carries no information."""
+    comparison = partition_comparison(["a", "b", "c"], ["x", "x", "x"])
+
+    assert comparison["normalized_mutual_information"] == pytest.approx(0.0)
+    assert comparison["merges_added_by_right"] == 3
+    assert comparison["left_refines_right"] is True
+
+
+def test_reduction_activity_locates_identity_map_regions() -> None:
+    """Where an operation is inactive is a result, not a disappointment."""
+    encodings = encode_cohort(irregular_cohort(40, seed=4), "moon", SPEC)
+    activity = reduction_activity(encodings)
+
+    assert 0.0 <= activity["dedup_activity"] <= 1.0
+    assert 0.0 <= activity["translation_activity"] <= 1.0
+    assert activity["classes_after_translation"] <= (
+        activity["classes_after_dedup"]
+    )
 
 
 def test_saturated_samples_are_flagged_not_reported_as_capacity() -> None:

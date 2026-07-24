@@ -52,14 +52,23 @@ from atlas.validation.temporal_kamea import (
 BASELINE_SCHEMA = "atlas.validation.kamea-baselines.v1"
 
 # Ordered so reports read as the audit hierarchy: position, traversal,
-# reduction, and the no-geometry control.
-ENCODINGS: tuple[str, ...] = ("B0", "B1", "B2", "B3")
+# reduction, the no-geometry control, and the two encodings that separate
+# repeated-cell removal from the arrangement itself.
+ENCODINGS: tuple[str, ...] = ("B0", "B1", "B2", "B3", "B3D", "B2R")
 
 ENCODING_DESCRIPTIONS: dict[str, str] = {
     "B0": "centre Kamea cell only -- no path, no order",
     "B1": "ordered sequence of Kamea cells -- path, no reduction",
     "B2": "reduced / core geometry -- the R1 claim",
     "B3": "ordered quantized longitudes -- same bins, no square",
+    "B3D": (
+        "B3 after removing repeated visits with the same rule as the "
+        "reduction -- dedup without any Kamea geometry"
+    ),
+    "B2R": (
+        "core geometry before translation normalization -- the reduction's "
+        "output as raw grid cells"
+    ),
 }
 
 
@@ -82,7 +91,36 @@ def encode_baselines(
         # The square lookup is the only thing withheld. These are the same
         # integers B1's coordinates were looked up from.
         "B3": trajectory.values,
+        # The same dedup the reduction performs, applied to the bin sequence
+        # with no square involved. This is the null the reduction must beat:
+        # it removes the trivial source of compression, so whatever remains
+        # is attributable to the arrangement rather than to repeat removal.
+        "B3D": dedup_preserving_order(trajectory.path.reduced_values),
+        # The reduction's output before translation normalization, kept so
+        # the two steps of B2 can be separated.
+        "B2R": trajectory.core_geometry,
     }
+
+
+def dedup_preserving_order(
+    values: Sequence[Hashable],
+) -> tuple[Hashable, ...]:
+    """Remove repeated entries, keeping first-occurrence order.
+
+    The same rule the render path applies when it builds core geometry, so
+    B3D and the reduction differ in the square and nothing else.
+    """
+    seen: set[Hashable] = set()
+    kept: list[Hashable] = []
+
+    for value in values:
+        if value in seen:
+            continue
+
+        seen.add(value)
+        kept.append(value)
+
+    return tuple(kept)
 
 
 def bijection_check(
@@ -97,6 +135,8 @@ def bijection_check(
     """
     b1 = [item["B1"] for item in encodings]
     b3 = [item["B3"] for item in encodings]
+    b3d = [item["B3D"] for item in encodings]
+    b2r = [item["B2R"] for item in encodings]
 
     return {
         "distinct_b1": len(set(b1)),
@@ -106,12 +146,147 @@ def bijection_check(
         "collision_structure_matches": (
             sorted(Counter(b1).values()) == sorted(Counter(b3).values())
         ),
-        "note": (
-            "B1 and B3 are related by an invertible cell lookup, so any "
-            "difference here is a harness fault, not a property of the "
-            "square. It also means B2 versus B3 is the only comparison in "
-            "which the reduction can show an information effect."
+        # The second bijection, and the one that locates the whole effect.
+        # Dedup keeps positions, and value-to-cell is invertible, so
+        # deduplicating the bin sequence and deduplicating the cell sequence
+        # produce relabellings of each other.
+        "distinct_b3d": len(set(b3d)),
+        "distinct_b2r": len(set(b2r)),
+        "entropy_b3d": shannon_entropy(b3d),
+        "entropy_b2r": shannon_entropy(b2r),
+        "dedup_structure_matches": (
+            sorted(Counter(b3d).values()) == sorted(Counter(b2r).values())
         ),
+        "note": (
+            "B1==B3 and B3D==B2R are both bijections, so a difference in "
+            "either is a harness fault rather than a property of the "
+            "square. Together they mean every information difference "
+            "between B2 and B3D comes from translation normalization -- the "
+            "one step that uses the grid's two-dimensional structure."
+        ),
+    }
+
+
+def reduction_activity(
+    encodings: Sequence[dict[str, tuple[Hashable, ...]]],
+) -> dict[str, Any]:
+    """Return where reduction is mathematically active, and where it is not.
+
+    Framed as "where is reduction active" rather than "does reduction help",
+    because the two steps have different reach. Dedup can only act on a
+    trajectory that revisits a cell; translation can only act on a cohort
+    containing figures that are translates of one another. A collapse ratio
+    of exactly 1.0 is not a disappointing result -- it locates a region
+    where the operation is an identity map.
+    """
+    if not encodings:
+        return {"trajectories": 0}
+
+    dedup_removed = [
+        1.0 - len(item["B3D"]) / len(item["B3"]) for item in encodings
+    ]
+
+    classes_b3d = len({item["B3D"] for item in encodings})
+    classes_b2 = len({item["B2"] for item in encodings})
+
+    return {
+        "trajectories": len(encodings),
+        # Per-trajectory: the share of samples dedup removes.
+        "dedup_activity": float(np.mean(dedup_removed)),
+        "dedup_inactive_fraction": float(
+            np.mean([value == 0.0 for value in dedup_removed])
+        ),
+        # Cohort-level: the share of dedup classes translation merges away.
+        "translation_activity": (
+            1.0 - classes_b2 / classes_b3d if classes_b3d else 0.0
+        ),
+        "classes_after_dedup": classes_b3d,
+        "classes_after_translation": classes_b2,
+    }
+
+
+def mutual_information(
+    left: Sequence[Hashable], right: Sequence[Hashable]
+) -> float:
+    """Return the mutual information of two labellings, in nats."""
+    if not left:
+        return 0.0
+
+    total = len(left)
+    joint = Counter(zip(left, right))
+    left_counts = Counter(left)
+    right_counts = Counter(right)
+
+    return float(
+        sum(
+            (count / total)
+            * np.log(
+                (count / total)
+                / ((left_counts[a] / total) * (right_counts[b] / total))
+            )
+            for (a, b), count in joint.items()
+        )
+    )
+
+
+def partition_comparison(
+    left: Sequence[Hashable],
+    right: Sequence[Hashable],
+    *,
+    left_name: str = "B3D",
+    right_name: str = "B2",
+) -> dict[str, Any]:
+    """Compare the equivalence relations two encodings induce.
+
+    Entropy and collision counts describe how *much* structure an encoding
+    has; this describes *which* structure. Two encodings can agree on class
+    counts while partitioning trajectory space completely differently, and
+    only the partition answers whether the square creates a genuinely
+    different notion of equivalence.
+    """
+    if not left:
+        return {"pairs": 0}
+
+    same_left = 0
+    same_right = 0
+    same_both = 0
+
+    for i in range(len(left)):
+        for j in range(i + 1, len(left)):
+            in_left = left[i] == left[j]
+            in_right = right[i] == right[j]
+
+            same_left += in_left
+            same_right += in_right
+            same_both += in_left and in_right
+
+    pairs = len(left) * (len(left) - 1) // 2
+
+    entropy_left = shannon_entropy(left)
+    entropy_right = shannon_entropy(right)
+    shared = mutual_information(left, right)
+
+    return {
+        "pairs": pairs,
+        f"classes_{left_name}": len(set(left)),
+        f"classes_{right_name}": len(set(right)),
+        # A refinement: everything the left calls equal, the right does too.
+        # When it holds, the right partition is a pure coarsening and every
+        # difference is a merge rather than a reorganization.
+        "left_refines_right": same_both == same_left,
+        "right_refines_left": same_both == same_right,
+        "pairs_same_left_only": same_left - same_both,
+        "pairs_same_right_only": same_right - same_both,
+        "pairs_same_both": same_both,
+        "merges_added_by_right": same_right - same_both,
+        "mutual_information_nats": shared,
+        # 1.0 when the partitions are identical up to relabelling.
+        "normalized_mutual_information": (
+            shared / max(entropy_left, entropy_right)
+            if max(entropy_left, entropy_right) > 0
+            else 1.0
+        ),
+        "variation_of_information": entropy_left + entropy_right - 2 * shared,
     }
 
 
@@ -373,4 +548,12 @@ def audit_body(
             cohort.instants, kamea_key, spec
         ),
         "bijection_check": bijection_check(encodings),
+        "reduction_activity": reduction_activity(encodings),
+        # The decisive comparison. B3D has already removed the trivial
+        # source of compression, so whatever separates it from B2 is the
+        # square's own contribution.
+        "partition_vs_dedup": partition_comparison(
+            [item["B3D"] for item in encodings],
+            [item["B2"] for item in encodings],
+        ),
     }
