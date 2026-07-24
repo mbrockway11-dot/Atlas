@@ -220,6 +220,7 @@ def direct_hebrew_value(text: str, method: "ValueMethod | None") -> dict:
     """
     from atlas.validation.denotation.gematria_hebrew import (
         UNICODE_SOURCE,
+        orthography_standard_hash,
         read_hebrew,
     )
 
@@ -230,6 +231,10 @@ def direct_hebrew_value(text: str, method: "ValueMethod | None") -> dict:
         "system": "gematria",
         "path": "direct_hebrew",
         "identity_source": UNICODE_SOURCE,
+        # The identity standard hash travels with every result. A total may
+        # only appear alongside BOTH this and a value method hash, so a
+        # Unicode-only result can never serialize a number.
+        "orthography_standard_hash": orthography_standard_hash(),
         "orthography": reading.orthography.to_dict(),
         "letters": [letter.value for letter in reading.letters],
     }
@@ -269,14 +274,48 @@ def direct_hebrew_value(text: str, method: "ValueMethod | None") -> dict:
         for letter, final in zip(reading.letters, reading.final_forms)
     ]
 
-    return {
+    result = {
         **base,
         "stage_status": StageStatus.OK.value,
         "values": values,
         "total": sum(values),
         "complete": True,
+        "value_method_hash": method.method_hash(),
         "method_provenance": method.provenance(),
     }
+
+    # Structural guarantee, asserted at the one place a total is produced: a
+    # numeric total is serialized only when both the identity standard and the
+    # value method are named. A result carrying a total must carry both
+    # hashes, always.
+    _assert_dual_provenance(result)
+
+    return result
+
+
+def _assert_dual_provenance(result: dict) -> None:
+    """Raise if a total appears without both provenance hashes.
+
+    Enforces the rule that a result backed only by the Unicode identity source
+    must never carry a number. The check is on the serialized result, so it
+    catches a total introduced by any future edit, not only this path.
+    """
+    if result.get("total") is None:
+        return
+
+    if not result.get("orthography_standard_hash"):
+        raise GematriaPipelineError(
+            "a numeric total was produced without an orthography standard "
+            "hash; a value cannot be presented without naming the identity "
+            "source."
+        )
+
+    if not result.get("value_method_hash"):
+        raise GematriaPipelineError(
+            "a numeric total was produced without a value method hash; a "
+            "value cannot be presented without naming the tradition that "
+            "licensed it."
+        )
 
 
 # The legacy cipher module, quarantined from 1E. Its function names --

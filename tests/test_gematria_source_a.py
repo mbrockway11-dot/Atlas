@@ -239,3 +239,94 @@ def test_licensed_path_fail_closes_on_latin() -> None:
 
     assert result["complete"] is False
     assert result["total"] is None
+
+
+# ---------------------------------------------------------------------------
+# Capability distinction: identity vs evaluability
+# ---------------------------------------------------------------------------
+
+
+def test_capabilities_separate_identity_from_value() -> None:
+    """The key result as a flag set, not a general availability status."""
+    from atlas.validation.denotation.gematria_capabilities import (
+        derive_gematria_capabilities,
+    )
+
+    caps = derive_gematria_capabilities()
+
+    assert caps.hebrew_letter_identity_available is True
+    assert caps.value_method_available is False
+    assert caps.numeric_evaluation_available is False
+    assert caps.equivalence_search_available is False
+    assert caps.denotation_available is False
+
+
+def test_downstream_flags_require_upstream_ones() -> None:
+    """Numeric evaluation cannot be available while value is not."""
+    from atlas.validation.denotation.gematria_capabilities import (
+        derive_gematria_capabilities,
+    )
+
+    caps = derive_gematria_capabilities()
+
+    # value is false, so everything that depends on it must be false too.
+    assert not caps.value_method_available
+    assert not caps.numeric_evaluation_available
+    assert not caps.equivalence_search_available
+
+
+def test_capabilities_carry_the_boundary_statement() -> None:
+    """The identity/value boundary travels in the artifact."""
+    from atlas.validation.denotation.gematria_capabilities import (
+        derive_gematria_capabilities,
+    )
+
+    payload = derive_gematria_capabilities().to_dict()
+
+    assert "what a tradition says that symbol is worth" in payload["boundary"]
+    assert len(payload["orthography_standard_hash"]) == 64
+
+
+# ---------------------------------------------------------------------------
+# A total never serializes without both hashes
+# ---------------------------------------------------------------------------
+
+
+def test_a_total_carries_both_provenance_hashes() -> None:
+    """The licensed path names both the standard and the tradition."""
+    result = direct_hebrew_value(_hebrew(ALEPH, BET, GIMEL), _admitted_method())
+
+    assert result["total"] == 6
+    assert len(result["orthography_standard_hash"]) == 64
+    assert len(result["value_method_hash"]) == 64
+
+
+def test_a_blocked_result_carries_identity_hash_but_no_total() -> None:
+    """Unicode-only: an identity hash, and never a number."""
+    result = direct_hebrew_value(
+        _hebrew(ALEPH, BET, GIMEL), MISPAR_HECHRACHI_CANDIDATE
+    )
+
+    assert result["total"] is None
+    assert "value_method_hash" not in result
+    assert len(result["orthography_standard_hash"]) == 64
+
+
+def test_a_total_without_both_hashes_is_refused() -> None:
+    """The structural guard fires if a total ever loses a hash.
+
+    Simulates a future edit that produces a total while dropping the value
+    method hash; the pipeline refuses to present it.
+    """
+    from atlas.validation.denotation.gematria_pipeline import (
+        GematriaPipelineError,
+        _assert_dual_provenance,
+    )
+
+    with pytest.raises(GematriaPipelineError, match="value method hash"):
+        _assert_dual_provenance(
+            {"total": 6, "orthography_standard_hash": "abc"}
+        )
+
+    with pytest.raises(GematriaPipelineError, match="identity source"):
+        _assert_dual_provenance({"total": 6})

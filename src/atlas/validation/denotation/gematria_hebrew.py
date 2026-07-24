@@ -25,6 +25,8 @@ policy, kept separate on purpose.
 from __future__ import annotations
 
 from dataclasses import dataclass
+import hashlib
+import json
 from typing import Any
 
 from atlas.validation.denotation.gematria_orthography import (
@@ -88,6 +90,30 @@ HEBREW_LETTER_IDENTITY: dict[str, HebrewLetter] = {
 FINAL_FORM_CODEPOINTS: frozenset[str] = frozenset(
     {"ך", "ם", "ן", "ף", "ץ"}
 )
+
+
+def orthography_standard_hash() -> str:
+    """Return a deterministic hash of the letter-identity standard.
+
+    Accompanies any numeric result so a total can be traced to the exact
+    identity source that produced its letters -- and, paired with the value
+    method hash, so a total can never be presented without naming *both* the
+    standard that identified the letters and the tradition that valued them.
+    """
+    payload = {
+        "schema": HEBREW_ORTHOGRAPHY_SCHEMA,
+        "source": UNICODE_SOURCE,
+        "identity": {
+            char: letter.value
+            for char, letter in sorted(HEBREW_LETTER_IDENTITY.items())
+        },
+    }
+
+    return hashlib.sha256(
+        json.dumps(payload, sort_keys=True, separators=(",", ":")).encode(
+            "utf-8"
+        )
+    ).hexdigest()
 
 
 class HebrewOrthographyError(ValueError):
