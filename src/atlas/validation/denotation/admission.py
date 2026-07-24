@@ -340,9 +340,11 @@ ADMISSION_REGISTER: tuple[SystemLayer, ...] = (
             "Raman and Krishnamurti, which disagree by arcminutes to over a "
             "degree and so shift nakshatra and sometimes sign boundaries. The "
             "offset value is computed by Swiss Ephemeris, but WHICH ayanamsa "
-            "is a school-specific claim requiring a source. Undeclared as a "
-            "sourced choice, so not admitted; every downstream sidereal "
-            "quantity inherits this."
+            "is a school-specific claim requiring a source. Now explicit "
+            "configuration in vedic_ayanamsa: the three schemes are recorded "
+            "with swisseph-verified offsets, all unadmitted, and a data-level "
+            "guard refuses any sidereal quantity that does not name its "
+            "ayanamsa choice. Admission awaits 1E-V-SOURCE-A."
         ),
     ),
     SystemLayer(

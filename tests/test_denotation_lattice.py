@@ -51,6 +51,7 @@ MODULE_STAGE: dict[str, int] = {
     "gematria_hebrew": 1,
     "gematria_value_method": 1,
     "gematria_pipeline": 1,
+    "vedic_ayanamsa": 1,
     "gematria_capabilities": 4,
     # 2 -- denotation: claims, dictionary, compilation
     "expressions": 2,
