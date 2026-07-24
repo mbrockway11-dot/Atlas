@@ -310,18 +310,148 @@ ADMISSION_REGISTER: tuple[SystemLayer, ...] = (
             "and admitted as computation; it denotes nothing on its own."
         ),
     ),
+    # Vedic decomposes into eight layers -- see
+    # docs/VEDIC_ADMISSION_CLASSIFICATION.md. More than gematria's six and
+    # numerology's two, and with two school-specific choices (ayanamsa, house
+    # system) that neither prior system has any analogue for.
     SystemLayer(
         system="vedic",
-        layer="unclassified",
-        admission_class=AdmissionClass.UNCLASSIFIED,
+        layer="ephemeris",
+        admission_class=AdmissionClass.DERIVED_COMPUTATION,
+        highest_stage_reached=LatticeStage.COMPUTATION,
+        admitted=True,
+        note=(
+            "Tropical geocentric positions from Swiss Ephemeris, the same "
+            "pinned engine Kamea and Temporal use. Deterministic and "
+            "reproducible, admitted in isolation. It underlies everything "
+            "but denotes nothing."
+        ),
+    ),
+    SystemLayer(
+        system="vedic",
+        layer="ayanamsa_framework",
+        admission_class=AdmissionClass.TEXTUAL_INTERPRETATION,
+        highest_stage_reached=LatticeStage.CONSTRUCT_IDENTITY,
+        admitted=False,
+        note=(
+            "The load-bearing choice with no numerology or gematria "
+            "analogue. Vedic is sidereal, so tropical positions must be "
+            "offset by an ayanamsa -- and the code supports Lahiri (default), "
+            "Raman and Krishnamurti, which disagree by arcminutes to over a "
+            "degree and so shift nakshatra and sometimes sign boundaries. The "
+            "offset value is computed by Swiss Ephemeris, but WHICH ayanamsa "
+            "is a school-specific claim requiring a source. Undeclared as a "
+            "sourced choice, so not admitted; every downstream sidereal "
+            "quantity inherits this."
+        ),
+    ),
+    SystemLayer(
+        system="vedic",
+        layer="house_system",
+        admission_class=AdmissionClass.TEXTUAL_INTERPRETATION,
+        highest_stage_reached=LatticeStage.CONSTRUCT_IDENTITY,
+        admitted=False,
+        note=(
+            "A second school-specific choice. build_house_chart implements "
+            "Whole Sign only and raises on others, so the default is baked in "
+            "without being declared as one of several traditions. Needs a "
+            "source for the selected system before admission."
+        ),
+    ),
+    SystemLayer(
+        system="vedic",
+        layer="nakshatra_assignment",
+        admission_class=AdmissionClass.DERIVED_COMPUTATION,
+        highest_stage_reached=LatticeStage.COMPUTATION,
+        admitted=True,
+        note=(
+            "The 27-fold division of the ecliptic is a deterministic function "
+            "of sidereal longitude. Admitted in isolation only: it consumes "
+            "ayanamsa-offset longitudes, and a layer's admission covers its "
+            "own operation never its inputs, so it contributes nothing while "
+            "the ayanamsa is unlicensed."
+        ),
+    ),
+    SystemLayer(
+        system="vedic",
+        layer="divisional_charts",
+        admission_class=AdmissionClass.DERIVED_COMPUTATION,
+        highest_stage_reached=LatticeStage.COMPUTATION,
+        admitted=True,
+        note=(
+            "Vargas and navamsa are deterministic transforms of longitude. "
+            "Admitted in isolation, and inherit the same unlicensed-input "
+            "block as nakshatra assignment."
+        ),
+    ),
+    SystemLayer(
+        system="vedic",
+        layer="dasha_system",
+        admission_class=AdmissionClass.HYBRID,
+        highest_stage_reached=LatticeStage.CONSTRUCT_IDENTITY,
+        admitted=False,
+        note=(
+            "Vimshottari period lengths (Ketu 7, Venus 20, ... summing to 120 "
+            "years) are traditional VALUES hardcoded with no source, while "
+            "the period arithmetic is deterministic. Hybrid: the arithmetic "
+            "is reproducible but the values are a traditional claim, and "
+            "Vimshottari is itself one dasha system among several. Not "
+            "admitted."
+        ),
+    ),
+    SystemLayer(
+        system="vedic",
+        layer="dignity_and_yoga_rules",
+        admission_class=AdmissionClass.TEXTUAL_INTERPRETATION,
+        highest_stage_reached=LatticeStage.CONSTRUCT_IDENTITY,
+        admitted=False,
+        note=(
+            "Exaltation and debilitation signs, and yoga formation rules, are "
+            "traditional classifications hardcoded without citation. Textual "
+            "authority, not admitted."
+        ),
+    ),
+    SystemLayer(
+        system="vedic",
+        layer="denotation",
+        admission_class=AdmissionClass.TEXTUAL_INTERPRETATION,
         highest_stage_reached=LatticeStage.MEASUREMENT,
         admitted=False,
         note=(
-            "Must be decomposed before implementation. Astronomical "
-            "computation, rule-based chart construction and textual "
-            "interpretation may each deserve their own capability state."
+            "knowledge/planets, vedic_interpreter and interpretation/"
+            "vedic_behavior carry uncited interpretive text ('the Sun "
+            "represents conscious identity, vitality, purpose...'). No "
+            "provenance at all -- the largest accidental-entry path, "
+            "quarantined from 1E like evidence_from_number. Blocked behind a "
+            "citation corpus (1E-V-SOURCE)."
         ),
     ),
+)
+
+
+# Uncited interpretive modules that must stay out of every 1E path, one entry
+# per system. Each maps computed structure straight to meaning with no source,
+# so a 1E caller reaching for one would inherit unprovenanced denotation. The
+# quarantine is a boundary, not a deletion: other callers keep these.
+INTERPRETATION_QUARANTINE: tuple[dict[str, Any], ...] = (
+    {
+        "system": "numerology",
+        "module": "atlas.synthesis.adapters.numerology",
+        "symbol": "evidence_from_number",
+        "permitted_in_1E": False,
+    },
+    {
+        "system": "gematria",
+        "module": "atlas.ciphers",
+        "symbol": "hebrew_literal_sequence",
+        "permitted_in_1E": False,
+    },
+    {
+        "system": "vedic",
+        "module": "atlas.knowledge.planets",
+        "symbol": "PLANETS",
+        "permitted_in_1E": False,
+    },
 )
 
 

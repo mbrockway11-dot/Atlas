@@ -221,17 +221,20 @@ def test_numerology_is_admitted_for_arithmetic_but_not_denotation() -> None:
     )
 
 
-def test_vedic_is_unclassified_and_undecomposed() -> None:
-    """It may not inherit numerology's or gematria's classification.
+def test_no_system_is_left_unclassified() -> None:
+    """Every registered system has been decomposed.
 
-    Gematria has since been decomposed (1E-G-CLASSIFY) and left this list;
-    Vedic has not, and its layer count is expected to differ again.
+    Numerology, gematria and Vedic have each been classified into their own
+    layer set; nothing remains at the UNCLASSIFIED default.
     """
-    (layer,) = layers_for("vedic")
+    unclassified = [
+        layer
+        for layer in layers_for("vedic") + layers_for("gematria")
+        + layers_for("numerology")
+        if layer.admission_class is AdmissionClass.UNCLASSIFIED
+    ]
 
-    assert layer.admission_class is AdmissionClass.UNCLASSIFIED
-    assert layer.admitted is False
-    assert "decomposed before implementation" in layer.note
+    assert unclassified == []
 
 
 def test_only_kamea_currently_denotes() -> None:
@@ -352,5 +355,135 @@ def test_gematria_denotes_nothing() -> None:
 
 def test_classification_did_not_change_concordance_readiness() -> None:
     """Classifying a system is not admitting it."""
+    assert admitted_systems() == ["kamea"]
+    assert concordance_ready() is False
+
+
+# ---------------------------------------------------------------------------
+# Vedic admission (1E-V-CLASSIFY)
+# ---------------------------------------------------------------------------
+
+
+def test_vedic_decomposes_into_more_layers_than_gematria() -> None:
+    """The methodology test again: a third system, a third decomposition.
+
+    Numerology had two layers, gematria six, Vedic eight -- and Vedic's
+    load-bearing choices (ayanamsa, house system) have no analogue in either
+    prior system.
+    """
+    vedic = {layer.layer for layer in layers_for("vedic")}
+    gematria = {layer.layer for layer in layers_for("gematria")}
+    numerology = {layer.layer for layer in layers_for("numerology")}
+
+    assert len(vedic) > len(gematria) > len(numerology)
+    assert "ayanamsa_framework" in vedic
+    assert "house_system" in vedic
+    assert not (vedic & gematria) - {"denotation"}
+
+
+def test_vedic_ephemeris_is_admitted_by_computation() -> None:
+    """The same pinned engine Kamea uses; reproducible, admitted."""
+    (ephemeris,) = [
+        item for item in layers_for("vedic") if item.layer == "ephemeris"
+    ]
+
+    assert ephemeris.admission_class is AdmissionClass.DERIVED_COMPUTATION
+    assert ephemeris.admitted is True
+
+
+def test_ayanamsa_is_a_school_choice_needing_a_source() -> None:
+    """Vedic's characteristic fork: which sidereal offset."""
+    (ayanamsa,) = [
+        item
+        for item in layers_for("vedic")
+        if item.layer == "ayanamsa_framework"
+    ]
+
+    assert ayanamsa.admission_class is AdmissionClass.TEXTUAL_INTERPRETATION
+    assert ayanamsa.admitted is False
+    assert "Lahiri" in ayanamsa.note
+
+
+def test_sidereal_computation_admitted_but_not_laundering_ayanamsa() -> None:
+    """Nakshatra and vargas are admitted in isolation and still blocked.
+
+    They consume ayanamsa-offset longitudes, so like gematria's numeric
+    computation over unlicensed transliteration, they contribute nothing
+    while the ayanamsa is unlicensed.
+    """
+    from atlas.validation.denotation.admission import admissible_in_isolation
+
+    admitted = admissible_in_isolation("vedic")
+
+    assert "nakshatra_assignment" in admitted
+    assert "divisional_charts" in admitted
+    assert "ayanamsa_framework" not in admitted
+    assert "vedic" not in admitted_systems()
+
+
+def test_dasha_is_hybrid_with_uncited_period_values() -> None:
+    """Traditional period lengths, deterministic arithmetic."""
+    (dasha,) = [
+        item for item in layers_for("vedic") if item.layer == "dasha_system"
+    ]
+
+    assert dasha.admission_class is AdmissionClass.HYBRID
+    assert dasha.admitted is False
+    assert "120" in dasha.note
+
+
+def test_vedic_denotation_is_uncited_and_quarantined() -> None:
+    """The interpretation layer has no provenance and stays out of 1E."""
+    from atlas.validation.denotation.admission import (
+        INTERPRETATION_QUARANTINE,
+    )
+
+    (denotation,) = [
+        item for item in layers_for("vedic") if item.layer == "denotation"
+    ]
+
+    assert denotation.admitted is False
+    assert "uncited" in denotation.note
+
+    vedic_quarantine = [
+        entry
+        for entry in INTERPRETATION_QUARANTINE
+        if entry["system"] == "vedic"
+    ]
+
+    assert vedic_quarantine
+    assert all(not e["permitted_in_1E"] for e in vedic_quarantine)
+
+
+def test_no_1e_module_imports_a_quarantined_interpretation() -> None:
+    """No denotation module reaches an uncited interpretation entry point."""
+    from atlas.validation.denotation.admission import (
+        INTERPRETATION_QUARANTINE,
+    )
+
+    forbidden = {entry["module"] for entry in INTERPRETATION_QUARANTINE}
+    offenders: list[str] = []
+
+    for path in _package_modules():
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+
+        for node in ast.walk(tree):
+            if isinstance(node, ast.ImportFrom) and node.module:
+                if node.module in forbidden:
+                    offenders.append(f"{path.stem} imports {node.module}")
+            elif isinstance(node, ast.Import):
+                for alias in node.names:
+                    if alias.name in forbidden:
+                        offenders.append(f"{path.stem} imports {alias.name}")
+
+    assert not offenders, offenders
+
+
+def test_vedic_denotes_nothing_and_concordance_unchanged() -> None:
+    """Classifying Vedic did not admit it; only Kamea still denotes."""
+    assert all(
+        layer.highest_stage_reached is not LatticeStage.DENOTATION
+        for layer in layers_for("vedic")
+    )
     assert admitted_systems() == ["kamea"]
     assert concordance_ready() is False
