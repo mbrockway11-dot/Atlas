@@ -33,7 +33,9 @@ from atlas.temporal.models import BirthData
 
 
 TEMPORAL_STATE_SCHEMA = "atlas.validation.temporal-state.v1"
-TEMPORAL_SCHEMA_VERSION = "1.0.0"
+# Bumped when the feature set changes. Pairwise angular separations were
+# added in 1.1.0, which changes the layout and therefore the schema hash.
+TEMPORAL_SCHEMA_VERSION = "1.1.0"
 
 # The bodies a temporal state records, in fixed order. Order is part of the
 # schema: reordering changes the vector layout and so must change its hash.
@@ -62,13 +64,37 @@ ORDERED_QUANTITIES: tuple[str, ...] = (
 )
 
 
-def temporal_feature_layout() -> tuple[str, ...]:
-    """Return the fixed column labels of a temporal state vector."""
+def ordered_body_pairs() -> tuple[tuple[str, str], ...]:
+    """Return every unordered body pair, in fixed order."""
     return tuple(
+        (ORDERED_BODIES[i], ORDERED_BODIES[j])
+        for i in range(len(ORDERED_BODIES))
+        for j in range(i + 1, len(ORDERED_BODIES))
+    )
+
+
+def temporal_feature_layout() -> tuple[str, ...]:
+    """Return the fixed column labels of a temporal state vector.
+
+    Per-body quantities first, then pairwise angular separations. The
+    separations are part of the *raw* representation because relative
+    geometry is available directly from the coordinates -- it is not an
+    engineered feature, and omitting it would make the raw baseline
+    artificially weak in any later comparison.
+    """
+    per_body = tuple(
         f"{body}|{quantity}"
         for body in ORDERED_BODIES
         for quantity in ORDERED_QUANTITIES
     )
+
+    pairwise = tuple(
+        f"{left}~{right}|separation_{component}"
+        for left, right in ordered_body_pairs()
+        for component in ("cos", "sin")
+    )
+
+    return per_body + pairwise
 
 
 def temporal_schema_hash() -> str:
@@ -83,6 +109,7 @@ def temporal_schema_hash() -> str:
         "schema_version": TEMPORAL_SCHEMA_VERSION,
         "bodies": list(ORDERED_BODIES),
         "quantities": list(ORDERED_QUANTITIES),
+        "pairs": [list(pair) for pair in ordered_body_pairs()],
         "layout": list(temporal_feature_layout()),
     }
 
@@ -112,12 +139,31 @@ class TemporalState:
         """Return the state as a float array."""
         return np.asarray(self.values, dtype=np.float64)
 
-    def content_hash(self) -> str:
-        """Return a hash over the semantic content only.
+    def values_hash(self) -> str:
+        """Return a hash over the state *values* alone.
 
-        Excludes nothing volatile, because a temporal state has no volatile
-        provenance: it is a pure function of the instant and the schema.
-        Two runs must therefore agree exactly.
+        Deliberately excludes the instant, so that two different times
+        producing the same sky are detectable. ``content_hash`` cannot serve
+        this purpose: it includes the instant, so every state is unique by
+        construction and no collision could ever be found.
+        """
+        payload = {
+            "schema_hash": self.schema_hash,
+            "values": [round(float(v), 12) for v in self.values],
+        }
+
+        return hashlib.sha256(
+            json.dumps(payload, sort_keys=True, separators=(",", ":")).encode(
+                "utf-8"
+            )
+        ).hexdigest()
+
+    def content_hash(self) -> str:
+        """Return a hash over the instant and its state.
+
+        Used for reproducibility checks: the same instant must always
+        produce the same state. For collision detection use
+        :meth:`values_hash`, which omits the instant.
         """
         payload = {
             "instant": self.instant.isoformat(),
@@ -143,6 +189,7 @@ class TemporalState:
             "ephemeris_engine_version": self.ephemeris_engine_version,
             "schema_hash": self.schema_hash,
             "content_hash": self.content_hash(),
+            "values_hash": self.values_hash(),
             "layout": list(self.layout),
             "values": list(self.values),
         }
@@ -183,7 +230,13 @@ def build_temporal_state(instant: datetime) -> TemporalState:
     birth = BirthData(
         name="temporal-state",
         birth_date=f"{moment.year:04d}-{moment.month:02d}-{moment.day:02d}",
-        birth_time=f"{int(hour):02d}:{int((hour % 1) * 60):02d}",
+        # HH:MM:SS, not HH:MM. The ephemeris accepts seconds, and
+        # formatting without them silently quantized every instant to the
+        # minute -- which would make sub-minute event timestamps
+        # indistinguishable.
+        birth_time=(
+            f"{moment.hour:02d}:{moment.minute:02d}:{moment.second:02d}"
+        ),
         birth_place="",
         latitude=0.0,
         longitude=0.0,
@@ -194,6 +247,7 @@ def build_temporal_state(instant: datetime) -> TemporalState:
     result = build_ephemeris(birth)
 
     values: list[float] = []
+    longitudes: dict[str, float] = {}
 
     for body in ORDERED_BODIES:
         position = result.planets.get(body)
@@ -205,6 +259,7 @@ def build_temporal_state(instant: datetime) -> TemporalState:
             )
 
         radians = np.deg2rad(float(position.longitude))
+        longitudes[body] = radians
 
         values.extend(
             (
@@ -215,6 +270,12 @@ def build_temporal_state(instant: datetime) -> TemporalState:
                 1.0 if position.retrograde else 0.0,
             )
         )
+
+    # Pairwise angular separation, again as (cos, sin) so the wrap at 360
+    # degrees does not create a false discontinuity.
+    for left, right in ordered_body_pairs():
+        separation = longitudes[left] - longitudes[right]
+        values.extend((float(np.cos(separation)), float(np.sin(separation))))
 
     return TemporalState(
         instant=moment,
@@ -311,3 +372,85 @@ def verify_determinism(
         "unstable": [row for row in per_instant if not row["stable"]],
         "per_instant": per_instant,
     }
+
+
+# Staged panel sizes. Regular cadence can alias against orbital periods, so
+# every panel is paired with a seeded random sample that cannot.
+PANEL_PRESETS: dict[str, dict[str, Any]] = {
+    "smoke": {"years": 2, "cadence_hours": 24},
+    "development": {"years": 50, "cadence_hours": 12},
+    "full": {"years": 200, "cadence_hours": 12},
+}
+
+
+def build_temporal_panel(
+    *,
+    start: datetime,
+    end: datetime,
+    cadence_hours: int,
+    random_samples: int = 0,
+    seed: int = 0,
+) -> list[datetime]:
+    """Return a deterministic panel of instants, plus a random sample.
+
+    The regular cadence is reproducible and easy to reason about; the random
+    sample exists because a fixed cadence can land in phase with a periodic
+    signal and make a representation look more or less stable than it is.
+    """
+    start_utc = require_utc(start)
+    end_utc = require_utc(end)
+
+    if start_utc >= end_utc:
+        raise TemporalStateError("start must be earlier than end.")
+
+    if cadence_hours <= 0:
+        raise TemporalStateError("cadence_hours must be positive.")
+
+    step = timedelta(hours=cadence_hours)
+    instants: list[datetime] = []
+
+    moment = start_utc
+
+    while moment < end_utc:
+        instants.append(moment)
+        moment += step
+
+    if random_samples > 0:
+        rng = np.random.default_rng(seed)
+        span_seconds = int((end_utc - start_utc).total_seconds())
+
+        instants.extend(
+            start_utc + timedelta(seconds=int(offset))
+            for offset in rng.integers(0, span_seconds, random_samples)
+        )
+
+    return instants
+
+
+def panel_from_preset(
+    preset: str,
+    *,
+    end: datetime | None = None,
+    random_samples: int = 500,
+    seed: int = 0,
+) -> list[datetime]:
+    """Return a panel for a named preset, ending at a fixed instant."""
+    if preset not in PANEL_PRESETS:
+        raise TemporalStateError(
+            f"Unknown panel preset {preset!r}. "
+            f"Expected one of {sorted(PANEL_PRESETS)}."
+        )
+
+    settings = PANEL_PRESETS[preset]
+    # A fixed default end date, never "now": the panel must not change
+    # depending on when it is generated.
+    finish = require_utc(end or datetime(2040, 1, 1, tzinfo=UTC))
+    begin = finish - timedelta(days=365 * int(settings["years"]))
+
+    return build_temporal_panel(
+        start=begin,
+        end=finish,
+        cadence_hours=int(settings["cadence_hours"]),
+        random_samples=random_samples,
+        seed=seed,
+    )

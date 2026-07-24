@@ -17,6 +17,7 @@ import pytest
 from atlas.validation.temporal_state import (
     ORDERED_BODIES,
     ORDERED_QUANTITIES,
+    ordered_body_pairs,
     TemporalStateError,
     build_temporal_matrix,
     build_temporal_state,
@@ -43,13 +44,26 @@ def test_schema_hash_is_deterministic() -> None:
     assert len(temporal_schema_hash()) == 64
 
 
-def test_layout_is_complete_and_ordered() -> None:
-    """Layout is the product of bodies and quantities, without duplicates."""
-    layout = temporal_feature_layout()
+def test_layout_covers_per_body_and_pairwise_features() -> None:
+    """Layout is per-body quantities plus every unordered body pair.
 
-    assert len(layout) == len(ORDERED_BODIES) * len(ORDERED_QUANTITIES)
+    Pairwise angular separations belong to the *raw* representation:
+    relative geometry is available directly from the coordinates, so
+    omitting it would make the raw baseline artificially weak in any later
+    comparison against a derived representation.
+    """
+    layout = temporal_feature_layout()
+    pairs = ordered_body_pairs()
+
+    expected = (
+        len(ORDERED_BODIES) * len(ORDERED_QUANTITIES) + len(pairs) * 2
+    )
+
+    assert len(layout) == expected
     assert len(set(layout)) == len(layout)
     assert layout[0].startswith(ORDERED_BODIES[0])
+    assert len(pairs) == len(ORDERED_BODIES) * (len(ORDERED_BODIES) - 1) // 2
+    assert any("separation_cos" in label for label in layout)
 
 
 # ---------------------------------------------------------------------------
@@ -92,9 +106,40 @@ def test_repeated_builds_are_identical() -> None:
 def test_distinct_instants_produce_distinct_states() -> None:
     """Different moments must not silently collapse to the same state."""
     assert (
-        build_temporal_state(TOHOKU).content_hash()
-        != build_temporal_state(APOLLO).content_hash()
+        build_temporal_state(TOHOKU).values_hash()
+        != build_temporal_state(APOLLO).values_hash()
     )
+
+
+def test_sub_minute_precision_is_preserved() -> None:
+    """Seconds must reach the ephemeris.
+
+    The builder originally formatted the instant as HH:MM, silently
+    quantizing every state to the minute. Event catalogues record seconds,
+    so two quakes 40 seconds apart would have been indistinguishable.
+    """
+    early = build_temporal_state(
+        datetime(2011, 3, 11, 5, 46, 10, tzinfo=UTC)
+    )
+    late = build_temporal_state(
+        datetime(2011, 3, 11, 5, 46, 50, tzinfo=UTC)
+    )
+
+    assert early.julian_day != late.julian_day
+    assert early.values_hash() != late.values_hash()
+
+
+def test_values_hash_excludes_the_instant() -> None:
+    """Collision detection needs a hash over values alone.
+
+    content_hash includes the instant, so every state is unique by
+    construction under it -- a collision could never be found. values_hash
+    is what makes the question answerable.
+    """
+    state = build_temporal_state(TOHOKU)
+
+    assert state.values_hash() != state.content_hash()
+    assert TOHOKU.isoformat() not in state.values_hash()
 
 
 def test_verify_determinism_reports_stability() -> None:
