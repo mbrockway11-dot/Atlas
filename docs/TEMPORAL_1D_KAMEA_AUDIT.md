@@ -132,6 +132,101 @@ the 3.27-year cell-crossing time predicts.
 
 ---
 
+## B0–B3 audit — first results
+
+```bash
+.venv/Scripts/python.exe scripts/run_kamea_baseline_audit.py
+```
+
+80 instants, deterministic irregular cohort plus a 13-day lattice. Effective
+support per encoding, with the reduction's collapse ratio and entropy
+retention:
+
+```text
+--- R1-W3D ---
+body       B0_eff  B1_eff  B2_eff  B3_eff  collapse  H_kept  measurable
+saturn       7.76    7.76    1.00    7.76      9.00   0.000  True
+jupiter     14.35   15.16    1.14   15.16      6.00   0.049  True
+mars        22.08   33.57    2.44   33.57      6.83   0.253  True
+sun         29.69   65.26   10.91   65.26      2.88   0.572  True
+venus       37.47   75.95    3.96   75.95     11.00   0.318  True
+mercury     44.76   78.63   42.12   78.63      1.49   0.857  True
+moon        47.15   80.00   75.95   80.00      1.04   0.988  False
+
+--- R1-W1Y ---
+saturn       7.76   53.99    6.12   53.99      6.78   0.454  True
+jupiter     14.35   77.27   33.57   77.27      1.95   0.808  True
+mars        22.08   80.00   78.63   80.00      1.01   0.996  False
+sun         29.69   53.58   53.58   53.58      1.00   1.000  False
+venus       37.47   80.00   80.00   80.00      1.00   1.000  False
+mercury     44.76   80.00   80.00   80.00      1.00   1.000  False
+moon        47.15   80.00   80.00   80.00      1.00   1.000  False
+```
+
+### The harness is sound
+
+**`B3_eff == B1_eff` in every single row.** Cell lookup is a bijection and the
+numbers confirm it exactly — identical effective support, identical entropy,
+identical collision structure. The encodings are genuinely matched, and the
+audit reports a harness fault rather than a finding if they ever diverge.
+
+### B0 → B1: traversal adds substantially
+
+Effective support rises from 7.76 to 53.99 for Saturn at R1-W1Y, and from
+29.69 to 65.26 for the Sun at R1-W3D. Temporal traversal is not decoration;
+the centre cell alone discards most of what the representation distinguishes.
+
+### B1 → B2: reduction works only where the path revisits cells
+
+This is the mechanism, and it is sharp:
+
+- Where a body **revisits cells** — slow bodies, short windows — reduction
+  collapses aggressively. Saturn at R1-W3D collapses 9 paths to 1 shape and
+  retains **zero** entropy: its effective support is exactly 1.00, a literal
+  constant.
+- Where a body **never revisits a cell** — fast bodies, long windows —
+  reduction is an **identity map**. Sun, Venus, Mercury and the Moon at
+  R1-W1Y all show collapse 1.00 and `H_kept` 1.000. Core geometry *is* the
+  path, so B2 carries exactly B3's information.
+
+So the reduction's equivalence structure is not a fixed property of the
+geometry. It is entirely a function of whether the sampling window lets the
+body return to a cell it has already occupied.
+
+### B2 ↔ B3: the decisive comparison, partially answered
+
+Where reduction is an identity map, **B2 and B3 are informationally identical**
+— the geometry contributes nothing beyond quantization at that scale. Where
+reduction does collapse, B2 differs from B3 by construction, but the collapse
+it performs is dedup of repeated cells, which a longitude-bin sequence could
+also perform. **The audit is not yet finished**: what remains is to compare
+B2 against a *dedup-matched* B3 to separate "the reduction removes repeats"
+from "the square's arrangement matters." That is now the highest-value
+remaining measurement, and it is not yet run.
+
+### Cadence sensitivity caught a real artifact
+
+The check was not decorative. Mercury at R1-W3D:
+
+```text
+mercury   irregular 42.12   regular_13d 29.42   spread 0.302   CONSISTENT: False
+```
+
+The 13-day lattice aliases against Mercury's period and *understates* its
+effective support by roughly 30%. The Moon is borderline at 0.226. Every other
+body agrees within 13%. Conclusion: **occupancy estimates from a single
+regular cadence are not trustworthy for the fast bodies**, and the irregular
+cohort is the one to report.
+
+### Saturation
+
+24 of the reported measurements are saturated (observed = samples) and are
+flagged `capacity_measurable: false` rather than being read as capacity. All
+fast bodies at R1-W1Y are in that set. Chao1 and Good–Turing are computed
+alongside, so the uncensored run has estimators ready.
+
+---
+
 ## Era predictability — the 2A confound, in R1 space
 
 Accepting static slow bodies has a direct consequence: **a static cell is an
@@ -172,7 +267,14 @@ failure *more* likely here, not less.
 - [x] `representation_schema_hash` — R1 identity covering feature schema,
       trajectory spec, scale and reduction version
 - [x] `representation_occupancy` — support, effective support, tail structure
-- [ ] B0–B3 baseline encoders, sharing sample times and bin widths
+- [x] B0–B3 baseline encoders, sharing sample times and bin widths, with the
+      B1≡B3 bijection asserted as a harness check
+- [x] Cohort generator: deterministic irregular plus coprime lattices,
+      reported separately, with saturation flagged
+- [x] Chao1 and Good–Turing estimators for saturated samples
+- [x] Capacity / compression / stability measured together, never alone
+- [ ] **Dedup-matched B3**, to separate "reduction removes repeats" from
+      "the square's arrangement matters" — the decisive remaining measurement
 - [ ] Per-body, per-scale measurement suite, on a cohort large enough that
       occupancy is not censored at the sample size
 - [ ] Boundary-conditioned stability, with the fragile-band fraction
