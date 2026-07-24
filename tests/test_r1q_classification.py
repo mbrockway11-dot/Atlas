@@ -21,6 +21,7 @@ from atlas.validation.r1q_classification import (
     build_regime_row,
     classify_r1q,
     robustness_across_cohorts,
+    threshold_sensitivity,
     translation_outcomes,
 )
 from atlas.validation.temporal_kamea import canonical_spec
@@ -196,6 +197,42 @@ def test_consistent_activity_is_not_flagged() -> None:
     ]
 
     assert robustness_across_cohorts(rows)["stable"] is True
+
+
+# ---------------------------------------------------------------------------
+# Threshold sensitivity
+# ---------------------------------------------------------------------------
+
+
+def test_a_margin_regime_survives_every_threshold() -> None:
+    """A regime clearing the cutoffs widely holds across the whole grid.
+
+    This is what separates a threshold-robust finding from a
+    threshold-dependent one.
+    """
+    rows = [
+        _row(cohort="irregular", activity=0.85, stationary=0.13),
+        _row(cohort="lattice_47d", activity=0.87, stationary=0.13),
+    ]
+
+    sensitivity = threshold_sensitivity(rows)
+
+    assert sensitivity["r1g_threshold_robust"] is True
+    assert "mars/R1-W3D" in sensitivity["survives_every_threshold"]
+    assert sensitivity["threshold_dependent"] == {}
+
+
+def test_a_borderline_regime_is_flagged_threshold_dependent() -> None:
+    """A regime near the stationarity edge survives only some cutoffs."""
+    rows = [
+        _row(cohort="irregular", activity=0.59, stationary=0.45),
+        _row(cohort="lattice_47d", activity=0.60, stationary=0.42),
+    ]
+
+    sensitivity = threshold_sensitivity(rows)
+
+    assert "mars/R1-W3D" in sensitivity["threshold_dependent"]
+    assert "mars/R1-W3D" not in sensitivity["survives_every_threshold"]
 
 
 # ---------------------------------------------------------------------------

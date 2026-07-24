@@ -282,6 +282,93 @@ def classify_r1q(
     }
 
 
+def threshold_sensitivity(
+    rows: Sequence[RegimeRow],
+    *,
+    activity_grid: Sequence[float] = (0.05, 0.10, 0.15, 0.20, 0.30),
+    stationary_grid: Sequence[float] = (0.4, 0.5, 0.6),
+) -> dict[str, Any]:
+    """Return which regimes survive over a grid of the two soft thresholds.
+
+    The frozen rule is one point on this grid. A finding that holds only at
+    its own cutoff is threshold-dependent; one that holds across the grid is
+    a property of the data. Reported so the distinction is visible rather
+    than assumed. Capacity, merges and stability are structural clauses and
+    are held fixed -- only the two tunable cutoffs are swept.
+    """
+    grouped: dict[tuple[str, str], list[RegimeRow]] = {}
+
+    for row in rows:
+        grouped.setdefault((row.body, row.scale), []).append(row)
+
+    stability = robustness_across_cohorts(rows)
+    unstable = set(stability["unstable_across_cohorts"])
+
+    cells: list[dict[str, Any]] = []
+    survival: dict[str, int] = {}
+    combinations = 0
+
+    for activity_min in activity_grid:
+        for stationary_max in stationary_grid:
+            combinations += 1
+            contradicting: list[str] = []
+
+            for (body, scale), group in sorted(grouped.items()):
+                label = f"{body}/{scale}"
+
+                if label in unstable:
+                    continue
+
+                qualifies = all(
+                    row.adequate_capacity
+                    and not row.capacity["saturated"]
+                    and row.merges_classes
+                    and row.translation["translation_activity"]
+                    >= activity_min
+                    and row.translation["stationary_fraction"]
+                    < stationary_max
+                    for row in group
+                )
+
+                if qualifies:
+                    contradicting.append(label)
+                    survival[label] = survival.get(label, 0) + 1
+
+            cells.append(
+                {
+                    "activity_min": activity_min,
+                    "stationary_max": stationary_max,
+                    "contradicting": contradicting,
+                    "r1q_holds": not contradicting,
+                }
+            )
+
+    always = sorted(
+        label for label, count in survival.items() if count == combinations
+    )
+    sometimes = sorted(
+        label
+        for label, count in survival.items()
+        if 0 < count < combinations
+    )
+
+    return {
+        "grid": {
+            "activity_min": list(activity_grid),
+            "stationary_max": list(stationary_grid),
+            "combinations": combinations,
+        },
+        "survives_every_threshold": always,
+        "threshold_dependent": {
+            label: survival[label] for label in sometimes
+        },
+        # R1-G is robust if at least one regime contradicts everywhere on the
+        # grid; the classification does not hinge on a single cutoff.
+        "r1g_threshold_robust": bool(always),
+        "cells": cells,
+    }
+
+
 def robustness_across_cohorts(
     rows: Sequence[RegimeRow],
 ) -> dict[str, Any]:

@@ -49,6 +49,7 @@ from atlas.validation.r1q_classification import (
     build_regime_row,
     classify_r1q,
     robustness_across_cohorts,
+    threshold_sensitivity,
 )
 from atlas.validation.temporal_kamea import (
     CANONICAL_SCALES,
@@ -117,6 +118,7 @@ def main() -> int:
 
     verdict = classify_r1q(rows)
     robustness = robustness_across_cohorts(rows)
+    sensitivity = threshold_sensitivity(rows)
 
     saturated = [
         f"{row.body}/{row.scale}/{row.cohort}"
@@ -141,6 +143,7 @@ def main() -> int:
         "scales": scales_payload,
         "verdict": verdict,
         "robustness": robustness,
+        "threshold_sensitivity": sensitivity,
         "saturated_regimes": saturated,
         "rows": [row.to_dict() for row in rows],
     }
@@ -155,9 +158,17 @@ def main() -> int:
                 "classification": verdict["classification"],
                 "r1q_holds": verdict["r1q_holds"],
                 "contradicting_regimes": verdict["contradicting_regimes"],
+                "rejected_for_instability": verdict[
+                    "rejected_for_instability"
+                ],
                 "saturated_regimes": len(saturated),
                 "translation_stable_across_cohorts": robustness["stable"],
                 "unstable": robustness["unstable_across_cohorts"],
+                "r1g_threshold_robust": sensitivity["r1g_threshold_robust"],
+                "survives_every_threshold": sensitivity[
+                    "survives_every_threshold"
+                ],
+                "threshold_dependent": sensitivity["threshold_dependent"],
                 "artifact": str(written),
                 "elapsed_seconds": round(perf_counter() - started, 2),
             },

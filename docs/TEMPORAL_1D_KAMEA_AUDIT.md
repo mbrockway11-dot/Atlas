@@ -570,6 +570,31 @@ The three rejections are instructive: all are driven by `lattice_13d` alone
 is the Mercury aliasing artifact again, now caught by the rule instead of by
 inspection.
 
+### Threshold sensitivity
+
+The rule has two soft cutoffs — `translation_activity ≥ 0.10` and
+`stationary_fraction < 0.5`. A finding that held only at its own cutoff would
+be threshold-dependent, so the verdict is recomputed across a grid (5 activity
+× 3 stationarity = 15 combinations, structural clauses held fixed):
+
+```text
+                         stationary_max
+activity_min      < 0.4        < 0.5        < 0.6
+   ≥ 0.05      merc,venus   merc,sun,venus  merc,sun,venus
+   ≥ 0.10      merc,venus   merc,sun,venus  merc,sun,venus
+   ≥ 0.30      merc,venus   merc,sun,venus  merc,sun,venus
+```
+
+- **Venus and Mercury survive all 15 cells.** R1-G does not hinge on a cutoff;
+  it is a property of the data. `r1g_threshold_robust` is true.
+- **Activity is not the binding cutoff for anyone.** No regime's membership
+  changes across the activity grid — every survivor clears 0.30 with room, so
+  the 0.10 choice was immaterial.
+- **The Sun is entirely stationarity-bound.** It qualifies at `< 0.5` and
+  `< 0.6` and never at `< 0.4`, exactly matching its measured 0.40–0.45. It
+  should not carry the claim; Venus and Mercury do, and are reported as the
+  robust core.
+
 ### What R1-G means, and what it does not
 
 R1-G says translation normalization does substantive partition work in at
