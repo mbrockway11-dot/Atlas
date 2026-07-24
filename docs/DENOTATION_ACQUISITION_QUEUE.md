@@ -35,9 +35,11 @@ never the platform.
 
 Located via the platforms below; each still needs a verified edition and copy.
 
-- **Pardes Rimmonim** (Sha'ar HaGematria) — gematria value method / usage; via
+- **Pardes Rimmonim** — gematria **equivalence / usage**, not the value table.
+  The P1 integration test found it has no Gate of Gematria and no primary text
+  defines the values (see [findings](GEMATRIA_P1_INTEGRATION_FINDINGS.md)); via
   Sefaria
-- **Talmud** — classical gematria usage; via Sefaria
+- **Talmud** — classical gematria usage / equivalence; via Sefaria
 - **Bṛhat Parāśara Horā Śāstra**, **Bṛhat Jātaka**, **Phaladīpikā**, **Jātaka
   Pārijāta** — Vedic rules and interpretation; via GRETIL / Sanskrit Documents,
   ideally in critical editions or respected translations

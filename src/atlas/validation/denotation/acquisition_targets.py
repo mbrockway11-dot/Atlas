@@ -60,6 +60,8 @@ class AcquisitionTarget:
     located_via: str
     verified_via: str
     status: AcquisitionStatus = AcquisitionStatus.NOT_ACQUIRED
+    # Set when an integration test against the real source revises the plan.
+    finding: str = ""
 
     @property
     def plan_is_coherent(self) -> bool:
@@ -87,6 +89,7 @@ class AcquisitionTarget:
             "verified_via": self.verified_via,
             "status": self.status.value,
             "plan_is_coherent": self.plan_is_coherent,
+            "finding": self.finding,
         }
 
 
@@ -99,16 +102,30 @@ CANONICAL_ACQUISITION_CORPUS: tuple[AcquisitionTarget, ...] = (
         phase=1,
         system="gematria",
         layer="letter_value_assignment",
-        work_id="pardes_rimmonim",
-        required_tier=SourceTier.PRIMARY_TRADITIONAL,
-        licenses_claim=ClaimType.METHOD,
+        # Re-scoped by the P1 integration test. Left visible rather than
+        # silently repointed, with the finding attached.
+        work_id="hebrew_alphabetic_numeral_system_pending",
+        required_tier=SourceTier.NORMATIVE_STANDARD,
+        licenses_claim=ClaimType.COMPUTATION,
         unlocks=(
             "value_method_available -> numeric_evaluation_available; the "
             "first non-Kamea move from licensed identity into licensed "
             "traditional computation"
         ),
-        located_via="sefaria",
+        located_via="worldcat",
         verified_via="worldcat",
+        finding=(
+            "P1 integration test: Pardes Rimmonim has no Gate of Gematria "
+            "(Sefaria index: 32 gates; nearest are Gate of Letters and Gate "
+            "of Combination), and no primary text defines the value table -- "
+            "aleph=1..tav=400 is the assumed Hebrew alphabetic numeral "
+            "system (Jewish Encyclopedia, scholarly ref). So the value table "
+            "is a normative convention licensable like letter identity, not "
+            "a primary-text method; Pardes Rimmonim licenses the EQUIVALENCE "
+            "layer (1E-G-SOURCE-B) instead. See "
+            "docs/GEMATRIA_P1_INTEGRATION_FINDINGS.md. Tier reclassification "
+            "surfaced for review, not yet enacted."
+        ),
     ),
     AcquisitionTarget(
         target_id="numerology-denotation",

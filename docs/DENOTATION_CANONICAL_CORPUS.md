@@ -22,13 +22,26 @@ copy.
 
 ### Phase 1 — Gematria (one source)
 
-- **Work:** Pardes Rimmonim (Sha'ar HaGematria)
-- **Licenses:** method (the value table) — `primary_traditional`
+> ⚠️ **Re-scoped by the P1 integration test** — see
+> [findings](GEMATRIA_P1_INTEGRATION_FINDINGS.md). Pardes Rimmonim has no Gate
+> of Gematria, and no primary text defines the value table: aleph=1…tav=400 is
+> the assumed Hebrew alphabetic numeral system. So the value table is a
+> **normative** convention (licensable like letter identity was, via Unicode),
+> not a primary-text method. Pardes Rimmonim licenses the **equivalence** layer
+> instead (1E-G-SOURCE-B). The reclassification is surfaced for review before
+> enactment.
+
+- **Value table** (re-scoped): the Hebrew alphabetic numeral system — a
+  `computation` claim, `normative_standard`. May not need a book acquisition
+  at all.
+- **Equivalence** (Pardes Rimmonim's real role): `primary_traditional`, a later
+  phase.
 - **Unlocks:** `value_method_available → numeric_evaluation_available`; the
   first non-Kamea move from licensed identity into licensed traditional
-  computation
-- **Located via:** Sefaria · **Verified via:** WorldCat, then a scan
-- **Success criterion:** one admitted value method. Nothing about denotation.
+  computation.
+- **Success criterion:** the *original* — one admitted value method — was not
+  the outcome. The integration test's re-scoping is the more valuable result,
+  exactly as anticipated.
 
 ### Phase 2 — Numerology (one corpus)
 

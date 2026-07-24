@@ -79,7 +79,12 @@ def test_each_target_names_the_gate_it_unlocks() -> None:
     gematria = CANONICAL_ACQUISITION_CORPUS[0]
 
     assert gematria.system == "gematria"
-    assert gematria.licenses_claim is ClaimType.METHOD
+    # Re-scoped by the P1 integration test: the value table is a normative
+    # convention (Hebrew alphabetic numeral system), not a primary-text
+    # method claim. See docs/GEMATRIA_P1_INTEGRATION_FINDINGS.md.
+    assert gematria.licenses_claim is ClaimType.COMPUTATION
+    assert gematria.required_tier is SourceTier.NORMATIVE_STANDARD
+    assert gematria.finding
     assert "numeric_evaluation_available" in gematria.unlocks
 
 
