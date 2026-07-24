@@ -311,11 +311,60 @@ R1 form, and it must be measured before any R1 event study runs:
 
 > How well can R1 alone distinguish early-period from late-period timestamps?
 
-Fit a simple era classifier on R1 features alone and report its accuracy per
-body and per scale. If Saturn and Jupiter cell occupancy strongly predicts era
-— and it almost certainly will — then **event/control balance must be checked
-in R1 space, not only in R0 space**, and the existing control-quality artifact
-must be extended before 2B.
+### Measured
+
+```bash
+.venv/Scripts/python.exe scripts/run_kamea_era_predictability.py
+```
+
+120 instants inside 1970–1980 and 2010–2020, year-blocked 4-fold validation,
+150 block permutations. `unseen` = share of test signatures never seen in
+training.
+
+```text
+                              acc   unseen      MI       p
+R1-W3D/saturn/B3            0.880    0.067   0.635   0.007   <-- leak
+R1-W3D/saturn/B3D           0.887    0.052   0.635   0.007   <-- leak
+R1-W1Y/saturn/B3D           0.881    0.420   0.693   0.007   <-- leak
+R1-W3D/saturn/B2            0.507    0.000   0.012   0.291
+R1-W1Y/saturn/B2            0.287    0.056   0.070   0.921
+R1-W3D/jupiter/B3D          0.171    0.053   0.155   0.947
+R1-W3D/moon/B3D             0.493    0.704   0.550   0.629
+R1-W1Y/moon/B3              0.500    1.000   0.693   0.079
+```
+
+**Saturn leaks era, and only Saturn.** Its quantized trajectory separates two
+decades forty years apart at **88% balanced accuracy, p = 0.007**, with a low
+unseen-class rate — so the separation generalizes across held-out year blocks
+rather than resting on the fallback. Precisely what the 3.27-year cell-crossing
+time predicts. No other body exceeds the 0.70 threshold at any scale.
+
+**Translation removes the leak by destroying the information.** Saturn's B2
+falls to chance (0.507 at W3D; MI 0.635 → 0.012). B2 is not *cleaner* than
+B3D, it is emptier — and reading a null B2 result as evidence of no era
+dependence would invert the finding.
+
+### Mutual information is unusable under saturation
+
+`MI = 0.693` is `ln 2`, the maximum for a balanced binary label, and it appears
+wherever the unseen-class rate reaches 1.000. When every signature is unique,
+MI is maximal *by construction*. The block-permutation null correctly declines
+to call these significant (p = 0.079), which is what makes the pair
+interpretable.
+
+**So blocked accuracy plus the block-permutation null are the era diagnostics;
+MI alone is not**, and `unseen_class_rate` must be reported beside any MI.
+
+### Sub-chance accuracy is a fallback artifact, not anti-information
+
+Jupiter's 0.171 at R1-W3D looks dramatic and is not a finding: classes learned
+in one era do not recur in the other, so the majority fallback predicts wrongly
+on held-out blocks. The p-values confirm it (0.947, 0.960). Recorded because a
+reader meeting 0.171 without this note would reasonably assume signal.
+
+**Consequence for 2B:** event/control balance must be checked in R1 space for
+Saturn specifically, and the existing control-quality artifact must be extended
+before 2B runs.
 
 ---
 
