@@ -114,6 +114,14 @@ the one that matters.
   collapsing the classes that carry it, so a clean check downstream is
   compatible with a badly confounded cohort. Certify in the representation
   that carries the information, not the one the analysis consumes.
+- Don't let a stage satisfy a downstream gate by importing an artifact
+  produced by a downstream stage. **Every edge stays strictly feed-forward.**
+  This forbids a whole class of accidental circularity: construct equivalence
+  inferred from ontology agreement, ontology agreement inferred from
+  concordance, concordance used to justify dictionary entries, or dictionary
+  entries rewritten because concordance "looked wrong". Enforced against the
+  real import graph by `tests/test_denotation_lattice.py`, which also fails
+  when a new module is added without a declared lattice stage.
 - Don't gate a denotational system on whether it *can produce* meanings.
   **A system is eligible only when the exact evidence state that licensed
   those meanings remains reproducible, synchronized and independently
