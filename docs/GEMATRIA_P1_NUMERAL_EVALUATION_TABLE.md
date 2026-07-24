@@ -46,6 +46,24 @@ by exclusion · `✗` absent · `?` not inspected
   (500 → ת״ק, 600 → ת״ר …); inserts geresh/gershayim; `%%hebrew-thousands`
   handles thousands.
 
+## Evidentiary role (the define / presuppose / implement axis)
+
+Orthogonal to tier and to coverage. It distinguishes *descriptive definition*,
+*normative establishment*, and *executable implementation* without conflating
+them.
+
+| Candidate | Defines | Presupposes | Implements |
+|---|---|---|---|
+| Gesenius §5k | ✓ (describes the mapping as understood) | | |
+| CLDR `%hebrew` | | ✓ | ✓ |
+| Academy | ? | ? | ? |
+
+A subtlety this column makes explicit: Gesenius **describes and defines** the
+mapping, which is evidence the convention *existed and was understood* — it is
+**not** automatically evidence that Gesenius is the authority the convention
+*derives from*. That distinction is why the evaluation stopped before
+admission (see F3).
+
 ## Findings
 
 ### F1 — the above-400 policy is settled, and it is *not* final-letter values
@@ -56,16 +74,29 @@ kaf = 500, …). So the *mispar gadol* convention is a **different method**, and
 value method that used it would need a **different source** — the standard
 numeral authorities positively exclude it.
 
-### F2 — the direction gap is exactly requirement 4 (the important one)
+### F2 — the Encoding–Interpretation Direction Gap (the central finding)
 
-Every normative numeral source specifies how to **write a number as letters**
-(number → letters), a direction in which final forms are conventionally
-avoided. Gematria needs the **reading** direction — the value of letters as
-they appear in **words**, which *do* contain final forms. Whether a final kaf in
-a word is worth 20 (standard, *mispar hechrachi*) or 500 (*mispar gadol*) is a
-**gematria-method choice the numeral-writing sources do not address**. The
-mapping for 1–400 is invertible and so transfers to the reading direction; the
-final-form value does not, because the writing convention never uses it.
+**A named finding, because it will recur whenever an encoding standard is
+compared with an interpretive tradition.**
+
+```text
+numeral specification    integer → Hebrew letters   (writing)
+gematria evaluation      Hebrew letters → integer   (reading)
+```
+
+Mathematically these look like inverses; historically they are not. The
+numeral-writing tradition **deliberately avoids** situations — final forms,
+certain spellings (יה, יו) — that gematria must nonetheless evaluate, because
+gematria reads **arbitrary lexical forms**, not just well-formed numerals. So an
+encoding standard **underspecifies its own inverse** for interpretive use. That
+is a property of the historical sources, not a software issue, and no amount of
+implementation closes it.
+
+Here it is exactly requirement 4: the 1–400 mapping inverts cleanly and
+transfers to the reading direction, but the final-form value does not, because
+the writing convention never uses it. Whether a final kaf in a word is worth 20
+(*mispar hechrachi*) or 500 (*mispar gadol*) is a gematria-method choice the
+numeral-writing sources do not address.
 
 > **Consequence:** for a value method scoped to *mispar hechrachi* with finals
 > taking base values, Gesenius/CLDR settle five requirements, and the sixth
@@ -73,22 +104,30 @@ final-form value does not, because the writing convention never uses it.
 > numeral letters, so a final kaf reads as kaf = 20. For any method using
 > extended finals, no inspected source supports it.
 
-### F3 — a tier/role tension the framework surfaced
+### F3 — unresolved provenance, *not* a tier conflict
 
-The reclassification set the value table to require `normative_standard`
-(licenses computation). But:
+An earlier draft framed this as a tension between Gesenius and the tier model.
+That was too strong. The accurate statement is narrower and does not threaten
+the tier model:
 
-- The clearest **defining** source, Gesenius, is a **scholarly grammar** —
-  `scholarly_reference` tier, which under the matrix licenses context/variants,
-  **not** computation. It *defines* the system but cannot license the
-  computation claim as currently tiered.
-- The right-tier candidates are **CLDR** — `normative_standard`, but an
-  *implementation* (formatting direction, final-form gap, F2) that *presupposes*
-  and encodes the system rather than defining it — and the **Academy** standard,
-  which is `normative_standard` and official but **could not be inspected**.
+> Gesenius is evidence that the mapping **existed and was understood**. It is
+> **not automatically** evidence that Gesenius is the authority the mapping
+> **derives from**.
 
-Along the define-vs-presuppose axis: **Gesenius defines**, **CLDR
-implements/presupposes**, **Academy likely defines (uninspected)**.
+So there is no need to reclassify Gesenius or to conclude that the tier matrix
+rejects good evidence. The evaluation simply has **not yet established the
+evidentiary chain** — from where does the standard mapping actually derive? If
+Gesenius turns out to be *describing* a convention established elsewhere (an
+official standard, or an older attested usage), the tier model survives
+unchanged: Gesenius corroborates, and the deriving authority licenses. The
+evaluation stopping before admission is the framework behaving correctly in the
+uncomfortable middle — *we have evidence, but not yet the evidentiary chain
+required for admission.*
+
+The `normative_standard`-tier candidates remain **CLDR** (an implementation in
+the writing direction, with the F2 gap) and the **Academy** standard
+(uninspected). Identifying the deriving authority is the open provenance
+question, and it is exactly what the table was built to surface.
 
 ## Verdict
 
@@ -107,18 +146,20 @@ failure:
   convention explicitly. **It must be inspected via an access route that is not
   403-blocked** before this evaluation can select it.
 
-## Two decisions this raises (for review, not enacted)
+## Two questions this raises (for review, not enacted)
 
-1. **Does a definitive scholarly grammar that *defines* the numeral encoding
-   count as a normative computational authority?** If a work that establishes
-   "units are denoted by א–ט" is treated as scholarly_reference only, the
-   framework may reject the clearest defining evidence on a tier technicality.
-   This is the define-vs-presuppose axis interacting with the tier matrix, and
-   it is a genuine classification question — surfaced, not resolved.
-2. **Scope the value method to *mispar hechrachi* explicitly.** F1/F2 show the
-   final-form and above-400 questions only settle once the method commits to
-   the standard convention. That commitment should be recorded as part of the
-   method, so "gematria" is never left ambiguous between hechrachi and gadol.
+1. **From where does the standard mapping derive?** The open question is a
+   provenance one, not a tier reclassification (F3). Gesenius shows the mapping
+   was understood; the deriving authority is still to be identified — most
+   likely the Academy standard or an older attested usage. Resolve the chain,
+   and the tier model applies unchanged.
+2. **Scope is a provenance decision, not an implementation choice.** Committing
+   the value method to *mispar hechrachi* does not merely choose an algorithm:
+   it determines **which sources are relevant** and **which historical
+   conventions are in scope** (F1/F2 only settle under that commitment). Scope
+   should therefore be recorded as part of the method's provenance, so
+   "gematria" is never left ambiguous between hechrachi and gadol — and so the
+   choice of sources to admit follows from the scope, not the reverse.
 
 ## What was not done
 
