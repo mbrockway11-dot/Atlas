@@ -43,6 +43,7 @@ MODULE_STAGE: dict[str, int] = {
     "numerology_tradition": 0,
     "numerology_expression": 0,
     "gematria_orthography": 0,
+    "source_tiers": 0,
     # 1 -- source verification: bibliography, corpus, schemes awaiting citation
     "numerology_bibliography": 1,
     "numerology_corpus": 1,
