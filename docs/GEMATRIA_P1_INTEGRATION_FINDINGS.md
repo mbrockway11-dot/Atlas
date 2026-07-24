@@ -38,42 +38,55 @@ that section, as named, does not appear in the index.
 require confirmation against a verified copy. But it is enough to show the
 target was mis-specified.)*
 
-## Finding 2 — no primary text defines the value table (the structural one)
+## Finding 2 — no defining primary passage was identified (the structural one)
 
-The deeper result. The Jewish Encyclopedia presents the standard values
-matter-of-factly — "א–ט as units, י–צ as tens, ק–ת as hundreds" — as the
-**assumed** Hebrew alphabetic numeral system, and cites **no source that
-defines** the aleph-through-tav assignments. The primary sources it does cite
-(Talmud Nedarim 32a; the midrashim; R. Eliezer b. Jose's 29th hermeneutic
-rule, c. 200) demonstrate gematria **usage** — that equal-value words are
-treated as connected — not the value table.
+The deeper result. Stated with the epistemic care it warrants:
 
-This is the architectural insight the test was meant to find:
+> **No defining primary passage has been identified.** The inspected scholarly
+> reference (Jewish Encyclopedia) presents the standard values matter-of-factly
+> — "א–ט as units, י–צ as tens, ק–ת as hundreds" — as the **assumed** Hebrew
+> alphabetic numeral system, and identifies no source that *defines* the
+> aleph-through-tav assignments. The primary sources it cites (Talmud Nedarim
+> 32a; the midrashim; R. Eliezer b. Jose's 29th hermeneutic rule, c. 200)
+> **presuppose** the numeral convention and demonstrate gematria *usage* —
+> equal-value words treated as connected — rather than establish the values.
 
-> The value-method layer's evidence model assumes a primary traditional text
-> that **defines** the letter values. No such text exists. The values are the
-> standard Hebrew alphabetic numeral system — an assumed convention,
-> independent of and older than gematria-as-interpretation. Primary texts
-> **use** the values (equivalence) and **interpret** results (denotation);
-> they do not tabulate the values.
+This is *not* the absolute claim "no primary text defines the value table";
+that would assert universal nonexistence across a corpus one lookup cannot
+survey. It is strong enough to reject the current acquisition target and to
+motivate the reclassification, and no stronger.
+
+The architectural insight the test was meant to find:
+
+> The value-method layer's evidence model assumed a primary traditional text
+> that **defines** the letter values. The known primary examples appear to
+> presuppose them instead. The values are the standard Hebrew alphabetic
+> numeral system — a convention independent of, and older than,
+> gematria-as-interpretation. So the value table is a **normative** claim, and
+> the primary-text effort belongs at the equivalence and denotation layers.
 
 ### Consequence: the layers were mis-assigned to sources
 
 ```text
-letter value table (aleph=1 … tav=400)
-    → the Hebrew alphabetic numeral system: a normative convention,
-      not a tradition-specific method. Licensable like letter identity was
-      (Unicode) — by a normative/reference authority, NOT by a primary
-      Kabbalistic text.
+Unicode
+    → licenses Hebrew character identity and normalization ONLY.
+      Unicode explicitly omits Numeric_Value from ordinary Hebrew letters
+      and places numeric interpretation outside its scope, so it is NOT the
+      value-table authority even though its tier permits computation claims.
 
-equivalence practice ("equal value => connected")
-    → THIS is what Pardes Rimmonim, the Talmud and the midrashim license.
-      Primary_traditional, and it belongs to 1E-G-SOURCE-B, not the value
-      method.
+Hebrew numeral-system authority  (to be identified)
+    → licenses the standard letter-value assignment. Normative, computation.
+      A DISTINCT source from Unicode.
 
-denotation ("this equivalence signifies X")
-    → primary commentaries; 1E-G-SOURCE-C.
+primary traditional texts  (Pardes Rimmonim, Talmud, midrashim)
+    → license gematria usage, equivalence, and denotation. 1E-G-SOURCE-B / -C,
+      not the value method.
 ```
+
+The three authorities are distinct. Unicode's tier *may* license a computation
+claim in general, but Unicode the source makes no numeral claim, so it cannot
+be cited for the values -- a separate Hebrew numeral-system authority is
+required.
 
 So Pardes Rimmonim is a real and appropriate source — but for the
 **equivalence** layer, not the value method. The value method needs a

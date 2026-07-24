@@ -115,16 +115,19 @@ CANONICAL_ACQUISITION_CORPUS: tuple[AcquisitionTarget, ...] = (
         located_via="worldcat",
         verified_via="worldcat",
         finding=(
-            "P1 integration test: Pardes Rimmonim has no Gate of Gematria "
-            "(Sefaria index: 32 gates; nearest are Gate of Letters and Gate "
-            "of Combination), and no primary text defines the value table -- "
-            "aleph=1..tav=400 is the assumed Hebrew alphabetic numeral "
-            "system (Jewish Encyclopedia, scholarly ref). So the value table "
-            "is a normative convention licensable like letter identity, not "
-            "a primary-text method; Pardes Rimmonim licenses the EQUIVALENCE "
-            "layer (1E-G-SOURCE-B) instead. See "
-            "docs/GEMATRIA_P1_INTEGRATION_FINDINGS.md. Tier reclassification "
-            "surfaced for review, not yet enacted."
+            "Reclassified by the P1 integration test. Pardes Rimmonim has no "
+            "Gate of Gematria (Sefaria index: 32 gates), and no DEFINING "
+            "primary passage was identified -- the inspected scholarly "
+            "reference presupposes the Hebrew alphabetic numeral system "
+            "rather than establishing it (not a claim of universal "
+            "nonexistence). So the value table is a normative computation "
+            "claim, sourced by a Hebrew numeral-system authority that is "
+            "DISTINCT from Unicode: Unicode licenses identity/normalization "
+            "and explicitly omits Hebrew numeric values as out of scope. "
+            "Admission stays closed until a source covers "
+            "MANDATORY_NUMERAL_REQUIREMENTS (see 1E-G-P1-NORMATIVE-SOURCE-"
+            "SELECTION). Pardes Rimmonim retained for equivalence/denotation "
+            "research (1E-G-SOURCE-B/-C), not P1 computation."
         ),
     ),
     AcquisitionTarget(

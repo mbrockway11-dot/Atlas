@@ -164,6 +164,59 @@ _ABSOLUTE_VALUES: dict[HebrewLetter, int] = {
 }
 
 
+# What a normative Hebrew numeral-system authority must explicitly specify
+# before it may license the value table. The P1 integration test reclassified
+# the value table as a normative computation claim, but "standard Hebrew
+# numerals" and "every gematria method" are not identical, so the gate stays
+# closed until a source covers these. The first five are mandatory; the last
+# is conditional on whether thousands/punctuation are in the method's scope.
+NUMERAL_SYSTEM_REQUIREMENTS: dict[str, str] = {
+    "units_1_9": "aleph-tet map to 1-9",
+    "tens_10_90": "yod-tsadi map to 10-90",
+    "hundreds_100_400": "qof-tav map to 100-400",
+    "final_form_treatment": "how the five final forms are valued",
+    "above_400_policy": (
+        "whether values above 400 are compositional or use extended "
+        "final-letter values (500-900)"
+    ),
+    "thousands_and_punctuation": (
+        "thousands and punctuation conventions, if within the method's scope"
+    ),
+}
+
+MANDATORY_NUMERAL_REQUIREMENTS: frozenset[str] = frozenset(
+    {
+        "units_1_9",
+        "tens_10_90",
+        "hundreds_100_400",
+        "final_form_treatment",
+        "above_400_policy",
+    }
+)
+
+# The candidate normative authorities, in the order they are to be tested. A
+# lower-priority candidate is considered only if the ones above it do not
+# suffice. Unicode CLDR is last and conditional: it models Hebrew numerals as
+# an algorithmic numbering system, but its exact rules must be inspected to
+# confirm they expose the mapping and policies above before it is treated as
+# sufficient.
+NUMERAL_AUTHORITY_CANDIDATES: tuple[str, ...] = (
+    "official_hebrew_or_governmental_numeral_standard",
+    "scholarly_grammar_of_hebrew_numeration",
+    "unicode_cldr_hebrew_algorithmic_numbering",
+)
+
+
+def numeral_source_sufficient(covered: frozenset[str]) -> bool:
+    """Return whether a candidate covers every mandatory requirement.
+
+    The acceptance gate for the value-table source. A source that does not
+    explicitly specify the mapping, final-form treatment and above-400 policy
+    is not sufficient, however standard its values look.
+    """
+    return MANDATORY_NUMERAL_REQUIREMENTS <= covered
+
+
 MISPAR_HECHRACHI_CANDIDATE = ValueMethod(
     method_id="mispar-hechrachi-candidate-uncited",
     alphabet="hebrew-22",

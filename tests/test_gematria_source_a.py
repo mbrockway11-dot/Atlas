@@ -330,3 +330,82 @@ def test_a_total_without_both_hashes_is_refused() -> None:
 
     with pytest.raises(GematriaPipelineError, match="identity source"):
         _assert_dual_provenance({"total": 6})
+
+
+# ---------------------------------------------------------------------------
+# P1 reclassification: the value table is a normative computation claim
+# ---------------------------------------------------------------------------
+
+
+def test_numeral_source_needs_every_mandatory_requirement() -> None:
+    """The gate stays closed until the mapping and policies are all specified.
+
+    'Standard Hebrew numerals' and 'every gematria method' are not identical,
+    so the mapping alone is insufficient: final-form treatment and the
+    above-400 policy must be explicit too.
+    """
+    from atlas.validation.denotation.gematria_value_method import (
+        MANDATORY_NUMERAL_REQUIREMENTS,
+        numeral_source_sufficient,
+    )
+
+    assert numeral_source_sufficient(MANDATORY_NUMERAL_REQUIREMENTS)
+
+    # The bare mapping, without final-form or above-400 policy, is not enough.
+    mapping_only = frozenset(
+        {"units_1_9", "tens_10_90", "hundreds_100_400"}
+    )
+    assert not numeral_source_sufficient(mapping_only)
+
+    # Missing any single mandatory item fails.
+    for requirement in MANDATORY_NUMERAL_REQUIREMENTS:
+        assert not numeral_source_sufficient(
+            MANDATORY_NUMERAL_REQUIREMENTS - {requirement}
+        )
+
+
+def test_thousands_and_punctuation_are_conditional() -> None:
+    """Covering the mandatory five suffices; thousands/punctuation is extra."""
+    from atlas.validation.denotation.gematria_value_method import (
+        MANDATORY_NUMERAL_REQUIREMENTS,
+        NUMERAL_SYSTEM_REQUIREMENTS,
+        numeral_source_sufficient,
+    )
+
+    assert "thousands_and_punctuation" in NUMERAL_SYSTEM_REQUIREMENTS
+    assert "thousands_and_punctuation" not in MANDATORY_NUMERAL_REQUIREMENTS
+    assert numeral_source_sufficient(MANDATORY_NUMERAL_REQUIREMENTS)
+
+
+def test_candidate_authorities_are_ordered_unicode_cldr_last() -> None:
+    """Official standard, then grammar, then CLDR -- CLDR last and conditional."""
+    from atlas.validation.denotation.gematria_value_method import (
+        NUMERAL_AUTHORITY_CANDIDATES,
+    )
+
+    assert NUMERAL_AUTHORITY_CANDIDATES[0].startswith("official")
+    assert "cldr" in NUMERAL_AUTHORITY_CANDIDATES[-1]
+
+
+def test_p1_target_reclassified_to_normative_computation() -> None:
+    """The reclassification is enacted; admission is not."""
+    from atlas.validation.denotation.acquisition_targets import (
+        CANONICAL_ACQUISITION_CORPUS,
+        AcquisitionStatus,
+    )
+    from atlas.validation.denotation.source_tiers import (
+        ClaimType,
+        SourceTier,
+    )
+
+    p1 = CANONICAL_ACQUISITION_CORPUS[0]
+
+    assert p1.system == "gematria"
+    assert p1.required_tier is SourceTier.NORMATIVE_STANDARD
+    assert p1.licenses_claim is ClaimType.COMPUTATION
+    assert p1.status is AcquisitionStatus.NOT_ACQUIRED
+    # The authority is distinct from Unicode.
+    assert "unicode" not in p1.work_id
+    assert "distinct from Unicode" in p1.finding or "DISTINCT from Unicode" in (
+        p1.finding
+    )
