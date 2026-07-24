@@ -1,109 +1,166 @@
-"""The declared numerology corpus v1 — editions only, no passages yet.
+"""The declared numerology corpus v1 — works and manifestations, no copies.
 
-The two editions the corpus is scoped to are declared here. **No passages have
-been transcribed**, because transcription requires a paginated copy of each
-edition and none has been ingested. The corpus is therefore empty of evidence,
-and the compiler correctly emits an empty dictionary.
+Two works are declared. **No source copy has been ingested and no passage has
+been transcribed**, so the corpus compiles to an empty dictionary.
 
-That is the honest state, not a gap to be filled by paraphrase. Inventing
-excerpts and page numbers would put fabricated bibliography into the one
-artifact whose entire purpose is traceable provenance.
+That is the provenance system working, not a blocked implementation::
 
-**Bibliographic verification.** The editions below were specified by the
-project owner. Checking them against Open Library did not confirm either
-cleanly, and both discrepancies are recorded on the edition rather than
-resolved silently:
+    declared works:              2
+    transcription-eligible:      0
+    admissible passages:         0
+    compiled meanings:           0
 
-* Jordan — Open Library's records for this work list DeVorss with a first
-  publication year of 1977, plus 1984 and 1991 printings. The specified
-  1978 first-paperback / (c)1965 lineage was not confirmed there.
-* Balliett — the record matching this author and title most closely is a
-  1969 Mokelumne Hill Press printing, which is a later reprint of exactly the
-  kind the policy excludes as a corroborating source. A 1908 edition appears
-  among the results but was not individually confirmed.
+Bibliographic identity is resolved separately at each level, because
+collapsing them discards what *is* settled:
 
-Neither discrepancy blocks anything today, since no passage cites either
-edition. Both must be resolved against the physical copy before a
-transcription is admitted.
+* **Jordan** — the work is verified; the manifestation is discrepant. Open
+  Library catalogs a June 1977 DeVorss "New Ed" paperback, 297 pages, ISBN
+  0875162274; WorldCat catalogs what appears to be the same OCLC lineage as a
+  1978 first paperback edition with copyright 1965. Both are catalog
+  assertions. Neither is a title page, and the conflict is not resolved by
+  choosing a catalog -- it is resolved from the copy eventually transcribed.
+
+* **Balliett** — the *work* is verified: a 1908 edition is independently
+  represented in Open Library and WorldCat, with publisher information given
+  as the author and L. N. Fowler. What remains unresolved is the precise
+  manifestation and its pagination, on which catalog records disagree. So
+  ``work_identity`` is verified while ``edition_identity`` and
+  ``pagination_identity`` are not, and the manifestation is not
+  transcription-eligible.
+
+Passages may not be populated from search-result snippets, catalog
+descriptions, machine-extracted text without page verification, a different
+printing whose pagination is silently attributed to the declared edition, or
+remembered number meanings.
 """
 
 from __future__ import annotations
 
-from atlas.validation.denotation.numerology_corpus import (
+from atlas.validation.denotation.numerology_bibliography import (
     AuthorityScope,
-    NumerologyCorpus,
-    SourceEdition,
+    IdentityStatus,
+    Manifestation,
+    ProvenanceLevel,
     SourceType,
+    Work,
+)
+from atlas.validation.denotation.numerology_corpus import (
+    NumerologyCorpus,
     build_corpus,
 )
-from atlas.validation.denotation.numerology_tradition import (
-    SourceRole,
-    VerificationStatus,
-)
+from atlas.validation.denotation.numerology_tradition import SourceRole
 
 
 CORPUS_ID = "numerology-corpus-v1"
 
 
-# The canonical source for the code-facing dictionary. One author and one
-# edition, deliberately: drawing on several modern manuals at once would
-# manufacture consensus out of heterogeneous sources that happen to be
-# marketed under the same word.
-JORDAN_1978 = SourceEdition(
-    edition_id="jordan-romance-1978-1st-paperback",
+JORDAN_WORK = Work(
+    work_id="jordan-romance-in-your-name",
     author="Juno Jordan",
     title="Numerology: The Romance in Your Name",
-    edition="1st paperback edition",
+    work_identity=IdentityStatus.VERIFIED,
+    identity_note=(
+        "Represented in both Open Library and WorldCat under DeVorss."
+    ),
+)
+
+
+BALLIETT_WORK = Work(
+    work_id="balliett-philosophy-of-numbers",
+    author="L. Dow Balliett",
+    title="The Philosophy of Numbers: Their Tone and Colors",
+    work_identity=IdentityStatus.VERIFIED,
+    identity_note=(
+        "A 1908 edition is independently represented in Open Library and "
+        "WorldCat, publisher given as the author and L. N. Fowler."
+    ),
+)
+
+
+# The canonical source for the code-facing dictionary. One author and one
+# manifestation, deliberately: drawing on several modern manuals at once would
+# manufacture consensus out of heterogeneous sources marketed under one word.
+JORDAN_MANIFESTATION = Manifestation(
+    manifestation_id="jordan-devorss-paperback-1977-1978",
+    work_id=JORDAN_WORK.work_id,
+    edition_statement='"New Ed" (Open Library) / "1st paperback" (WorldCat)',
     publisher="DeVorss",
-    publication_year=1978,
+    publication_year=None,
     copyright_year=1965,
+    isbn="0875162274",
+    oclc="1036816335",
+    pagination="297 pages (Open Library)",
+    fmt="paperback",
     role=SourceRole.CANONICAL,
     source_type=SourceType.MODERN_COMMENTARY,
     # Author-specific until passages establish that the constructs are
     # tradition-wide rather than this author's systematization.
     authority_scope=AuthorityScope.AUTHOR_SPECIFIC,
-    verification_status=VerificationStatus.DISCREPANT,
-    verification_note=(
-        "Open Library lists DeVorss with first publication 1977, plus 1984 "
-        "and 1991 printings; the specified 1978 first-paperback / (c)1965 "
-        "lineage was not confirmed there. Resolve against the physical copy "
-        "before admitting any transcription."
+    edition_identity=IdentityStatus.DISCREPANT,
+    pagination_identity=IdentityStatus.UNRESOLVED,
+    provenance_levels=frozenset(
+        {
+            ProvenanceLevel.CATALOG_ASSERTED,
+            ProvenanceLevel.CROSS_CATALOG_CORRELATED,
+        }
+    ),
+    identity_note=(
+        "Open Library: June 1977 DeVorss 'New Ed' paperback, 297 pp, ISBN "
+        "0875162274. WorldCat: apparently the same OCLC lineage as a 1978 "
+        "first paperback edition, copyright 1965. Both are catalog "
+        "assertions; resolve the publication year and pagination from the "
+        "title and copyright pages of the copy transcribed, not by "
+        "preferring a catalog."
     ),
 )
 
 
 # Held in a separate stratum. Balliett is a historical precursor, not
-# corroboration: shared marketing under "Pythagorean" is not evidence that
-# two authors' constructs, reductions or semantic scopes agree.
-BALLIETT_1908 = SourceEdition(
-    edition_id="balliett-philosophy-of-numbers-1908",
-    author="L. Dow Balliett",
-    title="The Philosophy of Numbers: Their Tone and Colors",
-    edition="1908 edition",
-    publisher="unconfirmed",
+# corroboration: shared marketing under "Pythagorean" is not evidence that two
+# authors' constructs, reductions or semantic scopes agree.
+BALLIETT_MANIFESTATION = Manifestation(
+    manifestation_id="balliett-1908",
+    work_id=BALLIETT_WORK.work_id,
+    edition_statement="1908 edition",
+    publisher="the author and L. N. Fowler",
     publication_year=1908,
     copyright_year=None,
+    isbn="",
+    oclc="",
+    pagination="disputed across catalog records",
+    fmt="unknown",
     role=SourceRole.HISTORICAL_PRECURSOR,
     source_type=SourceType.PRIMARY,
     authority_scope=AuthorityScope.AUTHOR_SPECIFIC,
-    verification_status=VerificationStatus.DISCREPANT,
-    verification_note=(
-        "The closest Open Library record for this author and title is a 1969 "
-        "Mokelumne Hill Press printing -- a later reprint, excluded by policy "
-        "as a corroborating source. A 1908 edition appears among the results "
-        "but was not individually confirmed, and the publisher is unknown."
+    # The work exists; which manifestation and pagination remain open.
+    edition_identity=IdentityStatus.UNRESOLVED,
+    pagination_identity=IdentityStatus.UNRESOLVED,
+    provenance_levels=frozenset(
+        {
+            ProvenanceLevel.CATALOG_ASSERTED,
+            ProvenanceLevel.CROSS_CATALOG_CORRELATED,
+        }
+    ),
+    identity_note=(
+        "The 1908 edition's existence is verified across catalogs. The "
+        "precise manifestation and pagination are not; records disagree on "
+        "page counts, and later reprints (e.g. 1969 Mokelumne Hill Press) "
+        "are excluded by policy as corroborating sources."
     ),
 )
 
 
 def declared_corpus() -> NumerologyCorpus:
-    """Return corpus v1: two declared editions, zero transcribed passages.
+    """Return corpus v1: works and manifestations, no copies, no passages.
 
     Compiling this yields an empty dictionary. That is the correct output
-    until a paginated copy is ingested and passages are transcribed.
+    until a copy is acquired, its title, copyright and pagination pages are
+    inspected, and passages are doubly transcribed from it.
     """
     return build_corpus(
         CORPUS_ID,
-        editions=[JORDAN_1978, BALLIETT_1908],
+        works=[JORDAN_WORK, BALLIETT_WORK],
+        manifestations=[JORDAN_MANIFESTATION, BALLIETT_MANIFESTATION],
+        copies=[],
         passages=[],
     )

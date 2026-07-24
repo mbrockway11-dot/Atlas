@@ -1,15 +1,13 @@
-"""The numerology citation corpus — bibliographic evidence, not denotation.
+"""The numerology citation corpus — transcribed evidence, not denotation.
 
-Editions are first-class, so different editions and traditions coexist without
-blending, and a passage always resolves to a specific printing. A
-:class:`SourcePassage` is one transcribed statement from one edition, tagged
-with what kind of statement it is and — crucially — whether the construct the
-source names is actually the construct the code computes.
+A passage is transcribed from a **source copy**, not from an abstract edition,
+and carries the printed-page locator as primary with the scan page as a
+secondary reproducibility field. A passage may not cite a merely declared
+manifestation: without a copy in hand there is nothing to have transcribed.
 
-That last field is what stops a shared phrase from doing the work of evidence:
-
-    A passage cannot license a code quantity merely because both use the
-    words "life path".
+Transcription is doubled. Two independent transcribers produce the excerpt and
+their normalized hashes are compared, so a disagreement about a word is
+visible rather than silently resolved by whoever typed last.
 
 The corpus is evidence and licenses nothing on its own. The compiler applies
 frozen admissibility rules to derive dictionary entries from it, so rules can
@@ -28,13 +26,18 @@ import hashlib
 import json
 from typing import Any, Sequence
 
-from atlas.validation.denotation.numerology_tradition import (
-    SourceRole,
-    VerificationStatus,
+from atlas.validation.denotation.numerology_bibliography import (
+    AuthorityScope,
+    Manifestation,
+    SourceCopy,
+    SourceType,
+    Work,
+    excerpt_hash,
 )
+from atlas.validation.denotation.numerology_tradition import SourceRole
 
 
-NUMEROLOGY_CORPUS_SCHEMA = "atlas.validation.denotation.numerology-corpus.v2"
+NUMEROLOGY_CORPUS_SCHEMA = "atlas.validation.denotation.numerology-corpus.v3"
 
 
 class SemanticGranularity(str, Enum):
@@ -55,30 +58,12 @@ class SemanticGranularity(str, Enum):
     COMMENTARY = "commentary"
 
 
-class SourceType(str, Enum):
-    """How close a source sits to the tradition it reports."""
-
-    PRIMARY = "primary"
-    TRADITIONAL_COMMENTARY = "traditional_commentary"
-    MODERN_COMMENTARY = "modern_commentary"
-    SECONDARY_SYNTHESIS = "secondary_synthesis"
-
-
-class AuthorityScope(str, Enum):
-    """How far a passage's authority is claimed to reach."""
-
-    TRADITION_WIDE = "tradition_wide"
-    SCHOOL_SPECIFIC = "school_specific"
-    AUTHOR_SPECIFIC = "author_specific"
-
-
 class ConstructEquivalence(str, Enum):
     """Whether the source's construct is the code's construct.
 
-    The decisive field. Modern numerology's vocabulary is not standardized,
-    so two authors may use one phrase for different computations, and the
-    implementation's names may resemble a source's terminology without
-    matching its arithmetic.
+    Modern numerology's vocabulary is not standardized, so two authors may use
+    one phrase for different computations, and the implementation's names may
+    resemble a source's terminology without matching its arithmetic.
     """
 
     EXACT = "exact"
@@ -89,78 +74,60 @@ class ConstructEquivalence(str, Enum):
     UNRESOLVED = "unresolved"
 
 
+class SilenceReason(str, Enum):
+    """Why a key produced no denotation.
+
+    Distinguishing these is the point of the completeness report: "we have no
+    copy of the book" and "the book says something we cannot use" are very
+    different states, and a bare empty dictionary conflates them.
+    """
+
+    NO_SOURCE_COPY = "no_source_copy"
+    NO_MATCHING_CONSTRUCT = "no_matching_construct"
+    NO_DIRECT_DENOTATION = "no_direct_denotation"
+    CONFLICTING_DENOTATIONS = "conflicting_denotations"
+
+
 class CorpusError(ValueError):
-    """A source edition or passage was recorded invalidly."""
+    """A transcription or corpus was constructed invalidly."""
 
 
 @dataclass(frozen=True, slots=True)
-class SourceEdition:
-    """One specific printing, addressable and independently checkable."""
+class Transcription:
+    """One transcriber's rendering of a passage."""
 
-    edition_id: str
-    author: str
-    title: str
-    edition: str
-    publisher: str
-    publication_year: int
-    copyright_year: int | None
-    role: SourceRole
-    source_type: SourceType
-    authority_scope: AuthorityScope
-    verification_status: VerificationStatus
-    # Notes on how the bibliography was checked, and any discrepancy found.
-    verification_note: str = ""
-    # Hash of the scan or copy transcribed from, so a later transcription can
-    # be shown to come from the same physical text.
-    scan_hash: str = ""
+    transcriber: str
+    text: str
 
     def __post_init__(self) -> None:
-        missing = [
-            field
-            for field in ("edition_id", "author", "title", "edition",
-                          "publisher")
-            if not getattr(self, field)
-        ]
-
-        if missing:
+        if not (self.transcriber and self.text):
             raise CorpusError(
-                f"edition is missing bibliography: {', '.join(missing)}. A "
-                "citation that cannot be located is not evidence."
+                "a transcription needs a transcriber and text."
             )
+
+    @property
+    def text_hash(self) -> str:
+        """Return the whitespace-normalized hash of the text."""
+        return excerpt_hash(self.text)
 
     def to_dict(self) -> dict[str, Any]:
         """Return a JSON-safe representation."""
         return {
-            "edition_id": self.edition_id,
-            "author": self.author,
-            "title": self.title,
-            "edition": self.edition,
-            "publisher": self.publisher,
-            "publication_year": self.publication_year,
-            "copyright_year": self.copyright_year,
-            "role": self.role.value,
-            "source_type": self.source_type.value,
-            "authority_scope": self.authority_scope.value,
-            "verification_status": self.verification_status.value,
-            "verification_note": self.verification_note,
-            "scan_hash": self.scan_hash,
+            "transcriber": self.transcriber,
+            "text_hash": self.text_hash,
         }
 
 
 @dataclass(frozen=True, slots=True)
 class SourcePassage:
-    """One transcribed statement from one edition.
-
-    Carries the locator, the verbatim excerpt, both the source's and the
-    code's name for the quantity, and the verdict on whether those are the
-    same construct.
-    """
+    """One transcribed statement from one source copy."""
 
     passage_id: str
-    edition_id: str
-    page: str
+    copy_id: str
+    printed_page: str
+    scan_page: str
     chapter_or_heading: str
-    verbatim_excerpt: str
+    transcriptions: tuple[Transcription, ...]
     quantity_as_named_by_source: str
     quantity_as_named_by_code: str
     construct_equivalence: ConstructEquivalence
@@ -170,24 +137,50 @@ class SourcePassage:
     proposed_coordinate: str
     polarity: str
     confidence: float
-    transcriber: str
 
     def __post_init__(self) -> None:
         missing = [
-            field
-            for field in ("passage_id", "edition_id", "page",
-                          "verbatim_excerpt", "transcriber")
-            if not getattr(self, field)
+            name
+            for name in ("passage_id", "copy_id", "printed_page")
+            if not getattr(self, name)
         ]
 
         if missing:
             raise CorpusError(
                 f"passage is missing provenance: {', '.join(missing)}. An "
-                "untranscribed or unlocated passage is not evidence."
+                "unlocated passage is not evidence."
+            )
+
+        if not self.transcriptions:
+            raise CorpusError(
+                "a passage needs at least one transcription; a citation "
+                "nobody transcribed is a claim about a book, not evidence "
+                "from it."
             )
 
         if not 0.0 <= self.confidence <= 1.0:
             raise CorpusError("confidence must lie in [0, 1].")
+
+    @property
+    def doubly_transcribed(self) -> bool:
+        """Return whether at least two transcribers rendered this passage."""
+        return len({t.transcriber for t in self.transcriptions}) >= 2
+
+    @property
+    def transcriptions_agree(self) -> bool:
+        """Return whether every transcription hashes identically."""
+        return len({t.text_hash for t in self.transcriptions}) == 1
+
+    @property
+    def verbatim_excerpt(self) -> str:
+        """Return the agreed text, or raise if transcribers disagree."""
+        if not self.transcriptions_agree:
+            raise CorpusError(
+                f"transcriptions of {self.passage_id!r} disagree; resolve "
+                "against the page image rather than choosing one."
+            )
+
+        return self.transcriptions[0].text
 
     @property
     def asserted(self) -> tuple[str, str, str]:
@@ -198,10 +191,13 @@ class SourcePassage:
         """Return a JSON-safe representation."""
         return {
             "passage_id": self.passage_id,
-            "edition_id": self.edition_id,
-            "page": self.page,
+            "copy_id": self.copy_id,
+            "printed_page": self.printed_page,
+            "scan_page": self.scan_page,
             "chapter_or_heading": self.chapter_or_heading,
-            "verbatim_excerpt": self.verbatim_excerpt,
+            "transcriptions": [t.to_dict() for t in self.transcriptions],
+            "doubly_transcribed": self.doubly_transcribed,
+            "transcriptions_agree": self.transcriptions_agree,
             "quantity_as_named_by_source": self.quantity_as_named_by_source,
             "quantity_as_named_by_code": self.quantity_as_named_by_code,
             "construct_equivalence": self.construct_equivalence.value,
@@ -211,63 +207,87 @@ class SourcePassage:
             "proposed_coordinate": self.proposed_coordinate,
             "polarity": self.polarity,
             "confidence": self.confidence,
-            "transcriber": self.transcriber,
         }
 
 
 @dataclass(frozen=True, slots=True)
 class NumerologyCorpus:
-    """Editions plus the passages transcribed from them, hashed."""
+    """Works, manifestations, copies and the passages transcribed from them."""
 
     corpus_id: str
-    editions: tuple[SourceEdition, ...] = ()
+    works: tuple[Work, ...] = ()
+    manifestations: tuple[Manifestation, ...] = ()
+    copies: tuple[SourceCopy, ...] = ()
     passages: tuple[SourcePassage, ...] = ()
 
     def __post_init__(self) -> None:
-        edition_ids = {edition.edition_id for edition in self.editions}
+        manifestation_ids = {m.manifestation_id for m in self.manifestations}
+        work_ids = {w.work_id for w in self.works}
+        copy_ids = {c.copy_id for c in self.copies}
 
-        if len(edition_ids) != len(self.editions):
-            raise CorpusError("duplicate edition_id in corpus.")
+        for manifestation in self.manifestations:
+            if manifestation.work_id not in work_ids:
+                raise CorpusError(
+                    f"manifestation {manifestation.manifestation_id!r} cites "
+                    f"unknown work {manifestation.work_id!r}."
+                )
+
+        for copy in self.copies:
+            if copy.manifestation_id not in manifestation_ids:
+                raise CorpusError(
+                    f"copy {copy.copy_id!r} cites unknown manifestation "
+                    f"{copy.manifestation_id!r}."
+                )
 
         seen: set[str] = set()
 
         for passage in self.passages:
             if passage.passage_id in seen:
                 raise CorpusError(
-                    f"duplicate passage_id {passage.passage_id!r}; each "
-                    "citation must be individually addressable."
+                    f"duplicate passage_id {passage.passage_id!r}."
                 )
 
-            if passage.edition_id not in edition_ids:
+            # The guarantee that a declared edition cannot be cited: a
+            # passage must come from a copy someone actually held.
+            if passage.copy_id not in copy_ids:
                 raise CorpusError(
-                    f"passage {passage.passage_id!r} cites unknown edition "
-                    f"{passage.edition_id!r}."
+                    f"passage {passage.passage_id!r} cites unknown copy "
+                    f"{passage.copy_id!r}; a passage may not cite a merely "
+                    "declared manifestation."
                 )
 
             seen.add(passage.passage_id)
 
-    def edition(self, edition_id: str) -> SourceEdition:
-        """Return one edition by id."""
-        for edition in self.editions:
-            if edition.edition_id == edition_id:
-                return edition
+    def manifestation(self, manifestation_id: str) -> Manifestation:
+        """Return one manifestation by id."""
+        for manifestation in self.manifestations:
+            if manifestation.manifestation_id == manifestation_id:
+                return manifestation
 
-        raise CorpusError(f"unknown edition {edition_id!r}.")
+        raise CorpusError(f"unknown manifestation {manifestation_id!r}.")
+
+    def copy(self, copy_id: str) -> SourceCopy:
+        """Return one source copy by id."""
+        for copy in self.copies:
+            if copy.copy_id == copy_id:
+                return copy
+
+        raise CorpusError(f"unknown copy {copy_id!r}.")
+
+    def manifestation_for_passage(
+        self, passage: SourcePassage
+    ) -> Manifestation:
+        """Return the manifestation a passage was transcribed from."""
+        return self.manifestation(self.copy(passage.copy_id).manifestation_id)
 
     def passages_for_role(self, role: SourceRole) -> list[SourcePassage]:
-        """Return passages from editions playing one role, in id order.
-
-        Strata never mix: compiling the canonical dictionary must not be able
-        to reach a historical precursor's passages.
-        """
-        allowed = {
-            edition.edition_id
-            for edition in self.editions
-            if edition.role is role
-        }
-
+        """Return passages from manifestations playing one role."""
         return sorted(
-            (p for p in self.passages if p.edition_id in allowed),
+            (
+                passage
+                for passage in self.passages
+                if self.manifestation_for_passage(passage).role is role
+            ),
             key=lambda passage: passage.passage_id,
         )
 
@@ -280,18 +300,32 @@ class NumerologyCorpus:
             }
         )
 
+    def eligible_manifestations(self, role: SourceRole) -> list[Manifestation]:
+        """Return manifestations in a stratum that may be transcribed from."""
+        return [
+            manifestation
+            for manifestation in self.manifestations
+            if manifestation.role is role
+            and manifestation.transcription_eligible
+        ]
+
     def corpus_hash(self) -> str:
-        """Return a deterministic hash of every edition and passage."""
+        """Return a deterministic hash of the whole corpus."""
         payload = {
             "schema": NUMEROLOGY_CORPUS_SCHEMA,
             "corpus_id": self.corpus_id,
-            "editions": sorted(
-                json.dumps(edition.to_dict(), sort_keys=True)
-                for edition in self.editions
+            "works": sorted(
+                json.dumps(w.to_dict(), sort_keys=True) for w in self.works
+            ),
+            "manifestations": sorted(
+                json.dumps(m.to_dict(), sort_keys=True)
+                for m in self.manifestations
+            ),
+            "copies": sorted(
+                json.dumps(c.to_dict(), sort_keys=True) for c in self.copies
             ),
             "passages": sorted(
-                json.dumps(passage.to_dict(), sort_keys=True)
-                for passage in self.passages
+                json.dumps(p.to_dict(), sort_keys=True) for p in self.passages
             ),
         }
 
@@ -307,20 +341,33 @@ class NumerologyCorpus:
             "schema": NUMEROLOGY_CORPUS_SCHEMA,
             "corpus_id": self.corpus_id,
             "hash": self.corpus_hash(),
-            "editions": [edition.to_dict() for edition in self.editions],
-            "passages": [passage.to_dict() for passage in self.passages],
-            "passage_count": len(self.passages),
+            "works": [w.to_dict() for w in self.works],
+            "manifestations": [m.to_dict() for m in self.manifestations],
+            "copies": [c.to_dict() for c in self.copies],
+            "passages": [p.to_dict() for p in self.passages],
+            "counts": {
+                "works": len(self.works),
+                "manifestations": len(self.manifestations),
+                "copies": len(self.copies),
+                "passages": len(self.passages),
+            },
         }
 
 
 def build_corpus(
     corpus_id: str,
-    editions: Sequence[SourceEdition],
+    works: Sequence[Work] = (),
+    manifestations: Sequence[Manifestation] = (),
+    copies: Sequence[SourceCopy] = (),
     passages: Sequence[SourcePassage] = (),
 ) -> NumerologyCorpus:
     """Assemble a corpus in deterministic order."""
     return NumerologyCorpus(
         corpus_id=corpus_id,
-        editions=tuple(sorted(editions, key=lambda e: e.edition_id)),
+        works=tuple(sorted(works, key=lambda w: w.work_id)),
+        manifestations=tuple(
+            sorted(manifestations, key=lambda m: m.manifestation_id)
+        ),
+        copies=tuple(sorted(copies, key=lambda c: c.copy_id)),
         passages=tuple(sorted(passages, key=lambda p: p.passage_id)),
     )

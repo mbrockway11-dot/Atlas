@@ -29,14 +29,17 @@ import hashlib
 import json
 from typing import Any
 
-from atlas.validation.denotation.numerology_corpus import (
+from atlas.validation.denotation.numerology_bibliography import (
     AuthorityScope,
+    Manifestation,
+    SourceType,
+)
+from atlas.validation.denotation.numerology_corpus import (
     ConstructEquivalence,
     NumerologyCorpus,
     SemanticGranularity,
-    SourceEdition,
+    SilenceReason,
     SourcePassage,
-    SourceType,
 )
 from atlas.validation.denotation.numerology_dictionary import (
     ConflictVerdict,
@@ -104,13 +107,17 @@ class AdmissibilityRules:
         )
     )
 
+    # Two independent transcribers, so a misreading is visible rather than
+    # silently authoritative.
+    require_double_transcription: bool = True
+
     minimum_confidence: float = 0.5
 
     # A key with fewer admissible passages than this compiles to silence.
     minimum_passages: int = 1
 
     def rejection_reason(
-        self, passage: SourcePassage, edition: SourceEdition
+        self, passage: SourcePassage, edition: Manifestation
     ) -> str | None:
         """Return why a passage was rejected, or None if admitted.
 
@@ -123,6 +130,26 @@ class AdmissibilityRules:
         terminology-only resemblance, rather than because the corpus lacked
         it.
         """
+        # Copy-level verification comes first: a page locator that was never
+        # checked against the printed page cannot be reproduced, whatever the
+        # passage says.
+        if not edition.transcription_eligible:
+            return (
+                "manifestation not transcription-eligible: "
+                + "; ".join(edition.blocking_reasons())
+            )
+
+        if not passage.transcriptions_agree:
+            return (
+                "transcriptions disagree; resolve against the page image "
+                "rather than choosing one"
+            )
+
+        if self.require_double_transcription and not (
+            passage.doubly_transcribed
+        ):
+            return "only one transcriber; double transcription required"
+
         if passage.granularity not in self.allowed_granularities:
             return f"granularity {passage.granularity.value!r} not eligible"
 
@@ -159,7 +186,7 @@ class AdmissibilityRules:
         return None
 
     def admits(
-        self, passage: SourcePassage, edition: SourceEdition
+        self, passage: SourcePassage, edition: Manifestation
     ) -> bool:
         """Return whether one passage may license a denotation."""
         return self.rejection_reason(passage, edition) is None
@@ -181,6 +208,7 @@ class AdmissibilityRules:
             "construct_equivalence": sorted(
                 c.value for c in self.allowed_construct_equivalence
             ),
+            "require_double_transcription": self.require_double_transcription,
             "minimum_confidence": self.minimum_confidence,
             "minimum_passages": self.minimum_passages,
         }
@@ -209,6 +237,7 @@ class AdmissibilityRules:
             "allowed_construct_equivalence": sorted(
                 c.value for c in self.allowed_construct_equivalence
             ),
+            "require_double_transcription": self.require_double_transcription,
             "minimum_confidence": self.minimum_confidence,
             "minimum_passages": self.minimum_passages,
         }
@@ -315,7 +344,7 @@ def compile_dictionary(
 
         for passage in candidates:
             reason = rules.rejection_reason(
-                passage, corpus.edition(passage.edition_id)
+                passage, corpus.manifestation_for_passage(passage)
             )
 
             if reason is None:
@@ -331,7 +360,7 @@ def compile_dictionary(
         if representative is None:
             continue
 
-        edition = corpus.edition(representative.edition_id)
+        edition = corpus.manifestation_for_passage(representative)
 
         entry = NumerologyDictionaryEntry(
             tradition=tradition,
@@ -350,9 +379,10 @@ def compile_dictionary(
                 tradition=tradition,
                 source_id=representative.passage_id,
                 passage=(
-                    f"{edition.author}, {edition.title} "
-                    f"({edition.edition}, {edition.publisher}, "
-                    f"{edition.publication_year}), p. {representative.page}"
+                    f"{edition.manifestation_id} "
+                    f"({edition.edition_statement}, {edition.publisher}, "
+                    f"{edition.publication_year}), "
+                    f"printed p. {representative.printed_page}"
                 ),
             ),
         )
@@ -381,3 +411,88 @@ def compile_dictionary(
     )
 
     return dictionary, report
+
+
+def completeness_report(
+    corpus: NumerologyCorpus,
+    rules: AdmissibilityRules,
+    *,
+    role: SourceRole = SourceRole.CANONICAL,
+) -> dict[str, Any]:
+    """Explain the corpus's silence, reason by reason.
+
+    A bare empty dictionary conflates states that are not alike. "No verified
+    copy has been ingested" is a procurement fact; "the source discusses the
+    value but never denotes it" is a finding about the tradition. This
+    separates them so the reader can tell which one they are looking at.
+    """
+    eligible = corpus.eligible_manifestations(role)
+    available = corpus.passages_for_role(role)
+
+    reasons: dict[str, list[str]] = {r.value: [] for r in SilenceReason}
+
+    if not eligible:
+        for manifestation in corpus.manifestations:
+            if manifestation.role is not role:
+                continue
+
+            reasons[SilenceReason.NO_SOURCE_COPY.value].append(
+                f"{manifestation.manifestation_id}: "
+                + "; ".join(manifestation.blocking_reasons())
+            )
+
+    for quantity, value in corpus.keys_for_role(role):
+        key = f"{quantity}={value}"
+        candidates = [
+            passage
+            for passage in available
+            if passage.quantity_as_named_by_code == quantity
+            and passage.value == value
+        ]
+
+        admissible = [
+            passage
+            for passage in candidates
+            if rules.admits(
+                passage, corpus.manifestation_for_passage(passage)
+            )
+        ]
+
+        if admissible:
+            if len({p.asserted for p in admissible}) > 1:
+                reasons[SilenceReason.CONFLICTING_DENOTATIONS.value].append(
+                    key
+                )
+
+            continue
+
+        if any(
+            p.construct_equivalence
+            not in rules.allowed_construct_equivalence
+            for p in candidates
+        ):
+            reasons[SilenceReason.NO_MATCHING_CONSTRUCT.value].append(key)
+        elif any(
+            p.granularity not in rules.allowed_granularities
+            for p in candidates
+        ):
+            reasons[SilenceReason.NO_DIRECT_DENOTATION.value].append(key)
+
+    return {
+        "corpus_id": corpus.corpus_id,
+        "role": role.value,
+        "works_declared": len(corpus.works),
+        "manifestations_declared": sum(
+            1 for m in corpus.manifestations if m.role is role
+        ),
+        "manifestations_transcription_eligible": len(eligible),
+        "source_copies": len(corpus.copies),
+        "passages_transcribed": len(available),
+        "silence_reasons": {k: v for k, v in reasons.items() if v},
+        "status": (
+            "Bibliography exists; textual evidence does not. This is the "
+            "provenance system working, not a blocked implementation."
+            if not eligible
+            else "Transcription-eligible sources present."
+        ),
+    }
