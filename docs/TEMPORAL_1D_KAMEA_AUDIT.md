@@ -439,9 +439,43 @@ The measured behaviour is now a permanent fixture in
 If any of these stops holding, the representation changed and the audit's
 conclusions no longer follow from the code.
 
-**Still to do:** prove that an era-matched *control generator* eliminates the
-separability. The current study proves the representation contains era
-information; it does not yet prove the matching procedure removes it.
+### Valid cohorts are constructible — proved
+
+A refusal boundary nothing can pass is not a working framework. The gate can
+reject a masked cohort; this shows an acceptable one exists.
+
+```bash
+.venv/Scripts/python.exe scripts/run_r1_control_generator_proof.py
+```
+
+The label is **event versus control**, not early versus late — balance is the
+question, era is the mechanism. A generator must remove *representation-level
+separability* (Saturn's B3D must stop distinguishing events from controls),
+not merely match calendar-year histograms. 12 conditions each: 3 frozen era
+contrasts × 2 scales × 2 seeds, blocked validation throughout.
+
+| generator | acceptable | failures | note |
+|---|---|---|---|
+| `window_uniform` | **no** | 11 / 12 | inadequate baseline, included so the gate must reject something |
+| `stratified_era` | yes | 0 / 12 | **canonical** |
+| `symmetric_displacement` | yes | 0 / 12 | works at R1 too, despite Saturn's coarse bins |
+| `representation_matched` | yes | 0 / 12 | diagnostic upper bound only |
+
+**The gate discriminates.** `window_uniform` fails 11 of 12 conditions, and in
+several it triggers translation masking live: Saturn's B3D separates events
+from controls while B2 does not, so a B2-only check would have certified a
+confounded cohort. That failure is now a test, observed rather than
+constructed.
+
+**The canonical generator is `stratified_era`.** It removes Saturn's B3D
+separability *without matching on the representation* — so the leakage is
+removable without conditioning away the feature under study.
+
+**`representation_matched` is deliberately not canonical.** It works, and it
+answers "can the leakage be removed at all", but matching on Saturn's B3D
+class changes the estimand: that feature can no longer contribute to
+event/control discrimination. Since era stratification achieves the same
+result without that cost, it is the one frozen.
 
 ### Reporting rules, frozen
 
