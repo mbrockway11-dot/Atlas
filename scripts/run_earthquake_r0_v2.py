@@ -37,7 +37,10 @@ from typing import Any, Sequence
 
 import numpy as np
 
-from atlas.validation.artifacts import write_json
+from atlas.validation.control_quality import (
+    build_control_quality,
+    write_temporal_result,
+)
 from atlas.validation.event_catalogue import (
     CONFIRMATORY_PROVENANCE,
     InclusionRule,
@@ -182,6 +185,8 @@ def main() -> int:
     rng = np.random.default_rng(args.seed)
 
     results: dict[str, Any] = {}
+    controls_by_family: dict[str, list] = {}
+    control_matrices: dict[str, np.ndarray] = {}
 
     for family, generator in CONTROL_FAMILIES.items():
         drawn: list = []
@@ -198,6 +203,9 @@ def main() -> int:
 
         kept = [moment for moment in drawn if moment.date() not in event_days]
         control_matrix, _ = build_temporal_matrix(kept)
+
+        controls_by_family[family] = kept
+        control_matrices[family] = control_matrix
 
         combined = np.vstack((event_matrix, control_matrix))
         dispersion = _dispersion(combined)
@@ -263,10 +271,22 @@ def main() -> int:
         else "no_association_detected"
     )
 
-    args.output_dir.mkdir(parents=True, exist_ok=True)
-    write_json(
+    # Required artifact. The writer refuses a result without it.
+    quality = build_control_quality(
+        events=events,
+        controls_by_family=controls_by_family,
+        event_matrix=event_matrix,
+        control_matrices=control_matrices,
+        layout=layout,
+        window=window,
+        build_matrix=build_temporal_matrix,
+        seed=args.seed,
+    )
+
+    written = write_temporal_result(
         {
-            "study": "temporal_2_v2",
+            "study": "temporal_2a_v2",
+            "milestone": "2A_raw_state_event_baselines",
             "verdict": verdict,
             "significant_families_year_block": significant,
             "control_spec_version": CONTROL_SPEC_VERSION,
@@ -294,7 +314,9 @@ def main() -> int:
                 "R0 vector."
             ),
         },
-        args.output_dir / "earthquake_r0_v2.json",
+        control_quality=quality,
+        output_dir=args.output_dir,
+        result_name="earthquake_r0_v2.json",
     )
 
     print(
@@ -338,7 +360,14 @@ def main() -> int:
                     }
                     for family, body in results.items()
                 },
-                "output_dir": str(args.output_dir),
+                "control_quality": {
+                    "all_families_sound": quality.all_sound,
+                    "unsound_families": list(quality.unsound_families),
+                    "diagnostic_working": quality.synthetic_control_check[
+                        "diagnostic_working"
+                    ],
+                },
+                "artifacts": {k: str(v) for k, v in written.items()},
                 "elapsed_seconds": round(perf_counter() - started, 2),
             },
             indent=2,

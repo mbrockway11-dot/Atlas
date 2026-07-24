@@ -1,7 +1,25 @@
 # Temporal 1C — Planetary→Kamea Specification
 
 **Status:** open · **Type:** design milestone, not validation · **Blocks:**
-Temporal 1D · **Does not block:** Temporal 2 (earthquakes on R0)
+Temporal 1D and 2B · **Does not block:** Temporal 2A (raw-state baselines)
+
+Milestone 2 is split, because its two halves ask different questions:
+
+```text
+2A   Raw-state event baselines (R0)
+     Is there any detectable association in the astronomical state itself?
+     STATUS: earthquake baseline complete, null under five sound controls
+
+2B   Kamea event baselines (R1/R2)
+     Does the Kamea representation expose anything beyond R0?
+     STATUS: blocked on this specification
+```
+
+2A answers a question about the world. 2B answers a question about a
+representation, and can only be asked once 2A has established what the
+representation would have to improve on. The same separation between
+characterization and hypothesis testing is what made the identity branch
+tractable.
 
 ---
 
