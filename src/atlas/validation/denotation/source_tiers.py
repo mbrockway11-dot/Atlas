@@ -130,6 +130,7 @@ KNOWN_SOURCES: dict[str, SourceTier] = {
     # any of these licenses anything.
     "pardes_rimmonim": SourceTier.PRIMARY_TRADITIONAL,
     "talmud": SourceTier.PRIMARY_TRADITIONAL,
+    "juno_jordan_romance_in_your_name": SourceTier.PRIMARY_TRADITIONAL,
     "brihat_parasara_hora_shastra": SourceTier.PRIMARY_TRADITIONAL,
     "brihat_jataka": SourceTier.PRIMARY_TRADITIONAL,
     "phaladipika": SourceTier.PRIMARY_TRADITIONAL,
@@ -145,19 +146,53 @@ KNOWN_SOURCES: dict[str, SourceTier] = {
 }
 
 
-# Text-hosting platforms among the catalog-tier entries. Documented so the
-# access-route principle is legible: these provide text, but licensing is
-# governed by the hosted work's tier, not by the platform.
+class CatalogRole(str, Enum):
+    """A role distinction *within* the catalog_archive tier.
+
+    Both roles license provenance only, so this is not a fifth tier -- it
+    makes the acquisition workflow clearer. A catalog helps *discover* that a
+    manifestation exists; a repository provides *access* to a copy or text.
+
+    The distinction has a teeth of its own: **repository access is not copy
+    verification**. Finding a scan on Internet Archive, or a text on Sefaria,
+    gives you something to verify -- it does not complete the copy chain. The
+    title page, copyright page and pagination checks still have to be made.
+    """
+
+    CATALOG = "catalog"        # manifestation discovery only
+    REPOSITORY = "repository"   # access to a copy/text, not its verification
+
+
+CATALOG_ROLES: dict[str, CatalogRole] = {
+    # Catalogs -- discovery only.
+    "worldcat": CatalogRole.CATALOG,
+    "library_of_congress": CatalogRole.CATALOG,
+    "open_library": CatalogRole.CATALOG,
+    # Repositories -- access to a copy or text.
+    "internet_archive": CatalogRole.REPOSITORY,
+    "hathitrust": CatalogRole.REPOSITORY,
+    "google_books": CatalogRole.REPOSITORY,
+    "sefaria": CatalogRole.REPOSITORY,
+    "gretil": CatalogRole.REPOSITORY,
+    "sanskrit_documents": CatalogRole.REPOSITORY,
+}
+
+# The repositories, for the access-route principle. Kept as a name for
+# existing callers; it is exactly the REPOSITORY set above.
 ACCESS_ROUTES: frozenset[str] = frozenset(
-    {
-        "internet_archive",
-        "hathitrust",
-        "google_books",
-        "sefaria",
-        "gretil",
-        "sanskrit_documents",
-    }
+    source
+    for source, role in CATALOG_ROLES.items()
+    if role is CatalogRole.REPOSITORY
 )
+
+
+def catalog_role(source_id: str) -> CatalogRole | None:
+    """Return the catalog role of a source, or None if it is not catalog-tier.
+
+    A repository result still owes the full copy chain: access to a scan is
+    not a verified copy.
+    """
+    return CATALOG_ROLES.get(source_id)
 
 
 class SourceTierError(ValueError):

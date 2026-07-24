@@ -45,6 +45,7 @@ MODULE_STAGE: dict[str, int] = {
     "numerology_expression": 0,
     "gematria_orthography": 0,
     "source_tiers": 0,
+    "acquisition_targets": 4,
     # 1 -- source verification: bibliography, corpus, schemes awaiting citation
     "numerology_bibliography": 1,
     "numerology_corpus": 1,
