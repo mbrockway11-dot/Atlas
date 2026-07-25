@@ -270,7 +270,40 @@ vocabulary already in the tree.
 |---|---|
 | Kamea | **admitted** — structural axis only, direct measurement, no source needed |
 | numerology | architecture complete, **acquisition pending** (baseline `07af099`) |
-| gematria | not started |
-| Vedic | not started |
+| gematria | classified, repaired, identity admitted; value table **evaluated** (P1) |
+| Vedic | classified; ayanāṃśa provenance **investigated** (P1) |
 
 1E-A cannot run yet: concordance needs two eligible systems and has one.
+
+---
+
+## Milestone: Representation 1E complete
+
+The architecture is complete. Declared against a fixed checklist:
+
+- [x] Provenance architecture stable (tiers, feed-forward lattice, laundering)
+- [x] Capability gates stable (derived, hash-synchronised, fail-closed)
+- [x] Acquisition protocol stable (11 stages, each mapped to an enforcing gate)
+- [x] At least one real source evaluated end-to-end — Gesenius §5k and CLDR
+      against the six numeral requirements ([table](GEMATRIA_P1_NUMERAL_EVALUATION_TABLE.md))
+- [x] The framework changed in response to evidence at least once — the P1
+      integration test reclassified the gematria value table from primary-text
+      method to normative computation, and re-scoped its acquisition target
+- [x] Remaining work is primarily source acquisition, not framework design
+
+**1E has stopped asking for itself.** Every open thread is now a source event:
+read Chrisomalis/Gandz (gematria provenance), inspect the Academy of the Hebrew
+Language rules (value-table authority), obtain the Calendar Reform Committee
+report / Rāṣṭrīya Pañcāṅga ([Vedic ayanāṃśa authority](JYOTISHA_P1_AYANAMSA_PROVENANCE.md)),
+acquire one Juno Jordan work (numerology). Future commits should read
+"admitted source", "rejected source", "coverage evaluation", "historical
+finding" — research outputs, not framework changes.
+
+### First cross-domain result
+
+The same question — *what establishes this construct?* — already gives
+opposite-shaped answers: gematria's value mapping is **convention-shaped**
+(anonymous, emergent, no authority identified), while the Lahiri ayanāṃśa is
+**authored / standard-shaped** (a named individual and an official governmental
+standard). The doctrine-vs-convention model discriminates across domains — a
+working model on two data points, not yet a settled classification.
