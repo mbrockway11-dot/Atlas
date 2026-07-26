@@ -264,10 +264,12 @@ LEGACY_LATIN_TRANSLITERATION = TransliterationScheme(
 )
 
 
-# Standard Hebrew letter values, recovered as a candidate value assignment and
-# marked NOT admitted. The values are widely attested, but 1E requires a
-# citation, and REPAIR does not supply one -- that is 1E-G-SOURCE's job.
-_STANDARD_VALUES: dict[HebrewLetter, int] = {
+# Standard Hebrew letter values (mispar hechrachi). The single source of truth
+# for the aleph=1..tav=400 map -- gematria_value_method imports this rather than
+# keeping a second copy. Recovered as a candidate value assignment and marked
+# NOT admitted: the values are widely attested, but 1E requires a citation, and
+# REPAIR does not supply one -- that is 1E-G-SOURCE's job.
+STANDARD_HEBREW_LETTER_VALUES: dict[HebrewLetter, int] = {
     HebrewLetter.ALEPH: 1, HebrewLetter.BET: 2, HebrewLetter.GIMEL: 3,
     HebrewLetter.DALET: 4, HebrewLetter.HE: 5, HebrewLetter.VAV: 6,
     HebrewLetter.ZAYIN: 7, HebrewLetter.HET: 8, HebrewLetter.TET: 9,
@@ -283,7 +285,7 @@ CANDIDATE_STANDARD_VALUES = ValueAssignment(
     scheme_id="standard-hebrew-values-uncited",
     version="0.0.0",
     admitted=False,
-    values=_STANDARD_VALUES,
+    values=STANDARD_HEBREW_LETTER_VALUES,
     note=(
         "The standard Hebrew letter values, held as a candidate. Widely "
         "attested but uncited here; admission awaits a source under "

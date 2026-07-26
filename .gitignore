@@ -90,3 +90,8 @@ audit/
 #
 # To version a specific fixture, add an explicit negation below.
 output/
+
+# Local working artifacts (audit scratch, backups) — not part of the project
+backup/
+/*.txt
+claude-code-day-one-pro-setup.md

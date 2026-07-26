@@ -26,7 +26,10 @@ import hashlib
 import json
 from typing import Any, Mapping
 
-from atlas.validation.denotation.gematria_transliteration import HebrewLetter
+from atlas.validation.denotation.gematria_transliteration import (
+    STANDARD_HEBREW_LETTER_VALUES,
+    HebrewLetter,
+)
 
 
 VALUE_METHOD_SCHEMA = "atlas.validation.denotation.gematria-method.v1"
@@ -148,20 +151,8 @@ class ValueMethod:
         }
 
 
-# Standard absolute value (mispar hechrachi), structured but NOT admitted.
-# The values are widely attested, but 1E requires a source copy and locator,
-# and 1E-G-SOURCE-A has neither -- so this is a candidate, present to exercise
-# the machinery, licensing nothing.
-_ABSOLUTE_VALUES: dict[HebrewLetter, int] = {
-    HebrewLetter.ALEPH: 1, HebrewLetter.BET: 2, HebrewLetter.GIMEL: 3,
-    HebrewLetter.DALET: 4, HebrewLetter.HE: 5, HebrewLetter.VAV: 6,
-    HebrewLetter.ZAYIN: 7, HebrewLetter.HET: 8, HebrewLetter.TET: 9,
-    HebrewLetter.YOD: 10, HebrewLetter.KAF: 20, HebrewLetter.LAMED: 30,
-    HebrewLetter.MEM: 40, HebrewLetter.NUN: 50, HebrewLetter.SAMEKH: 60,
-    HebrewLetter.AYIN: 70, HebrewLetter.PE: 80, HebrewLetter.TSADI: 90,
-    HebrewLetter.QOF: 100, HebrewLetter.RESH: 200, HebrewLetter.SHIN: 300,
-    HebrewLetter.TAV: 400,
-}
+# The standard absolute value map (mispar hechrachi) is defined once in
+# gematria_transliteration and imported here -- no second copy to drift.
 
 
 # What a normative Hebrew numeral-system authority must explicitly specify
@@ -226,7 +217,7 @@ def numeral_source_sufficient(covered: frozenset[str]) -> bool:
 MISPAR_HECHRACHI_CANDIDATE = ValueMethod(
     method_id="mispar-hechrachi-candidate-uncited",
     alphabet="hebrew-22",
-    letter_values=_ABSOLUTE_VALUES,
+    letter_values=STANDARD_HEBREW_LETTER_VALUES,
     final_letter_policy=FinalLetterPolicy.SAME_AS_BASE,
     final_values={},
     normalization_policy="strip_niqqud_and_marks",
