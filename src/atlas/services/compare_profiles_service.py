@@ -79,15 +79,19 @@ def build_compare_profiles_payload(
     profile_a_key: str,
     profile_b_key: str,
     *,
-    normalization_mode: str = "raw",
+    normalization_mode: str = "percentile",
 ) -> CompareProfilesPayload:
     """Build canonical compare profiles payload.
 
-    Defaults to ``"raw"`` -- each profile's own bounded measurements, the
-    canonical self-contained baseline. Callers wanting population
-    normalization pass ``percentile``/``minmax``/``zscore`` explicitly, which
-    loads the precomputed calibration statistics. The default is locked by
-    ``tests/test_normalization_default.py``.
+    Pairwise comparison defaults to ``"percentile"`` (population-normalized).
+    Raw self-normalized vectors saturate -- every pair scores ~0.95 similar
+    (measured sd 0.015 vs percentile sd 0.069 over the corpus), so raw does not
+    discriminate people. The single-profile representation stays raw
+    (``build_identity_vector``); only *comparison* needs the population frame.
+    Percentile loads the precomputed calibration statistics; if none are
+    available it falls back to raw with a warning rather than collapsing every
+    feature to 0.5. This default (distinct from the builder's raw default) is
+    locked by ``tests/test_normalization_default.py``.
     """
     warnings: list[str] = []
     errors: list[str] = []
@@ -100,13 +104,20 @@ def build_compare_profiles_payload(
             error="Choose two different profiles.",
         )
 
-    try:
-        statistics = (
-            load_runtime_statistics()
-            if normalization_mode in MODES_REQUIRING_CALIBRATION
-            else None
-        )
+    statistics = None
+    if normalization_mode in MODES_REQUIRING_CALIBRATION:
+        try:
+            statistics = load_runtime_statistics()
+        except CompiledRuntimeError:
+            warnings.append(
+                f"No calibration available; {normalization_mode} comparison "
+                "would collapse every feature to 0.5. Falling back to raw -- "
+                "note raw comparison saturates (~0.95 for every pair) and does "
+                "not discriminate."
+            )
+            normalization_mode = "raw"
 
+    try:
         vector_a, artifact_a = resolve_runtime_identity_vector(
             profile_a_key,
             normalization_mode=normalization_mode,

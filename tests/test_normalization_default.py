@@ -73,15 +73,19 @@ def test_raw_default_differs_from_population_mode() -> None:
     assert raw.global_features != percentile.global_features
 
 
-def test_compare_profiles_service_defaults_to_raw() -> None:
-    """The Compare Profiles service default is raw."""
+def test_compare_profiles_service_defaults_to_percentile() -> None:
+    """Pairwise comparison defaults to percentile, NOT the raw builder default.
+
+    Raw self-normalized vectors saturate (~0.95 for every pair) and do not
+    discriminate; population-normalized percentile does. The single-profile
+    builder stays raw -- only the comparison path is population-relative. This
+    is a deliberate departure from CANONICAL_DEFAULT, locked here so it cannot
+    silently revert.
+    """
     signature = inspect.signature(
         compare_profiles_service.build_compare_profiles_payload
     )
-    assert (
-        signature.parameters["normalization_mode"].default
-        == CANONICAL_DEFAULT
-    )
+    assert signature.parameters["normalization_mode"].default == "percentile"
 
 
 def test_contradiction_service_defaults_to_raw() -> None:
