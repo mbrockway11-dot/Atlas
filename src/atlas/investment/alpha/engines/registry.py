@@ -15,6 +15,9 @@ from atlas.investment.alpha.backtester.schema import (
     normalize_market_frame,
 )
 from atlas.investment.alpha.engines.base import AlphaEngine
+from atlas.investment.alpha.engines.defensive_risk_off import (
+    DefensiveRiskOffEngine,
+)
 from atlas.investment.alpha.engines.drawdown_recovery import (
     DrawdownRecoveryEngine,
 )
@@ -68,6 +71,7 @@ def registered_engines() -> list[AlphaEngine]:
         VolatilityCompressionEngine(),
         MarketBreadthEngine(),
         DrawdownRecoveryEngine(),
+        DefensiveRiskOffEngine(),
     ]
 
 

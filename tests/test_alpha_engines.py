@@ -74,7 +74,7 @@ def test_registry_contains_unique_engines():
         for engine in engines
     ]
 
-    assert len(engines) == 7
+    assert len(engines) == 8
     assert len(engine_ids) == len(set(engine_ids))
 
 
