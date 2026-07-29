@@ -21,7 +21,10 @@ import json
 
 import numpy as np
 
-COHORT = "output/investment_hyper_copytrade/paper_cohort.jsonl"
+COHORTS = [
+    "output/investment_hyper_copytrade/paper_cohort.jsonl",
+    "output/investment_hyper_copytrade/teacher_registry_v2.jsonl",
+]
 SEED, MIN_LEGS, BOOT, FEE = 20260728, 12, 4000, 0.0009  # 9 bps round trip
 
 
@@ -39,9 +42,25 @@ def stats(returns):
     return {"n": len(a), "mean": float(a.mean()), "sharpe": float(a.mean() / a.std())}
 
 
+def _load_v2_teachers():
+    """Load every v2 cohort file, keeping one record per address (most legs)."""
+    import os
+    by_addr: dict[str, dict] = {}
+    for path in COHORTS:
+        if not os.path.exists(path):
+            continue
+        for line in open(path, encoding="utf-8").read().splitlines():
+            r = json.loads(line)
+            if not r.get("legs"):
+                continue
+            prev = by_addr.get(r["address"])
+            if prev is None or len(r["legs"]) > len(prev["legs"]):
+                by_addr[r["address"]] = r
+    return list(by_addr.values())
+
+
 def main():
-    recs = [json.loads(l) for l in open(COHORT, encoding="utf-8").read().splitlines()]
-    teachers = [r for r in recs if r.get("legs")]
+    teachers = _load_v2_teachers()
     cutoff = np.median([lg["exit_time_ms"] for r in teachers for lg in r["legs"]])
 
     rows = []  # (is_pnl, is_sharpe, oos_returns_array)
