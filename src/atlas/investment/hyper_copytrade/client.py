@@ -15,6 +15,7 @@ provenance flags returned from :meth:`HyperliquidReadClient.provenance`.
 from __future__ import annotations
 
 import json
+import math
 import urllib.error
 import urllib.request
 from typing import Any
@@ -97,6 +98,30 @@ class HyperliquidReadClient:
             raise HyperliquidClientError(
                 f"Could not parse wallet state for {address}: {error}"
             ) from error
+
+    def fetch_all_mids(self) -> dict[str, float]:
+        """Fetch current mid prices for every perp coin, keyed by upper-case coin.
+
+        The ``allMids`` info request returns ``{coin: priceString}``. It is the
+        mark source the forward paper runner needs: a coin can leave the roster
+        while the paper book still holds it, so prices must come from a venue-
+        wide feed, not only the leaders' current positions. Read-only, keyless.
+        Coins whose price is malformed or non-finite are skipped, not fatal.
+        """
+        payload = self._post_json(self.info_url, {"type": "allMids"})
+        if not isinstance(payload, dict):
+            raise HyperliquidClientError("allMids payload was not an object.")
+        mids: dict[str, float] = {}
+        for coin, price in payload.items():
+            try:
+                value = float(price)
+            except (TypeError, ValueError):
+                continue
+            if value > 0.0 and math.isfinite(value):
+                mids[str(coin).strip().upper()] = value
+        if not mids:
+            raise HyperliquidClientError("allMids returned no usable prices.")
+        return mids
 
     def fetch_user_fills(self, address: str) -> list[dict[str, Any]]:
         """Fetch a wallet's recent fills (up to ~2000), newest first.

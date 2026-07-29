@@ -19,6 +19,22 @@ from atlas.investment.hyper_copytrade.mirror import (
     blend_targets,
     wallet_signed_weights,
 )
+from atlas.investment.hyper_copytrade.paper_forward import (
+    accrue_funding,
+    fit_targets_to_cash,
+    net_liquidation,
+    positions_map,
+    rebalance_to_targets,
+    restrict_states_to_universe,
+    target_notionals,
+    tradable_perp_coins,
+)
+from atlas.investment.hyper_copytrade.client import (
+    HyperliquidClientError,
+    HyperliquidReadClient,
+)
+from atlas.investment.execution.contracts import RiskLimits
+from atlas.investment.execution.account_store import AccountSnapshot
 from atlas.investment.hyper_copytrade.ranking import (
     best_trader,
     per_leg_sharpe,
@@ -857,3 +873,186 @@ def test_registry_roster_ranks_by_skill_and_filters():
 def test_registry_roster_honors_size():
     records = [_teacher(f"0x{i}", [2.0, 1.0] * 12) for i in range(5)]
     assert len(select_registry_roster_by_skill(records, size=3, minimum_legs=20)) == 3
+
+
+# ---------------------------------------------------------------------------
+# Forward paper runner: mids fetch + per-cycle mechanics (offline).
+# ---------------------------------------------------------------------------
+
+_FORWARD_LIMITS = RiskLimits(
+    allow_short_positions=True, maximum_leverage=3.0,
+    maximum_order_notional=1_000_000.0, maximum_asset_notional=1_000_000.0,
+    maximum_gross_exposure=1_000_000.0, maximum_daily_loss=1_000_000.0,
+)
+_PRICES = {"BTC": 100.0, "XRP": 2.0}
+
+
+def test_fetch_all_mids_parses_upper_cases_and_filters(monkeypatch):
+    client = HyperliquidReadClient()
+    monkeypatch.setattr(
+        client, "_post_json",
+        lambda url, body: {"BTC": "65000.5", "eth": "3200", "NAN": "nan",
+                           "ZERO": "0", "JUNK": "notanumber"},
+    )
+    mids = client.fetch_all_mids()
+    assert mids["BTC"] == pytest.approx(65000.5)
+    assert mids["ETH"] == pytest.approx(3200.0)  # upper-cased key
+    for dropped in ("NAN", "ZERO", "JUNK"):
+        assert dropped not in mids
+
+
+def test_fetch_all_mids_rejects_non_object(monkeypatch):
+    client = HyperliquidReadClient()
+    monkeypatch.setattr(client, "_post_json", lambda url, body: ["BTC", "100"])
+    with pytest.raises(HyperliquidClientError):
+        client.fetch_all_mids()
+
+
+def test_forward_cycle_opens_signed_book_and_marks():
+    account = AccountSnapshot(cash=100_000.0)
+    targets = {"BTC": 30_000.0, "XRP": -20_000.0}
+    account, fills = rebalance_to_targets(
+        account, targets, _PRICES, limits=_FORWARD_LIMITS,
+        minimum_rebalance_notional=50.0,
+    )
+    assert fills == 2
+    pos = positions_map(account)
+    assert pos["BTC"] > 0.0 and pos["XRP"] < 0.0  # long BTC, short XRP
+    gross = sum(abs(q) * _PRICES[a] for a, q in pos.items())
+    assert 49_000.0 < gross < 50_500.0  # ~50k gross, minus fill costs
+    equity = net_liquidation(account, _PRICES)
+    assert 99_000.0 < equity <= 100_000.0  # only fees/slippage, no phantom P&L
+
+    # A second identical rebalance is a no-op: the book is already on target,
+    # so every residual delta is dust below the minimum notional.
+    _, fills_again = rebalance_to_targets(
+        account, targets, _PRICES, limits=_FORWARD_LIMITS,
+        minimum_rebalance_notional=50.0,
+    )
+    assert fills_again == 0
+
+
+def test_rebalance_skips_asset_without_a_live_price():
+    account = AccountSnapshot(cash=100_000.0)
+    account, fills = rebalance_to_targets(
+        account, {"BTC": 10_000.0, "DOGE": 5_000.0}, {"BTC": 100.0},
+        limits=_FORWARD_LIMITS, minimum_rebalance_notional=50.0,
+    )
+    assert fills == 1  # DOGE has no price -> skipped, not closed at zero
+    assert "DOGE" not in positions_map(account)
+
+
+def test_accrue_funding_charges_gross_and_is_noop_on_zero_span():
+    account = AccountSnapshot(cash=100_000.0)
+    account, _ = rebalance_to_targets(
+        account, {"BTC": 30_000.0, "XRP": -20_000.0}, _PRICES,
+        limits=_FORWARD_LIMITS, minimum_rebalance_notional=50.0,
+    )
+    gross = sum(abs(q) * _PRICES[a] for a, q in positions_map(account).items())
+    charged, paid = accrue_funding(
+        account, _PRICES, elapsed_days=2.0, funding_bps_per_day=3.0
+    )
+    assert paid == pytest.approx(3.0 / 10_000.0 * 2.0 * gross, rel=1e-9)
+    assert charged.cash == pytest.approx(account.cash - paid)
+
+    same, paid_zero = accrue_funding(
+        account, _PRICES, elapsed_days=0.0, funding_bps_per_day=3.0
+    )
+    assert paid_zero == 0.0
+    assert same is account  # same-cycle re-run does not double-charge
+
+
+def test_target_notionals_projects_book_signs():
+    state = WalletState.from_clearinghouse_state(
+        ADDR_C,
+        _clearinghouse("600000", [
+            _asset_position("BTC", "6000", 5),   # long
+            _asset_position("XRP", "-4000", 5),  # short
+        ]),
+    )
+    book = blend_targets([state], paper_capital=100_000.0)
+    projected = target_notionals(book)
+    assert set(projected) == {"BTC", "XRP"}
+    assert projected["BTC"] > 0.0 and projected["XRP"] < 0.0
+
+
+def test_tradable_perp_coins_are_short_enabled_registered_majors():
+    universe = tradable_perp_coins()
+    for major in ("BTC", "ETH", "SOL", "XRP", "AAVE"):
+        assert major in universe  # aliased, short-enabled perps
+    assert "HYPE" not in universe  # unregistered alt: not mirrorable
+    assert "GOLD" not in universe and "GLD" not in universe  # spot ETF, no short
+
+
+def test_restrict_states_drops_untradable_coins_and_reports_coverage():
+    state = WalletState.from_clearinghouse_state(
+        ADDR_C,
+        _clearinghouse("600000", [
+            _asset_position("BTC", "100", 5),    # positionValue 10,000 (tradable)
+            _asset_position("HYPE", "50", 5),    # positionValue  5,000 (untradable)
+        ]),
+    )
+    filtered, coverage = restrict_states_to_universe([state], tradable_perp_coins())
+    assert len(filtered) == 1
+    assert {p.coin for p in filtered[0].positions} == {"BTC"}  # HYPE removed
+    assert coverage.dropped_coins == ("HYPE",)
+    assert coverage.coverage_fraction == pytest.approx(10_000.0 / 15_000.0)
+    # equity preserved -> the tradable slice keeps its fraction-of-equity sizing
+    assert filtered[0].account_value == pytest.approx(600_000.0)
+
+
+def test_restrict_drops_wallet_with_no_tradable_positions():
+    state = WalletState.from_clearinghouse_state(
+        ADDR_B,
+        _clearinghouse("100000", [_asset_position("HYPE", "50", 5)]),
+    )
+    filtered, coverage = restrict_states_to_universe([state], tradable_perp_coins())
+    assert filtered == []  # nothing tradable -> wallet contributes nothing
+    assert coverage.coverage_fraction == pytest.approx(0.0)
+    assert coverage.dropped_coins == ("HYPE",)
+
+
+def test_fit_targets_to_cash_scales_net_long_book_to_fit_equity():
+    # All-long book of 150k net on 100k equity: not fundable cash-settled.
+    targets = {"BTC": 60_000.0, "ETH": 50_000.0, "SOL": 40_000.0}  # net long 150k
+    fitted, scale = fit_targets_to_cash(targets, 100_000.0, fee_buffer_bps=0.0)
+    assert scale == pytest.approx(100_000.0 / 150_000.0)
+    net_long = sum(fitted.values())
+    assert net_long == pytest.approx(100_000.0)  # lands exactly on equity
+
+
+def test_fit_targets_to_cash_leaves_hedged_book_untouched():
+    # Gross 5x but net long only 0.5x on 100k: shorts fund the longs, fundable.
+    targets = {"BTC": 300_000.0, "ETH": -250_000.0}  # gross 550k, net long 50k
+    fitted, scale = fit_targets_to_cash(targets, 100_000.0)
+    assert scale == 1.0
+    assert fitted == targets  # unchanged: net long already inside equity
+
+
+def test_fit_targets_to_cash_leaves_net_short_book_untouched():
+    targets = {"BTC": 20_000.0, "ETH": -90_000.0}  # net short
+    fitted, scale = fit_targets_to_cash(targets, 100_000.0)
+    assert scale == 1.0
+    assert fitted == targets
+
+
+def test_rebalance_frees_cash_before_spending_it_on_full_rotation():
+    # A near-fully-deployed long book rotated into a different coin only fully
+    # fills if the sell settles before the buy draws cash -- the cash-settled
+    # ordering guarantee. Without sells-first, the buy would trip INSUFFICIENT_CASH.
+    prices = {"BTC": 100.0, "ETH": 100.0}
+    account = AccountSnapshot(cash=100_000.0)
+    account, _ = rebalance_to_targets(
+        account, {"BTC": 95_000.0}, prices, limits=_FORWARD_LIMITS,
+        minimum_rebalance_notional=50.0,
+    )
+    assert positions_map(account)["BTC"] > 0.0  # deployed into BTC
+
+    account, fills = rebalance_to_targets(
+        account, {"ETH": 95_000.0}, prices, limits=_FORWARD_LIMITS,
+        minimum_rebalance_notional=50.0,
+    )
+    pos = positions_map(account)
+    assert fills == 2  # BTC fully sold AND ETH fully bought
+    assert pos.get("ETH", 0.0) > 0.0
+    assert abs(pos.get("BTC", 0.0)) < 1e-6  # rotated out of BTC entirely
