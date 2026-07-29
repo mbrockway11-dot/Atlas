@@ -18,9 +18,15 @@ Two roster sources:
   * ``leaderboard`` -- rank the live leaderboard by weekly PnL and walk to the
     top-N copyable wallets.
 
-    .venv/Scripts/python.exe scripts/run_forward_copytrade_paper.py
-    .venv/Scripts/python.exe scripts/run_forward_copytrade_paper.py --source leaderboard
-    .venv/Scripts/python.exe scripts/run_forward_copytrade_paper.py --mark-only
+Books persist under ``output/investment_forward_copytrade/<book>/``. ``--ab``
+runs the standard experiment -- two books, ``cap025`` (per-coin cap 0.25) and
+``cap050`` (0.50), from ONE shared roster/state/mark fetch, so their equity
+curves isolate the per-coin cap's effect and nothing else. A single ad-hoc book
+runs under ``--book <name>``.
+
+    .venv/Scripts/python.exe scripts/run_forward_copytrade_paper.py --ab
+    .venv/Scripts/python.exe scripts/run_forward_copytrade_paper.py --book main
+    .venv/Scripts/python.exe scripts/run_forward_copytrade_paper.py --ab --mark-only
     # then schedule, e.g. Windows Task Scheduler / cron
 """
 
@@ -62,10 +68,23 @@ from atlas.investment.hyper_copytrade.teacher_registry import (
     load_teacher_records,
 )
 
-STATE_DIR = Path("output/investment_forward_copytrade")
-ACCOUNT_JSON = STATE_DIR / "forward_account.json"
-STATE_JSON = STATE_DIR / "forward_state.json"
-EQUITY_LOG = STATE_DIR / "forward_equity_log.csv"
+BASE_DIR = Path("output/investment_forward_copytrade")
+
+# The standard A/B experiment: identical roster, states and marks each cycle;
+# the per-coin concentration cap is the ONLY difference, so the two equity
+# curves isolate its effect. cap025 = breadth-first (validation's default),
+# cap050 = lets the leaders' big-name conviction (BTC, HYPE) show through.
+AB_BOOKS: tuple[tuple[str, float], ...] = (("cap025", 0.25), ("cap050", 0.50))
+
+
+def _book_paths(name: str) -> tuple[Path, Path, Path, Path]:
+    directory = BASE_DIR / name
+    return (
+        directory,
+        directory / "forward_account.json",
+        directory / "forward_state.json",
+        directory / "forward_equity_log.csv",
+    )
 
 
 def _usd(value: float) -> str:
@@ -119,27 +138,122 @@ def _roster_states(
     return states
 
 
-def refuse_live() -> int:
+def refuse_live(book_names: list[str]) -> int:
     """The --live path. It does not, and will not, place a live order."""
     print("=" * 70)
     print("LIVE EXECUTION IS DISABLED BY DESIGN. No order will be placed.")
     print("=" * 70)
-    days, equities = 0, []
-    if EQUITY_LOG.exists():
-        rows = list(csv.DictReader(EQUITY_LOG.open(encoding="utf-8")))
-        days = len({r["timestamp"][:10] for r in rows})
-        equities = [float(r["equity"]) for r in rows]
-    peak, max_dd = (equities[0] if equities else 0.0), 0.0
-    for equity in equities:
-        peak = max(peak, equity)
-        max_dd = min(max_dd, equity / peak - 1.0) if peak else 0.0
     print("\nForward-paper readiness (see docs/GO_LIVE_CRITERIA.md):")
-    print(f"  forward track:  {days} day(s)   [gate 1 needs >= 90]")
-    print(f"  max drawdown:   {max_dd * 100:.1f}%   [gate 3 needs <= 30%]")
+    for name in book_names:
+        _, _, _, equity_log = _book_paths(name)
+        days, equities = 0, []
+        if equity_log.exists():
+            rows = list(csv.DictReader(equity_log.open(encoding="utf-8")))
+            days = len({r["timestamp"][:10] for r in rows})
+            equities = [float(r["equity"]) for r in rows]
+        peak, max_dd = (equities[0] if equities else 0.0), 0.0
+        for equity in equities:
+            peak = max(peak, equity)
+            max_dd = min(max_dd, equity / peak - 1.0) if peak else 0.0
+        print(f"  [{name}] forward track {days} day(s) [gate 1 >= 90]  "
+              f"max drawdown {max_dd * 100:.1f}% [gate 3 <= 30%]")
     print("\nTo go live you must, yourself: review the checklist, set up your own "
           "venue credentials in your own environment, and place a small, risk-capped "
           "first order by hand. This assistant will not do any of those steps.")
     return 3
+
+
+def _process_book(
+    name: str,
+    max_coin_weight: float,
+    *,
+    now: datetime,
+    prices: dict[str, float],
+    states: list[WalletState] | None,
+    args: argparse.Namespace,
+) -> None:
+    """Run one persistent paper book for one cycle from shared inputs.
+
+    ``states`` is the shared, already-universe-filtered roster (``None`` on a
+    mark-only tick). Every book resumes its own account, accrues funding,
+    rebalances to its own capped blend of the SAME states, marks at the SAME
+    prices and appends to its own equity log -- so across books the per-coin cap
+    is the only thing that differs.
+    """
+    directory, account_json, state_json, equity_log = _book_paths(name)
+    directory.mkdir(parents=True, exist_ok=True)
+
+    if account_json.exists():
+        account = account_from_mapping(json.loads(account_json.read_text("utf-8")))
+    else:
+        account = AccountSnapshot(cash=float(args.initial_cash))
+    state = json.loads(state_json.read_text("utf-8")) if state_json.exists() else {}
+    last_run = state.get("last_run")
+
+    starting_equity = net_liquidation(account, prices)
+
+    funding_paid = 0.0
+    if last_run:
+        elapsed_days = max(0.0, (now - datetime.fromisoformat(last_run)).total_seconds() / 86_400.0)
+        account, funding_paid = accrue_funding(
+            account, prices, elapsed_days=elapsed_days,
+            funding_bps_per_day=args.funding_bps_per_day,
+        )
+
+    fills, roster_size, book = 0, 0, None
+    if states:
+        book = blend_targets(
+            states,
+            paper_capital=starting_equity or args.initial_cash,
+            maximum_gross_leverage=args.max_gross_leverage,
+            maximum_coin_weight=max_coin_weight,
+            maximum_net_leverage=args.max_net_leverage,
+        )
+        roster_size = book.roster_size
+        limits = RiskLimits(
+            allow_short_positions=True, maximum_leverage=args.max_gross_leverage,
+            maximum_order_notional=max(5_000.0, args.initial_cash),
+            maximum_asset_notional=max(10_000.0, args.initial_cash),
+            maximum_gross_exposure=max(20_000.0, args.initial_cash * args.max_gross_leverage),
+            maximum_daily_loss=args.initial_cash,  # forward-paper: don't halt on a down day
+        )
+        targets, cash_fit = fit_targets_to_cash(target_notionals(book), starting_equity)
+        account, fills = rebalance_to_targets(
+            account, targets, prices,
+            limits=limits, minimum_rebalance_notional=args.min_rebalance_notional,
+        )
+
+    ending_equity = net_liquidation(account, prices)
+
+    account_json.write_text(json.dumps(account.to_dict(), sort_keys=True, indent=2) + "\n", "utf-8")
+    state_json.write_text(json.dumps({"last_run": now.isoformat()}, indent=2) + "\n", "utf-8")
+    pos = positions_map(account)
+    longs = {a: q for a, q in pos.items() if q > 1e-9}
+    shorts = {a: q for a, q in pos.items() if q < -1e-9}
+    gross = sum(abs(q) * prices.get(a, 0.0) for a, q in pos.items())
+    net = sum(q * prices.get(a, 0.0) for a, q in pos.items())
+    row = {
+        "timestamp": now.isoformat(), "book": name, "source": args.source,
+        "coin_cap": max_coin_weight, "equity": round(ending_equity, 2),
+        "cash": round(float(getattr(account, "cash", 0.0)), 2),
+        "funding_paid": round(funding_paid, 4), "fills": fills,
+        "roster_size": roster_size, "n_long": len(longs), "n_short": len(shorts),
+        "gross_exposure": round(gross, 2), "net_exposure": round(net, 2),
+    }
+    header = not equity_log.exists()
+    with equity_log.open("a", encoding="utf-8", newline="") as fh:
+        writer = csv.DictWriter(fh, fieldnames=list(row))
+        if header:
+            writer.writeheader()
+        writer.writerow(row)
+
+    caps = ""
+    if book is not None:
+        caps = (f"  gross {book.gross_leverage_applied:.2f}x net {book.net_leverage_applied:+.2f}x "
+                f"cap {max_coin_weight:g}")
+    print(f"  [{name}] equity {_usd(starting_equity)}->{_usd(ending_equity)}  "
+          f"{len(longs)}L/{len(shorts)}S gross {_usd(gross)} net {_usd(net)}  "
+          f"fills {fills} funding {_usd(funding_paid)}{caps}")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -160,16 +274,22 @@ def main(argv: list[str] | None = None) -> int:
                              "the real ceiling; shorts fund longs, so gross can exceed it.")
     parser.add_argument("--funding-bps-per-day", type=float, default=3.0)
     parser.add_argument("--min-rebalance-notional", type=float, default=50.0)
+    parser.add_argument("--book", default="main",
+                        help="Name of the persistent book (subdir under the state dir).")
+    parser.add_argument("--ab", action="store_true",
+                        help="Run the standard A/B pair (cap025 @0.25 and cap050 @0.50) "
+                             "from one shared fetch, isolating the per-coin cap's effect.")
     parser.add_argument("--mark-only", action="store_true",
-                        help="Revalue the held book at live mids and log; do NOT rebalance.")
+                        help="Revalue the held books at live mids and log; do NOT rebalance.")
     parser.add_argument("--live", action="store_true",
                         help="INERT by design: refuses to execute; prints the go-live checklist.")
     args = parser.parse_args(argv)
 
-    if args.live:
-        return refuse_live()
+    books = list(AB_BOOKS) if args.ab else [(args.book, args.max_coin_weight)]
 
-    STATE_DIR.mkdir(parents=True, exist_ok=True)
+    if args.live:
+        return refuse_live([name for name, _ in books])
+
     now = datetime.now(timezone.utc)
     client = HyperliquidReadClient()
     print(f"[provenance] {client.provenance()}")
@@ -180,103 +300,27 @@ def main(argv: list[str] | None = None) -> int:
         print(f"ERROR fetching mids: {error}", file=sys.stderr)
         return 1
 
-    # Resume account + state.
-    if ACCOUNT_JSON.exists():
-        account = account_from_mapping(json.loads(ACCOUNT_JSON.read_text("utf-8")))
-    else:
-        account = AccountSnapshot(cash=float(args.initial_cash))
-    state = json.loads(STATE_JSON.read_text("utf-8")) if STATE_JSON.exists() else {}
-    last_run = state.get("last_run")
-
-    starting_equity = net_liquidation(account, prices)
-
-    # Accrue perp funding on the held book since the last cycle.
-    funding_paid = 0.0
-    if last_run:
-        elapsed_days = max(0.0, (now - datetime.fromisoformat(last_run)).total_seconds() / 86_400.0)
-        account, funding_paid = accrue_funding(
-            account, prices, elapsed_days=elapsed_days,
-            funding_bps_per_day=args.funding_bps_per_day,
-        )
-
-    # Rebalance toward the fresh mirror target -- unless this is a mark-only tick.
-    fills, roster_size, book = 0, 0, None
+    # Fetch the roster and leader states ONCE, so every book blends from the same
+    # inputs and the only difference between them is their per-coin cap.
+    states: list[WalletState] | None = None
     if not args.mark_only:
-        states = _roster_states(client, args)
+        raw_states = _roster_states(client, args)
         # The paper plane can only execute the registered short-enabled perps;
         # restrict the blend to that universe so the held book is the mirror we
-        # can actually trade, not its registered-coin residue, and report the
+        # can actually trade, not its registered-coin residue, and report any
         # coverage dropped so the loss is visible rather than silent.
-        states, coverage = restrict_states_to_universe(states, tradable_perp_coins())
+        filtered, coverage = restrict_states_to_universe(raw_states, tradable_perp_coins())
         if coverage.dropped_coins:
             print(f"Universe: kept {coverage.coverage_fraction * 100:.0f}% of roster "
                   f"gross; dropped untradable {', '.join(coverage.dropped_coins)}")
-        if not states:
-            print("No tradable roster positions this cycle; marking held book only.")
+        if not filtered:
+            print("No tradable roster positions this cycle; marking held books only.")
         else:
-            book = blend_targets(
-                states,
-                paper_capital=starting_equity or args.initial_cash,
-                maximum_gross_leverage=args.max_gross_leverage,
-                maximum_coin_weight=args.max_coin_weight,
-                maximum_net_leverage=args.max_net_leverage,
-            )
-            roster_size = book.roster_size
-            limits = RiskLimits(
-                allow_short_positions=True, maximum_leverage=args.max_gross_leverage,
-                maximum_order_notional=max(5_000.0, args.initial_cash),
-                maximum_asset_notional=max(10_000.0, args.initial_cash),
-                maximum_gross_exposure=max(20_000.0, args.initial_cash * args.max_gross_leverage),
-                maximum_daily_loss=args.initial_cash,  # forward-paper: don't halt on a down day
-            )
-            # Cash-settled plane: scale the book so its net long fits equity,
-            # or the final legs silently reject for insufficient cash and the
-            # held book drifts from the reported one.
-            targets, cash_fit = fit_targets_to_cash(target_notionals(book), starting_equity)
-            if cash_fit < 1.0:
-                print(f"Cash-fit: scaled book to {cash_fit:.2f}x so net long fits "
-                      f"equity (cash-settled plane).")
-            account, fills = rebalance_to_targets(
-                account, targets, prices,
-                limits=limits, minimum_rebalance_notional=args.min_rebalance_notional,
-            )
+            states = filtered
 
-    ending_equity = net_liquidation(account, prices)
-
-    # Persist + log.
-    ACCOUNT_JSON.write_text(json.dumps(account.to_dict(), sort_keys=True, indent=2) + "\n", "utf-8")
-    STATE_JSON.write_text(json.dumps({"last_run": now.isoformat()}, indent=2) + "\n", "utf-8")
-    pos = positions_map(account)
-    longs = {a: q for a, q in pos.items() if q > 1e-9}
-    shorts = {a: q for a, q in pos.items() if q < -1e-9}
-    gross = sum(abs(q) * prices.get(a, 0.0) for a, q in pos.items())
-    net = sum(q * prices.get(a, 0.0) for a, q in pos.items())
-    row = {
-        "timestamp": now.isoformat(), "source": args.source,
-        "equity": round(ending_equity, 2),
-        "cash": round(float(getattr(account, "cash", 0.0)), 2),
-        "funding_paid": round(funding_paid, 4), "fills": fills,
-        "roster_size": roster_size, "n_long": len(longs), "n_short": len(shorts),
-        "gross_exposure": round(gross, 2), "net_exposure": round(net, 2),
-    }
-    header = not EQUITY_LOG.exists()
-    with EQUITY_LOG.open("a", encoding="utf-8", newline="") as fh:
-        writer = csv.DictWriter(fh, fieldnames=list(row))
-        if header:
-            writer.writeheader()
-        writer.writerow(row)
-
-    print("\nForward copy-trade paper cycle:")
-    print(f"  time {now.isoformat()}  (prev run: {last_run or 'first cycle'})")
-    print(f"  source {args.source}  roster {roster_size}  funding {_usd(funding_paid)}  fills {fills}")
-    if book is not None:
-        print(f"  book caps: gross {book.gross_leverage_raw:.2f}x->{book.gross_leverage_applied:.2f}x, "
-              f"net {book.net_leverage_raw:.2f}x->{book.net_leverage_applied:.2f}x, "
-              f"per-coin {book.coin_weight_cap:g}")
-    print(f"  equity: {_usd(starting_equity)} -> {_usd(ending_equity)}")
-    print(f"  book: {len(longs)} long / {len(shorts)} short  gross {_usd(gross)}  "
-          f"net {_usd(net)}  cash {_usd(row['cash'])}")
-    print(f"  logged -> {EQUITY_LOG}")
+    print(f"\nForward copy-trade cycle {now.isoformat()}:")
+    for name, cap in books:
+        _process_book(name, cap, now=now, prices=prices, states=states, args=args)
     return 0
 
 

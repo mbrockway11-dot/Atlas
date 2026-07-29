@@ -7,4 +7,4 @@ cd /d C:\Projects\Atlas
 set PYTHONIOENCODING=utf-8
 if not exist output\investment_forward_copytrade mkdir output\investment_forward_copytrade
 echo ==== %DATE% %TIME% ==== >> output\investment_forward_copytrade\cron.log
-.venv\Scripts\python.exe scripts\run_forward_copytrade_paper.py %* >> output\investment_forward_copytrade\cron.log 2>&1
+.venv\Scripts\python.exe scripts\run_forward_copytrade_paper.py --ab %* >> output\investment_forward_copytrade\cron.log 2>&1
