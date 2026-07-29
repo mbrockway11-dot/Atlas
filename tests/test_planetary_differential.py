@@ -42,3 +42,17 @@ def test_fewer_than_four_planets_is_safe():
     diff = build_planetary_differential(_ranked([("Saturn", 0.5), ("Mars", 0.3)]))
     assert diff["score_differential"] == 0.0
     assert diff["bottom_planets"] == []
+
+
+def test_rank_kameas_is_population_relative():
+    from atlas.invariant.pipeline import rank_kameas
+    # Moon far above its low baseline (0.14), Saturn merely at its high baseline
+    # (0.69). Relatively, Moon is the standout -- it must outrank Saturn even
+    # though Saturn's RAW score is much larger (the old bug ranked by raw).
+    analyses = [
+        {"planet": "Moon", "kamea_score": 0.30},
+        {"planet": "Saturn", "kamea_score": 0.686},
+    ]
+    ranked = rank_kameas(analyses)
+    assert ranked[0]["planet"] == "Moon"
+    assert ranked[0]["score"] < ranked[1]["score"]  # won despite a lower raw score

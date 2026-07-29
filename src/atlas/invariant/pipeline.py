@@ -183,8 +183,46 @@ def score_kamea(features, grid_size: int, path_length: int) -> float:
     return max(0.0, raw_score - loop_penalty)
 
 
-def rank_kameas(analyses: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Rank kameas by average invariant score across ciphers."""
+# Per-planet population baseline (mean, sd) for the raw kamea score, measured
+# over a 400-profile corpus sample (2026-07-29). The raw score is grid-size
+# biased -- smaller squares score higher (Saturn 3x3 ~0.69 ... Mercury 8x8
+# ~0.12) -- so ranking planets by raw score, or even by a within-profile
+# z-score, puts Saturn/Jupiter/Mars on top for ~everyone. Ranking each planet
+# against its OWN baseline instead answers "which planets is THIS profile
+# elevated on, relative to the population," which actually varies. Should become
+# a hashed calibration artifact; baked here for a contained fix.
+PLANET_SCORE_BASELINE: dict[str, tuple[float, float]] = {
+    "Saturn": (0.6861, 0.1270),
+    "Jupiter": (0.3727, 0.0737),
+    "Mars": (0.3008, 0.0523),
+    "Sun": (0.1983, 0.0361),
+    "Venus": (0.2102, 0.0335),
+    "Mercury": (0.1224, 0.0292),
+    "Moon": (0.1425, 0.0317),
+}
+
+
+def _population_relative_z(
+    planet: str, score: float, baseline: dict[str, tuple[float, float]]
+) -> float:
+    """Standard score of a planet's raw kamea score against its corpus baseline."""
+    if planet not in baseline:
+        return 0.0
+    mean, sd = baseline[planet]
+    return (score - mean) / sd if sd > 0 else 0.0
+
+
+def rank_kameas(
+    analyses: list[dict[str, Any]],
+    baseline: dict[str, tuple[float, float]] = PLANET_SCORE_BASELINE,
+) -> list[dict[str, Any]]:
+    """Rank kameas by population-relative activity, not raw score.
+
+    Each planet's average kamea score is z-scored against its own corpus
+    baseline, so the ranking reflects which planets this profile is elevated on
+    relative to the population -- removing the grid-size bias that otherwise
+    fixes the top-3 to the three smallest squares for every profile.
+    """
     grouped: dict[str, list[float]] = {}
 
     for analysis in analyses:
@@ -197,13 +235,11 @@ def rank_kameas(analyses: list[dict[str, Any]]) -> list[dict[str, Any]]:
         for planet, scores in grouped.items()
     }
 
-    contrast = _z_score_distribution(raw_scores)
-
     ranked = [
         {
             "planet": planet,
             "score": raw_scores[planet],
-            "z_score": contrast[planet],
+            "z_score": _population_relative_z(planet, raw_scores[planet], baseline),
         }
         for planet in raw_scores
     ]
@@ -336,21 +372,19 @@ def build_planetary_differential(
 ) -> dict[str, Any]:
     """Top-3 vs bottom-4 activity differential ("the stack vs the background").
 
-    Splits the seven ranked kameas into the three most-active (the profile's
-    dominant stack) and the four least-active, and measures how sharply the
-    stack stands out. A large differential is a *peaked* profile carried by a
-    few planets; near zero is a *flat*, evenly balanced one. Reported on both
-    the raw kamea score and the within-profile z-score.
+    Splits the seven ranked kameas into the three the profile is most elevated
+    on (its dominant stack, relative to the population) and the four it is least
+    elevated on, and measures how sharply the stack stands out.
 
-    CAVEAT (measured over the corpus): the *magnitude* varies per profile
-    (CoV ~0.23), but the *identity* of the top-3 does not -- ``kamea_score`` is
-    not normalized across grid size, so the smallest squares (Saturn 3x3,
-    Jupiter 4x4, Mars 5x5) score highest and land in the top-3 for ~95% of
-    profiles, with Saturn ranked first for essentially everyone. So the raw
-    differential conflates real peakedness with a grid-size scale bias. To make
-    *which* planets are active discriminate, rank by a per-planet
-    population-relative score (as the identity vector normalizes within
-    cipher x planet) rather than the raw kamea score.
+    ``rank_kameas`` ranks planets population-relative (each against its own
+    corpus baseline), so ``top_planets`` reflects *which* planets are elevated
+    for this person and genuinely varies -- not the grid-size artifact that
+    fixed the top-3 to the smallest squares for everyone. ``z_differential`` --
+    mean(top-3 relative z) minus mean(bottom-4 relative z) -- is therefore the
+    clean peakedness measure: large = a profile with a few standout planets,
+    near zero = an evenly average one. ``score_differential`` is the raw
+    kamea-score gap of the same split; it is kept for transparency but is still
+    grid-size influenced, so prefer ``z_differential``.
     """
     if len(ranked_kameas) < 4:
         return {
