@@ -11,6 +11,10 @@ from atlas.classification.functional_role import (
     FunctionalRole,
     classify_functional_role,
 )
+from atlas.classification.score_calibration import (
+    DEFAULT_SCORE_CALIBRATION,
+    ScoreCalibration,
+)
 from atlas.classification.structural_state import (
     StructuralState,
     classify_structural_state,
@@ -31,12 +35,17 @@ class AtlasClassification:
 def classify_signature(
     signature: TopologySignature,
     scale: str = "Individual",
+    calibration: ScoreCalibration = DEFAULT_SCORE_CALIBRATION,
 ) -> AtlasClassification:
-    """Classify one topology signature across Atlas classification layers."""
+    """Classify one topology signature across Atlas classification layers.
+
+    Function and state are population-relative (z-scored against ``calibration``)
+    so neither collapses to a constant label; expression is unchanged.
+    """
     return AtlasClassification(
-        function=classify_functional_role(signature),
+        function=classify_functional_role(signature, calibration),
         expression=classify_topological_expression(signature),
-        state=classify_structural_state(signature),
+        state=classify_structural_state(signature, calibration),
         scale=scale,
     )
 
@@ -52,6 +61,10 @@ def classification_to_dict(
             "driver": classification.function.driver,
             "amplifier": classification.function.amplifier,
             "regulator": classification.function.regulator,
+            "driver_z": classification.function.driver_z,
+            "amplifier_z": classification.function.amplifier_z,
+            "regulator_z": classification.function.regulator_z,
+            "basis": classification.function.basis,
         },
         "expression": {
             "type": classification.expression.expression,
@@ -60,6 +73,7 @@ def classification_to_dict(
         "state": {
             "type": classification.state.state,
             "reason": classification.state.reason,
+            "basis": classification.state.basis,
         },
         "scale": classification.scale,
         "summary": (
