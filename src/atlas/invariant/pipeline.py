@@ -331,6 +331,55 @@ def build_consensus_subtype(
     }
 
 
+def build_planetary_differential(
+    ranked_kameas: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Top-3 vs bottom-4 activity differential ("the stack vs the background").
+
+    Splits the seven ranked kameas into the three most-active (the profile's
+    dominant stack) and the four least-active, and measures how sharply the
+    stack stands out. A large differential is a *peaked* profile carried by a
+    few planets; near zero is a *flat*, evenly balanced one. Reported on both
+    the raw kamea score and the within-profile z-score.
+
+    CAVEAT (measured over the corpus): the *magnitude* varies per profile
+    (CoV ~0.23), but the *identity* of the top-3 does not -- ``kamea_score`` is
+    not normalized across grid size, so the smallest squares (Saturn 3x3,
+    Jupiter 4x4, Mars 5x5) score highest and land in the top-3 for ~95% of
+    profiles, with Saturn ranked first for essentially everyone. So the raw
+    differential conflates real peakedness with a grid-size scale bias. To make
+    *which* planets are active discriminate, rank by a per-planet
+    population-relative score (as the identity vector normalizes within
+    cipher x planet) rather than the raw kamea score.
+    """
+    if len(ranked_kameas) < 4:
+        return {
+            "top_planets": [item["planet"] for item in ranked_kameas],
+            "bottom_planets": [],
+            "top_mean_score": _mean(item["score"] for item in ranked_kameas),
+            "bottom_mean_score": 0.0,
+            "score_differential": 0.0,
+            "z_differential": 0.0,
+        }
+
+    top = ranked_kameas[:3]
+    bottom = ranked_kameas[3:]
+    top_score = _mean(item["score"] for item in top)
+    bottom_score = _mean(item["score"] for item in bottom)
+
+    return {
+        "top_planets": [item["planet"] for item in top],
+        "bottom_planets": [item["planet"] for item in bottom],
+        "top_mean_score": top_score,
+        "bottom_mean_score": bottom_score,
+        "score_differential": top_score - bottom_score,
+        "z_differential": (
+            _mean(item["z_score"] for item in top)
+            - _mean(item["z_score"] for item in bottom)
+        ),
+    }
+
+
 def build_structural_summary(
     subtype: dict[str, Any],
     ranked_kameas: list[dict[str, Any]],
@@ -354,6 +403,7 @@ def build_structural_summary(
         "top_planets": top_planets,
         "planetary_weights": planetary_weights,
         "planetary_contrast": planetary_contrast,
+        "planetary_differential": build_planetary_differential(ranked_kameas),
     }
 
 
