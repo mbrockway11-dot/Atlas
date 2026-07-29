@@ -6,7 +6,7 @@ from dataclasses import asdict, dataclass, field
 from typing import Any
 
 
-IVE_VERSION = "0.3.0"
+IVE_VERSION = "0.4.0"
 
 
 VECTOR_FEATURES = [
@@ -27,6 +27,15 @@ VECTOR_FEATURES = [
     "reduction_entropy",
     "node_survival_auc",
     "edge_survival_auc",
+    # v0.4.0 -- extended graph-theoretic + geometric descriptors, computed on
+    # the sigil graph in research/topology_metrics.py, each bounded to [0, 1].
+    "clustering_coefficient",
+    "diameter_ratio",
+    "betweenness_centralization",
+    "eigenvector_centralization",
+    "cycle_density",
+    "fractal_dimension",
+    "spectral_radius_ratio",
 ]
 
 
@@ -48,6 +57,13 @@ IDENTITY_GLOBAL_FEATURES = [
     "mean_reduction_entropy",
     "mean_node_survival_auc",
     "mean_edge_survival_auc",
+    "mean_clustering_coefficient",
+    "mean_diameter_ratio",
+    "mean_betweenness_centralization",
+    "mean_eigenvector_centralization",
+    "mean_cycle_density",
+    "mean_fractal_dimension",
+    "mean_spectral_radius_ratio",
     "planet_balance_index",
     "planet_variance_index",
     "structural_complexity_index",

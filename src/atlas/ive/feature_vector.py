@@ -13,6 +13,7 @@ from atlas.research.attractor_metrics import build_layer_attractor_metrics
 from atlas.research.coherence_metrics import build_layer_coherence_metrics
 from atlas.research.graph_metrics import build_layer_graph_metrics, safe_ratio
 from atlas.research.reduction_metrics import build_layer_reduction_metrics
+from atlas.research.topology_metrics import build_layer_topology_metrics
 
 
 def build_planet_feature_vector(
@@ -39,6 +40,7 @@ def build_layer_vector_features(layer: dict[str, Any]) -> dict[str, float]:
     coherence_metrics = build_layer_coherence_metrics(layer)
     reduction_metrics = build_layer_reduction_metrics(layer)
     attractor_metrics = build_layer_attractor_metrics(layer)
+    topology_metrics = build_layer_topology_metrics(layer)
 
     base_features = layer["features"]
     path = base_features["path_views"]["analysis_path"]
@@ -72,6 +74,13 @@ def build_layer_vector_features(layer: dict[str, Any]) -> dict[str, float]:
         "reduction_entropy": reduction_metrics["reduction_entropy"],
         "node_survival_auc": reduction_metrics["node_survival_auc"],
         "edge_survival_auc": reduction_metrics["edge_survival_auc"],
+        "clustering_coefficient": topology_metrics["clustering_coefficient"],
+        "diameter_ratio": topology_metrics["diameter_ratio"],
+        "betweenness_centralization": topology_metrics["betweenness_centralization"],
+        "eigenvector_centralization": topology_metrics["eigenvector_centralization"],
+        "cycle_density": topology_metrics["cycle_density"],
+        "fractal_dimension": topology_metrics["fractal_dimension"],
+        "spectral_radius_ratio": topology_metrics["spectral_radius_ratio"],
     }
 
     return {
