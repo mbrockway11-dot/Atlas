@@ -56,6 +56,7 @@ Every confound-controlled attempt to connect the structure to something
 | Claim | Result | Detail |
 |---|---|---|
 | name-kamea vs birth-Vedic chart | **null** | Mantel r=+0.007, p=0.11, n=1885 |
+| natal dignity vs name-kamea activity (per-planet overlay) | **null** | mean alignment −0.0025 vs shuffled null −0.0009±0.015, p=0.55, n=500 |
 | kamea flow vs historical catastrophes | **null** | p=0.36, n=86, era-controlled, pre-registered |
 | civilization turning points vs planetary cycles | **null** | Rayleigh p=0.75 / 0.79, n=70 |
 | occupation separation | **confounded** | separates by birth-month / name-demographics, not structure |
