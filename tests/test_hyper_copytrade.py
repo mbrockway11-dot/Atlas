@@ -980,7 +980,7 @@ def test_tradable_perp_coins_are_short_enabled_registered_majors():
     universe = tradable_perp_coins()
     for major in ("BTC", "ETH", "SOL", "XRP", "AAVE"):
         assert major in universe  # aliased, short-enabled perps
-    assert "HYPE" not in universe  # unregistered alt: not mirrorable
+    assert "ZZUNLISTED" not in universe  # unregistered alt: not mirrorable
     assert "GOLD" not in universe and "GLD" not in universe  # spot ETF, no short
 
 
@@ -988,14 +988,14 @@ def test_restrict_states_drops_untradable_coins_and_reports_coverage():
     state = WalletState.from_clearinghouse_state(
         ADDR_C,
         _clearinghouse("600000", [
-            _asset_position("BTC", "100", 5),    # positionValue 10,000 (tradable)
-            _asset_position("HYPE", "50", 5),    # positionValue  5,000 (untradable)
+            _asset_position("BTC", "100", 5),          # positionValue 10,000 (tradable)
+            _asset_position("ZZUNLISTED", "50", 5),    # positionValue  5,000 (untradable)
         ]),
     )
     filtered, coverage = restrict_states_to_universe([state], tradable_perp_coins())
     assert len(filtered) == 1
-    assert {p.coin for p in filtered[0].positions} == {"BTC"}  # HYPE removed
-    assert coverage.dropped_coins == ("HYPE",)
+    assert {p.coin for p in filtered[0].positions} == {"BTC"}  # ZZUNLISTED removed
+    assert coverage.dropped_coins == ("ZZUNLISTED",)
     assert coverage.coverage_fraction == pytest.approx(10_000.0 / 15_000.0)
     # equity preserved -> the tradable slice keeps its fraction-of-equity sizing
     assert filtered[0].account_value == pytest.approx(600_000.0)
@@ -1004,12 +1004,12 @@ def test_restrict_states_drops_untradable_coins_and_reports_coverage():
 def test_restrict_drops_wallet_with_no_tradable_positions():
     state = WalletState.from_clearinghouse_state(
         ADDR_B,
-        _clearinghouse("100000", [_asset_position("HYPE", "50", 5)]),
+        _clearinghouse("100000", [_asset_position("ZZUNLISTED", "50", 5)]),
     )
     filtered, coverage = restrict_states_to_universe([state], tradable_perp_coins())
     assert filtered == []  # nothing tradable -> wallet contributes nothing
     assert coverage.coverage_fraction == pytest.approx(0.0)
-    assert coverage.dropped_coins == ("HYPE",)
+    assert coverage.dropped_coins == ("ZZUNLISTED",)
 
 
 def test_fit_targets_to_cash_scales_net_long_book_to_fit_equity():

@@ -39,6 +39,7 @@ VALID_ASSET_CLASSES = {
 
 VALID_INSTRUMENT_TYPES = {
     "SPOT",
+    "PERP",
     "ETF",
     "FUTURE",
     "CASH",
@@ -261,10 +262,14 @@ def crypto(
     minimum_notional: float = 10.0,
     description: str = "",
 ) -> InstrumentSpec:
+    # Modeled as a paper perpetual: short-enabled so long/short strategies (the
+    # defensive risk-off hedge) can execute, but contract_multiplier=1.0 and
+    # margin_required=False keep leveraged_contract False, so it stays a simple
+    # 1x paper instrument -- no live venue, no Jupiter signing.
     return InstrumentSpec(
         symbol=symbol,
         asset_class="CRYPTO",
-        instrument_type="SPOT",
+        instrument_type="PERP",
         quantity_precision=8,
         minimum_quantity=(
             minimum_quantity
@@ -274,7 +279,7 @@ def crypto(
         ),
         market_session="CONTINUOUS",
         paper_enabled=True,
-        short_enabled=False,
+        short_enabled=True,
         description=description,
     )
 
@@ -541,6 +546,28 @@ _CANONICAL_INSTRUMENTS = (
 )
 
 
+# Liquid Hyperliquid perps beyond the diversified core above. Registered so the
+# copy-trade mirror can execute the coins its leaders actually hold -- without
+# these, every leader leg on one of these names is rejected UNREGISTERED_INSTRUMENT
+# and the mirror silently collapses to the handful of majors (and, since the
+# leaders' shorts cluster in these names, to a long-only book). Same paper-perp
+# assumptions as the core crypto() specs: short-enabled, 1x, no live venue.
+_HYPERLIQUID_MIRROR_PERP_COINS = (
+    "HYPE", "SUI", "WLD", "TIA", "SEI", "ARB", "OP", "INJ", "APT", "TON",
+    "ENA", "WIF", "PEPE", "BONK", "JUP", "LDO", "RENDER", "TAO", "ORDI",
+    "XMR", "ZRO", "VIRTUAL", "LIT", "SKY", "TRUMP", "FARTCOIN", "PENGU", "AI16Z",
+)
+
+_CANONICAL_INSTRUMENTS = _CANONICAL_INSTRUMENTS + tuple(
+    crypto(
+        f"{coin}-USD",
+        minimum_quantity=0.000001,
+        description=f"{coin} Hyperliquid perp",
+    )
+    for coin in _HYPERLIQUID_MIRROR_PERP_COINS
+)
+
+
 INSTRUMENT_REGISTRY = {
     instrument.symbol: instrument
     for instrument
@@ -572,6 +599,7 @@ SYMBOL_ALIASES = {
     "OIL": "USO",
     "BRENT": "BNO",
     "DXY": "UUP",
+    **{coin: f"{coin}-USD" for coin in _HYPERLIQUID_MIRROR_PERP_COINS},
 }
 
 
