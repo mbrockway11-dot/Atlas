@@ -199,6 +199,16 @@ def build_identity_quality(
         for vector in normalized_vectors
     ]
 
+    agreement_scores = [
+        planet.agreement_score
+        for planet in planets.values()
+    ]
+
+    confidence_scores = [
+        planet.confidence_score
+        for planet in planets.values()
+    ]
+
     return {
         "planet_count": len(planets),
         "expected_planet_count": 7,
@@ -207,6 +217,15 @@ def build_identity_quality(
         "expected_source_count": 3,
         "source_completeness": clamp(
             (mean(source_counts) if source_counts else 0.0) / 3.0
+        ),
+        # Cross-cipher fusion rolled up: how much the three translations agreed
+        # (agreement) and how much to trust the composite given agreement plus
+        # cipher completeness (confidence). Averaged over the seven planets.
+        "cross_cipher_agreement": (
+            clamp(mean(agreement_scores)) if agreement_scores else 1.0
+        ),
+        "cross_cipher_confidence": (
+            clamp(mean(confidence_scores)) if confidence_scores else 1.0
         ),
         "normalization_mode": normalization_mode,
         "mean_calibration_size": mean(calibration_sizes) if calibration_sizes else 0.0,

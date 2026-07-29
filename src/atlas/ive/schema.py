@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from typing import Any
 
 
@@ -86,7 +86,15 @@ class NormalizedPlanetVector:
 
 @dataclass(frozen=True)
 class CompositePlanetVector:
-    """Composite vector for one planet across all available ciphers."""
+    """Composite vector for one planet across all available ciphers.
+
+    The composite is the mean of the source ciphers' features. The fusion
+    fields record how much the ciphers *agreed* before they were averaged, so a
+    consumer can tell a value the three translations converged on from one they
+    disagreed about. These are runtime-assembled (never persisted in the
+    compiled artifact), so they are additive fields with confident defaults for
+    the single-cipher case rather than a schema-version change.
+    """
 
     version: str
     name: str
@@ -95,6 +103,10 @@ class CompositePlanetVector:
     source_ciphers: list[str]
     source_count: int
     normalization_mode: str
+    feature_agreement: dict[str, float] = field(default_factory=dict)
+    agreement_score: float = 1.0
+    completeness: float = 1.0
+    confidence_score: float = 1.0
 
 
 @dataclass(frozen=True)

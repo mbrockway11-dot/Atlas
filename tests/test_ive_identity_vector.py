@@ -83,3 +83,17 @@ def test_identity_vector_diagnostics_have_expected_keys():
 
     for key in expected:
         assert key in identity_vector.diagnostics
+
+def test_identity_quality_carries_cross_cipher_confidence():
+    identity = build_identity_vector(build_acf_profile("Nikola Tesla"))
+    quality = identity.quality
+    assert "cross_cipher_agreement" in quality
+    assert "cross_cipher_confidence" in quality
+    assert 0.0 <= quality["cross_cipher_confidence"] <= 1.0
+    # every planet here has all three ciphers, so completeness is 1.0 and the
+    # rolled-up confidence equals the rolled-up agreement.
+    assert quality["cross_cipher_confidence"] == pytest.approx(
+        quality["cross_cipher_agreement"]
+    )
+    # and it survives round-tripping to a JSON-safe dict.
+    assert "cross_cipher_confidence" in identity_vector_to_dict(identity)["quality"]

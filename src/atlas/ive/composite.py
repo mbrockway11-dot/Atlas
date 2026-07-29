@@ -8,9 +8,10 @@ The result is one normalized structural vector per planet.
 
 from __future__ import annotations
 
-from statistics import mean
+from statistics import mean, pvariance
 from typing import Any
 
+from atlas.fusion.translation import EXPECTED_CIPHERS, variance_to_agreement
 from atlas.ive.schema import (
     IVE_VERSION,
     VECTOR_FEATURES,
@@ -47,14 +48,24 @@ def build_composite_planet_vector(
     name = planet_vectors[0].name
     normalization_mode = planet_vectors[0].normalization_mode
 
-    features = {
-        feature: mean(
-            [
-                vector.features[feature]
-                for vector in planet_vectors
-            ]
-        )
+    feature_values = {
+        feature: [vector.features[feature] for vector in planet_vectors]
         for feature in VECTOR_FEATURES
+    }
+
+    features = {
+        feature: mean(values)
+        for feature, values in feature_values.items()
+    }
+
+    # Cross-cipher agreement: 1 / (1 + variance) per feature, so features the
+    # ciphers converged on score near 1 and features they scattered on drop
+    # toward 0. A single cipher has no disagreement to measure -> agreement 1.0.
+    feature_agreement = {
+        feature: (
+            variance_to_agreement(pvariance(values)) if len(values) > 1 else 1.0
+        )
+        for feature, values in feature_values.items()
     }
 
     source_ciphers = sorted(
@@ -64,6 +75,14 @@ def build_composite_planet_vector(
         }
     )
 
+    agreement_score = (
+        mean(feature_agreement.values()) if feature_agreement else 1.0
+    )
+    # Completeness penalises missing ciphers; confidence combines the two, so a
+    # planet built from one cipher is not treated as a confident consensus.
+    completeness = len(source_ciphers) / len(EXPECTED_CIPHERS)
+    confidence_score = agreement_score * completeness
+
     return CompositePlanetVector(
         version=IVE_VERSION,
         name=name,
@@ -72,6 +91,10 @@ def build_composite_planet_vector(
         source_ciphers=source_ciphers,
         source_count=len(source_ciphers),
         normalization_mode=normalization_mode,
+        feature_agreement=feature_agreement,
+        agreement_score=agreement_score,
+        completeness=completeness,
+        confidence_score=confidence_score,
     )
 
 
