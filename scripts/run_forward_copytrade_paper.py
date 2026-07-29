@@ -19,9 +19,11 @@ Two roster sources:
     top-N copyable wallets.
 
 Books persist under ``output/investment_forward_copytrade/<book>/``. ``--ab``
-runs the standard experiment -- two books, ``cap025`` (per-coin cap 0.25) and
-``cap050`` (0.50), from ONE shared roster/state/mark fetch, so their equity
-curves isolate the per-coin cap's effect and nothing else. A single ad-hoc book
+runs the standard experiment from ONE shared roster/state/mark fetch: two copy
+books ``cap025`` (per-coin cap 0.25) and ``cap050`` (0.50) that isolate the
+cap's effect, plus two benchmark books ``btc`` and ``ewmajors`` (fixed long
+baskets through the same plane) so a copy book's edge is its return OVER the
+benchmark, not raw return that is mostly crypto beta. A single ad-hoc copy book
 runs under ``--book <name>``.
 
     .venv/Scripts/python.exe scripts/run_forward_copytrade_paper.py --ab
@@ -70,11 +72,17 @@ from atlas.investment.hyper_copytrade.teacher_registry import (
 
 BASE_DIR = Path("output/investment_forward_copytrade")
 
-# The standard A/B experiment: identical roster, states and marks each cycle;
-# the per-coin concentration cap is the ONLY difference, so the two equity
-# curves isolate its effect. cap025 = breadth-first (validation's default),
-# cap050 = lets the leaders' big-name conviction (BTC, HYPE) show through.
-AB_BOOKS: tuple[tuple[str, float], ...] = (("cap025", 0.25), ("cap050", 0.50))
+# The standard experiment run by --ab. Two COPY books share one roster/state/mark
+# fetch and differ only in their per-coin cap, so their curves isolate its effect
+# (cap025 = breadth-first, cap050 = lets big-name conviction show through). Two
+# BENCHMARK books hold fixed long baskets through the same plane (same funding,
+# fees, marks) -- so a copy book's edge is its return OVER the benchmark, not its
+# raw return, which in a rising market is mostly crypto beta.
+COPY_BOOKS: tuple[tuple[str, float], ...] = (("cap025", 0.25), ("cap050", 0.50))
+_BENCHMARK_BASKETS: dict[str, tuple[str, ...]] = {
+    "btc": ("BTC",),
+    "ewmajors": ("BTC", "ETH", "SOL", "BNB", "XRP"),
+}
 
 
 def _book_paths(name: str) -> tuple[Path, Path, Path, Path]:
@@ -85,6 +93,52 @@ def _book_paths(name: str) -> tuple[Path, Path, Path, Path]:
         directory / "forward_state.json",
         directory / "forward_equity_log.csv",
     )
+
+
+def _write_json_atomic(path: Path, payload: object) -> None:
+    """Persist JSON atomically (.tmp + replace), per the repo's write convention.
+
+    A plain write that is interrupted mid-flush can leave a truncated account or
+    state file, corrupting the persistent book. Writing to a sibling .tmp and
+    renaming makes the swap atomic on the same filesystem.
+    """
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(json.dumps(payload, sort_keys=True, indent=2) + "\n", "utf-8")
+    tmp.replace(path)
+
+
+def _copy_target_fn(cap: float):
+    """A book target builder that mirrors the leaders with a given per-coin cap."""
+    def build(states, prices, equity, args):
+        if not states:
+            return {}, None
+        book = blend_targets(
+            states,
+            paper_capital=equity or args.initial_cash,
+            maximum_gross_leverage=args.max_gross_leverage,
+            maximum_coin_weight=cap,
+            maximum_net_leverage=args.max_net_leverage,
+        )
+        targets, _ = fit_targets_to_cash(target_notionals(book), equity)
+        return targets, book
+    return build
+
+
+def _benchmark_target_fn(basket: tuple[str, ...]):
+    """A book target builder that holds a fixed equal-weight long basket (net 1x).
+
+    Independent of the roster -- it is the market-beta control the copy books are
+    measured against. Rebalances to the basket every cycle so it stays ~1x long.
+    """
+    def build(states, prices, equity, args):
+        base = equity or args.initial_cash
+        coins = [coin for coin in basket if prices.get(coin, 0.0) > 0.0]
+        if not coins:
+            return {}, None
+        per_coin = base / len(coins)
+        targets, _ = fit_targets_to_cash({coin: per_coin for coin in coins}, equity)
+        return targets, None
+    return build
 
 
 def _usd(value: float) -> str:
@@ -165,20 +219,22 @@ def refuse_live(book_names: list[str]) -> int:
 
 def _process_book(
     name: str,
-    max_coin_weight: float,
+    target_fn,
+    cap_display: float | None,
     *,
     now: datetime,
     prices: dict[str, float],
     states: list[WalletState] | None,
+    do_rebalance: bool,
     args: argparse.Namespace,
 ) -> None:
     """Run one persistent paper book for one cycle from shared inputs.
 
-    ``states`` is the shared, already-universe-filtered roster (``None`` on a
-    mark-only tick). Every book resumes its own account, accrues funding,
-    rebalances to its own capped blend of the SAME states, marks at the SAME
-    prices and appends to its own equity log -- so across books the per-coin cap
-    is the only thing that differs.
+    ``target_fn`` builds the signed target notionals for this book from the
+    shared roster ``states`` (a copy book) or ignores them (a benchmark basket).
+    Every book resumes its own account, accrues funding, rebalances to its own
+    target, marks at the SAME prices and appends to its own equity log -- so
+    across books only the intended knob (the cap, or copy-vs-benchmark) differs.
     """
     directory, account_json, state_json, equity_log = _book_paths(name)
     directory.mkdir(parents=True, exist_ok=True)
@@ -201,32 +257,26 @@ def _process_book(
         )
 
     fills, roster_size, book = 0, 0, None
-    if states:
-        book = blend_targets(
-            states,
-            paper_capital=starting_equity or args.initial_cash,
-            maximum_gross_leverage=args.max_gross_leverage,
-            maximum_coin_weight=max_coin_weight,
-            maximum_net_leverage=args.max_net_leverage,
-        )
-        roster_size = book.roster_size
-        limits = RiskLimits(
-            allow_short_positions=True, maximum_leverage=args.max_gross_leverage,
-            maximum_order_notional=max(5_000.0, args.initial_cash),
-            maximum_asset_notional=max(10_000.0, args.initial_cash),
-            maximum_gross_exposure=max(20_000.0, args.initial_cash * args.max_gross_leverage),
-            maximum_daily_loss=args.initial_cash,  # forward-paper: don't halt on a down day
-        )
-        targets, cash_fit = fit_targets_to_cash(target_notionals(book), starting_equity)
-        account, fills = rebalance_to_targets(
-            account, targets, prices,
-            limits=limits, minimum_rebalance_notional=args.min_rebalance_notional,
-        )
+    if do_rebalance:
+        targets, book = target_fn(states, prices, starting_equity, args)
+        if targets:
+            roster_size = book.roster_size if book is not None else 0
+            limits = RiskLimits(
+                allow_short_positions=True, maximum_leverage=args.max_gross_leverage,
+                maximum_order_notional=max(5_000.0, args.initial_cash),
+                maximum_asset_notional=max(10_000.0, args.initial_cash),
+                maximum_gross_exposure=max(20_000.0, args.initial_cash * args.max_gross_leverage),
+                maximum_daily_loss=args.initial_cash,  # forward-paper: don't halt on a down day
+            )
+            account, fills = rebalance_to_targets(
+                account, targets, prices,
+                limits=limits, minimum_rebalance_notional=args.min_rebalance_notional,
+            )
 
     ending_equity = net_liquidation(account, prices)
 
-    account_json.write_text(json.dumps(account.to_dict(), sort_keys=True, indent=2) + "\n", "utf-8")
-    state_json.write_text(json.dumps({"last_run": now.isoformat()}, indent=2) + "\n", "utf-8")
+    _write_json_atomic(account_json, account.to_dict())
+    _write_json_atomic(state_json, {"last_run": now.isoformat()})
     pos = positions_map(account)
     longs = {a: q for a, q in pos.items() if q > 1e-9}
     shorts = {a: q for a, q in pos.items() if q < -1e-9}
@@ -234,7 +284,8 @@ def _process_book(
     net = sum(q * prices.get(a, 0.0) for a, q in pos.items())
     row = {
         "timestamp": now.isoformat(), "book": name, "source": args.source,
-        "coin_cap": max_coin_weight, "equity": round(ending_equity, 2),
+        "coin_cap": cap_display if cap_display is not None else "",
+        "equity": round(ending_equity, 2),
         "cash": round(float(getattr(account, "cash", 0.0)), 2),
         "funding_paid": round(funding_paid, 4), "fills": fills,
         "roster_size": roster_size, "n_long": len(longs), "n_short": len(shorts),
@@ -247,13 +298,13 @@ def _process_book(
             writer.writeheader()
         writer.writerow(row)
 
-    caps = ""
+    tag = f"  cap {cap_display:g}" if cap_display is not None else "  benchmark"
     if book is not None:
-        caps = (f"  gross {book.gross_leverage_applied:.2f}x net {book.net_leverage_applied:+.2f}x "
-                f"cap {max_coin_weight:g}")
-    print(f"  [{name}] equity {_usd(starting_equity)}->{_usd(ending_equity)}  "
+        tag = (f"  gross {book.gross_leverage_applied:.2f}x net "
+               f"{book.net_leverage_applied:+.2f}x cap {cap_display:g}")
+    print(f"  [{name:8}] equity {_usd(starting_equity)}->{_usd(ending_equity)}  "
           f"{len(longs)}L/{len(shorts)}S gross {_usd(gross)} net {_usd(net)}  "
-          f"fills {fills} funding {_usd(funding_paid)}{caps}")
+          f"fills {fills} funding {_usd(funding_paid)}{tag}")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -277,18 +328,25 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--book", default="main",
                         help="Name of the persistent book (subdir under the state dir).")
     parser.add_argument("--ab", action="store_true",
-                        help="Run the standard A/B pair (cap025 @0.25 and cap050 @0.50) "
-                             "from one shared fetch, isolating the per-coin cap's effect.")
+                        help="Run the standard experiment: copy books cap025/cap050 plus "
+                             "btc/ewmajors benchmarks, all from one shared fetch.")
     parser.add_argument("--mark-only", action="store_true",
                         help="Revalue the held books at live mids and log; do NOT rebalance.")
     parser.add_argument("--live", action="store_true",
                         help="INERT by design: refuses to execute; prints the go-live checklist.")
     args = parser.parse_args(argv)
 
-    books = list(AB_BOOKS) if args.ab else [(args.book, args.max_coin_weight)]
+    # Each book: (name, target_builder, cap_display). Copy books mirror the
+    # leaders; benchmark books hold a fixed basket as the market-beta control.
+    if args.ab:
+        books = [(name, _copy_target_fn(cap), cap) for name, cap in COPY_BOOKS]
+        books += [(name, _benchmark_target_fn(basket), None)
+                  for name, basket in _BENCHMARK_BASKETS.items()]
+    else:
+        books = [(args.book, _copy_target_fn(args.max_coin_weight), args.max_coin_weight)]
 
     if args.live:
-        return refuse_live([name for name, _ in books])
+        return refuse_live([name for name, *_ in books])
 
     now = datetime.now(timezone.utc)
     client = HyperliquidReadClient()
@@ -319,8 +377,9 @@ def main(argv: list[str] | None = None) -> int:
             states = filtered
 
     print(f"\nForward copy-trade cycle {now.isoformat()}:")
-    for name, cap in books:
-        _process_book(name, cap, now=now, prices=prices, states=states, args=args)
+    for name, target_fn, cap in books:
+        _process_book(name, target_fn, cap, now=now, prices=prices,
+                      states=states, do_rebalance=not args.mark_only, args=args)
     return 0
 
 
