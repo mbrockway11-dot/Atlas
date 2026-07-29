@@ -173,12 +173,20 @@ ADMISSION_REGISTER: tuple[SystemLayer, ...] = (
         system="numerology",
         layer="denotation",
         admission_class=AdmissionClass.TEXTUAL_INTERPRETATION,
-        highest_stage_reached=LatticeStage.SOURCE_VERIFICATION,
-        admitted=False,
+        highest_stage_reached=LatticeStage.DENOTATION,
+        admitted=True,
         note=(
-            "Blocked at source verification: no transcription-eligible "
-            "manifestation with a source copy. Construct equivalence is "
-            "therefore also unestablished. Baseline 07af099."
+            "Admitted 1E-N-SOURCE-A. numerology_corpus_v2 copy-verifies the "
+            "Jordan DeVorss 11th printing (2003, ISBN 0875162274) from its own "
+            "title, copyright and pagination pages -- a digital surrogate (IA "
+            "scan), recorded as such -- and doubly transcribes the nine "
+            "general number-denotations of the 'Significance and Meaning of "
+            "Numbers' chapter (OCR plus page-image read). Each denotes the "
+            "reduced value itself (quantity-independent), construct-"
+            "equivalent to the code's Pythagorean reduction, mapped onto the "
+            "shared ontology interpretively and blind to Kamea. Compiles to "
+            "nine source-specific entries; concordance_eligible is True. The "
+            "first non-Kamea denoting system -- so concordance_ready flips."
         ),
     ),
     # Gematria decomposes into six layers -- see
@@ -331,20 +339,21 @@ ADMISSION_REGISTER: tuple[SystemLayer, ...] = (
         system="vedic",
         layer="ayanamsa_framework",
         admission_class=AdmissionClass.TEXTUAL_INTERPRETATION,
-        highest_stage_reached=LatticeStage.CONSTRUCT_IDENTITY,
-        admitted=False,
+        highest_stage_reached=LatticeStage.SOURCE_VERIFICATION,
+        admitted=True,
         note=(
-            "The load-bearing choice with no numerology or gematria "
-            "analogue. Vedic is sidereal, so tropical positions must be "
-            "offset by an ayanamsa -- and the code supports Lahiri (default), "
-            "Raman and Krishnamurti, which disagree by arcminutes to over a "
-            "degree and so shift nakshatra and sometimes sign boundaries. The "
-            "offset value is computed by Swiss Ephemeris, but WHICH ayanamsa "
-            "is a school-specific claim requiring a source. Now explicit "
-            "configuration in vedic_ayanamsa: the three schemes are recorded "
-            "with swisseph-verified offsets, all unadmitted, and a data-level "
-            "guard refuses any sidereal quantity that does not name its "
-            "ayanamsa choice. Admission awaits 1E-V-SOURCE-A."
+            "Admitted 1E-V-SOURCE-A. Vedic is sidereal, so which ayanamsa is a "
+            "school-specific claim; Lahiri is now licensed by the Government "
+            "of India standard -- the Calendar Reform Committee (1955), whose "
+            "Secretary N.C. Lahiri gives it its name -- verified against the "
+            "committee's own recommendation (p.7: ayanamsa 23 deg 15' at 21 "
+            "Mar 1956, precessing ~50\".27/yr; zero-point 180 deg from Spica), "
+            "page-image checked, with Swiss Ephemeris SIDM_LAHIRI as the "
+            "construct-equivalent implementation. Raman and Krishnamurti stay "
+            "unadmitted. This licenses the sidereal OFFSET (a computation), so "
+            "sidereal quantities naming the Lahiri choice hash are now "
+            "unblocked; it does NOT make Vedic denote -- the denotation layer "
+            "is still unbuilt and unsourced."
         ),
     ),
     SystemLayer(
@@ -417,15 +426,23 @@ ADMISSION_REGISTER: tuple[SystemLayer, ...] = (
         system="vedic",
         layer="denotation",
         admission_class=AdmissionClass.TEXTUAL_INTERPRETATION,
-        highest_stage_reached=LatticeStage.MEASUREMENT,
-        admitted=False,
+        highest_stage_reached=LatticeStage.DENOTATION,
+        admitted=True,
         note=(
-            "knowledge/planets, vedic_interpreter and interpretation/"
-            "vedic_behavior carry uncited interpretive text ('the Sun "
-            "represents conscious identity, vitality, purpose...'). No "
-            "provenance at all -- the largest accidental-entry path, "
-            "quarantined from 1E like evidence_from_number. Blocked behind a "
-            "citation corpus (1E-V-SOURCE)."
+            "Admitted 1E-V-SOURCE-B. vedic_denotation_bphs copy-verifies R. "
+            "Santhanam's translation of Brihat Parasara Hora Shastra (Ranjan "
+            "Publications, 1984, Vol. I) from its title page, dated preface "
+            "and pagination -- a digital surrogate (IA scan) -- and doubly "
+            "transcribes the seven classical grahas' karakatva from the "
+            "defining verse 12-13 ('Planetary Governances', p.11: the Sun is "
+            "the soul, the Moon the mind, ... Saturn denotes grief), OCR plus "
+            "page-image read. Each graha maps onto the shared ontology "
+            "interpretively and blind to Kamea; the seven cover exactly the "
+            "set the lagna-lord quantity produces (nodes rule no sign). "
+            "Compiles to seven source-specific entries; concordance_eligible "
+            "is True. The THIRD denoting system, reached through the Lahiri "
+            "ayanamsa it depends on. The legacy knowledge/planets and "
+            "vedic_interpreter stay quarantined and untouched."
         ),
     ),
 )
@@ -518,8 +535,11 @@ def admission_report() -> dict[str, Any]:
         "admitted_denoting_systems": admitted_systems(),
         "concordance_ready": concordance_ready(),
         "note": (
-            "No symbolic concordance has been performed because only one "
-            "system currently denotes. That is a statement about the "
-            "evidence, not only about implementation progress."
+            "Three systems now denote -- Kamea by direct measurement, "
+            "numerology through a verified source (1E-N-SOURCE-A, Jordan) and "
+            "Vedic through another (1E-V-SOURCE-B, BPHS, on the admitted "
+            "Lahiri ayanamsa) -- so a cross-system concordance can run. That "
+            "readiness is a statement about the evidence; whether a particular "
+            "concordance study has been performed is a separate question."
         ),
     }

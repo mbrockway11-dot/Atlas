@@ -170,6 +170,17 @@ COMPUTABLE_QUANTITIES: tuple[str, ...] = (
 )
 
 
+# A denotation of the reduced value itself, independent of which quantity
+# produced it. A source's general statement -- Jordan's "Significance and
+# Meaning of Numbers" says what a number *is*, not what one computed quantity
+# means -- keys to this sentinel and applies to every quantity that reduces to
+# the value. It is not a computable quantity: nothing is computed *as* the
+# value itself, so an entry carrying it must declare its citation
+# quantity-independent, and lookup falls back to it only when no quantity-
+# specific entry exists.
+VALUE_ITSELF = "value_itself"
+
+
 def build_expressions(
     name: str, birth_date: date
 ) -> dict[str, NumerologyExpression]:

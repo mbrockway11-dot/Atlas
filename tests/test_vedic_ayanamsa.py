@@ -73,10 +73,26 @@ def test_schemes_disagree_enough_to_move_boundaries() -> None:
 # ---------------------------------------------------------------------------
 
 
-def test_no_ayanamsa_choice_is_admitted() -> None:
-    """A computed offset is reproducible; choosing the scheme is not sourced."""
-    assert admitted_ayanamsa_choices() == []
-    assert all(not choice.admitted for choice in AYANAMSA_REGISTRY)
+def test_only_lahiri_is_admitted() -> None:
+    """Lahiri is licensed by the Govt of India standard; Raman and KP are not.
+
+    A computed offset is reproducible; choosing the scheme is a source claim.
+    Lahiri now has one (1E-V-SOURCE-A, Calendar Reform Committee 1955); the
+    other schemes stay unlicensed.
+    """
+    assert [c.scheme_id for c in admitted_ayanamsa_choices()] == ["lahiri"]
+    assert LAHIRI.admitted is True
+    assert [
+        c.scheme_id for c in AYANAMSA_REGISTRY if not c.admitted
+    ] == ["raman", "krishnamurti"]
+
+
+def test_admitted_lahiri_carries_verified_provenance() -> None:
+    """The admitted choice names a hashed, located Government of India source."""
+    assert LAHIRI.source_copy_hash
+    assert "Calendar Reform Committee" in LAHIRI.source_locator
+    assert "23 deg 15'" in LAHIRI.source_locator
+    assert "committee's own recommendation" in LAHIRI.source_locator
 
 
 def test_a_choice_cannot_be_admitted_without_a_source() -> None:

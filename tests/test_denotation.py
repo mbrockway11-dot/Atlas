@@ -199,6 +199,20 @@ def test_incomparable_scopes_are_not_a_disagreement() -> None:
     assert not scopes_comparable("natal", "event")
 
 
+def test_kamea_transit_class_meets_dated_vedic_transit_instance() -> None:
+    """The bare 'transit' reference-class bridges to a dated transit instance.
+
+    Kamea emits scope 'transit' (an instant's neighbourhood, undated); Vedic
+    transit claims are dated 'transit-<when>'. The documented Kamea<->Vedic-transit
+    edge requires the class to meet its instances, while two *different* dated
+    instances stay unbridged so distinct moments are not conflated.
+    """
+    assert scopes_comparable("transit", "transit-2026-07-28")
+    assert scopes_comparable("transit-2026-07-28", "transit")
+    assert not scopes_comparable("transit-2026-07-28", "transit-2026-07-29")
+    assert not scopes_comparable("transit-2026-07-28", "natal")
+
+
 # ---------------------------------------------------------------------------
 # Kamea denotes structure only
 # ---------------------------------------------------------------------------

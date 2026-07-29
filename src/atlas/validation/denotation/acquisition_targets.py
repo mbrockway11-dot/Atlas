@@ -127,7 +127,18 @@ CANONICAL_ACQUISITION_CORPUS: tuple[AcquisitionTarget, ...] = (
             "Admission stays closed until a source covers "
             "MANDATORY_NUMERAL_REQUIREMENTS (see 1E-G-P1-NORMATIVE-SOURCE-"
             "EVALUATION). Pardes Rimmonim retained for equivalence/denotation "
-            "research (1E-G-SOURCE-B/-C), not P1 computation."
+            "research (1E-G-SOURCE-B/-C), not P1 computation. "
+            "UPDATE 2026-07-27 (docs/GEMATRIA_P1_CLDR_INSPECTION.md): the value "
+            "table SPLITS by tier. The base 22-letter map + additive above-400 "
+            "is normative and now ADMITTED as a VALUE ASSIGNMENT "
+            "(standard-hebrew-values-cldr, Unicode CLDR release-46, verified "
+            "copy). The final-form READING value is provably primary_traditional "
+            "(writing standards run integer->letters, never meeting a sofit). "
+            "This target (the value METHOD) stays NOT_ACQUIRED: the method needs "
+            "the finals. Eleazar of Worms (eleazar_of_worms_gematria, "
+            "primary_traditional) is LOCATED as the finals candidate, but his "
+            "works USE the values without a DEFINING passage, so admission "
+            "awaits an offline verified edition."
         ),
     ),
     AcquisitionTarget(
@@ -144,23 +155,79 @@ CANONICAL_ACQUISITION_CORPUS: tuple[AcquisitionTarget, ...] = (
         ),
         located_via="internet_archive",
         verified_via="worldcat",
+        status=AcquisitionStatus.ADMITTED,
+        finding=(
+            "ADMITTED 2026-07-27 (1E-N-SOURCE-A, numerology_corpus_v2). Unlike "
+            "the gematria value method, Jordan DEFINES rather than "
+            "presupposes: the 'Significance and Meaning of Numbers' chapter "
+            "states each number's denotation outright ('Number One is the "
+            "number of action', watchword Courage; ... Nine, Forgiveness). "
+            "COPY VERIFIED from the copy's own page images (a digital "
+            "surrogate, the Internet Archive scan, recorded as such): title "
+            "page (leaf n4), copyright page (leaf n5: ISBN 0875162274, DeVorss "
+            "Eleventh Printing 2003, (c)1965 J.F. Rowny Press), and pagination "
+            "(scan->printed map) -- resolving the edition/pagination "
+            "discrepancy v1 flagged, and corroborated by OpenLibrary (ISBN "
+            "0875162274, DeVorss, work OL6095808W, 297pp). Repository file "
+            "hash locked (jp2.zip sha1 62fa426f...). The nine denotations were "
+            "DOUBLY TRANSCRIBED (repository OCR + a page-image read, resolved "
+            "against the image where the OCR erred), keyed quantity-"
+            "independent (the value itself), construct-equivalent to the "
+            "code's Pythagorean reduction, and mapped onto the shared ontology "
+            "interpretively and blind to Kamea. Compiles to nine source-"
+            "specific denotations; numerology_capabilities.concordance_"
+            "eligible is True; admission.py flips numerology/denotation to "
+            "DENOTATION+admitted, so concordance_ready() is now True -- the "
+            "second denoting system 1E-A needed. The letter-VALUE chart Jordan "
+            "credits upstream to L. Dow Balliett (provenance, not a "
+            "disqualifier). Refines the repository rule: access alone is still "
+            "not verification, but the completed title/copyright/pagination "
+            "checks plus hash and independent catalog corroboration are."
+        ),
     ),
     AcquisitionTarget(
         target_id="vedic-ayanamsa-authority",
         phase=3,
         system="vedic",
         layer="ayanamsa_framework",
-        work_id="vedic_ayanamsa_authority_pending",
-        required_tier=SourceTier.PRIMARY_TRADITIONAL,
-        licenses_claim=ClaimType.RULE,
+        work_id="calendar_reform_committee_report",
+        # Reclassified by the real source, like gematria's P1 target. The
+        # placeholder guessed primary_traditional/RULE; the actual authority is
+        # a Government of India standards body defining a computational
+        # constant, so it is normative and licenses a COMPUTATION.
+        required_tier=SourceTier.NORMATIVE_STANDARD,
+        licenses_claim=ClaimType.COMPUTATION,
         unlocks=(
             "ayanamsa admitted -> sidereal quantities become licensed; the "
             "upstream gate that unblocks every downstream Vedic layer "
             "(1E-V-SOURCE-A). House-system authority follows in the same "
             "phase."
         ),
-        located_via="gretil",
-        verified_via="worldcat",
+        located_via="internet_archive",
+        verified_via="internet_archive",
+        status=AcquisitionStatus.ADMITTED,
+        finding=(
+            "ADMITTED 2026-07-27 (1E-V-SOURCE-A). The ayanamsa authority is a "
+            "governmental NORMATIVE standard, not a traditional RULE text -- a "
+            "real-source reclassification of the placeholder. Source: Report "
+            "of the Calendar Reform Committee, Government of India (CSIR, New "
+            "Delhi, 1955). The committee's OWN recommendation (p.7, "
+            "'Recommendations for Religious Calendar', items 5 and 7 -- "
+            "distinguished from correspondents' letters elsewhere in the "
+            "report) adopts a variable ayanamsa of 23 deg 15' 0\" at 21 Mar "
+            "1956, precessing ~50\".27/yr, zero-point 180 deg from Spica "
+            "(Chitra-paksa); N.C. Lahiri was the committee's Secretary. "
+            "COPY VERIFIED against the page image (IA "
+            "calendar_reform_comittee_report leaf n18, printed p.7) and OCR; "
+            "citeable edition IA dli.ministry.19933 (CSIR 1955). Construct "
+            "equivalence: Swiss Ephemeris SIDM_LAHIRI implements this official "
+            "ayanamsa. Admitted in vedic_ayanamsa.py (LAHIRI.admitted=True, "
+            "hash + locator); admission.py ayanamsa_framework -> "
+            "SOURCE_VERIFICATION + admitted. This licenses the sidereal OFFSET "
+            "(computation), unblocking sidereal quantities that name the "
+            "Lahiri choice; it does NOT make Vedic denote -- denotation needs "
+            "a separate Jyotisha source and a scaffold not yet built."
+        ),
     ),
 )
 

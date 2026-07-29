@@ -59,8 +59,22 @@ AGREEING_RELATIONS: frozenset[Relation] = frozenset(
 
 
 def scopes_comparable(left_scope: str, right_scope: str) -> bool:
-    """Return whether two temporal scopes may be compared at all."""
-    return (left_scope, right_scope) in COMPARABLE_SCOPES
+    """Return whether two temporal scopes may be compared at all.
+
+    The bare reference-class ``"transit"`` -- what Kamea emits, meaning "an
+    instant's neighbourhood" without committing to which instant -- is
+    comparable with any dated Vedic transit instance ``"transit-<when>"``. This
+    is the documented Kamea<->Vedic-transit bridge: a class meets its instances.
+    Two *different* dated instances are still not bridged, so distinct moments
+    are not silently conflated.
+    """
+    if (left_scope, right_scope) in COMPARABLE_SCOPES:
+        return True
+    if left_scope == "transit" and right_scope.startswith("transit-"):
+        return True
+    if right_scope == "transit" and left_scope.startswith("transit-"):
+        return True
+    return False
 
 
 @dataclass(frozen=True, slots=True)

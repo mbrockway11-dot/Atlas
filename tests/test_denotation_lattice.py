@@ -45,29 +45,38 @@ MODULE_STAGE: dict[str, int] = {
     "numerology_expression": 0,
     "gematria_orthography": 0,
     "source_tiers": 0,
+    "vedic_grahas": 0,
     "acquisition_targets": 4,
     # 1 -- source verification: bibliography, corpus, schemes awaiting citation
     "numerology_bibliography": 1,
     "numerology_corpus": 1,
     "numerology_corpus_v1": 1,
+    "numerology_corpus_v2": 1,
     "gematria_transliteration": 1,
     "gematria_hebrew": 1,
     "gematria_value_method": 1,
     "gematria_pipeline": 1,
     "vedic_ayanamsa": 1,
+    "vedic_gochara": 1,
     "gematria_capabilities": 4,
     # 2 -- denotation: claims, dictionary, compilation
     "expressions": 2,
     "numerology_dictionary": 2,
     "numerology_compiler": 2,
     "kamea_denotation": 2,
+    "vedic_denotation": 2,
+    "vedic_denotation_bphs": 2,
+    "vedic_transits": 2,
     # 3 -- concordance: relations and scoring
     "relations": 3,
     "concordance": 3,
     "controls": 3,
     # 4 -- governance gates, which read artifacts in order to authorize them
     "numerology_capabilities": 4,
+    "numerology_canonical": 4,
     "admission": 4,
+    # 5 -- the cross-system runner, which consumes every canonical binding
+    "synthesis": 5,
 }
 
 
@@ -145,6 +154,8 @@ def test_source_layers_cannot_see_the_ontology() -> None:
         "numerology_corpus",
         "numerology_bibliography",
         "numerology_corpus_v1",
+        "numerology_corpus_v2",
+        "vedic_gochara",
     ):
         imports = _internal_imports(DENOTATION_PACKAGE / f"{module}.py")
 
@@ -206,12 +217,13 @@ def test_kamea_is_admitted_by_measurement_not_by_source() -> None:
     assert "measurement reproducibility" == layer.provenance_requirement
 
 
-def test_numerology_is_admitted_for_arithmetic_but_not_denotation() -> None:
-    """One system, two layers, two different verdicts.
+def test_numerology_is_admitted_for_arithmetic_and_denotation() -> None:
+    """One system, two layers, two verdicts -- now both admitted.
 
-    The arithmetic is reproducible and admitted; the denotation is blocked at
-    source verification. Treating the system as a single admission unit would
-    have let the second inherit the first's standing.
+    The arithmetic is reproducible computation; the denotation is textual
+    interpretation admitted through a verified source (Jordan, 1E-N-SOURCE-A).
+    They were classified and admitted independently, so the second did not
+    inherit the first's standing -- it earned its own at source verification.
     """
     layers = {layer.layer: layer for layer in layers_for("numerology")}
 
@@ -219,9 +231,12 @@ def test_numerology_is_admitted_for_arithmetic_but_not_denotation() -> None:
     assert layers["arithmetic"].admission_class is (
         AdmissionClass.DERIVED_COMPUTATION
     )
-    assert layers["denotation"].admitted is False
+    assert layers["denotation"].admitted is True
+    assert layers["denotation"].admission_class is (
+        AdmissionClass.TEXTUAL_INTERPRETATION
+    )
     assert layers["denotation"].highest_stage_reached is (
-        LatticeStage.SOURCE_VERIFICATION
+        LatticeStage.DENOTATION
     )
 
 
@@ -241,24 +256,33 @@ def test_no_system_is_left_unclassified() -> None:
     assert unclassified == []
 
 
-def test_only_kamea_currently_denotes() -> None:
-    """Computation alone does not make a system eligible to concord."""
-    assert admitted_systems() == ["kamea"]
+def test_three_systems_denote() -> None:
+    """Kamea by measurement, numerology and Vedic by source.
 
-
-def test_concordance_is_not_ready() -> None:
-    """A scientific statement about the evidence, not only about progress.
-
-    One system agreeing with itself is not evidence of anything, so 1E-A
-    cannot run until a second system is admitted at denotation.
+    Computation alone still does not make a system eligible to concord; a
+    denotation layer must be source-verified. Numerology (1E-N-SOURCE-A) and
+    Vedic (1E-V-SOURCE-B) both cleared that bar, so both join Kamea.
     """
-    assert concordance_ready() is False
+    assert admitted_systems() == ["kamea", "numerology", "vedic"]
+
+
+def test_concordance_is_ready() -> None:
+    """A scientific statement about the evidence: three systems now denote.
+
+    Numerology and Vedic both reached denotation through verified sources, so
+    a cross-system concordance can run across three independent systems.
+    """
+    assert concordance_ready() is True
 
     report = admission_report()
 
     assert report["default"] == "silent unless admitted"
-    assert report["admitted_denoting_systems"] == ["kamea"]
-    assert "only one system currently denotes" in report["note"]
+    assert report["admitted_denoting_systems"] == [
+        "kamea",
+        "numerology",
+        "vedic",
+    ]
+    assert "systems now denote" in report["note"]
 
 
 # ---------------------------------------------------------------------------
@@ -357,10 +381,18 @@ def test_gematria_denotes_nothing() -> None:
     )
 
 
-def test_classification_did_not_change_concordance_readiness() -> None:
-    """Classifying a system is not admitting it."""
-    assert admitted_systems() == ["kamea"]
-    assert concordance_ready() is False
+def test_classification_did_not_admit_gematria() -> None:
+    """Classifying a system is not admitting it.
+
+    Gematria was decomposed and classified but does not denote: classification
+    determines what evidence a layer owes, it does not supply it. The systems
+    that crossed into denotation, numerology and Vedic, did so through verified
+    sources, not through being classified.
+    """
+    denoting = admitted_systems()
+
+    assert "gematria" not in denoting
+    assert "vedic" in denoting
 
 
 # ---------------------------------------------------------------------------
@@ -395,8 +427,13 @@ def test_vedic_ephemeris_is_admitted_by_computation() -> None:
     assert ephemeris.admitted is True
 
 
-def test_ayanamsa_is_a_school_choice_needing_a_source() -> None:
-    """Vedic's characteristic fork: which sidereal offset."""
+def test_ayanamsa_was_a_school_choice_now_licensed() -> None:
+    """Vedic's characteristic fork: which sidereal offset -- Lahiri now sourced.
+
+    The choice remains textual interpretation (it owes source provenance and
+    construct equivalence), and 1E-V-SOURCE-A supplied both from the Government
+    of India standard, so Lahiri is admitted while the other schemes are not.
+    """
     (ayanamsa,) = [
         item
         for item in layers_for("vedic")
@@ -404,16 +441,19 @@ def test_ayanamsa_is_a_school_choice_needing_a_source() -> None:
     ]
 
     assert ayanamsa.admission_class is AdmissionClass.TEXTUAL_INTERPRETATION
-    assert ayanamsa.admitted is False
+    assert ayanamsa.admitted is True
+    assert ayanamsa.highest_stage_reached is LatticeStage.SOURCE_VERIFICATION
     assert "Lahiri" in ayanamsa.note
 
 
-def test_sidereal_computation_admitted_but_not_laundering_ayanamsa() -> None:
-    """Nakshatra and vargas are admitted in isolation and still blocked.
+def test_ayanamsa_licenses_computation_denotation_is_a_separate_source() -> None:
+    """The ayanamsa licenses the sidereal offset; the meaning is its own source.
 
-    They consume ayanamsa-offset longitudes, so like gematria's numeric
-    computation over unlicensed transliteration, they contribute nothing
-    while the ayanamsa is unlicensed.
+    Nakshatra and vargas are admitted in isolation, and with Lahiri licensed
+    the offset they consume is sourced too -- but that is a computation
+    license. Vedic denotes only because a distinct textual source (BPHS,
+    1E-V-SOURCE-B) licensed the graha karakatva; the ayanamsa alone would not
+    have made it denote.
     """
     from atlas.validation.denotation.admission import admissible_in_isolation
 
@@ -421,8 +461,17 @@ def test_sidereal_computation_admitted_but_not_laundering_ayanamsa() -> None:
 
     assert "nakshatra_assignment" in admitted
     assert "divisional_charts" in admitted
-    assert "ayanamsa_framework" not in admitted
-    assert "vedic" not in admitted_systems()
+    assert "ayanamsa_framework" in admitted
+
+    (denotation,) = [
+        item for item in layers_for("vedic") if item.layer == "denotation"
+    ]
+
+    assert denotation.admitted is True
+    assert denotation.admission_class is (
+        AdmissionClass.TEXTUAL_INTERPRETATION
+    )
+    assert "vedic" in admitted_systems()
 
 
 def test_dasha_is_hybrid_with_uncited_period_values() -> None:
@@ -436,8 +485,15 @@ def test_dasha_is_hybrid_with_uncited_period_values() -> None:
     assert "120" in dasha.note
 
 
-def test_vedic_denotation_is_uncited_and_quarantined() -> None:
-    """The interpretation layer has no provenance and stays out of 1E."""
+def test_vedic_denotation_admitted_from_bphs_legacy_still_quarantined() -> None:
+    """The provenanced scaffold denotes; the legacy interpretation stays out.
+
+    1E-V-SOURCE-B admitted the graha karakatva from a copy-verified BPHS
+    through the provenanced scaffold (vedic_grahas / vedic_denotation /
+    vedic_denotation_bphs). The uncited legacy modules (vedic_interpreter and
+    friends) remain quarantined and untouched -- the scaffold does not source
+    its meanings from them.
+    """
     from atlas.validation.denotation.admission import (
         INTERPRETATION_QUARANTINE,
     )
@@ -446,8 +502,9 @@ def test_vedic_denotation_is_uncited_and_quarantined() -> None:
         item for item in layers_for("vedic") if item.layer == "denotation"
     ]
 
-    assert denotation.admitted is False
-    assert "uncited" in denotation.note
+    assert denotation.admitted is True
+    assert denotation.highest_stage_reached is LatticeStage.DENOTATION
+    assert "Brihat Parasara" in denotation.note
 
     vedic_quarantine = [
         entry
@@ -483,14 +540,22 @@ def test_no_1e_module_imports_a_quarantined_interpretation() -> None:
     assert not offenders, offenders
 
 
-def test_vedic_denotes_nothing_and_concordance_unchanged() -> None:
-    """Classifying Vedic did not admit it; only Kamea still denotes."""
-    assert all(
-        layer.highest_stage_reached is not LatticeStage.DENOTATION
+def test_vedic_denotes_through_its_denotation_layer_only() -> None:
+    """Vedic denotes, but only via the source-verified denotation layer.
+
+    1E-V-SOURCE-B admitted the graha karakatva, so Vedic denotes; but that is
+    the one layer that reached denotation. The computation layers (ephemeris,
+    nakshatra, vargas) and the still-blocked school choices (house system,
+    dasha) have not, so Vedic's denotation rests on the BPHS source alone.
+    """
+    denotation_layers = [
+        layer
         for layer in layers_for("vedic")
-    )
-    assert admitted_systems() == ["kamea"]
-    assert concordance_ready() is False
+        if layer.highest_stage_reached is LatticeStage.DENOTATION
+    ]
+
+    assert [layer.layer for layer in denotation_layers] == ["denotation"]
+    assert "vedic" in admitted_systems()
 
 
 # ---------------------------------------------------------------------------
@@ -540,14 +605,15 @@ def test_every_interpretive_system_has_a_textual_layer() -> None:
         assert textual, system
 
 
-def test_the_only_admitted_denotation_is_measurement_licensed() -> None:
-    """The acquisition frontier: measurement denotes, text is still blocked.
+def test_denoting_systems_are_licensed_by_their_own_evidence() -> None:
+    """The acquisition frontier moved: measurement AND text now denote.
 
-    This is the invariant that a source event will change. When the first
-    verified source admits a textual denotation, this test must be updated to
-    name the new denoting system -- which is exactly the acknowledgement a
-    capability gain should force. Until then, Kamea alone denotes, by
-    measurement.
+    This was the invariant a source event would change, and it did. Kamea
+    denotes by direct measurement; numerology denotes through a verified
+    textual sources (Jordan, 1E-N-SOURCE-A; BPHS, 1E-V-SOURCE-B). Each was
+    licensed by the evidence its admission class owes -- measurement
+    reproducibility for the one, source provenance and construct equivalence
+    for the others -- and concordance is now ready across three systems.
     """
     admitted_denotations = [
         layer
@@ -556,10 +622,15 @@ def test_the_only_admitted_denotation_is_measurement_licensed() -> None:
         and layer.admitted
     ]
 
-    assert [layer.system for layer in admitted_denotations] == ["kamea"]
-    assert all(
-        layer.admission_class is AdmissionClass.DIRECT_MEASUREMENT
-        for layer in admitted_denotations
+    by_system = {layer.system: layer for layer in admitted_denotations}
+
+    assert set(by_system) == {"kamea", "numerology", "vedic"}
+    assert by_system["kamea"].admission_class is (
+        AdmissionClass.DIRECT_MEASUREMENT
     )
-    assert admitted_systems() == ["kamea"]
-    assert concordance_ready() is False
+    for system in ("numerology", "vedic"):
+        assert by_system[system].admission_class is (
+            AdmissionClass.TEXTUAL_INTERPRETATION
+        )
+    assert admitted_systems() == ["kamea", "numerology", "vedic"]
+    assert concordance_ready() is True

@@ -102,6 +102,12 @@ KNOWN_SOURCES: dict[str, SourceTier] = {
     # Normative standards -- identity and computation, never meaning.
     "unicode_standard": SourceTier.NORMATIVE_STANDARD,
     "swiss_ephemeris": SourceTier.NORMATIVE_STANDARD,
+    # Government of India standards body (CSIR, 1955). Fixes the official
+    # sidereal zero-point as a computational constant (Lahiri / Chitra-paksa
+    # ayanamsa: 23 deg 15' at 1956, precessing ~50".27/yr), which swisseph
+    # SIDM_LAHIRI implements. Licenses the ayanamsa computation, never a Vedic
+    # meaning.
+    "calendar_reform_committee_report": SourceTier.NORMATIVE_STANDARD,
     "iso_259": SourceTier.NORMATIVE_STANDARD,
     "ala_lc_hebrew_romanization": SourceTier.NORMATIVE_STANDARD,
     "sbl_hebrew_transliteration": SourceTier.NORMATIVE_STANDARD,
@@ -130,6 +136,11 @@ KNOWN_SOURCES: dict[str, SourceTier] = {
     # any of these licenses anything.
     "pardes_rimmonim": SourceTier.PRIMARY_TRADITIONAL,
     "talmud": SourceTier.PRIMARY_TRADITIONAL,
+    # Eleazar ben Judah of Worms (c.1176-1238), medieval systematizer of
+    # gematria method. LOCATED as the candidate for the final-form reading
+    # value (1E-G-SOURCE-B); his works USE the values, so a DEFINING passage
+    # must be verified in a real edition before this licenses anything.
+    "eleazar_of_worms_gematria": SourceTier.PRIMARY_TRADITIONAL,
     "juno_jordan_romance_in_your_name": SourceTier.PRIMARY_TRADITIONAL,
     "brihat_parasara_hora_shastra": SourceTier.PRIMARY_TRADITIONAL,
     "brihat_jataka": SourceTier.PRIMARY_TRADITIONAL,
