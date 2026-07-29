@@ -29,6 +29,7 @@ from atlas.validation.denotation.numerology_expression import (
     COMPUTABLE_QUANTITIES,
     NumerologyExpression,
     REDUCTION_POLICY,
+    VALUE_ITSELF,
 )
 from atlas.validation.denotation.ontology import (
     MAPPING_KINDS,
@@ -202,17 +203,29 @@ class NumerologyDictionary:
     def lookup(
         self, quantity: str, value: int, reduction_policy: str
     ) -> NumerologyDictionaryEntry | None:
-        """Return the licensing entry for a key, or None for silence."""
+        """Return the licensing entry for a key, or None for silence.
+
+        A quantity-specific entry always wins; a general ``VALUE_ITSELF`` entry
+        is the fallback, applied to any quantity that reduces to the value.
+        Specific evidence overrides a general statement, never the reverse.
+        """
+        fallback: NumerologyDictionaryEntry | None = None
+
         for entry in self.entries:
-            if (
-                entry.quantity == quantity
-                and entry.value == value
+            if not (
+                entry.value == value
                 and entry.reduction_policy == reduction_policy
                 and entry.licenses_claim
             ):
+                continue
+
+            if entry.quantity == quantity:
                 return entry
 
-        return None
+            if entry.quantity == VALUE_ITSELF:
+                fallback = entry
+
+        return fallback
 
     def dictionary_hash(self) -> str:
         """Return a deterministic hash of every entry.

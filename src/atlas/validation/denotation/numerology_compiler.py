@@ -50,6 +50,7 @@ from atlas.validation.denotation.numerology_dictionary import (
 from atlas.validation.denotation.numerology_expression import (
     COMPUTABLE_QUANTITIES,
     REDUCTION_POLICY,
+    VALUE_ITSELF,
 )
 from atlas.validation.denotation.numerology_tradition import (
     TRADITION_ID,
@@ -177,7 +178,12 @@ class AdmissibilityRules:
                 f"{self.minimum_confidence}"
             )
 
-        if passage.quantity_as_named_by_code not in COMPUTABLE_QUANTITIES:
+        # VALUE_ITSELF is admissible though not computed: it denotes the
+        # reduced value regardless of the quantity that produced it. Every
+        # other quantity must be one the code actually computes.
+        if passage.quantity_as_named_by_code not in COMPUTABLE_QUANTITIES and (
+            passage.quantity_as_named_by_code != VALUE_ITSELF
+        ):
             return (
                 f"quantity {passage.quantity_as_named_by_code!r} is not "
                 "computed"
@@ -384,6 +390,9 @@ def compile_dictionary(
                     f"{edition.publication_year}), "
                     f"printed p. {representative.printed_page}"
                 ),
+                # A general number-meaning applies wherever the value appears,
+                # so the entry it licenses is not tied to one computed quantity.
+                quantity_independent=(quantity == VALUE_ITSELF),
             ),
         )
 

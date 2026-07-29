@@ -119,16 +119,18 @@ def test_char_classification_uses_unicode_names() -> None:
 # ---------------------------------------------------------------------------
 
 
-def test_no_scheme_is_admitted() -> None:
-    """Repair proves the machinery, it does not license a tradition."""
+def test_base_value_assignment_admitted_transliteration_not() -> None:
+    """1E-G-SOURCE-A: base values are CLDR-licensed; transliteration stays uncited."""
     assert admitted_transliteration_schemes() == []
-    assert admitted_value_schemes() == []
+    assert admitted_value_schemes() == [CANDIDATE_STANDARD_VALUES]
 
 
-def test_legacy_table_is_present_but_not_admitted() -> None:
-    """Registered for audit, not for use; its choices are uncited."""
+def test_admitted_base_values_carry_verified_provenance() -> None:
+    """The admitted value assignment must name a hashed, located normative source."""
     assert LEGACY_LATIN_TRANSLITERATION.admitted is False
-    assert CANDIDATE_STANDARD_VALUES.admitted is False
+    assert CANDIDATE_STANDARD_VALUES.admitted is True
+    assert len(CANDIDATE_STANDARD_VALUES.source_copy_hash) == 64
+    assert "CLDR" in CANDIDATE_STANDARD_VALUES.source_locator
     assert "non-injective" in LEGACY_LATIN_TRANSLITERATION.note
 
 
@@ -280,6 +282,8 @@ def test_the_machinery_can_compute_when_a_scheme_is_admitted() -> None:
         version="0.0.1",
         admitted=True,
         values={HebrewLetter.ALEPH: 1, HebrewLetter.BET: 2},
+        source_copy_hash="f" * 64,
+        source_locator="fixture source; not a real citation",
     )
 
     result = hebrew_gematria("ab", translit, value_scheme)

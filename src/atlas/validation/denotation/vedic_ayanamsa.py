@@ -151,10 +151,48 @@ def _choice(
     )
 
 
+# 1E-V-SOURCE-A. The Lahiri (Chitra-paksa) ayanamsa is licensed by the
+# Government of India's own standard: the Calendar Reform Committee fixed the
+# sidereal zero-point, and N.C. Lahiri -- the committee's Secretary -- gives it
+# its name. The copy hash is the Internet Archive page-image archive verified
+# against; the locator names the committee's own recommendation, distinguished
+# from the correspondents' letters elsewhere in the report.
+LAHIRI_SOURCE_COPY_HASH = "a4a6e0753677eba7be774200a1cd0c85460b0252"
+LAHIRI_SOURCE_LOCATOR = (
+    "Report of the Calendar Reform Committee, Government of India, Council of "
+    "Scientific and Industrial Research, New Delhi, 1955; Final "
+    "Recommendations of the Committee, 'Recommendations for Religious "
+    "Calendar', printed p. 7. Item (5): solar months 'start 23 deg 15' ahead "
+    "of the vernal equinoctial point'. Item (7): 'we have adopted a variable "
+    "ayanamsa ... The value of this ayanamsa would amount to 23 deg 15' 0\" on "
+    "21st March, 1956. Thereafter it would gradually increase ... about "
+    "50\".27' per year -- the Chitra-paksa zero-point, 180 deg from Spica "
+    "(Citra). Verified against the page image (IA "
+    "calendar_reform_comittee_report leaf n18) and OCR; this is the "
+    "committee's own recommendation, not a correspondent's letter. Construct "
+    "equivalence: Swiss Ephemeris SIDM_LAHIRI implements this official Indian "
+    "ayanamsa, its J2000 offset (23.857092 deg) being the 1956 value advanced "
+    "by precession."
+)
+
+
 # The three supported schemes, offsets computed via swisseph at J2000 and
-# recorded here; a test recomputes and asserts these match. All unadmitted:
-# the offsets are reproducible, the choice among them is not licensed.
-LAHIRI = _choice("lahiri", "SIDM_LAHIRI", 23.857092)
+# recorded here; a test recomputes and asserts these match. Lahiri is admitted
+# (1E-V-SOURCE-A) against the Government of India standard; Raman and
+# Krishnamurti remain unadmitted -- their offsets are reproducible, but no
+# source licenses choosing them here.
+LAHIRI = AyanamsaChoice(
+    scheme_id="lahiri",
+    provider=EPHEMERIS_PROVIDER,
+    provider_constant="SIDM_LAHIRI",
+    epoch_label=REFERENCE_EPOCH_LABEL,
+    epoch_jd=REFERENCE_EPOCH_JD,
+    computed_offset_degrees=23.857092,
+    computation_library_version=EPHEMERIS_PROVIDER_VERSION,
+    admitted=True,
+    source_copy_hash=LAHIRI_SOURCE_COPY_HASH,
+    source_locator=LAHIRI_SOURCE_LOCATOR,
+)
 RAMAN = _choice("raman", "SIDM_RAMAN", 22.410791)
 KRISHNAMURTI = _choice("krishnamurti", "SIDM_KRISHNAMURTI", 23.760240)
 

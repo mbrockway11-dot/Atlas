@@ -180,6 +180,16 @@ class ValueAssignment:
     admitted: bool
     values: Mapping[HebrewLetter, int]
     note: str = ""
+    source_copy_hash: str = ""
+    source_locator: str = ""
+
+    def __post_init__(self) -> None:
+        if self.admitted and not (self.source_copy_hash and self.source_locator):
+            raise TransliterationError(
+                f"{self.scheme_id} cannot be admitted without a source copy "
+                "hash and a locator: a value assignment is a licensed claim and "
+                "needs a verified normative source."
+            )
 
     def value_of(self, letter: HebrewLetter) -> int:
         """Return the value of a letter, or raise if unassigned."""
@@ -281,16 +291,34 @@ STANDARD_HEBREW_LETTER_VALUES: dict[HebrewLetter, int] = {
 }
 
 
+# ADMITTED under 1E-G-SOURCE-A: the base 22-letter identity->value map is
+# licensed by a normative standard (Unicode CLDR's %hebrew RBNF ruleset), which
+# fixes exactly this encoding. Admission followed a human define-vs-presuppose
+# judgment (2026-07-27: DEFINES) plus first-hand copy verification -- see
+# docs/GEMATRIA_P1_CLDR_INSPECTION.md. This admits only the base VALUE
+# ASSIGNMENT. It does NOT admit a value METHOD: the final-form *reading* value
+# (a sofit letter's worth inside a word) is outside any numeral-writing
+# standard's scope and remains a primary_traditional acquisition, so
+# value_method_available and numeric_evaluation stay gated.
 CANDIDATE_STANDARD_VALUES = ValueAssignment(
-    scheme_id="standard-hebrew-values-uncited",
-    version="0.0.0",
-    admitted=False,
+    scheme_id="standard-hebrew-values-cldr",
+    version="1.0.0",
+    admitted=True,
     values=STANDARD_HEBREW_LETTER_VALUES,
+    source_copy_hash=(
+        "7aaf40e62de1c1a6d8a6e4958528024a10ad270cf27e1aa1481e7aee4d0d8668"
+    ),
+    source_locator=(
+        "Unicode CLDR release-46, common/rbnf/root.xml, ruleset type=\"hebrew\": "
+        "letters map to 1-400 (20=כ ... 400=ת), 500-900 additive "
+        "(500=ת″ק), 1000 spelled; no sofit letters used. Base "
+        "22-letter identity->value only. sha256 over the pinned file."
+    ),
     note=(
-        "The standard Hebrew letter values, held as a candidate. Widely "
-        "attested but uncited here; admission awaits a source under "
-        "1E-G-SOURCE. Present so the pipeline can be exercised end to end "
-        "without any admitted scheme."
+        "The standard Hebrew letter values (mispar hechrachi base), now "
+        "licensed by CLDR (normative_standard -> computation). Only the base "
+        "assignment is admitted; the final-form reading value is not covered "
+        "by a writing standard and stays a primary_traditional acquisition."
     ),
 )
 
